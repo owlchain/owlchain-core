@@ -4,11 +4,24 @@ authors "Yezune Choi"
 copyright "Copyright © 2016, BlockchainOS foundation"
 homepage "https://www.blockchainos.org"
 license "GPL-3.0"
-dependency "vibe-d" version="~>0.7.28"
+
+// library dependancies
+dependency "vibe-d" version="~>0.8.0-alpha.1"
+dependency "msgpack-d" version="~>1.0.0-beta.5"
+dependency "msgpack-rpc" version="~>0.1.2"
+dependency "pegged" version="~>0.3.3"
+dependency "botan" version="~>1.12.8"
+dependency "sdlang-d" version="~>0.10.1"
+dependency "d2sqlite3" version="~>0.11.0"
+          
 //versions "VibeDefaultMain"
 targetType "executable"
 mainSourceFile "source/owlchain/appmain.d"
 sourcePaths "source"
+
+// binary working directory
 workingDirectory "bin"
 targetPath "bin"
+
+// To copy web ui resource file
 copyFiles "source/owlchain/ui/public"
