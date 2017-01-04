@@ -1,7 +1,18 @@
 # owlchain 
 owlchain is a congressional decentralized blokchain for trust contracts.
 
-#owlchain-core source directory
+## prerequisite
+owlchain use [d programming language](http://dlang.org/) and [dub](https://code.dlang.org/) build toolkit.
+
+## build 
+
+```
+$ git clone https://github.com/owlchain/owlchain-core
+$ cd owlchain-core
+$ dub -v
+```
+
+## owlchain-core source directory
 
 owlchain-core
   + docs          - documentation of owlchain-core
