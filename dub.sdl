@@ -1,5 +1,5 @@
 name "owlchain-core"
-description "a congressional decentralized blokchain"
+description "a congressional decentralized blokchain for trust contract"
 authors "Yezune Choi"
 copyright "Copyright © 2016, BlockchainOS foundation"
 homepage "https://www.blockchainos.org"
@@ -14,6 +14,8 @@ dependency "botan" version="~>1.12.8"
 dependency "sdlang-d" version="~>0.10.1"
 dependency "d2sqlite3" version="~>0.11.0"
           
+//subConfiguration "somepackage" "glut-app"
+
 //versions "VibeDefaultMain"
 targetType "executable"
 mainSourceFile "source/owlchain/appmain.d"
