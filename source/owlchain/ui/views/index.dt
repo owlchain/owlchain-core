@@ -1,7 +1,7 @@
 doctype html
 html
     head
-        title WebSockets Client
+        OWL-chain dash board
         style
             #chatLog {
                 height: 400px;

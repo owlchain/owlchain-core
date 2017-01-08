@@ -1,5 +1,5 @@
 name "owlchain-core"
-description "a congressional decentralized blokchain for trust contract"
+description "a blockchain for trust contract"
 authors "Yezune Choi"
 copyright "Copyright © 2016, BlockchainOS foundation"
 homepage "https://www.blockchainos.org"

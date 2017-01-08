@@ -1,5 +1,5 @@
 # owlchain 
-owlchain is a congressional decentralized blokchain for trust contracts.
+owlchain is a blockchain for trust contracts.
 
 ## prerequisite
 owlchain use [d programming language](http://dlang.org/) and [dub](https://code.dlang.org/) build toolkit.
@@ -17,7 +17,7 @@ $ dub -v
 owlchain-core
   + docs          - documentation of owlchain-core
   + source        - source directory
-      +owlchain
+      + owlchain
         + consensus   - owlchain blockchain consensus protocol
         + p2p         - p2p network communication
         + reasoner    - Inference Engine for OWL 2.0 profile 
