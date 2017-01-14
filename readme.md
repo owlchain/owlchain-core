@@ -64,6 +64,5 @@ Schedule {
 }
 
 ```
-PoC 0 
-  [remittance event process diagram]( 
-"https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/Remmitance%20Process.png")
+PoC 0 - Remittance event process diagram
+  ![remittance event process diagram](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/Remmitance%20Process.png?raw=true)
