@@ -1,10 +1,10 @@
 # owlchain 
 owlchain is a blockchain for trust contracts.
 
-## prerequisite
+### prerequisite
 owlchain use [d programming language](http://dlang.org/) and [dub](https://code.dlang.org/) build toolkit.
 
-## build 
+### build 
 
 ```
 $ git clone https://github.com/owlchain/owlchain-core
@@ -12,7 +12,7 @@ $ cd owlchain-core
 $ dub -v
 ```
 
-## owlchain-core source directory
+### owlchain-core source directory
 
 owlchain-core
   + docs          - documentation of owlchain-core
@@ -36,12 +36,15 @@ owlchain-core
     기간: 1월 말
     산출물: poc0 코드, 전체 이벤트/데이타 흐름 설명서, 1회 데모 설명회
     참여 인원 : 1인(나? 혼자 ~~~)
+  Remittance event process diagram
+  ![remittance event process diagram](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/Remmitance%20Process.png?raw=true)
 
 ### poc1
     목표: UX통합, mFBA 컨센서스 모델 개념증명
     기간: 2월 중순
     산출물: 코드, 개념증명 설명서, 1회 데모 설명회
     참여 인원 : 3인
+
 
 ### alpha
     목표: 테스트 넷 가동, 네트워크 배포 프로세스 자동화 & 모니터 시스템 개념 증명
@@ -61,6 +64,4 @@ owlchain-core
     산출물: 코드, 개념증명 설명서, 1회 데모 설명회
     참여 인원 : 7인
 
-```
-PoC 0 - Remittance event process diagram
-  ![remittance event process diagram](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/Remmitance%20Process.png?raw=true)
+
