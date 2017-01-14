@@ -1,5 +1,6 @@
 # owlchain 
 owlchain is a blockchain for trust contracts.
+![TrustContract](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/TrustContract.png?raw=true)
 
 ### prerequisite
 owlchain use [d programming language](http://dlang.org/) and [dub](https://code.dlang.org/) build toolkit.
@@ -12,7 +13,9 @@ $ cd owlchain-core
 $ dub -v
 ```
 
-### owlchain-core source directory
+### owlchain-core architecture & source directory
+
+![architecture](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/owlchain.png?raw=true)
 
 owlchain-core
   + docs          - documentation of owlchain-core
