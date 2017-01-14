@@ -35,7 +35,7 @@ owlchain-core
 ## Schedule 
 
 ### poc0
-    goal: 블록체인의 송금예제를 통해 이벤트/데이타 흐름을 프로세스 개념증명, FBA 컨센서스 모델 개념증명
+    goal: money transfering poc and event/data flow PoC with FBA consensus
     term: 1월 말
     deliveries: poc0 코드, 전체 이벤트/데이타 흐름 설명서, 1회 데모 설명회
     participant : 1인(나? 혼자 ~~~)
