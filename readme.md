@@ -1,9 +1,10 @@
-# owlchain 
-owlchain is a blockchain for trust contracts. owlchain aims to use the Web Ontology Language(OWL) and Timed Automata Language(TAL) to expand expressive power while retaining decidability to support secure and precise execution of contracts. These OWL based contracts on the owlchain are referred to as Trust Contracts
+# Owlchain 
+Owlchain is a blockchain for trust contracts. owlchain aims to use the Web Ontology Language(OWL) and Timed Automata Language(TAL) to expand expressive power while retaining decidability to support secure and precise execution of contracts. These OWL based contracts on the owlchain are referred to as Trust Contracts. For more details, please refer to our [technical paper](https://docs.google.com/document/d/1nLdvwC28pBgSm11NfrMuKIlkeKr-fW0YXhr3H-nXaew/edit?ts=5878cf8a)
+
 ![TrustContract](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/TrustContract.png?raw=true)
 
 ### prerequisite
-owlchain use [d programming language](http://dlang.org/) and [dub](https://code.dlang.org/) build toolkit.
+Owlchain use [d programming language](http://dlang.org/) and [dub](https://code.dlang.org/) build toolkit.
 
 ### build 
 
