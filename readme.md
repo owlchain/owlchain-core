@@ -36,7 +36,7 @@ owlchain-core
     기간: 1월 말
     산출물: poc0 코드, 전체 이벤트/데이타 흐름 설명서, 1회 데모 설명회
     참여 인원 : 1인(나? 혼자 ~~~)
-  Remittance event process diagram
+  PoC0 - remittance event/data process diagram
   ![remittance event process diagram](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/Remmitance%20Process.png?raw=true)
 
 ### poc1
