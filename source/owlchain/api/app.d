@@ -4,8 +4,9 @@ import vibe.d;
 import vibe.utils.array;
 
 final class ApiService {
-	void get(){
-
+	@path("/")
+	void getIndex(string _error = null){
+		//render!("index.dt");
 	}
 }
 
