@@ -1,111 +1,99 @@
 module owlchain.utils.config;
 
-import std.algorithm;
-import std.stdio;
 import sdlang;
+import vibe.core.file:readFile,writeFile;
 
+class Config {
 
-/// To run: dub basicExample.d
-unittest
-{
-    Tag root;
-    try
-    {
-        // Or: parseFile("path/to/somefile.sdl");
+    private string filePath;
+    private Tag _root;
 
-        root = parseFile("owlchain-config.sdl");
-
-        //root = parseSource(`
-        //    message "Hello world!"   // Required
-
-        //    // Optional, default is "127.0.0.1" port=80
-        //    ip-address "192.168.1.100" port=8080
-
-        //    // Uncomment this for an error:
-        //    //badSuffix 12Q
-
-        //    misc-values 11 "Up" 3.14 null "On the roof" 22
-        //    misc-attrs  a=11 a="Up" foo:a=22 flag=true
-
-        //    // Name is required
-        //    devs:person "Joe Coder" id=7 {
-        //        has-cake true
-        //    }
-        //`);
-    }
-    catch(ParseException e)
-    {
-        // Sample error:
-        // myFile.sdl(6:17): Error: Invalid integer suffix.
-        stderr.writeln(e.msg);
-        //return 1;
+    this(){
+        _root = new Tag;
     }
 
-    // Basics
-    auto ipAddress = root.getTagValue!string("ip-address", "127.0.0.1");
-    auto port      = root.getTagAttribute!int("ip-address", "port", 80);
-    auto message   = root.expectTagValue!string("message"); // Throws if not found
-    writeln(message, " Address is ", ipAddress, ":", port);
-
-    // Person tag
-    Tag person = root.getTag("devs:person"); 
-    assert(person.name == "person");
-    assert(person.namespace == "devs"); // Default namespace is ""
-    assert(person.getFullName.toString == "devs:person");
-    if(person !is null)
-    {
-        try
-            writeln("Person's Name: ", person.expectValue!string());
-        catch(AttributeNotFoundException e)
-            stderr.writeln(person.location, ": Error: 'person' requires a string value");
-
-        int id = person.getAttribute!int("id", 99999);
-        writeln("Id: ", id);
-
-        if(person.getTagValue!bool("has-cake"))
-            writeln("Yum!");
+    this(string path){
+        loadFile(path);
     }
 
-    // List top-level tags in all namespaces
-    // (omit "all" to only search in default namespace)
-    writeln("------------------------");
-    root.all.tags.each!( (Tag t) => writeln(t.getFullName) );
+    Tag root() {
+        return _root;
+    }
 
-    // Get values and their types
-    Tag miscValues = root.getTag("misc-values");
-    writeln("------------------------");
-    writeln("All integer values in misc-values:");
-    miscValues.values
-        .filter!((Value v) => v.type == typeid(int))
-        .map!((Value v) => v.get!int)
-        .each!writeln;
+    void loadFile(string path){
+        filePath = path;
+        _root = parseFile(filePath);
+    }
 
-    // Misc attributes and range support
-    Tag miscAttrs = root.getTag("misc-attrs");
-    writeln("------------------------");
-    auto allAttrs = miscAttrs.all.attributes;
-    writeln("All misc-attrs attributes:");
-    allAttrs.each!(
-        (Attribute a) => writeln(a.value.type, " ", a.getFullName, "=", a.value)
-    );
+    void loadString(string contents){
+         _root = parseSource(contents,filePath);
+    }
 
-    // Add new data to person tag
-    person.values ~= Value(1.5); // Values is an array
-    person.add( new Attribute("extras", "has-kid", Value(true)) );
-    auto childId = new Attribute(null, "id", Value(12));
-    auto messageCopy = root.getTag("message").clone;
-    person.add( new Tag("namespace", "person", [Value("Sam Coder")], [childId], [messageCopy]) );
+    void loadString(ubyte[] contents){
+         loadString(cast(string)contents);
+    }
 
-    // Output back to SDLang
-    writeln("------------------------");
-    writeln(root.toSDLDocument());
+    void saveFile(string path){
+        writeFile(path, cast(ubyte[])_root.toSDLDocument());
+    }
 
-    //return 0;
+    string ipv4(){
+        return _root.getTagValue!string("ipv4", "127.0.0.1");
+    }
+
+    string ipv6(){
+        return _root.getTagValue!string("ipv6", "::");
+    }
+
+    int port() {
+        return _root.getTagValue!int("port", 80);
+    }
 }
 
-//interface Operator {
-//    Transaction txOperator(scope Ontology og, scope Blockchain bl) pure {
+// more detail info refer to
+// https://github.com/Abscissa/SDLang-D/blob/master/HOWTO.md
+unittest
+{
+    import std.algorithm;
+    import std.stdio;
 
-//    }    
-//}
+    auto cfg = new Config;
+    Tag root = cfg.root();
+    assert(cfg.ipv4() == "127.0.0.1");
+    assert(cfg.ipv6() == "::");
+    assert(cfg.port() == 80);
+
+    cfg.loadString(`
+        ipv4 "8.8.8.8"
+        ipv6 "::1"
+        port 1111
+        relay "1.1.1.1"
+        wallet "mywallet"
+        `);
+
+    assert(cfg.ipv4() == "8.8.8.8");
+    assert(cfg.ipv6() == "::1");
+    assert(cfg.port() == 1111);
+}
+
+
+private static Config _config;
+private static bool loaded=false;
+
+enum DEFAULT_CONFIG_PATH = "owlchain-config.sdl";
+
+Config config(string path=DEFAULT_CONFIG_PATH){
+    if(!loaded){
+        _config = new Config(path);
+    }
+    return _config;
+}
+
+unittest {
+    auto cfg = config();
+    assert(cfg.ipv4() == "127.0.0.1");
+    assert(cfg.ipv6() == "::");
+    assert(cfg.port() == 8080);
+}
+
 

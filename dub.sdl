@@ -13,7 +13,7 @@ dependency "pegged" version="~>0.3.3"
 //dependency "botan" version="~>1.12.8"
 dependency "sdlang-d" version="~>0.10.1"
 dependency "d2sqlite3" version="~>0.11.0"
-dependency "vibe-sdlang" version="~>1.0.0-alpha.2"
+#dependency "vibe-sdlang" version="~>1.0.0-alpha.2"
           
 //subConfiguration "somepackage" "glut-app"
 
