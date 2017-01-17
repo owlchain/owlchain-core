@@ -85,6 +85,7 @@ enum DEFAULT_CONFIG_PATH = "owlchain-config.sdl";
 Config config(string path=DEFAULT_CONFIG_PATH){
     if(!loaded){
         _config = new Config(path);
+        loaded = true;
     }
     return _config;
 }
