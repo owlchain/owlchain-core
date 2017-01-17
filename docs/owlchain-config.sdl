@@ -1,0 +1,6 @@
+// owlchain configuraion file
+ipv4 "127.0.0.1"
+ipv6 "::"
+port 8080
+relay "192.168.0.1"
+wallet "mywallet"
