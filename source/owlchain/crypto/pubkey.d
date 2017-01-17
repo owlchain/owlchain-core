@@ -1,5 +1,7 @@
 module owlchain.crypto.pubkey;
 
+version(NEED_BOTAN):
+
 import botan.pubkey.pubkey;
 import botan.pubkey.algo.rsa;
 import botan.rng.rng;
