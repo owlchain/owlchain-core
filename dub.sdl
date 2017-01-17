@@ -10,9 +10,10 @@ dependency "vibe-d" version="~>0.8.0-alpha.1"
 dependency "msgpack-d" version="~>1.0.0-beta.5"
 dependency "msgpack-rpc" version="~>0.1.2"
 dependency "pegged" version="~>0.3.3"
-dependency "botan" version="~>1.12.8"
+//dependency "botan" version="~>1.12.8"
 dependency "sdlang-d" version="~>0.10.1"
 dependency "d2sqlite3" version="~>0.11.0"
+dependency "vibe-sdlang" version="~>1.0.0-alpha.2"
           
 //subConfiguration "somepackage" "glut-app"
 
@@ -26,4 +27,4 @@ workingDirectory "bin"
 targetPath "bin"
 
 // To copy web ui resource file
-copyFiles "source/owlchain/ui/public"
+copyFiles "source/owlchain/ui/public" "docs/owlchain-config.sdl"
