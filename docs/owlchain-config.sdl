@@ -1,0 +1,25 @@
+// owlchain configuraion file
+
+wallet {
+	port 8080
+}
+
+api {
+	port 8888
+}
+
+message "Hello world!"   // Required
+
+// Optional, default is "127.0.0.1" port=80
+ip-address "192.168.1.100" port=8080
+
+// Uncomment this for an error:
+//badSuffix 12Q
+
+misc-values 11 "Up" 3.14 null "On the roof" 22
+misc-attrs  a=11 a="Up" foo:a=22 flag=true
+
+// Name is required
+devs:person "Joe Coder" id=7 {
+	has-cake true
+}
