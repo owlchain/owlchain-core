@@ -4,9 +4,9 @@
 		<title>SPA Application</title>
 		<style>
 		#chatLog {
-		height: 400px;
-		padding-bottom: 20px;
-		overflow-y: scroll;
+			height: 400px;
+			padding-bottom: 20px;
+			overflow-y: scroll;
 		}
 		</style>
 		<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
@@ -17,10 +17,19 @@
 	</head>
 	<body>
 		<div class="main">
-			<h1>Owlchain Core POC0</h1>
-			<a href="chat.html">Web Chat</a>
-			<a href="remittance.html">Remittance</a>
+			<h1>Owlchain UX</h1>
+			
+			<ul class="nav nav-pills">
+				<li role="presentation" class="active" ><a href="remittance.html">Remittance</a></li>
+				<li role="presentation"><a href="chat.html">Web Chat</a></li>
+				<li role="presentation"><a href="wallet.html">Wallet</a></li>
+			</ul>
+
 			<div class="content"></div>
 		</div>
+
+		<footer class="navbar-fixed-bottom">
+			<center>OWlchain Opensource Project 2017</center>
+		</footer>
 	</body>
 </html>
