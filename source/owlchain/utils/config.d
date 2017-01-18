@@ -45,8 +45,8 @@ class Config {
         return _root.getTagValue!string("ipv6", "::");
     }
 
-    int port() {
-        return _root.getTagValue!int("port", 80);
+    ushort port() {
+        return cast(ushort)_root.getTagValue!int("port", 80);
     }
 }
 
@@ -76,7 +76,6 @@ unittest
     assert(cfg.port() == 1111);
 }
 
-
 private static Config _config;
 private static bool loaded=false;
 
@@ -93,7 +92,7 @@ Config config(string path=DEFAULT_CONFIG_PATH){
 unittest {
     auto cfg = config();
     assert(cfg.ipv4() == "127.0.0.1");
-    assert(cfg.ipv6() == "::");
+    assert(cfg.ipv6() == "::1");
     assert(cfg.port() == 8080);
 }
 
