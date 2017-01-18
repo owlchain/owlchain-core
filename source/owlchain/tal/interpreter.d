@@ -1,5 +1,3 @@
 module owlchain.tal.interpreter;
 
-interface Interpreter {
-		
-}
+import owlchain.api.api;

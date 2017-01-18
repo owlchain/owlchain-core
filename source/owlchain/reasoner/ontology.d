@@ -1,9 +1,3 @@
 module owlchain.reasoner.ontology;
 
-interface Ontology {
-
-}
-
-interface Reasoner {
-
-}
+import owlchain.api.api;
