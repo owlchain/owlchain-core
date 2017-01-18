@@ -3,6 +3,10 @@ module owlchain.ui.app;
 import vibe.d;
 import vibe.utils.array;
 
+import owlchain.utils.config;
+
+import std.conv: to;
+
 
 shared static this()
 {
@@ -12,12 +16,12 @@ shared static this()
 	router.get("*", serveStaticFiles("public/"));
 
 	auto settings = new HTTPServerSettings;
-	settings.port = 8080;
+	settings.port = config.port;
 	//settings.bindAddresses = ["::1", "127.0.0.1"];
-	settings.bindAddresses = ["127.0.0.1","10.10.65.185"];
-	listenHTTP(settings, router);
 
-	logInfo("Please open http://127.0.0.1:8080/ in your browser.");
+	settings.bindAddresses = [config.ipv6, config.ipv4];
+	listenHTTP(settings, router);
+	logInfo("Please open http://" ~ config.ipv4 ~ ":" ~ to!string(config.port) ~ "/ in your browser.");
 }
 
 private WebSocket[] sockets;
