@@ -1,0 +1,17 @@
+<div>
+    <h1>WebSockets Client</h1>
+    <div id="chatLog"></div><!-- this is where we'll insert chat into -->
+    
+    <div id="login">
+        <!-- {which: 13} is a hack to make the button function the same as onkeypress -->
+        <input id="name" type="text" placeholder="Your Name" onkeypress="startConnection(event);" />
+        <button id="connect" class="btn btn-primary" onclick="startConnection({which: 13});">Connect</button>
+    </div>
+    <div id="chat" style="display:none;">
+        <input id="text" type="text" placeholder="press enter to submit" onkeypress="chat(event);" />
+        <button id="send" class="btn btn-primary" onclick="chat({which: 13});">Send</button>
+        <br/>
+        <button id="disconnect" class="btn btn-success" onclick="endConnection();">Disconnect</button>
+    </div>
+    <script src="/js/websocket.js"></script>
+</div>
