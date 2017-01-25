@@ -1,5 +1,7 @@
 .dub
 dub.selections.json
 bin
+license
+license.o
 owlchain-core
 .DS_Store
