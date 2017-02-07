@@ -199,8 +199,8 @@ Unconfirmed Transactions
 
 Blocks
 ------------
-- Blocks for one day: https://blockchain.info/ko/blocks/$time_in_milliseconds?format=json
-- Blocks for specific pool: https://blockchain.info/ko/blocks/$pool_name?format=json
+- Blocks for one day: https://owlchain.info/ko/blocks/$time_in_milliseconds?format=json
+- Blocks for specific pool: https://owlchain.info/ko/blocks/$pool_name?format=json
 ```
 {
     "blocks" : [
