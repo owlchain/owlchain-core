@@ -1,29 +1,30 @@
 module owlchain.api.api;
 
-interface Ontology {
+interface IOntology {
 
 }
 
-interface Reasoner {
+interface IReasoner {
 
 }
 
-interface Interpreter {
+interface IInterpreter {
 		
 }
 
-interface Transaction {
+interface ITransaction {
 
 }
 
-interface Block {
+interface IBlock {
 
 }
 
-interface Blockchain {
+interface IBlockchain {
 
 }
 
-interface Operator {
-    Transaction execute(scope Ontology ontology, scope Blockchain blockchain) pure;  
+interface IOperator {
+    ITransaction execute(scope IOntology ontology, scope IBlockchain blockchain) pure;  
 }
+

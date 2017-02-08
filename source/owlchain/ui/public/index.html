@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>owl-chain wallet</title>
+		<title>Welcome to OWlchain website</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<style>
-		#chatLog {
+			#chatLog {
 			height: 400px;
 			padding-bottom: 20px;
 			overflow-y: scroll;
-		}
+			}
+			body {
+			padding-top: 60px;
+			padding-bottom: 40px;
+			}
 		</style>
 		<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
 		<link href="css/bootstrap.css" rel="stylesheet">
@@ -16,21 +21,98 @@
 		<script src="/js/callpage.js"></script>
 	</head>
 	<body>
-		<center>
-		<div class="main">
-			<h1>Owlchain UX</h1>
-			
-			<ul class="nav nav-pills">
-				<li role="presentation" class="active" ><a href="remittance.html">Remittance</a></li>
-				<li role="presentation"><a href="chat.html">Web Chat</a></li>
-				<li role="presentation"><a href="wallet.html">Wallet</a></li>
-			</ul>
-			<div class="content"></div>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<a class="navbar-brand" href="#">Owlchain</a>
+				<div class="navbar-header">
+					<button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#target">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="target">
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a href="3" class="dropdown-toggle" data-toggle="dropdown">
+								<span>Acount</span>
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="remittance.html">Remittance</a></li>
+							</ul>
+						</li>
+						<li><a href="wallet.html">Wallet</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="chat.html">Web Chat</a></li>
+					</ul>
+					<form class="navbar-form navbar-right">
+						<input type="text" class="form-control" placeholder="Search" />
+					</form>
+				</div>
+			</div>
 		</div>
-		</center>
-		
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+							<i class="glyphicon glyphicon-btc"></i>
+							<span>Acount</span>
+							</h3>
+						</div>
+						<ul class="list-group">
+							<li class="list-group-item"><a href="remittance.html">Remittance</a></li>
+						</ul>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+							<i class="glyphicon glyphicon-euro"></i>
+							<span>Wallet</span>
+							</h3>
+						</div>
+						<ul class="list-group">
+							<li class="list-group-item"><a href="wallet.html">Wallet</a></li>
+						</ul>
+					</div>
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+							<i class="glyphicon glyphicon-user"></i>
+							<span>Web Chat</span>
+							</h3>
+						</div>
+						<ul class="list-group">
+							<li class="list-group-item"><a href="chat.html">Web Chat</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div class="jumbotron">
+						<h1>BOScoin</h1>
+					</div>
+					<center>
+					<div class="content"></div>
+					</center>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="main">
+					<h1>Owlchain UX</h1>
+					
+					<ul class="nav nav-pills">
+								<li role="presentation" class="active" ><a href="remittance.html">Remittance</a></li>
+								<li role="presentation"><a href="chat.html">Web Chat</a></li>
+								<li role="presentation"><a href="wallet.html">Wallet</a></li>
+					</ul>
+					<div class="content"></div>
+		</div> -->
 		<footer class="navbar-fixed-bottom">
-			<center>Owl-chain Opensource Project 2017</center>
+			<center>OWlchain Opensource Project 2017</center>
 		</footer>
 	</body>
 </html>
