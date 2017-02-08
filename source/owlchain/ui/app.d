@@ -7,6 +7,96 @@ import owlchain.utils.config;
 
 import std.conv: to;
 
+import owlchain.api.api;
+
+class TransactionImpl : ITransaction {
+	override:
+		string getHash()
+		{
+			return "b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da";
+		}
+		int getVer()
+		{
+			return 1;
+		}
+		int getVinSize()
+		{
+			return 1;
+		}
+		int getvoutSize()
+		{
+			return 2;
+		}
+		string getLockTime()
+		{
+			return "Unavailable";
+		}
+		int getSize()
+		{
+			return 258;
+		}
+		int getBlockHeight()
+		{
+			return 12200;
+		}
+		int getTxIndex()
+		{
+			return 12563028;
+		}
+}
+
+struct Transaction {
+	this(string _hash) { hash = _hash; }
+	string hash;
+}
+
+struct Block {
+	this(int _height) { height = _height; }
+	int height;
+	string hash;
+	Transaction[] txs;
+}
+
+//@rootPathFromName
+interface IBlockchainREST{
+	@path("/blockchain/transaction/:idx")
+	Transaction getTransaction(int _idx);
+
+	@path("/blockchain/block/:height")
+	Block getBlock(int _height);
+}
+
+class BlockchainRESTImpl : IBlockchainREST {
+	override:
+		Transaction getTransaction(int _idx)
+		{
+			auto t = Transaction();
+			t.hash = to!string(_idx);
+			return t;
+		}
+		Block getBlock(int _height)
+		{
+			auto b = Block(_height);
+			// b.hash = to!string(_height);
+			b.txs ~= Transaction("1"); 
+			b.txs ~= Transaction("2"); 
+			b.txs ~= Transaction("3"); 
+			b.txs ~= Transaction("4"); 
+			return b;
+		}
+}
+
+unittest
+{
+	auto router = new URLRouter;
+	router.registerRestInterface(new BlockchainRESTImpl());
+	auto routes = router.getAllRoutes();
+
+	logInfo("routes[0] = " ~ routes[0].pattern);
+	logInfo("routes[1] = " ~ routes[1].pattern);
+	assert (routes[0].method == HTTPMethod.GET && routes[0].pattern == "/blockchain/transaction/:idx");
+	assert (routes[1].method == HTTPMethod.GET && routes[1].pattern == "/blockchain/block/:height");
+}
 
 shared static this()
 {
@@ -14,6 +104,7 @@ shared static this()
 	router.get("/", staticRedirect("index.html"));
 	router.get("/ws", handleWebSockets(&handleWebSocketConnection));
 	router.get("*", serveStaticFiles("public/"));
+	router.registerRestInterface(new BlockchainRESTImpl);
 
 	auto settings = new HTTPServerSettings;
 	settings.port = config.port;
