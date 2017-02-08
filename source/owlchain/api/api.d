@@ -36,7 +36,7 @@ interface IBlock {
     bool getMainChain();
     int getHeight();
     string getReceivedTime();
-    Transaction[] getTransactions();
+    ITransaction[] getTransactions();
 }
 
 interface IBlockchain {
