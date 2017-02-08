@@ -10,7 +10,7 @@ License punching utilility for program source file.
 
 [synopsis]
 
-puncher [-r] [-l license_symbol] [file ...]
+puncher [-r] [file ...]
 
 ex) puncher -r *.d 
 -r, --recursive Recursive subdirectories 
