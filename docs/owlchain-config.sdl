@@ -4,3 +4,4 @@ ipv6 "::1"
 port 8080
 relay "192.168.0.1"
 wallet "mywallet"
+dataPath "./data"
