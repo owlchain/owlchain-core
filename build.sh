@@ -1,4 +1,9 @@
 #!/usr/bin/env sh
 #
+if [ -z $DC ]; then
+	export DC=dmd
+fi
+
+echo "compiler is ${DC}." 
 dub clean
-dub -v --compiler=dmd # or ldc2
+dub -v --compiler=$DC

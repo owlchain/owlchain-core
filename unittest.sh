@@ -1,3 +1,9 @@
 #!/usr/bin/env sh
 
-dub -v --build=unittest
+if [ -z $DC ]; then
+	export DC=dmd
+fi
+
+echo "compiler is ${DC}."
+dub clean
+dub -v --build=unittest --compiler=$DC
