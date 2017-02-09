@@ -4,11 +4,12 @@ interface IOntology {
 
 }
 
-interface IReasoner {
-
+interface IOwlReasoner {
+	bool loadData(ubyte[] owlData);
+	bool loadFile(string owlPath);
 }
 
-interface IInterpreter {
+interface ITalInterpreter {
 		
 }
 
@@ -40,7 +41,11 @@ interface IBlock {
 }
 
 interface IBlockchain {
-
+	int getLastBlockIndex();
+	int getLastBlockHeight();
+	IBlock getLastBlock();
+	IBlock getBlock(int index);
+	IBlock getBlock(string hash);
 }
 
 interface IOperator {
