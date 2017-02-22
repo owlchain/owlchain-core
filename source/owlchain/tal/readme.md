@@ -1,5 +1,3 @@
-# Timed Automata Language Interpreter
-
 # Timed Automata Language(TAL) RFP
 
 ## TAL 요구사항 목차
