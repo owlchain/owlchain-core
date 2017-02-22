@@ -9,7 +9,6 @@ import std.conv: to;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
-import owlchain.ui.webdummy;
 
 class TransactionImpl : ITransaction {
 	override:
