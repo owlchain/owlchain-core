@@ -14,7 +14,10 @@
     - 기존 프로젝트 개발언어(D 언어)의 개발자 친숙성을 기반으로 Timed Automata 제약사항을 추가하여 개발 (D언어 기반 Domain Specific Language - DSL)
     - 코드 예제
 ```
-    @timedautomaton execute()
+    @timedautomaton ITransaction execute(scope IOntology ontology, scope IBlockchain blockchain) pure
+    {
+        ... code ...
+    }
 ```
 
 ## TAL Runtime environment

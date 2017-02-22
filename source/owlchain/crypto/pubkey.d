@@ -2,6 +2,7 @@ module owlchain.crypto.pubkey;
 
 import std.digest.sha;
 import std.digest.ripemd;
+//import botan;
 
 /*
    code_string = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
@@ -63,3 +64,5 @@ ubyte[] bitcoinAddress(scope ubyte[] ver, scope ubyte[] hash) {
 }
 
 */
+
+
