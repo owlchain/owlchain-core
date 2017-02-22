@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> BOScoin PC wallet </title>
+        <!-- Bootstrap -->
+        <link href="css/nomalize.css" rel="stylesheet">
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <style type="text/css">
+        * {
+        align-content: center;
+        }
+        .navbar {
+        min-width: 768px;
+        }
+        body {
+        padding-top: 60px;
+        }
+        </style>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <header class="container-fluid">
+            <!-- nav bar 부분 -->
+            <div class="container">
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar-scroll">
+                    <div class="container">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-triangle-left"></span> </a>
+                        </div>
+                        
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="navbar-form navbar-left">
+                            <h5>Block Information</h5>
+                        </div>
+                        <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
+                            <ul class="nav navbar-nav">
+                                <li><a href="#"><span class="glyphicon glyphicon-question-sign"></span></a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> </a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-menu-hamburger"></span> </a></li>
+                            </ul>
+                            </div><!-- /.navbar-collapse -->
+                        </nav>
+                    </div>
+                </nav>
+            </div>
+            <!-- // nav bar 부분 끝 -->
+        </header>
+        <main>            
+            <table class="table table-condensed" id="table">
+                <thead>
+                      <tr>
+                        <th>Block height Number </th>
+                        <th>Block Confirm timestamp</th>
+                        <th>Block 당 처리된 용량</th>
+                        <th>Confirmation Reward for Block</th>
+                        <th>현재까지 총발행량</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </main>
+        <!-- <script src="/js/blockinfo.js"></script> -->
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="./js/bootstrap.js"></script>        
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $.ajax({
+                        url:"http://localhost:8080/blockchain/blocks/100/100",
+                        success: function(blocks) {
+                            $.each(blocks, function(index, value) {
+                                $('#table > tbody:first').append('<tr><td id="td1">'+value.height+'</td><td id="td2">'+value.timestamp+'</td><td id="td3">'+value.capacity+'</td><td id="td4">'+value.confirmReward+'</td><td id="td5">'+value.totalIssueVol+'</td></tr>');
+                            });
+                        }
+                });
+            });            
+        </script>
+    </body>
+</html>
