@@ -1,2 +1,6 @@
 language: d
-sudo: false
+d: dmd
+before_install:
+- sudo apt-get update -qq
+- sudo apt-get install -qq libevent-dev libssl-dev libsqlite3-dev
+#sudo: false
