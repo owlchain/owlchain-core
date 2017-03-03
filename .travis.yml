@@ -3,4 +3,5 @@ d: dmd
 before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -qq libevent-dev libssl-dev libsqlite3-dev
+script: dub --build=unittest --compiler=$DC
 #sudo: false
