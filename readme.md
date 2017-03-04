@@ -1,6 +1,6 @@
 # Owlchain (BOScoin)
 
-[![Build Status](https://travis-ci.org/owlchain/owlchain-core.svg?branch=master)](https://travis-ci.org/owlchain/owlchain-core)
+[![Build Status](https://travis-ci.org/owlchain/owlchain-core.svg?branch=PoC0)](https://travis-ci.org/owlchain/owlchain-core)
 
 Owlchain is a blockchain for trust contracts. owlchain aims to use the Web Ontology Language(OWL) and Timed Automata Language(TAL) to expand expressive power while retaining decidability to support secure and precise execution of contracts. These OWL based contracts on the owlchain are referred to as Trust Contracts. For more details, please refer to our [technical paper](https://docs.google.com/document/d/16Wm13pSvjb_izCB8QImMgHnt8VOlt0d5YSsPV6NDtaI/edit?usp=sharing)
 
