@@ -38,7 +38,7 @@ class Config {
     }
 
     string ipv4(){
-        return _root.getTagValue!string("ipv4", "127.0.0.1");
+        return _root.getTagValue!string("ipv4", "0.0.0.0");
     }
 
     string ipv6(){
@@ -59,7 +59,7 @@ unittest
 
     auto cfg = new Config;
     Tag root = cfg.root();
-    assert(cfg.ipv4() == "127.0.0.1");
+    assert(cfg.ipv4() == "0.0.0.0");
     assert(cfg.ipv6() == "::");
     assert(cfg.port() == 80);
 
@@ -91,7 +91,7 @@ Config config(string path=DEFAULT_CONFIG_PATH){
 
 unittest {
     auto cfg = config();
-    assert(cfg.ipv4() == "127.0.0.1");
+    assert(cfg.ipv4() == "0.0.0.0");
     assert(cfg.ipv6() == "::1");
     assert(cfg.port() == 8080);
 }
