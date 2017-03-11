@@ -1,0 +1,63 @@
+@charset "utf-8";
+/*==================================================
+   CSS initialization & CSS Reset
+==================================================*/
+html { text-shadow: 1px 1px 1px rgba(0,0,0,0.004); text-stroke: 0.3px; /*마치 맥의 폰트처럼 두께 라인을 살려준다. */  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-smoothing: antialiased; font-smoothing: antialiased;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button,a {margin:0; padding:0;}
+body{background:#FFFFFF;}
+/*html, body { height:100%; }*/
+fieldset,img {border:0 none;}
+dl,ul,ol,menu,li {list-style:none;}
+ul:after { content: "", clear:both; }
+blockquote, q {quotes:none;}
+blockquote:before, blockquote:after,q:before, q:after {content:''; content:none;}
+input,select,textarea,button {vertical-align:middle;}
+input,textarea {-webkit-tap-highlight-color:rgba(0, 0, 0, 0);}
+button {border:0 none; background-color:transparent; cursor:pointer;}
+table {border-collapse:collapse; border-spacing:0;}
+body {-webkit-text-size-adjust:none;} /* 뷰표트 변환시 폰트크기 자동확대 방지 */
+input[type='text'],input[type='password'],input[type='submit'],input[type='search'] {-webkit-appearance:none; border-radius:0;}
+input:checked[type='checkbox'] {background-color:#666; -webkit-appearance:checkbox;}
+/* button,input[type='button'],input[type='submit'],input[type='reset'],input[type='file'] {-webkit-appearance:button; border-radius:0;} */
+input[type='search']::-webkit-search-cancel-button {-webkit-appearance:none;}
+address,caption,cite,code,dfn,em,var { font-style:normal; font-weight:normal; }
+caption {overflow:hidden; position: absolute; width:0; height:0; line-height:0; text-indent:-9999px;}
+input, button {outline:0;}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #111; }
+input:-moz-placeholder, textarea:-moz-placeholder { color: #111; }
+input::-moz-placeholder, textarea::-moz-placeholder {color: #111; }
+input:-ms-input-placeholder, textarea:-ms-input-placeholder { color: #111; }
+/*------------------ 기본 색상 및 anchor 설정 ------------------*/
+body,p,h1,h2,h3,h4,h5,h6,th,td,input,select,textarea,button{color:#1a1a1a;font-weight:normal;font-family:'Arial', 'Apple Gothic', sans-serif; word-wrap:break-word; }
+/*=== Class Style =========================================*/
+.clfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;font-size:0;}
+.clfix{*display:inline-block;zoom:1;}
+.desc{background:#e1e1e1;color:#111;border:1px dashed #111;padding:20px;}
+/*=== Layout ===============================================*/
+/*layout*/
+.content-wrap{width:960px; }
+.content{position:relative;}
+/*1단*/
+.col-1{width:960px;}
+/*2단*/
+.col-2{width:100%; font-size:0;}
+.col-2 > *{display:inline-block; width:50%; vertical-align:top; font-size:14px;}
+/*3단*/
+.col-3{width:100%; font-size:0;}
+.col-3 > *{display:inline-block; width:33.333%; vertical-align:top; font-size:14px;}
+/*4단*/
+.col-4{width:100%; font-size:0;}
+.col-4 > *{display:inline-block; width:25%; vertical-align:top; font-size:14px;}
+/*5단*/
+.col-5{width:100%; font-size:0;}
+.col-5 > *{display:inline-block; width:20%; vertical-align:top; font-size:14px;}
+/*template*/
+.tmpl{box-sizing:border-box;width:90%;height: 100%;margin:5% auto;padding: 30px;background: #FFF;border-radius: 5px; box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);}
+/*=== Symbol =================================================*/
+.symbol{}
+.symbol.required:before{content: "*"; display:inline;padding-right:5px;color:#E6674A; }
+ 
+/*==================================================
+	Media Query style
+==================================================*/
+@media only screen and (max-width: 1270px) { }
