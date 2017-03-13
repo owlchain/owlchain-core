@@ -6,8 +6,12 @@ body > *{min-width:500px;}
 .content{max-width:800px;margin-left:auto;margin-right:auto;box-sizing:border-box;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 /*======== Header ========*/
-header{display:block;width:100%;height:130px;background:url('/images/header_bg.jpg') #242a42 no-repeat; background-position: right top;}
-header a{display:inline-block;margin:15px 0 0 0;}
+/*dashboard*/
+.dashboard header{display:block;width:100%;height:130px;background:url('/images/header_bg.jpg') #242a42 no-repeat; background-position: right top;}
+.dashboard header a{display:inline-block;margin:15px 0 0 0;}
+/*account*/
+.account header .content{height:130px;background:url('/images/account_top_bg.jpg') #242a42 no-repeat; background-position:center top;}
+
 nav{max-width:860px;margin:0 auto;padding:25px 30px 0;height:130px;color:#FFF;box-sizing:border-box;}
 nav a{display:block;height:80px;line-height:150px;}
 nav .wallet{float:left;}
@@ -42,6 +46,11 @@ div.info ul li{float:left;width:390px;margin:0 20px 20px 0;box-sizing:border-box
 div.info ul li:nth-child(even) {margin-right:0;}
 div.info ul li .wrap{min-height:150px;}
 div.info ul li .wrap img{width:100%;height:auto;vertical-align:top;}
+
+/*account*/
+.balance li{padding:20px 0;color:#FFF;text-align:right;}
+.balance li ~ li:not(.freeze){border-top:1px solid #FFF;}
+.balance li.freeze .wrap{width:100%;padding:10px;border-radius:5px;background:#44a0d4;box-sizing:border-box;}
 /*======== Footer ========*/
 footer{display:block;width:100%;height:80px;background:#b6b7b8;}
 footer p{padding-top:4px;color:#FFF;font-size:10px;text-align:center;}
