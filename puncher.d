@@ -82,7 +82,7 @@ void punchFile(string fileName)
 	string buffer = readFile(fileName);
 	if(checkBuffer(buffer, fileName))
 	{
-		copyFile(fileName);
+		backupFile(fileName);
 		writeFile(buffer, fileName);
 	}				
 }	
@@ -130,7 +130,7 @@ bool checkBuffer(string buffer, string fileName)
 	return true;
 }
 
-void copyFile(string fileName)
+void backupFile(string fileName)
 {
 	string path = "backup/";
 
