@@ -7,6 +7,8 @@ body > *{min-width:500px;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 article{overflow: hidden;}
 article:after{display:block;content:'';clear:both;}
+
+article > section{position: relative;}
 /*=== Dashboard =================================================*/
 .da{position:relative;float:left;background: #ff0000;}
 /*=== Accout ====================================================*/
