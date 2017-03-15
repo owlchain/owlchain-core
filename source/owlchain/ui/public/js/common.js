@@ -16,7 +16,7 @@ common.js
         _walletAddBtn = $('nav .wallet ');
         _dash = $('section.da');
         _account = $('section.ac');
-        _toggle = _account.find('.ctl dl');
+        _toggle = _account.find('.toggle dl');
         /*계정추가 add_new_account*/
         _wallet.on('click', '.add', function (event) {
             addCount();

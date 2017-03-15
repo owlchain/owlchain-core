@@ -58,7 +58,7 @@ article > section{position:relative;width:100%;max-width:500px;}
 .da div.info ul li .wrap img{width:100%;height:auto;vertical-align:top;}
 
 /*=== Accout ====================================================*/
-.ac{}
+.ac{display:none;}
 .ac.on{  transform: translate(0, 0); }
 
 .ac header .content{height:130px;background:url('/images/account_top_bg.jpg') #242a42 no-repeat; background-position:center top;}
