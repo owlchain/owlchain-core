@@ -5,7 +5,14 @@ body{background:#242a42;}
 body > *{min-width:500px;}
 .content{max-width:800px;margin-left:auto;margin-right:auto;box-sizing:border-box;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
-/*======== Header ========*/
+article{overflow: hidden;}
+article:after{display:block;content:'';clear:both;}
+/*=== Dashboard =================================================*/
+.da{position:relative;float:left;background: #ff0000;}
+/*=== Accout ====================================================*/
+.ca{position:relative;float:left;background: #0000ff;}
+
+
 /*dashboard*/
 .dashboard header{display:block;width:100%;height:130px;background:url('/images/header_bg.jpg') #242a42 no-repeat; background-position: right top;}
 .dashboard header a{display:inline-block;margin:15px 0 0 0;}
