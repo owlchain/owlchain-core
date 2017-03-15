@@ -50,7 +50,16 @@ div.info ul li .wrap img{width:100%;height:auto;vertical-align:top;}
 /*account*/
 .balance li{padding:20px 0;color:#FFF;text-align:right;}
 .balance li ~ li:not(.freeze){border-top:1px solid #FFF;}
-.balance li.freeze .wrap{width:100%;padding:10px;border-radius:5px;background:#44a0d4;box-sizing:border-box;}
+.balance li.freeze .wrap{display:block;width:100%;padding:10px;border-radius:5px;background:#44a0d4;box-sizing:border-box;}
+.balance li.freeze .wrap .img{float:left;}
+.balance li.freeze .wrap .txt{float:right;}
+
+/*ctl*/
+.ctl{width:100%;padding:20px 0;background:#FFF;}
+.ctl dl{positin:relative;}
+.ctl dl dt{max-height:70px;padding:20px 0;color:#FFF;background:#242a42;}
+.ctl dl dd{display:none;}
+
 /*======== Footer ========*/
 footer{display:block;width:100%;height:80px;background:#b6b7b8;}
 footer p{padding-top:4px;color:#FFF;font-size:10px;text-align:center;}

@@ -8,7 +8,6 @@ body{background:#FFFFFF;}
 /*html, body { height:100%; }*/
 fieldset,img {border:0 none;}
 dl,ul,ol,menu,li {list-style:none;}
-ul:after { content: "", clear:both; }
 blockquote, q {quotes:none;}
 blockquote:before, blockquote:after,q:before, q:after {content:''; content:none;}
 input,select,textarea,button {vertical-align:middle;}
@@ -32,7 +31,6 @@ body,p,h1,h2,h3,h4,h5,h6,th,td,input,select,textarea,button{color:#1a1a1a;font-w
 a,a:visited{color:#111;text-decoration:none;}
 /*=== Class Style =========================================*/
 .clfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;font-size:0;}
-.clfix{*display:inline-block;zoom:1;}
 .desc{background:#e1e1e1;color:#111;border:1px dashed #111;padding:20px;}
 /*=== Layout ===============================================*/
 /*layout*/
