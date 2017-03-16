@@ -117,9 +117,24 @@
                         <dl>
                             <dt><span>Send BOS</span></dt>
                             <dd>
-                                <div class="wrap">
-                                    TEXT
-                                </div>
+                                <form action="/action_page.php" method="post"><!--URL/FORM/SUBMIT-->
+                                    <input type="hidden" name="sendBOS" value="send_BOS_val">
+                                    <input type="hidden" name="sender" value="test_sender">
+                                    <input type="hidden" name="fee" value="fee_5,000">
+                                    <ul class="form">
+                                        <li><label for="">Receiver Address</label><input name="receiver" type="text" value="test_receiver"></li>
+                                        <li><label for="">Sending Amounts</label><input name="amount" type="text" value="1,000"></li>
+                                        <li>
+                                            <label for="">Memo(*Option)</label><input type="text" value="">
+                                            <p><em>Would you like to transfer the amount written above?</em><br>
+                                            <span class="ico"></span>Please check the receiver's address again. <br>After shipment, that BOS can not be returned absolutely.</p>
+                                            <div class="btn-wrap">
+                                                <input type="reset" value="Cancel">
+                                                <input type="submit" value="Send">
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </form>
                             </dd>
                         </dl>
                         <dl>
