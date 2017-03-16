@@ -56,6 +56,8 @@ interface IBlockchainREST{
 
 	@path("/blockchain/blocks/:height/:length")
 	Block[] getBlocks(int _height, int _length);
+
+	Transaction sendBOS(ulong _type, string _senderAccAddress, string _receiverAccAddress, double _amount, double _fee);
 }
 
 class BlockchainRESTImpl : IBlockchainREST {
@@ -108,6 +110,18 @@ class BlockchainRESTImpl : IBlockchainREST {
 				}
 			}
 			return bs;
+		}
+		Transaction sendBOS(ulong _type, string _senderAccAddress, string _receiverAccAddress, double _amount, double _fee)
+		{
+			auto t = Transaction();
+
+			t.type = _type;
+			t.senderAccAddress = _senderAccAddress;
+			t.receiverAccAddress = _receiverAccAddress;
+			t.amount = _amount;
+			t.fee = _fee;
+
+			return t;
 		}
 }
 

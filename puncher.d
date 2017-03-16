@@ -1,5 +1,11 @@
 #!/usr/bin/env rdmd
 
+/*
+Copyright 2016 Owlchain communities and contributors. Licensed under 
+the GNU General Public License, Version 3.0. See the LICENSE.md file 
+at the root of this distribution or at https://www.gnu.org/licenses/gpl-3.0.html
+*/
+
 import std.stdio;
 import std.getopt;
 import std.string;
@@ -82,7 +88,7 @@ void punchFile(string fileName)
 	string buffer = readFile(fileName);
 	if(checkBuffer(buffer, fileName))
 	{
-		copyFile(fileName);
+		backupFile(fileName);
 		writeFile(buffer, fileName);
 	}				
 }	
@@ -130,7 +136,7 @@ bool checkBuffer(string buffer, string fileName)
 	return true;
 }
 
-void copyFile(string fileName)
+void backupFile(string fileName)
 {
 	string path = "backup/";
 
