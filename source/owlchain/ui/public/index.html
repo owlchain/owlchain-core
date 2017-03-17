@@ -117,13 +117,13 @@
                         <dl>
                             <dt><span>Send BOS</span></dt>
                             <dd>
-                                <form action="/action_page.php" method="post"><!--URL/FORM/SUBMIT-->
-                                    <input type="hidden" name="sendBOS" value="send_BOS_val">
+                                <form action="sendbos" method="post"><!--URL/FORM/SUBMIT-->
+                                    <input type="hidden" name="type" value="A001">
                                     <input type="hidden" name="sender" value="test_sender">
-                                    <input type="hidden" name="fee" value="fee_5,000">
+                                    <input type="hidden" name="fee" value="5000">
                                     <ul class="form">
                                         <li><label for="">Receiver Address</label><input name="receiver" type="text" value="test_receiver"></li>
-                                        <li><label for="">Sending Amounts</label><input name="amount" type="text" value="1,000"></li>
+                                        <li><label for="">Sending Amounts</label><input name="amount" type="text" value="1000"></li>
                                         <li>
                                             <label for="">Memo(*Option)</label><input type="text" value="">
                                             <p><em>Would you like to transfer the amount written above?</em><br>

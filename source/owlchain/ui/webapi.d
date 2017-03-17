@@ -4,7 +4,7 @@ struct Transaction {
 	this(string _hash) { hash = _hash; }
 	string hash;
 
-	ulong type;
+	string type;
 	string senderAccAddress;
 	string receiverAccAddress;
 	double amount;

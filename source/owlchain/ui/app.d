@@ -56,79 +56,100 @@ interface IBlockchainREST{
 
 	@path("/blockchain/blocks/:height/:length")
 	Block[] getBlocks(int _height, int _length);
-
-	Transaction sendBOS(ulong _type, string _senderAccAddress, string _receiverAccAddress, double _amount, double _fee);
 }
 
 class BlockchainRESTImpl : IBlockchainREST {
 	override:
-		Transaction getTransaction(int _idx)
+	Transaction getTransaction(int _idx)
+	{
+		auto t = Transaction();
+		t.hash = to!string(_idx);
+		return t;
+	}
+	Block getBlock(int _height)
+	{
+		auto b = Block(_height);
+		// b.hash = to!string(_height);
+		//b.txs ~= Transaction("1"); 
+		//b.txs ~= Transaction("2"); 
+		//b.txs ~= Transaction("3"); 
+		//b.txs ~= Transaction("4"); 
+		if (_height == 1)
 		{
-			auto t = Transaction();
-			t.hash = to!string(_idx);
-			return t;
+			b.timestamp = "17:02:28";
+			b.capacity = 1000;
+			b.confirmReward = 100;
+			b.totalIssueVol = 10000;
 		}
-		Block getBlock(int _height)
+		else if (_height == 2)
 		{
-			auto b = Block(_height);
-			// b.hash = to!string(_height);
-			//b.txs ~= Transaction("1"); 
-			//b.txs ~= Transaction("2"); 
-			//b.txs ~= Transaction("3"); 
-			//b.txs ~= Transaction("4"); 
-			if (_height == 1)
-			{
-				b.timestamp = "17:02:28";
-				b.capacity = 1000;
-				b.confirmReward = 100;
-				b.totalIssueVol = 10000;
-			}
-			else if (_height == 2)
-			{
-				b.timestamp = "17:02:29";
-				b.capacity = 2000;
-				b.confirmReward = 200;
-				b.totalIssueVol = 20000;	
-			}
-			return b;
+			b.timestamp = "17:02:29";
+			b.capacity = 2000;
+			b.confirmReward = 200;
+			b.totalIssueVol = 20000;	
 		}
-		Block[] getBlocks(int _lastHeight, int _length)
-		in{
-			assert(_lastHeight >= 0);
-			assert(_length > 0);
-		}
-		body
-		{
-			Block[] bs;
+		return b;
+	}
+	Block[] getBlocks(int _lastHeight, int _length)
+	in{
+		assert(_lastHeight >= 0);
+		assert(_length > 0);
+	}
+	body
+	{
+		Block[] bs;
 
-			for(int i = 0; i < _length; i++)
-			{
-				auto b = getBlock(_lastHeight-i);
-				if(b.timestamp != "")
-				{
-					bs ~= b;	
-				}
-			}
-			return bs;
-		}
-		Transaction sendBOS(ulong _type, string _senderAccAddress, string _receiverAccAddress, double _amount, double _fee)
+		for(int i = 0; i < _length; i++)
 		{
-			auto t = Transaction();
-
-			t.type = _type;
-			t.senderAccAddress = _senderAccAddress;
-			t.receiverAccAddress = _receiverAccAddress;
-			t.amount = _amount;
-			t.fee = _fee;
-
-			return t;
+			auto b = getBlock(_lastHeight-i);
+			if(b.timestamp != "")
+			{
+				bs ~= b;	
+			}
 		}
+		return bs;
+	}
+}
+
+final class WebInterface
+{
+	void postSendbos(string type, string sender, double fee, string receiver, double amount)
+	{
+		logInfo("SEND BOS");
+
+		auto t = sendBOS(type, sender, receiver, amount, fee);
+		printTxInfo(t);
+		redirect("index.html");
+	}
+
+	private Transaction sendBOS(string type, string senderAccAddress, string receiverAccAddress, double amount, double fee)
+	{
+		auto t = Transaction();
+		
+		t.type = type;
+		t.senderAccAddress = senderAccAddress;
+		t.receiverAccAddress = receiverAccAddress;
+		t.amount = amount;
+		t.fee = fee;
+		
+		return t;
+	}
+
+	private void printTxInfo(Transaction tx)
+	{
+		logInfo("type:" ~ tx.type);
+		logInfo("senderAccAddress:" ~ tx.senderAccAddress);
+		logInfo("receiverAccAddress:" ~ tx.receiverAccAddress);
+		logInfo("amount:" ~ to!string(tx.amount));
+		logInfo("fee:" ~ to!string(tx.fee));
+	}
 }
 
 unittest
 {
 	auto router = new URLRouter;
 	registerRestInterface(router, new BlockchainRESTImpl());
+	registerWebInterface(router, new WebInterface);
 	auto routes = router.getAllRoutes();
 
 	logInfo("routes[0] = " ~ routes[0].pattern);
@@ -147,6 +168,7 @@ shared static this()
 	router.get("/ws", handleWebSockets(&handleWebSocketConnection));
 	router.get("*", serveStaticFiles("public/"));
 	registerRestInterface(router, new BlockchainRESTImpl());
+	registerWebInterface(router, new WebInterface);
 
 	auto settings = new HTTPServerSettings;
 	settings.port = config.port;
