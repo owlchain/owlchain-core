@@ -14,6 +14,7 @@ common.js
         /*Wallet*/
         _wallet = $('.account');
         _walletAddBtn = $('nav .wallet ');
+        _popup = $('article.popup');
         _dash = $('section.da');
         _account = $('section.ac');
         _toggle = _account.find('.toggle dl');
@@ -36,6 +37,10 @@ common.js
             setLayout("account");
             setToggleMenu("send");
         });
+        /*Set Freezing*/
+        _account.on('click', 'button.freezing', function (event) {
+            setPopup('section.freezing');
+        });
         /*대쉬보드가기*/
         _account.on('click', 'header .close', function (event) {
             setLayout("dash");
@@ -44,23 +49,36 @@ common.js
         _account.on('click', '.toggle dl dt', function (event) {
             $(this).parents('dl').toggleClass('on');
         });
+        /*레이어팝업닫기*/
+        _popup.on('click', '.freezing footer a', function (event) {
+            setPopup('close');
+            //calc
+            $('.freezing-cont').addClass('freezing');
+            console.log( $('.freezing-cont')  );
+        });
+    }
+    /*
+    set popup
+	*/
+    function setPopup(mode) {
+        if (mode == "close") {
+            _popup.removeClass('on');
+            _popup.find('section.layer').hide();
+        } else {
+            _popup.addClass('on');
+            $(mode).fadeIn('fast');
+        }
     }
     /*
     set layout
 	*/
     function setLayout(mode) {
         if (mode == "dash") {
-            //            _dash.addClass('on');
-            //            _account.removeClass('on');
             _dash.addClass('on');
             _account.removeClass('on');
         } else if (mode = "accout") {
             _dash.removeClass('on');
             _account.addClass('on');
-            /*
-            _dash.hide();
-            _account.fadeIn();
-            */
         }
     }
 
