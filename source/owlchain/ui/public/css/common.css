@@ -27,7 +27,7 @@ input:-moz-placeholder, textarea:-moz-placeholder { color: #111; }
 input::-moz-placeholder, textarea::-moz-placeholder {color: #111; }
 input:-ms-input-placeholder, textarea:-ms-input-placeholder { color: #111; }
 /*------------------ 기본 색상 및 anchor 설정 ------------------*/
-body,p,h1,h2,h3,h4,h5,h6,th,td,input,select,textarea,button{color:#1a1a1a;font-weight:normal;font-family:'Arial', 'Apple Gothic', sans-serif; word-wrap:break-word; }
+body,p,h1,h2,h3,h4,h5,h6,th,td,input,select,textarea,button{font-weight:normal;font-family:'Arial', 'Apple Gothic', sans-serif; word-wrap:break-word; }
 a,a:visited{color:#111;text-decoration:none;}
 /*=== Class Style =========================================*/
 .clfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;font-size:0;}
