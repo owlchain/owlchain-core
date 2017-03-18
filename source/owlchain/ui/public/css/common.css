@@ -32,30 +32,21 @@ a,a:visited{color:#111;text-decoration:none;}
 /*=== Class Style =========================================*/
 .clfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;font-size:0;}
 .desc{background:#e1e1e1;color:#111;border:1px dashed #111;padding:20px;}
+.none{display:none;}
 /*=== Layout ===============================================*/
 /*layout*/
-.content-wrap{width:960px; }
-.content{position:relative;}
-/*1단*/
-.col-1{width:960px;}
-/*2단*/
-.col-2{width:100%; font-size:0;}
-.col-2 > *{display:inline-block; width:50%; vertical-align:top; font-size:14px;}
-/*3단*/
-.col-3{width:100%; font-size:0;}
-.col-3 > *{display:inline-block; width:33.333%; vertical-align:top; font-size:14px;}
-/*4단*/
-.col-4{width:100%; font-size:0;}
-.col-4 > *{display:inline-block; width:25%; vertical-align:top; font-size:14px;}
-/*5단*/
-.col-5{width:100%; font-size:0;}
-.col-5 > *{display:inline-block; width:20%; vertical-align:top; font-size:14px;}
-/*template*/
-.tmpl{box-sizing:border-box;width:90%;height: 100%;margin:5% auto;padding: 30px;background: #FFF;border-radius: 5px; box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);}
-/*=== Symbol =================================================*/
-.symbol{}
-.symbol.required:before{content: "*"; display:inline;padding-right:5px;color:#E6674A; }
+.col{}
+.col:after{display:block;clear:both;content:'';}
+.col > *{float:left;}
+.col.col-1{width:960px;}/*1단*/
+.col.col-2 > *{width:50%;}/*2단*/
+.col.col-3 > *{width:33.333%;}/*3단*/
+.col.col-4 > *{width:25%;}/*4단*/
+.col.col-5 > *{width:20%;}/*5단*/
+.col.col-31 >.col-lg{width:66.66%;}/*3:1분할*/
+.col.col-31 >.col-sm{width:33.33%;}/*3:1분할*/
  
+.right{text-align:right;}
 /*==================================================
 	Media Query style
 ==================================================*/
