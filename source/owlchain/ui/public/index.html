@@ -48,7 +48,7 @@
                                 <a href="#" class="send"><img src="/images/ico_send.png"></a>
                             </li>
                             <li class="freez">
-                                <a href="#"><img src="/images/ico_freezing.png"></a>
+                                <a href="#" class="freez"><img src="/images/ico_freezing.png"></a>
                             </li>
                         </ul>
                     </section>
@@ -108,13 +108,25 @@
                     <li><em>Account Balance</em><span class="coin">101.00</span><em>BOS</em></li>
                     <li><em>Account Balance</em><span class="coin">1100.000</span><em>BOS</em></li>
                 </ul>
-                <nav class="freezing-cont content"><!--freezing  -->
+                <nav class="freezing-cont content">
+                    <!--freezing  -->
                     <div class="wrap trans clfix">
-                        <div class="img"><img src="/images/img_freezing.png" alt=""></div>
-                        <div class="txt">
-                            <p>There is no freezing state for your account.<br>Set freezing now and receive more benefits.</p>
-                            <button class="freezing">Set Freezing</button>
+                        <div class="fr-cont">
+                            <div class="img"><img src="/images/img_freezing.png" alt=""></div>
+                            <div class="txt">
+                                <p class="date">12 March 2017, 08:28</p>
+                                <p class="amount"><em>Freezing Amount</em><span class="bos">50.000</span></p>
+                                <p class="amount"><em>Freezing Amount</em><span class="bos">1250</span>/<span>720</span></p>
+                            </div>
                         </div>
+                        <div class="un-fr-cont">
+                            <div class="img"><img src="/images/img_un_freezing.png" alt=""></div>
+                            <div class="txt">
+                                <p>There is no freezing state for your account.<br>Set freezing now and receive more benefits.</p>
+                                <button class="freezing">Set Freezing</button>
+                            </div>
+                        </div>
+
                     </div>
                 </nav>
             </article>
@@ -237,14 +249,34 @@
         </div>
     </footer>
     <article class="popup">
-       <!--FREEZING BOS-->
+        <!--FREEZING BOS-->
         <section class="freezing layer">
             <header><i><img src="/images/popup_ico_freezing.png" alt=""></i>Freezing BOS</header>
             <article>
-                TEXT
+                <h1>Available Balance</h1>
+                <p class="bos">98.000</p>
+                <p>Sending Amount</p>
+                <p class="bos"><input type="text"></p>
+                <hr>
+                <p>Freezing Reward</p>
+                <p><span class="bos">1250</span><em>/</em><span class="bos">1250</span></p>
+                <p>12 March 2017, 08:28</p>
             </article>
             <footer><a href="#">Freezing</a></footer>
         </section>
+        <!--UN-FREEZING BOS-->
+        <section class="un-freezing layer">
+            <header class="bg_or"><i><img src="/images/popup_ico_un_freezing.png"></i>Request Unfreezing BOS</header>
+            <article>
+                <h1>Freezing Amount</h1>
+                <p class="bos">50.000 BOS</p>             
+                <hr>
+                <p>Freezing Reward</p>
+                <p>Freezing 을 해지하시는 경우,<br>다시 Refreezing 하기위한 대기 시간은<br>총 xxxxx 시간이 소요됩니다</p>
+            </article>
+            <footer class="bg_gr"><a href="#">Request Unfreezing</a></footer>
+        </section>
     </article>
 </body>
+
 </html>

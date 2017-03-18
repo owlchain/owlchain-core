@@ -37,6 +37,11 @@ common.js
             setLayout("account");
             setToggleMenu("send");
         });
+        /*Toggle Freezing*/
+        _dash.on('click','.ctl .freez',function(event){
+            setLayout("account");
+            setPopup('section.un-freezing');
+        });
         /*Set Freezing*/
         _account.on('click', 'button.freezing', function (event) {
             setPopup('section.freezing');
@@ -49,12 +54,18 @@ common.js
         _account.on('click', '.toggle dl dt', function (event) {
             $(this).parents('dl').toggleClass('on');
         });
-        /*레이어팝업닫기*/
+        /*프리징하기*/
         _popup.on('click', '.freezing footer a', function (event) {
             setPopup('close');
             //calc
             $('.freezing-cont').addClass('freezing');
             console.log( $('.freezing-cont')  );
+        });
+         /*언프리징하기*/
+        _popup.on('click', '.un-freezing footer a', function (event) {
+            setPopup('close');
+            //calc
+            $('.freezing-cont').removeClass('freezing');
         });
     }
     /*
@@ -91,7 +102,7 @@ common.js
             _toggle.eq(1).addClass('on').siblings().removeClass('on');
         }
     }
-
+    /**/
     function addCount() {
         var _ele = '<section class="clfix"><div class="pay"><a href="#"><div class="address">test1 *AAAAAAAfg59fhsp4qper</div><p class="coin">100.000 <em>BOS</em></p></a></div><ul class="ctl clfix"> <li> <a href="#" class="receive"><img src="/images/ico_receive.png"></a> </li> <li> <a href="#" class="send"><img src="/images/ico_send.png"></a> </li> <li class="freez"> <a href="#"><img src="/images/ico_freezing.png"></a> </li> </ul> </section>';
         $('nav').append(_ele);
