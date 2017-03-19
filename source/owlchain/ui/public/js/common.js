@@ -12,15 +12,26 @@ common.js
     };
     var _bind = function () {
         /*Wallet*/
+        _wrap = $('article.wrap');
+        _dash = $('section.da');
+        _account = $('section.ac');
+        _blockInfo = $('section.bl');
         _wallet = $('.account');
         _walletAddBtn = $('nav .wallet ');
         _popup = $('article.popup');
-        _dash = $('section.da');
-        _account = $('section.ac');
+
         _toggle = _account.find('.toggle dl');
+        /*대쉬보드가기*/
+        _wrap.on('click', 'header .close', function (event) {
+            setLayout("dash");
+        });        
         /*계정추가 add_new_account*/
         _wallet.on('click', '.add', function (event) {
             addCount();
+        });
+         /*Block Info*/
+        _dash.on('click', '.info-wrap a', function (event) {
+            setLayout("block");
         });
         /*계정자세히보기*/
         _dash.on('click', '.pay>a', function (event) {
@@ -38,7 +49,7 @@ common.js
             setToggleMenu("send");
         });
         /*Toggle Freezing*/
-        _dash.on('click','.ctl .freez',function(event){
+        _dash.on('click', '.ctl .freez', function (event) {
             setLayout("account");
             setPopup('section.un-freezing');
         });
@@ -46,26 +57,37 @@ common.js
         _account.on('click', 'button.freezing', function (event) {
             setPopup('section.freezing');
         });
-        /*대쉬보드가기*/
-        _account.on('click', 'header .close', function (event) {
-            setLayout("dash");
+        /*Send BOS*/
+        _account.on('click', 'ul.form input.send-bos', function (event) {
+            setPopup('section.send-bos');
+        });
+        /*Send BOS Cancel*/
+        _account.on('click', 'ul.form input.cancel', function (event) {
+            setPopup('section.send-bos-cancel');
         });
         /*BOS Receive,Send,Transaction,Backup*/
         _account.on('click', '.toggle dl dt', function (event) {
             $(this).parents('dl').toggleClass('on');
+        });
+        /*팝업닫기*/
+        _popup.on('click', '.layer footer a', function (event) {
+            setPopup('close');
         });
         /*프리징하기*/
         _popup.on('click', '.freezing footer a', function (event) {
             setPopup('close');
             //calc
             $('.freezing-cont').addClass('freezing');
-            console.log( $('.freezing-cont')  );
         });
-         /*언프리징하기*/
+        /*언프리징하기*/
         _popup.on('click', '.un-freezing footer a', function (event) {
             setPopup('close');
             //calc
             $('.freezing-cont').removeClass('freezing');
+        });
+        /*BOS보내기*/
+        _popup.on('click', '.send-bos footer a', function (event) {
+            setPopup('section.send-bos-ok');
         });
     }
     /*
@@ -84,12 +106,13 @@ common.js
     set layout
 	*/
     function setLayout(mode) {
+        _wrap.find('> section').removeClass('on');
         if (mode == "dash") {
             _dash.addClass('on');
-            _account.removeClass('on');
-        } else if (mode = "accout") {
-            _dash.removeClass('on');
+        } else if (mode == "account") {
             _account.addClass('on');
+        } else if (mode == "block") {
+            _blockInfo.addClass('on');
         }
     }
 

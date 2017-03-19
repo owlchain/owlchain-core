@@ -8,12 +8,17 @@ hr{display:block;width:100%;height:1px;background:#242a42;border:0;}
 /*popup-bg*/
 .bg_or{background:#d75324!important;}
 .bg_gr{background:#898989!important;}
+.bg_gr{background:#5bb531!important;}
 .content{max-width:800px;margin-left:auto;margin-right:auto;padding-left:30px;padding-right:30px;box-sizing:border-box;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 /*body>wrap*/
 article.wrap{position:relative;overflow:hidden;width:100%;}
 article.wrap > section{display:none;-webkit-transition: all 0.5s ease-out; transition: all 0.5s ease-out;}
 article.wrap > section.on{display:block;}
+/*header*/
+article.wrap header a.close{display:block;position:relative;padding:10px 20px 0;color:#fff;font-size:18px;}
+article.wrap header a.close span{position:absolute;left:50px;}
+article.wrap header a.config {display:inline-block;position:absolute;top:0;right:50px;padding:10px;}
 /*footer*/
 body > footer{display:block;width:100%;height:80px;background:#b6b7b8;}
 body > footer .content{padding-top:20px;}
@@ -63,13 +68,8 @@ body > footer .content .right {width:10%;text-align:center;}
 .da .info-wrap a .wrap p em{display:inline-block;margin:auto 20px;font-size:40px;font-weight: bold;}
 .da .info-wrap a .wrap p span{font-size:14px;}
 /*=== Accout ====================================================*/
-/*
-.ac{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;background:#242a42;z-index:10;transform: translate3d(100%,0,0)}
-*/
 /*header*/
 .ac header {height:130px;background:url('/images/account_top_bg.jpg') #242a42 no-repeat; background-position:center top;}
-.ac header a.close{display:block;padding:10px 20px 0;color:#fff;font-size:18px;}
-.ac header a.close span{display:inline-block;margin-top:-10px;padding-left:10px;}
 .ac header .wrap{display:block;margin-top:10px;text-align:center;}
 .ac header .wrap .icon{display:inline-block;}
 .ac header .wrap .account{display:inline-block;margin-left:20px;text-align:left;vertical-align: top;}
@@ -117,6 +117,17 @@ body > footer .content .right {width:10%;text-align:center;}
 .ac .form label{display:block;font-size:18px;}
 .ac .form input{padding:10px 20px;border:1px solid #242a42;}
 .ac .form .btn-wrap{margin-top:30px;}
+/*=== Block Info ====================================================*/
+.bl header {height:130px;background:url('/images/info_top_bg.png') #242a42 no-repeat; background-position:center top;}
+.bl header .wrap{display:block;margin-top:30px;text-align:center;}
+.bl header .wrap .icon{display:inline-block;}
+.bl header .wrap .tit{display:inline-block;margin-left:20px;color:#FFF;font-size:30px;text-align:left;vertical-align: top;}
+.bl .info-wrap {display:block;min-height: 500px;}
+.bl .info-wrap table{width:100%;}
+.bl .info-wrap table th{padding:10px 20px;border-bottom:1px solid #242a42;color:#2a375f;font-size:18px;font-weight:normal;text-align:center;}
+.bl .info-wrap table td{padding:15px 20px;border-bottom:1px solid #acacac;text-align:center;}
+
+ 
 /*=== Popup ====================================================*/
 .popup{display:none;position:fixed;top:0;right:0;bottom:0;left:0;width:100%;min-width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:10;}
 .popup.on{display:block;}
