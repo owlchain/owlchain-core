@@ -16,20 +16,24 @@ common.js
         _dash = $('section.da');
         _account = $('section.ac');
         _blockInfo = $('section.bl');
+        _config = $('section.co');
         _wallet = $('.account');
         _walletAddBtn = $('nav .wallet ');
         _popup = $('article.popup');
-
         _toggle = _account.find('.toggle dl');
-        /*대쉬보드가기*/
+        /*대쉬보드 이동*/
         _wrap.on('click', 'header .close', function (event) {
             setLayout("dash");
-        });        
+        });
+        /*Configuration 이동*/
+        _wrap.on('click', 'a.config', function (event) {
+            setLayout("config");
+        });
         /*계정추가 add_new_account*/
         _wallet.on('click', '.add', function (event) {
             addCount();
         });
-         /*Block Info*/
+        /*Block Info*/
         _dash.on('click', '.info-wrap a', function (event) {
             setLayout("block");
         });
@@ -67,6 +71,10 @@ common.js
         });
         /*BOS Receive,Send,Transaction,Backup*/
         _account.on('click', '.toggle dl dt', function (event) {
+            $(this).parents('dl').toggleClass('on');
+        });
+        /*Configuration Toggle*/
+        _config.on('click', '.toggle dl dt', function (event) {
             $(this).parents('dl').toggleClass('on');
         });
         /*팝업닫기*/
@@ -113,6 +121,8 @@ common.js
             _account.addClass('on');
         } else if (mode == "block") {
             _blockInfo.addClass('on');
+        } else if (mode == "config") {
+            _config.addClass('on');
         }
     }
 
