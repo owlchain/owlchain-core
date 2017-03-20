@@ -4,10 +4,8 @@ common.js
 common.js -> module.js 연동처리
 *************************/
 (function ($) {
-    /*CONST*/
     const ADD_NEW_COUNT = "/blockchain/blocks/2/2";
     const GET_ACCOUNT_BY_ADDRESS = "/blockchain/AccountOperations/getAccount";
-
     /*setup*/
     var _setup = function () {
         var beepOne = $("#snd_over")[0];
@@ -42,6 +40,7 @@ common.js -> module.js 연동처리
                 console.log(data);
             });
             addCount();
+            $.FUNC.init();
 
         });
         /*Block Info*/
@@ -53,6 +52,7 @@ common.js -> module.js 연동처리
             setLayout("account");
             setToggleMenu("init");
             //-
+
             $.get(ADD_NEW_COUNT, function (data, status) {
                 console.log("Data: " + data + "\nStatus: " + status);
                 console.log(data);
