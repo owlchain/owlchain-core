@@ -1,7 +1,13 @@
 /*************************
 common.js
+
+common.js -> module.js 연동처리
 *************************/
 (function ($) {
+    /*CONST*/
+    const ADD_NEW_COUNT = "/blockchain/blocks/2/2";
+    const GET_ACCOUNT_BY_ADDRESS = "/blockchain/AccountOperations/getAccount";
+
     /*setup*/
     var _setup = function () {
         var beepOne = $("#snd_over")[0];
@@ -31,7 +37,12 @@ common.js
         });
         /*계정추가 add_new_account*/
         _wallet.on('click', '.add', function (event) {
+            $.get(ADD_NEW_COUNT, function (data, status) {
+                console.log("Data: " + data + "\nStatus: " + status);
+                console.log(data);
+            });
             addCount();
+
         });
         /*Block Info*/
         _dash.on('click', '.info-wrap a', function (event) {
@@ -41,6 +52,11 @@ common.js
         _dash.on('click', '.pay>a', function (event) {
             setLayout("account");
             setToggleMenu("init");
+            //-
+            $.get(ADD_NEW_COUNT, function (data, status) {
+                console.log("Data: " + data + "\nStatus: " + status);
+                console.log(data);
+            });
         });
         /*Receive*/
         _dash.on('click', '.ctl .receive', function (event) {

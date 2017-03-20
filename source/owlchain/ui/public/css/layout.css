@@ -145,7 +145,7 @@ body > footer .content .right {width:10%;text-align:center;}
 .popup .layer header{padding:33px 0;color:#FFF;font-size:30px;background:#2a375f;text-align: center;}
 .popup .layer header i{position:absolute;top:20px;margin-left:-60px;}
 /*article*/
-.popup .layer article{display:block;width:100%;text-align:center;}
+.popup .layer article{display:block;overflow-y:auto;width:100%;text-align:center;}
 .popup .layer article p{font-size:30px;margin-bottom:20px;}
 /*footer*/
 .popup .layer footer{display:block;position:absolute;bottom:0;width:100%;padding:33px 0;background:#66a0c9;text-align: center;}
