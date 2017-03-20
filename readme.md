@@ -6,17 +6,6 @@ Owlchain is a blockchain for trust contracts. owlchain aims to use the Web Ontol
 
 ![TrustContract](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/TrustContract.png?raw=true)
 
-### Prerequisite
-Owlchain use [d programming language](http://dlang.org/) and [dub](https://code.dlang.org/) build toolkit.
-
-### Build and run
-
-```
-$ git clone https://github.com/owlchain/owlchain-core
-$ cd owlchain-core
-$ dub -v
-```
-
 ### Owlchain-core architecture & source directory
 
 ![architecture](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/owlchain.png?raw=true)
@@ -35,3 +24,14 @@ owlchain-core
         + appmain.d   - boot up module 
   + dub.sdl       - project build file
   + readme.md     - this file
+
+### Prerequisite
+Owlchain use [d programming language](http://dlang.org/) and [dub](https://code.dlang.org/) build toolkit.
+
+### Build and run
+
+```
+$ git clone https://github.com/owlchain/owlchain-core
+$ cd owlchain-core
+$ dub -v
+```
