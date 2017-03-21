@@ -61,9 +61,13 @@ interface IBlockchainREST{
 	@path("/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee")
 	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee);
 
-	//@method(HTTPMethod.GET)
-	//@path("/blockchain/AccountOperations/createAccount/")
-	//Json createAccount();
+	@method(HTTPMethod.GET)
+	@path("/blockchain/AccountOperations/createAccount")
+	Json createAccount();
+
+	@method(HTTPMethod.GET)
+	@path("/blockchain/AccountOperations/getAccount/:accountAddress")
+	Json getAccount(string _accountAddress);
 }
 
 class BlockchainRESTImpl : IBlockchainREST {
@@ -152,7 +156,7 @@ class BlockchainRESTImpl : IBlockchainREST {
 			
 			printTxInfo2(t);
 
-			auto s = SendBosInfo();
+			auto s = SendBos();
 			s.sendBos = true;
 			json = serializeToJson(s);
 		}
@@ -169,10 +173,32 @@ class BlockchainRESTImpl : IBlockchainREST {
 		return json;
 	}
 
-	//Json createAccount()
-	//{
-		
-	//}
+	Json createAccount()
+	{
+		auto c = CreateAccount();
+		c.accountAddress = "accountAddress";
+
+		auto json = serializeToJson(c);
+
+		return json;
+	}
+
+	Json getAccount(string _accountAddress)
+	{
+		auto g = GetAccount();
+		g.accountAddress = _accountAddress;
+		g.accountBalance = 100000;	
+		g.availableBalance = 100000;
+		g.pendingBalance = 0;
+		g.freezingStatus = false;
+		g.freezingAmount = 0;
+		g.freezingStartTime = 0;
+		g.freezingInterests = 0;
+
+		auto json = serializeToJson(g);
+
+		return json;		
+	}
 }
 
 final class WebInterface
@@ -220,11 +246,15 @@ unittest
 	logInfo("routes[1] = " ~ routes[1].pattern);
 	logInfo("routes[2] = " ~ routes[2].pattern);
 	logInfo("routes[3] = " ~ routes[3].pattern);
+	logInfo("routes[4] = " ~ routes[4].pattern);
+	logInfo("routes[5] = " ~ routes[5].pattern);
 	
 	assert (routes[0].method == HTTPMethod.GET && routes[0].pattern == "/blockchain/transaction/:idx");
 	assert (routes[1].method == HTTPMethod.GET && routes[1].pattern == "/blockchain/block/:height");
 	assert (routes[2].method == HTTPMethod.GET && routes[2].pattern == "/blockchain/blocks/:height/:length");
 	assert (routes[3].method == HTTPMethod.GET && routes[3].pattern == "/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee");
+	assert (routes[4].method == HTTPMethod.GET && routes[4].pattern == "/blockchain/AccountOperations/createAccount");
+	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/getAccount/:accountAddress");
 }
 
 shared static this()
