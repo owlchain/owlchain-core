@@ -35,7 +35,7 @@ common.js -> module.js 연동처리
 		});
 		/*계정추가 add_new_account*/
 		_wallet.on('click', '.add', function (event) {
-			$.FUNC.sendBos(function (data) {
+			$.FUNC.createCount(function (data) {
 				console.log(data);
 			});
 			addCount();
@@ -111,6 +111,10 @@ common.js -> module.js 연동처리
 			setPopup('section.send-bos-ok');
 		});
 	}
+
+	var _init = function () {
+		setLayout("dash");
+	}
 	/*
     set popup
 	*/
@@ -132,12 +136,26 @@ common.js -> module.js 연동처리
 			_dash.addClass('on');
 			//--대쉬보드
 			$.FUNC.getAccount(function (data) {
-				console.log(data);
 				_dash.find('.address').text(data.accountAddress);
 				_dash.find('.coin').text(data.accountBalance);
 			});
 		} else if (mode == "account") {
 			_account.addClass('on');
+			$.FUNC.getAccount(function (data) {
+				console.log(data);
+				_account.find('.address em').text(data.accountAddress);
+				_account.find('.account span').text(data.accountBalance);
+				_account.find('.available span').text(data.availableBalance);
+				_account.find('.pending span').text(data.pendingBalance);
+				//freezingStatus
+				if (Boolean(data.freezingStatus)) {
+					$('nav.freezing-cont').removeClass('freezing');
+				} else {
+					$('nav.freezing-cont').addClass('freezing');
+				}
+				console.log(data.freezingStatus);
+				console.log(typeof (data.freezingStatus));
+			});
 		} else if (mode == "block") {
 			_blockInfo.addClass('on');
 		} else if (mode == "config") {
@@ -163,5 +181,6 @@ common.js -> module.js 연동처리
 	 */
 	$(document).ready(function () {
 		_bind();
+		_init();
 	});
 })($);

@@ -5,6 +5,7 @@
 	"use strict";
 	/*****CONST*****/
 	/*OPERATION*/
+	const OPER_CREATE_ACCOUNT = "/blockchain/AccountOperations/createAccount/";
 	const OPER_GET_ACCOUNT = "/blockchain/AccountOperations/getAccount/";
 	/*TRANSACTION*/
 	const TRAN_SEND_BOS = "/blockchain/transactions/sendTransaction/sendBOS/sender/receiver/1000/100";
@@ -20,17 +21,16 @@
 	};
 	/*transactions*/
 	$.FUNC = {
-		addCount: function () {
-			$.get(ADD_NEW_COUNT, function (data, status) {
-				console.log("Data: " + data + "\nStatus: " + status);
-				console.log(data);
-			});
+		/*
+		 */
+		createCount: function (callBack) {
+			_ajax(OPER_CREATE_ACCOUNT, callBack);
 		},
 		/*
 		 */
 		getAccount: function (callBack) {
-			var _account="TEST_ACCOUNT";
-			_ajax(OPER_GET_ACCOUNT+_account, callBack);
+			var _account = "TEST_ACCOUNT";
+			_ajax(OPER_GET_ACCOUNT + _account, callBack);
 		},
 		/*
 		 */
