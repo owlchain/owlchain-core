@@ -1,5 +1,14 @@
 module owlchain.ui.webapi;
 
+struct ErrorState {
+	string errCode;	
+	string errMessage;
+}
+
+struct SendBosInfo {
+	bool sendBos;
+}
+
 struct Transaction {
 	this(string _hash) { hash = _hash; }
 	string hash;

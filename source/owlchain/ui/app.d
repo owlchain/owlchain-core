@@ -56,9 +56,24 @@ interface IBlockchainREST{
 
 	@path("/blockchain/blocks/:height/:length")
 	Block[] getBlocks(int _height, int _length);
+
+	//@path("/blockchain/sendbos2/:hash/:type/:sender/:fee/:receiver/:amount")
+	@path("/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee")
+	@method(HTTPMethod.GET)
+	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee);
 }
 
 class BlockchainRESTImpl : IBlockchainREST {
+
+	private void printTxInfo2(Transaction tx)
+	{
+		logInfo("type:" ~ tx.type);
+		logInfo("senderAccAddress:" ~ tx.senderAccAddress);
+		logInfo("receiverAccAddress:" ~ tx.receiverAccAddress);
+		logInfo("amount:" ~ to!string(tx.amount));
+		logInfo("fee:" ~ to!string(tx.fee));
+	}
+
 	override:
 	Transaction getTransaction(int _idx)
 	{
@@ -109,6 +124,47 @@ class BlockchainRESTImpl : IBlockchainREST {
 		}
 		return bs;
 	}
+
+	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee)
+	{
+		Json json;
+
+		if (_type == null || _sender == null || _receiver == null || _amount == 0 || _fee == 0)
+		{
+			auto e = ErrorState();
+			
+			e.errCode = "01";
+			e.errMessage = "no value.";
+			
+			json = serializeToJson(e);
+		}		
+		else if (_type == "sendBOS")
+		{
+			auto t = Transaction();			
+			t.type = _type;
+			t.senderAccAddress = _sender;
+			t.receiverAccAddress = _receiver;
+			t.amount = _amount;
+			t.fee = _fee;
+			
+			printTxInfo2(t);
+
+			auto s = SendBosInfo();
+			s.sendBos = true;
+			json = serializeToJson(s);
+		}
+		else
+		{
+			auto e = ErrorState();
+
+			e.errCode = "00";
+			e.errMessage = "Error";
+
+			json = serializeToJson(e);
+		}
+
+		return json;
+	}
 }
 
 final class WebInterface
@@ -155,10 +211,12 @@ unittest
 	logInfo("routes[0] = " ~ routes[0].pattern);
 	logInfo("routes[1] = " ~ routes[1].pattern);
 	logInfo("routes[2] = " ~ routes[2].pattern);
+	logInfo("routes[3] = " ~ routes[3].pattern);
 	
 	assert (routes[0].method == HTTPMethod.GET && routes[0].pattern == "/blockchain/transaction/:idx");
 	assert (routes[1].method == HTTPMethod.GET && routes[1].pattern == "/blockchain/block/:height");
 	assert (routes[2].method == HTTPMethod.GET && routes[2].pattern == "/blockchain/blocks/:height/:length");
+	assert (routes[3].method == HTTPMethod.GET && routes[3].pattern == "/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee");
 }
 
 shared static this()
