@@ -9,6 +9,12 @@
 	$.FUNC.init = function () {
 		$.FUNC.setup();
 	};
+	var _ajax = function (url, callBack) {
+		$.get(url, function (data, status) {
+			console.log("Data: " + data + "\nStatus: " + status);
+			callBack.call(this, data);
+		});
+	};
 	/*transactions*/
 	$.FUNC = {
 		addCount: function () {
@@ -17,12 +23,8 @@
 				console.log(data);
 			});
 		},
-		sendBos: function (_func) {
-			$.get(TRAN_SEND_BOS, function (data, status) {
-				//console.log("Data: " + data + "\nStatus: " + status);
-				_func.call(this,data);
-			});
-
+		sendBos: function (callBack) {
+			_ajax(TRAN_SEND_BOS, callBack);
 		},
 		end: function () {}
 	};
