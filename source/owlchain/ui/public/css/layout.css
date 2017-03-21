@@ -121,6 +121,7 @@ body > footer .content .right {width:10%;text-align:center;}
 .ac .form label{display:block;font-size:18px;}
 .ac .form input{padding:10px 20px;border:1px solid #242a42;}
 .ac .form .btn-wrap{margin-top:30px;}
+.ac .form .btn-wrap button{padding:20px 30px;border:1px solid #111;color:#111;font-size:20px;}
 /*=== Block Info ====================================================*/
 .bl header {height:130px;background:url('/images/info_top_bg.png') #242a42 no-repeat; background-position:center top;}
 .bl header .wrap{display:block;margin-top:30px;text-align:center;}

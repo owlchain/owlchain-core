@@ -8,7 +8,7 @@
 	const OPER_CREATE_ACCOUNT = "/blockchain/AccountOperations/createAccount/";
 	const OPER_GET_ACCOUNT = "/blockchain/AccountOperations/getAccount/";
 	/*TRANSACTION*/
-	const TRAN_SEND_BOS = "/blockchain/transactions/sendTransaction/sendBOS/sender/receiver/1000/100";
+	const TRAN_SEND_BOS = "/blockchain/transactions/sendTransaction/sendBOS/sender/receiver/999/100";
 	$.FUNC = {};
 	$.FUNC.init = function () {
 		$.FUNC.setup();

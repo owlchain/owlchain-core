@@ -75,11 +75,11 @@ common.js -> module.js 연동처리
 			setPopup('section.freezing');
 		});
 		/*Send BOS*/
-		_account.on('click', 'ul.form input.send-bos', function (event) {
+		_account.on('click', 'ul.form button.send', function (event) {
 			setPopup('section.send-bos');
 		});
 		/*Send BOS Cancel*/
-		_account.on('click', 'ul.form input.cancel', function (event) {
+		_account.on('click', 'ul.form button.cancel', function (event) {
 			setPopup('section.send-bos-cancel');
 		});
 		/*BOS Receive,Send,Transaction,Backup*/
@@ -109,6 +109,10 @@ common.js -> module.js 연동처리
 		/*BOS보내기*/
 		_popup.on('click', '.send-bos footer a', function (event) {
 			setPopup('section.send-bos-ok');
+			//
+			$.FUNC.sendBos(function(data){
+				console.log(data);
+			});
 		});
 	}
 
