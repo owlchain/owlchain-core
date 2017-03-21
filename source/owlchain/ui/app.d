@@ -129,7 +129,7 @@ class BlockchainRESTImpl : IBlockchainREST {
 	{
 		Json json;
 
-		if (_type == null || _sender == null || _receiver == null || _amount == 0 || _fee == 0)
+		if (_type == "" || _sender == "" || _receiver == "" || _amount == 0 || _fee == 0)
 		{
 			auto e = ErrorState();
 			
