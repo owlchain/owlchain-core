@@ -3,7 +3,10 @@
  */
 (function ($) {
 	"use strict";
-	/*CONST*/
+	/*****CONST*****/
+	/*OPERATION*/
+	const OPER_GET_ACCOUNT = "/blockchain/AccountOperations/getAccount/";
+	/*TRANSACTION*/
 	const TRAN_SEND_BOS = "/blockchain/transactions/sendTransaction/sendBOS/sender/receiver/1000/100";
 	$.FUNC = {};
 	$.FUNC.init = function () {
@@ -23,6 +26,14 @@
 				console.log(data);
 			});
 		},
+		/*
+		 */
+		getAccount: function (callBack) {
+			var _account="TEST_ACCOUNT";
+			_ajax(OPER_GET_ACCOUNT+_account, callBack);
+		},
+		/*
+		 */
 		sendBos: function (callBack) {
 			_ajax(TRAN_SEND_BOS, callBack);
 		},

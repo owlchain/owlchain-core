@@ -130,6 +130,12 @@ common.js -> module.js 연동처리
 		_wrap.find('> section').removeClass('on');
 		if (mode == "dash") {
 			_dash.addClass('on');
+			//--대쉬보드
+			$.FUNC.getAccount(function (data) {
+				console.log(data);
+				_dash.find('.address').text(data.accountAddress);
+				_dash.find('.coin').text(data.accountBalance);
+			});
 		} else if (mode == "account") {
 			_account.addClass('on');
 		} else if (mode == "block") {
