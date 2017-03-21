@@ -57,10 +57,13 @@ interface IBlockchainREST{
 	@path("/blockchain/blocks/:height/:length")
 	Block[] getBlocks(int _height, int _length);
 
-	//@path("/blockchain/sendbos2/:hash/:type/:sender/:fee/:receiver/:amount")
-	@path("/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee")
 	@method(HTTPMethod.GET)
+	@path("/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee")
 	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee);
+
+	//@method(HTTPMethod.GET)
+	//@path("/blockchain/AccountOperations/createAccount/")
+	//Json createAccount();
 }
 
 class BlockchainRESTImpl : IBlockchainREST {
@@ -158,13 +161,18 @@ class BlockchainRESTImpl : IBlockchainREST {
 			auto e = ErrorState();
 
 			e.errCode = "00";
-			e.errMessage = "Error";
+			e.errMessage = "type is not 'SendBOS'.";
 
 			json = serializeToJson(e);
 		}
 
 		return json;
 	}
+
+	//Json createAccount()
+	//{
+		
+	//}
 }
 
 final class WebInterface
