@@ -1,15 +1,37 @@
 module owlchain.ui.webapi;
 
-struct ErrorState {
+struct ErrorState
+{
 	string errCode;	
 	string errMessage;
 }
 
-struct SendBosInfo {
+struct SendBos
+{
 	bool sendBos;
 }
 
-struct Transaction {
+struct CreateAccount
+{
+	string accountAddress;
+	bool freezingStatus = false;
+	bool transaction = false;
+}
+
+struct GetAccount
+{
+	string accountAddress;
+	double accountBalance;	
+	double availableBalance;
+	double pendingBalance;
+	bool freezingStatus;
+	double freezingAmount;
+	uint freezingStartTime;
+	double freezingInterests;
+}
+
+struct Transaction
+{
 	this(string _hash) { hash = _hash; }
 	string hash;
 
@@ -59,15 +81,17 @@ struct Transaction {
  //   private volatile byte[] bytes = null;
 }
 
-struct Account {
-	string accAddress;
-	bool freezeStatus;
-	double accBalance;
-	double availableBalance;
-	double pendingBalance;
-	double freezeAmount;
-	uint freezeStartTime;
-	double freezeInterests;
+struct Account
+{
+	string accountAddress;
+	double accountBalance = 0;	
+	double availableBalance = 0;
+	double pendingBalance = 0;
+	bool freezingStatus = false;
+	double freezingAmount = 0;
+	uint freezingStartTime = 0;
+	double freezingInterests = 0;
+	bool transaction = false;
 
 	// copy from NXT
 	//public static final class AccountAsset {
@@ -133,7 +157,8 @@ struct Account {
 
 }
 
-struct Block {
+struct Block
+{
 	this(int _height) { height = _height; }
 	int height;
 	string timestamp;
@@ -166,7 +191,8 @@ struct Block {
  //   private volatile byte[] bytes = null;
 }
 
-struct Blockchain {
+struct Blockchain
+{
 	//// referenced by NXT
 	//private final Block lastBlock;
 	//private final int height;
