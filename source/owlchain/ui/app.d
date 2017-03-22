@@ -208,13 +208,15 @@ unittest
 	logInfo("routes[3] = " ~ routes[3].pattern);
 	logInfo("routes[4] = " ~ routes[4].pattern);
 	logInfo("routes[5] = " ~ routes[5].pattern);
+	logInfo("routes[6] = " ~ routes[6].pattern);
 	
 	assert (routes[0].method == HTTPMethod.GET && routes[0].pattern == "/blockchain/transaction/:idx");
 	assert (routes[1].method == HTTPMethod.GET && routes[1].pattern == "/blockchain/block/:height");
 	assert (routes[2].method == HTTPMethod.GET && routes[2].pattern == "/blockchain/blocks/:height/:length");
-	assert (routes[3].method == HTTPMethod.GET && routes[3].pattern == "/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee");
+	assert (routes[3].method == HTTPMethod.GET && routes[3].pattern == "/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee/:memo");
 	assert (routes[4].method == HTTPMethod.GET && routes[4].pattern == "/blockchain/AccountOperations/createAccount");
 	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/getAccount/:accountAddress");
+	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/AccountOperations/getAccountTransaction/:accountAddress");
 }
 
 shared static this()
