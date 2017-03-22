@@ -25,6 +25,8 @@ common.js -> module.js 연동처리
 		_walletAddBtn = $('nav .wallet ');
 		_popup = $('article.popup');
 		_toggle = _account.find('.toggle dl');
+
+		_accountAddress = '';
 		/*대쉬보드 이동*/
 		_wrap.on('click', 'header .close', function (event) {
 			setLayout("dash");
@@ -84,7 +86,16 @@ common.js -> module.js 연동처리
 		});
 		/*BOS Receive,Send,Transaction,Backup*/
 		_account.on('click', '.toggle dl dt', function (event) {
-			$(this).parents('dl').toggleClass('on');
+			var _dl = $(this).parents('dl');
+			var _idx = _dl.index();
+			var _param = ["receive", "send", "transaction", "backup"];
+			if(_dl.hasClass('on')){
+				_dl.removeClass('on');
+			}else{
+				setToggleMenu(_param[_idx]);
+			}
+			
+			//		$(this).parents('dl').toggleClass('on');
 		});
 		/*Configuration Toggle*/
 		_config.on('click', '.toggle dl dt', function (event) {
@@ -110,15 +121,14 @@ common.js -> module.js 연동처리
 		_popup.on('click', '.send-bos footer a', function (event) {
 			setPopup('section.send-bos-ok');
 			//
-			var _params='';
-			_params=_account.find('.account .address').text();
-			_params+="/"+$('ul.form input.receiver').val();
-			_params+="/"+$('ul.form input.amount').val();
-			_params+="/"+$('ul.form input.memo').val();
-			console.log(_params)
-			$.FUNC.sendBos(function(data){
+			var _params = '';
+			_params = _account.find('.account .address').text();
+			_params += "/" + $('ul.form input.receiver').val();
+			_params += "/" + $('ul.form input.amount').val();
+			_params += "/" + $('ul.form input.memo').val();
+			$.FUNC.sendBos(function (data) {
 				console.log(data);
-			},_params);
+			}, _params);
 		});
 	}
 
@@ -151,20 +161,21 @@ common.js -> module.js 연동처리
 			});
 		} else if (mode == "account") {
 			_account.addClass('on');
+			var _address = '';
 			$.FUNC.getAccount(function (data) {
-				console.log(data);
+				//acount
 				_account.find('.address em').text(data.accountAddress);
 				_account.find('.account span').text(data.accountBalance);
 				_account.find('.available span').text(data.availableBalance);
 				_account.find('.pending span').text(data.pendingBalance);
+				//전역변수
+				_accountAddress = data.accountAddress;
 				//freezingStatus
 				if (Boolean(data.freezingStatus)) {
 					$('nav.freezing-cont').removeClass('freezing');
 				} else {
 					$('nav.freezing-cont').addClass('freezing');
 				}
-				console.log(data.freezingStatus);
-				console.log(typeof (data.freezingStatus));
 			});
 		} else if (mode == "block") {
 			_blockInfo.addClass('on');
@@ -172,7 +183,8 @@ common.js -> module.js 연동처리
 			_config.addClass('on');
 		}
 	}
-
+	/*
+	*/
 	function setToggleMenu(mode) {
 		if (mode == "init") {
 			_toggle.removeClass('on');
@@ -180,6 +192,17 @@ common.js -> module.js 연동처리
 			_toggle.eq(0).addClass('on').siblings().removeClass('on');
 		} else if (mode == "send") {
 			_toggle.eq(1).addClass('on').siblings().removeClass('on');
+		} else if (mode == "transaction") {
+			_toggle.eq(2).addClass('on').siblings().removeClass('on');
+			//myTransaction
+			$.FUNC.getAccountTransaction(function (data) {
+				var _ele = '';
+				for (var i = 0; i < data.length; i++) {
+					_ele += '<tr><td>' + data[i].timestamp + '</td><td>' + data[i].amount + '</td><td>' + data[i].fee + '</td> <td>' + data[i].accountAddress + '<em></em></td></tr>';
+				}
+				$('.my-transaction table tbody').children().remove();
+				$('.my-transaction table tbody').append(_ele)
+			}, _accountAddress);
 		}
 	}
 	/**/
