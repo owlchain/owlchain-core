@@ -22,8 +22,8 @@ interface IBlockchainREST{
 	Block[] getBlocks(int _height, int _length);
 
 	@method(HTTPMethod.GET)
-	@path("/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee")
-	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee);
+	@path("/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee/:memo")
+	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee, string _memo);
 
 	@method(HTTPMethod.GET)
 	@path("/blockchain/AccountOperations/createAccount")
@@ -96,7 +96,7 @@ class BlockchainRESTImpl : IBlockchainREST {
 		return bs;
 	}
 
-	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee)
+	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee, string _memo)
 	{
 		Json json;
 
@@ -108,7 +108,17 @@ class BlockchainRESTImpl : IBlockchainREST {
 			e.errMessage = "no value.";
 			
 			json = serializeToJson(e);
-		}		
+		}
+		else if (_memo.length > 20)
+		{
+			auto e = ErrorState();
+			
+			e.errCode = "02";
+			e.errMessage = "The length of the memo should not exceed 20 characters.";
+			
+			json = serializeToJson(e);
+		}
+
 		else if (_type == "sendBOS")
 		{
 			auto t = Transaction();			
@@ -177,6 +187,7 @@ class BlockchainRESTImpl : IBlockchainREST {
 			gs[i].accountAddress = _accountAddress;
 			gs[i].amount = i*10000;
 			gs[i].fee = i*10;
+			gs[i].memo = to!string(i)~"_memo";
 		}
 
 		auto json = serializeToJson(gs);

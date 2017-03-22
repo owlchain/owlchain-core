@@ -39,6 +39,7 @@ struct GetAccountTransaction
 	string accountAddress;
 	double amount;
 	double fee;
+	string memo;
 }
 
 struct Transaction
@@ -53,6 +54,7 @@ struct Transaction
 	double fee;
 	string contents;
 	uint confirmCount;
+	string memo;
 
 	//// copy from NXT
 	//private final short deadline;
