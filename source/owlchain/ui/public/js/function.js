@@ -36,9 +36,8 @@
 		},
 		/*
 		 */
-		getAccount: function (callBack) {
-			var _account = "TEST_ACCOUNT";
-			_ajax(OPER_GET_ACCOUNT + _account, callBack);
+		getAccount: function (callBack,param) {
+			_ajax(OPER_GET_ACCOUNT + param, callBack);
 		},
 		/*
 		트렌젹션 MY-TRANSACTION
