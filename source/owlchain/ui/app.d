@@ -6,6 +6,9 @@ import vibe.utils.array;
 import owlchain.utils.config;
 
 import std.conv: to;
+import std.file;
+import std.stdio;
+import std.path;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
@@ -40,6 +43,27 @@ interface IBlockchainREST{
 
 class BlockchainRESTImpl : IBlockchainREST {
 
+	private void exportAccountFile(string accountAddress)
+	{
+		version(Windows)
+		{
+			logInfo("it can't export file in Windows.");
+		}
+		else
+		{
+			char[] path = asAbsolutePath("../../BOScoin/account/").array.dup; 
+			mkdirRecurse(path);
+	
+			File file = File(path ~ "account.bos", "w");
+			file.writeln("Account address: ", accountAddress);
+			file.close();
+
+			logInfo("<exportAccountFile>");
+			logInfo("path : " ~ path);
+			logInfo("Account address: " ~ accountAddress);
+		}
+	}
+
 	private void printTxInfo(Transaction tx)
 	{
 		logInfo("type:" ~ tx.type);
@@ -47,6 +71,7 @@ class BlockchainRESTImpl : IBlockchainREST {
 		logInfo("receiverAccAddress:" ~ tx.receiverAccAddress);
 		logInfo("amount:" ~ to!string(tx.amount));
 		logInfo("fee:" ~ to!string(tx.fee));
+		logInfo("memo:" ~ tx.memo);
 	}
 
 	override:
@@ -127,6 +152,7 @@ class BlockchainRESTImpl : IBlockchainREST {
 			t.receiverAccAddress = _receiver;
 			t.amount = _amount;
 			t.fee = _fee;
+			t.memo = _memo;
 			
 			printTxInfo(t);
 
@@ -151,6 +177,8 @@ class BlockchainRESTImpl : IBlockchainREST {
 	{
 		auto c = CreateAccount();
 		c.accountAddress = "accountAddress";
+
+		exportAccountFile(c.accountAddress);
 
 		auto json = serializeToJson(c);
 
