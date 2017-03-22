@@ -20,7 +20,7 @@
 		$.FUNC.setup();
 	};
 	var _ajax = function (url, callBack) {
-		console.log('%c'+url+'','font-size:16px;color:red');
+		console.log('%c'+url+'','font-size:14px;color:red');
 		$.get(url, function (data, status) {
 			console.log(data);
 			//console.log("Data: " + data + "\nStatus: " + status);
