@@ -30,6 +30,17 @@ struct GetAccount
 	double freezingInterests;
 }
 
+struct GetAccountTransaction
+{
+	string type;
+	double freezingReward;
+	double confirmReward;
+	uint timestamp;
+	string accountAddress;
+	double amount;
+	double fee;
+}
+
 struct Transaction
 {
 	this(string _hash) { hash = _hash; }

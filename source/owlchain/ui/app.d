@@ -32,11 +32,15 @@ interface IBlockchainREST{
 	@method(HTTPMethod.GET)
 	@path("/blockchain/AccountOperations/getAccount/:accountAddress")
 	Json getAccount(string _accountAddress);
+
+	@method(HTTPMethod.GET)
+	@path("/blockchain/AccountOperations/getAccountTransaction/:accountAddress")
+	Json getAccountTransaction(string _accountAddress);	
 }
 
 class BlockchainRESTImpl : IBlockchainREST {
 
-	private void printTxInfo2(Transaction tx)
+	private void printTxInfo(Transaction tx)
 	{
 		logInfo("type:" ~ tx.type);
 		logInfo("senderAccAddress:" ~ tx.senderAccAddress);
@@ -114,7 +118,7 @@ class BlockchainRESTImpl : IBlockchainREST {
 			t.amount = _amount;
 			t.fee = _fee;
 			
-			printTxInfo2(t);
+			printTxInfo(t);
 
 			auto s = SendBos();
 			s.sendBos = true;
@@ -158,6 +162,26 @@ class BlockchainRESTImpl : IBlockchainREST {
 		auto json = serializeToJson(g);
 
 		return json;		
+	}
+
+	Json getAccountTransaction(string _accountAddress)
+	{
+		GetAccountTransaction[10] gs;
+
+		foreach(uint i, g; gs)
+		{
+			gs[i].type = "SendBOS";
+			gs[i].freezingReward = i*100;
+			gs[i].confirmReward = i*100;
+			gs[i].timestamp = i;
+			gs[i].accountAddress = _accountAddress;
+			gs[i].amount = i*10000;
+			gs[i].fee = i*10;
+		}
+
+		auto json = serializeToJson(gs);
+
+		return json;
 	}
 }
 
