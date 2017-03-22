@@ -10,42 +10,6 @@ import std.conv: to;
 import owlchain.api.api;
 import owlchain.ui.webapi;
 
-class TransactionImpl : ITransaction {
-	override:
-		string getHash()
-		{
-			return "b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da";
-		}
-		int getVer()
-		{
-			return 1;
-		}
-		int getVinSize()
-		{
-			return 1;
-		}
-		int getvoutSize()
-		{
-			return 2;
-		}
-		string getLockTime()
-		{
-			return "Unavailable";
-		}
-		int getSize()
-		{
-			return 258;
-		}
-		int getBlockHeight()
-		{
-			return 12200;
-		}
-		int getTxIndex()
-		{
-			return 12563028;
-		}
-}
-
 //@rootPathFromName
 interface IBlockchainREST{
 	@path("/blockchain/transaction/:idx")
@@ -91,11 +55,7 @@ class BlockchainRESTImpl : IBlockchainREST {
 	Block getBlock(int _height)
 	{
 		auto b = Block(_height);
-		// b.hash = to!string(_height);
-		//b.txs ~= Transaction("1"); 
-		//b.txs ~= Transaction("2"); 
-		//b.txs ~= Transaction("3"); 
-		//b.txs ~= Transaction("4"); 
+
 		if (_height == 1)
 		{
 			b.timestamp = "17:02:28";
@@ -201,45 +161,10 @@ class BlockchainRESTImpl : IBlockchainREST {
 	}
 }
 
-final class WebInterface
-{
-	void postSendbos(string type, string sender, double fee, string receiver, double amount)
-	{
-		logInfo("SEND BOS");
-
-		auto t = sendBOS(type, sender, receiver, amount, fee);
-		printTxInfo(t);
-		redirect("index.html");
-	}
-
-	private Transaction sendBOS(string type, string senderAccAddress, string receiverAccAddress, double amount, double fee)
-	{
-		auto t = Transaction();
-		
-		t.type = type;
-		t.senderAccAddress = senderAccAddress;
-		t.receiverAccAddress = receiverAccAddress;
-		t.amount = amount;
-		t.fee = fee;
-		
-		return t;
-	}
-
-	private void printTxInfo(Transaction tx)
-	{
-		logInfo("type:" ~ tx.type);
-		logInfo("senderAccAddress:" ~ tx.senderAccAddress);
-		logInfo("receiverAccAddress:" ~ tx.receiverAccAddress);
-		logInfo("amount:" ~ to!string(tx.amount));
-		logInfo("fee:" ~ to!string(tx.fee));
-	}
-}
-
 unittest
 {
 	auto router = new URLRouter;
 	registerRestInterface(router, new BlockchainRESTImpl());
-	registerWebInterface(router, new WebInterface);
 	auto routes = router.getAllRoutes();
 
 	logInfo("routes[0] = " ~ routes[0].pattern);
@@ -264,7 +189,6 @@ shared static this()
 	router.get("/ws", handleWebSockets(&handleWebSocketConnection));
 	router.get("*", serveStaticFiles("public/"));
 	registerRestInterface(router, new BlockchainRESTImpl());
-	registerWebInterface(router, new WebInterface);
 
 	auto settings = new HTTPServerSettings;
 	settings.port = config.port;
