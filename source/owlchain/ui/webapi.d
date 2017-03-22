@@ -11,6 +11,15 @@ struct SendBos
 	bool sendBos;
 }
 
+struct ReceiveBos
+{
+	bool receiveBos;
+	string receiverAccountAddress;
+	string senderAccountAddress;
+	double amount;
+	uint confirmCount;
+}
+
 struct CreateAccount
 {
 	string accountAddress;

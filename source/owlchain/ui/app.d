@@ -29,6 +29,10 @@ interface IBlockchainREST{
 	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee, string _memo);
 
 	@method(HTTPMethod.GET)
+	@path("/blockchain/transactions/receiveTransaction/receiveBOS/:acknowlege")
+	Json receiveBos(bool _acknowlege);
+
+	@method(HTTPMethod.GET)
 	@path("/blockchain/AccountOperations/createAccount")
 	Json createAccount();
 
@@ -171,6 +175,31 @@ class BlockchainRESTImpl : IBlockchainREST {
 		}
 
 		return json;
+	}
+
+	Json receiveBos(bool _acknowlege)
+	{
+		if (_acknowlege != true)
+		{
+			logInfo("ReceiveBOS: Acknowlege is not true.");
+			
+			Json json;
+			
+			return json;
+		}
+		else
+		{
+			auto r = ReceiveBos();
+			r.receiveBos = true;
+			r.receiverAccountAddress = "test_receiver";
+			r.senderAccountAddress = "test_sender";
+			r.amount = 10000;
+			r.confirmCount = 10;
+
+			auto json = serializeToJson(r);
+
+			return json;
+		}
 	}
 
 	Json createAccount()
