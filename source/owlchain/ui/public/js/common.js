@@ -110,9 +110,15 @@ common.js -> module.js 연동처리
 		_popup.on('click', '.send-bos footer a', function (event) {
 			setPopup('section.send-bos-ok');
 			//
+			var _params='';
+			_params=_account.find('.account .address').text();
+			_params+="/"+$('ul.form input.receiver').val();
+			_params+="/"+$('ul.form input.amount').val();
+			_params+="/"+$('ul.form input.memo').val();
+			console.log(_params)
 			$.FUNC.sendBos(function(data){
 				console.log(data);
-			});
+			},_params);
 		});
 	}
 
