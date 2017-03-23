@@ -149,10 +149,16 @@ common.js -> module.js 연동처리
 		if (mode == "dash") {
 			_dash.addClass('on');
 			//--대쉬보드
-			$.FUNC.getAccount(function (data) {
-				_dash.find('.address').text(data.accountAddress);
-				_dash.find('.coin').text(data.accountBalance);
+			$.FUNC.createCount(function (data) {
+				_accountAddress = data.accountAddress;
+				addCount(_accountAddress);
+				//-------------------------------------------------------
+				$.FUNC.getAccount(function (data) {
+					_dash.find('.address').text(data.accountAddress);
+					_dash.find('.coin').text(data.accountBalance);
+				}, _accountAddress);
 			});
+
 		} else if (mode == "account") {
 			_account.addClass('on');
 			var _address = '';
