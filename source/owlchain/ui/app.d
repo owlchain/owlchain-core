@@ -47,7 +47,7 @@ interface IBlockchainREST{
 
 class BlockchainRESTImpl : IBlockchainREST {
 
-	private void exportAccountFile(string accountAddress)
+	private string exportAccountFile(string accountAddress)
 	{
 		version(Windows)
 		{
@@ -65,6 +65,8 @@ class BlockchainRESTImpl : IBlockchainREST {
 			logInfo("<exportAccountFile>");
 			logInfo("path : " ~ path);
 			logInfo("Account address: " ~ accountAddress);
+
+			return path.idup ~ "account.bos";
 		}
 	}
 
@@ -206,8 +208,7 @@ class BlockchainRESTImpl : IBlockchainREST {
 	{
 		auto c = CreateAccount();
 		c.accountAddress = "accountAddress";
-
-		exportAccountFile(c.accountAddress);
+		c.filePath = exportAccountFile(c.accountAddress);
 
 		auto json = serializeToJson(c);
 
