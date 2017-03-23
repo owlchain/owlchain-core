@@ -4,8 +4,6 @@ common.js
 common.js -> module.js 연동처리
 *************************/
 (function ($) {
-	const ADD_NEW_COUNT = "/blockchain/blocks/2/2";
-	const GET_ACCOUNT_BY_ADDRESS = "/blockchain/AccountOperations/getAccount";
 	/*setup*/
 	var _setup = function () {
 		var beepOne = $("#snd_over")[0];
@@ -25,7 +23,7 @@ common.js -> module.js 연동처리
 		_walletAddBtn = $('nav .wallet ');
 		_popup = $('article.popup');
 		_toggle = _account.find('.toggle dl');
-        /*Account*/
+		/*Account*/
 		_accountAddress = '';
 		/*대쉬보드 이동*/
 		_wrap.on('click', 'header .close', function (event) {
@@ -37,10 +35,10 @@ common.js -> module.js 연동처리
 		});
 		/*계정추가 add_new_account*/
 		_wallet.on('click', '.add', function (event) {
-            console.log('-');
+			console.log('-');
 			$.FUNC.createCount(function (data) {
-                _accountAddress=data.accountAddress;
-                addCount(_accountAddress);
+				_accountAddress = data.accountAddress;
+				addCount(_accountAddress);
 			});
 		});
 		/*Block Info*/
@@ -85,12 +83,12 @@ common.js -> module.js 연동처리
 			var _dl = $(this).parents('dl');
 			var _idx = _dl.index();
 			var _param = ["receive", "send", "transaction", "backup"];
-			if(_dl.hasClass('on')){
+			if (_dl.hasClass('on')) {
 				_dl.removeClass('on');
-			}else{
+			} else {
 				setToggleMenu(_param[_idx]);
 			}
-			
+
 			//		$(this).parents('dl').toggleClass('on');
 		});
 		/*Configuration Toggle*/
@@ -172,8 +170,8 @@ common.js -> module.js 연동처리
 				} else {
 					$('nav.freezing-cont').addClass('freezing');
 				}
-			},_accountAddress);
-            
+			}, _accountAddress);
+
 		} else if (mode == "block") {
 			_blockInfo.addClass('on');
 		} else if (mode == "config") {
@@ -181,7 +179,7 @@ common.js -> module.js 연동처리
 		}
 	}
 	/*
-	*/
+	 */
 	function setToggleMenu(mode) {
 		if (mode == "init") {
 			_toggle.removeClass('on');
@@ -204,8 +202,8 @@ common.js -> module.js 연동처리
 	}
 	/**/
 	function addCount(address) {
-		var _ele = '<section class="clfix"><div class="pay"><a href="#"><div class="address">'+address+'</div><p class="coin">0<em>BOS</em></p></a></div><ul class="ctl clfix"> <li> <a href="#" class="receive"><img src="/images/ico_receive.png"></a> </li> <li> <a href="#" class="send"><img src="/images/ico_send.png"></a> </li> <li class="freez"> <a href="#"><img src="/images/ico_freezing.png"></a> </li> </ul> </section>';
-		$('nav').append(_ele);
+		var _ele = '<section class="clfix"><div class="pay"><a href="#"><div class="address">' + address + '</div><p class="coin">0<em>BOS</em></p></a></div><ul class="ctl clfix"> <li> <a href="#" class="receive"><img src="/images/ico_receive.png"></a> </li> <li> <a href="#" class="send"><img src="/images/ico_send.png"></a> </li> <li class="freez"> <a href="#"><img src="/images/ico_freezing.png"></a> </li> </ul> </section>';
+		$('.da nav').append(_ele);
 	}
 	/*ADD_ACCOUNT
 	 */
