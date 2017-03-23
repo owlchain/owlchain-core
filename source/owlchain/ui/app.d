@@ -49,12 +49,12 @@ class BlockchainRESTImpl : IBlockchainREST {
 
 	private string exportAccountFile(string accountAddress)
 	{
-		version(Windows)
-		{
-			logInfo("it can't export file in Windows.");
-		}
-		else
-		{
+		//version(Windows)
+		//{
+		//	logInfo("it can't export file in Windows.");
+		//}
+		//else
+		//{
 			char[] path = asAbsolutePath("../../BOScoin/account/").array.dup; 
 			mkdirRecurse(path);
 	
@@ -67,7 +67,7 @@ class BlockchainRESTImpl : IBlockchainREST {
 			logInfo("Account address: " ~ accountAddress);
 
 			return path.idup ~ "account.bos";
-		}
+		//}
 	}
 
 	private void printTxInfo(Transaction tx)
