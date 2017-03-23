@@ -49,25 +49,17 @@ class BlockchainRESTImpl : IBlockchainREST {
 
 	private string exportAccountFile(string accountAddress)
 	{
-		//version(Windows)
-		//{
-		//	logInfo("it can't export file in Windows.");
-		//}
-		//else
-		//{
-			char[] path = asAbsolutePath("../../BOScoin/account/").array.dup; 
-			mkdirRecurse(path);
-	
-			File file = File(path ~ "account.bos", "w");
-			file.writeln("Account address: ", accountAddress);
-			file.close();
+		char[] path = asAbsolutePath("../../BOScoin/account/").array.dup; 
+		mkdirRecurse(path);
 
-			logInfo("<exportAccountFile>");
-			logInfo("path : " ~ path);
-			logInfo("Account address: " ~ accountAddress);
+		File file = File(path ~ "account.bos", "w");
+		file.writeln("Account address: ", accountAddress);
+		file.close();
+		logInfo("<exportAccountFile>");
+		logInfo("path : " ~ path);
+		logInfo("Account address: " ~ accountAddress);
 
-			return path.idup ~ "account.bos";
-		//}
+		return path.idup ~ "account.bos";
 	}
 
 	private void printTxInfo(Transaction tx)
