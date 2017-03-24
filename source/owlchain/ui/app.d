@@ -49,7 +49,8 @@ class BlockchainRESTImpl : IBlockchainREST {
 
 	private string exportAccountFile(string accountAddress)
 	{
-		char[] path = asAbsolutePath("../../BOScoin/account/").array.dup; 
+		//char[] path = asAbsolutePath("../../BOScoin/account/").array.dup; 
+		char[] path = asAbsolutePath("BOScoin/account/").array.dup; 
 		mkdirRecurse(path);
 
 		File file = File(path ~ "account.bos", "w");
