@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome to OWlchain website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/trust.css" rel="stylesheet">
+    <link href="./css/prism.css" rel="stylesheet">
+    <script src="./js/jquery.js"></script>
+    <script src="./js/prism.js"></script>
+
+</head>
+
+<body>
+    <article class="wrap">
+        <!--Main-->
+        <section class="main bg_b on">
+            <article class="content">
+                <p>
+                    BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
+                </p>
+                <p class="content">
+                    syntax highlighting textarea
+                </p>
+            </article>
+<pre class="line-numbers language-javascript" >
+    <code class="language-javascript" id="editor-code"></code>
+    <textarea id="editor-content"></textarea>
+</pre>
+        </section>
+        <!--//Main-->
+    </article>
+    <footer>
+        <div class="content">
+            <a class="logo" href="#"><img src="./images/footer_logo.png"></a>
+            <p class="copyright">Portion ofthiscontent are ©2017 BOScoin Community.org contributors. <br>Content available under a Creative Commons license.</p>
+            <a class="right" href="#"><img src="./images/footer_about.png"></a>
+            <a class="right" href="#"><img src="./images/footer_help.png"></a>
+        </div>
+    </footer>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+    var editorCode = document.getElementById('editor-code');
+    var editorContent = document.getElementById('editor-content');
+    var selector = document.getElementById('selector');
+    editorCode.innerHTML = Prism.highlight(editorContent.value, Prism.languages.javascript);
+
+    $('#editor-content').bind('input propertychange', function() {
+        editorCode.innerHTML = Prism.highlight(this.value, Prism.languages.javascript);
+    });
+});</script>
+</html>
