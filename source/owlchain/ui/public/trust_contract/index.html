@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome to OWlchain website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/trust.css" rel="stylesheet">
+
+    <script src="../js/jquery.js"></script>
+
+
+
+    <link rel="stylesheet" href="./lib/codemirror.css">
+    <link rel="stylesheet" href="./addon/fold/foldgutter.css">
+    <link rel="stylesheet" href="./addon/dialog/dialog.css">
+    <link rel="stylesheet" href="./theme/monokai.css">
+    <script src="./lib/codemirror.js"></script>
+    <script src="./addon/search/searchcursor.js"></script>
+    <script src="./addon/search/search.js"></script>
+    <script src="./addon/dialog/dialog.js"></script>
+    <script src="./addon/edit/matchbrackets.js"></script>
+    <script src="./addon/edit/closebrackets.js"></script>
+    <script src="./addon/comment/comment.js"></script>
+    <script src="./addon/wrap/hardwrap.js"></script>
+    <script src="./addon/fold/foldcode.js"></script>
+    <script src="./addon/fold/brace-fold.js"></script>
+    <script src="./mode/javascript/javascript.js"></script>
+    <script src="./keymap/sublime.js"></script>
+</head>
+
+<body>
+    <article class="wrap">
+        <!--Main-->
+        <section class="main bg_b on">
+            <article class="content">
+                <p>
+                    BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
+                </p>
+                <p class="content">
+                    syntax highlighting textarea
+                </p>
+            </article>
+            <pre class="line-numbers language-javascript">
+    <code class="language-javascript" id="editor-code"></code>
+    <textarea id="editor-content"></textarea>
+</pre>
+        </section>
+        <!--//Main-->
+    </article>
+    <style type="text/css">
+        .CodeMirror {
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            line-height: 1.3;
+            height: 500px
+        }
+        
+        .CodeMirror-linenumbers {
+            padding: 0 8px;
+        }
+
+    </style>
+
+
+    <article>
+
+        <script>
+            var value = "// The bindings defined specifically in the Sublime Text mode\nvar bindings = {\n";
+            var map = CodeMirror.keyMap.sublime;
+            for (var key in map) {
+                var val = map[key];
+                if (key != "fallthrough" && val != "..." && (!/find/.test(val) || /findUnder/.test(val)))
+                    value += "  \"" + key + "\": \"" + val + "\",\n";
+            }
+            value += "}\n\n// The implementation of joinLines\n";
+            value += CodeMirror.commands.joinLines.toString().replace(/^function\s*\(/, "function joinLines(").replace(/\n  /g, "\n") + "\n";
+            var editor = CodeMirror(document.body.getElementsByTagName("article")[0], {
+                value: value,
+                lineNumbers: true,
+                mode: "javascript",
+                keyMap: "sublime",
+                autoCloseBrackets: true,
+                matchBrackets: true,
+                showCursorWhenSelecting: true,
+                theme: "monokai",
+                tabSize: 2
+            });
+
+        </script>
+
+    </article>
+
+    <footer>
+        <div class="content">
+            <a class="logo" href="#"><img src="../images/footer_logo.png"></a>
+            <p class="copyright">Portion ofthiscontent are ©2017 BOScoin Community.org contributors. <br>Content available under a Creative Commons license.</p>
+            <a class="right" href="#"><img src="../images/footer_about.png"></a>
+            <a class="right" href="#"><img src="../images/footer_help.png"></a>
+        </div>
+    </footer>
+</body>
+
+
+</html>
