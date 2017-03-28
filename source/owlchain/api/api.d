@@ -1,5 +1,7 @@
 module owlchain.api.api;
 
+import vibe.core.core;
+
 interface IOntology {
 
 }
@@ -91,7 +93,10 @@ interface IOCCPResponse {
 }
 
 interface IOCCPListener {
-
+    Task getTask();
+    IOCCPSettings getSettings();
+    void setTask(Task task);
+    void setSettings(IOCCPSettings settings);
 }
 
 interface IOCCPSettings {
@@ -99,6 +104,7 @@ interface IOCCPSettings {
 }
 
 alias OCCPRequestDeligate = void delegate(IOCCPRequest req, IOCCPResponse res);
+alias OCCPRequestFunction = void function(IOCCPRequest req, IOCCPResponse res);
 
 interface IShell {
     IWallet getWallet();

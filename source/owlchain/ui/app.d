@@ -10,7 +10,6 @@ import std.file;
 import std.stdio;
 import std.path;
 import std.array;
-import core.time;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
@@ -273,9 +272,6 @@ unittest
 	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/AccountOperations/getAccountTransaction/:accountAddress");
 }
 
-Task g_task;
-bool acknowlege = false;
-
 shared static this()
 {
 	auto router = new URLRouter;
@@ -288,22 +284,18 @@ shared static this()
 	settings.port = config.port;
 	//settings.bindAddresses = ["::1", "127.0.0.1"];
 
-    g_task = runTask({
-        logInfo("Task Start!");
-        sleep(dur!"seconds"(5));
-        acknowlege = true;
-    });
-
-    runTask({
-        logInfo("Monitor Task Start!");
-        g_task.join();
-        logInfo("acknowlege: " ~ to!string(acknowlege));
-      //  render!"index.html";
-    });
-
 	settings.bindAddresses = [config.ipv6, config.ipv4];
 	listenHTTP(settings, router);
 	logInfo("Please open http://" ~ config.ipv4 ~ ":" ~ to!string(config.port) ~ "/ in your browser.");
+
+    import owlchain.shell.shell;
+
+    auto shell = new Shell;
+    auto occpSettings = new OCCPSettings;
+    auto listener = shell.listenOCCP(occpSettings, (IOCCPRequest req, IOCCPResponse res) {
+        logInfo("Callback Event Call");        
+    });
+    logInfo("listenOCCP");
 }
 
 private WebSocket[] sockets;
