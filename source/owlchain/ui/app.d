@@ -9,12 +9,15 @@ import std.conv: to;
 import std.file;
 import std.stdio;
 import std.path;
+import std.array;
+import core.time;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
 
 //@rootPathFromName
-interface IBlockchainREST{
+interface IBlockchainREST
+{
 	@path("/blockchain/transaction/:idx")
 	Transaction getTransaction(int _idx);
 
@@ -45,11 +48,10 @@ interface IBlockchainREST{
 	Json getAccountTransaction(string _accountAddress);	
 }
 
-class BlockchainRESTImpl : IBlockchainREST {
-
+class BlockchainRESTImpl : IBlockchainREST
+{
 	private string exportAccountFile(string accountAddress)
 	{
-		//char[] path = asAbsolutePath("../../BOScoin/account/").array.dup; 
 		char[] path = asAbsolutePath("BOScoin/account/").array.dup; 
 		mkdirRecurse(path);
 
@@ -101,7 +103,8 @@ class BlockchainRESTImpl : IBlockchainREST {
 		return b;
 	}
 	Block[] getBlocks(int _lastHeight, int _length)
-	in{
+	in
+    {
 		assert(_lastHeight >= 0);
 		assert(_length > 0);
 	}
@@ -270,6 +273,9 @@ unittest
 	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/AccountOperations/getAccountTransaction/:accountAddress");
 }
 
+Task g_task;
+bool acknowlege = false;
+
 shared static this()
 {
 	auto router = new URLRouter;
@@ -281,6 +287,19 @@ shared static this()
 	auto settings = new HTTPServerSettings;
 	settings.port = config.port;
 	//settings.bindAddresses = ["::1", "127.0.0.1"];
+
+    g_task = runTask({
+        logInfo("Task Start!");
+        sleep(dur!"seconds"(5));
+        acknowlege = true;
+    });
+
+    runTask({
+        logInfo("Monitor Task Start!");
+        g_task.join();
+        logInfo("acknowlege: " ~ to!string(acknowlege));
+      //  render!"index.html";
+    });
 
 	settings.bindAddresses = [config.ipv6, config.ipv4];
 	listenHTTP(settings, router);
