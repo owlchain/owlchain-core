@@ -68,7 +68,7 @@ enum MaxAliasSize = 100;
 alias ubyte[MaxAliasSize] AccountAlias;
 
 interface IAccount {
-    string getAddress();
+    IAddress getAddress();
     string getAlias();
     void setAlias(AccountAlias aliasName);
     ulong getBalance();
