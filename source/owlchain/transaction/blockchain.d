@@ -1,7 +1,7 @@
 module owlchain.store.blockchain;
 import owlchain.api.api;
 
-//version(DO_NOT_COMPILE):
+version(DO_NOT_COMPILE):
 
 enum BLOCK_VERSION = 1_0_0;
 enum TRANSACTION_VERSION = 1_0_0;
