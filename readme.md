@@ -14,11 +14,9 @@
     - [OWLchain papers](#owlchain-papers)
     - [OWLchain Talks](#owlchain-talks)
   - [Project and Community](#project-and-community)
-  - [Project Links](#project-links)
-    - [Protocol Implementations](#protocol-implementations)
-    - [API Client Libraries](#api-client-libraries)
-    - [Project Directory](#project-directory)
-    - [Other Community Resources](#other-community-resources)
+    - [Milestones](#milestones)
+    - [Communication Channels](#communication-channels)
+    - [Hiring](#hiring)
   - [License](#license)
 
 ## Overview
@@ -72,15 +70,21 @@ To learn more about how OWLchain works take a look at the [Papers](#owlchain-pap
 
 ## Project and Community
 
-The OWLchain is a open source project in need of contributions from various technophiles. You are invited and appriciated to join it! Create issues, contribute codes, translating documents, every single contribution will be appricated and respected here. 
+The OWLchain is a open source project in need of contributions from technophiles with various backgrounds. You are invited and appriciated to join it! Create issues, contribute codes, translating documents, every single contribution will be appricated and respected here. 
+
+### Milestones
 
 Wondering on where to start? Check out our [waffle](https://waffle.io/owlchain) to check the current development status, progress, and milestones.
 
-Also here are some links to our communication channels:
+### Communication Channels
 
+Also here are some links to our communication channels:
 - IRC: [#owlchain on chat.freenode.net](http://webchat.freenode.net/?channels=owlchain) for live help and some dev discussions.
 - Google Group: [dev-owlchain@groups.google.com](https://groups.google.com/forum/#!forum/dev-owlchain/)
 
+### Hiring
+
+OWL Community is able to hire developers for part time or full time positions, to work on OWLchain protocol. If you are interested, check out the [job listings](http://owl.community/contact). If you'd like to help in other ways, [write email directly](mailto:mc@owl.community?subject=Contributing to OWLchain).
 
 ## License
 
