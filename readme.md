@@ -84,7 +84,7 @@ Also here are some links to our communication channels:
 
 ### Hiring
 
-OWL Community is able to hire developers for part time or full time positions, to work on OWLchain protocol. If you are interested, check out the [job listings](http://owl.community/contact). If you'd like to help in other ways, [write email directly](mailto:mc@owl.community?subject=Contributing to OWLchain).
+OWL Community is able to hire developers for part time or full time positions, to work on OWLchain protocol. If you are interested, check out the [job listings](http://owl.community/contact). If you'd like to help in other ways, please contact to mc@owl.community
 
 ## License
 
