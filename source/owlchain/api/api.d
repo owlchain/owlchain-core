@@ -42,12 +42,13 @@ interface IBlock {
     ITransaction[] getTransactions();
 }
 
+enum BlockchainState {
+    BS_Ready = 0,
+    BS_Syncing,
+    BS_Offline
+}
+
 interface IBlockchain {
-	enum BlockchainState {
-        BS_Ready = 0,
-        BS_Syncing,
-        BS_Offline
-    }
     int getLastBlockIndex();
 	int getLastBlockHeight();
 	IBlock getLastBlock();
@@ -84,8 +85,18 @@ interface IAddress {
     string toString();
 }
 
-interface IOCCPRequest {
+enum OCCPMethod {
+    OM_ReceiveBos = 0,
+    OM_ReceiveVote,
+    OM_ReceiveProposal,
+    OM_BlockchainReady,
+    OM_BlockchainSync,
+    OM_BlockchainOffline
+}
 
+interface IOCCPRequest {
+    OCCPMethod getMethod();
+    void setMethod(OCCPMethod method);
 }
 
 interface IOCCPResponse {
@@ -93,9 +104,11 @@ interface IOCCPResponse {
 }
 
 interface IOCCPListener {
-    Task getTask();
+    Task getReqTask();
+    void setReqTask(Task task);
+    Task getResTask();
+    void setResTask(Task task);
     IOCCPSettings getSettings();
-    void setTask(Task task);
     void setSettings(IOCCPSettings settings);
 }
 

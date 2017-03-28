@@ -4,11 +4,20 @@ import owlchain.api.api;
 import owlchain.transaction.blockchain;
 import owlchain.wallet.wallet;
 import vibe.core.core;
+import vibe.core.log;
+import vibe.core.concurrency : receive;
 import core.time;
 import std.functional;
 
 class OCCPRequest : IOCCPRequest {
+    OCCPMethod _method;
 
+    OCCPMethod getMethod() {
+        return _method;
+    }
+    void setMethod(OCCPMethod method) {
+      _method = method;
+    }
 }
 
 class OCCPResponse : IOCCPResponse {
@@ -16,18 +25,26 @@ class OCCPResponse : IOCCPResponse {
 }
 
 class OCCPListener : IOCCPListener {
-    Task _task;
+    Task _reqTask;
+    Task _resTask;
     IOCCPSettings _settings;
-
-    Task getTask() {
-        return _task;
+    
+    Task getReqTask() {
+        return _reqTask;
     }
+    void setReqTask(Task task) {
+        _reqTask = task;
+    }
+    Task getResTask() {
+        return _resTask;
+    }
+    void setResTask(Task task) {
+        _resTask = task;
+    } 
     IOCCPSettings getSettings() {
         return _settings;
     }
-    void setTask(Task task) {
-        _task = task;
-    }
+    
     void setSettings(IOCCPSettings settings) {
         _settings = settings;
     }
@@ -56,19 +73,34 @@ class Shell : IShell {
 
     IOCCPListener listenOCCP(IOCCPSettings settings, OCCPRequestDeligate requestHandler) {
         auto req = new OCCPRequest; 
+        req.setMethod(OCCPMethod.OM_ReceiveBos);
+
         auto res = new OCCPResponse;
         
-        auto task = runTask({
-            while(1){
+        auto reqTask = runTask({
+            while(true){
                 requestHandler(req,res);
                 sleep(1.seconds);
                 yield();
             }
         });
+        auto resTask = runTask({
+            while(true){
+                receive(
+                    (string msg) {
+                        logInfo("listenOCCP resTask: %s", msg);
+                    },
+                    (string msg, ulong time) {
+                        logInfo("listenOCCP Time: %d msg: %s", time, msg);
+                    }
+                );
+            }
+        });
 
         auto listener = new OCCPListener;
         listener.setSettings(settings);
-        listener.setTask(task);
+        listener.setReqTask(reqTask);
+        listener.setResTask(resTask);
 
         return listener;
     }

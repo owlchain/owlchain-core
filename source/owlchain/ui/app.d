@@ -292,12 +292,18 @@ shared static this()
 
     auto shell = new Shell;
     auto occpSettings = new OCCPSettings;
-    auto listener = shell.listenOCCP(occpSettings, (IOCCPRequest req, IOCCPResponse res) {
-        logInfo("Callback Event Call");        
+    listener = shell.listenOCCP(occpSettings, (IOCCPRequest req, IOCCPResponse res)
+    {
+        logInfo("Callback Event Call");
+        foreach(socket; sockets)
+        {
+            socket.send("{\"msgType\": \"receiveBOS\"}");
+        }
     });
     logInfo("listenOCCP");
 }
 
+private IOCCPListener listener;
 private WebSocket[] sockets;
 
 void handleWebSocketConnection(scope WebSocket socket)
@@ -309,7 +315,9 @@ void handleWebSocketConnection(scope WebSocket socket)
 	if(name !is null) 
 	{
 		logInfo("%s connected @ %s.", name, socket.request.peer);
-		sendTextToOtherClients(null, "System", name ~ " connected to the chat.");
+        
+        listener.getResTask().send(name, 201703290133UL);
+//		sendTextToOtherClients(null, "System", name ~ " connected to the chat.");
 	}
 	else
 	{
@@ -330,8 +338,11 @@ void handleWebSocketConnection(scope WebSocket socket)
         if (text == "/close") break;
  
         logInfo("Received: \"%s\" from %s.", text, name);
+        
+//        listener.getResTask().send(text);
+        
         // Relay text to everyone else
-        sendTextToOtherClients(socket, name, text);
+ //       sendTextToOtherClients(socket, name, text);
     }
  
     // Remove socket from sockets list and close socket
@@ -339,7 +350,7 @@ void handleWebSocketConnection(scope WebSocket socket)
     sockets.removeFromArray!WebSocket(socket);
     logInfo("%s disconnected.", name);
  
-    sendTextToOtherClients(null, "System", name ~ " disconnected to the chat.");
+//    sendTextToOtherClients(null, "System", name ~ " disconnected to the chat.");
 }
 
 void sendTextToOtherClients(scope WebSocket src_socket, string name, string text)
