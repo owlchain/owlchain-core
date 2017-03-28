@@ -5,3 +5,7 @@ license
 license.o
 owlchain-core
 .DS_Store
+
+*.swp
+
+*.snippets
