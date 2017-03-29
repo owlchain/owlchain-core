@@ -9,3 +9,5 @@ owlchain-core
 *.swp
 
 *.snippets
+
+dependencies/vibe-sdlang/libvibe-sdlang.a

@@ -18,7 +18,7 @@
 	"description": "SDLang serialization support for vibe.d",
 	"dependencies": {
 		"vibe-d:data": ">=0.7.30-alpha.5 <0.8.0",
-		"sdlang-d": "~>0.9.5"
+		"sdlang-d": "~>0.10.1"
 	},
 	"sourcePaths": [
 		"source/"
