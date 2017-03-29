@@ -82,7 +82,6 @@ interface IAccount {
 
 interface IAddress {
     bool isValid();
-    string toString();
 }
 
 enum OCCPMethod {
