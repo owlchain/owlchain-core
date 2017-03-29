@@ -2,67 +2,147 @@ module owlchain.crypto.pubkey;
 
 import std.digest.sha;
 import std.digest.ripemd;
-//import botan;
 
-/*
-   code_string = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
-   x = convert_bytes_to_big_integer(hash_result)
-   
-   output_string = ""
-   
-   while(x > 0) 
-       {
-           (x, remainder) = divide(x, 58)
-           output_string.append(code_string[remainder])
-       }
-   
-   repeat(number_of_leading_zero_bytes_in_hash)
-       {
-       output_string.append(code_string[0]);
-       }
-   
-   output_string.reverse();
-*/
-/**
-class Base58{
+import deimos.sodium;
 
-	static string EncodeMap = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";;
+import owlchain.api.api: IAddress;
 
-	static ubyte[] encode(scope ubyte[] data) pure {
-		auto buf = data.dup;
+/++
+// account address space & serialization
 
-		foreach(ch, idx; data){
-			buf[idx] = EncodeMap[ch % EncodeMap.length];
-		}
+Bitcoin Address - https://en.bitcoin.it/wiki/Address
+    base58 - https://en.bitcoin.it/wiki/Base58Check_encoding
+        Pay-to-script-hash (p2sh): payload is: RIPEMD160(SHA256(redeemScript)) where redeemScript is a script the wallet knows how to spend; version 0x05 (these addresses begin with the digit '3')
+        Pay-to-pubkey-hash (p2pkh): payload is RIPEMD160(SHA256(ECDSA_publicKey)) where ECDSA_publicKey is a public key the wallet knows the private key for; version 0x00 (these addresses begin with the digit '1')
+        RIPEMD160 - https://en.bitcoin.it/wiki/RIPEMD-160
 
-		return buf;
-	}
+    Common P2PKH which begin with the number 1, eg: 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2.
+                                                    1234567890123456789012345678901234
+    Newer P2SH type starting with the number 3, eg: 3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy.
 
-	static ubyte[] decode(scope ubyte[] encoded) pure {
-		auto buf = encoded.dup;
+NXT Address - https://nxtwiki.org/wiki/RS_Address_Format
+    1.Reed–Solomon error correction - https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction
 
-		foreach(ch, idx; encoded){
-			buf[idx] = EncodeMap[ch % EncodeMap.length];
-		}
-		return buf;
-	}
+    NXT-3DH5-DSAE-4WQ7-3LPSE
+    NXT-K4G2-FF32-WLL3-QBGEL
+    
+    BOS-K4G2F-F32WL-L3QBGEL
+
+crypto lib:
+    - botan: https://github.com/etcimon/botan
+    - libsodium https://code.dlang.org/packages/sodium
+    - openssl https://github.com/s-ludwig/openssl
++/
+
+
+class Address : IAddress {
+    bool isValid()
+    {
+        return true;    
+    }
 }
 
+unittest {
+    import core.stdc.stdlib : EXIT_SUCCESS, EXIT_FAILURE;
+    import std.stdio : writefln, writeln;
 
-immutable BITCOIN_BASE58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-immutable RIPPLE_BASE58 = "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz";
-immutable FLICKR_BASE58 = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
-immutable OWL_BASE58 = BITCOIN_BASE58;
+	int demo()
+	{
 
-//alias Base58 = Base58Impl!(ubyte[]);
+		writefln("DEIMOS ---------");
 
-ubyte[] bitcoinAddress(scope ubyte[] ver, scope ubyte[] hash) {
-    auto payload = ver ~ hash;
-    auto checksum = sha2560f(sha256(payload));
-    auto bytes = hash ~ checksum[0..4];
-    return Base58.encode(bytes);
+
+		// Manual sodium, chapter "Usage":
+		//synchronized { // if sodium_init could be executed by multiple threads simultaneously; not necessary since version 1.0.11
+		if (sodium_init == -1) {
+			return EXIT_FAILURE;
+		}
+		//}
+		//sodium_init; // An error, if warnings are enabled! The compiler (DMD since 2.066.0) warns about unused/discarded function return value and bails out
+
+		// Manual sodium, chapter "Generating random data":
+		ubyte[8] buf;
+		if (buf.length <= 256) // limit, that linux guarantees by default, using getrandom(); figure can be higher with added True Random Number Generator
+			randombytes_buf(buf.ptr, buf.length);
+		writefln("Unpredictable sequence of %s bytes: %s", buf.length, buf);
+
+
+		// Secret-key authentication example
+		auto MESSAGE = cast(immutable(ubyte)[4]) "test";
+
+		if (crypto_aead_aes256gcm_is_available) {
+			writeln("crypto_aead_aes256gcm_is_available");
+			auto ADDITIONAL_DATA = cast(immutable(ubyte)[6]) "123456";
+			ubyte[crypto_aead_aes256gcm_NPUBBYTES] nonce;
+			ubyte[crypto_aead_aes256gcm_KEYBYTES]  key;
+			ubyte[MESSAGE.length + crypto_aead_aes256gcm_ABYTES] ciphertext;
+			ulong ciphertext_len;
+
+			randombytes_buf(key.ptr, key.length);
+			randombytes_buf(nonce.ptr, nonce.length);
+
+			crypto_aead_aes256gcm_encrypt(ciphertext.ptr, &ciphertext_len,
+									MESSAGE.ptr, MESSAGE.length,
+									ADDITIONAL_DATA.ptr, ADDITIONAL_DATA.length,
+									null, nonce.ptr, key.ptr);
+
+			writeln("ciphertext: ", ciphertext);
+			ubyte[MESSAGE.length] decrypted;
+			ulong decrypted_len;
+			if (ciphertext_len < crypto_aead_aes256gcm_ABYTES ||
+				crypto_aead_aes256gcm_decrypt(decrypted.ptr, &decrypted_len,
+										null,
+										ciphertext.ptr, ciphertext_len,
+										ADDITIONAL_DATA.ptr,
+										ADDITIONAL_DATA.length,
+										nonce.ptr, key.ptr) != 0) {
+				writeln("The message has been forged!");
+			}
+		}
+		else {
+			writeln("NOT crypto_aead_aes256gcm_is_available");
+			ubyte[crypto_auth_KEYBYTES] key;
+			ubyte[crypto_auth_BYTES]    mac;
+
+			randombytes_buf(key.ptr, key.length);
+			crypto_auth(mac.ptr, MESSAGE.ptr, MESSAGE.length, key.ptr);
+
+			if (crypto_auth_verify(mac.ptr, MESSAGE.ptr, MESSAGE.length, key.ptr) != 0)
+				writeln("The message has been forged!");
+		}
+
+		return EXIT_SUCCESS;
+	}
+
+    assert(demo() == EXIT_SUCCESS);
+
 }
+unittest {
 
-*/
+	import vibe.data.sdl : serializeSDLang;
+	import sdlang.ast : Tag;
+	import std.stdio : writeln;
+	
+	writeln("test ==== vibe.data.sdl");
 
+	struct Ticket {
+		int id;
+		string title;
+		string[] tags;
+	}
 
+	bool serialized()
+	{
+		Ticket[] tickets = [
+			Ticket(0, "foo", ["defect", "critical"]),
+			Ticket(1, "bar", ["enhancement"])
+		];
+
+		Tag sdl = serializeSDLang(tickets);
+		writeln(sdl.toSDLDocument());
+
+		return true;
+	}
+
+	assert( serialized() == true);
+}
