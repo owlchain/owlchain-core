@@ -6,11 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../css/common.css" rel="stylesheet">
     <link href="../css/trust.css" rel="stylesheet">
-
     <script src="../js/jquery.js"></script>
-
-
-
+    <script src="../js/trust.js"></script>
+    <!--Plugin-->
     <link rel="stylesheet" href="./lib/codemirror.css">
     <link rel="stylesheet" href="./addon/fold/foldgutter.css">
     <link rel="stylesheet" href="./addon/dialog/dialog.css">
@@ -31,66 +29,117 @@
 
 <body>
     <article class="wrap">
+        <header>
+            <span>HOME</span>
+            <select name="" id="">
+                    <option value="main">메인페이지</option>
+                    <option value="s1">컨트랙트 작성</option>
+                    <option value="s2">컨트랙트 확인</option>
+                    <option value="s3">컨트랙트 생성</option>
+                    <option value="s4">컨트랙트 리스트</option>
+                    <option value="s5">컨트랙트 예제</option>
+                    <option value="s6">User Friendly Code</option>
+                    <option value="s7">User Friendly View</option>
+                </select>
+        </header>
         <!--Main-->
-        <section class="main bg_b on">
+        <section class="main on">
             <article class="content">
-                <p>
+                <h1>TRUST CONTRACT</h1>
+                <p class="desc">
                     BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
                 </p>
-                <p class="content">
-                    syntax highlighting textarea
-                </p>
+                <div class="btn-wrap">
+                    <dl>
+                        <dt>Trust Contract Create</dt>
+                        <dd><a href="#">CREATE</a></dd>
+                    </dl>
+                    <dl>
+                        <dt>Trust Contract Search</dt>
+                        <dt>address : <input type="text"></dt>
+                        <dd><a href="#">SEARCH</a></dd>
+                    </dl>
+                </div>
             </article>
-            <pre class="line-numbers language-javascript">
-    <code class="language-javascript" id="editor-code"></code>
-    <textarea id="editor-content"></textarea>
-</pre>
+        </section>
+        <section class="s1">
+            <h1>title: Real Estate Contract</h1>
+            <div class="owl editor"></div>
+            <script>
+                var editor = CodeMirror(document.body.getElementsByClassName("owl")[0], {
+                    lineNumbers: true,
+                    mode: "javascript",
+                    keyMap: "sublime",
+                    autoCloseBrackets: true,
+                    matchBrackets: true,
+                    showCursorWhenSelecting: true,
+                    theme: "monokai",
+                    tabSize: 4
+                });
+            </script>
+            <div class="tal editor"></div>
+            <script>
+                var editor = CodeMirror(document.body.getElementsByClassName("tal")[0], {
+                    lineNumbers: true,
+                    mode: "javascript",
+                    keyMap: "sublime",
+                    autoCloseBrackets: true,
+                    matchBrackets: true,
+                    showCursorWhenSelecting: true,
+                    theme: "monokai",
+                    tabSize: 4
+                });
+            </script>
+        </section>
+        <section class="s2">
+            <p class="desc">Transaction fee
+                Assumption amount : 12 BOS
+                (Contribute to Common budget : 1.2 BOS)
+                Total : 13.2 BOS
+            </p>
+            <a href="#">CONFIRM</a>
+        </section>
+        <section class="s3">
+            <p class="desc">
+                BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
+            </p>
+            <p>setTime 시간추 두고 애니메이션</p>
+        </section>
+        <section class="s4">
+            테이블
+        </section>
+        <section class="s5">
+            <ul>
+                <li>1. Rental(Real Estate)</li>
+                <li>2. Voting</li>
+                <li>3. CrowdSourcing</li>
+                <li> 4. Alt Coin</li>
+            </ul>
+        </section>
+        <section class="s6">
+            <div class="editor-wrap editor"></div>
+            <script>
+                var editor = CodeMirror(document.body.getElementsByClassName("editor-wrap")[0], {
+                    lineNumbers: true,
+                    mode: "javascript",
+                    keyMap: "sublime",
+                    autoCloseBrackets: true,
+                    matchBrackets: true,
+                    showCursorWhenSelecting: true,
+                    theme: "monokai",
+                    tabSize: 4
+                });
+
+            </script>
+        </section>
+        <section class="s7">
+            부동산 월세 임대차
         </section>
         <!--//Main-->
     </article>
-    <style type="text/css">
-        .CodeMirror {
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-            line-height: 1.3;
-            height: 500px
-        }
-        
-        .CodeMirror-linenumbers {
-            padding: 0 8px;
-        }
-
-    </style>
-
-
     <article>
 
-        <script>
-            var value = "// The bindings defined specifically in the Sublime Text mode\nvar bindings = {\n";
-            var map = CodeMirror.keyMap.sublime;
-            for (var key in map) {
-                var val = map[key];
-                if (key != "fallthrough" && val != "..." && (!/find/.test(val) || /findUnder/.test(val)))
-                    value += "  \"" + key + "\": \"" + val + "\",\n";
-            }
-            value += "}\n\n// The implementation of joinLines\n";
-            value += CodeMirror.commands.joinLines.toString().replace(/^function\s*\(/, "function joinLines(").replace(/\n  /g, "\n") + "\n";
-            var editor = CodeMirror(document.body.getElementsByTagName("article")[0], {
-                value: value,
-                lineNumbers: true,
-                mode: "javascript",
-                keyMap: "sublime",
-                autoCloseBrackets: true,
-                matchBrackets: true,
-                showCursorWhenSelecting: true,
-                theme: "monokai",
-                tabSize: 2
-            });
-
-        </script>
-
     </article>
-
     <footer>
         <div class="content">
             <a class="logo" href="#"><img src="../images/footer_logo.png"></a>
