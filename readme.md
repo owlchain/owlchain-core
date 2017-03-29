@@ -1,37 +1,91 @@
-# Owlchain (BOScoin)
+# OWLchain - Protocol for Trust and Interconnected Knowledge
 
 [![Build Status](https://travis-ci.org/owlchain/owlchain-core.svg?branch=PoC0)](https://travis-ci.org/owlchain/owlchain-core)
+[![owlchain](https://img.shields.io/badge/irc-%23owlchain-brightgreen.svg)](https://webchat.freenode.net/?channels=owlchain)
 
-Owlchain is a blockchain for trust contracts. owlchain aims to use the Web Ontology Language(OWL) and Timed Automata Language(TAL) to expand expressive power while retaining decidability to support secure and precise execution of contracts. These OWL based contracts on the owlchain are referred to as Trust Contracts. For more details, please refer to our [technical paper](https://docs.google.com/document/d/16Wm13pSvjb_izCB8QImMgHnt8VOlt0d5YSsPV6NDtaI/edit?usp=sharing)
+## Table of Contents
+
+  - [Overview](#overview)
+    - [Quick Summary](#quick-summary)
+    - [Specs](https://github.com/owlchain/specs)
+    - [Dependency](#dependency)
+    - [Installation](#installation)
+  - [How OWLchain Works](#how-owlchain-works)
+    - [OWLchain papers](#owlchain-papers)
+    - [OWLchain Talks](#owlchain-talks)
+  - [Project and Community](#project-and-community)
+    - [Milestones](#milestones)
+    - [Communication Channels](#communication-channels)
+    - [Hiring](#hiring)
+  - [License](#license)
+
+## Overview
+
+### Quick Summary
+
+OWLchain is a blockchain for trust contracts. OWLchain aims to use the Web Ontology Language(OWL) and Timed Automata Language(TAL) to expand expressive power while retaining decidability to support secure and precise execution of Smart Contracts. 
 
 ![TrustContract](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/TrustContract.png?raw=true)
 
-### Owlchain-core architecture & source directory
+### Specs
 
-![architecture](https://github.com/owlchain/owlchain-core/blob/PoC0/docs/images/owlchain.png?raw=true)
+The structure of OWLchain protocol looks briefly as follows : 
++ owlchain
+  + consensus   - owlchain blockchain consensus protocol
+  + p2p         - p2p network communication
+  + reasoner    - Inference Engine for OWL 2.0 profile 
+  + store       - data store using SQL and MessagePack
+  + api         - rest api
+  + transaction - transaction of vote, proposal and remittance
+  + ui          - web application User interface for Owlchain
+  + appmain.d   - boot up module 
 
-owlchain-core
-  + docs          - documentation of owlchain-core
-  + source        - source directory
-      + owlchain
-        + consensus   - owlchain blockchain consensus protocol
-        + p2p         - p2p network communication
-        + reasoner    - Inference Engine for OWL 2.0 profile 
-        + store       - data store using SQL and MessagePack
-        + api         - rest api
-        + transaction - transaction of vote, proposal and remittance
-        + ui          - web application User interface for Owlchain
-        + appmain.d   - boot up module 
-  + dub.sdl       - project build file
-  + readme.md     - this file
+To learn more about the specs of OWLchain's parts, please refer to the [Specs](https://github.com/owlchain/specs) repository.
 
-### Prerequisite
-Owlchain use [d programming language](http://dlang.org/) and [dub](https://code.dlang.org/) build toolkit.
+### Dependency
 
-### Build and run
+Owlchain Protocol currently uses [d programming language](http://dlang.org/) and [dub](https://code.dlang.org/) build toolkit.
 
+### Installation
+
+To build and run OWLchain, please proceed as follows:
 ```
 $ git clone https://github.com/owlchain/owlchain-core
 $ cd owlchain-core
 $ dub -v
 ```
+
+## How OWLchain Works
+
+To learn more about how OWLchain works take a look at the [Papers](#owlchain-papers) or [Talks](#owlchain-talks). You can also explore the [Specs](https://github.com/owlchain/specs) in writing.
+
+### OWLchain Papers
+
+- [OWLchain Technical Whitepaper(Comments are always welcomed!)](https://docs.google.com/document/d/19gfV6d1n3Ut0r72dDstplrbXhEpitXxhTlm-SQ3wcRY/edit?usp=sharing)
+- [Repository for Related papers](https://github.com/owlchain/papers)
+
+### OWLchain talks
+
+- 2017-03-16 [@Blockchain Meetup Berlin](https://www.youtube.com/watch?v=PcQw1_yjQVc)
+
+## Project and Community
+
+The OWLchain is a open source project in need of contributions from technophiles with various backgrounds. You are invited and appriciated to join it! Create issues, contribute codes, translating documents, every single contribution will be appricated and respected here. 
+
+### Milestones
+
+Wondering on where to start? Check out our [waffle](https://waffle.io/owlchain) to check the current development status, progress, and milestones.
+
+### Communication Channels
+
+Also here are some links to our communication channels:
+- IRC: [#owlchain on chat.freenode.net](http://webchat.freenode.net/?channels=owlchain) for live help and some dev discussions.
+- Google Group: [dev-owlchain@groups.google.com](https://groups.google.com/forum/#!forum/dev-owlchain/)
+
+### Hiring
+
+OWL Community is able to hire developers for part time or full time positions, to work on OWLchain protocol. If you are interested, check out the [job listings](http://owl.community/contact). If you'd like to help in other ways, please contact to mc@owl.community
+
+## License
+
+GPL-3.0
