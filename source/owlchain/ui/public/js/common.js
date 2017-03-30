@@ -12,6 +12,15 @@ common.js -> module.js 연동처리
         //            beepOne.play();
         //        });
     };
+    $.COM = {};
+    $.COM.init = function () {
+        //$.COM.setup();
+    };
+    $.COM = {
+        setPopup:function(){
+            
+        }
+    }
     var _bind = function () {
         /*Wallet*/
         _wrap = $('article.wrap');
