@@ -16,13 +16,10 @@
 	//	"/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee/:memo"
 
 	$.FUNC = {};
-	$.FUNC.init = function () {
-		$.FUNC.setup();
-	};
 	var _ajax = function (url, callBack) {
-		console.log('%c "url: '+url+'','font-size:14px;color:brown;');
+//		console.log('%c "url: '+url+'','font-size:14px;color:brown;');
 		$.get(url, function (data, status) {
-			console.log(data);
+//			console.log(data);
 			//console.log("Data: " + data + "\nStatus: " + status);
 			callBack.call(this, data);
 		});
@@ -50,6 +47,13 @@
 		sendBos: function (callBack, param) {
 			_ajax(TRAN_SEND_BOS + param, callBack);
 		},
+        /*
+        RECEIVE BOS
+        */
+        receiveBos:function(callBack,param){ 
+            console.log('----');
+            //_ajax(TRAN_SEND_BOS + param, callBack);
+        },
 		end: function () {}
 	};
 	// 나의메뉴 스크립트(개발 ajax 호출 콜백에서 실행)
