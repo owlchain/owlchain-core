@@ -8,15 +8,26 @@ trust.js
     };
     /*trust-contract*/
     var _bind = function () {
+        function setDisplay(cls) {
+            _section.hide();
+            _section.siblings('.' + cls).show()
+        }
         var _menu = $('header select');
         var _artivle
-        var _section=$('article.wrap > section');
-        console.log(_menu);
+        var _section = $('article.wrap > section');
+        var _link = $('a.link');
+
         _menu.bind('change', function (event) {
             console.log($(this).val());
-            var _val=$(this).val();
-            _section.hide();
-            _section.siblings('.'+_val).show();
+            var _val = $(this).val();
+            setDisplay(_val);
+        });
+
+
+        _link.bind('click', function (event) {
+            var _val = $(this).attr('data-val');
+             setDisplay(_val);
+
         });
     }
     /*ADD_ACCOUNT

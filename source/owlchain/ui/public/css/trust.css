@@ -1,21 +1,32 @@
 @charset "utf-8";
 /*=== Trust-Contact =================================================*/
 /*editor*/
-.editor-wrap{width:80%;height: 300px }
+.editor-wrap{width:80%;}
 .CodeMirror { border-top: 1px solid #eee; border-bottom: 1px solid #eee; line-height: 1.3; }
 .CodeMirror-linenumbers { padding: 10px 8px; }
 
 /*common*/
 body{background:#ebecec; }
+body section{margin-bottom:50px;}
 h1{margin-bottom:30px;font-size:30px;}
 /*header*/
-header{margin-bottom:30px;padding:30px 0;border-bottom:1px solid #ff0000;}
-
+header{position:relative;margin-bottom:30px;text-align:center;background:#4c5564; }
+header span{display:inline-block;padding:20px 0;color:#FFF;font-size:20px}
+header #link {position:absolute;top:20px;bottom:0;right:20px; vertical-align:middle;color:#111;font-size:16px;}
 /*main*/
 .btn-wrap{margin:50px 0;}
-.main{margin-bottom: 100px;}
-.main dl{margin-bottom: 20px;}
+
+.main{margin-bottom:100px;}
+.main p {line-height:150%;}
+.main dl{width:100%;margin-bottom:20px;padding:20px 0;border-bottom:1px solid #4c5564;}
 .main dl:after{display:block;clear:both;content:'';}
-.main dl dt{float:left;}
-.main dl dd{float:left;}
-.main dl dd a{padding:10px 20px;background: #47617f;}
+.main dl > * {vertical-align:middle;}
+.main dl dt{float:left;margin-right:20px;font-size:20px;}
+.main dl dt input {padding:5px 10px;}
+.main dl dd{float:right;}
+.main dl dd a{padding:10px 20px;color:#FFF;background: #47617f;}
+
+.s1:after{display:block;content:'';clear:both;}
+.s1 .editor-wrap{float:left;width:80%;}
+.s1 .menu-wrap{float:left;width:20%;}
+.s1 h2{margin:30px 0;}

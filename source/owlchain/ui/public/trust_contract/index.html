@@ -24,14 +24,15 @@
     <script src="./addon/fold/foldcode.js"></script>
     <script src="./addon/fold/brace-fold.js"></script>
     <script src="./mode/javascript/javascript.js"></script>
+    <script src="./mode/xml/xml.js"></script>
     <script src="./keymap/sublime.js"></script>
 </head>
 
 <body>
     <article class="wrap">
         <header>
-            <span>HOME</span>
-            <select name="" id="">
+            <span>TRUST CONTRACT</span>
+            <select name="" id="link"> 
                     <option value="main">메인페이지</option>
                     <option value="s1">컨트랙트 작성</option>
                     <option value="s2">컨트랙트 확인</option>
@@ -45,57 +46,67 @@
         <!--Main-->
         <section class="main on">
             <article class="content">
-                <h1>TRUST CONTRACT</h1>
+                <!-- <h1>TRUST CONTRACT</h1>-->
                 <p class="desc">
                     BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
                 </p>
                 <div class="btn-wrap">
                     <dl>
                         <dt>Trust Contract Create</dt>
-                        <dd><a href="#">CREATE</a></dd>
+                        <dd><a class="link" data-val="s2" href="#">CREATE</a></dd>
                     </dl>
                     <dl>
                         <dt>Trust Contract Search</dt>
                         <dt>address : <input type="text"></dt>
-                        <dd><a href="#">SEARCH</a></dd>
+                        <dd><a class="link" data-val="s5" href="#">SEARCH</a></dd>
                     </dl>
                 </div>
             </article>
         </section>
         <section class="s1">
             <h1>title: Real Estate Contract</h1>
-            <div class="owl editor"></div>
-            <script>
-                var editor = CodeMirror(document.body.getElementsByClassName("owl")[0], {
-                    lineNumbers: true,
-                    mode: "javascript",
-                    keyMap: "sublime",
-                    autoCloseBrackets: true,
-                    matchBrackets: true,
-                    showCursorWhenSelecting: true,
-                    theme: "monokai",
-                    tabSize: 4
-                });
-            </script>
-            <div class="tal editor"></div>
-            <script>
-                var editor = CodeMirror(document.body.getElementsByClassName("tal")[0], {
-                    lineNumbers: true,
-                    mode: "javascript",
-                    keyMap: "sublime",
-                    autoCloseBrackets: true,
-                    matchBrackets: true,
-                    showCursorWhenSelecting: true,
-                    theme: "monokai",
-                    tabSize: 4
-                });
-            </script>
+
+            <div class="editor-wrap">
+               <h2>DATA(OWL)</h2>
+                <div class="owl editor"></div>
+                <script>
+                    var editor = CodeMirror(document.body.getElementsByClassName("owl")[0], {
+                        lineNumbers: true,
+                        mode: "text/html",
+                        autoCloseBrackets: true,
+                        matchBrackets: true,
+                        showCursorWhenSelecting: true,
+                        lineWrapping: true,
+                        theme: "monokai",
+                        tabSize: 4
+                    });
+                </script>
+                <h2>OPERATOR(TAL) </h2>
+                <div class="tal editor"></div>
+                <script>
+                    var editor = CodeMirror(document.body.getElementsByClassName("tal")[0], {
+                        lineNumbers: true,
+                        mode: "text/html",
+                        keyMap: "sublime",
+                        autoCloseBrackets: true,
+                        matchBrackets: true,
+                        showCursorWhenSelecting: true,
+                        theme: "monokai",
+                        tabSize: 4
+                    });
+                </script>
+            </div>
+            <div class="menu-wrap">
+                <ul>
+                    <li><a href="#">Tutorial</a></li>
+                    <li><a class="link" data-val="s6" href="#">Sample Contracts</a></li>
+                    <li><a class="link" data-val="s7" href="#">User Oridented Code</a></li>
+                </ul>
+            </div>
+            <a class="link" data-val="s3" href="#">SUBMIT</a>
         </section>
         <section class="s2">
-            <p class="desc">Transaction fee
-                Assumption amount : 12 BOS
-                (Contribute to Common budget : 1.2 BOS)
-                Total : 13.2 BOS
+            <p class="desc">Transaction fee Assumption amount : 12 BOS (Contribute to Common budget : 1.2 BOS) Total : 13.2 BOS
             </p>
             <a href="#">CONFIRM</a>
         </section>
@@ -109,19 +120,29 @@
             테이블
         </section>
         <section class="s5">
-            <ul>
-                <li>1. Rental(Real Estate)</li>
-                <li>2. Voting</li>
-                <li>3. CrowdSourcing</li>
-                <li> 4. Alt Coin</li>
-            </ul>
+           <dl>
+               <dt><span>1. Rental(Real Estate)</span></dt>
+               <dd>컨텐츠내용1</dd>
+           </dl>
+           <dl>
+               <dt><span>2. Voting</span></dt>
+               <dd>컨텐츠내용2</dd>
+           </dl>
+           <dl>
+               <dt><span>3. CrowdSourcing</span></dt>
+               <dd>컨텐츠내용3</dd>
+           </dl>
+           <dl>
+               <dt><span>4. Alt Coin</span></dt>
+               <dd>컨텐츠내용4</dd>
+           </dl>
         </section>
         <section class="s6">
-            <div class="editor-wrap editor"></div>
+            <div class="code editor"></div>
             <script>
-                var editor = CodeMirror(document.body.getElementsByClassName("editor-wrap")[0], {
+                var editor = CodeMirror(document.body.getElementsByClassName("code")[0], {
                     lineNumbers: true,
-                    mode: "javascript",
+                    mode: "htmlmixed",
                     keyMap: "sublime",
                     autoCloseBrackets: true,
                     matchBrackets: true,
@@ -138,7 +159,6 @@
         <!--//Main-->
     </article>
     <article>
-
     </article>
     <footer>
         <div class="content">
