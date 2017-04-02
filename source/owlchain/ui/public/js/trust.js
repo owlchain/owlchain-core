@@ -8,18 +8,22 @@ trust.js
     };
     /*trust-contract*/
     var _bind = function () {
-        function setDisplay(cls) { 
-            //  console.log('cls: '+cls);
-            _section.hide();
-            _section.siblings('.' + cls).show();
+        function setDisplay(cls) {
+            //  console.log('cls: ' + cls);
+            _section.removeClass('on');
+            _section.siblings('.' + cls).addClass('on');
             _menu.val(cls);
             var _t = _section.siblings('.' + cls);
-            if (cls == "s2") { 
+            if (cls == "s1") {
+                $('.CodeMirror').focus();
+            } else if (cls == "s2") {
                 setTimeout(function () {
                     _t.find('.list').addClass('on');
                 }, 2000);
             } else {
+                
             }
+            //$(window).trigger('resize');
             //$("#selectBox option:eq(2)").attr("selected", "selected");
         }
         var _menu = $('header select');
@@ -41,6 +45,10 @@ trust.js
             var _popup = $('.s1 .popup');
             _popup.addClass('on');
         });
+        $('.toggle dl dt').bind('click', function (event) {
+            $(this).parents('dl').toggleClass('on');
+        });
+
         /*init*/
         var _cls = $('section.on').attr('class').split('on')[0].replace(/\s+/g, '');
         setDisplay(_cls);

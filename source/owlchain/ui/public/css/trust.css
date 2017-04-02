@@ -3,9 +3,13 @@
 /*editor*/
 .editor-wrap{width:80%;}
 .CodeMirror { border-top: 1px solid #eee; border-bottom: 1px solid #eee; line-height: 1.3; }
-.CodeMirror-linenumbers { padding: 10px 8px; }
 
+.CodeMirror-linenumbers { padding: 10px 8px; }
+/*
+.CodeMirror pre{padding-left:40px!important;}
+*/
 /*common*/
+article.wrap > section{}
 body{background:#ebecec; }
 body section{margin-bottom:50px;}
 h1{margin-bottom:30px;font-size:30px;}
@@ -56,12 +60,24 @@ header #link {position:absolute;top:20px;bottom:0;right:20px; vertical-align:mid
 .s2 .list dl:after{clear:both;display:block;content:'';}
 .s2 .list dl dt{float:left; width:200px;padding-right:20px;text-align:right;}
 .s2 .list dl dd{float:left; color:#222;}
-
 /*s3*/
 /*s4*/
+.toggle{padding-top:20px;padding-bottom:20px;}
+.toggle dl{position:relative;margin-bottom:20px;}
+.toggle dl dt{position:relative;max-height:70px;padding:15px 0;color:#FFF;background:#4c5564;cursor:pointer;}
+.toggle dl dt > *{vertical-align:middle;}
+.toggle dl dt:after{position:absolute;top:10px;right:30px;content:url("../images/ico_config.png");opacity:0.5;}
+.toggle dl.on dt{background:#242a42;}
+.toggle dl.on dt:after{opacity:1;}
+.toggle dl dt i{display:inline-block;margin-left:50px;}
+.toggle dl dt span{display:inline-block;padding-left:30px;}
+.toggle dl dd{display:none;background:#FFF;}
+.toggle dl dd .wrap{padding:20px;border-bottom:1px solid #242a42;}
+.toggle dl.on dd{display:block;}
+
 /*s5*/
 /*s6*/
-/*s7*/
+.s6 .content {height:1010px;background:url("../images/paper.png") no-repeat center top;}
 
 table{width:100%;}
 table thead th{padding:10px 20px;color:#FFF;font-weight:nomal;background:#b6b7b8;}
