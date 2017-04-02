@@ -5,9 +5,8 @@
 .CodeMirror { border-top: 1px solid #eee; border-bottom: 1px solid #eee; line-height: 1.3; }
 
 .CodeMirror-linenumbers { padding: 10px 8px; }
-/*
 .CodeMirror pre{padding-left:40px!important;}
-*/
+
 /*common*/
 article.wrap > section{}
 body{background:#ebecec; }

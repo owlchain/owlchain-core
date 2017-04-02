@@ -61,8 +61,8 @@ article{display:block;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 /*body>wrap*/
 article.wrap{position:relative;overflow:hidden;width:100%;}
-article.wrap > section{position:absolute;transform:translateX(3000px);-webkit-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}
-article.wrap > section.on{position:relative;transform: translateX(0);}
+article.wrap > section{display:none;-webkit-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}
+article.wrap > section.on{display:block;transform: translateX(0);}
 /*header*/
 article.wrap header{position:relative;}
 article.wrap header a.close{display:block;position:relative;padding:10px 20px 0;color:#fff;font-size:18px;}
