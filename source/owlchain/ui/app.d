@@ -202,7 +202,7 @@ class BlockchainRESTImpl : IBlockchainREST
 	Json createAccount()
 	{
 		auto c = CreateAccount();
-		c.accountAddress = "accountAddress";
+		c.accountAddress = "test_receiver";
 		c.filePath = exportAccountFile(c.accountAddress);
 
 		auto json = serializeToJson(c);
