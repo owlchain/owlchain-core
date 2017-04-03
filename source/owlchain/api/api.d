@@ -57,8 +57,9 @@ interface IBlockchain {
     bool isReady();
     BlockchainState getState();
     ITransaction[] getTransactions(IAddress address);
-    ITransaction[] getTransactions(IAccount acount);
+    ITransaction[] getTransactions(IAccount account);
 }
+
 
 interface IWallet {
     IAccount getAccount();

@@ -78,11 +78,9 @@ class Shell : IShell {
         auto res = new OCCPResponse;
         
         auto reqTask = runTask({
-            while(true){
-                requestHandler(req,res);
-                sleep(1.seconds);
-                yield();
-            }
+            sleep(10.seconds);
+            requestHandler(req,res);
+            yield();
         });
         auto resTask = runTask({
             while(true){
