@@ -79,7 +79,7 @@ common.js -> module.js 연동처리
             }
         },
         /*
-        */
+         */
         setToggleMenu: function (mode) {
             if (mode == "init") {
                 $.COM._toggle.removeClass('on');
@@ -104,13 +104,16 @@ common.js -> module.js 연동처리
         receiveBos
         websocket.js 에서 받은 return 값
         */
-        receiveBos: function (data) { 
+        receiveBos: function (param) {
             //유효성체크
-            console.log(data);
-            if(data.isTrusted){
-                $.COM.setLayout("account");
-                $.COM.setToggleMenu("receive");
-                //console.log(data)
+            if (param.isTrusted) {
+                var _receiveAddrs = param.data.receiverAccountAddress;
+                var _div = $.COM._dash.find('div.address').filter(function (index) {
+                    return $(this).text() == _receiveAddrs;
+                });
+                //$.COM.setLayout("account");
+                //$.COM.setToggleMenu("receive");
+                $.COM._dash.find('section').find('.receive').after('<span class="notice">2</span>');
             }
         },
         /**/

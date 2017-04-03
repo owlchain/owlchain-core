@@ -37,6 +37,8 @@
 .da nav .ctl {float:right;width:40%;height:100%;}
 .da nav .ctl li{position:relative;float:left;width:28%;height:100%;color:#FFF;text-align:center;}
 .da nav .ctl li:before{position:absolute;left:0;top:0;width:1px;height:100%;background:#ced0d9;  content:'';}
+.da nav .ctl li a{display:block;}
+.da nav .ctl li span.notice{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2px;border-radius:50%;font-size:18px;line-height:24px;background:#FF0000;}
 .da nav .ctl li.freez{width:44%;}
  /*article.info-wrap*/
 .da .info-wrap{display:block;padding-bottom:200px;background:#ebecec;}
