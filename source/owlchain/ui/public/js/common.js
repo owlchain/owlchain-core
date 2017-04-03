@@ -106,8 +106,11 @@ common.js -> module.js 연동처리
         */
         receiveBos: function (data) { 
             //유효성체크
-            if(data.isTrusted){ 
-                console.log(data)
+            console.log(data);
+            if(data.isTrusted){
+                $.COM.setLayout("account");
+                $.COM.setToggleMenu("receive");
+                //console.log(data)
             }
         },
         /**/
