@@ -308,7 +308,14 @@ shared static this()
         logInfo("Callback Event Call");
         foreach(socket; sockets)
         {
-            socket.send("{\"msgType\": \"receiveBOS\"}");
+			auto r = ReceiveBos();
+			r.receiveBos = true;
+			r.receiverAccountAddress = "test_receiver";
+			r.senderAccountAddress = "test_sender";
+			r.amount = 10000;
+			r.confirmCount = 10;
+			auto json = serializeToJson(r);
+            socket.send(json.toString().dup);
         }
     });
     logInfo("listenOCCP");
