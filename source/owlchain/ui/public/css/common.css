@@ -61,8 +61,9 @@ article{display:block;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 /*body>wrap*/
 article.wrap{position:relative;overflow:hidden;width:100%;}
-article.wrap > section{display:none;-webkit-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}
-article.wrap > section.on{display:block;transform: translateX(0);}
+article.wrap > section{height:0; transform:translateX(2000);opacity:0;-webkit-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}
+article.wrap > section:after{clear:both;display:block;content:'';}
+article.wrap > section.on{height:auto;opacity:1;transform: translateX(0);}
 /*header*/
 article.wrap header{position:relative;}
 article.wrap header a.close{display:block;position:relative;padding:10px 20px 0;color:#fff;font-size:18px;}
