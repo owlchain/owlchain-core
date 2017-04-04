@@ -9,9 +9,16 @@ trust.js
     /*trust-contract*/
     var _bind = function () {
         function setDisplay(cls) {
-            //  console.log('cls: ' + cls);
-            _section.removeClass('on');
-            _section.siblings('.' + cls).addClass('on');
+            var _sec = _section.siblings('.' + cls);
+            _section.removeClass('on bounceInLeft bounceInRight animated').each(function (idx) {
+                var _this = $(this);
+                if ($(this).hasClass(cls)) {
+                    _this.addClass('on bounceInRight animated');
+                } else {                   
+                    _this.removeClass('bounceInRight').addClass('bounceInLeft animated');
+                }
+            });;
+
             _menu.val(cls);
             var _t = _section.siblings('.' + cls);
             if (cls == "s1") {
@@ -21,7 +28,6 @@ trust.js
                     _t.find('.list').addClass('on');
                 }, 2000);
             } else {
-                
             }
             //$(window).trigger('resize');
             //$("#selectBox option:eq(2)").attr("selected", "selected");

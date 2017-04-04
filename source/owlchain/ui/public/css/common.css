@@ -60,10 +60,16 @@ article{display:block;}
 .content{max-width:800px;margin-left:auto;margin-right:auto;padding-left:30px;padding-right:30px;box-sizing:border-box;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 /*body>wrap*/
-article.wrap{position:relative;overflow:hidden;width:100%;}
-article.wrap > section{height:0; transform:translateX(2000);opacity:0;-webkit-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}
+article.wrap{position:relative;overflow:hidden;min-height: 600px;}
+article.wrap > section{float:left;display:none;width:100%;}
 article.wrap > section:after{clear:both;display:block;content:'';}
-article.wrap > section.on{height:auto;opacity:1;transform: translateX(0);}
+article.wrap > section.on{float:none;display:block;}
+
+/*article.wrap > section.on{display:block;}*/
+/* 
+article.wrap > section{float:left;width:100%;}
+article.wrap > section.on{float:none;}
+*/
 /*header*/
 article.wrap header{position:relative;}
 article.wrap header a.close{display:block;position:relative;padding:10px 20px 0;color:#fff;font-size:18px;}
