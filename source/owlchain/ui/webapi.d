@@ -52,6 +52,11 @@ struct GetAccountTransaction
 	string memo;
 }
 
+struct CreateSeed
+{
+	string passphrase;
+}
+
 struct Transaction
 {
 	this(string _hash) { hash = _hash; }

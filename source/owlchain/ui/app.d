@@ -45,6 +45,10 @@ interface IBlockchainREST
 	@method(HTTPMethod.GET)
 	@path("/blockchain/AccountOperations/getAccountTransaction/:accountAddress")
 	Json getAccountTransaction(string _accountAddress);	
+
+	@method(HTTPMethod.GET)
+	@path("/blockchain/AccountOperations/createSeed")
+	Json createSeed();	
 }
 
 class BlockchainRESTImpl : IBlockchainREST
@@ -247,6 +251,16 @@ class BlockchainRESTImpl : IBlockchainREST
 
 		return json;
 	}
+
+	Json createSeed()
+	{
+		auto c = CreateSeed();
+		c.passphrase = "Animal Body Class Dragon Elephant Fool Growl Human Icon Jewlry King Loop";
+
+		auto json = serializeToJson(c);
+
+		return json;
+	}
 }
 
 unittest
@@ -262,6 +276,8 @@ unittest
 	logInfo("routes[4] = " ~ routes[4].pattern);
 	logInfo("routes[5] = " ~ routes[5].pattern);
 	logInfo("routes[6] = " ~ routes[6].pattern);	
+	logInfo("routes[7] = " ~ routes[7].pattern);	
+	logInfo("routes[8] = " ~ routes[8].pattern);	
 
 	/*
 	routes[0] = /blockchain/transaction/:idx
@@ -271,16 +287,20 @@ unittest
 	routes[4] = /blockchain/transactions/receiveTransaction/receiveBOS/:acknowlege
 	routes[5] = /blockchain/AccountOperations/createAccount
 	routes[6] = /blockchain/AccountOperations/getAccount/:accountAddress
+	routes[7] = /blockchain/AccountOperations/getAccountTransaction/:accountAddress
+	routes[8] = /blockchain/AccountOperations/createSeed"
 	*/
 
 	
 	assert (routes[0].method == HTTPMethod.GET && routes[0].pattern == "/blockchain/transaction/:idx");
 	assert (routes[1].method == HTTPMethod.GET && routes[1].pattern == "/blockchain/block/:height");
 	assert (routes[2].method == HTTPMethod.GET && routes[2].pattern == "/blockchain/blocks/:height/:length");
-
-	// assert (routes[4].method == HTTPMethod.GET && routes[4].pattern == "/blockchain/AccountOperations/getAccount/:accountAddress");
-	// assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/createAccount");
-	// assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/AccountOperations/getAccountTransaction/:accountAddress");
+	assert (routes[3].method == HTTPMethod.GET && routes[3].pattern == "/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee/:memo");
+	assert (routes[4].method == HTTPMethod.GET && routes[4].pattern == "/blockchain/transactions/receiveTransaction/receiveBOS/:acknowlege");
+	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/createAccount");
+	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/AccountOperations/getAccount/:accountAddress");
+	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/getAccountTransaction/:accountAddress");
+	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/AccountOperations/createSeed");
 }
 
 shared static this()
@@ -308,17 +328,24 @@ shared static this()
         logInfo("Callback Event Call");
         foreach(socket; sockets)
         {
-			auto r = ReceiveBos();
-			r.receiveBos = true;
-			r.receiverAccountAddress = "test_receiver";
-			r.senderAccountAddress = "test_sender";
-			r.amount = 10000;
-			r.confirmCount = 10;
+			auto r = receiveBos();
 			auto json = serializeToJson(r);
             socket.send(json.toString().dup);
         }
     });
     logInfo("listenOCCP");
+}
+
+ReceiveBos receiveBos()
+{
+	auto r = ReceiveBos();
+	r.receiveBos = true;
+	r.receiverAccountAddress = "test_receiver";
+	r.senderAccountAddress = "test_sender";
+	r.amount = 10000;
+	r.confirmCount = 10;
+
+	return r;
 }
 
 private IOCCPListener listener;
