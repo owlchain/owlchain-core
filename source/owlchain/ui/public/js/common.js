@@ -11,6 +11,8 @@ common.js -> module.js 연동처리
         //            beepOne.pause();
         //            beepOne.play();
         //        });
+
+
     };
     $.COM = {};
     $.COM = {
@@ -24,6 +26,7 @@ common.js -> module.js 연동처리
             $.COM._walletAddBtn = $('nav .wallet ');
             $.COM._popup = $('article.popup');
             $.COM._toggle = $.COM._account.find('.toggle dl');
+            $.COM._receiveBos = '';
             /*Account*/
             $.COM._accountAddress = '';
             $.COM.setLayout("dash");
@@ -105,16 +108,33 @@ common.js -> module.js 연동처리
         websocket.js 에서 받은 return 값
         */
         receiveBos: function (param) {
-            //유효성체크
-            if (param.isTrusted) {
-                var _receiveAddrs = param.data.receiverAccountAddress;
+            if (param.isTrusted) { //유효성체크
+                //{TEXT} 형태로 받은것을 REG 및 object로 치환
+                var _re = /[{"}]/gi,
+                    _data = {};
+                var _ary = param.data.replace(_re, '').split(',');
+                for (var i = 0; i < _ary.length; i++) {
+                    var filter = _ary[i].replace(_re, '').split(":");
+                    _data[filter[0]] = filter[1];
+                };
+                $.COM._receiveBos = _data;
+                var _receiveAddrs = _data.receiverAccountAddress;
                 var _div = $.COM._dash.find('div.address').filter(function (index) {
                     return $(this).text() == _receiveAddrs;
                 });
+                $.COM.addReceiveBos(_data);
                 //$.COM.setLayout("account");
                 //$.COM.setToggleMenu("receive");
-                $.COM._dash.find('section').find('.receive').after('<span class="notice">2</span>');
+                $.COM._dash.find('section').find('.receive').after('<i class="receive">2</i>');
+                $.COM._account.find('.toggle dl:eq(0) dt span').append('<i class="receive">2</i>');
             }
+        },
+        /*
+        add Receive BOS
+        */
+        addReceiveBos: function (data) {
+            var _ele = '<tr><td><i><img src="./images/ac_ico_receive_arrow.png"></i>Receiving..</td> <td>'+data.amount+'<em>BOS</em></td> <td>Show Detail</td></tr>';
+            $.COM._account.find('dl.receive table tbody').append(_ele);
         },
         /**/
         addCount: function (address) {

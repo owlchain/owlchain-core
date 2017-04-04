@@ -17,7 +17,7 @@
 
 	$.FUNC = {};
 	var _ajax = function (url, callBack) {
-//		console.log('%c "url: '+url+'','font-size:14px;color:brown;');
+		console.log('%c "url: '+url+'','font-size:14px;color:brown;');
 		$.get(url, function (data, status) {
 //			console.log(data);
 			//console.log("Data: " + data + "\nStatus: " + status);

@@ -28,7 +28,7 @@ $(document).ready(function () {
             }
         }
         function message(msg) {
-            console.log(msg);
+            //  console.log(msg);
         }
     }
 });

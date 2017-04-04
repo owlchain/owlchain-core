@@ -138,8 +138,8 @@
             </article>
             <article class="toggle bg_g">
                 <div class="content clfix">
-                    <dl>
-                        <dt><i><img src="./images/ac_ico_receive.png"></i><span>Receive BOS</span></dt>
+                    <dl class="receive">
+                        <dt><i class="icon"><img src="./images/ac_ico_receive.png"></i><span>Receive BOS</span></dt>
                         <dd>
                             <table>
                                 <colgroup>
@@ -148,22 +148,19 @@
                                     <col width="30%">
                                 </colgroup>
                                 <tbody>
+<!--loop
                                     <tr>
                                         <td><i><img src="./images/ac_ico_receive_arrow.png"></i>Receiving..</td>
                                         <td>1.0000<em>BOS</em></td>
                                         <td>Show Detail</td>
                                     </tr>
-                                    <tr>
-                                        <td><i><img src="./images/ac_ico_receive_arrow.png"></i>Receiving..</td>
-                                        <td>1.0000<em>BOS</em></td>
-                                        <td>Show Detail</td>
-                                    </tr>
+-->
                                 </tbody>
                             </table>
                         </dd>
                     </dl>
                     <dl>
-                        <dt><i><img src="./images/ac_ico_send.png"></i><span>Send BOS</span></dt>
+                        <dt><i class="icon"><img src="./images/ac_ico_send.png"></i><span>Send BOS</span></dt>
                         <dd>
                             <!--URL/FORM/SUBMIT-->
                             <input type="hidden" name="type" value="A001">
@@ -190,22 +187,24 @@
                         </dd>
                     </dl>
                     <dl class="my-transaction">
-                        <dt><i><img src="./images/ac_ico_transaction.png"></i><span>My Transaction</span></dt>
+                        <dt><i class="icon"><img src="./images/ac_ico_transaction.png"></i><span>My Transaction</span></dt>
                         <dd>
                             <div class="wrap">
                                 <table>
                                     <colgroup>
-                                        <col width="25%">
-                                        <col width="25%">
-                                        <col width="25%">
-                                        <col width="25%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>Transaction</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
                                             <th>Amount</th>
-                                            <th>Fee</th>
-                                            <th>Account</th>
+                                            <th>Fee or Reward</th>
+                                            <th>Address</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -223,7 +222,7 @@
                         </dd>
                     </dl>
                     <dl>
-                        <dt><i><img src="./images/ac_ico_backup.png"></i><span>Wallet Backup</span></dt>
+                        <dt><i class="icon"><img src="./images/ac_ico_backup.png"></i><span>Wallet Backup</span></dt>
                         <dd>
                             <div class="wrap">
                                 TEXT
@@ -258,11 +257,11 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>Block Height Number</th>
-                                <th>Block Confirm Time stamp</th>
-                                <th>Xxxxxxxxx..(블록당 처리된 용량) </th>
-                                <th>Confirmation Reward for Block </th>
-                                <th>Xxxxxxxxx..(현재까지 총 발행량) </th>
+                                <th>Block Height</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Fee</th>
+                                <th>Generator</th>
                             </tr>
                         </thead>
                         <tbody>
