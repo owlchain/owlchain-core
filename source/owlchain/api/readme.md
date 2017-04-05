@@ -2,11 +2,11 @@
 
 ## Table of Contents
 
-  - [User sendTransaction](#user-sendtransaction)
+- [User sendTransaction](#user-sendtransaction)
     - [sendBOS](#type---sendbos)
     - [sendProposal](#type---sendproposal)
     - [sendVote](#sendvote)
-  - [Account Operations](#account-operations)
+- [Account Operations](#account-operations)
     - [createSeed](#createseed)
     - [confirmSeed](#confirmseed)
     - [getAccount](#getaccount)
@@ -14,19 +14,19 @@
     - [getFreezingStatus](#getfreezingstatus)
     - [getAccountTransaction](#getaccounttransaction)
     - [delAccount](#delaccount)
-  - [Account Control Operations](#account-control-operations)
+- [Account Control Operations](#account-control-operations)
     - [setAccountName](#setaccountname)
-  - [Block Operations](#block-operations)
+- [Block Operations](#block-operations)
     - [getBlock](#getblock)
     - [getBlockInforamtion](#getblockinformation)    
-  - [Freezing Operations](#freezing-operations)
+- [Freezing Operations](#freezing-operations)
     - [setFreezing](#setfreezing)
     - [unFreezing](#unfreezing)
-  - [Networking Operations](#networking-operations)
+- [Networking Operations](#networking-operations)
     - [findQuorum](#findquorum)
     - [joinQuorum](#joinquorum)
     - [releaseQuorum](#releasequorum)       
-  - [Proposal Operations](#proposal-operations)
+- [Proposal Operations](#proposal-operations)
   - [Trust Contract Operations](#trust-contract-operations)
   - [Voting Operations](#voting-operations)
 
@@ -124,13 +124,13 @@
 > #### Response parameter :
 ```
  { "account address" : "BOS-XXXXX-XXXXX-XXXXXXX",
-   "account balance" : udouble,
-   "available balance" : udouble,
-   "pending balance" : udouble, 
+   "account balance" : double,
+   "available balance" : double,
+   "pending balance" : double, 
    "freezing status" : bool,
-   "freezing amount" : udouble,
+   "freezing amount" : double,
    "freezing start time" : uint,
-   "freezing interests" : udouble}
+   "freezing interests" : double}
 ```
 
 - ### getBalance
@@ -144,9 +144,9 @@
 > #### Response parameter :
 ```
  { "account address" : "BOS-XXXXX-XXXXX-XXXXXXX",
-   "account balance" : udouble,
-   "available balance" : udouble,
-   "pending balance" : udouble}
+   "account balance" : double,
+   "available balance" : double,
+   "pending balance" : double}
 ```
 
 - ### getFreezingStatus
@@ -160,9 +160,9 @@
 > #### Response parameter :
 ```
  { "freezing status" : bool,
-   "freezing amount" : udouble,
+   "freezing amount" : double,
    "freezing start time" : uint,
-   "freezing interests" : udouble}
+   "freezing interests" : double}
 ```
 
 - ### getAccountTransaction
@@ -249,8 +249,8 @@
 ```
  { "block height" : uint,
    "timestamp" : uint,
-   "amount" : udouble,
-   "fee" : udouble,
+   "amount" : double,
+   "fee" : double,
    "generator" : "account address"}
 ```
 
@@ -264,15 +264,15 @@
 ```
  { "account address" : "BOS-XXXXX-XXXXX-XXXXXXX",
    "freezing status" : true,
-   "freezing amount" : udouble}
+   "freezing amount" : double}
 ```
 > #### Response parameter :
 ```
  { "account address" : BOS-XXXXX-XXXXX-XXXXXXX",
    "setFreezing" : true, 
-   "freezing amount" : udouble,
-   "account balance" : udouble(total amount - freezing amount),
-   "freezing interests" : udouble,
+   "freezing amount" : double,
+   "account balance" : double(total amount - freezing amount),
+   "freezing interests" : double,
    "freezing start time" : uint } 
 ```
 - ### unFreezing
@@ -283,14 +283,14 @@
 ```
  { "account address" : "BOS-XXXXX-XXXXX-XXXXXXX",
    "freezing status" : false,
-   "freezing amount" : udouble}
+   "freezing amount" : double}
 ```
 > #### Response parameter :
 ```
  { "account address" : BOS-XXXXX-XXXXX-XXXXXXX",
    "setFreezing" : false, 
-   "unfreezing amount" : udouble,
-   "total return amount" : udouble(unfreezing amount + interests),
+   "unfreezing amount" : double,
+   "total return amount" : double(unfreezing amount + interests),
    "freezing stop time" : uint } 
 ```
 
