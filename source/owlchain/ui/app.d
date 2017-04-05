@@ -27,12 +27,8 @@ interface IBlockchainREST
 	Block[] getBlocks(int _height, int _length);
 
 	@method(HTTPMethod.GET)
-	@path("/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee/:memo")
-	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee, string _memo);
-
-	@method(HTTPMethod.GET)
-	@path("/blockchain/transactions/receiveTransaction/receiveBOS/:acknowlege")
-	Json receiveBos(bool _acknowlege);
+	@path("/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee")
+	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee);
 
 	@method(HTTPMethod.GET)
 	@path("/blockchain/AccountOperations/createAccount")
@@ -49,6 +45,19 @@ interface IBlockchainREST
 	@method(HTTPMethod.GET)
 	@path("/blockchain/AccountOperations/createSeed")
 	Json createSeed();	
+
+	@method(HTTPMethod.GET)
+	@path("/blockchain/AccountOperations/confirmSeed/:passphrase")
+	Json confirmSeed(string _passphrase);	
+
+	@method(HTTPMethod.GET)
+	@path("/blockchain/AccountOperations/getBlockInformation")
+	Json getBlockInformation();	
+
+	@method(HTTPMethod.GET)
+	@path("/blockchain/FreezingOperations/setFreezing")
+	Json setFreezing();	
+
 }
 
 class BlockchainRESTImpl : IBlockchainREST
@@ -75,7 +84,6 @@ class BlockchainRESTImpl : IBlockchainREST
 		logInfo("receiverAccAddress:" ~ tx.receiverAccAddress);
 		logInfo("amount:" ~ to!string(tx.amount));
 		logInfo("fee:" ~ to!string(tx.fee));
-		logInfo("memo:" ~ tx.memo);
 	}
 
 	override:
@@ -91,14 +99,14 @@ class BlockchainRESTImpl : IBlockchainREST
 
 		if (_height == 1)
 		{
-			b.timestamp = "17:02:28";
+			b.timestamp = 170228;
 			b.capacity = 1000;
 			b.confirmReward = 100;
 			b.totalIssueVol = 10000;
 		}
 		else if (_height == 2)
 		{
-			b.timestamp = "17:02:29";
+			b.timestamp = 170229;
 			b.capacity = 2000;
 			b.confirmReward = 200;
 			b.totalIssueVol = 20000;	
@@ -118,7 +126,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		for(int i = 0; i < _length; i++)
 		{
 			auto b = getBlock(_lastHeight-i);
-			if(b.timestamp != "")
+			if(b.timestamp != 0)
 			{
 				bs ~= b;	
 			}
@@ -126,7 +134,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		return bs;
 	}
 
-	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee, string _memo)
+	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee)
 	{
 		Json json;
 
@@ -139,15 +147,6 @@ class BlockchainRESTImpl : IBlockchainREST
 			
 			json = serializeToJson(e);
 		}
-		else if (_memo.length > 20)
-		{
-			auto e = ErrorState();
-			
-			e.errCode = "02";
-			e.errMessage = "The length of the memo should not exceed 20 characters.";
-			
-			json = serializeToJson(e);
-		}
 
 		else if (_type == "sendBOS")
 		{
@@ -157,7 +156,6 @@ class BlockchainRESTImpl : IBlockchainREST
 			t.receiverAccAddress = _receiver;
 			t.amount = _amount;
 			t.fee = _fee;
-			t.memo = _memo;
 			
 			printTxInfo(t);
 
@@ -176,31 +174,6 @@ class BlockchainRESTImpl : IBlockchainREST
 		}
 
 		return json;
-	}
-
-	Json receiveBos(bool _acknowlege)
-	{
-		if (_acknowlege != true)
-		{
-			logInfo("ReceiveBOS: Acknowlege is not true.");
-			
-			Json json;
-			
-			return json;
-		}
-		else
-		{
-			auto r = ReceiveBos();
-			r.receiveBos = true;
-			r.receiverAccountAddress = "test_receiver";
-			r.senderAccountAddress = "test_sender";
-			r.amount = 10000;
-			r.confirmCount = 10;
-
-			auto json = serializeToJson(r);
-
-			return json;
-		}
 	}
 
 	Json createAccount()
@@ -238,13 +211,10 @@ class BlockchainRESTImpl : IBlockchainREST
 		foreach(uint i, g; gs)
 		{
 			gs[i].type = "SendBOS";
-			gs[i].freezingReward = i*100;
-			gs[i].confirmReward = i*100;
 			gs[i].timestamp = i;
-			gs[i].accountAddress = _accountAddress;
 			gs[i].amount = i*10000;
-			gs[i].fee = i*10;
-			gs[i].memo = to!string(i)~"_memo";
+			gs[i].feeOrReward = i*10;
+			gs[i].accountAddress = _accountAddress;
 		}
 
 		auto json = serializeToJson(gs);
@@ -261,6 +231,48 @@ class BlockchainRESTImpl : IBlockchainREST
 
 		return json;
 	}
+	
+	Json confirmSeed(string _passphrase)
+	{
+		auto c = ConfirmSeed();
+		c.accountAddress = "BOS-AAAAA-BBBBB-CCCCCCC";
+		c.accountBlance = 0;
+		c.freezingStatus = false;
+
+		auto json = serializeToJson(c);
+
+		return json;
+	}
+
+	Json getBlockInformation()
+	{
+		GetBlockInformation[10] gs;
+
+		foreach(uint i, g; gs)
+		{
+			gs[i].blockHeight = i + 1;
+			gs[i].timeStamp = 10000 + i;
+			gs[i].amount = (i + 1) * 10000;
+			gs[i].fee = 100;
+			gs[i].accountAddress = "BOS-AAAAA-BBBBB-CCCCCCC";
+		}
+
+		auto json = serializeToJson(gs);
+
+		return json;
+	}
+}
+
+ReceiveBos receiveBos()
+{
+	auto r = ReceiveBos();
+	r.receiveBOS = true;
+	r.receiverAccountAddress = "test_receiver";
+	r.senderAccountAddress = "test_sender";
+	r.amount = 10000;
+	r.confirmCount = 10;
+
+	return r;
 }
 
 unittest
@@ -274,33 +286,38 @@ unittest
 	logInfo("routes[2] = " ~ routes[2].pattern);
 	logInfo("routes[3] = " ~ routes[3].pattern);
 	logInfo("routes[4] = " ~ routes[4].pattern);
-	logInfo("routes[5] = " ~ routes[5].pattern);
+	logInfo("routes[5] = " ~ routes[5].pattern);	
 	logInfo("routes[6] = " ~ routes[6].pattern);	
 	logInfo("routes[7] = " ~ routes[7].pattern);	
 	logInfo("routes[8] = " ~ routes[8].pattern);	
+	logInfo("routes[9] = " ~ routes[9].pattern);	
 
 	/*
 	routes[0] = /blockchain/transaction/:idx
 	routes[1] = /blockchain/block/:height
 	routes[2] = /blockchain/blocks/:height/:length
-	routes[3] = /blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee/:memo
-	routes[4] = /blockchain/transactions/receiveTransaction/receiveBOS/:acknowlege
-	routes[5] = /blockchain/AccountOperations/createAccount
-	routes[6] = /blockchain/AccountOperations/getAccount/:accountAddress
-	routes[7] = /blockchain/AccountOperations/getAccountTransaction/:accountAddress
-	routes[8] = /blockchain/AccountOperations/createSeed"
+	routes[3] = /blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee
+	routes[4] = /blockchain/AccountOperations/createAccount
+	routes[5] = /blockchain/AccountOperations/getAccount/:accountAddress
+	routes[6] = /blockchain/AccountOperations/getAccountTransaction/:accountAddress
+	routes[7] = /blockchain/AccountOperations/createSeed"
+	routes[8] = /blockchain/AccountOperations/confirmSeed/:passphrase
+	routes[9] = /blockchain/AccountOperations/getBlockInformation
+	routes[10] = /blockchain/FreezingOperations/setFreezing
 	*/
 
 	
 	assert (routes[0].method == HTTPMethod.GET && routes[0].pattern == "/blockchain/transaction/:idx");
 	assert (routes[1].method == HTTPMethod.GET && routes[1].pattern == "/blockchain/block/:height");
 	assert (routes[2].method == HTTPMethod.GET && routes[2].pattern == "/blockchain/blocks/:height/:length");
-	assert (routes[3].method == HTTPMethod.GET && routes[3].pattern == "/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee/:memo");
-	assert (routes[4].method == HTTPMethod.GET && routes[4].pattern == "/blockchain/transactions/receiveTransaction/receiveBOS/:acknowlege");
-	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/createAccount");
-	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/AccountOperations/getAccount/:accountAddress");
-	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/getAccountTransaction/:accountAddress");
-	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/AccountOperations/createSeed");
+	assert (routes[3].method == HTTPMethod.GET && routes[3].pattern == "/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee");
+	assert (routes[4].method == HTTPMethod.GET && routes[4].pattern == "/blockchain/AccountOperations/createAccount");
+	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/getAccount/:accountAddress");
+	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/AccountOperations/getAccountTransaction/:accountAddress");
+	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createSeed");
+	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/AccountOperations/confirmSeed/:passphrase");
+	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/AccountOperations/getBlockInformation");
+	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/FreezingOperations/setFreezing");
 }
 
 shared static this()
@@ -334,18 +351,6 @@ shared static this()
         }
     });
     logInfo("listenOCCP");
-}
-
-ReceiveBos receiveBos()
-{
-	auto r = ReceiveBos();
-	r.receiveBos = true;
-	r.receiverAccountAddress = "test_receiver";
-	r.senderAccountAddress = "test_sender";
-	r.amount = 10000;
-	r.confirmCount = 10;
-
-	return r;
 }
 
 private IOCCPListener listener;

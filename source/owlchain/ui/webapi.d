@@ -13,7 +13,7 @@ struct SendBos
 
 struct ReceiveBos
 {
-	bool receiveBos;
+	bool receiveBOS;
 	string receiverAccountAddress;
 	string senderAccountAddress;
 	double amount;
@@ -43,18 +43,38 @@ struct GetAccount
 struct GetAccountTransaction
 {
 	string type;
-	double freezingReward;
-	double confirmReward;
 	uint timestamp;
-	string accountAddress;
 	double amount;
-	double fee;
-	string memo;
+	double feeOrReward;
+	string accountAddress;
 }
 
 struct CreateSeed
 {
 	string passphrase;
+}
+
+struct ConfirmSeed
+{
+	string accountAddress;
+	double accountBlance;
+	bool freezingStatus;
+}
+
+struct GetBlockInformation
+{
+	uint blockHeight;
+	uint timeStamp;
+	double amount;
+	double fee;
+	string accountAddress;
+}
+
+struct SetFreezing
+{
+	string accountAddress;
+	bool freezingStatus;
+	double feezingAmount;
 }
 
 struct Transaction
@@ -69,7 +89,6 @@ struct Transaction
 	double fee;
 	string contents;
 	uint confirmCount;
-	string memo;
 
 	//// copy from NXT
 	//private final short deadline;
@@ -189,7 +208,7 @@ struct Block
 {
 	this(int _height) { height = _height; }
 	int height;
-	string timestamp;
+	uint timestamp;
 	int capacity;
 	int confirmReward;
 	int totalIssueVol;
