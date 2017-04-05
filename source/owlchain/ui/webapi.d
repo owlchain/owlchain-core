@@ -73,8 +73,16 @@ struct GetBlockInformation
 struct SetFreezing
 {
 	string accountAddress;
-	bool freezingStatus;
-	double feezingAmount;
+	bool setFreezing;
+	double freezingAmount;
+	double accountBalance;
+	double freezingInterests;
+	ulong freezingStartTime;
+}
+
+struct GetBlockSynchronization
+{
+	uint latestBlockHeight;
 }
 
 struct Transaction
@@ -136,7 +144,7 @@ struct Account
 	double pendingBalance = 0;
 	bool freezingStatus = false;
 	double freezingAmount = 0;
-	uint freezingStartTime = 0;
+	ulong freezingStartTime = 0;
 	double freezingInterests = 0;
 	bool transaction = false;
 

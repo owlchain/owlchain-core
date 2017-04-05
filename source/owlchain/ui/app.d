@@ -54,9 +54,13 @@ interface IBlockchainREST
 	@path("/blockchain/AccountOperations/getBlockInformation")
 	Json getBlockInformation();	
 
-	// @method(HTTPMethod.GET)
-	// @path("/blockchain/FreezingOperations/setFreezing")
-	// Json setFreezing();	
+	@method(HTTPMethod.GET)
+	@path("/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount")
+	Json setFreezing(string _accountAddress, bool _freezingStatus, double _freezingAmount);	
+
+	@method(HTTPMethod.GET)
+	@path("/blockchain/AccountOperations/getBlockSynchronization/:latestBlockHeight")
+	Json getBlockSynchronization(uint _latestBlockHeight);	
 
 }
 
@@ -262,7 +266,41 @@ class BlockchainRESTImpl : IBlockchainREST
 		return json;
 	}
 
-	// Json setFreezing()
+	Json setFreezing(string _accountAddress, bool _freezingStatus, double _freezingAmount)
+	{
+		Json json;
+
+		if (_freezingStatus == true)
+		{
+			if (_freezingAmount < 100000)
+			{
+				auto s = SetFreezing();
+
+				s.accountAddress = _accountAddress;
+				s.setFreezing = true;
+				s.freezingAmount = _freezingAmount;
+				s.accountBalance = 100000 - _freezingAmount;
+				s.freezingInterests = 20;
+				s.freezingStartTime = 201704042028;
+				
+				json = serializeToJson(s);
+
+			}
+		}
+		return json;
+	}
+
+
+	Json getBlockSynchronization(uint _latestBlockHeight)
+	{
+		auto g = GetBlockSynchronization();
+
+		g.latestBlockHeight = 111;
+
+		auto json = serializeToJson(g);
+
+		return json;
+	}
 }
 
 ReceiveBos receiveBos()
@@ -293,6 +331,8 @@ unittest
 	logInfo("routes[7] = " ~ routes[7].pattern);	
 	logInfo("routes[8] = " ~ routes[8].pattern);	
 	logInfo("routes[9] = " ~ routes[9].pattern);	
+	logInfo("routes[10] = " ~ routes[10].pattern);	
+	logInfo("routes[11] = " ~ routes[11].pattern);	
 
 	/*
 	routes[0] = /blockchain/transaction/:idx
@@ -305,7 +345,8 @@ unittest
 	routes[7] = /blockchain/AccountOperations/createSeed"
 	routes[8] = /blockchain/AccountOperations/confirmSeed/:passphrase
 	routes[9] = /blockchain/AccountOperations/getBlockInformation
-	routes[10] = /blockchain/FreezingOperations/setFreezing
+	routes[10] = /blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount
+	routes[11] = /blockchain/AccountOperations/getBlockSynchronization/:latestBlockHeight
 	*/
 
 	
@@ -319,7 +360,8 @@ unittest
 	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createSeed");
 	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/AccountOperations/confirmSeed/:passphrase");
 	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/AccountOperations/getBlockInformation");
-	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/FreezingOperations/setFreezing");
+	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
+	assert (routes[11].method == HTTPMethod.GET && routes[11].pattern == "/blockchain/AccountOperations/getBlockSynchronization/:latestBlockHeight");
 }
 
 shared static this()
