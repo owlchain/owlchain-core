@@ -54,9 +54,9 @@ interface IBlockchainREST
 	@path("/blockchain/AccountOperations/getBlockInformation")
 	Json getBlockInformation();	
 
-	@method(HTTPMethod.GET)
-	@path("/blockchain/FreezingOperations/setFreezing")
-	Json setFreezing();	
+	// @method(HTTPMethod.GET)
+	// @path("/blockchain/FreezingOperations/setFreezing")
+	// Json setFreezing();	
 
 }
 
@@ -261,6 +261,8 @@ class BlockchainRESTImpl : IBlockchainREST
 
 		return json;
 	}
+
+	// Json setFreezing()
 }
 
 ReceiveBos receiveBos()
