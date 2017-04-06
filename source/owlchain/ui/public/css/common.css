@@ -62,7 +62,7 @@ article{display:block;}
 /*body>wrap*/
 
 
-article.wrap{position:relative;overflow:hidden;min-height: 600px;}
+article.wrap{position:relative;overflow:hidden;min-height: 800px;}
 
 article.wrap > section{display:none;position:absolute;top:0;left:0; width:100%;}
 article.wrap > section.on{display:block;  }
