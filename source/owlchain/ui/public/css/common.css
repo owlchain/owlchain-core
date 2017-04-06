@@ -60,13 +60,16 @@ article{display:block;}
 .content{max-width:800px;margin-left:auto;margin-right:auto;padding-left:30px;padding-right:30px;box-sizing:border-box;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 /*body>wrap*/
+
+
 article.wrap{position:relative;overflow:hidden;min-height: 600px;}
-article.wrap > section{display:none;width:100%;}
-/*article.wrap > section:after{clear:both;display:block;content:'';}*/
-article.wrap > section.on{display:block;}
+
+article.wrap > section{display:none;position:absolute;top:0;left:0; width:100%;}
+article.wrap > section.on{display:block;  }
+
 
 /*article.wrap > section.on{display:block;}*/
-/* 
+/*
 article.wrap > section{float:left;width:100%;}
 article.wrap > section.on{float:none;}
 */

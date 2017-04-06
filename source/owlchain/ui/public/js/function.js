@@ -7,16 +7,16 @@ https://github.com/owlchain/owlchain-core/blob/PoC0/source/owlchain/api/readme.m
 	/blockchain/transactions/sendTransaction
 	/blockchain/AccountOperation/getAccountTransaction
 	/blockchain/AccountOperations/getBlockInformation
-    
+
 	/blockchain/FreezingOperations/setFreezing
 	/blockchain/AccountOperations/getBlockSynchronization
-    
+
  */
 (function ($) {
     "use strict";
     /*****CONST*****/
     /*OPERATION*/
-    const OPER_CREATE_SEED = "blockchain/AccountOperations/createSeed";
+    const OPER_CREATE_SEED = "/blockchain/AccountOperations/createSeed";
     const OPER_CONFIRM_SEED = "/blockchain/AccountOperations/confirmSeed/";
     const OPER_CREATE_ACCOUNT = "/blockchain/AccountOperations/createAccount";/*삭제예정*/
     const OPER_GET_ACCOUNT = "/blockchain/AccountOperations/getAccount/";

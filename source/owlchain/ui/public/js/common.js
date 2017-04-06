@@ -15,6 +15,7 @@ common.js -> module.js 연동처리
     $.COM = {};
     $.COM = {
         setup: function() {
+            $.COM._logo = $('header .logo a');
             $.COM._new = $('article.new');
             $.COM._main = $('article.main');
             $.COM._dash = $('section.da');
@@ -35,9 +36,10 @@ common.js -> module.js 연동처리
         */
         login: function() {
             $.FUNC.creatSeed(function(data) {
-
-                var _ary = data.passphrase.split(" ");
-                console.log(_ary);
+                var _word = data.passphrase.split(" ");
+                for (var i in _word) {
+                    //console.log(_word[i]);
+                }
             });
         },
         /*
@@ -100,7 +102,7 @@ common.js -> module.js 연동처리
             if (mode == "close") {
                 $.COM._popup.removeClass('on');
                 $.COM._popup.find('section.layer').hide();
-              } else {
+            } else {
                 $.COM._popup.addClass('on');
                 $(mode).fadeIn('fast');
             }
@@ -171,6 +173,8 @@ common.js -> module.js 연동처리
     Binding
     */
     var _bind = function() {
+        /*테스트코드*/
+
         /*대쉬보드 이동*/
         $.COM._main.on('click', 'header .close', function(event) {
             $.COM.setLayout("dash");
