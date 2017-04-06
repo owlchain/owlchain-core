@@ -60,7 +60,7 @@ string contents
 
 >#### Receive parameter :
 ```
-string type = receiveVote", 
+string type = "receiveVote", 
 string receiver account address, 
 string account address, 
 string contents
