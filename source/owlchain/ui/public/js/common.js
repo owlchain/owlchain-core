@@ -3,21 +3,20 @@ common.js
 
 common.js -> module.js 연동처리
 *************************/
-(function ($) {
+(function($) {
     /*setup*/
-    var _setup = function () {
+    var _setup = function() {
         var beepOne = $("#snd_over")[0];
         //        $('a').bind('mouseenter', function (event) {
         //            beepOne.pause();
         //            beepOne.play();
         //        });
-
-
     };
     $.COM = {};
     $.COM = {
-        setup: function () {
-            $.COM._wrap = $('article.wrap');
+        setup: function() {
+            $.COM._new = $('article.new');
+            $.COM._main = $('article.main');
             $.COM._dash = $('section.da');
             $.COM._account = $('section.ac');
             $.COM._blockInfo = $('section.bl');
@@ -27,40 +26,53 @@ common.js -> module.js 연동처리
             $.COM._popup = $('article.popup');
             $.COM._toggle = $.COM._account.find('.toggle dl');
             $.COM._receiveBos = '';
-            /*Account*/
+            /*  init  ************************/
             $.COM._accountAddress = '';
             $.COM.setLayout("dash");
         },
-        setPopup: function (mode) {
-            if (mode == "close") {
-                $.COM._popup.removeClass('on');
-                $.COM._popup.find('section.layer').hide();
-            } else {
-                $.COM._popup.addClass('on');
-                $(mode).fadeIn('fast');
-            }
+        /*
+            Login
+        */
+        login: function() {
+            $.FUNC.creatSeed(function(data) {
+
+                var _ary = data.passphrase.split(" ");
+                console.log(_ary);
+            });
         },
-        setLayout: function (mode) {
-            $.COM._wrap.find('> section').removeClass('on');
-            if (mode == "dash") {
+        /*
+            New Accout / Dashboard / Account / Block Mode
+        */
+        setLayout: function(mode) {
+            $.COM._main.find('> section').removeClass('on');
+            if (mode == "login") {
+                $.COM._new.show();
+                $.COM._main.hide();
+                $.COM.login();
+            } else if (mode == "create") {
+
+            } else if (mode == "dash") {
+                $.COM._new.hide();
+                $.COM._main.show();
                 $.COM._dash.addClass('on');
                 //--대쉬보드
                 var _list = $.COM._dash.find('nav > section'); //account계정리스트
                 if (_list.length == 0) {
-                    $.FUNC.createCount(function (data) {
+                    $.FUNC.createCount(function(data) {
                         $.COM._accountAddress = data.accountAddress;
                         $.COM.addCount($.COM._accountAddress);
                         //-------------------------------------------------------
-                        $.FUNC.getAccount(function (data) {
+                        $.FUNC.getAccount(function(data) {
                             $.COM._dash.find('.address').text(data.accountAddress);
                             $.COM._dash.find('.coin').text(data.accountBalance);
                         }, $.COM._accountAddress);
                     });
                 }
+
             } else if (mode == "account") {
                 $.COM._account.addClass('on');
                 var _address = '';
-                $.FUNC.getAccount(function (data) {
+                $.FUNC.getAccount(function(data) {
                     //acount
                     $.COM._account.find('.address em').text(data.accountAddress);
                     $.COM._account.find('.account span').text(data.accountBalance);
@@ -82,8 +94,20 @@ common.js -> module.js 연동처리
             }
         },
         /*
+            Set Layer Popup
+        */
+        setPopup: function(mode) {
+            if (mode == "close") {
+                $.COM._popup.removeClass('on');
+                $.COM._popup.find('section.layer').hide();
+              } else {
+                $.COM._popup.addClass('on');
+                $(mode).fadeIn('fast');
+            }
+        },
+        /*
          */
-        setToggleMenu: function (mode) {
+        setToggleMenu: function(mode) {
             if (mode == "init") {
                 $.COM._toggle.removeClass('on');
             } else if (mode == "receive") {
@@ -93,7 +117,7 @@ common.js -> module.js 연동처리
             } else if (mode == "transaction") {
                 $.COM._toggle.eq(2).addClass('on').siblings().removeClass('on');
                 //myTransaction
-                $.FUNC.getAccountTransaction(function (data) {
+                $.FUNC.getAccountTransaction(function(data) {
                     var _ele = '';
                     for (var i = 0; i < data.length; i++) {
                         _ele += '<tr><td>' + data[i].timestamp + '</td><td>' + data[i].amount + '</td><td>' + data[i].fee + '</td> <td>' + data[i].accountAddress + '<em></em></td></tr>';
@@ -107,7 +131,7 @@ common.js -> module.js 연동처리
         receiveBos
         websocket.js 에서 받은 return 값
         */
-        receiveBos: function (param) {
+        receiveBos: function(param) {
             if (param.isTrusted) { //유효성체크
                 //{TEXT} 형태로 받은것을 REG 및 object로 치환
                 var _re = /[{"}]/gi,
@@ -119,7 +143,7 @@ common.js -> module.js 연동처리
                 };
                 $.COM._receiveBos = _data;
                 var _receiveAddrs = _data.receiverAccountAddress;
-                var _div = $.COM._dash.find('div.address').filter(function (index) {
+                var _div = $.COM._dash.find('div.address').filter(function(index) {
                     return $(this).text() == _receiveAddrs;
                 });
                 $.COM.addReceiveBos(_data);
@@ -132,76 +156,76 @@ common.js -> module.js 연동처리
         /*
         add Receive BOS
         */
-        addReceiveBos: function (data) {
-            var _ele = '<tr><td><i><img src="./images/ac_ico_receive_arrow.png"></i>Receiving..</td> <td>'+data.amount+'<em>BOS</em></td> <td>Show Detail</td></tr>';
+        addReceiveBos: function(data) {
+            var _ele = '<tr><td><i><img src="./images/ac_ico_receive_arrow.png"></i>Receiving..</td> <td>' + data.amount + '<em>BOS</em></td> <td>Show Detail</td></tr>';
             $.COM._account.find('dl.receive table tbody').append(_ele);
         },
         /**/
-        addCount: function (address) {
+        addCount: function(address) {
             var _ele = '<section class="clfix"><div class="pay"><a href="#"><div class="address">' + address + '</div><p class="coin">0<em>BOS</em></p></a></div><ul class="ctl clfix"> <li> <a href="#" class="receive"><img src="/images/ico_receive.png"></a> </li> <li> <a href="#" class="send"><img src="/images/ico_send.png"></a> </li> <li class="freez"> <a href="#"><img src="/images/ico_freezing.png"></a> </li> </ul> </section>';
             $('.da nav').append(_ele);
         },
-        end: function () {}
+        end: function() {}
     }
     /*
     Binding
     */
-    var _bind = function () {
+    var _bind = function() {
         /*대쉬보드 이동*/
-        $.COM._wrap.on('click', 'header .close', function (event) {
+        $.COM._main.on('click', 'header .close', function(event) {
             $.COM.setLayout("dash");
         });
         /*Configuration 이동*/
-        $.COM._wrap.on('click', 'a.config', function (event) {
+        $.COM._main.on('click', 'a.config', function(event) {
             $.COM.setLayout("config");
         });
         /*계정추가 add_new_account*/
-        $.COM._wallet.on('click', '.add', function (event) {
+        $.COM._wallet.on('click', '.add', function(event) {
             console.log('-');
-            $.FUNC.createCount(function (data) {
+            $.FUNC.createCount(function(data) {
                 $.COM._accountAddress = data.accountAddress;
                 $.COM.addCount($.COM._accountAddress);
             });
         });
         /*Block Info*/
-        $.COM._dash.on('click', '.info-wrap a', function (event) {
+        $.COM._dash.on('click', '.info-wrap a', function(event) {
             $.COM.setLayout("block");
         });
         /*계정자세히보기*/
-        $.COM._dash.on('click', '.pay>a', function (event) {
+        $.COM._dash.on('click', '.pay>a', function(event) {
             $.COM.setLayout("account");
             $.COM.setToggleMenu("init");
             //-
         });
         /*Receive*/
-        $.COM._dash.on('click', '.ctl .receive', function (event) {
+        $.COM._dash.on('click', '.ctl .receive', function(event) {
             $.COM.setLayout("account");
             $.COM.setToggleMenu("receive");
         });
         /*Send*/
-        $.COM._dash.on('click', '.ctl .send', function (event) {
+        $.COM._dash.on('click', '.ctl .send', function(event) {
             $.COM.setLayout("account");
             $.COM.setToggleMenu("send");
         });
         /*Toggle Freezing*/
-        $.COM._dash.on('click', '.ctl .freez', function (event) {
+        $.COM._dash.on('click', '.ctl .freez', function(event) {
             $.COM.setLayout("account");
             $.COM.setPopup('section.un-freezing');
         });
         /*Set Freezing*/
-        $.COM._account.on('click', 'button.freezing', function (event) {
+        $.COM._account.on('click', 'button.freezing', function(event) {
             $.COM.setPopup('section.freezing');
         });
         /*Send BOS*/
-        $.COM._account.on('click', 'ul.form button.send', function (event) {
+        $.COM._account.on('click', 'ul.form button.send', function(event) {
             $.COM.setPopup('section.send-bos');
         });
         /*Send BOS Cancel*/
-        $.COM._account.on('click', 'ul.form button.cancel', function (event) {
+        $.COM._account.on('click', 'ul.form button.cancel', function(event) {
             $.COM.setPopup('section.send-bos-cancel');
         });
         /*BOS Receive,Send,Transaction,Backup*/
-        $.COM._account.on('click', '.toggle dl dt', function (event) {
+        $.COM._account.on('click', '.toggle dl dt', function(event) {
             var _dl = $(this).parents('dl');
             var _idx = _dl.index();
             var _param = ["receive", "send", "transaction", "backup"];
@@ -214,27 +238,27 @@ common.js -> module.js 연동처리
             //		$(this).parents('dl').toggleClass('on');
         });
         /*Configuration Toggle*/
-        $.COM._config.on('click', '.toggle dl dt', function (event) {
+        $.COM._config.on('click', '.toggle dl dt', function(event) {
             $(this).parents('dl').toggleClass('on');
         });
         /*팝업닫기*/
-        $.COM._popup.on('click', '.layer footer a', function (event) {
+        $.COM._popup.on('click', '.layer footer a', function(event) {
             $.COM.setPopup('close');
         });
         /*프리징하기*/
-        $.COM._popup.on('click', '.freezing footer a', function (event) {
+        $.COM._popup.on('click', '.freezing footer a', function(event) {
             $.COM.setPopup('close');
             //calc
             $('.freezing-cont').addClass('freezing');
         });
         /*언프리징하기*/
-        $.COM._popup.on('click', '.un-freezing footer a', function (event) {
+        $.COM._popup.on('click', '.un-freezing footer a', function(event) {
             $.COM.setPopup('close');
             //calc
             $('.freezing-cont').removeClass('freezing');
         });
         /*BOS보내기*/
-        $.COM._popup.on('click', '.send-bos footer a', function (event) {
+        $.COM._popup.on('click', '.send-bos footer a', function(event) {
             $.COM.setPopup('section.send-bos-ok');
             //
             var _params = '';
@@ -242,7 +266,7 @@ common.js -> module.js 연동처리
             _params += "/" + $('ul.form input.receiver').val();
             _params += "/" + $('ul.form input.amount').val();
             _params += "/" + $('ul.form input.memo').val();
-            $.FUNC.sendBos(function (data) {
+            $.FUNC.sendBos(function(data) {
                 console.log(data);
             }, _params);
         });
@@ -250,7 +274,7 @@ common.js -> module.js 연동처리
 
     /*ADD_ACCOUNT
      */
-    $(document).ready(function () {
+    $(document).ready(function() {
         _setup();
 
         $.COM.setup();

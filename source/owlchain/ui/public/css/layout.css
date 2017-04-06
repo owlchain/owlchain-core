@@ -7,7 +7,7 @@ i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2p
 .toggle dl{position:relative;margin-bottom:20px;}
 .toggle dl dt{position:relative;max-height:70px;padding:15px 0;color:#FFF;background:#242a42;cursor:pointer;}
 .toggle dl dt > *{vertical-align:middle;}
-.toggle dl dt:after{position:absolute;top:20px;right:30px;content:url("/images/ico_toggle_open.png");opacity:0.5;}
+.toggle dl dt:after{position:absolute;top:20px;right:30px;content:url("../images/ico_toggle_open.png");opacity:0.5;}
 .toggle dl.on dt:after{opacity:1;}
 .toggle dl dt i.icon{display:inline-block;margin-left:50px;}
 .toggle dl dt span{display:inline-block;position:relative;padding-left:30px;}
@@ -16,11 +16,13 @@ i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2p
 .toggle dl dd .wrap{padding:20px;border-bottom:1px solid #242a42;}
 .toggle dl.on dd{display:block;}
 .toggle dl dd table{width:100%;}
-.toggle dl dd table th{padding:10px 20px;border-bottom:1px solid #242a42;color:#2a375f;font-size:18px;font-weight:bold;text-align:center;} 
-.toggle dl dd table td{padding:10px 20px;border-bottom:1px solid #242a42;text-align:center;} 
+.toggle dl dd table th{padding:10px 20px;border-bottom:1px solid #242a42;color:#2a375f;font-size:18px;font-weight:bold;text-align:center;}
+.toggle dl dd table td{padding:10px 20px;border-bottom:1px solid #242a42;text-align:center;}
+/*=== Create Account =================================================*/
+.ca{display:block; }
 /*=== Dashboard =================================================*/
 /*header*/
-.da header{display:block;background:url('/images/header_bg.jpg') #242a42 no-repeat; background-position: center top;}
+.da header{display:block;background:url('../images/header_bg.jpg') #242a42 no-repeat; background-position: center top;}
 .da header .logo{height:130px;}
 .da header .logo a{display:block;padding:17px 0 0 25px;}
 .da header .account{margin-left:45px;height:130px;}
@@ -54,7 +56,7 @@ i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2p
 .da .info-wrap a .wrap.voting{background:#448ba8;}
 .da .info-wrap a .wrap.trust {background:#35618b;}
 .da .info-wrap a:hover .wrap{background:#0597cd;}
-.da .info-wrap a .wrap h5{padding:30px 0 0 30px;} 
+.da .info-wrap a .wrap h5{padding:30px 0 0 30px;}
 .da .info-wrap a .wrap h6{padding:10px 0 0 30px;color:#FFF;font-size:14px;font-weight:bold;}
 .da .info-wrap a .wrap p{position:absolute;left:25px;bottom:25px;width:90%;color:#FFF;font-size:12px;box-sizing: border-box;}
 .da .info-wrap a .wrap.reward p{padding-left:100px;}
@@ -62,7 +64,7 @@ i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2p
 .da .info-wrap a .wrap p span{font-size:14px;}
 /*=== Accout ====================================================*/
 /*header*/
-.ac header {height:130px;background:url('/images/account_top_bg.jpg') #242a42 no-repeat; background-position:center top;}
+.ac header {height:130px;background:url('../images/account_top_bg.jpg') #242a42 no-repeat; background-position:center top;}
 .ac header .wrap{display:block;margin-top:10px;text-align:center;}
 .ac header .wrap .icon{display:inline-block;}
 .ac header .wrap .account{display:inline-block;margin-left:20px;text-align:left;vertical-align: top;}
@@ -99,7 +101,7 @@ i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2p
 .ac .form .btn-wrap{margin-top:30px;}
 .ac .form .btn-wrap button{padding:20px 30px;border:1px solid #111;color:#111;font-size:20px;}
 /*=== Block Info ====================================================*/
-.bl header {height:130px;background:url('/images/info_top_bg.png') #242a42 no-repeat; background-position:center top;}
+.bl header {height:130px;background:url('../images/info_top_bg.png') #242a42 no-repeat; background-position:center top;}
 .bl header .wrap{display:block;margin-top:30px;text-align:center;}
 .bl header .wrap .icon{display:inline-block;}
 .bl header .wrap .tit{display:inline-block;margin-left:20px;color:#FFF;font-size:30px;text-align:left;vertical-align: top;}
@@ -108,7 +110,7 @@ i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2p
 .bl .info-wrap table th{padding:10px 20px;border-bottom:1px solid #242a42;color:#2a375f;font-size:18px;font-weight:normal;text-align:center;}
 .bl .info-wrap table td{padding:15px 20px;border-bottom:1px solid #acacac;color:#172653;font-size:18px;text-align:center;}
 /*=== Configuration ====================================================*/
-.co header {height:130px;background:url('/images/config_top_bg.png') #242a42 no-repeat; background-position:center top;} 
+.co header {height:130px;background:url('../images/config_top_bg.png') #242a42 no-repeat; background-position:center top;}
 .co header .wrap{display:block;margin-top:20px;text-align:center;}
 .co header .wrap .icon{display:inline-block;}
 .co header .wrap .tit{display:inline-block;margin-left:20px;color:#FFF;font-size:30px;text-align:left;vertical-align: top;}
@@ -127,7 +129,7 @@ i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2p
 /*footer*/
 .popup .layer footer{display:block;position:absolute;bottom:0;width:100%;padding:33px 0;background:#66a0c9;text-align: center;}
 .popup .layer footer a{display:inline-block;position:relative;color:#FFF;font-size:30px;}
-.popup .layer footer a:after{position:absolute;top:0;right:-80px;;content:url('/images/ico_next_arrow.png');}
+.popup .layer footer a:after{position:absolute;top:0;right:-80px;;content:url('../images/ico_next_arrow.png');}
 /*
 @media only screen and (max-width: 680px) {
 	nav{width:100%;padding-left:30px;padding-right:30px;}

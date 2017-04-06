@@ -1,4 +1,6 @@
 /*
+https://github.com/owlchain/owlchain-core/blob/PoC0/source/owlchain/api/readme.md
+
 	/blockchain/AccountOperations/createSeed
 	/blockchain/AccountOperations/confirmSeed
 	/blockchain/AccountOperations/getAccount
@@ -14,7 +16,7 @@
     "use strict";
     /*****CONST*****/
     /*OPERATION*/
-    const OPER_CREATE_SEED = "/blockchain/AccountOperations/createSeed/";
+    const OPER_CREATE_SEED = "blockchain/AccountOperations/createSeed";
     const OPER_CONFIRM_SEED = "/blockchain/AccountOperations/confirmSeed/";
     const OPER_CREATE_ACCOUNT = "/blockchain/AccountOperations/createAccount";/*삭제예정*/
     const OPER_GET_ACCOUNT = "/blockchain/AccountOperations/getAccount/";
