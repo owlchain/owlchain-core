@@ -73,19 +73,19 @@ string contents
 >#### Receive parameter :
 ```
 int account address count,
-[ string account address, 
-  double account balance, 
-  bool freezing status]
+AccountAddress acouuntAddresses
+
+AccountAddress = [string account address, 
+                  double account balance, 
+                  bool freezing status]
 ```
 
 ## Block Operations
 
-- ### isBlockSync
-
->#### Receive parameter :
+- ### int isBlockSync
 ```
-int BS_Ready, (complete)
-int BS_Syncing, (progressing)
-nit BS_Offline (disconnection)
+BS_Ready = 0, (complete)
+BS_Syncing = 1, (progressing)
+BS_Offline = 2 (disconnection)
 ```
 
