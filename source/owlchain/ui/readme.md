@@ -20,7 +20,7 @@
 
 >#### Receive parameter :
 ```
-string receiveBOS, 
+string type = "receiveBOS", 
 string receiver account address, 
 string sender account address, 
 double amount
@@ -30,7 +30,7 @@ double amount
 
 >#### Receive parameter :
 ```
-string receiveFreezingReward, 
+string type = "receiveFreezingReward", 
 string receiver account address, 
 string sender account address, 
 double amount
@@ -40,7 +40,7 @@ double amount
 
 >#### Receive parameter :
 ```
-string receiveConfirmReward, 
+string type = "receiveConfirmReward", 
 string receiver account address, 
 string sender account address, 
 double amount
@@ -50,7 +50,7 @@ double amount
 
 >#### Receive parameter :
 ```
-string receiveProposal,
+string type = "receiveProposal",
 string receiver account address, 
 string account address, 
 string contents
@@ -60,8 +60,7 @@ string contents
 
 >#### Receive parameter :
 ```
-string receiveVote,
-string receiver account address, 
+string type = receiveVote"string receiver account address, 
 string account address, 
 string contents
 ```
