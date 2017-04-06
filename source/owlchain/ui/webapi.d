@@ -147,8 +147,66 @@ struct ReleaseQuorum
 // User receiveTransaction
 struct ReceiveBos
 {
-	string type;
+	string type = "receiveBOS";
 	string receiverAccountAddress;
 	string senderAccountAddress;
 	double amount;
 }
+
+struct ReceiveParameter
+{
+	string type = "receiveParameter";
+	string receiverAccountAddress; 
+	string senderAccountAddress; 
+	double amount;
+}
+
+struct ReceiveConfirmReward
+{
+	string type = "receiveConfirmReward";
+	string receiverAccountAddress; 
+	string senderAccountAddress;
+	double amount;
+}
+
+struct ReceiveProposal
+{
+	string type = "receiveProposal";
+	string receiverAccountAddress; 
+	string accountAddress;
+	string contents;
+}
+
+struct ReceiveVote
+{
+	string type = "receiveVote";
+	string receiverAccountAddress;
+	string accountAddress;
+	string contents;
+}
+
+// Account Operations
+
+struct RecvAccountInformation
+{
+	int accountAddressCount;
+	AccountAddress[] accountAddresses;
+}
+
+struct AccountAddress
+{
+	string accountAddress;
+	double accountBalance;
+	bool freezingStatus;
+}
+
+// Block Operations
+
+enum
+{
+	BS_Ready = 0, 	// complete
+	BS_Syncing, 	// progressing
+	BS_Offline		// disconnection
+}
+
+int isBlockSync;
