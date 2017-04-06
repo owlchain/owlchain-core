@@ -6,26 +6,33 @@ struct ErrorState
 	string errMessage;
 }
 
+// User sendTransaction
 struct SendBos
 {
 	bool sendBos;
 }
 
-struct ReceiveBos
+struct SendProposal
 {
-	bool receiveBOS;
-	string receiverAccountAddress;
-	string senderAccountAddress;
-	double amount;
-	uint confirmCount;
+	bool sendProposal;
 }
 
-struct CreateAccount
+struct SendVote
+{
+	bool sendVote;
+}
+
+// Account Operations
+struct CreateSeed
+{
+	string passphrase;
+}
+
+struct ConfirmSeed
 {
 	string accountAddress;
-	bool freezingStatus = false;
-	bool transaction = false;
-	string filePath;
+	double accountBlance;
+	bool freezingStatus;
 }
 
 struct GetAccount
@@ -34,6 +41,22 @@ struct GetAccount
 	double accountBalance;	
 	double availableBalance;
 	double pendingBalance;
+	bool freezingStatus;
+	double freezingAmount;
+	uint freezingStartTime;
+	double freezingInterests;
+}
+
+struct GetBalance
+{
+	string accountAddress;
+	double accountBalance;
+	double availableBalance;
+	double pendingBalance;
+}
+
+struct GetFreezingStatus
+{
 	bool freezingStatus;
 	double freezingAmount;
 	uint freezingStartTime;
@@ -49,27 +72,38 @@ struct GetAccountTransaction
 	string accountAddress;
 }
 
-struct CreateSeed
+struct DelAccount
 {
-	string passphrase;
+	bool delAccount;
 }
 
-struct ConfirmSeed
+// Account Control Operations
+struct SetAccountName
 {
-	string accountAddress;
-	double accountBlance;
-	bool freezingStatus;
+	bool setName;
+}
+
+// BLock Operations
+struct GetBlock
+{
+	uint blockHeight;
+	string previousBlockHash;
+	string generator;
+	uint nextBlock;
+	string[] transactions;
+	uint timestamp;
 }
 
 struct GetBlockInformation
 {
 	uint blockHeight;
-	uint timeStamp;
+	uint timestamp;
 	double amount;
 	double fee;
-	string accountAddress;
+	string generator;
 }
 
+// Freezing Operations
 struct SetFreezing
 {
 	string accountAddress;
@@ -80,183 +114,41 @@ struct SetFreezing
 	ulong freezingStartTime;
 }
 
-struct GetBlockSynchronization
-{
-	uint latestBlockHeight;
-}
-
-struct Transaction
-{
-	this(string _hash) { hash = _hash; }
-	string hash;
-
-	string type;
-	string senderAccAddress;
-	string receiverAccAddress;
-	double amount;
-	double fee;
-	string contents;
-	uint confirmCount;
-
-	//// copy from NXT
-	//private final short deadline;
- //   private volatile byte[] senderPublicKey;
- //   private final long recipientId;
- //   private final long amountNQT;
- //   private final long feeNQT;
- //   private final byte[] referencedTransactionFullHash;
- //   private final TransactionType type;
- //   private final int ecBlockHeight;
- //   private final long ecBlockId;
- //   private final byte version;
- //   private final int timestamp;
- //   private final byte[] signature;
- //   private final Attachment.AbstractAttachment attachment;
- //   private final Appendix.Message message;
- //   private final Appendix.EncryptedMessage encryptedMessage;
- //   private final Appendix.EncryptToSelfMessage encryptToSelfMessage;
- //   private final Appendix.PublicKeyAnnouncement publicKeyAnnouncement;
- //   private final Appendix.Phasing phasing;
- //   private final Appendix.PrunablePlainMessage prunablePlainMessage;
- //   private final Appendix.PrunableEncryptedMessage prunableEncryptedMessage;
-
- //   private final List<Appendix.AbstractAppendix> appendages;
- //   private final int appendagesSize;
-
- //   private volatile int height = Integer.MAX_VALUE;
- //   private volatile long blockId;
- //   private volatile BlockImpl block;
- //   private volatile int blockTimestamp = -1;
- //   private volatile short index = -1;
- //   private volatile long id;
- //   private volatile String stringId;
- //   private volatile long senderId;
- //   private volatile byte[] fullHash;
- //   private volatile DbKey dbKey;
- //   private volatile byte[] bytes = null;
-}
-
-struct Account
+struct UnFreezing
 {
 	string accountAddress;
-	double accountBalance = 0;	
-	double availableBalance = 0;
-	double pendingBalance = 0;
-	bool freezingStatus = false;
-	double freezingAmount = 0;
-	ulong freezingStartTime = 0;
-	double freezingInterests = 0;
-	bool transaction = false;
-
-	// copy from NXT
-	//public static final class AccountAsset {
-	//	private final long accountId;
- //   	private final long assetId;
- //   	private final DbKey dbKey;
- //   	private long quantityQNT;
- //   	private long unconfirmedQuantityQNT;
- //   }
- //   public static final class AccountCurrency {
-
- //       private final long accountId;
- //       private final long currencyId;
- //       private final DbKey dbKey;
- //       private long units;
- //       private long unconfirmedUnits;
- //   }
- //   public static final class AccountLease {
-
- //       private final long lessorId;
- //       private final DbKey dbKey;
- //       private long currentLesseeId;
- //       private int currentLeasingHeightFrom;
- //       private int currentLeasingHeightTo;
- //       private long nextLesseeId;
- //       private int nextLeasingHeightFrom;
- //       private int nextLeasingHeightTo;
- //   }
- //   public static final class AccountInfo {
-
- //       private final long accountId;
- //       private final DbKey dbKey;
- //       private String name;
- //       private String description;
- //   }
- //   public static final class AccountProperty {
-
- //       private final long id;
- //       private final DbKey dbKey;
- //       private final long recipientId;
- //       private final long setterId;
- //       private String property;
- //       private String value;
- //   }
- //   public static final class PublicKey {
-
- //       private final long accountId;
- //       private final DbKey dbKey;
- //       private byte[] publicKey;
- //       private int height;
- //   }
- //  	private final long id;
- //   private final DbKey dbKey;
- //   private PublicKey publicKey;
- //   private long balanceNQT;
- //   private long unconfirmedBalanceNQT;
- //   private long forgedBalanceNQT;
- //   private long activeLesseeId;
- //   private Set<ControlType> controls;
-
-
-
-
+	bool setFreezing;
+	double unFreezingAmount;
+	double totalReturnAmount;
+	uint freezingStopTime;
 }
 
-struct Block
+// Networking Operations
+struct FindQuorum
 {
-	this(int _height) { height = _height; }
-	int height;
-	uint timestamp;
-	int capacity;
-	int confirmReward;
-	int totalIssueVol;
-	//Transaction[] txs;
-
-	//// copy from NXT
- //   private final int version;
- //   private final int timestamp;
- //   private final long previousBlockId;
- //   private volatile byte[] generatorPublicKey;
- //   private final byte[] previousBlockHash;
- //   private final long totalAmountNQT;
- //   private final long totalFeeNQT;
- //   private final int payloadLength;
- //   private final byte[] generationSignature;
- //   private final byte[] payloadHash;
- //   private volatile List<TransactionImpl> blockTransactions;
-
- //   private byte[] blockSignature;
- //   private BigInteger cumulativeDifficulty = BigInteger.ZERO;
- //   private long baseTarget = Constants.INITIAL_BASE_TARGET;
- //   private volatile long nextBlockId;
- //   private int height = -1;
- //   private volatile long id;
- //   private volatile String stringId = null;
- //   private volatile long generatorId;
- //   private volatile byte[] bytes = null;
+	string[] quorumList;
 }
 
-struct Blockchain
+struct JoinQuorum
 {
-	//// referenced by NXT
-	//private final Block lastBlock;
-	//private final int height;
-	//private final int lastBlockTimestamp;
-	//private final Block block;
-	//private final Block[] allBlocks;
-	//private final int blockCount;
-	//private final Block[] blocks;
-	//private final long[] blockIdsAfter;
-	//private final Block[] blocksAfter;
-	//private final Transaction[] transactions;
+	bool joinQuorum;
+}
+
+struct ReleaseQuorum
+{
+	bool releaseQuorum;
+}
+
+// Proposal Operations
+
+// Trust Contract Operations
+
+
+// User receiveTransaction
+struct ReceiveBos
+{
+	string type;
+	string receiverAccountAddress;
+	string senderAccountAddress;
+	double amount;
 }

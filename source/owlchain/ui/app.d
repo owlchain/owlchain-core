@@ -17,22 +17,9 @@ import owlchain.ui.webapi;
 //@rootPathFromName
 interface IBlockchainREST
 {
-	@path("/blockchain/transaction/:idx")
-	Transaction getTransaction(int _idx);
-
-	@path("/blockchain/block/:height")
-	Block getBlock(int _height);
-
-	@path("/blockchain/blocks/:height/:length")
-	Block[] getBlocks(int _height, int _length);
-
 	@method(HTTPMethod.GET)
-	@path("/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee")
-	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee);
-
-	@method(HTTPMethod.GET)
-	@path("/blockchain/AccountOperations/createAccount")
-	Json createAccount();
+	@path("/blockchain/transactions/sendTransaction/:type/:senderAccountAddress/:receiverAccountAddress/:amount/:fee")
+	Json sendBos(string _type, string _senderAccountAddress, string _receiverAccountAddress, double _amount, double _fee);
 
 	@method(HTTPMethod.GET)
 	@path("/blockchain/AccountOperations/getAccount/:accountAddress")
@@ -57,11 +44,6 @@ interface IBlockchainREST
 	@method(HTTPMethod.GET)
 	@path("/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount")
 	Json setFreezing(string _accountAddress, bool _freezingStatus, double _freezingAmount);	
-
-	@method(HTTPMethod.GET)
-	@path("/blockchain/AccountOperations/getBlockSynchronization/:latestBlockHeight")
-	Json getBlockSynchronization(uint _latestBlockHeight);	
-
 }
 
 class BlockchainRESTImpl : IBlockchainREST
@@ -81,68 +63,21 @@ class BlockchainRESTImpl : IBlockchainREST
 		return path.idup ~ "account.bos";
 	}
 
-	private void printTxInfo(Transaction tx)
+	private void printTxInfo(string type, string senderAccountAddress, string receiverAccountAddress, double amount, double fee)
 	{
-		logInfo("type:" ~ tx.type);
-		logInfo("senderAccAddress:" ~ tx.senderAccAddress);
-		logInfo("receiverAccAddress:" ~ tx.receiverAccAddress);
-		logInfo("amount:" ~ to!string(tx.amount));
-		logInfo("fee:" ~ to!string(tx.fee));
+		logInfo("type:" ~ type);
+		logInfo("senderAccountAddress:" ~ senderAccountAddress);
+		logInfo("receiverAccountAddress:" ~ receiverAccountAddress);
+		logInfo("amount:" ~ to!string(amount));
+		logInfo("fee:" ~ to!string(fee));
 	}
 
 	override:
-	Transaction getTransaction(int _idx)
-	{
-		auto t = Transaction();
-		t.hash = to!string(_idx);
-		return t;
-	}
-	Block getBlock(int _height)
-	{
-		auto b = Block(_height);
-
-		if (_height == 1)
-		{
-			b.timestamp = 170228;
-			b.capacity = 1000;
-			b.confirmReward = 100;
-			b.totalIssueVol = 10000;
-		}
-		else if (_height == 2)
-		{
-			b.timestamp = 170229;
-			b.capacity = 2000;
-			b.confirmReward = 200;
-			b.totalIssueVol = 20000;	
-		}
-		return b;
-	}
-	Block[] getBlocks(int _lastHeight, int _length)
-	in
-    {
-		assert(_lastHeight >= 0);
-		assert(_length > 0);
-	}
-	body
-	{
-		Block[] bs;
-
-		for(int i = 0; i < _length; i++)
-		{
-			auto b = getBlock(_lastHeight-i);
-			if(b.timestamp != 0)
-			{
-				bs ~= b;	
-			}
-		}
-		return bs;
-	}
-
-	Json sendBos(string _type, string _sender, string _receiver, double _amount, double _fee)
+	Json sendBos(string _type, string _senderAccountAddress, string _receiverAccountAddress, double _amount, double _fee)
 	{
 		Json json;
 
-		if (_type == "" || _sender == "" || _receiver == "" || _amount == 0 || _fee == 0)
+		if (_type == "" || _senderAccountAddress == "" || _receiverAccountAddress == "" || _amount == 0 || _fee == 0)
 		{
 			auto e = ErrorState();
 			
@@ -154,14 +89,7 @@ class BlockchainRESTImpl : IBlockchainREST
 
 		else if (_type == "sendBOS")
 		{
-			auto t = Transaction();			
-			t.type = _type;
-			t.senderAccAddress = _sender;
-			t.receiverAccAddress = _receiver;
-			t.amount = _amount;
-			t.fee = _fee;
-			
-			printTxInfo(t);
+			printTxInfo(_type, _senderAccountAddress, _receiverAccountAddress, _amount, _fee);
 
 			auto s = SendBos();
 			s.sendBos = true;
@@ -176,17 +104,6 @@ class BlockchainRESTImpl : IBlockchainREST
 
 			json = serializeToJson(e);
 		}
-
-		return json;
-	}
-
-	Json createAccount()
-	{
-		auto c = CreateAccount();
-		c.accountAddress = "test_receiver";
-		c.filePath = exportAccountFile(c.accountAddress);
-
-		auto json = serializeToJson(c);
 
 		return json;
 	}
@@ -255,10 +172,10 @@ class BlockchainRESTImpl : IBlockchainREST
 		foreach(uint i, g; gs)
 		{
 			gs[i].blockHeight = i + 1;
-			gs[i].timeStamp = 10000 + i;
+			gs[i].timestamp = 10000 + i;
 			gs[i].amount = (i + 1) * 10000;
 			gs[i].fee = 100;
-			gs[i].accountAddress = "BOS-AAAAA-BBBBB-CCCCCCC";
+			gs[i].generator = "BOS-AAAAA-BBBBB-CCCCCCC";
 		}
 
 		auto json = serializeToJson(gs);
@@ -289,28 +206,15 @@ class BlockchainRESTImpl : IBlockchainREST
 		}
 		return json;
 	}
-
-
-	Json getBlockSynchronization(uint _latestBlockHeight)
-	{
-		auto g = GetBlockSynchronization();
-
-		g.latestBlockHeight = 111;
-
-		auto json = serializeToJson(g);
-
-		return json;
-	}
 }
 
 ReceiveBos receiveBos()
 {
 	auto r = ReceiveBos();
-	r.receiveBOS = true;
+	r.type = "receiveBOS";
 	r.receiverAccountAddress = "test_receiver";
 	r.senderAccountAddress = "test_sender";
 	r.amount = 10000;
-	r.confirmCount = 10;
 
 	return r;
 }
@@ -328,40 +232,24 @@ unittest
 	logInfo("routes[4] = " ~ routes[4].pattern);
 	logInfo("routes[5] = " ~ routes[5].pattern);	
 	logInfo("routes[6] = " ~ routes[6].pattern);	
-	logInfo("routes[7] = " ~ routes[7].pattern);	
-	logInfo("routes[8] = " ~ routes[8].pattern);	
-	logInfo("routes[9] = " ~ routes[9].pattern);	
-	logInfo("routes[10] = " ~ routes[10].pattern);	
-	logInfo("routes[11] = " ~ routes[11].pattern);	
 
 	/*
-	routes[0] = /blockchain/transaction/:idx
-	routes[1] = /blockchain/block/:height
-	routes[2] = /blockchain/blocks/:height/:length
-	routes[3] = /blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee
-	routes[4] = /blockchain/AccountOperations/createAccount
-	routes[5] = /blockchain/AccountOperations/getAccount/:accountAddress
-	routes[6] = /blockchain/AccountOperations/getAccountTransaction/:accountAddress
-	routes[7] = /blockchain/AccountOperations/createSeed"
-	routes[8] = /blockchain/AccountOperations/confirmSeed/:passphrase
-	routes[9] = /blockchain/AccountOperations/getBlockInformation
-	routes[10] = /blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount
-	routes[11] = /blockchain/AccountOperations/getBlockSynchronization/:latestBlockHeight
+	routes[0] = /blockchain/transactions/sendTransaction/:type/:senderAccountAddress/:receiverAccountAddress/:amount/:fee
+	routes[1] = /blockchain/AccountOperations/getAccount/:accountAddress
+	routes[2] = /blockchain/AccountOperations/getAccountTransaction/:accountAddress
+	routes[3] = /blockchain/AccountOperations/createSeed"
+	routes[4] = /blockchain/AccountOperations/confirmSeed/:passphrase
+	routes[5] = /blockchain/AccountOperations/getBlockInformation
+	routes[6] = /blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount
 	*/
-
 	
-	assert (routes[0].method == HTTPMethod.GET && routes[0].pattern == "/blockchain/transaction/:idx");
-	assert (routes[1].method == HTTPMethod.GET && routes[1].pattern == "/blockchain/block/:height");
-	assert (routes[2].method == HTTPMethod.GET && routes[2].pattern == "/blockchain/blocks/:height/:length");
-	assert (routes[3].method == HTTPMethod.GET && routes[3].pattern == "/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee");
-	assert (routes[4].method == HTTPMethod.GET && routes[4].pattern == "/blockchain/AccountOperations/createAccount");
-	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/getAccount/:accountAddress");
-	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/AccountOperations/getAccountTransaction/:accountAddress");
-	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createSeed");
-	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/AccountOperations/confirmSeed/:passphrase");
-	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/AccountOperations/getBlockInformation");
-	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
-	assert (routes[11].method == HTTPMethod.GET && routes[11].pattern == "/blockchain/AccountOperations/getBlockSynchronization/:latestBlockHeight");
+	assert (routes[0].method == HTTPMethod.GET && routes[0].pattern == "/blockchain/transactions/sendTransaction/:type/:senderAccountAddress/:receiverAccountAddress/:amount/:fee");
+	assert (routes[1].method == HTTPMethod.GET && routes[1].pattern == "/blockchain/AccountOperations/getAccount/:accountAddress");
+	assert (routes[2].method == HTTPMethod.GET && routes[2].pattern == "/blockchain/AccountOperations/getAccountTransaction/:accountAddress");
+	assert (routes[3].method == HTTPMethod.GET && routes[3].pattern == "/blockchain/AccountOperations/createSeed");
+	assert (routes[4].method == HTTPMethod.GET && routes[4].pattern == "/blockchain/AccountOperations/confirmSeed/:passphrase");
+	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/getBlockInformation");
+	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
 }
 
 shared static this()
