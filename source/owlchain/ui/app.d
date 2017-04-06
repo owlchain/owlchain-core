@@ -212,8 +212,8 @@ ReceiveBos receiveBos()
 {
 	auto r = ReceiveBos();
 	r.type = "receiveBOS";
-	r.receiverAccountAddress = "test_receiver";
-	r.senderAccountAddress = "test_sender";
+	r.receiverAccountAddress = "BOS-AAAAA-BBBBB-CCCCCCC";
+	r.senderAccountAddress = "BOS-XXXXX-YYYYY-ZZZZZZZ";
 	r.amount = 10000;
 
 	return r;
