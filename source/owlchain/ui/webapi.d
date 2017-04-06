@@ -201,7 +201,6 @@ struct AccountAddress
 }
 
 // Block Operations
-
 enum
 {
 	BS_Ready = 0, 	// complete
