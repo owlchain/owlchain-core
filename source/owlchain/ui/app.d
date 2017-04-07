@@ -18,6 +18,10 @@ import owlchain.ui.webapi;
 interface IBlockchainREST
 {
 	@method(HTTPMethod.GET)
+ 	@path("/blockchain/AccountOperations/createAccount")
+ 	Json createAccount();
+
+	@method(HTTPMethod.GET)
 	@path("/blockchain/transactions/sendTransaction/:type/:senderAccountAddress/:receiverAccountAddress/:amount/:fee")
 	Json sendBos(string _type, string _senderAccountAddress, string _receiverAccountAddress, double _amount, double _fee);
 
@@ -73,6 +77,17 @@ class BlockchainRESTImpl : IBlockchainREST
 	}
 
 	override:
+	Json createAccount()
+	{
+		auto c = CreateAccount();
+ 		c.accountAddress = "BOS-AAAAA-BBBBB-CCCCCCC";
+ 		c.filePath = exportAccountFile(c.accountAddress);
+ 
+ 		auto json = serializeToJson(c);
+
+		return json;
+	}
+
 	Json sendBos(string _type, string _senderAccountAddress, string _receiverAccountAddress, double _amount, double _fee)
 	{
 		Json json;
