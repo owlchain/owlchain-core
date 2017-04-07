@@ -18,10 +18,6 @@ import owlchain.ui.webapi;
 interface IBlockchainREST
 {
 	@method(HTTPMethod.GET)
- 	@path("/blockchain/AccountOperations/createAccount")
- 	Json createAccount();
-
-	@method(HTTPMethod.GET)
 	@path("/blockchain/transactions/sendTransaction/:type/:senderAccountAddress/:receiverAccountAddress/:amount/:fee")
 	Json sendBos(string _type, string _senderAccountAddress, string _receiverAccountAddress, double _amount, double _fee);
 
@@ -48,6 +44,10 @@ interface IBlockchainREST
 	@method(HTTPMethod.GET)
 	@path("/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount")
 	Json setFreezing(string _accountAddress, bool _freezingStatus, double _freezingAmount);	
+
+	@method(HTTPMethod.GET)
+ 	@path("/blockchain/AccountOperations/createAccount")
+ 	Json createAccount();
 }
 
 class BlockchainRESTImpl : IBlockchainREST
@@ -77,17 +77,6 @@ class BlockchainRESTImpl : IBlockchainREST
 	}
 
 	override:
-	Json createAccount()
-	{
-		auto c = CreateAccount();
- 		c.accountAddress = "BOS-AAAAA-BBBBB-CCCCCCC";
- 		c.filePath = exportAccountFile(c.accountAddress);
- 
- 		auto json = serializeToJson(c);
-
-		return json;
-	}
-
 	Json sendBos(string _type, string _senderAccountAddress, string _receiverAccountAddress, double _amount, double _fee)
 	{
 		Json json;
@@ -221,6 +210,17 @@ class BlockchainRESTImpl : IBlockchainREST
 		}
 		return json;
 	}
+
+	Json createAccount()
+	{
+		auto c = CreateAccount();
+ 		c.accountAddress = "BOS-AAAAA-BBBBB-CCCCCCC";
+ 		c.filePath = exportAccountFile(c.accountAddress);
+ 
+ 		auto json = serializeToJson(c);
+
+		return json;
+	}
 }
 
 ReceiveBos receiveBos()
@@ -247,6 +247,7 @@ unittest
 	logInfo("routes[4] = " ~ routes[4].pattern);
 	logInfo("routes[5] = " ~ routes[5].pattern);	
 	logInfo("routes[6] = " ~ routes[6].pattern);	
+	logInfo("routes[7] = " ~ routes[7].pattern);	
 
 	/*
 	routes[0] = /blockchain/transactions/sendTransaction/:type/:senderAccountAddress/:receiverAccountAddress/:amount/:fee
@@ -256,6 +257,7 @@ unittest
 	routes[4] = /blockchain/AccountOperations/confirmSeed/:passphrase
 	routes[5] = /blockchain/AccountOperations/getBlockInformation
 	routes[6] = /blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount
+	routes[7] = /blockchain/AccountOperations/createAccount
 	*/
 	
 	assert (routes[0].method == HTTPMethod.GET && routes[0].pattern == "/blockchain/transactions/sendTransaction/:type/:senderAccountAddress/:receiverAccountAddress/:amount/:fee");
@@ -265,6 +267,7 @@ unittest
 	assert (routes[4].method == HTTPMethod.GET && routes[4].pattern == "/blockchain/AccountOperations/confirmSeed/:passphrase");
 	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/getBlockInformation");
 	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
+	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createAccount");
 }
 
 shared static this()
