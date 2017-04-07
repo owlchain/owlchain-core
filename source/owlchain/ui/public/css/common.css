@@ -61,18 +61,12 @@ article{display:block;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 /*body>wrap*/
 
-
-article.wrap{position:relative;overflow:hidden;min-height: 800px;}
-
+/*
+article.wrap{position:relative;overflow:hidden;min-height: 900px;}
 article.wrap > section{display:none;position:absolute;top:0;left:0; width:100%;}
 article.wrap > section.on{display:block;  }
-
-
-/*article.wrap > section.on{display:block;}*/
-/*
-article.wrap > section{float:left;width:100%;}
-article.wrap > section.on{float:none;}
 */
+
 /*header*/
 article.wrap header{position:relative;}
 article.wrap header a.close{display:block;position:relative;padding:10px 20px 0;color:#fff;font-size:18px;}
