@@ -2,20 +2,24 @@ module owlchain.api.api;
 
 import vibe.core.core;
 
-interface IOntology {
+interface IOntology 
+{
 
 }
 
-interface IOwlReasoner {
+interface IOwlReasoner 
+{
 	bool loadData(ubyte[] owlData);
 	bool loadFile(string owlPath);
 }
 
-interface ITalInterpreter {
+interface ITalInterpreter 
+{
 		
 }
 
-interface ITransaction {
+interface ITransaction 
+{
 	string getHash();
 	int getVer();
 	int getVinSize();
@@ -26,7 +30,8 @@ interface ITransaction {
 	int getTxIndex();
 }
 
-interface IBlock {
+interface IBlock 
+{
     string getHash();
     int getVer();
     string getPrevBlock();
@@ -42,13 +47,15 @@ interface IBlock {
     ITransaction[] getTransactions();
 }
 
-enum BlockchainState {
+enum BlockchainState 
+{
     BS_Ready = 0,
     BS_Syncing,
     BS_Offline
 }
 
-interface IBlockchain {
+interface IBlockchain 
+{
     int getLastBlockIndex();
 	int getLastBlockHeight();
 	IBlock getLastBlock();
@@ -61,7 +68,8 @@ interface IBlockchain {
 }
 
 
-interface IWallet {
+interface IWallet 
+{
     IAccount getAccount();
     string createSeed();
     bool removeAccount(IAddress address);
@@ -71,7 +79,8 @@ interface IWallet {
 enum MaxAliasSize = 100;
 alias ubyte[MaxAliasSize] AccountAlias;
 
-interface IAccount {
+interface IAccount 
+{
     IAddress getAddress();
     string getAlias();
     void setAlias(AccountAlias aliasName);
@@ -81,11 +90,13 @@ interface IAccount {
     bool setFreeze(ulong amount);
 }
 
-interface IAddress {
+interface IAddress 
+{
     bool isValid();
 }
 
-enum OCCPMethod {
+enum OCCPMethod 
+{
     OM_ReceiveBos = 0,
     OM_ReceiveVote,
     OM_ReceiveProposal,
@@ -94,16 +105,19 @@ enum OCCPMethod {
     OM_BlockchainOffline
 }
 
-interface IOCCPRequest {
+interface IOCCPRequest 
+{
     OCCPMethod getMethod();
     void setMethod(OCCPMethod method);
 }
 
-interface IOCCPResponse {
+interface IOCCPResponse 
+{
 
 }
 
-interface IOCCPListener {
+interface IOCCPListener 
+{
     Task getReqTask();
     void setReqTask(Task task);
     Task getResTask();
@@ -112,20 +126,23 @@ interface IOCCPListener {
     void setSettings(IOCCPSettings settings);
 }
 
-interface IOCCPSettings {
+interface IOCCPSettings 
+{
 
 }
 
 alias OCCPRequestDeligate = void delegate(IOCCPRequest req, IOCCPResponse res);
 alias OCCPRequestFunction = void function(IOCCPRequest req, IOCCPResponse res);
 
-interface IShell {
+interface IShell 
+{
     IWallet getWallet();
     IBlockchain getBlockchain();
     IOCCPListener listenOCCP(IOCCPSettings settings, OCCPRequestDeligate requestHandler);
 }
 
-interface IOperator {
+interface IOperator 
+{
     ITransaction execute(scope IOntology ontology, scope IBlockchain blockchain) pure;  
 }
 
