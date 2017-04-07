@@ -13,6 +13,8 @@ import std.array;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
+import owlchain.shell.shell;
+import owlchain.wallet.wallet;
 
 //@rootPathFromName
 interface IBlockchainREST
@@ -285,8 +287,6 @@ shared static this()
 	settings.bindAddresses = [config.ipv6, config.ipv4];
 	listenHTTP(settings, router);
 	logInfo("Please open http://" ~ config.ipv4 ~ ":" ~ to!string(config.port) ~ "/ in your browser.");
-
-    import owlchain.shell.shell;
 
     auto shell = new Shell;
     auto occpSettings = new OCCPSettings;
