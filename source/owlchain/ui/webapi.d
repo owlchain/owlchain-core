@@ -209,3 +209,12 @@ enum
 }
 
 int isBlockSync;
+
+
+struct CreateAccount
+{
+ 	string accountAddress;
+ 	bool freezingStatus = false;
+ 	bool transaction = false;
+ 	string filePath;	
+}
