@@ -8,7 +8,6 @@ body article.wrap > section.on{display:block;  }
 
 /*Receive Bos*/
 i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2px;border-radius:50%;font-size:18px;line-height:24px;text-align:center;background:#FF0000;}
-
 /*toggle*/
 .toggle{padding-top:20px;padding-bottom:20px;}
 .toggle dl{position:relative;margin-bottom:20px;}
@@ -25,6 +24,10 @@ i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2p
 .toggle dl dd table{width:100%;}
 .toggle dl dd table th{padding:10px 20px;border-bottom:1px solid #242a42;color:#2a375f;font-size:18px;font-weight:bold;text-align:center;}
 .toggle dl dd table td{padding:10px 20px;border-bottom:1px solid #242a42;text-align:center;}
+/*=== New Create Account / Login =================================================*/
+article.new{position:relative;min-height:800px;background:url('../images/bos_logo.png') #242a42 no-repeat top center;}
+
+article.main{display:none;}
 /*=== Create Account =================================================*/
 .ca{display:block; }
 /*=== Dashboard =================================================*/

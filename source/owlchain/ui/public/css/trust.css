@@ -9,7 +9,7 @@
 
 /*common*/
 body{background:#ebecec; }
-body article.wrap{position:relative;overflow:hidden;min-height: 900px;}
+body article.wrap{position:relative;overflow:hidden;}
 body article.wrap > section{display:none;position:absolute;top:0;left:0; width:100%;margin-bottom:50px;}
 body article.wrap > section.on{display:block;  }
 

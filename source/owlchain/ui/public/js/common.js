@@ -29,7 +29,7 @@ common.js -> module.js 연동처리
             $.COM._receiveBos = '';
             /*  init  ************************/
             $.COM._accountAddress = '';
-            $.COM.setLayout("dash");
+            $.COM.setLayout("start");
         },
         /*
             Login
@@ -47,9 +47,12 @@ common.js -> module.js 연동처리
         */
         setLayout: function(mode) {
             $.COM._main.find('> section').removeClass('on');
-            if (mode == "login") {
+            if (mode == "start") {
                 $.COM._new.show();
                 $.COM._main.hide();
+                $.COM.login();
+            }else if (mode == "login") {
+            
                 $.COM.login();
             } else if (mode == "create") {
 
