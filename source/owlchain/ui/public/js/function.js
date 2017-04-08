@@ -21,19 +21,19 @@ https://github.com/owlchain/owlchain-core/blob/PoC0/source/owlchain/api/readme.m
     const OPER_CREATE_ACCOUNT = "/blockchain/AccountOperations/createAccount";/*삭제예정*/
     const OPER_GET_ACCOUNT = "/blockchain/AccountOperations/getAccount/";
     const OPER_GET_ACCOUNT_TRANSACTION = "/blockchain/AccountOperations/getAccountTransaction/";
+    const OPER_GET_BLOCK_INFOMATION = "/blockchain/AccountOperations/getBlockInformation";
 
     /*TRANSACTION*/
     const TRAN_SEND_BOS = "/blockchain/transactions/sendTransaction/sendBOS/";
-
 
     //	"/blockchain/transactions/sendTransaction/:type/:sender/:receiver/:amount/:fee/:memo"
 
     $.FUNC = {};
     var _ajax = function (url, callBack) {
-        console.log('%c "url: ' + url + '', 'font-size:14px;color:brown;');
+        console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
         $.get(url, function (data, status) {
             //			console.log(data);
-            //console.log("Data: " + data + "\nStatus: " + status);
+            //          console.log("Data: " + data + "\nStatus: " + status);
             callBack.call(this, data);
         });
     };
@@ -53,7 +53,7 @@ https://github.com/owlchain/owlchain-core/blob/PoC0/source/owlchain/api/readme.m
         @result:{"freezingStatus":false,"accountAddress":"BOS-AAAAA-BBBBB-CCCCCCC","accountBlance":0}
          */
         confirmSeed: function (callBack, param) {
-            _ajax(OPER_CONFIRM_SEED, callBack);
+            _ajax(OPER_CONFIRM_SEED+param, callBack);
         },
         /*
          */
@@ -82,6 +82,12 @@ https://github.com/owlchain/owlchain-core/blob/PoC0/source/owlchain/api/readme.m
         receiveBos: function (callBack, param) {
             console.log('----');
             //_ajax(TRAN_SEND_BOS + param, callBack);
+        },
+        /*
+        Block Information
+        */
+        getBlockInformation:function(callBack){
+            _ajax(OPER_GET_BLOCK_INFOMATION, callBack);
         },
         end: function () {}
     };

@@ -29,15 +29,14 @@ common.js -> module.js 연동처리
             $.COM._receiveBos = '';
             /*  init  ************************/
             $.COM._accountAddress = '';
+            $.COM._passPhraseStr = '';
             $.COM._passPhrase = [];
             $.COM.setLoginMode("start");
             //  $.COM.setLoginMode("start");
         },
-        /*
-            Login
-        */
         createPhrase: function() {
             $.FUNC.creatSeed(function(data) {
+                $.COM._passPhraseStr = data.passphrase + "";
                 var _word = data.passphrase.split(" ");
                 var _ul = $.COM._new.find('> section.phrase ul.list');
                 $.COM._passPhrase = [];
@@ -59,6 +58,20 @@ common.js -> module.js 연동처리
             }
             _ul.append(_ele);
         },
+        loading: function() {
+            var _param = '{ "passphrase" : "' + $.COM._passPhraseStr + '"}';
+            $.FUNC.confirmSeed(function(data) {
+                // Create Complete
+                var _time = 1000;
+                var _st = setTimeout(function() {
+                    clearTimeout(_st);
+                    _time = null;
+                    $.COM._new.hide();
+                    $.COM._main.show();
+                    $.COM.setLayout("dash");
+                }, _time);
+            }, _param);
+        },
         /*
         login / New Accout / passPhrase
          */
@@ -69,6 +82,8 @@ common.js -> module.js 연동처리
                 $.COM._new.show();
                 $.COM._main.hide();
             } else if (mode == "create") {
+                $.COM._new.show();
+                $.COM._main.hide();
                 var _time = 1000;
                 var _st = setTimeout(function() {
                     clearTimeout(_st);
@@ -81,14 +96,7 @@ common.js -> module.js 연동처리
             } else if (mode == "check") {
                 $.COM.writePhrase();
             } else if (mode == "loading") {
-                var _time = 1000;
-                var _st = setTimeout(function() {
-                    clearTimeout(_st);
-                    _time = null;
-                    $.COM._new.hide();
-                    $.COM._main.show();
-                    $.COM.setLayout("dash");
-                }, _time);
+                $.COM.loading();
             }
         },
         /*
@@ -111,7 +119,6 @@ common.js -> module.js 연동처리
                         }, $.COM._accountAddress);
                     });
                 }
-
             } else if (mode == "account") {
                 $.COM._account.addClass('on');
                 var _address = '';
@@ -125,13 +132,22 @@ common.js -> module.js 연동처리
                     $.COM._accountAddress = data.accountAddress;
                     //freezingStatus
                     if (Boolean(data.freezingStatus)) {
-                        $('nav.freezing-cont').removeClass('freezing');
-                    } else {
                         $('nav.freezing-cont').addClass('freezing');
+                    } else {
+                        $('nav.freezing-cont').removeClass('freezing');
                     }
                 }, $.COM._accountAddress);
             } else if (mode == "block") {
                 $.COM._blockInfo.addClass('on');
+                $.FUNC.getBlockInformation(function(data) {
+                    var _ele = '';
+                    var _tbody = $.COM._blockInfo.find('table tbody');
+                    _tbody.children().remove();
+                    for (var i in data) {
+                        _ele += '<tr><td>' + data[i].blockHeight + '</td><td>' + data[i].timestamp + '</td><td>' + data[i].amount + '</td><td>' + data[i].fee + '</td><td>' + data[i].generator + '</td></tr>';
+                    }
+                    _tbody.append(_ele);
+                });
             } else if (mode == "config") {
                 $.COM._config.addClass('on');
             }
@@ -163,7 +179,7 @@ common.js -> module.js 연동처리
                 $.FUNC.getAccountTransaction(function(data) {
                     var _ele = '';
                     for (var i = 0; i < data.length; i++) {
-                        _ele += '<tr><td>' + data[i].timestamp + '</td><td>' + data[i].amount + '</td><td>' + data[i].fee + '</td> <td>' + data[i].accountAddress + '<em></em></td></tr>';
+                        _ele += '<tr><td>' + data[i].type + '</td><td>' + data[i].timestamp + '</td><td>' + data[i].amount + '</td><td>' + data[i].feeOrReward + '</td> <td>' + data[i].accountAddress + '<em></em></td></tr>';
                     }
                     $('.my-transaction table tbody').children().remove();
                     $('.my-transaction table tbody').append(_ele)
@@ -231,10 +247,7 @@ common.js -> module.js 연동처리
         });
         /*계정추가 add_new_account*/
         $.COM._wallet.on('click', '.add', function(event) {
-            $.FUNC.createCount(function(data) {
-                $.COM._accountAddress = data.accountAddress;
-                $.COM.addCount($.COM._accountAddress);
-            });
+            $.COM.setLoginMode("create");
         });
         /*Block Info*/
         $.COM._dash.on('click', '.info-wrap a', function(event) {
