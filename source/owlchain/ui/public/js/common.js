@@ -29,36 +29,74 @@ common.js -> module.js 연동처리
             $.COM._receiveBos = '';
             /*  init  ************************/
             $.COM._accountAddress = '';
-            $.COM.setLayout("start");
+            $.COM._passPhrase = [];
+            $.COM.setLoginMode("start");
+            //  $.COM.setLoginMode("start");
         },
         /*
             Login
         */
-        login: function() {
+        createPhrase: function() {
             $.FUNC.creatSeed(function(data) {
                 var _word = data.passphrase.split(" ");
+                var _ul = $.COM._new.find('> section.phrase ul.list');
+                $.COM._passPhrase = [];
+                _ul.children().remove();
+                var _ele = '';
                 for (var i in _word) {
-                    //console.log(_word[i]);
+                    _ele += '<li><span>' + _word[i] + '</span></li>';
+                    $.COM._passPhrase.push(_word[i]);
                 }
+                _ul.append(_ele);
             });
         },
+        writePhrase: function() {
+            var _ele = '';
+            var _ul = $.COM._new.find('> section.check ul.write');
+            _ul.children().remove();
+            for (var i in $.COM._passPhrase) {
+                _ele += '<li><input type="text" data-val=' + $.COM._passPhrase[i] + '></li>';
+            }
+            _ul.append(_ele);
+        },
         /*
-            New Accout / Dashboard / Account / Block Mode
-        */
-        setLayout: function(mode) {
-            $.COM._main.find('> section').removeClass('on');
+        login / New Accout / passPhrase
+         */
+        setLoginMode: function(mode) {
+            $.COM._new.find('> section').removeClass('on');
+            var _target = $.COM._new.find('section.' + mode).addClass('on');
             if (mode == "start") {
                 $.COM._new.show();
                 $.COM._main.hide();
-                $.COM.login();
-            }else if (mode == "login") {
-            
-                $.COM.login();
             } else if (mode == "create") {
-
-            } else if (mode == "dash") {
-                $.COM._new.hide();
-                $.COM._main.show();
+                var _time = 1000;
+                var _st = setTimeout(function() {
+                    clearTimeout(_st);
+                    _time = null;
+                    $.COM.setLoginMode('phrase');
+                }, _time);
+            } else if (mode == "phrase") {
+                $.COM.createPhrase();
+                //$.COM._new.find('section.' + mode).fadeIn();
+            } else if (mode == "check") {
+                $.COM.writePhrase();
+            } else if (mode == "loading") {
+                var _time = 1000;
+                var _st = setTimeout(function() {
+                    clearTimeout(_st);
+                    _time = null;
+                    $.COM._new.hide();
+                    $.COM._main.show();
+                    $.COM.setLayout("dash");
+                }, _time);
+            }
+        },
+        /*
+            Dashboard / Account / Block Mode
+        */
+        setLayout: function(mode) {
+            $.COM._main.find('> section').removeClass('on');
+            if (mode == "dash") {
                 $.COM._dash.addClass('on');
                 //--대쉬보드
                 var _list = $.COM._dash.find('nav > section'); //account계정리스트
@@ -177,7 +215,12 @@ common.js -> module.js 연동처리
     */
     var _bind = function() {
         /*테스트코드*/
-
+        /*login passPhrase*/
+        $.COM._new.on('click', 'a.link', function(event) {
+            var _cls = $(this).attr('data-val');
+            var _section = $.COM._new.find('>section');
+            $.COM.setLoginMode(_cls);
+        });
         /*대쉬보드 이동*/
         $.COM._main.on('click', 'header .close', function(event) {
             $.COM.setLayout("dash");
@@ -188,7 +231,6 @@ common.js -> module.js 연동처리
         });
         /*계정추가 add_new_account*/
         $.COM._wallet.on('click', '.add', function(event) {
-            console.log('-');
             $.FUNC.createCount(function(data) {
                 $.COM._accountAddress = data.accountAddress;
                 $.COM.addCount($.COM._accountAddress);

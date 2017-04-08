@@ -11,8 +11,6 @@ trust.js
         function setDisplay(cls) {
             var _old = _section.siblings('.on');
             var _sec = _section.siblings('.' + cls);
-            console.log(_old);
-
             var _height=parseInt(_sec.height())+100;
             $('article.wrap').css('height',_height);
             //  _section.removeClass('on');  bounceInRight  bounceOutLeft

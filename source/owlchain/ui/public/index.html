@@ -16,11 +16,56 @@
 
 <body>
     <article class="new wrap trans">
-        <section class="login on">
-            <a href="#">로그인</a>
+        <!--#1-->
+        <section class="start on">
+            <p>아이콘</p>
+            <p>If you have an BOScoin Account.</p>
+            <select name="" id="">
+                <option value="v1" selected="selected">Select an Accout to Login with</option>
+            </select>
+            <p>아이콘</p>
+            <a class="link" data-val="create" href="#">Don't have an BOScoin Accout? <br>Click here to create one!</a>
         </section>
+        <!--#2-->
         <section class="create">
-            새로운계정생성
+            <p>CreateYour BOScoin Account</p>
+            <div class="box">
+                <p>Generating your passphrase. <br>Please Wait.</p>
+                <p>아이콘</p>
+            </div>
+        </section>
+        <!--#3-->
+        <section class="phrase">
+            <p>CreateYour BOScoin Account</p>
+            <div class="box">
+                <p>Your automatically generated passphrase is :</p>
+                <ul class="list">
+                    <li><span>WORD</span></li>
+                </ul>
+                <p>텍스트문구</p>
+                <p class="clfix"></p>
+                <div class="col col-2">
+                    <a class="cancel" href="#">Cancel</a>
+                    <a class="next link" data-val="check" href="#">Next ></a>
+                </div>
+            </div>
+        </section>
+        <!--#4-->
+        <section class="check">
+            <p>CreateYour BOScoin Account</p>
+            <div class="box">
+                <p>문구</p>
+                <ul class="write list">
+                    <!-- <li><span>WORD</span></li> -->
+                </ul>
+                <div class="col col-2">
+                    <a class="cancel" href="#">Cancel</a>
+                    <a class="next link" data-val="loading" href="#">Next ></a>
+                </div>
+            </div>
+        </section>
+        <section class="loading">
+            <p>이미지</p>
         </section>
     </article>
     <article class="main wrap trans">
@@ -45,26 +90,26 @@
                 </header>
                 <nav class="content">
                     <!--loop
-					<section class="clfix">
-						<div class="pay">
-							<a href="#">
-								<div class="address">test1 *AAAAAAAfg59fhsp4qper</div>
-								<p class="coin">100.000 <em>BOS</em></p>
-							</a>
-						</div>
-						<ul class="ctl clfix">
-							<li>
-								<a href="#" class="receive"><img src="./images/ico_receive.png"></a>
-							</li>
-							<li>
-								<a href="#" class="send"><img src="./images/ico_send.png"></a>
-							</li>
-							<li class="freez">
-								<a href="#" class="freez"><img src="./images/ico_freezing.png"></a>
-							</li>
-						</ul>
-					</section>
-					-->
+                    <section class="clfix">
+                        <div class="pay">
+                            <a href="#">
+                                <div class="address">test1 *AAAAAAAfg59fhsp4qper</div>
+                                <p class="coin">100.000 <em>BOS</em></p>
+                            </a>
+                        </div>
+                        <ul class="ctl clfix">
+                            <li>
+                                <a href="#" class="receive"><img src="./images/ico_receive.png"></a>
+                            </li>
+                            <li>
+                                <a href="#" class="send"><img src="./images/ico_send.png"></a>
+                            </li>
+                            <li class="freez">
+                                <a href="#" class="freez"><img src="./images/ico_freezing.png"></a>
+                            </li>
+                        </ul>
+                    </section>
+                    -->
                 </nav>
             </article>
             <article class="info-wrap">
@@ -156,7 +201,7 @@
                                     <col width="30%">
                                 </colgroup>
                                 <tbody>
-<!--loop
+                                    <!--loop
 <tr>
 <td><i><img src="./images/ac_ico_receive_arrow.png"></i>Receiving..</td>
 <td>1.0000<em>BOS</em></td>
@@ -185,9 +230,9 @@
                                         <button class="cancel">Cancel</button>
                                         <button class="send">Send</button>
                                         <!--
-										<input type="button" class="cancel" value="Cancel">
-										<input type="submit" value="Send">
-										<input type="button" class="send-bos" value="팝업">
+                                        <input type="button" class="cancel" value="Cancel">
+                                        <input type="submit" value="Send">
+                                        <input type="button" class="send-bos" value="팝업">
 -->
                                     </div>
                                 </li>
@@ -217,13 +262,13 @@
                                     </thead>
                                     <tbody>
                                         <!-- loop pager.
-										<tr>
-											<td>02/10/2017</td>
-											<td>20.0000</td>
-											<td>0.175</td>
-											<td>YOU<em></em></td>
-										</tr>
-										-->
+                                        <tr>
+                                            <td>02/10/2017</td>
+                                            <td>20.0000</td>
+                                            <td>0.175</td>
+                                            <td>YOU<em></em></td>
+                                        </tr>
+                                        -->
                                     </tbody>
                                 </table>
                             </div>
@@ -442,4 +487,5 @@
     </article>
     <!--//Popup-->
 </body>
+
 </html>
