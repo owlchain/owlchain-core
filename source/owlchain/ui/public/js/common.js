@@ -31,8 +31,12 @@ common.js -> module.js 연동처리
             $.COM._accountAddress = '';
             $.COM._passPhraseStr = '';
             $.COM._passPhrase = [];
+            //test code
+//            $.COM._new.hide();
+//            $.COM._main.show();
+//            $.COM.setLayout("dash");
+            // test code
             $.COM.setLoginMode("start");
-            //  $.COM.setLoginMode("start");
         },
         createPhrase: function() {
             $.FUNC.creatSeed(function(data) {
@@ -321,15 +325,19 @@ common.js -> module.js 연동처리
         });
         /*BOS보내기*/
         $.COM._popup.on('click', '.send-bos footer a', function(event) {
-            $.COM.setPopup('section.send-bos-ok');
-            //
             var _params = '';
             _params = $.COM._account.find('.account .address').text();
             _params += "/" + $('ul.form input.receiver').val();
             _params += "/" + $('ul.form input.amount').val();
             _params += "/" + $('ul.form input.memo').val();
             $.FUNC.sendBos(function(data) {
-                console.log(data);
+                // Object {sendBos: true}    false일경우 필요.
+                var _chk = Boolean(data.sendBos);
+                if (_chk) {
+                    $.COM.setPopup('section.send-bos-ok');
+                } else {
+                    $.COM.setPopup('section.send-bos-cancel');
+                }
             }, _params);
         });
     }
