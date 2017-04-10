@@ -6,18 +6,18 @@
     <title>Welcome to OWlchain website</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../css/common.css" rel="stylesheet">
-    <link href="../css/trust.css" rel="stylesheet">
     <link href="../css/animate.css" rel="stylesheet">
-<!--
+    <link href="./css/trust.css" rel="stylesheet">
     <script>
-        window.nodeRequire = require;
+        if (window.nodeRequire) {
+            window.nodeRequire = require;
+        }
         delete window.require;
         delete window.exports;
         delete window.module;
     </script>
--->
     <script src="../js/jquery.js"></script>
-    <script src="../js/trust.js"></script>
+    <script src="./js/trust.js"></script>
     <!--Plugin-->
     <link rel="stylesheet" href="./lib/codemirror.css">
     <link rel="stylesheet" href="./addon/fold/foldgutter.css">

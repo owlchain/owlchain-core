@@ -16,7 +16,7 @@ body article.wrap > section.on{display:block;  }
 h1{margin-bottom:30px;font-size:30px;}
 .cmnBtn{display:block;padding:10px;color:#FFF;background:#4c5564;text-align:center;}
 /*header*/
-header{position:relative;margin-bottom:30px;text-align:center;background:#4c5564; }
+header{position:relative;margin-bottom:30px;text-align:center;background:url('../images/header_bg.png') no-repeat top center #4c5564; }
 header span{display:inline-block;padding:20px 0;color:#FFF;font-size:20px;}
 header span a, a:visited{color:#FFF;}
 header #link {position:absolute;top:20px;bottom:0;right:20px; vertical-align:middle;color:#111;font-size:16px;}
