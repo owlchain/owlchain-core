@@ -3,22 +3,26 @@
 /*editor*/
 .editor-wrap{width:80%;}
 .CodeMirror { border-top: 1px solid #eee; border-bottom: 1px solid #eee; line-height: 1.3; }
-
 .CodeMirror-linenumbers { padding: 10px 8px; }
 .CodeMirror pre{padding-left:40px!important;}
 
 /*common*/
 body{background:#ebecec; }
+body .content{max-width:784px;padding-left:0;padding-right:0;}
 body article.wrap{position:relative;overflow:hidden;}
 body article.wrap > section{display:none;position:absolute;top:0;left:0; width:100%;margin-bottom:50px;}
-body article.wrap > section.on{display:block;  }
+body article.wrap > section.on{display:block; }
+body article.wrap .box{padding:15px;background:#FFF;border:1px solid #959595;font-size:18px;color:#000;line-height: 150%;}
 
 h1{margin-bottom:30px;font-size:30px;}
 .cmnBtn{display:block;padding:10px;color:#FFF;background:#4c5564;text-align:center;}
 /*header*/
-header{position:relative;margin-bottom:30px;text-align:center;background:url('../images/header_bg.png') no-repeat top center #4c5564; }
-header span{display:inline-block;padding:20px 0;color:#FFF;font-size:20px;}
-header span a, a:visited{color:#FFF;}
+header{position:relative;height:180px;margin-bottom:30px;text-align:center;background:url('../images/header_bg.png') no-repeat top center #242a42; }
+header .content{position:relative;height:180px;margin-bottom:30px;}
+header .content nav{position:absolute;left:0;bottom:0; }
+header .content nav a , header content nav a:visited{display:inline-block;position:relative;padding:15px 20px;color:#FFF;font-size:20px;}
+header .content nav a:hover:after ,header .content nav a.on:after{position:absolute;bottom:5px;left:0;width:100%;height:3px;background:#FFF;content:'';}
+
 header #link {position:absolute;top:20px;bottom:0;right:20px; vertical-align:middle;color:#111;font-size:16px;}
 /*main*/
 .btn-wrap{margin:50px 0;}
@@ -28,10 +32,12 @@ header #link {position:absolute;top:20px;bottom:0;right:20px; vertical-align:mid
 .main dl{width:100%;margin-bottom:20px;padding:20px 0;border-bottom:1px solid #4c5564;}
 .main dl:after{display:block;clear:both;content:'';}
 .main dl > * {vertical-align:middle;}
-.main dl dt{float:left;margin-right:20px;font-size:20px;}
+.main dl dt{float:left;margin-right:20px;color:#464646;font-size:20px;}
+.main dl dt label{margin-left:120px;}
+.main dl dt.clfix{float: none;}
 .main dl dt input {padding:5px 10px;}
 .main dl dd{float:right;}
-.main dl dd a{padding:10px 20px;color:#FFF;background: #47617f;}
+.main dl dd a{padding:10px 55px;color:#FFF;background: #4d77ab;}
 
 /*s1*/
 .s1 .editor-wrap{float:left;width:75%;}

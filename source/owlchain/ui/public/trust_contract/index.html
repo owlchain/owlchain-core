@@ -40,8 +40,12 @@
 
 <body>
     <header>
-        <span><a class="link" data-val="main" href="#">TRUST CONTRACT</a></span>
-        <select name="" id="link">
+      <div class="content">
+        <nav>
+          <a data-val="main" href="#" class="on">Main</a><a href="#">Editor</a><a href="#">Contracts</a><a href="#">Tutorial</a>
+        </nav>
+      </div>
+        <!-- <select name="" id="link">
             <option value="main">메인페이지</option>
             <option value="s1">컨트랙트 작성</option>
             <option value="s2">컨트랙트 생성</option>
@@ -49,15 +53,16 @@
             <option value="s4">컨트랙트 예제</option>
             <option value="s5">User Friendly Code</option>
             <option value="s6">User Friendly View</option>
-        </select>
+        </select> -->
     </header>
     <article class="wrap trans">
         <!--Main-->
         <section class="main on">
             <article class="content">
                 <!-- <h1>TRUST CONTRACT</h1>-->
-                <p class="desc">
-                    BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
+                <p class="box">
+                    BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution
+                    of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
                 </p>
                 <div class="btn-wrap">
                     <dl>
@@ -65,8 +70,8 @@
                         <dd><a class="link" data-val="s1" href="#">CREATE</a></dd>
                     </dl>
                     <dl>
-                        <dt>Trust Contract Search</dt>
-                        <dt>address : <input type="text"></dt>
+                        <dt class="clfix">Trust Contract Search</dt>
+                        <dt><label for="input">address : <input type="text"></label></dt>
                         <dd><a class="link" data-val="s4" href="#">SEARCH</a></dd>
                     </dl>
                 </div>
@@ -97,7 +102,6 @@
                             theme: "monokai",
                             tabSize: 4
                         });
-
                     </script>
                     <h2>OPERATOR(TAL) </h2>
                     <div class="tal editor"></div>
@@ -120,7 +124,6 @@
                             theme: "monokai",
                             tabSize: 4
                         });
-
                     </script>
                 </div>
                 <div class="menu-wrap">
@@ -147,7 +150,8 @@
         <section class="s2">
             <article class="content">
                 <p class="desc">
-                    TRUST CONTRACT <br><br> BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
+                    TRUST CONTRACT <br><br> BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability
+                    to support secure and precise execution of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
                 </p>
                 <div class="list">
                     <p class="info">PENDING...</p>
@@ -295,7 +299,6 @@
                         theme: "monokai",
                         tabSize: 4
                     });
-
                 </script>
             </article>
         </section>

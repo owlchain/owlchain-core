@@ -11,35 +11,15 @@ trust.js
         function setDisplay(cls) {
             var _old = _section.siblings('.on');
             var _sec = _section.siblings('.' + cls);
-            var _height=parseInt(_sec.height())+100;
-            $('article.wrap').css('height',_height);
+            var _height = parseInt(_sec.height()) + 100;
+            $('article.wrap').css('height', _height);
             //  _section.removeClass('on');  bounceInRight  bounceOutLeft
             _sec.addClass('on bounceInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
                 $(this).removeClass('bounceInRight animated');
-          //      _sec.addClass('on');
             });
-
-              _old.addClass('bounceOutLeft animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                  $(this).removeClass('on bounceOutLeft animated');
-              });
-
-            /*
-            _section.each(function(idx) {
-                var _this = $(this);
-                if ($(this).hasClass(cls)) {
-                    console.log('#idx : ' + idx);
-                    _this.addClass('on bounceInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                        $(this).removeClass().addClass('on');
-                    });
-                } else if() {
-                    console.log('#select : ' + idx);
-                    _this.addClass('bounceInLeft animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                        $(this).removeClass();
-                    });
-                    //  _this.removeClass('bounceInRight').addClass('bounceInLeft animated');
-                }
-            });;
-            */
+            _old.addClass('bounceOutLeft animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $(this).removeClass('on bounceOutLeft animated');
+            });
             _menu.val(cls);
             var _t = _section.siblings('.' + cls);
             if (cls == "s1") {
@@ -53,7 +33,6 @@ trust.js
             //$("#selectBox option:eq(2)").attr("selected", "selected");
         }
         var _menu = $('header select');
-        var _artivle
         var _section = $('article.wrap > section');
         var _link = $('a.link');
 
@@ -77,7 +56,12 @@ trust.js
 
         /*init*/
         var _cls = $('section.on').attr('class').split('on')[0].replace(/\s+/g, '');
-    //    setDisplay(_cls);
+        var _height = parseInt($('section.on').height()) + 100;
+        $('article.wrap').css('height', _height);
+        $('section.on').addClass('on bounceInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+            $(this).removeClass('bounceInRight animated');
+        });
+        //setDisplay(_cls);
     }
     /*ADD_ACCOUNT
      */
