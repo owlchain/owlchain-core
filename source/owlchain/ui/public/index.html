@@ -27,32 +27,37 @@
     <article class="new wrap trans">
         <!--#1-->
         <section class="start on">
-            <p>아이콘</p>
+            <p><img src="./images/login_start.png" alt=""></p>
             <p>If you have an BOScoin Account.</p>
             <select name="" id="">
                 <option value="v1" selected="selected">Select an Accout to Login with</option>
             </select>
-            <p>아이콘</p>
-            <a class="link" data-val="create" href="#">Don't have an BOScoin Accout? <br>Click here to create one!</a>
+            <a class="link" data-val="create" href="#">
+                <p><img src="./images/login_create.png" alt=""></p>
+                <p>Don't have an BOScoin Accout? <br>Click here to create one!</p>
+            </a>
         </section>
         <!--#2-->
         <section class="create">
             <p>CreateYour BOScoin Account</p>
             <div class="box">
                 <p>Generating your passphrase. <br>Please Wait.</p>
-                <p>아이콘</p>
+                <p class="loading"><img src="./images/login_loading.png" alt=""></p>
             </div>
         </section>
         <!--#3-->
         <section class="phrase">
             <p>CreateYour BOScoin Account</p>
             <div class="box">
-                <p>Your automatically generated passphrase is :</p>
+                <p class="tit">Your automatically generated passphrase is :</p>
                 <ul class="list">
                     <li><span>WORD</span></li>
                 </ul>
-                <p>텍스트문구</p>
-                <p class="clfix"></p>
+                <p class="left">Please write down ormemorize these 12words <br> (their order and capitalization matters - always lowercase).<br>This passphrase is need in order to access your BOScoin account.</p>
+                <p class="info clfix">
+                  <i><img src="./images/login_warning.png" alt=""></i>
+                  <p>Don’t ever disclose your passphrase.<br> If you loseit you lose access to your account!</p>
+                </p>
                 <div class="col col-2">
                     <a class="cancel" href="#">Cancel</a>
                     <a class="next link" data-val="check" href="#">Next ></a>
@@ -63,7 +68,7 @@
         <section class="check">
             <p>CreateYour BOScoin Account</p>
             <div class="box">
-                <p>문구</p>
+                <p>Your passphrase is very important! <br>In order to be sure that you have saved it,<br> please writeyour passphrase below:</p>
                 <ul class="write">
                     <!-- <li><span>WORD</span></li> -->
                 </ul>
