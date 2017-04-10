@@ -1,5 +1,6 @@
 /*
-https://github.com/owlchain/owlchain-core/blob/PoC0/source/owlchain/api/readme.md
+Vibe:               https://github.com/owlchain/owlchain-core/blob/PoC0/source/owlchain/api/readme.md
+Websocket:      https://github.com/owlchain/owlchain-core/blob/PoC0/source/owlchain/ui/readme.md
 
 	/blockchain/AccountOperations/createSeed
 	/blockchain/AccountOperations/confirmSeed
@@ -10,7 +11,7 @@ https://github.com/owlchain/owlchain-core/blob/PoC0/source/owlchain/api/readme.m
 
 	/blockchain/FreezingOperations/setFreezing
 	/blockchain/AccountOperations/getBlockSynchronization
-
+    /blockchain/AccountOperations/recvAccountInformation
  */
 (function ($) {
     "use strict";

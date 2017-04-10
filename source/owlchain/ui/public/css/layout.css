@@ -26,6 +26,7 @@ i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2p
 .toggle dl dd table td{padding:10px 20px;border-bottom:1px solid #242a42;text-align:center;}
 /*=== New Create Account / Login =================================================*/
 article.new{position:relative;min-height:800px;background:url('../images/bos_logo.png') #242a42 no-repeat top center;}
+article.new.loading{background:url('../images/loading_img.jpg') #242a42 no-repeat top center; background-size:contain;}
 article.new > section{display:block;width:400px;margin:740px auto 100px;text-align: center;}
 article.new > section > p{margin-bottom:30px;color:#FFF;font-size:24px;}
 article.new > section p.loading{padding-top:120px;}

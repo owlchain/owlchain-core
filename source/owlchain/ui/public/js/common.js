@@ -38,6 +38,7 @@ common.js -> module.js 연동처리
             // test code
             $.COM.setLoginMode("start");
         },
+
         createPhrase: function() {
             $.FUNC.creatSeed(function(data) {
                 $.COM._passPhraseStr = data.passphrase + "";
@@ -63,6 +64,7 @@ common.js -> module.js 연동처리
             _ul.append(_ele);
         },
         loading: function() {
+            $.COM._new.addClass('loading');
             var _param = '{ "passphrase" : "' + $.COM._passPhraseStr + '"}';
             $.FUNC.confirmSeed(function(data) {
                 // Create Complete
@@ -71,6 +73,7 @@ common.js -> module.js 연동처리
                     clearTimeout(_st);
                     _time = null;
                     $.COM._new.hide();
+                    $.COM._new.removeClass('loading');
                     $.COM._main.show();
                     $.COM.setLayout("dash");
                 }, _time);
@@ -83,6 +86,8 @@ common.js -> module.js 연동처리
             $.COM._new.find('> section').removeClass('on');
             var _target = $.COM._new.find('section.' + mode).addClass('on');
             if (mode == "start") {
+                /* recvAccountInforamation으로 수신한  addres count가 “0” 인 경우에만 이 화면이 나타나게 되고 1개 이상이면 받은
+                address로   getAccount Rest API로 call하여 대쉬보드 화면이  나타나면 됩니다.*/
                 $.COM._new.show();
                 $.COM._main.hide();
             } else if (mode == "create") {
@@ -100,6 +105,9 @@ common.js -> module.js 연동처리
             } else if (mode == "check") {
                 $.COM.writePhrase();
             } else if (mode == "loading") {
+    /*12개 단어 모두 맞아야 이동합니다.   현재는 next 누르면 넘어가게 하시면 되지만
+     며칠내로 실제 데이타 송수신될테니 그 때는 test가   아닌 정상적인 절차로 처리 되어야 합니다.
+     "You have not typed the passphrase correctly, please try again! "  */
                 $.COM.loading();
             }
         },
@@ -112,6 +120,10 @@ common.js -> module.js 연동처리
                 $.COM._dash.addClass('on');
                 //--대쉬보드
                 var _list = $.COM._dash.find('nav > section'); //account계정리스트
+                /*
+                https://github.com/owlchain/owlchain-core/tree/PoC0/source/owlchain/ui#recvaccountinformation
+                상기 내용 참고 : 전달될 account count와 그에 해당하는 account address 전달
+               */
                 if (_list.length == 0) {
                     $.FUNC.createCount(function(data) {
                         $.COM._accountAddress = data.accountAddress;
