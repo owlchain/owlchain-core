@@ -39,9 +39,14 @@ article.new > section div.box .col a{padding:20px;color:#FFF;font-size:20px;box-
 article.new > section div.box .col a.cancel{background:#898989;}
 article.new > section div.box .col a.next{background:#66a0c9;}
 article.new > section div.box p{color:#111;}
+article.new > section div.box .list:after{display:block;width:100%;clear:both;content:'';}
 article.new > section div.box .list  li{float:left;width:33.33%;padding:10px;color:#FFF;background:#898989;text-align: center;box-sizing: border-box;}
 article.new > section div.box .write  li{float:left;width:33.33%;padding:5px;background:#FFF;text-align: center;box-sizing: border-box;}
 article.new > section div.box .write  li input{width:100%; height:40px;border:0;font-size:20px;text-indent: 10px;background:#c2c2c2;}
+article.new > section div.box p.txt{margin-top:30px;padding:0 20px;box-sizing: border-box;text-align:left;}
+article.new > section div.box .info{margin-top:30px;padding:0 0 0 20px;box-sizing: border-box;}
+article.new > section div.box .info i{float:left;width:10%;}
+article.new > section div.box .info p{float:right;width:80%;padding-left:10%;text-align:left;}
 article.main{display:none;}
 /*=== Create Account =================================================*/
 .ca{display:block; }
