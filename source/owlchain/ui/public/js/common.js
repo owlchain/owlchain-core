@@ -31,14 +31,16 @@ common.js -> module.js 연동처리
             $.COM._accountAddress = '';
             $.COM._passPhraseStr = '';
             $.COM._passPhrase = [];
-            //test code
-//            $.COM._new.hide();
-//            $.COM._main.show();
-//            $.COM.setLayout("dash");
-            // test code
-            $.COM.setLoginMode("start");
-        },
 
+            var _mode="test";
+            if(_mode=="test"){
+              $.COM._new.hide();
+              $.COM._main.show();
+              $.COM.setLayout("dash");
+            }else{
+              $.COM.setLoginMode("start");
+            }
+        },
         createPhrase: function() {
             $.FUNC.creatSeed(function(data) {
                 $.COM._passPhraseStr = data.passphrase + "";
@@ -93,7 +95,7 @@ common.js -> module.js 연동처리
             } else if (mode == "create") {
                 $.COM._new.show();
                 $.COM._main.hide();
-                var _time = 1000;
+                var _time = 3000;
                 var _st = setTimeout(function() {
                     clearTimeout(_st);
                     _time = null;
@@ -131,7 +133,7 @@ common.js -> module.js 연동처리
                         //-------------------------------------------------------
                         $.FUNC.getAccount(function(data) {
                             $.COM._dash.find('.address').text(data.accountAddress);
-                            $.COM._dash.find('.coin').text(data.accountBalance);
+                            $.COM._dash.find('.coin').text(data.accountBalance.toLocaleString());
                         }, $.COM._accountAddress);
                     });
                 }
@@ -140,10 +142,10 @@ common.js -> module.js 연동처리
                 var _address = '';
                 $.FUNC.getAccount(function(data) {
                     //acount
-                    $.COM._account.find('.address em').text(data.accountAddress);
-                    $.COM._account.find('.account span').text(data.accountBalance);
-                    $.COM._account.find('.available span').text(data.availableBalance);
-                    $.COM._account.find('.pending span').text(data.pendingBalance);
+                    $.COM._account.find('.address em').text(data.accountAddress.toLocaleString());
+                    $.COM._account.find('.account span').text(data.accountBalance.toLocaleString());
+                    $.COM._account.find('.available span').text(data.availableBalance.toLocaleString());
+                    $.COM._account.find('.pending span').text(data.pendingBalance.toLocaleString());
                     //전역변수
                     $.COM._accountAddress = data.accountAddress;
                     //freezingStatus
@@ -160,7 +162,7 @@ common.js -> module.js 연동처리
                     var _tbody = $.COM._blockInfo.find('table tbody');
                     _tbody.children().remove();
                     for (var i in data) {
-                        _ele += '<tr><td>' + data[i].blockHeight + '</td><td>' + data[i].timestamp + '</td><td>' + data[i].amount + '</td><td>' + data[i].fee + '</td><td>' + data[i].generator + '</td></tr>';
+                        _ele += '<tr><td>' + data[i].blockHeight + '</td><td>' + data[i].timestamp + '</td><td>' + data[i].amount.toLocaleString() + '</td><td>' + data[i].fee + '</td><td>' + data[i].generator + '</td></tr>';
                     }
                     _tbody.append(_ele);
                 });
@@ -195,7 +197,7 @@ common.js -> module.js 연동처리
                 $.FUNC.getAccountTransaction(function(data) {
                     var _ele = '';
                     for (var i = 0; i < data.length; i++) {
-                        _ele += '<tr><td>' + data[i].type + '</td><td>' + data[i].timestamp + '</td><td>' + data[i].amount + '</td><td>' + data[i].feeOrReward + '</td> <td>' + data[i].accountAddress + '<em></em></td></tr>';
+                        _ele += '<tr><td>' + data[i].type + '</td><td>' + data[i].timestamp + '</td><td>' + data[i].amount.toLocaleString() + '</td><td>' + data[i].feeOrReward + '</td> <td>' + data[i].accountAddress + '<em></em></td></tr>';
                     }
                     $('.my-transaction table tbody').children().remove();
                     $('.my-transaction table tbody').append(_ele)

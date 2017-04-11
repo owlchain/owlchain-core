@@ -29,7 +29,7 @@ article.new{position:relative;min-height:800px;background:url('../images/bos_log
 article.new.loading{background:url('../images/loading_img.jpg') #242a42 no-repeat top center; background-size:contain;}
 article.new > section{display:block;width:400px;margin:740px auto 100px;text-align: center;}
 article.new > section > p{margin-bottom:30px;color:#FFF;font-size:24px;}
-article.new > section p.loading{padding-top:120px;}
+article.new > section p.loadingBar{margin-top:150px;}
 article.new > section select{margin:-20px auto 90px;padding:5px 20px;color:#959595;font-size:20px;}
 article.new > section a , article.new > section a:visited{color:#FFF;}
 article.new > section div.box{position:relative;width:400px;min-height:485px;padding-top:20px;background:#FFF;box-sizing: border-box;}
