@@ -53,6 +53,8 @@ p.center > *{display:inline-block;}
 article{display:block;}
 /*background*/
 .bg_b{background:#242a42!important;}
+.bg_db{background:#2a375f!important;}/*dark blue*/
+.bg_sky{background:#66a0c9!important;}
 .bg_g{background:#ecebeb!important;}
 .bg_dg{background:#898989!important;}
 .bg_w{background:#fff!important;}

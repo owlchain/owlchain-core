@@ -324,17 +324,34 @@ common.js -> module.js 연동처리
         $.COM._config.on('click', '.toggle dl dt', function(event) {
             $(this).parents('dl').toggleClass('on');
         });
+        //  Configuration ->  Wallet Backup
+        $.COM._config.on('click', 'a.btn_backup', function(event) {
+            $.COM.setPopup('section.backup1');
+        });
         /*About & Help Toggle*/
         $.COM._about.on('click', '.toggle dl dt', function(event) {
             $(this).parents('dl').toggleClass('on');
         });
         /*Footer */
         $.COM._footer.on('click', 'a', function(event) {
-            $.COM.setLayout('about');
+            var _mode=$(this).attr('data-val');
+            if(_mode=="main"){
+                $.COM.setLayout('dash');
+            }else if(_mode=="about" || _mode=="help"){
+                $.COM._about.find('.info-wrap').find('dl.'+_mode).addClass('on').siblings('dl').removeClass('on');
+                $.COM.setLayout('about');
+            }
         });
         /*팝업닫기*/
         $.COM._popup.on('click', '.layer footer a', function(event) {
-            $.COM.setPopup('close');
+            //팝업에 바로가기 기능이 있는지 확인여부
+            if( $(this).hasClass('link')){
+                var _target=$(this).attr('data-val');
+                console.log(_target);
+                $.COM.setPopup("."+_target);
+            }else{
+                $.COM.setPopup('close');
+            }
         });
         /*프리징하기*/
         $.COM._popup.on('click', '.freezing footer a', function(event) {
@@ -367,8 +384,6 @@ common.js -> module.js 연동처리
         });
     }
 
-    /*ADD_ACCOUNT
-     */
     $(document).ready(function() {
         _setup();
 
