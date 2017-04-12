@@ -8,14 +8,17 @@ trust.js
     };
     /*trust-contract*/
     var _bind = function() {
+        var _isMotion = false;
         function setDisplay(cls) {
             var _old = _section.siblings('.on');
             var _sec = _section.siblings('.' + cls);
             var _height = parseInt(_sec.height()) + 100;
             $('article.wrap').css('height', _height);
             //  _section.removeClass('on');  bounceInRight  bounceOutLeft
+            _isMotion=true;
             _sec.addClass('on bounceInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
                 $(this).removeClass('bounceInRight animated');
+                _isMotion=false;
             });
             _old.addClass('bounceOutLeft animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
                 $(this).removeClass('on bounceOutLeft animated');
@@ -42,8 +45,15 @@ trust.js
         });
         /*공통UI*/
         _link.bind('click', function(event) {
+            if(_isMotion){
+                return false;
+            }
             var _val = $(this).attr('data-val');
-            setDisplay(_val);
+            var _isOn = $(this).hasClass('on');
+            if (!_isOn) {
+                setDisplay(_val);
+                $(this).addClass('on').siblings('a').removeClass('on');
+            }
         });
         /**/
         $('.popup-link').bind('click', function(event) {

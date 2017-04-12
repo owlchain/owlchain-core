@@ -42,18 +42,13 @@
     <header>
         <div class="content">
             <nav>
-                <a data-val="main" href="#" class="on">Main</a><a href="#">Editor</a><a href="#">Contracts</a><a href="#">Tutorial</a>
+                <a class="link on" data-val="main" href="#" >Main</a>
+                <a class="link" data-val="s1" href="#" >Editor</a>
+                <a class="link" data-val="s2" href="#" >Contracts</a>
+                <a class="link" data-val="s3" href="#" >Tutorial</a>
+                <a class="link" data-val="s4" href="#" >Contract Test</a>
             </nav>
         </div>
-        <select name="" id="link">
-            <option value="main">메인페이지</option>
-            <option value="s1">컨트랙트 작성</option>
-            <option value="s2">컨트랙트 생성</option>
-            <option value="s3">컨트랙트 리스트</option>
-            <option value="s4">컨트랙트 예제</option>
-            <option value="s5">User Friendly Code</option>
-            <option value="s6">User Friendly View</option>
-        </select>
     </header>
     <article class="wrap trans">
         <!--Main-->
@@ -64,49 +59,28 @@
                     BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution
                     of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
                 </p>
-                <div class="btn-wrap">
-                    <dl>
-                        <dt>Trust Contract Create</dt>
-                        <dd><a class="link" data-val="s1" href="#">CREATE</a></dd>
-                    </dl>
-                    <dl>
-                        <dt class="clfix">Trust Contract Search</dt>
-                        <dt><label for="input">address : <input type="text"></label></dt>
-                        <dd><a class="link" data-val="s4" href="#">SEARCH</a></dd>
-                    </dl>
+                <div class="line_wrap">
+                    <span class="left">Trust Contract Create</span>
+                    <a class="link right" data-val="s1" href="#">CREATE</a>
+                </div>
+                <div class="line_wrap">
+                    <p>Trust Contract Search</p>
+                    <span class="left"><label for="input">address : <input type="text"></label></span>
+                    <a class="link right" data-val="s1" href="#">SEARCH</a>
                 </div>
             </article>
         </section>
         <section class="s1">
             <article class="content">
-                <h1>Real Estate Contract</h1>
+                <div class="title_wrap clfix">
+                    <span>Title</span>
+                    <input type="text">
+                </div>
                 <div class="editor-wrap">
                     <h2>DATA(OWL)</h2>
                     <div class="owl editor"></div>
                     <script>
                         var editor = CodeMirror(document.body.getElementsByClassName("owl")[0], {
-                            value: "<!--code-->\n<html>\n<head><title>TRUST CONTRACT</title></head>\n<body></body>\n</html>\n<!--//code-->",
-                            mode: "text/html",
-                            keyMap: "sublime",
-                            lineNumbers: true,
-                            htmlMode: true,
-                            indentWithTabs: true,
-                            lineWrapping: true,
-                            smartIndent: true,
-                            lineNumbers: true,
-                            matchBrackets: true,
-                            autofocus: true,
-                            autoCloseBrackets: true,
-                            matchBrackets: true,
-                            showCursorWhenSelecting: true,
-                            theme: "monokai",
-                            tabSize: 4
-                        });
-                    </script>
-                    <h2>OPERATOR(TAL) </h2>
-                    <div class="tal editor"></div>
-                    <script>
-                        var editor = CodeMirror(document.body.getElementsByClassName("tal")[0], {
                             value: "<!--code-->\n<html>\n<head><title>TRUST CONTRACT</title></head>\n<body></body>\n</html>\n<!--//code-->",
                             mode: "text/html",
                             keyMap: "sublime",
@@ -148,34 +122,6 @@
             </article>
         </section>
         <section class="s2">
-            <article class="content">
-                <p class="desc">
-                    TRUST CONTRACT <br><br> BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability
-                    to support secure and precise execution of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
-                </p>
-                <div class="list">
-                    <p class="info">PENDING...</p>
-                    <dl class="ctl">
-                        <dt>Written Block</dt>
-                        <dd>225459</dd>
-                    </dl>
-                    <dl>
-                        <dt>Title</dt>
-                        <dd>Real Estate Contract</dd>
-                    </dl>
-                    <dl>
-                        <dt>Contract Address</dt>
-                        <dd>0xBf4eD7b27F1d666546E30D74d50d</dd>
-                    </dl>
-                    <dl>
-                        <dt>Total Amount</dt>
-                        <dd>0 BOS</dd>
-                    </dl>
-                    <a class="cmnBtn link ctl" data-val="main" href="#">HOME</a>
-                </div>
-            </article>
-        </section>
-        <section class="s3">
             <article class="content">
                 <table>
                     <colgroup>
@@ -241,43 +187,23 @@
                 </table>
             </article>
         </section>
-        <section class="s4">
-            <article class="toggle content">
-                <dl>
-                    <dt><span>1. Rental(Real Estate)</span></dt>
-                    <dd>
-                        <div class="wrap">
-                            컨텐츠내용필요 컨텐츠내용필요 컨텐츠내용필요 컨텐츠내용필요
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt><span>2. Voting</span></dt>
-                    <dd>
-                        <div class="wrap">
-                            컨텐츠내용필요 컨텐츠내용필요 컨텐츠내용필요 컨텐츠내용필요
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt><span>3. CrowdSourcing</span></dt>
-                    <dd>
-                        <div class="wrap">
-                            컨텐츠내용필요 컨텐츠내용필요 컨텐츠내용필요 컨텐츠내용필요
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt><span>4. Alt Coin</span></dt>
-                    <dd>
-                        <div class="wrap">
-                            컨텐츠내용필요 컨텐츠내용필요 컨텐츠내용필요 컨텐츠내용필요
-                        </div>
-                    </dd>
-                </dl>
+        <section class="s3">
+            <article class="content">
+                <div class="list">
+                    <h1>1. Rental (Real Estate)</h1>
+                    <p>This contract is for ordinary cases of renting rooms, house and something like that.</p>
+                </div>
+                <div class="list">
+                    <h1>2. Voting</h1>
+                    <p>If someone has an issue to be decided, he could post a proposal on public. <br> Voters could vote on this proposal.</p>
+                </div>
+                <div class="list">
+                    <h1>3. Crowd Sourcing</h1>
+                    <p>This contract could use for startups or companies which need fund.</p>
+                </div>
             </article>
         </section>
-        <section class="s5">
+        <section class="s4">
             <article class="content">
                 <div class="code editor"></div>
                 <script>
@@ -304,22 +230,16 @@
         </section>
         <section class="s6">
             <article class="content">
-
+http://lod.nl.go.kr/home/sparql/ontology_schema.jsp
             </article>
         </section>
         <!--//Main-->
     </article>
     <article>
     </article>
-    <footer>
-        <div class="content">
-            <a class="logo" href="#"><img src="../images/footer_logo.png"></a>
-            <p class="copyright">Portion ofthiscontent are ©2017 BOScoin Community.org contributors. <br>Content available under a Creative Commons license.</p>
-            <a class="right" href="#"><img src="../images/footer_about.png"></a>
-            <a class="right" href="#"><img src="../images/footer_help.png"></a>
-        </div>
-    </footer>
+    <div id="footer">
+        <a class="logo" href="#"><img src="../images/footer_logo.png"></a>
+        <p class="copyright">Portion ofthiscontent are ©2017 BOScoin Community.org contributors. <br>Content available under a Creative Commons license.</p>
+    </div>
 </body>
-
-
 </html>

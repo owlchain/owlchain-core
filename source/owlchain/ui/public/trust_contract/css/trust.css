@@ -1,8 +1,8 @@
 @charset "utf-8";
 /*=== Trust-Contact =================================================*/
 /*editor*/
-.editor-wrap{width:80%;}
-.CodeMirror { border-top: 1px solid #eee; border-bottom: 1px solid #eee; line-height: 1.3; }
+.editor-wrap{width:100%;}
+.CodeMirror {  line-height: 1.3; }
 .CodeMirror-linenumbers { padding: 10px 8px; }
 .CodeMirror pre{padding-left:40px!important;}
 
@@ -22,30 +22,28 @@ header .content{position:relative;height:180px;margin-bottom:30px;}
 header .content nav{position:absolute;left:0;bottom:0; }
 header .content nav a , header content nav a:visited{display:inline-block;position:relative;padding:15px 20px;color:#FFF;font-size:20px;}
 header .content nav a:hover:after ,header .content nav a.on:after{position:absolute;bottom:5px;left:0;width:100%;height:3px;background:#FFF;content:'';}
-
 header #link {position:absolute;bottom:0;right:20px;height:30px;vertical-align:middle;color:#111;font-size:16px;}
-/*main*/
-.btn-wrap{margin:50px 0;}
 
+#footer {display:block; width:100%; height:40px; background:#b6b7b8;}
+#footer .logo {float:left; margin-top:3px; margin-left:25px; max-width:100px;height:auto;}
+#footer .logo img{width:100%; height:auto; vertical-align: top;}
+#footer .copyright{display:inline-block; margin-left:110px; padding-top:7px;color:#FFF; font-size:12px;}
+/*main*/
 .main{margin-bottom:100px;}
-.main p {line-height:150%;}
-.main dl{width:100%;margin-bottom:20px;padding:20px 0;border-bottom:1px solid #4c5564;}
-.main dl:after{display:block;clear:both;content:'';}
-.main dl > * {vertical-align:middle;}
-.main dl dt{float:left;margin-right:20px;color:#464646;font-size:20px;}
-.main dl dt label{margin-left:120px;}
-.main dl dt.clfix{float: none;}
-.main dl dt input {padding:5px 10px;}
-.main dl dd{float:right;}
-.main dl dd a{padding:10px 55px;color:#FFF;background: #4d77ab;}
+.line_wrap{display:block; margin-top:80px; padding:15px 0; border-bottom:1px solid #242a42;  color:#464646;font-size:20px; }
+.line_wrap > p{display:block; margin-bottom:10px;}
+.line_wrap:after{display:block;width:100%;clear:both;content:'';}
+.line_wrap .left{float:left; line-height: 41px;}
+.line_wrap .left label{margin-left:110px; }
+.line_wrap .left input{margin-left:20px; padding:5px 10px; border:0; background:#FFF;}
+.line_wrap a.right{float:right; padding:10px 55px;color:#FFF;background: #4d77ab; }
 
 /*s1*/
-.s1 .editor-wrap{float:left;width:75%;}
-.s1 .menu-wrap{float:left;width:25%;margin-top:100px;padding-left:30px;box-sizing:border-box; }
-.s1 .menu-wrap ul {}
-.s1 .menu-wrap li{margin-bottom: 30px;}
-.s1 .menu-wrap li a{display:block;padding:10px 5px;color:#111;border:1px solid #4c5564;background:#b6b7b8;}
-.s1 .menu-wrap li a:hover{color:#FFF;background:#4c5564;}
+.s1 .title_wrap{ padding:20px 0; border-bottom: 1px solid #242a42; }
+.s1 .title_wrap span{ float:left; width:10%; font-size:18px; text-align: center; line-height: 35px;}
+.s1 .title_wrap input{ float:right; display:block; width:90%; padding:10px 20px; border:0;; background:#FFF; box-sizing: border-box; }
+.s1 .editor-wrap{width:100%;}
+.s1 .editor-wrap h2{margin-bottom:0; padding:7px 0;  width:100%;  color:#FFF; font-size:18px; background: #242a42; text-align: center; }
 .s1 .link-wrap {clear:both;display:block;padding-top:30px;text-align:center;}
 .s1 .link-wrap a{display:block;padding:10px;color:#FFF;background:#4c5564;}
 /*popup*/
@@ -58,30 +56,14 @@ header #link {position:absolute;bottom:0;right:20px;height:30px;vertical-align:m
 .s1 .popup a.link {display:block;padding:10px 5px;color:#111;border:1px solid #4c5564;background:#b6b7b8;}
 .s1 h2{margin:30px 0;}
 /*s2*/
-.s2 .list{margin:50px auto;}
-.s2 .list .info{margin-bottom:50px;padding:20px;color:#FF0000;background:#4c5564;text-align:center;}
-.s2 .list .ctl{display:none;}
-.s2 .list.on .ctl{display:block;}
-.s2 .list.on .info{display:none;}
-.s2 .list dl{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #111;}
-.s2 .list dl:after{clear:both;display:block;content:'';}
-.s2 .list dl dt{float:left; width:200px;padding-right:20px;text-align:right;}
-.s2 .list dl dd{float:left; color:#222;}
 /*s3*/
+.s3 {}
+.s3 .content{margin-top:30px;}
+.s3 .list{ position:relative; margin-bottom: 50px; padding:15px 0; border-bottom:1px solid #242a42;  color:#000; font-size:18px; }
+.s3 .list:after{ position:absolute;  bottom:10px; right:0; content:url('../images/ico_tutorial.png');}
+.s3 .list h1{margin-bottom: 10px;}
+.s3 .list p{ padding-left:30px; font-size:14px; line-height: 160%;}
 /*s4*/
-.toggle{padding-top:20px;padding-bottom:20px;}
-.toggle dl{position:relative;margin-bottom:20px;}
-.toggle dl dt{position:relative;max-height:70px;padding:15px 0;color:#FFF;background:#4c5564;cursor:pointer;}
-.toggle dl dt > *{vertical-align:middle;}
-.toggle dl dt:after{position:absolute;top:10px;right:30px;content:url("../images/ico_config.png");opacity:0.5;}
-.toggle dl.on dt{background:#242a42;}
-.toggle dl.on dt:after{opacity:1;}
-.toggle dl dt i{display:inline-block;margin-left:50px;}
-.toggle dl dt span{display:inline-block;padding-left:30px;}
-.toggle dl dd{display:none;background:#FFF;}
-.toggle dl dd .wrap{padding:20px;border-bottom:1px solid #242a42;}
-.toggle dl.on dd{display:block;}
-
 /*s5*/
 /*s6*/
 .s6 .content {height:1010px;background:url("../images/paper.png") no-repeat center top;}
