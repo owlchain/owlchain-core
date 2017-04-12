@@ -22,6 +22,8 @@ common.js -> module.js 연동처리
             $.COM._account = $('section.ac');
             $.COM._blockInfo = $('section.bl');
             $.COM._config = $('section.co');
+            $.COM._about = $('section.ah');
+            $.COM._footer = $('footer');
             $.COM._wallet = $('ul.account');
             $.COM._walletAddBtn = $('nav .wallet ');
             $.COM._popup = $('article.popup');
@@ -32,13 +34,13 @@ common.js -> module.js 연동처리
             $.COM._passPhraseStr = '';
             $.COM._passPhrase = [];
 
-            var _mode="test";
-            if(_mode=="test"){
-              $.COM._new.hide();
-              $.COM._main.show();
-              $.COM.setLayout("dash");
-            }else{
-              $.COM.setLoginMode("start");
+            var _mode = "test";
+            if (_mode == "test") {
+                $.COM._new.hide();
+                $.COM._main.show();
+                $.COM.setLayout("dash");
+            } else {
+                $.COM.setLoginMode("start");
             }
         },
         createPhrase: function() {
@@ -107,9 +109,9 @@ common.js -> module.js 연동처리
             } else if (mode == "check") {
                 $.COM.writePhrase();
             } else if (mode == "loading") {
-    /*12개 단어 모두 맞아야 이동합니다.   현재는 next 누르면 넘어가게 하시면 되지만
-     며칠내로 실제 데이타 송수신될테니 그 때는 test가   아닌 정상적인 절차로 처리 되어야 합니다.
-     "You have not typed the passphrase correctly, please try again! "  */
+                /*12개 단어 모두 맞아야 이동합니다.   현재는 next 누르면 넘어가게 하시면 되지만
+                 며칠내로 실제 데이타 송수신될테니 그 때는 test가   아닌 정상적인 절차로 처리 되어야 합니다.
+                 "You have not typed the passphrase correctly, please try again! "  */
                 $.COM.loading();
             }
         },
@@ -168,6 +170,8 @@ common.js -> module.js 연동처리
                 });
             } else if (mode == "config") {
                 $.COM._config.addClass('on');
+            } else if (mode == "about") {
+                $.COM._about.addClass('on');
             }
         },
         /*
@@ -314,12 +318,19 @@ common.js -> module.js 연동처리
             } else {
                 $.COM.setToggleMenu(_param[_idx]);
             }
-
             //		$(this).parents('dl').toggleClass('on');
         });
         /*Configuration Toggle*/
         $.COM._config.on('click', '.toggle dl dt', function(event) {
             $(this).parents('dl').toggleClass('on');
+        });
+        /*About & Help Toggle*/
+        $.COM._about.on('click', '.toggle dl dt', function(event) {
+            $(this).parents('dl').toggleClass('on');
+        });
+        /*Footer */
+        $.COM._footer.on('click', 'a', function(event) {
+            $.COM.setLayout('about');
         });
         /*팝업닫기*/
         $.COM._popup.on('click', '.layer footer a', function(event) {

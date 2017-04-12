@@ -15,8 +15,8 @@ i.receive{position:absolute;top:-3px;right:1px;width:24px;height:24px;padding:2p
 .toggle dl dt > *{vertical-align:middle;}
 .toggle dl dt:after{position:absolute;top:20px;right:30px;content:url("../images/ico_toggle_open.png");opacity:0.5;}
 .toggle dl.on dt:after{opacity:1;}
-.toggle dl dt i.icon{display:inline-block;margin-left:50px;}
-.toggle dl dt span{display:inline-block;position:relative;padding-left:30px;}
+.toggle dl dt i.icon{display:inline-block;margin-left:50px; width: 50px; }
+.toggle dl dt span{display:inline-block;position:relative; padding-left:20px;}
 .toggle dl dt span i.receive{top:-10px;right:-40px;}
 .toggle dl dd{display:none;background:#FFF;}
 .toggle dl dd .wrap{padding:20px;border-bottom:1px solid #242a42;}
@@ -41,6 +41,7 @@ article.new > section div.box .col a.next{background:#66a0c9;}
 article.new > section div.box p{color:#111;}
 article.new > section div.box .list:after{display:block;width:100%;clear:both;content:'';}
 article.new > section div.box .list  li{float:left;width:33.33%;padding:10px;color:#FFF;background:#898989;text-align: center;box-sizing: border-box;}
+article.new > section div.box .write{margin-top:50px;}
 article.new > section div.box .write  li{float:left;width:33.33%;padding:5px;background:#FFF;text-align: center;box-sizing: border-box;}
 article.new > section div.box .write  li input{width:100%; height:40px;border:0;font-size:20px;text-indent: 10px;background:#c2c2c2;}
 article.new > section div.box p.txt{margin-top:30px;padding:0 20px;box-sizing: border-box;text-align:left;}
@@ -163,6 +164,11 @@ article.main{display:none;}
 .co article.info-wrap dl dd .wrap.config .list .btn-wrap a i{display:inline-block; margin-right:10px;}
 .co article.info-wrap dl dd .wrap.config .list .btn-wrap .cancel{ background:#898989; }
 .co article.info-wrap dl dd .wrap.config .list .btn-wrap .confirm{ background:#66a0c9; }
+/*=== About Help ====================================================*/
+.ah header {height:130px;background:url('../images/about_top_bg.png') #242a42 no-repeat; background-position:center top;}
+.ah header .wrap{display:block;margin-top:20px;text-align:center;}
+.ah header .wrap .icon{display:inline-block; width:50px;}
+.ah header .wrap .tit{display:inline-block;margin-left:20px;color:#FFF;font-size:30px;text-align:left;vertical-align: top;}
 /*=== Popup ====================================================*/
 .popup{display:none;position:fixed;top:0;right:0;bottom:0;left:0;width:100%;min-width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:10;}
 .popup.on{display:block;}
@@ -173,6 +179,7 @@ article.main{display:none;}
 /*article*/
 .popup .layer article{display:block;overflow-y:auto;width:100%;text-align:center;}
 .popup .layer article p{font-size:30px;margin-bottom:20px;}
+.popup .layer article p.explain{color:#2a375f; font-size:18px; line-height: 150%;}
 /*footer*/
 .popup .layer footer{display:block;position:absolute;bottom:0;width:100%;padding:33px 0;background:#66a0c9;text-align: center;}
 .popup .layer footer a{display:inline-block;position:relative;color:#FFF;font-size:30px;}
