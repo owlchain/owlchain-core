@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
-
+<!--
+ https://cheef.github.io/jquery-ace/  ,  http://ajaxorg.github.io/ace-builds/kitchen-sink.html
+theme : twilight , tomorrow_night
+-->
 <head>
     <meta charset="UTF-8" />
     <title>Welcome to OWlchain website</title>
@@ -8,8 +11,15 @@
     <link href="./css/common.css" rel="stylesheet">
     <link href="./css/layout.css" rel="stylesheet">
     <link href="./css/animate.css" rel="stylesheet">
-    <script src="./js/jquery.js"></script>
-    <script src="./js/common.js"></script>
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <!-- Editor-->
+    <script type="text/javascript" src="./libs/editor/ace.js"></script>
+    <script type="text/javascript" src="./libs/editor/theme-textmate.js"></script>
+    <script type="text/javascript" src="./libs/editor/theme-twilight.js"></script>
+    <!-- <script type="text/javascript" src="./libs/editor/theme-tomorrow_night"></script> -->
+    <script type="text/javascript" src="./libs/editor/mode-html.js"></script>
+    <script type="text/javascript" src="./libs/editor/jquery-ace.js"></script>
 </head>
 
 <body>
@@ -54,8 +64,44 @@
                     <input type="text">
                 </div>
                 <div class="editor-wrap">
+                    <div class="util-wrap">
+                        <span>Prefix</span>
+                        <select name="" >
+                            <option value="v1">owl</option>
+                            <option value="v2">rdf</option>
+                            <option value="v3">rdfs</option>
+                            <option value="v4">boscoin</option>
+                            <option value="v5">dc</option>
+                            <option value="v6">dct</option>
+                            <option value="v7">foaf</option>
+                            <option value="v8">xsd</option>
+                        </select>
+                        <a href="#" class="winPop">Vocabulary</a>
+                    </div>
                     <h2>DATA(OWL)</h2>
-                    <div class="owl editor"></div>
+                    <textarea class="editor-code" rows="30" style="width: 100%">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Trust Contract</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="./css/common.css" rel="stylesheet">
+        <link href="./css/layout.css" rel="stylesheet">
+        <link href="./css/animate.css" rel="stylesheet">
+        <script type="text/javascript" src="./js/jquery.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+    </head>
+    <body>
+        <nav><!--nav-->
+            <a class="link on" data-val="main" href="#">Main</a>
+            <a class="link" data-val="s1" href="#">Editor</a>
+            <a class="link" data-val="s2" href="#">Contracts</a>
+            <a class="link" data-val="s3" href="#">Tutorial</a>
+            <a class="link" data-val="s4" href="#">Contract Test</a>
+        </nav><!--//nav-->
+    </body>
+</html></textarea>
+<script> $('.editor-code').ace({ theme: 'textmate',  lang: 'html' }); </script>
                 </div>
                 <div class="menu-wrap">
                     <ul>
@@ -162,16 +208,56 @@
         </section>
         <section class="s4">
             <article class="content">
-                <div class="code editor"></div>
-
+                <h1>Contract Test</h1>
+                <div class="util-wrap">
+                    <span>Prefix</span>
+                    <select name="" >
+                        <option value="v1">owl</option>
+                        <option value="v2">rdf</option>
+                        <option value="v3">rdfs</option>
+                        <option value="v4">boscoin</option>
+                        <option value="v5">dc</option>
+                        <option value="v6">dct</option>
+                        <option value="v7">foaf</option>
+                        <option value="v8">xsd</option>
+                    </select>
+                    <a href="#" class="winPop">Vocabulary</a>
+                </div>
+<textarea class="editor-code" rows="30" style="width: 100%">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Trust Contract</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="./css/common.css" rel="stylesheet">
+        <link href="./css/layout.css" rel="stylesheet">
+        <link href="./css/animate.css" rel="stylesheet">
+        <script type="text/javascript" src="./js/jquery.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+    </head>
+    <body>
+        <nav><!--nav-->
+            <a class="link on" data-val="main" href="#">Main</a>
+            <a class="link" data-val="s1" href="#">Editor</a>
+            <a class="link" data-val="s2" href="#">Contracts</a>
+            <a class="link" data-val="s3" href="#">Tutorial</a>
+            <a class="link" data-val="s4" href="#">Contract Test</a>
+        </nav><!--//nav-->
+    </body>
+</html></textarea>
+<script>$('.editor-code').ace({ theme: 'textmate',  lang: 'html' }); </script>
+                <div class="line_wrap">
+                    <span class="left">Contract Address</span>
+                    <input class="right" type="text">
+                    <p><a class="link right" data-val="s1" href="#">RUN</a></p>
+                </div>
             </article>
         </section>
-        <section class="s6">
-            <article class="content">
-                <p>http://lod.nl.go.kr/home/sparql/ontology_schema.jsp</p>
-            </article>
+    </article>
+    <article class="popup">
+        <section>
+            
         </section>
-        <!--//Main-->
     </article>
     <!--//article -->
     <!--footer-->

@@ -68,8 +68,8 @@ article{display:block;}
 body{background:#ebecec; }
 body .content{max-width:784px;padding-left:0;padding-right:0;}
 body article.wrap{position:relative;overflow:hidden;}
-body article.wrap > section{display:none;position:absolute;top:0;left:0; width:100%;margin-bottom:50px;}
-body article.wrap > section.on{display:block; }
+body article.wrap > section{visibility: collapse; position:absolute;top:0;left:0; width:100%;margin-bottom:50px;}
+body article.wrap > section.on{ visibility:visible; }
 body article.wrap .box{padding:15px;background:#FFF;border:1px solid #959595;font-size:18px;color:#000;line-height: 150%;}
 
 h1{margin-bottom:30px;font-size:30px;}
