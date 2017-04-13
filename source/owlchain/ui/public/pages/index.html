@@ -5,43 +5,28 @@
     <meta charset="UTF-8" />
     <title>Welcome to OWlchain website</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="../css/common.css" rel="stylesheet">
-    <link href="../css/animate.css" rel="stylesheet">
-    <link href="./css/trust.css" rel="stylesheet">
-    <script src="../js/jquery.js"></script>
-    <script src="./js/trust.js"></script>
-    <!--Plugin-->
-    <link rel="stylesheet" href="./lib/codemirror.css">
-    <link rel="stylesheet" href="./addon/fold/foldgutter.css">
-    <link rel="stylesheet" href="./addon/dialog/dialog.css">
-    <link rel="stylesheet" href="./theme/monokai.css">
-    <script src="./lib/codemirror.js"></script>
-    <script src="./addon/search/searchcursor.js"></script>
-    <script src="./addon/search/search.js"></script>
-    <script src="./addon/dialog/dialog.js"></script>
-    <script src="./addon/edit/matchbrackets.js"></script>
-    <script src="./addon/edit/closebrackets.js"></script>
-    <script src="./addon/comment/comment.js"></script>
-    <script src="./addon/wrap/hardwrap.js"></script>
-    <script src="./addon/fold/foldcode.js"></script>
-    <script src="./addon/fold/brace-fold.js"></script>
-    <script src="./mode/javascript/javascript.js"></script>
-    <script src="./mode/xml/xml.js"></script>
-    <script src="./keymap/sublime.js"></script>
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
+    <link href="./css/animate.css" rel="stylesheet">
+    <script src="./js/jquery.js"></script>
+    <script src="./js/common.js"></script>
 </head>
 
 <body>
+    <!--header-->
     <header>
         <div class="content">
             <nav>
-                <a class="link on" data-val="main" href="#" >Main</a>
-                <a class="link" data-val="s1" href="#" >Editor</a>
-                <a class="link" data-val="s2" href="#" >Contracts</a>
-                <a class="link" data-val="s3" href="#" >Tutorial</a>
-                <a class="link" data-val="s4" href="#" >Contract Test</a>
+                <a class="link on" data-val="main" href="#">Main</a>
+                <a class="link" data-val="s1" href="#">Editor</a>
+                <a class="link" data-val="s2" href="#">Contracts</a>
+                <a class="link" data-val="s3" href="#">Tutorial</a>
+                <a class="link" data-val="s4" href="#">Contract Test</a>
             </nav>
         </div>
     </header>
+    <!--//header-->
+    <!--article -->
     <article class="wrap trans">
         <!--Main-->
         <section class="main on">
@@ -71,26 +56,6 @@
                 <div class="editor-wrap">
                     <h2>DATA(OWL)</h2>
                     <div class="owl editor"></div>
-                    <script>
-                        var editor = CodeMirror(document.body.getElementsByClassName("owl")[0], {
-                            value: "<!--code-->\n<html>\n<head><title>TRUST CONTRACT</title></head>\n<body></body>\n</html>\n<!--//code-->",
-                            mode: "text/html",
-                            keyMap: "sublime",
-                            lineNumbers: true,
-                            htmlMode: true,
-                            indentWithTabs: true,
-                            lineWrapping: true,
-                            smartIndent: true,
-                            lineNumbers: true,
-                            matchBrackets: true,
-                            autofocus: true,
-                            autoCloseBrackets: true,
-                            matchBrackets: true,
-                            showCursorWhenSelecting: true,
-                            theme: "monokai",
-                            tabSize: 4
-                        });
-                    </script>
                 </div>
                 <div class="menu-wrap">
                     <ul>
@@ -178,9 +143,6 @@
                     </tbody>
                 </table>
             </article>
-            <article>
-                <foaf:interest  rdf:resource="http://dx.doi.org/10.1021/ol703129z"/>
-            </article>
         </section>
         <section class="s3">
             <article class="content">
@@ -201,26 +163,7 @@
         <section class="s4">
             <article class="content">
                 <div class="code editor"></div>
-                <script>
-                    var editor = CodeMirror(document.body.getElementsByClassName("code")[0], {
-                        value: "<!--code-->\n<html>\n<head><title>TRUST CONTRACT</title></head>\n<body></body>\n</html>\n<!--//code-->",
-                        mode: "text/html",
-                        keyMap: "sublime",
-                        lineNumbers: true,
-                        htmlMode: true,
-                        indentWithTabs: true,
-                        lineWrapping: true,
-                        smartIndent: true,
-                        lineNumbers: true,
-                        matchBrackets: true,
-                        autofocus: true,
-                        autoCloseBrackets: true,
-                        matchBrackets: true,
-                        showCursorWhenSelecting: true,
-                        theme: "monokai",
-                        tabSize: 4
-                    });
-                </script>
+
             </article>
         </section>
         <section class="s6">
@@ -230,11 +173,13 @@
         </section>
         <!--//Main-->
     </article>
-    <article>
-    </article>
-    <div id="footer">
+    <!--//article -->
+    <!--footer-->
+    <footer>
         <a class="logo" href="#"><img src="../images/footer_logo.png"></a>
         <p class="copyright">Portion ofthiscontent are ©2017 BOScoin Community.org contributors. <br>Content available under a Creative Commons license.</p>
-    </div>
+    </footer>
+    <!--//footer-->
 </body>
+
 </html>

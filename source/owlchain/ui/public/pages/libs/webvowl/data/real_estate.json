@@ -1,0 +1,892 @@
+{
+  "_comment" : "Created with OWL2VOWL (version 0.3.1), http://vowl.visualdataweb.org",
+  "header" : {
+    "languages" : [ "kr", "undefined" ],
+    "baseIris" : [ "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract", "http://www.w3.org/1999/02/22-rdf-syntax-ns", "http://www.w3.org/2002/07/owl", "http://www.w3.org/2000/01/rdf-schema", "http://www.w3.org/2001/XMLSchema" ],
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract"
+  },
+  "namespace" : [ ],
+  "metrics" : {
+    "classCount" : 16,
+    "objectPropertyCount" : 11,
+    "datatypePropertyCount" : 13,
+    "individualCount" : 0
+  },
+  "class" : [ {
+    "id" : "5",
+    "type" : "owl:Class"
+  }, {
+    "id" : "10",
+    "type" : "owl:Class"
+  }, {
+    "id" : "6",
+    "type" : "owl:Class"
+  }, {
+    "id" : "30",
+    "type" : "owl:Class"
+  }, {
+    "id" : "31",
+    "type" : "owl:Class"
+  }, {
+    "id" : "34",
+    "type" : "owl:Class"
+  }, {
+    "id" : "36",
+    "type" : "owl:Class"
+  }, {
+    "id" : "27",
+    "type" : "owl:Class"
+  }, {
+    "id" : "38",
+    "type" : "owl:Class"
+  }, {
+    "id" : "8",
+    "type" : "owl:Class"
+  }, {
+    "id" : "2",
+    "type" : "owl:Class"
+  }, {
+    "id" : "37",
+    "type" : "owl:Class"
+  }, {
+    "id" : "50",
+    "type" : "owl:Class"
+  }, {
+    "id" : "51",
+    "type" : "owl:Class"
+  }, {
+    "id" : "53",
+    "type" : "owl:Class"
+  }, {
+    "id" : "54",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "16",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "4",
+    "type" : "owl:Class"
+  }, {
+    "id" : "55",
+    "type" : "owl:Class"
+  }, {
+    "id" : "56",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "13",
+    "type" : "owl:Class"
+  }, {
+    "id" : "15",
+    "type" : "owl:Thing"
+  }, {
+    "id" : "47",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "49",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "28",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "60",
+    "type" : "owl:Class"
+  }, {
+    "id" : "43",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "41",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "62",
+    "type" : "owl:Thing"
+  }, {
+    "id" : "59",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "65",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "45",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "1",
+    "type" : "owl:Class"
+  }, {
+    "id" : "25",
+    "type" : "owl:Class"
+  }, {
+    "id" : "9",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "64",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "11",
+    "type" : "owl:Class"
+  }, {
+    "id" : "12",
+    "type" : "owl:Class"
+  }, {
+    "id" : "35",
+    "type" : "owl:Class"
+  }, {
+    "id" : "18",
+    "type" : "owl:Class"
+  }, {
+    "id" : "39",
+    "type" : "owl:Class"
+  } ],
+  "classAttribute" : [ {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#Intermediate",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Intermediate"
+    },
+    "id" : "5",
+    "superClasses" : [ "6" ]
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#LeaseDocument",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "LeaseDocument"
+    },
+    "subClasses" : [ "12", "13" ],
+    "id" : "10",
+    "superClasses" : [ "11" ]
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#LeaseSecurityDeposit",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "LeaseSecurityDeposit"
+    },
+    "subClasses" : [ "25", "5", "18" ],
+    "id" : "6",
+    "superClasses" : [ "11" ]
+  }, {
+    "instances" : 0,
+    "union" : [ "12", "13" ],
+    "attributes" : [ "union", "anonymous" ],
+    "id" : "30"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#Lessee",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Lessee"
+    },
+    "comment" : {
+      "kr" : "임차인"
+    },
+    "id" : "31",
+    "superClasses" : [ "2" ]
+  }, {
+    "instances" : 0,
+    "union" : [ "35", "31" ],
+    "attributes" : [ "union", "anonymous" ],
+    "id" : "34"
+  }, {
+    "instances" : 0,
+    "union" : [ "35", "31" ],
+    "attributes" : [ "union", "anonymous" ],
+    "id" : "36"
+  }, {
+    "instances" : 0,
+    "union" : [ "25", "37", "5", "18" ],
+    "attributes" : [ "union", "anonymous" ],
+    "id" : "27"
+  }, {
+    "instances" : 0,
+    "union" : [ "1", "35", "31", "39" ],
+    "attributes" : [ "union", "anonymous" ],
+    "id" : "38"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#LeaseTerm",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "LeaseTerm"
+    },
+    "id" : "8",
+    "superClasses" : [ "11" ]
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#Person",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "http://xmlns.com/foaf/0.1/",
+        "type" : "label"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "Person"
+    },
+    "subClasses" : [ "1", "35", "31" ],
+    "id" : "2"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#LeaseContract",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "LeaseContract"
+    },
+    "id" : "37",
+    "superClasses" : [ "11" ]
+  }, {
+    "instances" : 0,
+    "union" : [ "35", "31" ],
+    "attributes" : [ "union", "anonymous" ],
+    "id" : "50"
+  }, {
+    "instances" : 0,
+    "union" : [ "35", "31" ],
+    "attributes" : [ "union", "anonymous" ],
+    "id" : "51"
+  }, {
+    "instances" : 0,
+    "union" : [ "35", "31" ],
+    "attributes" : [ "union", "anonymous" ],
+    "id" : "53"
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "54",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "16",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "instances" : 0,
+    "union" : [ "35", "31" ],
+    "attributes" : [ "union", "anonymous" ],
+    "id" : "4"
+  }, {
+    "instances" : 0,
+    "union" : [ "35", "31" ],
+    "attributes" : [ "union", "anonymous" ],
+    "id" : "55"
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "56",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#InsurancePaper",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "InsurancePaper"
+    },
+    "id" : "13",
+    "superClasses" : [ "10" ]
+  }, {
+    "iri" : "http://www.w3.org/2002/07/owl#Thing",
+    "baseIri" : "http://owl2vowl.de",
+    "id" : "15",
+    "label" : {
+      "undefined" : "Thing"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "47",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "49",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#dateTime",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "28",
+    "label" : {
+      "IRI-based" : "dateTime"
+    }
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#LeaseBrokerage",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "LeaseBrokerage"
+    },
+    "id" : "60",
+    "superClasses" : [ "11" ]
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#integer",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "43",
+    "label" : {
+      "IRI-based" : "integer"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "41",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2002/07/owl#Thing",
+    "baseIri" : "http://owl2vowl.de",
+    "id" : "62",
+    "label" : {
+      "undefined" : "Thing"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "59",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "65",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "45",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#Broker",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Broker"
+    },
+    "id" : "1",
+    "superClasses" : [ "2" ]
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#Balance",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Balance"
+    },
+    "comment" : {
+      "kr" : "잔금"
+    },
+    "id" : "25",
+    "superClasses" : [ "6" ]
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#dateTime",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "9",
+    "label" : {
+      "IRI-based" : "dateTime"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#dateTime",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "64",
+    "label" : {
+      "IRI-based" : "dateTime"
+    }
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#ContractOutline",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "ContractOutline"
+    },
+    "subClasses" : [ "8", "37", "10", "6", "60", "39" ],
+    "id" : "11"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#ContractDescription",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "ContractDescription"
+    },
+    "id" : "12",
+    "superClasses" : [ "10" ]
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#Lessor",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Lessor"
+    },
+    "comment" : {
+      "kr" : "임대인"
+    },
+    "id" : "35",
+    "superClasses" : [ "2" ]
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#DownPayment",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "DownPayment"
+    },
+    "comment" : {
+      "kr" : "계약금"
+    },
+    "id" : "18",
+    "superClasses" : [ "6" ]
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#RealEstate",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "RealEstate"
+    },
+    "id" : "39",
+    "superClasses" : [ "11" ]
+  } ],
+  "property" : [ {
+    "id" : "0",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "3",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "7",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "14",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "17",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "19",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "20",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "26",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "29",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "32",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "33",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "22",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "40",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "42",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "44",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "46",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "48",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "52",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "57",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "58",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "61",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "63",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "66",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "67",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "68",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "23",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "24",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "69",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "21",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "70",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "71",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "72",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "73",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "74",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "75",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "76",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "77",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "78",
+    "type" : "rdfs:SubClassOf"
+  } ],
+  "propertyAttribute" : [ {
+    "range" : "2",
+    "domain" : "1",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "0"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#payBrokerage",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "1",
+    "label" : {
+      "IRI-based" : "payBrokerage"
+    },
+    "domain" : "4",
+    "attributes" : [ "object" ],
+    "id" : "3"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#LeaseEndDateTime",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "9",
+    "label" : {
+      "IRI-based" : "LeaseEndDateTime"
+    },
+    "domain" : "8",
+    "attributes" : [ "datatype" ],
+    "id" : "7"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasValue",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "16",
+    "label" : {
+      "IRI-based" : "hasValue"
+    },
+    "domain" : "15",
+    "attributes" : [ "datatype" ],
+    "id" : "14"
+  }, {
+    "range" : "6",
+    "domain" : "18",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "17"
+  }, {
+    "range" : "6",
+    "domain" : "5",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "19"
+  }, {
+    "iri" : "http://www.w3.org/2002/07/owl#topObjectProperty",
+    "baseIri" : "http://www.w3.org/2002/07/owl",
+    "range" : "15",
+    "label" : {
+      "IRI-based" : "topObjectProperty"
+    },
+    "domain" : "15",
+    "subproperty" : [ "21", "22", "23", "24" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "20"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasDateTime",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "28",
+    "label" : {
+      "IRI-based" : "hasDateTime"
+    },
+    "domain" : "27",
+    "attributes" : [ "datatype" ],
+    "id" : "26"
+  }, {
+    "range" : "10",
+    "domain" : "12",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "29"
+  }, {
+    "range" : "6",
+    "domain" : "25",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "32"
+  }, {
+    "range" : "10",
+    "domain" : "13",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "33"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasBroker",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "1",
+    "label" : {
+      "IRI-based" : "hasBroker"
+    },
+    "superproperty" : [ "20" ],
+    "domain" : "37",
+    "attributes" : [ "object" ],
+    "id" : "22"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasNameOfOffice",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "41",
+    "label" : {
+      "IRI-based" : "hasNameOfOffice"
+    },
+    "domain" : "1",
+    "attributes" : [ "datatype" ],
+    "id" : "40"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasMonthlyPayment",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "43",
+    "label" : {
+      "IRI-based" : "hasMonthlyPayment"
+    },
+    "domain" : "37",
+    "attributes" : [ "datatype" ],
+    "id" : "42"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasBusinessRegistrationNumber",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "45",
+    "label" : {
+      "IRI-based" : "hasBusinessRegistrationNumber"
+    },
+    "domain" : "1",
+    "attributes" : [ "datatype" ],
+    "id" : "44"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasChairBroker",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "47",
+    "label" : {
+      "IRI-based" : "hasChairBroker"
+    },
+    "domain" : "1",
+    "attributes" : [ "datatype" ],
+    "id" : "46"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasAddress",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "49",
+    "label" : {
+      "IRI-based" : "hasAddress"
+    },
+    "domain" : "38",
+    "attributes" : [ "datatype" ],
+    "id" : "48"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#sendTo",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "15",
+    "label" : {
+      "IRI-based" : "sendTo"
+    },
+    "domain" : "15",
+    "attributes" : [ "object" ],
+    "id" : "52"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#payMoney",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "1",
+    "label" : {
+      "IRI-based" : "payMoney"
+    },
+    "domain" : "55",
+    "attributes" : [ "object" ],
+    "id" : "57"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasRegistrationNumber",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "59",
+    "label" : {
+      "IRI-based" : "hasRegistrationNumber"
+    },
+    "domain" : "51",
+    "attributes" : [ "datatype" ],
+    "id" : "58"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasLeaseTerm",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "8",
+    "label" : {
+      "IRI-based" : "hasLeaseTerm"
+    },
+    "domain" : "37",
+    "attributes" : [ "object" ],
+    "id" : "61"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#LeaseStartDateTime",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "64",
+    "label" : {
+      "IRI-based" : "LeaseStartDateTime"
+    },
+    "domain" : "8",
+    "attributes" : [ "datatype" ],
+    "id" : "63"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasName",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "56",
+    "label" : {
+      "IRI-based" : "hasName"
+    },
+    "domain" : "36",
+    "attributes" : [ "datatype" ],
+    "id" : "66"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasRealEstate",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "39",
+    "label" : {
+      "IRI-based" : "hasRealEstate"
+    },
+    "domain" : "37",
+    "attributes" : [ "object" ],
+    "id" : "67"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#sendDocument",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "30",
+    "label" : {
+      "IRI-based" : "sendDocument"
+    },
+    "domain" : "1",
+    "attributes" : [ "object" ],
+    "id" : "68"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasInformation",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "62",
+    "label" : {
+      "IRI-based" : "hasInformation"
+    },
+    "superproperty" : [ "20" ],
+    "domain" : "1",
+    "attributes" : [ "object" ],
+    "id" : "23"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasContractor",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "50",
+    "label" : {
+      "IRI-based" : "hasContractor"
+    },
+    "superproperty" : [ "20" ],
+    "domain" : "37",
+    "attributes" : [ "object" ],
+    "id" : "24"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#hasPhoneNo",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "65",
+    "label" : {
+      "IRI-based" : "hasPhoneNo"
+    },
+    "domain" : "53",
+    "attributes" : [ "datatype" ],
+    "id" : "69"
+  }, {
+    "iri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract#getAgreement",
+    "baseIri" : "http://www.semanticweb.org/soonkuk/ontologies/2017/2/RealEstateLeaseContract",
+    "range" : "34",
+    "label" : {
+      "IRI-based" : "getAgreement"
+    },
+    "superproperty" : [ "20" ],
+    "domain" : "37",
+    "attributes" : [ "object" ],
+    "id" : "21"
+  }, {
+    "iri" : "http://www.w3.org/2002/07/owl#topDataProperty",
+    "baseIri" : "http://www.w3.org/2002/07/owl",
+    "range" : "54",
+    "label" : {
+      "IRI-based" : "topDataProperty"
+    },
+    "domain" : "15",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "70"
+  }, {
+    "range" : "11",
+    "domain" : "6",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "71"
+  }, {
+    "range" : "11",
+    "domain" : "10",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "72"
+  }, {
+    "range" : "11",
+    "domain" : "39",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "73"
+  }, {
+    "range" : "11",
+    "domain" : "60",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "74"
+  }, {
+    "range" : "2",
+    "domain" : "31",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "75"
+  }, {
+    "range" : "2",
+    "domain" : "35",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "76"
+  }, {
+    "range" : "11",
+    "domain" : "37",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "77"
+  }, {
+    "range" : "11",
+    "domain" : "8",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "78"
+  } ]
+}
