@@ -39,35 +39,34 @@ theme : twilight , tomorrow_night
     <!--//header-->
     <!--article -->
     <article class="wrap trans">
-        <div class="in_wrap">
-            <section class="main on">
-                <article class="content">
-                    <!-- <h1>TRUST CONTRACT</h1>-->
-                    <p class="box">
-                        BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution
-                        of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
-                    </p>
-                    <div class="line_wrap">
-                        <span class="left">Trust Contract Create</span>
-                        <a class="link right" data-val="s1" href="#">CREATE</a>
-                    </div>
-                    <div class="line_wrap">
-                        <p>Trust Contract Search</p>
-                        <span class="left"><label for="input">address : <input type="text"></label></span>
-                        <a class="link right" data-val="s1" href="#">SEARCH</a>
-                    </div>
-                </article>
-            </section>
-            <section class="s1">
-                <article class="content">
-                    <div class="title_wrap clfix">
-                        <span>Title</span>
-                        <input type="text">
-                    </div>
-                    <div class="editor-wrap">
-                        <div class="util-wrap">
-                            <span>Prefix</span>
-                            <select name="">
+        <section class="main on">
+            <article class="content">
+                <!-- <h1>TRUST CONTRACT</h1>-->
+                <p class="box">
+                    BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution
+                    of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
+                </p>
+                <div class="line_wrap">
+                    <span class="left">Trust Contract Create</span>
+                    <a class="link right" data-val="s1" href="#">CREATE</a>
+                </div>
+                <div class="line_wrap">
+                    <p>Trust Contract Search</p>
+                    <span class="left"><label for="input">address : <input type="text"></label></span>
+                    <a class="link right" data-val="s1" href="#">SEARCH</a>
+                </div>
+            </article>
+        </section>
+        <section class="s1">
+            <article class="content">
+                <div class="title_wrap clfix">
+                    <span>Title</span>
+                    <input type="text">
+                </div>
+                <div class="editor-wrap">
+                    <div class="util-wrap">
+                        <span>Prefix</span>
+                        <select name="">
                                 <option value="v1">owl</option>
                                 <option value="v2">rdf</option>
                                 <option value="v3">rdfs</option>
@@ -77,204 +76,207 @@ theme : twilight , tomorrow_night
                                 <option value="v7">foaf</option>
                                 <option value="v8">xsd</option>
                             </select>
-                            <a href="#" class="winPop">Vocabulary</a>
-                        </div>
-                        <h2>DATA(OWL)</h2>
-                        <textarea class="editor-code" rows="30" style="width: 100%">
-                            <!DOCTYPE html>
-                            <html>
-                                <head>
-                                    <title>Trust Contract</title>
-                                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                                    <link href="./css/common.css" rel="stylesheet">
-                                    <link href="./css/layout.css" rel="stylesheet">
-                                    <link href="./css/animate.css" rel="stylesheet">
-                                    <script type="text/javascript" src="./js/jquery.js"></script>
-                                    <script type="text/javascript" src="./js/common.js"></script>
-                                </head>
-                                <body>
-                                    <nav><!--nav-->
-                                        <a class="link on" data-val="main" href="#">Main</a>
-                                        <a class="link" data-val="s1" href="#">Editor</a>
-                                        <a class="link" data-val="s2" href="#">Contracts</a>
-                                        <a class="link" data-val="s3" href="#">Tutorial</a>
-                                        <a class="link" data-val="s4" href="#">Contract Test</a>
-                                    </nav><!--//nav-->
-                                </body>
-                            </html></textarea>
-                                                <script>
-                                                    $('.editor-code').ace({
-                                                        theme: 'textmate',
-                                                        lang: 'html'
-                                                    });
-                                                </script>
+                        <a href="#" class="winPop">Vocabulary</a>
                     </div>
-                    <div class="menu-wrap">
-                        <ul>
-                            <li><a href="#">Tutorial</a></li>
-                            <li><a class="link" data-val="s6" href="#">Sample Contracts</a></li>
-                            <li><a class="link" data-val="s7" href="#">User Oridented Code</a></li>
-                        </ul>
-                    </div>
-                    <div class="link-wrap">
-                        <a class="popup-link" href="#">SUBMIT</a>
-                    </div>
-                    <iframe width="100%" height="600px" src="./libs/webvowl/" frameborder="0"></iframe>
-                    <!--popup-->
-                    <article class="popup">
-                        <div class="popup-wrap">
-                            <h2>Transaction fee</h2>
-                            <h3>Assumption amount : 12 BOS <br>(Contribute to Common budget : 1.2 BOS)</h3>
-                            <h4>Total : 13.2 BOS</h4>
-                            <a class="link" data-val="s2" href="#">CONFIRM</a>
-                        </div>
-                    </article>
-                </article>
-            </section>
-            <section class="s2">
-                <article class="content">
-                    <table>
-                        <colgroup>
-                            <col width="5%" />
-                            <col width="10%" />
-                            <col width="40%" />
-                            <col width="40%" />
-                            <col width="5%" />
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>NO</th>
-                                <th>Title</th>
-                                <th>Address</th>
-                                <th>Balance</th>
-                                <th>TXs</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>BOScoin</td>
-                                <td>67fffe65f8879702a58a568214cd637387f2728f</td>
-                                <td>231,544.2366 BOS</td>
-                                <td>1186</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Crowd Idea Sourcing</td>
-                                <td>d2e690b137b9e6d694f12d9d8dcbad9b7b9f4cc4</td>
-                                <td>73,321.954 BOS</td>
-                                <td>35</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Fair lottery Service</td>
-                                <td>59993e7d834ce26144d731e946d18371778263a5</td>
-                                <td>60,145.23347 BOS</td>
-                                <td>102</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>One room lease</td>
-                                <td>e44d0f86a8d07fe0050358b608d97b5bd2dea5ef</td>
-                                <td>34,981.93847 BOS</td>
-                                <td>55</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>P2P Insurance platform</td>
-                                <td>c9c872f42032b9d8623a722cd6927cfeff106c41</td>
-                                <td>481,321,45.56481 BOS</td>
-                                <td>134</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Escrow Sevice</td>
-                                <td>1608d9e594254c08b02e063fa6e8b0ebc78fd3db</td>
-                                <td>844,954.89098 BOS</td>
-                                <td>22</td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Find lover</td>
-                                <td>4e9afeab7370599047e38acfdd3a0511e804a63a</td>
-                                <td>9,343,342.3215658 BOS</td>
-                                <td>1130</td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>Secure mail Sevice</td>
-                                <td>373ba8b6d5bef1d360029b3d964219aedd909252</td>
-                                <td>324.902.0091987 BOS</td>
-                                <td>422</td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>Ontology vault</td>
-                                <td>83f016088a2c627adc44c4a55fb35cf7ee0dae31</td>
-                                <td>9,394.0322425 BOS</td>
-                                <td>11</td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>Decentralized job Market</td>
-                                <td>1001c90494e9a1cc785fbb5917f1881c6f6b01aa</td>
-                                <td>98,112.0092 BOS</td>
-                                <td>351</td>
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>Slot Machine Game</td>
-                                <td>3919030ed0a291d327c7c9d21f83b332fbe904f9</td>
-                                <td>22,100.2138 BOS</td>
-                                <td>119</td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>Voting for the proposal</td>
-                                <td>cf058083ef9e747597feb39c6485820376caf276</td>
-                                <td>43,580.0435 BOS</td>
-                                <td>55</td>
-                            </tr>
-                            <tr>
-                                <td>13</td>
-                                <td>Music Copyright Register</td>
-                                <td>aa0fe88f3fa57fc0496b581d29c4f9a2e1bbf361</td>
-                                <td>34,349,233.123 BOS</td>
-                                <td>147</td>
-                            </tr>
-                            <tr>
-                                <td>14</td>
-                                <td>Multi Owned Wallet</td>
-                                <td>b8c08946e35eefb5907b71ebc88dde57494437f7</td>
-                                <td>987,220.2324232 BOS</td>
-                                <td>44</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </article>
-            </section>
-            <section class="s3">
-                <article class="content">
-                    <div class="list">
-                        <h1>1. Rental (Real Estate)</h1>
-                        <p>This contract is for ordinary cases of renting rooms, house and something like that.</p>
-                    </div>
-                    <div class="list">
-                        <h1>2. Voting</h1>
-                        <p>If someone has an issue to be decided, he could post a proposal on public. <br> Voters could vote on this proposal.</p>
-                    </div>
-                    <div class="list">
-                        <h1>3. Crowd Sourcing</h1>
-                        <p>This contract could use for startups or companies which need fund.</p>
+                    <h2>DATA(OWL)</h2>
+                    <textarea class="editor-code" rows="30" style="width: 100%">
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Trust Contract</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <link href="./css/common.css" rel="stylesheet">
+            <link href="./css/layout.css" rel="stylesheet">
+            <link href="./css/animate.css" rel="stylesheet">
+            <script type="text/javascript" src="./js/jquery.js"></script>
+            <script type="text/javascript" src="./js/common.js"></script>
+        </head>
+        <body>
+            <nav><!--nav-->
+                <a class="link on" data-val="main" href="#">Main</a>
+                <a class="link" data-val="s1" href="#">Editor</a>
+                <a class="link" data-val="s2" href="#">Contracts</a>
+                <a class="link" data-val="s3" href="#">Tutorial</a>
+                <a class="link" data-val="s4" href="#">Contract Test</a>
+            </nav><!--//nav-->
+        </body>
+    </html>
+                        </textarea>
+                    <script>
+                        $('.editor-code').ace({
+                            theme: 'textmate',
+                            lang: 'html'
+                        });
+                    </script>
+                </div>
+                <div class="menu-wrap">
+                    <ul>
+                        <li><a href="#">Tutorial</a></li>
+                        <li><a class="link" data-val="s6" href="#">Sample Contracts</a></li>
+                        <li><a class="link" data-val="s7" href="#">User Oridented Code</a></li>
+                    </ul>
+                </div>
+                <div class="link-wrap">
+                    <a class="popup-link" href="#">SUBMIT</a>
+                </div>
+                <!-- <iframe width="100%" height="600px" src="./libs/webvowl/" frameborder="0"></iframe>
+                iframe 문제
+                -->
+                <!--popup-->
+                <article class="popup">
+                    <div class="popup-wrap">
+                        <h2>Transaction fee</h2>
+                        <h3>Assumption amount : 12 BOS <br>(Contribute to Common budget : 1.2 BOS)</h3>
+                        <h4>Total : 13.2 BOS</h4>
+                        <a class="link" data-val="s2" href="#">CONFIRM</a>
                     </div>
                 </article>
-            </section>
-            <section class="s4">
-                <article class="content">
-                    <h1>Contract Test</h1>
-                    <div class="util-wrap">
-                        <span>Prefix</span>
-                        <select name="">
+            </article>
+        </section>
+        <section class="s2">
+            <article class="content">
+                <table>
+                    <colgroup>
+                        <col width="2%" />
+                        <col width="26%" />
+                        <col width="40%" />
+                        <col width="30%" />
+                        <col width="2%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>Title</th>
+                            <th>Address</th>
+                            <th>Balance</th>
+                            <th>TXs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>BOScoin</td>
+                            <td>67fffe65f8879702a58a568214cd637387f2728f</td>
+                            <td>231,544.2366 BOS</td>
+                            <td>1186</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Crowd Idea Sourcing</td>
+                            <td>d2e690b137b9e6d694f12d9d8dcbad9b7b9f4cc4</td>
+                            <td>73,321.954 BOS</td>
+                            <td>35</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Fair lottery Service</td>
+                            <td>59993e7d834ce26144d731e946d18371778263a5</td>
+                            <td>60,145.23347 BOS</td>
+                            <td>102</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>One room lease</td>
+                            <td>e44d0f86a8d07fe0050358b608d97b5bd2dea5ef</td>
+                            <td>34,981.93847 BOS</td>
+                            <td>55</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>P2P Insurance platform</td>
+                            <td>c9c872f42032b9d8623a722cd6927cfeff106c41</td>
+                            <td>481,321,45.56481 BOS</td>
+                            <td>134</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Escrow Sevice</td>
+                            <td>1608d9e594254c08b02e063fa6e8b0ebc78fd3db</td>
+                            <td>844,954.89098 BOS</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Find lover</td>
+                            <td>4e9afeab7370599047e38acfdd3a0511e804a63a</td>
+                            <td>9,343,342.3215658 BOS</td>
+                            <td>1130</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Secure mail Sevice</td>
+                            <td>373ba8b6d5bef1d360029b3d964219aedd909252</td>
+                            <td>324.902.0091987 BOS</td>
+                            <td>422</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Ontology vault</td>
+                            <td>83f016088a2c627adc44c4a55fb35cf7ee0dae31</td>
+                            <td>9,394.0322425 BOS</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>Decentralized job Market</td>
+                            <td>1001c90494e9a1cc785fbb5917f1881c6f6b01aa</td>
+                            <td>98,112.0092 BOS</td>
+                            <td>351</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>Slot Machine Game</td>
+                            <td>3919030ed0a291d327c7c9d21f83b332fbe904f9</td>
+                            <td>22,100.2138 BOS</td>
+                            <td>119</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>Voting for the proposal</td>
+                            <td>cf058083ef9e747597feb39c6485820376caf276</td>
+                            <td>43,580.0435 BOS</td>
+                            <td>55</td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td>Music Copyright Register</td>
+                            <td>aa0fe88f3fa57fc0496b581d29c4f9a2e1bbf361</td>
+                            <td>34,349,233.123 BOS</td>
+                            <td>147</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>Multi Owned Wallet</td>
+                            <td>b8c08946e35eefb5907b71ebc88dde57494437f7</td>
+                            <td>987,220.2324232 BOS</td>
+                            <td>44</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </section>
+        <section class="s3">
+            <article class="content">
+                <div class="list">
+                    <h1>1. Rental (Real Estate)</h1>
+                    <p>This contract is for ordinary cases of renting rooms, house and something like that.</p>
+                </div>
+                <div class="list">
+                    <h1>2. Voting</h1>
+                    <p>If someone has an issue to be decided, he could post a proposal on public. <br> Voters could vote on this proposal.</p>
+                </div>
+                <div class="list">
+                    <h1>3. Crowd Sourcing</h1>
+                    <p>This contract could use for startups or companies which need fund.</p>
+                </div>
+            </article>
+        </section>
+        <section class="s4">
+            <article class="content">
+                <h1>Contract Test</h1>
+                <div class="util-wrap">
+                    <span>Prefix</span>
+                    <select name="">
                             <option value="v1">owl</option>
                             <option value="v2">rdf</option>
                             <option value="v3">rdfs</option>
@@ -284,44 +286,44 @@ theme : twilight , tomorrow_night
                             <option value="v7">foaf</option>
                             <option value="v8">xsd</option>
                         </select>
-                        <a href="#" class="winPop">Vocabulary</a>
-                    </div>
-                    <textarea class="editor-code" rows="30" style="width: 100%">
-                        <!DOCTYPE html>
-                        <html>
-                            <head>
-                                <title>Trust Contract</title>
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                                <link href="./css/common.css" rel="stylesheet">
-                                <link href="./css/layout.css" rel="stylesheet">
-                                <link href="./css/animate.css" rel="stylesheet">
-                                <script type="text/javascript" src="./js/jquery.js"></script>
-                                <script type="text/javascript" src="./js/common.js"></script>
-                            </head>
-                            <body>
-                                <nav><!--nav-->
-                                    <a class="link on" data-val="main" href="#">Main</a>
-                                    <a class="link" data-val="s1" href="#">Editor</a>
-                                    <a class="link" data-val="s2" href="#">Contracts</a>
-                                    <a class="link" data-val="s3" href="#">Tutorial</a>
-                                    <a class="link" data-val="s4" href="#">Contract Test</a>
-                                </nav><!--//nav-->
-                            </body>
-                        </html></textarea>
-                                        <script>
-                                            $('.editor-code').ace({
-                                                theme: 'textmate',
-                                                lang: 'html'
-                                            });
-                                        </script>
-                    <div class="line_wrap">
-                        <span class="left">Contract Address</span>
-                        <input class="right" type="text">
-                        <p><a class="link right" data-val="s1" href="#">RUN</a></p>
-                    </div>
-                </article>
-            </section>
-        </div>
+                    <a href="#" class="winPop">Vocabulary</a>
+                </div>
+                <textarea class="editor-code" rows="30" style="width: 100%">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Trust Contract</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="./css/common.css" rel="stylesheet">
+        <link href="./css/layout.css" rel="stylesheet">
+        <link href="./css/animate.css" rel="stylesheet">
+        <script type="text/javascript" src="./js/jquery.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+    </head>
+    <body>
+        <nav><!--nav-->
+            <a class="link on" data-val="main" href="#">Main</a>
+            <a class="link" data-val="s1" href="#">Editor</a>
+            <a class="link" data-val="s2" href="#">Contracts</a>
+            <a class="link" data-val="s3" href="#">Tutorial</a>
+            <a class="link" data-val="s4" href="#">Contract Test</a>
+        </nav><!--//nav-->
+    </body>
+</html>
+</textarea>
+                <script>
+                    $('.editor-code').ace({
+                        theme: 'textmate',
+                        lang: 'html'
+                    });
+                </script>
+                <div class="line_wrap">
+                    <span class="left">Contract Address</span>
+                    <input class="right" type="text">
+                    <p><a class="link right" data-val="s1" href="#">RUN</a></p>
+                </div>
+            </article>
+        </section>
     </article>
     <article class="popup">
         <section>

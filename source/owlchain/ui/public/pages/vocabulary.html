@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome to OWlchain website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/common.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
+    <link href="./css/animate.css" rel="stylesheet">
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+</head>
+<table width="100%" class="popup">
+    <colgroup>
+        <col width="5%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="30%" />
+        <col width="25%" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Resource</th>
+            <th>Label</th>
+            <th>Comment</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td align="center">1</td>
+            <td>skos:OrderedCollection</td>
+            <td>Ordered Collection</td>
+            <td></td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">2</td>
+            <td>skos:ConceptScheme</td>
+            <td>Concept Scheme</td>
+            <td></td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">3</td>
+            <td>skos:Concept</td>
+            <td>Concept</td>
+            <td></td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">4</td>
+            <td>skos:Collection</td>
+            <td>Collection</td>
+            <td></td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">5</td>
+            <td>rdfs:Resource</td>
+            <td>Resource</td>
+            <td>The class resource, everything.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">6</td>
+            <td>rdf:Seq</td>
+            <td>Seq</td>
+            <td>The class of ordered containers.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">7</td>
+            <td>rdf:List</td>
+            <td>List</td>
+            <td>The class of RDF Lists.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">8</td>
+            <td>owl:Thing</td>
+            <td>Thing</td>
+            <td>The class of OWL individuals.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">9</td>
+            <td>owl:Nothing</td>
+            <td>Nothing</td>
+            <td>This empty class.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">10</td>
+            <td>nlon:University</td>
+            <td>University</td>
+            <td>대학</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">11</td>
+            <td>nlon:Score</td>
+            <td>Score</td>
+            <td>악보</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">12</td>
+            <td>nlon:OnlineMaterialType</td>
+            <td>Online material type</td>
+            <td>온라인자료 유형</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">13</td>
+            <td>nlon:OnlineMaterial</td>
+            <td>Online material</td>
+            <td>온라인 자료</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">14</td>
+            <td>nlon:OldBook</td>
+            <td>Old book</td>
+            <td>고서</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">15</td>
+            <td>nlon:OfflineMaterial</td>
+            <td>Offline material</td>
+            <td>오프라인 자료</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">16</td>
+            <td>nlon:NonBook</td>
+            <td>Non book</td>
+            <td>비도서</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">17</td>
+            <td>nlon:Location</td>
+            <td>Location</td>
+            <td>지역</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">18</td>
+            <td>nlon:Library</td>
+            <td>Library</td>
+            <td>도서관</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">19</td>
+            <td>nlon:Librarian</td>
+            <td></td>
+            <td></td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">20</td>
+            <td>nlon:Government</td>
+            <td>Government</td>
+            <td>정부기관</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">21</td>
+            <td>nlon:ElectronicDocument</td>
+            <td>Electronic document</td>
+            <td>전자자료</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">22</td>
+            <td>nlon:Country</td>
+            <td>Country</td>
+            <td>국가</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">23</td>
+            <td>nlon:Concept</td>
+            <td></td>
+            <td></td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">24</td>
+            <td>nlon:ComplexDocument</td>
+            <td>Complex document</td>
+            <td>복합자료</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">25</td>
+            <td>nlon:Book</td>
+            <td>Book</td>
+            <td>도서</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">26</td>
+            <td>nlon:Author</td>
+            <td></td>
+            <td></td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">27</td>
+            <td>nlon:Archives</td>
+            <td>Archives</td>
+            <td>해외수집기록물</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">28</td>
+            <td>nlon:AlternativeMaterial</td>
+            <td>Alternative material</td>
+            <td>장애인대체자료</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">29</td>
+            <td>geo:SpatialThing</td>
+            <td>SpatialThing</td>
+            <td>Anything with spatial extent, i.e. size, shape, or position. e.g. people, places, bowling balls, as well as abstract areas like cubes. </td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">30</td>
+            <td>foaf:Project</td>
+            <td>Project</td>
+            <td>A project (a collective endeavour of some kind).</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">31</td>
+            <td>foaf:PersonalProfileDocument</td>
+            <td>PersonalProfileDocument</td>
+            <td>A personal profile RDF document.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">32</td>
+            <td>foaf:Person</td>
+            <td>Person</td>
+            <td>A person.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">33</td>
+            <td>foaf:Organization</td>
+            <td>Organization</td>
+            <td>An organization.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">34</td>
+            <td>foaf:OnlineGamingAccount</td>
+            <td>Online Gaming Account</td>
+            <td>An online gaming account.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">35</td>
+            <td>foaf:OnlineEcommerceAccount</td>
+            <td>Online E-commerce Account</td>
+            <td>An online e-commerce account.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">36</td>
+            <td>foaf:OnlineChatAccount</td>
+            <td>Online Chat Account</td>
+            <td>An online chat account.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">37</td>
+            <td>foaf:OnlineAccount</td>
+            <td>Online Account</td>
+            <td>An online account.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">38</td>
+            <td>foaf:Image</td>
+            <td>Image</td>
+            <td>An image.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">39</td>
+            <td>foaf:Group</td>
+            <td>Group</td>
+            <td>A class of Agents.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">40</td>
+            <td>foaf:Document</td>
+            <td>Document</td>
+            <td>A document.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">41</td>
+            <td>foaf:Agent</td>
+            <td>Agent</td>
+            <td>An agent (eg. person, group, software or physical artifact).</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">42</td>
+            <td>event:Event</td>
+            <td></td>
+            <td></td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">43</td>
+            <td>dct:Agent</td>
+            <td>Agent</td>
+            <td>A resource that acts or has the power to act.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">44</td>
+            <td>bibo:Workshop</td>
+            <td>Workshop</td>
+            <td>A seminar, discussion group, or the like, that emphasizes zxchange of ideas and the demonstration and application of techniques, skills, etc.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">45</td>
+            <td>bibo:Website</td>
+            <td>Website</td>
+            <td>A group of Webpages accessible on the Web.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">46</td>
+            <td>bibo:Webpage</td>
+            <td>Webpage</td>
+            <td>A web page is an online document available (at least initially) on the world wide web. A web page is written first and foremost to appear on the web, as distinct from other online resources such as books, manuscripts or audio documents which
+                use the web primarily as a distribution mechanism alongside other more traditional methods such as print.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">47</td>
+            <td>bibo:ThesisDegree</td>
+            <td>Thesis degree</td>
+            <td>The academic degree of a Thesis</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">48</td>
+            <td>bibo:Thesis</td>
+            <td>Thesis</td>
+            <td>A document created to summarize research findings associated with the completion of an academic degree.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">49</td>
+            <td>bibo:Statute</td>
+            <td>Statute</td>
+            <td>A bill enacted into law.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">50</td>
+            <td>bibo:Standard</td>
+            <td>Standard</td>
+            <td>A document describing a standard</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">51</td>
+            <td>bibo:Slideshow</td>
+            <td>Slideshow</td>
+            <td>A presentation of a series of slides, usually presented in front of an audience with written text and images.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">52</td>
+            <td>bibo:Slide</td>
+            <td>Slide</td>
+            <td>A slide in a slideshow</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">53</td>
+            <td>bibo:Series</td>
+            <td>Series</td>
+            <td>A loose, thematic, collection of Documents, often Books.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">54</td>
+            <td>bibo:Report</td>
+            <td>Report</td>
+            <td>A document describing an account or statement describing in detail an event, situation, or the like, usually as the result of observation, inquiry, etc..</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">55</td>
+            <td>bibo:ReferenceSource</td>
+            <td>Reference Source</td>
+            <td>A document that presents authoritative reference information, such as a dictionary or encylopedia .</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">56</td>
+            <td>bibo:Quote</td>
+            <td>Quote</td>
+            <td>An excerpted collection of words.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">57</td>
+            <td>bibo:Proceedings</td>
+            <td>Proceedings</td>
+            <td>A compilation of documents published from an event, such as a conference.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">58</td>
+            <td>bibo:PersonalCommunicationDocument</td>
+            <td>Personal Communication Document</td>
+            <td>A personal communication manifested in some document.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">59</td>
+            <td>bibo:PersonalCommunication</td>
+            <td>Personal Communication</td>
+            <td>A communication between an agent and one or more specific recipients.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">60</td>
+            <td>bibo:Periodical</td>
+            <td>Periodical</td>
+            <td>A group of related documents issued at regular intervals.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">61</td>
+            <td>bibo:Performance</td>
+            <td>Performance</td>
+            <td>A public performance.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">62</td>
+            <td>bibo:Patent</td>
+            <td>Patent</td>
+            <td>A document describing the exclusive right granted by a government to an inventor to manufacture, use, or sell an invention for a certain number of years.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">63</td>
+            <td>bibo:Note</td>
+            <td>Note</td>
+            <td>Notes or annotations about a resource.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">64</td>
+            <td>bibo:Newspaper</td>
+            <td>Newspaper</td>
+            <td>A periodical of documents, usually issued daily or weekly, containing current news, editorials, feature articles, and usually advertising.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">65</td>
+            <td>bibo:MultiVolumeBook</td>
+            <td>Series</td>
+            <td>A loose, thematic, collection of Documents, often Books.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">66</td>
+            <td>bibo:Map</td>
+            <td>Map</td>
+            <td>A graphical depiction of geographic features.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">67</td>
+            <td>bibo:Manuscript</td>
+            <td>Manuscript</td>
+            <td>An unpublished Document, which may also be submitted to a publisher for publication.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">68</td>
+            <td>bibo:Manual</td>
+            <td>Manual</td>
+            <td>A small reference book, especially one giving instructions.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">69</td>
+            <td>bibo:Magazine</td>
+            <td>Magazine</td>
+            <td>A periodical of magazine Articles. A magazine is a publication that is issued periodically, usually bound in a paper cover, and typically contains essays, stories, poems, etc., by many writers, and often photographs and drawings, frequently
+                specializing in a particular subject or area, as hobbies, news, or sports.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">70</td>
+            <td>bibo:Letter</td>
+            <td>Letter</td>
+            <td>A written or printed communication addressed to a person or organization and usually transmitted by mail.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">71</td>
+            <td>bibo:Legislation</td>
+            <td>Legislation</td>
+            <td>A legal document proposing or enacting a law or a group of laws.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">72</td>
+            <td>bibo:LegalDocument</td>
+            <td>Legal Document</td>
+            <td>A legal document; for example, a court decision, a brief, and so forth.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">73</td>
+            <td>bibo:LegalDecision</td>
+            <td>Decision</td>
+            <td>A document containing an authoritative determination (as a decree or judgment) made after consideration of facts or law.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">74</td>
+            <td>bibo:LegalCaseDocument</td>
+            <td>Legal Case Document</td>
+            <td>A document accompanying a legal case.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">75</td>
+            <td>bibo:Journal</td>
+            <td>Journal</td>
+            <td>A periodical of scholarly journal Articles.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">76</td>
+            <td>bibo:Issue</td>
+            <td>Issue</td>
+            <td>something that is printed or published and distributed, esp. a given number of a periodical</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">77</td>
+            <td>bibo:Interview</td>
+            <td>Interview</td>
+            <td>A formalized discussion between two or more people.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">78</td>
+            <td>bibo:Image</td>
+            <td>Image</td>
+            <td>A document that presents visual or diagrammatic information.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">79</td>
+            <td>bibo:Hearing</td>
+            <td>Hearing</td>
+            <td>An instance or a session in which testimony and arguments are presented, esp. before an official, as a judge in a lawsuit.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">80</td>
+            <td>bibo:Film</td>
+            <td>Film</td>
+            <td>aka movie.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">81</td>
+            <td>bibo:Excerpt</td>
+            <td>Excerpt</td>
+            <td>A passage selected from a larger work.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">82</td>
+            <td>bibo:Event</td>
+            <td></td>
+            <td></td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">83</td>
+            <td>bibo:Email</td>
+            <td>EMail</td>
+            <td>A written communication addressed to a person or organization and transmitted electronically.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">84</td>
+            <td>bibo:EditedBook</td>
+            <td>Edited Book</td>
+            <td>An edited book.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">85</td>
+            <td>bibo:DocumentStatus</td>
+            <td>Document Status</td>
+            <td>The status of the publication of a document.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">86</td>
+            <td>bibo:DocumentPart</td>
+            <td>document part</td>
+            <td>a distinct part of a larger document or collected document.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">87</td>
+            <td>bibo:Document</td>
+            <td>Document</td>
+            <td>A document (noun) is a bounded physical representation of body of information designed with the capacity (and usually intent) to communicate. A document may manifest symbolic, diagrammatic or sensory-representational information.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">88</td>
+            <td>bibo:CourtReporter</td>
+            <td>Court Reporter</td>
+            <td>A collection of legal cases.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">89</td>
+            <td>bibo:Conference</td>
+            <td>Conference</td>
+            <td>A meeting for consultation or discussion.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">90</td>
+            <td>bibo:Collection</td>
+            <td>Collection</td>
+            <td>A collection of Documents or Collections</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">91</td>
+            <td>bibo:CollectedDocument</td>
+            <td>Collected Document</td>
+            <td>A document that simultaneously contains other documents.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">92</td>
+            <td>bibo:Code</td>
+            <td>Code</td>
+            <td>A collection of statutes.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">93</td>
+            <td>bibo:Chapter</td>
+            <td>Chapter</td>
+            <td>A chapter of a book.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">94</td>
+            <td>bibo:Brief</td>
+            <td>Brief</td>
+            <td>A written argument submitted to a court.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">95</td>
+            <td>bibo:BookSection</td>
+            <td>Book Section</td>
+            <td>A section of a book.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">96</td>
+            <td>bibo:Book</td>
+            <td>Book</td>
+            <td>A written or printed work of fiction or nonfiction, usually on sheets of paper fastened or bound together within covers.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">97</td>
+            <td>bibo:Bill</td>
+            <td>Bill</td>
+            <td>Draft legislation presented for discussion to a legal body.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">98</td>
+            <td>bibo:AudioVisualDocument</td>
+            <td>audio-visual document</td>
+            <td>An audio-visual document; film, video, and so forth.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">99</td>
+            <td>bibo:AudioDocument</td>
+            <td>audio document</td>
+            <td>An audio document; aka record.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">100</td>
+            <td>bibo:Article</td>
+            <td>Article</td>
+            <td>A written composition in prose, usually nonfiction, on a specific topic, forming an independent part of a book or other publication, as a newspaper or magazine.</td>
+            <td>owl:Class</td>
+        </tr>
+        <tr>
+            <td align="center">101</td>
+            <td>bibo:AcademicArticle</td>
+            <td>Academic Article</td>
+            <td>A scholarly academic article, typically published in a journal.</td>
+            <td>owl:Class</td>
+        </tr>
+    </tbody>
+</table>
+</body>
+
+</html>

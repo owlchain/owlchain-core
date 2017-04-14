@@ -2,7 +2,7 @@
 /*==================================================
    CSS initialization & CSS Reset
 ==================================================*/
-html {  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-smoothing: antialiased; font-smoothing: antialiased;}
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-smoothing: antialiased; font-smoothing: antialiased;}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button,a {margin:0; padding:0;}
 body{background:#FFFFFF;}
 /*html, body { height:100%; }*/
@@ -53,28 +53,27 @@ p.center{text-align: center;}
 p.center > *{display:inline-block;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 
-/*common*/
-body{position:relative; height:100%; min-height:100%; background:#ebecec; }
+/*header*/
+header{position:relative;height:180px;margin-bottom:30px;text-align:center;background:url('../images/header_bg.png') no-repeat top center #242a42; }
+header .content{position:relative; height:180px; margin-bottom:30px;}
+header .content nav{position:absolute;left:0;bottom:0; z-index:10; }
+header .content nav a , header content nav a:visited{display:inline-block; position:relative; padding:15px 20px; color:#FFF; font-size:20px;}
+header .content nav a:hover{ color:#ff0000; }
+header .content nav a:hover:after ,header .content nav a.on:after{position:absolute; bottom:5px; left:0; width:100%; height:3px; background:#FFF; content:''; z-index: 10;}
 
-body article.wrap{position:relative;overflow:hidden; }
-body article.wrap .in_wrap {position:relative; }
-body article.wrap .in_wrap > section{visibility: collapse; position: absolute; left:0; top:0; width:100%;margin-bottom:50px;}
-body article.wrap .in_wrap > section.on{ visibility:visible; }
+/*footer*/
+footer { position:fixed; bottom:0; left:0; width:100%; height:40px; background:#b6b7b8;}
+footer .logo {float:left; margin-top:3px; margin-left:25px; max-width:100px;height:auto;}
+footer .logo img{width:100%; height:auto; vertical-align: top;}
+footer .copyright{display:inline-block; margin-left:110px; padding-top:7px;color:#FFF; font-size:12px;}
+
+/*article*/
+body{ position:relative;  background:#ebecec; }
+
+body article.wrap{position:relative;  }
+body article.wrap  > section{ visibility: hidden;  position: absolute; top:0; left:0; width:100%;  margin-bottom:50px;}
+body article.wrap  > section.on{ visibility: visible; display:block; }
 body article.wrap .box{padding:15px;background:#FFF;border:1px solid #959595;font-size:18px;color:#000;line-height: 150%;}
 
 h1{margin-bottom:30px;font-size:30px;}
 .cmnBtn{display:block;padding:10px;color:#FFF;background:#4c5564;text-align:center;}
-
-/*header*/
-header{position:relative;height:180px;margin-bottom:30px;text-align:center;background:url('../images/header_bg.png') no-repeat top center #242a42; }
-header .content{position:relative;height:180px;margin-bottom:30px;}
-header .content nav{position:absolute;left:0;bottom:0; }
-header .content nav a , header content nav a:visited{display:inline-block;position:relative;padding:15px 20px;color:#FFF;font-size:20px;}
-header .content nav a:hover:after ,header .content nav a.on:after{position:absolute;bottom:5px;left:0;width:100%;background:#FFF;content:'';}
-header #link {position:absolute;bottom:0;right:20px;height:30px;vertical-align:middle;color:#111;font-size:16px;}
-
-/*footer*/
-footer {display:block; position:absolute; bottom:0; width:100%; height:40px; background:#b6b7b8;}
-footer .logo {float:left; margin-top:3px; margin-left:25px; max-width:100px;height:auto;}
-footer .logo img{width:100%; height:auto; vertical-align: top;}
-footer .copyright{display:inline-block; margin-left:110px; padding-top:7px;color:#FFF; font-size:12px;}
