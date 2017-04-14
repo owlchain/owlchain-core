@@ -2,7 +2,7 @@
 /*==================================================
    CSS initialization & CSS Reset
 ==================================================*/
-html { text-shadow: 1px 1px 1px rgba(0,0,0,0.004); text-stroke: 0.3px; /*마치 맥의 폰트처럼 두께 라인을 살려준다. */  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-smoothing: antialiased; font-smoothing: antialiased;}
+html {  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-smoothing: antialiased; font-smoothing: antialiased;}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button,a {margin:0; padding:0;}
 body{background:#FFFFFF;}
 /*html, body { height:100%; }*/
@@ -48,28 +48,18 @@ a,a:visited{color:#111;text-decoration:none;}
 .right{text-align:right;}
 /*=== Common =================================================*/
 hr{display:block;width:100%;height:1px;background:#242a42;border:0;}
+.content{max-width:800px;margin-left:auto;margin-right:auto;padding-left:30px;padding-right:30px;box-sizing:border-box;}
 p.center{text-align: center;}
 p.center > *{display:inline-block;}
-article{display:block;}
-/*background*/
-.bg_b{background:#242a42!important;}
-.bg_db{background:#2a375f!important;}/*dark blue*/
-.bg_sky{background:#66a0c9!important;}
-.bg_g{background:#ecebeb!important;}
-.bg_dg{background:#898989!important;}
-.bg_w{background:#fff!important;}
-/*popup-bg*/
-.bg_or{background:#d75324!important;}
-.bg_gr{background:#5bb531!important;}
-.content{max-width:800px;margin-left:auto;margin-right:auto;padding-left:30px;padding-right:30px;box-sizing:border-box;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 
 /*common*/
-body{background:#ebecec; }
-body .content{max-width:784px;padding-left:0;padding-right:0;}
-body article.wrap{position:relative;overflow:hidden;}
-body article.wrap > section{visibility: collapse; position:absolute;top:0;left:0; width:100%;margin-bottom:50px;}
-body article.wrap > section.on{ visibility:visible; }
+body{position:relative; height:100%; min-height:100%; background:#ebecec; }
+
+body article.wrap{position:relative;overflow:hidden; }
+body article.wrap .in_wrap {position:relative; }
+body article.wrap .in_wrap > section{visibility: collapse; position: absolute; left:0; top:0; width:100%;margin-bottom:50px;}
+body article.wrap .in_wrap > section.on{ visibility:visible; }
 body article.wrap .box{padding:15px;background:#FFF;border:1px solid #959595;font-size:18px;color:#000;line-height: 150%;}
 
 h1{margin-bottom:30px;font-size:30px;}
@@ -80,11 +70,11 @@ header{position:relative;height:180px;margin-bottom:30px;text-align:center;backg
 header .content{position:relative;height:180px;margin-bottom:30px;}
 header .content nav{position:absolute;left:0;bottom:0; }
 header .content nav a , header content nav a:visited{display:inline-block;position:relative;padding:15px 20px;color:#FFF;font-size:20px;}
-header .content nav a:hover:after ,header .content nav a.on:after{position:absolute;bottom:5px;left:0;width:100%;height:3px;background:#FFF;content:'';}
+header .content nav a:hover:after ,header .content nav a.on:after{position:absolute;bottom:5px;left:0;width:100%;background:#FFF;content:'';}
 header #link {position:absolute;bottom:0;right:20px;height:30px;vertical-align:middle;color:#111;font-size:16px;}
 
 /*footer*/
-footer {display:block; width:100%; height:40px; background:#b6b7b8;}
+footer {display:block; position:absolute; bottom:0; width:100%; height:40px; background:#b6b7b8;}
 footer .logo {float:left; margin-top:3px; margin-left:25px; max-width:100px;height:auto;}
 footer .logo img{width:100%; height:auto; vertical-align: top;}
 footer .copyright{display:inline-block; margin-left:110px; padding-top:7px;color:#FFF; font-size:12px;}

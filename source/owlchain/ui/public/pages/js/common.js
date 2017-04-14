@@ -12,8 +12,6 @@ trust.js
         function setDisplay(cls) {
             var _old = _section.siblings('.on');
             var _sec = _section.siblings('.' + cls);
-            var _height = parseInt(_sec.height()) + 100;
-            $('article.wrap').css('height', _height);
             //  _section.removeClass('on');  bounceInRight  bounceOutLeft
             _isMotion=true;
             _sec.addClass('on bounceInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
@@ -66,8 +64,6 @@ trust.js
 
         /*init*/
         var _cls = $('section.on').attr('class').split('on')[0].replace(/\s+/g, '');
-        var _height = parseInt($('section.on').height()) + 100;
-        $('article.wrap').css('height', _height);
         $('section.on').addClass('on bounceInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
             $(this).removeClass('bounceInRight animated');
         });
