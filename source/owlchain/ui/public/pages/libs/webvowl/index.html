@@ -13,15 +13,17 @@
     <link rel="stylesheet" type="text/css" href="css/webvowl.app.css" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <title>Trust Contract Ontology Viewer</title>
+    <style type="text/css">
+        #loading-info{display:none; visibility: hidden;  }
+        #optionsArea{display:none; visibility: hidden;  }
+    </style>
 </head>
 
 <body>
     <main>
         <section id="canvasArea">
             <div id="logo">
-
-                <h2>Trust Contract(Ontology) Viewer<br/></h2>
-
+                <!-- <h2>Trust Contract(Ontology) Viewer<br/></h2> -->
             </div>
             <div id="loading-info">
                 <div id="loading-error" class="hidden">
@@ -44,7 +46,7 @@
 
 
 
-
+<!-- delete
         <aside id="detailsArea">
             <section id="generalDetails">
                 <h1 id="title"></h1>
@@ -105,24 +107,19 @@
                 </div>
             </section>
         </aside>
+-->
 
-
-        <nav id="optionsArea">
-
+        <nav id="optionsArea" style="display:none;">
             <ul id="optionsMenu">
-
                 <li id="aboutMenu"><a href="#">About</a>
                     <ul class="toolTipMenu aboutMenu">
                         <li><a href="license.txt" target="_blank">MIT License &copy; 2014-2017</a></li>
                         <li id="credits" class="option">WebVOWL Developers:<br/> Vincent Link, Steffen Lohmann, Eduard Marbach, Stefan Negru, Vitalis Wiens
                         </li>
-
                         <li><a href="http://vowl.visualdataweb.org/webvowl.html#releases" target="_blank">Version: 1.0.1<br/>(release history)</a></li>
-
                         <li><a href="http://purl.org/vowl/" target="_blank">VOWL Specification &raquo;</a></li>
                     </ul>
                 </li>
-
                 <li id="pauseOption"><a id="pause-button" href="#">Pause</a></li>
                 <li id="resetOption"><a id="reset-button" href="#" type="reset">Reset</a></li>
                 <li id="moduleOption"><a href="#">Modes</a>
@@ -182,7 +179,7 @@
                         </li>
                     </ul>
                 </li>
--->
+                -->
                 <li class="searchMenu" id="searchMenuId">
                     <input class="searchInputText" type="text" id="search-input-text" placeholder="Search">
                     <ul class="searchMenuEntry" id="searchEntryContainer">
@@ -194,13 +191,9 @@
                 <li id="li_left" style="float:left">
                     <a href="#" id="LeftButton"></a>
                 </li>
-
                 </li>
             </ul>
         </nav>
-
-
-
     </main>
     <script src="js/d3.min.js"></script>
     <script src="js/webvowl.js"></script>
