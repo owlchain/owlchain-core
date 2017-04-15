@@ -26,14 +26,16 @@ input:-moz-placeholder, textarea:-moz-placeholder { color: #111; }
 input::-moz-placeholder, textarea::-moz-placeholder {color: #111; }
 input:-ms-input-placeholder, textarea:-ms-input-placeholder { color: #111; }
 /*------------------ 기본 색상 및 anchor 설정 ------------------*/
-body,p,h1,h2,h3,h4,h5,h6,th,td,input,select,textarea,button{font-size:18px; letter-spacing: -0.2px; font-weight:normal; font-family:'Arial', 'Apple Gothic', sans-serif; word-wrap:break-word; }
+body,p,h1,h2,h3,h4,h5,h6,th,td,input,select,textarea,button{font-size:18px; letter-spacing: 0; font-weight:normal; font-family:'Arial', 'Apple Gothic', sans-serif; word-wrap:break-word; }
 a,a:visited{color:#111;text-decoration:none;}
 /*=== Class Style =========================================*/
-.center{display:inline-block; text-align: center;}
+.center{ text-align: center;}
+.center > * {display:inline-block;}
 .trans{-webkit-transition: all 0.3s; transition: all 0.3s;}
 .clfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;font-size:0;}
 .desc{background:#e1e1e1;color:#111;border:1px dashed #111;padding:20px;}
 .line{ display:block; width:100%; padding-bottom:20px; border-bottom:1px solid #242a42; }
+img.flex{ width:100%; height:auto; vertical-align: }
 .none{display:none;}
 /*=== Common ===============================================*/
 /* width */

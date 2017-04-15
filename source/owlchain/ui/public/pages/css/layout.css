@@ -8,13 +8,13 @@ header .content nav a , header content nav a:visited{display:inline-block; posit
 header .content nav a:hover{ color:#ff0000; }
 header .content nav a:hover:after ,header .content nav a.on:after{position:absolute; bottom:5px; left:0; width:100%; height:3px; background:#FFF; content:''; z-index: 10;}
 /*footer*/
-footer { position:fixed; bottom:0; left:0; width:100%; height:40px; background:#b6b7b8; z-index: 1000;}
+footer { position:fixed; bottom:0; left:0; width:100%; height:40px; background:#b6b7b8; z-index: 100;}
 footer .logo {float:left; margin-top:3px; margin-left:25px; max-width:100px;height:auto;}
 footer .logo img{width:100%; height:auto; vertical-align: top;}
 footer .copyright{display:inline-block; margin-left:110px; padding-top:7px;color:#FFF; font-size:12px;}
 /*article*/
 body{ position:relative;  background:#ebecec; }
-body article.wrap{position:relative; overflow: hidden; width:100%; min-height:800px;}
+body article.wrap{position:relative; overflow: hidden; width:100%; min-height:1000px;}
 body article.wrap  > section{ visibility: hidden; position: absolute; top:0; left:0; width:100%;  margin-bottom:50px;}
 body article.wrap  > section.on{ visibility: visible; display:block; }
 
@@ -44,31 +44,26 @@ select option{ padding:10px; }
 .main .line .float div.left span{width:20%;}
 .main .line .float div.left input{width:80%;}
 .main .line .float div.left + a.cmn{ margin-top:25px; }
-
 /*s1*/
 .s1 .editor-wrap{width:100%!important;}
 .s1 .editor-wrap h2{margin-bottom:0; padding:7px 0;  width:100%;  color:#FFF; font-size:18px; background: #242a42; text-align: center; }
 .s1 .link-wrap {clear:both;display:block;padding-top:30px;text-align:center;}
 .s1 .link-wrap a{display:block;padding:10px;color:#FFF;background:#4c5564;}
-
-/*popup*/
-.s1 .popup{display:none;position:absolute;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index: 100;}
-.s1 .popup.on{display:block;}
-.s1 .popup .popup-wrap{display:block;padding:50px;width:600px;height:300px;margin:300px auto 0;background:#FFF; text-align: center;}
-.s1 .popup h2{margin:20px auto;}
-.s1 .popup h3{margin:20px auto;}
-.s1 .popup h4{margin:20px auto;}
-.s1 .popup a.link {display:block;padding:10px 5px;color:#111;border:1px solid #4c5564;background:#b6b7b8;}
-.s1 h2{margin:30px 0;}
 /*s2*/
 /*s3*/
 .s3 {}
 .s3 .content{margin-top:30px;}
-.s3 .list{ position:relative; margin-bottom: 50px; padding:15px 0; border-bottom:1px solid #242a42;  color:#000; font-size:18px; }
-.s3 .list:after{ position:absolute;  bottom:10px; right:0; content:url('../images/ico_tutorial.png');}
-.s3 .list h1{margin-bottom: 10px;}
-.s3 .list p{ padding-left:30px; font-size:14px; line-height: 160%;}
+.s3 .line{ position:relative; margin-bottom: 50px; padding:15px 0; border-bottom:1px solid #242a42;  color:#000; font-size:18px; }
+.s3 .line h1{margin-bottom: 10px;}
+.s3 .line p{ padding-left:30px; font-size:14px; line-height: 160%;}
+.s3 .line a{ display:inline-block;  vertical-align: middle; }
 /*s4*/
 /*s5*/
 /*s6*/
-.s6 .content {height:1010px;background:url("../images/paper.png") no-repeat center top;}
+/*popup*/
+article.popup{display:none;position:absolute;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index: 500;}
+article.popup.on{display:block;}
+article.popup .layer{ padding:30px; text-align: center;}
+/*paper*/
+article.popup .paper img{ }
+article h2{margin:30px 0;}
