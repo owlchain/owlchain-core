@@ -4,7 +4,6 @@
  https://cheef.github.io/jquery-ace/  ,  http://ajaxorg.github.io/ace-builds/kitchen-sink.html
 theme : twilight , tomorrow_night
 -->
-
 <head>
     <meta charset="UTF-8" />
     <title>Welcome to OWlchain website</title>
@@ -24,9 +23,9 @@ theme : twilight , tomorrow_night
 </head>
 
 <body>
-    <!--header-->
     <header>
         <div class="content">
+            <!-- nav -->
             <nav>
                 <a class="link on" data-val="main" href="#">Main</a>
                 <a class="link" data-val="s1" href="#">Editor</a>
@@ -36,85 +35,84 @@ theme : twilight , tomorrow_night
             </nav>
         </div>
     </header>
-    <!--//header-->
     <!--article -->
     <article class="wrap trans">
-        <section class="main on">
+        <!-- Main -->
+        <section class="main">
             <article class="content">
-                <!-- <h1>TRUST CONTRACT</h1>-->
                 <p class="box">
                     BOScoin aims to use the Owlchain technology which consists of the Web Ontology Language(OWL) and Timed Automata Language(TAL). This architecture is designed to expand expressive power while retaining decidability to support secure and precise execution
                     of contracts. These Owlchain based contracts on the BOScoin blockchain are called Trust Contracts
                 </p>
-                <div class="line_wrap">
-                    <span class="left">Trust Contract Create</span>
-                    <a class="link right" data-val="s1" href="#">CREATE</a>
+                <div class="float line">
+                    <span class="left">New Contract</span>
+                    <a class="cmn link right" data-val="s1" href="#">CREATE</a>
                 </div>
-                <div class="line_wrap">
-                    <p>Trust Contract Search</p>
-                    <span class="left"><label for="input">address : <input type="text"></label></span>
-                    <a class="link right" data-val="s1" href="#">SEARCH</a>
+                <div class="line">
+                    <p>Contract Search</p>
+                    <div class="float">
+                        <div class="left title-wrap">
+                            <span>address :</span><input type="text" class="cmn">
+                        </div>
+                        <a class="cmn link right" data-val="s1" href="#">SEARCH</a>
+                    </div>
                 </div>
             </article>
         </section>
-        <section class="s1">
+        <!-- Editor -->
+        <section class="s1 on">
             <article class="content">
-                <div class="title_wrap clfix">
+                <div class="line title-wrap">
                     <span>Title</span>
-                    <input type="text">
+                    <input type="text" class="cmn">
+                </div>
+                <div class="float line mgt_20 mgb_40">
+                    <div class="w50 left">
+                        <span class="w20 center">Prefix</span>
+                        <select name="" class="">
+                            <option value="v1">owl</option>
+                            <option value="v2">rdf</option>
+                            <option value="v3">rdfs</option>
+                            <option value="v4">boscoin</option>
+                            <option value="v5">dc</option>
+                            <option value="v6">dct</option>
+                            <option value="v7">foaf</option>
+                            <option value="v8">xsd</option>
+                        </select>
+                    </div>
+                    <a href="#" class="cmn right winPop">Vocabulary</a>
                 </div>
                 <div class="editor-wrap">
-                    <div class="util-wrap">
-                        <span>Prefix</span>
-                        <select name="">
-                                <option value="v1">owl</option>
-                                <option value="v2">rdf</option>
-                                <option value="v3">rdfs</option>
-                                <option value="v4">boscoin</option>
-                                <option value="v5">dc</option>
-                                <option value="v6">dct</option>
-                                <option value="v7">foaf</option>
-                                <option value="v8">xsd</option>
-                            </select>
-                        <a href="#" class="winPop">Vocabulary</a>
-                    </div>
                     <h2>DATA(OWL)</h2>
-                    <textarea class="editor-code" rows="30" style="width: 100%">
-<!DOCTYPE html>
-    <html>
-        <head>
-            <title>Trust Contract</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <link href="./css/common.css" rel="stylesheet">
-            <link href="./css/layout.css" rel="stylesheet">
-            <link href="./css/animate.css" rel="stylesheet">
-            <script type="text/javascript" src="./js/jquery.js"></script>
-            <script type="text/javascript" src="./js/common.js"></script>
-        </head>
-        <body>
-            <nav><!--nav-->
-                <a class="link on" data-val="main" href="#">Main</a>
-                <a class="link" data-val="s1" href="#">Editor</a>
-                <a class="link" data-val="s2" href="#">Contracts</a>
-                <a class="link" data-val="s3" href="#">Tutorial</a>
-                <a class="link" data-val="s4" href="#">Contract Test</a>
-            </nav><!--//nav-->
-        </body>
-    </html>
-                        </textarea>
+                    <textarea class="editor-code" rows="20" style="width: 100%">
+                    <!DOCTYPE html>
+                        <html>
+                            <head>
+                                <title>Trust Contract</title>
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                                <link href="./css/common.css" rel="stylesheet">
+                                <link href="./css/layout.css" rel="stylesheet">
+                                <link href="./css/animate.css" rel="stylesheet">
+                                <script type="text/javascript" src="./js/jquery.js"></script>
+                                <script type="text/javascript" src="./js/common.js"></script>
+                            </head>
+                            <body>
+                                <nav><!--nav-->
+                                    <a class="link on" data-val="main" href="#">Main</a>
+                                    <a class="link" data-val="s1" href="#">Editor</a>
+                                    <a class="link" data-val="s2" href="#">Contracts</a>
+                                    <a class="link" data-val="s3" href="#">Tutorial</a>
+                                    <a class="link" data-val="s4" href="#">Contract Test</a>
+                                </nav><!--//nav-->
+                            </body>
+                        </html>
+                    </textarea>
                     <script>
                         $('.editor-code').ace({
                             theme: 'textmate',
                             lang: 'html'
                         });
                     </script>
-                </div>
-                <div class="menu-wrap">
-                    <ul>
-                        <li><a href="#">Tutorial</a></li>
-                        <li><a class="link" data-val="s6" href="#">Sample Contracts</a></li>
-                        <li><a class="link" data-val="s7" href="#">User Oridented Code</a></li>
-                    </ul>
                 </div>
                 <div class="link-wrap">
                     <a class="popup-link" href="#">SUBMIT</a>
@@ -133,6 +131,7 @@ theme : twilight , tomorrow_night
                 </article>
             </article>
         </section>
+        <!-- Contracts -->
         <section class="s2">
             <article class="content">
                 <table>
@@ -255,6 +254,7 @@ theme : twilight , tomorrow_night
                 </table>
             </article>
         </section>
+        <!-- Tutorial -->
         <section class="s3">
             <article class="content">
                 <div class="list">
@@ -271,12 +271,14 @@ theme : twilight , tomorrow_night
                 </div>
             </article>
         </section>
+        <!-- Contract Test -->
         <section class="s4">
             <article class="content">
                 <h1>Contract Test</h1>
-                <div class="util-wrap">
-                    <span>Prefix</span>
-                    <select name="">
+                <div class="float line mgt_20 mgb_40">
+                    <div class="w50 left">
+                        <span class="w20 center">Prefix</span>
+                        <select name="" class="mgl_10">
                             <option value="v1">owl</option>
                             <option value="v2">rdf</option>
                             <option value="v3">rdfs</option>
@@ -286,42 +288,43 @@ theme : twilight , tomorrow_night
                             <option value="v7">foaf</option>
                             <option value="v8">xsd</option>
                         </select>
-                    <a href="#" class="winPop">Vocabulary</a>
+                    </div>
+                    <a href="#" class="cmn right winPop">Vocabulary</a>
                 </div>
-                <textarea class="editor-code" rows="30" style="width: 100%">
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Trust Contract</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="./css/common.css" rel="stylesheet">
-        <link href="./css/layout.css" rel="stylesheet">
-        <link href="./css/animate.css" rel="stylesheet">
-        <script type="text/javascript" src="./js/jquery.js"></script>
-        <script type="text/javascript" src="./js/common.js"></script>
-    </head>
-    <body>
-        <nav><!--nav-->
-            <a class="link on" data-val="main" href="#">Main</a>
-            <a class="link" data-val="s1" href="#">Editor</a>
-            <a class="link" data-val="s2" href="#">Contracts</a>
-            <a class="link" data-val="s3" href="#">Tutorial</a>
-            <a class="link" data-val="s4" href="#">Contract Test</a>
-        </nav><!--//nav-->
-    </body>
-</html>
-</textarea>
+                <textarea class="editor-code" rows="20" style="width: 100%">
+                <!DOCTYPE html>
+                <html>
+                    <head>
+                        <title>Trust Contract</title>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <link href="./css/common.css" rel="stylesheet">
+                        <link href="./css/layout.css" rel="stylesheet">
+                        <link href="./css/animate.css" rel="stylesheet">
+                        <script type="text/javascript" src="./js/jquery.js"></script>
+                        <script type="text/javascript" src="./js/common.js"></script>
+                    </head>
+                    <body>
+                        <nav><!--nav-->
+                            <a class="link on" data-val="main" href="#">Main</a>
+                            <a class="link" data-val="s1" href="#">Editor</a>
+                            <a class="link" data-val="s2" href="#">Contracts</a>
+                            <a class="link" data-val="s3" href="#">Tutorial</a>
+                            <a class="link" data-val="s4" href="#">Contract Test</a>
+                        </nav><!--//nav-->
+                    </body>
+                </html>
+                </textarea>
                 <script>
                     $('.editor-code').ace({
                         theme: 'textmate',
                         lang: 'html'
                     });
                 </script>
-                <div class="line_wrap">
-                    <span class="left">Contract Address</span>
-                    <input class="right" type="text">
-                    <p><a class="link right" data-val="s1" href="#">RUN</a></p>
+                <div class="line title-wrap mgt_40">
+                    <span class="w20">Contract Address</span>
+                    <input type="text" class="w80 cmn">
                 </div>
+                <p class="mgt_30 float"><a class="cmn link right" data-val="s1" href="#">RUN</a></p>
             </article>
         </section>
     </article>
@@ -331,12 +334,9 @@ theme : twilight , tomorrow_night
         </section>
     </article>
     <!--//article -->
-    <!--footer-->
     <footer>
         <a class="logo" href="#"><img src="../images/footer_logo.png"></a>
         <p class="copyright">Portion ofthiscontent are ©2017 BOScoin Community.org contributors. <br>Content available under a Creative Commons license.</p>
     </footer>
-    <!--//footer-->
 </body>
-
 </html>
