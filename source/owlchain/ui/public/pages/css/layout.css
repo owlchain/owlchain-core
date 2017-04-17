@@ -20,7 +20,7 @@ body article.wrap  > section.on{ display:block; }
 
 /*=== Trust-Contact =================================================*/
 /*editor*/
-textarea{ display:block; width:100%; padding:20px; color:#FFF; background:#000; }
+textarea{ display:block; width:100%; padding:20px; color:#FFF; background:#000; box-sizing: border-box;}
 
 /* table*/
 table{width:100%;}
