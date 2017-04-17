@@ -15,12 +15,12 @@ footer .copyright{display:inline-block; margin-left:110px; padding-top:7px;color
 /*article*/
 body{ position:relative;  background:#ebecec; }
 body article.wrap{position:relative; overflow: hidden; width:100%; min-height:1000px;}
-body article.wrap  > section{ visibility: hidden; position: absolute; top:0; left:0; width:100%;  margin-bottom:50px;}
-body article.wrap  > section.on{ visibility: visible; display:block; }
+body article.wrap  > section{ display:none;  margin-bottom:50px;}
+body article.wrap  > section.on{ display:block; }
 
 /*=== Trust-Contact =================================================*/
 /*editor*/
-.ace_print-margin{display:none;}
+textarea{ display:block; width:100%; padding:20px; color:#FFF; background:#000; }
 
 /* table*/
 table{width:100%;}
