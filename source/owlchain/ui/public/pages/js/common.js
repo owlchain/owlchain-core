@@ -5,7 +5,10 @@ trust.js
     "use strict";
     /*setup*/
     var _setup = function() {
-
+        var options = {
+            valueNames: ['address']
+        };
+        var hackerList = new List('table-list', options);
     };
     /*trust-contract*/
     var _bind = function() {
@@ -16,7 +19,6 @@ trust.js
             // _section.removeClass('on');
             var _sec = _section.siblings('.' + cls);
             _sec.addClass('on').siblings('section').removeClass('on');
-            //    _menu.val(cls);
             var _height = _sec.height();
         };
         /*************************
@@ -54,6 +56,31 @@ trust.js
             _textarea.text(_str + _val);
 
         });
+        /*=== main ===============================================*/
+        /*=== s1 =================================================*/
+        $('.s1 a.submit').bind('click', function(event) {
+            event.preventDefault();
+            //title validation
+            if ($('#s1_tit').val() == "") {
+                alert('Title value empty.');
+            }
+            if ($('.s1 textarea').text() == "") {
+                alert('textarea value empty');
+            }
+            $('.s1 .btn-visual').addClass('on');
+        });
+        $('.s1 a.btn-visual').bind('click', function(event) {
+            event.preventDefault();
+            var _chk = $(this).hasClass('on');
+            if (_chk) {
+                $('p.ui-visual').show();
+            } else {}
+        });
+        /*=== s2 =================================================*/
+        /*=== s3 =================================================*/
+        /*=== s4 =================================================*/
+
+
         _winPop.bind('click', function(event) {
             window.open("vocabulary.html", "windowNewPop", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=0,width=1000,height=800");
         });

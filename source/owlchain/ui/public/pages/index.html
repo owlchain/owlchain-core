@@ -13,6 +13,7 @@ theme : twilight , tomorrow_night
     <link href="./css/layout.css" rel="stylesheet">
     <link href="./css/animate.css" rel="stylesheet">
     <script type="text/javascript" src="./js/jquery.js"></script>
+    <!-- <script type="text/javascript" src="./js/list.min.js"></script> -->
     <script type="text/javascript" src="./js/common.js"></script>
 </head>
 
@@ -69,8 +70,8 @@ theme : twilight , tomorrow_night
                     <textarea class="editor-code" name="" id="" cols="30" rows="10"></textarea>
                     <div class="info">
                         <div class="btn-wrap">
-                            <a href="#none" class="btn"><img src="./images/ico_submit.png" alt=""> </a>
-                            <a href="#none" class="btn"><img src="./images/ico_visual.png" alt=""> </a>
+                            <a href="#none" class="submit btn"><img src="./images/ico_submit.png" alt=""> </a>
+                            <a href="#none" class="btn-visual btn"><img src="./images/ico_visual.png" alt=""> </a>
                         </div>
                         <ul class="list">
                             <li><span class="tit">Status</span><span >Confirmed</span></li>
@@ -79,7 +80,7 @@ theme : twilight , tomorrow_night
                         </ul>
                     </div>
                 </div>
-                <p><img src="./images/s1_visual.png" alt=""></p>
+                <p class="ui-visual none"><img src="./images/s1_visual.png" alt=""></p>
                 <!-- <iframe width="100%" height="600px" src="./libs /webvowl/" frameborder="0"></iframe>
                 iframe 문제
                 -->
@@ -87,7 +88,7 @@ theme : twilight , tomorrow_night
         </section>
         <!-- Contracts -->
         <section class="s2">
-            <article class="content">
+            <article id="table-list" class="content">
                 <dl class="search_form">
                     <dt><label for="s2_tit"><img src="./images/ico_address.png" alt=""> Contract  Address:</label></dt>
                     <dd><input type="cmn"></dd>
@@ -112,11 +113,11 @@ theme : twilight , tomorrow_night
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>BOScoin</td>
-                            <td>67fffe65f8879702a58a568214cd637387f2728f</td>
-                            <td>231,544.2366 BOS</td>
-                            <td>1186</td>
+                            <td class="no">1</td>
+                            <td class="title">BOScoin</td>
+                            <td class="address">67fffe65f8879702a58a568214cd637387f2728f</td>
+                            <td class="balance">231,544.2366 BOS</td>
+                            <td class="txs">1186</td>
                         </tr>
                     </tbody>
                 </table>
