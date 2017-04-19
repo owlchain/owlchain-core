@@ -16,7 +16,7 @@ trust.js
             // _section.removeClass('on');
             var _sec = _section.siblings('.' + cls);
             _sec.addClass('on').siblings('section').removeClass('on');
-        //    _menu.val(cls);
+            //    _menu.val(cls);
             var _height = _sec.height();
         };
         /*************************
@@ -31,7 +31,8 @@ trust.js
         }
         /*=== Selector =================================================*/
         var _link = $('a.link');
-        var _linkPopup=$('a.link-popup');
+        var _select = $('select.select-value');
+        var _linkPopup = $('a.link-popup');
         var _section = $('article.wrap > section');
         var _winPop = $('a.winPop'); /* windows popup */
         var _popup = $('article.popup');
@@ -44,6 +45,14 @@ trust.js
                 setDisplay(_val);
                 $(this).addClass('on').siblings('a').removeClass('on');
             }
+        });
+        // Select Option value에 의한 textarea 출력
+        _select.bind('change', function(event) {
+            var _val = $(this).find('option:selected').text();
+            var _textarea = $(this).parents('article.content').find('textarea');
+            var _str = _textarea.text() + "\n";
+            _textarea.text(_str + _val);
+
         });
         _winPop.bind('click', function(event) {
             window.open("vocabulary.html", "windowNewPop", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=0,width=1000,height=800");
