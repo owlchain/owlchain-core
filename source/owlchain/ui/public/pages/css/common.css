@@ -26,7 +26,7 @@ input:-moz-placeholder, textarea:-moz-placeholder { color: #111; }
 input::-moz-placeholder, textarea::-moz-placeholder {color: #111; }
 input:-ms-input-placeholder, textarea:-ms-input-placeholder { color: #111; }
 /*------------------ 기본 색상 및 anchor 설정 ------------------*/
-body,p,h1,h2,h3,h4,h5,h6,th,td,input,select,textarea,button{font-size:18px; letter-spacing: 0; font-weight:normal; font-family:'Arial', 'Apple Gothic', sans-serif; word-wrap:break-word; }
+body,p,h1,h2,h3,h4,h5,h6,th,td,input,select,textarea,button{font-size:14px; letter-spacing: 0; font-weight:normal; font-family:'Arial', 'Apple Gothic', sans-serif; word-wrap:break-word; }
 a,a:visited{color:#111;text-decoration:none;}
 /*=== Class Style =========================================*/
 .center{ text-align: center;}
@@ -89,9 +89,9 @@ hr{display:block;width:100%;height:1px;background:#242a42;border:0;}
 p.center{text-align: center;}
 p.center > *{display:inline-block;}
 /*input & button*/
-a.cmn{ width:180px; padding:5px 0; color: #FFF; font-size:18px; background: #4d77ab; text-align: center; box-sizing: border-box; -webkit-transition: all 0.3s; transition: all 0.3s; }
+a.cmn{ width:180px; padding:5px 0; color: #FFF; font-size:14px; background: #4d77ab; text-align: center; box-sizing: border-box; -webkit-transition: all 0.3s; transition: all 0.3s; }
 a.cmn:hover { color: #fff; background: #242a42; }
-input.cmn[type="text"] { padding:10px 30px; border:1px solid #959595; color:#000000; font-size:18px; background:#FFF; box-sizing: border-box; -webkit-transition: all 0.3s; transition: all 0.3s; }
+input.cmn[type="text"] { padding:5px 10px; border:1px solid #959595; color:#000000; font-size:14px; background:#FFF; box-sizing: border-box; -webkit-transition: all 0.3s; transition: all 0.3s; }
 input.cmn[type="text"]:focus { border:1px solid #242a42;  }
 
 

@@ -49,6 +49,7 @@ trust.js
         });
         _select.bind('change', function(event) { // Select Option value에 의한 textarea 출력
             var _val = $(this).find('option:selected').text();
+            console.log(_val);
             var _textarea = $(this).parents('article.content').find('textarea');
             var _str = _textarea.text() + "\n";
             _textarea.text(_str + _val);
@@ -77,12 +78,12 @@ trust.js
             if ($('.s1 textarea').text() == "") {
                 alert('textarea value empty');
             }
-            $('.s1 .btn-visual').addClass('on');
+            $('.s1 .anc_gb').removeClass('on');
         });
-        $('.s1 a.btn-visual').bind('click', function(event) {
+        $('.s1 a.anc_gb').bind('click', function(event) {
             event.preventDefault();
             var _chk = $(this).hasClass('on');
-            if (_chk) {
+            if (!_chk) {
                 $('p.ui-visual').show();
             } else {}
         });
