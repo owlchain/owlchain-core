@@ -4,4 +4,4 @@ __dummy.html
 *.o
 *.obj
 __test__*__
-libclips.a
+libclips-d.a
