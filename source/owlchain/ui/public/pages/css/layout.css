@@ -4,8 +4,10 @@
 header{position:relative;height:180px;margin-bottom:40px;text-align:center;background:url('../images/header_bg.png') no-repeat top center #242a42; }
 header .content{position:relative; height:180px; margin-bottom:30px;}
 header .content nav{position:absolute;left:0;bottom:0; z-index:10; }
-header .content nav a , header content nav a:visited{display:inline-block; position:relative; padding:15px 20px; color:#FFF; font-size:14px;}
-header .content nav a:hover{ color:#ff0000; }
+header .content nav a , header content nav a:visited{display:inline-block; position:relative; padding:15px 20px; color:#a5abc5; font-size:14px;}
+header .content nav a.on{ color:#FFF; }
+header .content nav a:hover{ color:#c1c5d7; }
+header .content nav a:active{ color:#00aeef; }
 header .content nav a:hover:after ,header .content nav a.on:after{position:absolute; bottom:5px; left:0; width:100%; height:3px; background:#FFF; content:''; z-index: 10;}
 /*footer*/
 footer { position:fixed; bottom:0; left:0; width:100%; height:40px; background:#b6b7b8; z-index: 100;}
@@ -57,7 +59,7 @@ textarea{ display:block; width:100%; padding:7px 10px 80px 50px; color:#FFF; fon
 .editor-wrap .info .list span{ color:#FFF; font-size:14px;}
 .editor-wrap .info .list span.tit{ display:inline-block; position:relative; width:80px; margin-right:20px; font-weight: bold; }
 .editor-wrap .info .list span.tit:after{ position:absolute; right:0; top:0; content:':'; }
-
+.editor-wrap .title-menu dt { padding:8px 0 0 8px;}
 /*main*/
 .button_wrap{text-align: right;}
 a.anc_b{ display:inline-block; padding:14px 11px; color:#FFF; background:#1b75bb; }

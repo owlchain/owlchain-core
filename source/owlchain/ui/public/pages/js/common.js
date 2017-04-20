@@ -33,6 +33,8 @@ trust.js
             }
         }
         /*=== Selector =================================================*/
+        window.DATA_LIST = []; //Contract Address:
+
         var _nav = $('header nav a');
         var _link = $('a.link');
         var _select = $('select.select-value');
@@ -40,6 +42,7 @@ trust.js
         var _section = $('article.wrap > section');
         var _winPop = $('a.winPop'); /* windows popup */
         var _popup = $('article.popup');
+        var _testCode = $('.s4 textarea');
         /*=== common =================================================*/
         /*공통UI*/
         _link.bind('click', function(event) {
@@ -49,7 +52,6 @@ trust.js
         });
         _select.bind('change', function(event) { // Select Option value에 의한 textarea 출력
             var _val = $(this).find('option:selected').text();
-            console.log(_val);
             var _textarea = $(this).parents('article.content').find('textarea');
             var _str = _textarea.text() + "\n";
             _textarea.text(_str + _val);
@@ -68,6 +70,12 @@ trust.js
             $(this).parents('dl').toggleClass('on');
         });
         /*=== main ===============================================*/
+        $('.main a.create').bind('click', function(event) {
+            var _data = {};
+            _data.no = window.DATA_LIST.length;
+            window.DATA_LIST.push(_data);
+            console.log(window.DATA_LIST);
+        });
         /*=== s1 =================================================*/
         $('.s1 a.submit').bind('click', function(event) {
             event.preventDefault();
@@ -89,6 +97,10 @@ trust.js
         });
         /*=== s2 =================================================*/
         /*=== s3 =================================================*/
+        $('.s3 a.copy-code').bind('click', function(event) {
+            var _code = $(this).parents('dd').find('textarea').text();
+            _testCode.text(_code);
+        });
         /*=== s4 =================================================*/
 
         /*init*/
