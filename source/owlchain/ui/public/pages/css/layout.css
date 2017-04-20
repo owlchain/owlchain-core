@@ -41,12 +41,13 @@ textarea{ display:block; width:100%; padding:7px 10px 80px 50px; color:#FFF; fon
 .title_form dd{  padding-left:80px; }
 .title_form dd.anc { position:absolute; top:10px; right:0;  padding:0;  }
 /*title-searchBox*/
-.search_form { position:relative;  }
+.search_form { position:relative; padding:10px 0;border-bottom:1px solid #242a42; }
+.search_form > * { vertical-align: middle; }
 .search_form:after{ display:block; width:100%; clear:both; content:''; }
-.search_form dt{display:block; position: absolute; top:0; left:0; }
-.search_form dd{ padding: 10px 95px 10px 180px;   }
-.search_form dd input {width:100%;}
-.search_form dd.anc { position:absolute; top:10px; right:0;  padding:0;  }
+.search_form dt{display:block; position: absolute; top:5px; left:0; }
+.search_form dd{ padding: 0 95px 0 180px;   }
+.search_form dd input {width:100%; margin-top:-10px;}
+.search_form dd.anc { position:absolute; top:0; right:0;  padding:0;  }
 /*editor-wrap*/
 .editor-wrap{width:100%!important;}
 .editor-wrap .info{ margin:10px 0; padding:0 80px; border:1px solid #898989; background:#98a8ba; }
@@ -56,7 +57,6 @@ textarea{ display:block; width:100%; padding:7px 10px 80px 50px; color:#FFF; fon
 .editor-wrap .info .list span{ color:#FFF; font-size:14px;}
 .editor-wrap .info .list span.tit{ display:inline-block; position:relative; width:80px; margin-right:20px; font-weight: bold; }
 .editor-wrap .info .list span.tit:after{ position:absolute; right:0; top:0; content:':'; }
-
 
 /*main*/
 .button_wrap{text-align: right;}

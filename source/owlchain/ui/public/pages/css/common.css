@@ -91,7 +91,7 @@ p.center > *{display:inline-block;}
 /*input & button*/
 a.cmn{ width:180px; padding:5px 0; color: #FFF; font-size:14px; background: #4d77ab; text-align: center; box-sizing: border-box; -webkit-transition: all 0.3s; transition: all 0.3s; }
 a.cmn:hover { color: #fff; background: #242a42; }
-input.cmn[type="text"] { padding:5px 10px; border:1px solid #959595; color:#000000; font-size:14px; background:#FFF; box-sizing: border-box; -webkit-transition: all 0.3s; transition: all 0.3s; }
+input.cmn[type="text"] { width:100%; padding:5px 10px; border:1px solid #959595; color:#000000; font-size:14px; background:#FFF; box-sizing: border-box; -webkit-transition: all 0.3s; transition: all 0.3s; }
 input.cmn[type="text"]:focus { border:1px solid #242a42;  }
 
 
