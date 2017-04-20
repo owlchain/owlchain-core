@@ -43,6 +43,8 @@ trust.js
         var _winPop = $('a.winPop'); /* windows popup */
         var _popup = $('article.popup');
         var _testCode = $('.s4 textarea');
+        var _testRun = $('.s4 .submit');
+        var _testVisualBtn = $('.s4 .visual_exe');
         /*=== common =================================================*/
         /*공통UI*/
         _link.bind('click', function(event) {
@@ -100,6 +102,15 @@ trust.js
         $('.s3 a.copy-code').bind('click', function(event) {
             var _code = $(this).parents('dd').find('textarea').text();
             _testCode.text(_code);
+        });
+        _testRun.bind('click', function(event) {
+            _testVisualBtn.removeClass('disabled');
+        });
+        _testVisualBtn.bind('click',function(event){
+            var _chk = $(this).hasClass('disabled');
+            if( !_chk ){
+                $('.s4 .ui-visual').append('<iframe width="100%" height="400px" src="./libs/webvowl/index.html" frameborder="0"></iframe>');
+            }
         });
         /*=== s4 =================================================*/
 
