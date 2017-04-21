@@ -42,7 +42,7 @@ trust.js
         var _section = $('article.wrap > section');
         var _winPop = $('a.winPop'); /* windows popup */
         var _popup = $('article.popup');
-        var _testCode = $('.s4 textarea');
+        var _testCode = $('.s1 textarea');
         var _testRun = $('.s4 .submit');
         var _testVisualBtn = $('.s4 .visual_exe');
         /*=== common =================================================*/
