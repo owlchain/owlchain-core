@@ -1,0 +1,54 @@
+name "clips-d"
+version "0.1.0"
+description "This is a wrapper around CLIPS (A Tool for Building Expert Systems) for the D programming language."
+homepage "https://github.com/owlchain/clips-d"
+authors "yezune choi"
+copyright "Copyright @ 2017, yezune choi"
+license "GPL 3.0"
+systemDependencies "CLIPS version >= 6.3.0"
+targetType "library"
+importPaths "source/"
+sourcePaths "source/"
+configuration "all-included" {
+	targetType "library"
+	libs "dl" platform="linux-gdc"
+	libs "clips" platform="windows"
+	sourceFiles "c/agenda.o" "c/analysis.o" "c/argacces.o" "c/bload.o" "c/bmathfun.o" "c/bsave.o" \
+ 	"c/classcom.o" "c/classexm.o" "c/classfun.o" "c/classinf.o" "c/classini.o"\
+ 	"c/classpsr.o" "c/clsltpsr.o" "c/commline.o" "c/conscomp.o" "c/constrct.o"\
+ 	"c/constrnt.o" "c/crstrtgy.o" "c/cstrcbin.o" "c/cstrccom.o" "c/cstrcpsr.o"\
+ 	"c/cstrnbin.o" "c/cstrnchk.o" "c/cstrncmp.o" "c/cstrnops.o" "c/cstrnpsr.o"\
+ 	"c/cstrnutl.o" "c/default.o" "c/defins.o" "c/developr.o" "c/dffctbin.o" "c/dffctbsc.o"\
+ 	"c/dffctcmp.o" "c/dffctdef.o" "c/dffctpsr.o" "c/dffnxbin.o" "c/dffnxcmp.o"\
+ 	"c/dffnxexe.o" "c/dffnxfun.o" "c/dffnxpsr.o" "c/dfinsbin.o" "c/dfinscmp.o" "c/drive.o"\
+ 	"c/emathfun.o" "c/engine.o" "c/envrnmnt.o" "c/evaluatn.o" "c/expressn.o" "c/exprnbin.o" "c/exprnops.o"\
+ 	"c/exprnpsr.o" "c/extnfunc.o" "c/factbin.o" "c/factbld.o" "c/factcmp.o" "c/factcom.o"\
+ 	"c/factfun.o" "c/factgen.o" "c/facthsh.o" "c/factlhs.o" "c/factmch.o" "c/factmngr.o"\
+ 	"c/factprt.o" "c/factqpsr.o" "c/factqury.o" "c/factrete.o" "c/factrhs.o" "c/filecom.o" "c/filertr.o"\
+ 	"c/generate.o" "c/genrcbin.o" "c/genrccmp.o" "c/genrccom.o" "c/genrcexe.o" "c/genrcfun.o"\
+ 	"c/genrcpsr.o" "c/globlbin.o" "c/globlbsc.o" "c/globlcmp.o" "c/globlcom.o"\
+ 	"c/globldef.o" "c/globlpsr.o" "c/immthpsr.o" "c/incrrset.o" "c/inherpsr.o"\
+ 	"c/inscom.o" "c/insfile.o" "c/insfun.o" "c/insmngr.o" "c/insmoddp.o" "c/insmult.o"\
+ 	"c/inspsr.o" "c/insquery.o" "c/insqypsr.o" "c/iofun.o" "c/lgcldpnd.o"\
+ 	"c/memalloc.o" "c/miscfun.o" "c/modulbin.o" "c/modulbsc.o" "c/modulcmp.o" "c/moduldef.o"\
+ 	"c/modulpsr.o" "c/modulutl.o" "c/msgcom.o" "c/msgfun.o" "c/msgpass.o" "c/msgpsr.o"\
+ 	"c/multifld.o" "c/multifun.o" "c/objbin.o" "c/objcmp.o" "c/objrtbin.o" "c/objrtbld.o"\
+ 	"c/objrtcmp.o" "c/objrtfnx.o" "c/objrtgen.o" "c/objrtmch.o" "c/parsefun.o" "c/pattern.o"\
+ 	"c/pprint.o" "c/prccode.o" "c/prcdrfun.o" "c/prcdrpsr.o" "c/prdctfun.o" "c/prntutil.o"\
+ 	"c/proflfun.o" "c/reorder.o" "c/reteutil.o" "c/retract.o" "c/router.o" "c/rulebin.o"\
+ 	"c/rulebld.o" "c/rulebsc.o" "c/rulecmp.o" "c/rulecom.o" "c/rulecstr.o" "c/ruledef.o"\
+ 	"c/ruledlt.o" "c/rulelhs.o" "c/rulepsr.o" "c/scanner.o" "c/sortfun.o" "c/strngfun.o"\
+ 	"c/strngrtr.o" "c/symblbin.o" "c/symblcmp.o" "c/symbol.o" "c/sysdep.o" "c/textpro.o"\
+ 	"c/tmpltbin.o" "c/tmpltbsc.o" "c/tmpltcmp.o" "c/tmpltdef.o" "c/tmpltfun.o" "c/tmpltlhs.o"\
+ 	"c/tmpltpsr.o" "c/tmpltrhs.o" "c/tmpltutl.o" "c/userdata.o" "c/userfunctions.o" "c/utility.o" "c/watch.o" platform="posix" 
+	copyFiles "lib/win64/clips.dll" platform="win64"
+	copyFiles "lib/win32/clips.dll" platform="win32"
+	preBuildCommands "cd $PACKAGE_DIR/c; make -j" platform="posix"
+}
+configuration "with-lib" {
+	targetType "library"
+	libs "clips"
+}
+configuration "without-lib" {
+	targetType "library"
+}
