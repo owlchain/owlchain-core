@@ -66,6 +66,10 @@ interface IBlockchainREST
 	@method(HTTPMethod.GET)
  	@path("/blockchain/trustcontract/runTrustContract/:contractAddress/:contents")
  	Json runTrustContract(string _contractAddress, string _contents);
+
+	@method(HTTPMethod.GET)
+ 	@path("/blockchain/trustcontract/reqTrustContractList")
+ 	Json reqTrustContractList();
 }
 
 class BlockchainRESTImpl : IBlockchainREST
@@ -243,7 +247,7 @@ class BlockchainRESTImpl : IBlockchainREST
 	{
 		auto v = ValidateTrustContract();
 		v.status = true;
-		v.tempContractID = 1;
+		v.tempContractID = "TRX-AAAAA-AAAAA-AAAAAAA";
 
  		auto json = serializeToJson(v);
 		return json;
@@ -265,7 +269,17 @@ class BlockchainRESTImpl : IBlockchainREST
 		r.status = true;
 		r.transactionID = "TRX-AAAAA-AAAAA-AAAAAAA";
 
- 		auto json = serializeToJson(r);
+		auto json = serializeToJson(r);
+
+		// Only for Demoday
+		rs[0].txCount++;
+
+		return json;
+	}
+
+ 	Json reqTrustContractList()
+	{
+ 		auto json = serializeToJson(rs);
 		return json;
 	}
 }
@@ -346,6 +360,21 @@ shared static this()
         }
     });
     logInfo("listenOCCP");
+
+	// only for Demoday
+	createReqTC();
+}
+
+// only for Demoday
+ReqTrustContractList[1] rs;
+
+// only for Demoday
+void createReqTC()
+{
+	rs[0].no = 1;
+	rs[0].title = "BOScoin";
+	rs[0].contractID = "TRX-AAAAA-AAAAA-AAAAAAA";
+	rs[0].txCount = 1186;
 }
 
 private IOCCPListener listener;
