@@ -141,7 +141,7 @@ struct ReleaseQuorum
 
 // Proposal Operations
 
-// Trust Contract Operations
+// TrustContract Operations
 struct ValidateTrustContract
 {
 	bool status;
