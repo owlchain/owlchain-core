@@ -19,10 +19,12 @@ import owlchain.wallet.wallet;
 //@rootPathFromName
 interface IBlockchainREST
 {
+	// Transactions
 	@method(HTTPMethod.GET)
 	@path("/blockchain/transactions/sendTransaction/:type/:senderAccountAddress/:receiverAccountAddress/:amount/:fee")
 	Json sendBos(string _type, string _senderAccountAddress, string _receiverAccountAddress, double _amount, double _fee);
 
+	// Account Operations
 	@method(HTTPMethod.GET)
 	@path("/blockchain/AccountOperations/getAccount/:accountAddress")
 	Json getAccount(string _accountAddress);
@@ -43,6 +45,7 @@ interface IBlockchainREST
 	@path("/blockchain/AccountOperations/getBlockInformation")
 	Json getBlockInformation();	
 
+	// Freezing Operations
 	@method(HTTPMethod.GET)
 	@path("/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount")
 	Json setFreezing(string _accountAddress, bool _freezingStatus, double _freezingAmount);	
@@ -50,6 +53,23 @@ interface IBlockchainREST
 	@method(HTTPMethod.GET)
  	@path("/blockchain/AccountOperations/createAccount")
  	Json createAccount();
+
+	 // Trust Contract
+	@method(HTTPMethod.GET)
+ 	@path("/blockchain/trustcontract/validateTrustContract/:accountAddress/:contents")
+ 	Json validateTrustContract(string _accountAddress, string _contents);
+
+	@method(HTTPMethod.GET)
+ 	@path("/blockchain/trustcontract/confirmedTrustContract/:tempContractID")
+ 	Json confirmedTrustContract(uint _tempContractID);
+
+	@method(HTTPMethod.GET)
+ 	@path("/blockchain/trustcontract/runTrustContract/:contractAddress/:contents")
+ 	Json runTrustContract(string _contractAddress, string _contents);
+
+	@method(HTTPMethod.GET)
+ 	@path("/blockchain/trustcontract/reqTrustContractList")
+ 	Json reqTrustContractList();
 }
 
 class BlockchainRESTImpl : IBlockchainREST
@@ -205,7 +225,7 @@ class BlockchainRESTImpl : IBlockchainREST
 				s.accountBalance = 100000 - _freezingAmount;
 				s.freezingInterests = 20;
 				s.freezingStartTime = 201704042028;
-				
+
 				json = serializeToJson(s);
 
 			}
@@ -220,7 +240,46 @@ class BlockchainRESTImpl : IBlockchainREST
  		c.filePath = exportAccountFile(c.accountAddress);
  
  		auto json = serializeToJson(c);
+		return json;
+	}
 
+	Json validateTrustContract(string _accountAddress, string _contents)
+	{
+		auto v = ValidateTrustContract();
+		v.status = true;
+		v.tempContractID = "TRX-AAAAA-AAAAA-AAAAAAA";
+
+ 		auto json = serializeToJson(v);
+		return json;
+	}
+
+	Json confirmedTrustContract(uint _tempContractID)
+	{
+		auto c = ConfirmedTrustContract();
+		c.status = true;
+		c.contractAddress = "TRX-AAAAA-AAAAA-AAAAAAA";
+
+ 		auto json = serializeToJson(c);
+		return json;
+	}
+
+	Json runTrustContract(string _contractAddress, string _contents)
+	{
+		auto r = RunTrustContract();
+		r.status = true;
+		r.transactionID = "TRX-AAAAA-AAAAA-AAAAAAA";
+
+		auto json = serializeToJson(r);
+
+		// Only for Demoday
+		rs[0].txCount++;
+
+		return json;
+	}
+
+ 	Json reqTrustContractList()
+	{
+ 		auto json = serializeToJson(rs);
 		return json;
 	}
 }
@@ -301,6 +360,21 @@ shared static this()
         }
     });
     logInfo("listenOCCP");
+
+	// only for Demoday
+	createReqTC();
+}
+
+// only for Demoday
+ReqTrustContractList[1] rs;
+
+// only for Demoday
+void createReqTC()
+{
+	rs[0].no = 1;
+	rs[0].title = "BOScoin";
+	rs[0].contractID = "TRX-AAAAA-AAAAA-AAAAAAA";
+	rs[0].txCount = 1186;
 }
 
 private IOCCPListener listener;
