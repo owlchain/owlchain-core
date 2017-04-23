@@ -309,6 +309,10 @@ unittest
 	logInfo("routes[5] = " ~ routes[5].pattern);	
 	logInfo("routes[6] = " ~ routes[6].pattern);	
 	logInfo("routes[7] = " ~ routes[7].pattern);	
+	logInfo("routes[8] = " ~ routes[8].pattern);	
+	logInfo("routes[9] = " ~ routes[9].pattern);	
+	logInfo("routes[10] = " ~ routes[10].pattern);	
+	logInfo("routes[11] = " ~ routes[11].pattern);	
 
 	/*
 	routes[0] = /blockchain/transactions/sendTransaction/:type/:senderAccountAddress/:receiverAccountAddress/:amount/:fee
@@ -319,6 +323,10 @@ unittest
 	routes[5] = /blockchain/AccountOperations/getBlockInformation
 	routes[6] = /blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount
 	routes[7] = /blockchain/AccountOperations/createAccount
+	routes[8] = /blockchain/trustcontract/validateTrustContract/:accountAddress/:contents
+	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:tempContractID
+	routes[10] = /blockchain/trustcontract/runTrustContract/:contractAddress/:contents
+	routes[11] = /blockchain/trustcontract/reqTrustContractList
 	*/
 	
 	assert (routes[0].method == HTTPMethod.GET && routes[0].pattern == "/blockchain/transactions/sendTransaction/:type/:senderAccountAddress/:receiverAccountAddress/:amount/:fee");
@@ -329,6 +337,10 @@ unittest
 	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/getBlockInformation");
 	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
 	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createAccount");
+	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/trustcontract/validateTrustContract/:accountAddress/:contents");
+	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:tempContractID");
+	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/trustcontract/runTrustContract/:contractAddress/:contents");
+	assert (routes[11].method == HTTPMethod.GET && routes[11].pattern == "/blockchain/trustcontract/reqTrustContractList");
 }
 
 shared static this()
