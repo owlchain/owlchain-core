@@ -59,7 +59,7 @@ trust.js
       var _popup = $('article.popup');
       var _testCode = $('.s1 textarea');
       var _testRun = $('.s4 .submit');
-      var _testVisualBtn = $('.s4 .visual_exe');
+      var _testVisualBtn = $('.s2 .visual_exe');
       /*=== common =================================================*/
       /*공통UI*/
       _link.bind('click', function(event) {
@@ -105,12 +105,20 @@ trust.js
          }
          $('.s1 .anc_gb').removeClass('on');
       });
-      $('.s1 a.anc_gb').bind('click', function(event) {
+      $('.s1 dd a.anc_gb').bind('click', function(event) {
          event.preventDefault();
          var _chk = $(this).hasClass('on');
          if (!_chk) {
             $('p.ui-visual').show();
+            $('.s1 a.visual_exe').removeClass('disabled');
          } else {}
+      });
+      $('.s1 a.visual_exe').bind('click', function(event) {
+         event.preventDefault();
+         var _chk = $(this).hasClass('disabled');
+         if (!_chk) {
+             $('.s1 .ui-visual').append('<iframe width="100%" height="400px" src="./libs/webvowl/index.html" frameborder="0"></iframe>');
+         }
       });
       /*=== s2 =================================================*/
       /*=== s3 =================================================*/
@@ -122,10 +130,7 @@ trust.js
          _testVisualBtn.removeClass('disabled');
       });
       _testVisualBtn.bind('click', function(event) {
-         var _chk = $(this).hasClass('disabled');
-         if (!_chk) {
-            $('.s4 .ui-visual').append('<iframe width="100%" height="400px" src="./libs/webvowl/index.html" frameborder="0"></iframe>');
-         }
+
       });
       /*=== s4 =================================================*/
 
