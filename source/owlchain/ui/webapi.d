@@ -141,8 +141,32 @@ struct ReleaseQuorum
 
 // Proposal Operations
 
-// Trust Contract Operations
+// TrustContract Operations
+struct ValidateTrustContract
+{
+	bool status;
+	string tempContractID;
+}
 
+struct ConfirmedTrustContract
+{
+	bool status;
+	string contractAddress;
+}
+
+struct RunTrustContract
+{
+	bool status;
+	string transactionID;
+}
+
+struct ReqTrustContractList
+{
+	int no;
+	string title;
+	string contractID;
+	uint txCount;
+}
 
 // User receiveTransaction
 struct ReceiveBos

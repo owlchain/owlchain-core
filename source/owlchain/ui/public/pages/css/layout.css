@@ -34,8 +34,8 @@ textarea{ display:block; width:100%; padding:7px 10px 80px 50px; color:#FFF; fon
 .title-menu dt{ float: left;}
 .title-menu dt .icon{display:inline-block; margin-right:10px;}
 .title-menu dd{ float: right;}
-.title-menu dd.prefix{ padding:0 10px; color:#FFF; font-size:14px; background: #242a42;}
-.title-menu dd.prefix > *{ float:left; margin-left:30px;}
+.title-menu dd.prefix{ padding:5px 10px; color:#FFF; font-size:14px; background: #242a42;}
+.title-menu dd.prefix > *{ display:inline-block; margin-left:20px; vertical-align: middle; }
 /*title-inputBox*/
 .title_form { position:relative; border-bottom:1px solid #242a42; padding:10px 0; }
 .title_form:after{ display:block; width:100%; clear:both; content:''; }
@@ -59,7 +59,7 @@ textarea{ display:block; width:100%; padding:7px 10px 80px 50px; color:#FFF; fon
 .editor-wrap .info .list span{ color:#FFF; font-size:14px;}
 .editor-wrap .info .list span.tit{ display:inline-block; position:relative; width:80px; margin-right:20px; font-weight: bold; }
 .editor-wrap .info .list span.tit:after{ position:absolute; right:0; top:0; content:':'; }
-.editor-wrap .title-menu dt { padding:8px 0 0 8px;}
+.editor-wrap .title-menu dt { padding:12px 0 0 12px;}
 /*main*/
 .button_wrap{text-align: right;}
 a.anc_b{ display:inline-block; padding:14px 11px; color:#FFF; background:#1b75bb; }
