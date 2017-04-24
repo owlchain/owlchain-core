@@ -22,7 +22,7 @@ body article.wrap  > section.on{ display:block; }
 
 /*=== Trust-Contact =================================================*/
 /*editor*/
-textarea{ display:block; width:100%; padding:7px 10px 80px 50px; color:#FFF; font-size:14px; line-height:150%; overflow-y: scroll; background:url('../images/textarea_bg.png') #000 no-repeat; box-sizing: border-box;}
+textarea{ display:block; width:100%; padding:3px 10px 80px 50px; color:#FFF; font-size:14px; line-height:160%; overflow-y: scroll; background:url('../images/textarea_bg.png') #000 no-repeat; box-sizing: border-box;}
 .line{ display:block; width:100%; padding:10px 0; border-bottom:1px solid #242a42; }
 .line span > img{display:inline-block; margin-right:10px;}
 .fc_w{ color:#FFF; }
