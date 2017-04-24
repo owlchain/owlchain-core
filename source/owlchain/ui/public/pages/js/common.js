@@ -101,18 +101,19 @@ trust.js
             event.preventDefault();
             //title validation
             if ($('#s1_tit').val() == "") {
-                alert('Title value empty.');
+                //  alert('Title value empty.');
             }
             if ($('.s1 textarea').text() == "") {
                 //  alert('textarea value empty');
             }
             $('.s1 .anc_gb').removeClass('on');
             //#
-
+            //커밋처리
             $.get(CONTRACT_VALIDATE_LOAD+"/aaa/bbb")
                 .done(function(data) {
-                    console.log(data);
-                    //  alert("Data Loaded: " + data);
+                    $('.s1 textarea').text(data.tempContractID);
+                    $('.s1 a.visual_exe').removeClass('disabled');
+                    //  console.log(data);
                 });
         });
         $('.s1 dd a.anc_gb').bind('click', function(event) {
@@ -120,7 +121,7 @@ trust.js
             var _chk = $(this).hasClass('on');
             if (!_chk) {
                 $('p.ui-visual').show();
-                $('.s1 a.visual_exe').removeClass('disabled');
+                //$('.s1 a.visual_exe').removeClass('disabled');
             } else {}
         });
         $('.s1 a.visual_exe').bind('click', function(event) {
