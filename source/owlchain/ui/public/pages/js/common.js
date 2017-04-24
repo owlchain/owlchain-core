@@ -97,7 +97,7 @@ trust.js
             console.log(window.DATA_LIST);
         });
         /*=== s1 =================================================*/
-        $('.s1 a.submit').bind('click', function(event) {
+        $('.s1 a.submit').bind('click', function(event) {//submit
             event.preventDefault();
             //title validation
             if ($('#s1_tit').val() == "") {
@@ -108,26 +108,25 @@ trust.js
             }
             $('.s1 .anc_gb').removeClass('on');
             //#
-            //커밋처리
-            $.get(CONTRACT_VALIDATE_LOAD+"/aaa/bbb")
+            $.get(CONTRACT_VALIDATE_LOAD + "/aaa/bbb")
                 .done(function(data) {
                     $('.s1 textarea').text(data.tempContractID);
                     $('.s1 a.visual_exe').removeClass('disabled');
-                    //  console.log(data);
+                    $('.s1 .info ul.list').hide().eq(1).show();
                 });
         });
         $('.s1 dd a.anc_gb').bind('click', function(event) {
             event.preventDefault();
             var _chk = $(this).hasClass('on');
             if (!_chk) {
-                $('p.ui-visual').show();
-                //$('.s1 a.visual_exe').removeClass('disabled');
             } else {}
         });
         $('.s1 a.visual_exe').bind('click', function(event) {
             event.preventDefault();
             var _chk = $(this).hasClass('disabled');
             if (!_chk) {
+                $(this).text('Confirm');
+                $('p.ui-visual').show();
                 $('.s1 .ui-visual').append('<iframe width="100%" height="400px" src="./libs/webvowl/index.html" frameborder="0"></iframe>');
             }
         });
@@ -144,7 +143,11 @@ trust.js
 
         });
         /*=== s4 =================================================*/
-
+        $('.s4 .submit').bind('click',function(event){
+            var _textarea=$('.s4 textarea');
+            _textarea.text(' TxID : xdddsfsfdsfdsffds');
+            $('.s4 .info').show();
+        })
         /*init*/
         //setDisplay(_cls);
     }
