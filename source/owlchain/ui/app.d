@@ -55,8 +55,8 @@ interface IBlockchainREST
  	Json createAccount();
 
 	 // Trust Contract
-	@method(HTTPMethod.POST)
- 	@path("/blockchain/trustcontract/validateTrustContract")
+	@method(HTTPMethod.GET)
+ 	@path("/blockchain/trustcontract/validateTrustContract/:accountAddress/:contents")
  	Json validateTrustContract(string _accountAddress, string _contents);
 
 	@method(HTTPMethod.GET)
@@ -337,7 +337,7 @@ unittest
 	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/getBlockInformation");
 	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
 	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createAccount");
-	assert (routes[8].method == HTTPMethod.POST && routes[8].pattern == "/blockchain/trustcontract/validateTrustContract");
+	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/trustcontract/validateTrustContract/:accountAddress/:contents");
 	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:tempContractID");
 	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/trustcontract/runTrustContract/:contractAddress/:contents");
 	assert (routes[11].method == HTTPMethod.GET && routes[11].pattern == "/blockchain/trustcontract/reqTrustContractList");
