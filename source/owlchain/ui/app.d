@@ -57,12 +57,12 @@ interface IBlockchainREST
 
 	 // Trust Contract
 	@method(HTTPMethod.GET)
- 	@path("/blockchain/trustcontract/validateTrustContract/:accountAddress/:contents")
- 	Json validateTrustContract(string _accountAddress, string _contents);
+ 	@path("/blockchain/trustcontract/validateTrustContract/:contents")
+ 	Json validateTrustContract(string _contents);
 
 	@method(HTTPMethod.GET)
- 	@path("/blockchain/trustcontract/confirmedTrustContract/:tempContractID")
- 	Json confirmedTrustContract(string _tempContractID);
+ 	@path("/blockchain/trustcontract/confirmedTrustContract/:contractAddress")
+ 	Json confirmedTrustContract(string _contractAddress);
 
 	@method(HTTPMethod.GET)
  	@path("/blockchain/trustcontract/runTrustContract/:contractAddress/:contents")
@@ -99,25 +99,27 @@ class BlockchainRESTImpl : IBlockchainREST
 		logInfo("fee:" ~ to!string(fee));
 	}
 	
-	private void generateAddress()
+	private string generateAddress()
 	{
-		tmpTc.addrNum = uniform(10000000000000000, 99999999999999999);
-		auto s = to!string(tmpTc.addrNum);
-		tmpTc.address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
+		auto addrNum = uniform(10000000000000000, 99999999999999999);
+		auto s = to!string(addrNum);
+		string address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
 		
-		while(confirmAddress != -1)
+		while(confirmAddress(address) != -1)
 		{
-			tmpTc.addrNum = uniform(1000000000000000, 99999999999999999);
-			s = to!string(tmpTc.addrNum);
-			tmpTc.address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
+			addrNum = uniform(1000000000000000, 99999999999999999);
+			s = to!string(addrNum);
+			address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
 		}
+
+		return address;
 	}
 
-	private int confirmAddress()
+	private int confirmAddress(string address)
 	{
 		foreach(int i, r; rs)
 		{
-			if (tmpTc.address == r.contractID)
+			if (address == r.contractID)
 			{
 				return i;
 			}
@@ -270,29 +272,29 @@ class BlockchainRESTImpl : IBlockchainREST
 		return json;
 	}
 
-	Json validateTrustContract(string _accountAddress, string _contents)
+	Json validateTrustContract(string _contents)
 	{
 		auto v = ValidateTrustContract();
 		v.status = true;
-		v.statusMsg = "Confirmed";
-		generateAddress();
-		v.tempContractID = tmpTc.address; 
+		v.statusMsg = "Valid";
+		v.contractAddress = generateAddress();
 
  		auto json = serializeToJson(v);
 		return json;
 	}
 
-	Json confirmedTrustContract(string _tempContractID)
+	Json confirmedTrustContract(string _contractAddress)
 	{
 		rs.length++;
 		rs[rs.length - 1].no = rs.length;
-		rs[rs.length - 1].contractID = _tempContractID;
+		rs[rs.length - 1].contractID = _contractAddress;
 		rs[rs.length - 1].title = "BOScoin";
 		rs[rs.length - 1].txCount = 0;
 	
 		auto c = ConfirmedTrustContract();
 		c.status = true;
-		c.contractAddress = _tempContractID;
+		c.statusMsg = "Confirmed";
+		c.contractAddress = _contractAddress;
 
  		auto json = serializeToJson(c);
 		return json;
@@ -300,15 +302,16 @@ class BlockchainRESTImpl : IBlockchainREST
 
 	Json runTrustContract(string _contractAddress, string _contents)
 	{
-		auto r = RunTrustContract();
-
-		r.status = true;
-		r.transactionID = tmpTc.address;
-
-		if (int c = confirmAddress() != -1)
+		int c = confirmAddress(_contractAddress);
+		if (c != -1)
 		{
-			rs[confirmAddress()].txCount++;
+			rs[c].txCount++;
 		}
+
+		auto r = RunTrustContract();
+		r.status = true;
+		r.statusMsg = "Success";
+		r.transactionID = _contractAddress;
 
 		auto json = serializeToJson(r);
 		return json;
@@ -360,8 +363,8 @@ unittest
 	routes[5] = /blockchain/AccountOperations/getBlockInformation
 	routes[6] = /blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount
 	routes[7] = /blockchain/AccountOperations/createAccount
-	routes[8] = /blockchain/trustcontract/validateTrustContract/:accountAddress/:contents
-	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:tempContractID
+	routes[8] = /blockchain/trustcontract/validateTrustContract/:contents
+	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:contractAddress
 	routes[10] = /blockchain/trustcontract/runTrustContract/:contractAddress/:contents
 	routes[11] = /blockchain/trustcontract/reqTrustContractList
 	*/
@@ -374,8 +377,8 @@ unittest
 	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/getBlockInformation");
 	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
 	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createAccount");
-	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/trustcontract/validateTrustContract/:accountAddress/:contents");
-	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:tempContractID");
+	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/trustcontract/validateTrustContract/:contents");
+	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:contractAddress");
 	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/trustcontract/runTrustContract/:contractAddress/:contents");
 	assert (routes[11].method == HTTPMethod.GET && routes[11].pattern == "/blockchain/trustcontract/reqTrustContractList");
 }
@@ -413,7 +416,6 @@ shared static this()
 
 // only for Demoday
 ReqTrustContractList[] rs;
-TrustContract tmpTc;
 
 private IOCCPListener listener;
 private WebSocket[] sockets;

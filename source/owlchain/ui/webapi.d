@@ -142,31 +142,24 @@ struct ReleaseQuorum
 // Proposal Operations
 
 // TrustContract Operations
-// only for Demoday
-struct TrustContract
-{
-	ulong addrNum;
-	string address;
-	string title;
-	ulong txCount;
-}
-
 struct ValidateTrustContract
 {
 	bool status;
 	string statusMsg;
-	string tempContractID;
+	string contractAddress;
 }
 
 struct ConfirmedTrustContract
 {
 	bool status;
+	string statusMsg;
 	string contractAddress;
 }
 
 struct RunTrustContract
 {
 	bool status;
+	string statusMsg;
 	string transactionID;
 }
 
