@@ -10,6 +10,7 @@ import std.file;
 import std.stdio;
 import std.path;
 import std.array;
+import std.random;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
@@ -61,7 +62,7 @@ interface IBlockchainREST
 
 	@method(HTTPMethod.GET)
  	@path("/blockchain/trustcontract/confirmedTrustContract/:tempContractID")
- 	Json confirmedTrustContract(uint _tempContractID);
+ 	Json confirmedTrustContract(string _tempContractID);
 
 	@method(HTTPMethod.GET)
  	@path("/blockchain/trustcontract/runTrustContract/:contractAddress/:contents")
@@ -97,6 +98,35 @@ class BlockchainRESTImpl : IBlockchainREST
 		logInfo("amount:" ~ to!string(amount));
 		logInfo("fee:" ~ to!string(fee));
 	}
+	
+	private void generateAddress()
+	{
+		tmpTc.addrNum = uniform(10000000000000000, 99999999999999999);
+		auto s = to!string(tmpTc.addrNum);
+		tmpTc.address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
+		
+		while(confirmAddress != -1)
+		{
+			tmpTc.addrNum = uniform(1000000000000000, 99999999999999999);
+			s = to!string(tmpTc.addrNum);
+			tmpTc.address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
+		}
+
+		logInfo(tmpTc.address);
+	}
+
+	private ulong confirmAddress()
+	{
+		foreach(i, r; rs)
+		{
+			if (tmpTc.address == r.contractID)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
 
 	override:
 	Json sendBos(string _type, string _senderAccountAddress, string _receiverAccountAddress, double _amount, double _fee)
@@ -247,17 +277,24 @@ class BlockchainRESTImpl : IBlockchainREST
 	{
 		auto v = ValidateTrustContract();
 		v.status = true;
-		v.tempContractID = "TRX-AAAAA-AAAAA-AAAAAAA";
+		v.statusMsg = "Confirmed";
+		generateAddress();
+		v.tempContractID = tmpTc.address; 
 
  		auto json = serializeToJson(v);
 		return json;
 	}
 
-	Json confirmedTrustContract(uint _tempContractID)
+	Json confirmedTrustContract(string _tempContractID)
 	{
+		rs.length++;
+		rs[rs.length - 1].contractID = _tempContractID;
+		rs[rs.length - 1].title = "BOScoin";
+		rs[rs.length - 1].txCount = 0;
+	
 		auto c = ConfirmedTrustContract();
 		c.status = true;
-		c.contractAddress = "TRX-AAAAA-AAAAA-AAAAAAA";
+		c.contractAddress = _tempContractID;
 
  		auto json = serializeToJson(c);
 		return json;
@@ -266,20 +303,19 @@ class BlockchainRESTImpl : IBlockchainREST
 	Json runTrustContract(string _contractAddress, string _contents)
 	{
 		auto r = RunTrustContract();
+
 		r.status = true;
-		r.transactionID = "TRX-AAAAA-AAAAA-AAAAAAA";
+		r.transactionID = tmpTc.address;
+
+		rs[confirmAddress()].txCount++;
 
 		auto json = serializeToJson(r);
-
-		// Only for Demoday
-		rs[0].txCount++;
-
 		return json;
 	}
 
- 	Json reqTrustContractList()
+	Json reqTrustContractList()
 	{
- 		auto json = serializeToJson(rs);
+		auto json = serializeToJson(rs);
 		return json;
 	}
 }
@@ -372,22 +408,11 @@ shared static this()
         }
     });
     logInfo("listenOCCP");
-
-	// only for Demoday
-	createReqTC();
 }
 
 // only for Demoday
-ReqTrustContractList[1] rs;
-
-// only for Demoday
-void createReqTC()
-{
-	rs[0].no = 1;
-	rs[0].title = "BOScoin";
-	rs[0].contractID = "TRX-AAAAA-AAAAA-AAAAAAA";
-	rs[0].txCount = 1186;
-}
+ReqTrustContractList[] rs;
+TrustContract tmpTc;
 
 private IOCCPListener listener;
 private WebSocket[] sockets;
