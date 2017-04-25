@@ -30,6 +30,7 @@ trust.js
 
             if (cls == "s2") {
                 $.get(CONTRACT_LIST_LOAD, function(data, status) {
+                    console.log(data);
                     var _target = $('.s2 table tbody');
                     _target.children().remove();
                     var _ele = '';
