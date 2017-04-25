@@ -172,7 +172,7 @@ struct RunTrustContract
 
 struct ReqTrustContractList
 {
-	int no;
+	ulong no;
 	string title;
 	string contractID;
 	uint txCount;
