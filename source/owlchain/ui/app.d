@@ -285,6 +285,7 @@ class BlockchainRESTImpl : IBlockchainREST
 	Json confirmedTrustContract(string _tempContractID)
 	{
 		rs.length++;
+		rs[rs.length - 1].no = rs.length;
 		rs[rs.length - 1].contractID = _tempContractID;
 		rs[rs.length - 1].title = "BOScoin";
 		rs[rs.length - 1].txCount = 0;
