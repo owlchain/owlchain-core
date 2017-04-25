@@ -94,33 +94,20 @@ trust.js
             var _dl = $(this).parents('dl');
             var _textarea = _dl.find('dd textarea');
             var _idx = _dl.index();
+            var _url = '';
             if (_idx == 0) {
-                $.ajax({
-                    url: "./ajax/RealEstateLease.sdl",
-                    success: function(data, xhr) {
-                        _textarea.text(data);
-                        console.log(data);
-                    }
-                });
+                _url = "./ajax/RealEstateLease.sdl";
             } else if (_idx == 1) {
-                $.ajax({
-                    url: "./ajax/voting.sdl",
-                    success: function(data, xhr) {
-                        _textarea.text(data);
-                        console.log(data);
-                    }
-                });
+                _url = "./ajax/voting.sdl";
             } else if (_idx == 2) {
-                $.ajax({
-                    url: "./ajax/Crowdfunding.sdl",
-                    success: function(data, xhr) {
-                        _textarea.text(data);
-                        console.log(data);
-                    }
-                });
-            } else {
-
+                _url = "./ajax/Crowdfunding.sdl";
             }
+            $.ajax({
+                url: _url,
+                success: function(data, xhr) {
+                    _textarea.text(data);
+                }
+            });
         });
         /*=== main ===============================================*/
         $('.main a.create').bind('click', function(event) {
@@ -134,22 +121,22 @@ trust.js
             event.preventDefault();
             var _this = $(this);
             if (_this.hasClass('confirm')) {
-                $.get(CONTRACT_CONFIRM_LOAD + "/" + window.ContractID)
+                $.get(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress)
                     .done(function(data) {
                         console.log(data);
-                        $('.s1 textarea').text(data.status);
+                        $('.s1 textarea').text(data.statusMsg);
                     });
             } else {
                 _this.addClass('confirm');
                 $('.s1 .anc_gb').removeClass('on');
                 //#
-                $.get(CONTRACT_VALIDATE_LOAD + "/aaa/bbb")
+                $.get(CONTRACT_VALIDATE_LOAD + "/content")
                     .done(function(data) {
                         window.ContractID = data.tempContractID;
+                        window.contractAddress = data.contractAddress;
                         $('.s1 textarea').text(data.statusMsg);
                         $('.s1 a.visual_exe').removeClass('disabled');
                         $('.s1 .info ul.list').hide().eq(1).show();
-                        //
                         _this.text('Confirm');
                         console.log(data);
                     });
@@ -188,8 +175,9 @@ trust.js
             var _textarea = $('.s4 textarea');
             $.get(CONTRACT_RUN_TEST + "/AAA/BBB")
                 .done(function(data) {
-                    var _data = data.transactionID;
-                    _textarea.text(_data);
+                    var _data = data.statusMsg;
+                    $('.s4 textarea').text(data.statusMsg);
+                    $('.s4 .info ul.list span:eq(1)').text(data.transactionID);
                     $('.s4 .info').show();
                 });
         })
