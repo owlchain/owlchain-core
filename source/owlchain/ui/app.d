@@ -111,13 +111,11 @@ class BlockchainRESTImpl : IBlockchainREST
 			s = to!string(tmpTc.addrNum);
 			tmpTc.address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
 		}
-
-		logInfo(tmpTc.address);
 	}
 
-	private ulong confirmAddress()
+	private int confirmAddress()
 	{
-		foreach(i, r; rs)
+		foreach(int i, r; rs)
 		{
 			if (tmpTc.address == r.contractID)
 			{
