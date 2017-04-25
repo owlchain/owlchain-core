@@ -1,64 +1,65 @@
-﻿@prefix base="http://boscoin.io/ontology/example/voting/"
+﻿@base="http://boscoin.io/ontology/voting.owl"
 @prefix rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 @prefix owl="http://www.w3.org/2002/07/owl#"
 @prefix xsd="http://www.w3.org/2001/XMLSchema#"
 @prefix rdfs="http://www.w3.org/2000/01/rdf-schema#"
 
 rdf:RDF {
-     owl:Ontology rdf:about="http://boscoin.io/voting#"
+
+     owl:Ontology rdf:about="http://boscoin.io/ontology/voting.owl#"
     
-     owl:ObjectProperty rdf:about="https://boscoin.io/ontology/example/voting/createProposal"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/Member"
-         rdfs:range rdf:resource="https://boscoin.io/ontology/example/voting/Proposal"}
+     owl:ObjectProperty rdf:about="#createProposal"{
+         rdfs:domain rdf:resource="#Member"
+         rdfs:range rdf:resource="#Proposal"}
 
-     owl:ObjectProperty rdf:about="https://boscoin.io/ontology/example/voting/hasMember"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/Congress"
-         rdfs:range rdf:resource="https://boscoin.io/ontology/example/voting/Member"}
+     owl:ObjectProperty rdf:about="#hasMember"{
+         rdfs:domain rdf:resource="#Congress"
+         rdfs:range rdf:resource="#Member"}
 
-     owl:ObjectProperty rdf:about="https://boscoin.io/ontology/example/voting/hasResult"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/Proposal"
-         rdfs:range rdf:resource="https://boscoin.io/ontology/example/voting/VotingResult"}    
+     owl:ObjectProperty rdf:about="#hasResult"{
+         rdfs:domain rdf:resource="#Proposal"
+         rdfs:range rdf:resource="#VotingResult"}    
 
-     owl:ObjectProperty rdf:about="https://boscoin.io/ontology/example/voting/voteProposal"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/Member"
-         rdfs:range rdf:resource="https://boscoin.io/ontology/example/voting/Proposal"}
+     owl:ObjectProperty rdf:about="#voteProposal"{
+         rdfs:domain rdf:resource="#Member"
+         rdfs:range rdf:resource="#Proposal"}
 
-     owl:DatatypeProperty rdf:about="https://boscoin.io/ontology/example/voting/address"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/Member"
-         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#hexBinary"}
+     owl:DatatypeProperty rdf:about="#address"{
+         rdfs:domain rdf:resource="#Member"
+         rdfs:range rdf:resource="xsd:hexBinary"}
 
-     owl:DatatypeProperty rdf:about="https://boscoin.io/ontology/example/voting/affirmativeVote"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/VotingResult"
-         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"}
+     owl:DatatypeProperty rdf:about="#affirmativeVote"{
+         rdfs:domain rdf:resource="#VotingResult"
+         rdfs:range rdf:resource="xsd:positiveInteger"}
     
-     owl:DatatypeProperty rdf:about="https://boscoin.io/ontology/example/voting/canVote"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/Member"
-         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"}
+     owl:DatatypeProperty rdf:about="#canVote"{
+         rdfs:domain rdf:resource="#Member"
+         rdfs:range rdf:resource="xsd:boolean"}
 
-     owl:DatatypeProperty rdf:about="https://boscoin.io/ontology/example/voting/finishTime"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/Proposal"
-         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"}
+     owl:DatatypeProperty rdf:about="#finishTime"{
+         rdfs:domain rdf:resource="#Proposal"
+         rdfs:range rdf:resource="xsd:dateTime"}
 
-     owl:DatatypeProperty rdf:about="https://boscoin.io/ontology/example/voting/minimumQuorum"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/Proposal"
-         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"}
+     owl:DatatypeProperty rdf:about="#minimumQuorum"{
+         rdfs:domain rdf:resource="#Proposal"
+         rdfs:range rdf:resource="xsd:positiveInteger"}
 
-     owl:DatatypeProperty rdf:about="https://boscoin.io/ontology/example/voting/negativeVote"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/VotingResult"
-         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"}
+     owl:DatatypeProperty rdf:about="#negativeVote"{
+         rdfs:domain rdf:resource="#VotingResult"
+         rdfs:range rdf:resource="xsd:positiveInteger"}
 
-     owl:DatatypeProperty rdf:about="https://boscoin.io/ontology/example/voting/numberOfMember"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/Congress"
-         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"}
+     owl:DatatypeProperty rdf:about="#numberOfMember"{
+         rdfs:domain rdf:resource="#Congress"
+         rdfs:range rdf:resource="xsd:positiveInteger"}
     
-     owl:DatatypeProperty rdf:about="https://boscoin.io/ontology/example/voting/proposalDescription"{
-         rdfs:domain rdf:resource="https://boscoin.io/ontology/example/voting/Proposal"
-         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"}
+     owl:DatatypeProperty rdf:about="#proposalDescription"{
+         rdfs:domain rdf:resource="#Proposal"
+         rdfs:range rdf:resource="xsd:string"}
 
-     owl:Class rdf:about="https://boscoin.io/ontology/example/voting/Congress"
+     owl:Class rdf:about="#Congress"
     
-     owl:Class rdf:about="https://boscoin.io/ontology/example/voting/Member"
+     owl:Class rdf:about="#Member"
 
-     owl:Class rdf:about="https://boscoin.io/ontology/example/voting/Proposal"
+     owl:Class rdf:about="#Proposal"
 
-     owl:Class rdf:about="https://boscoin.io/ontology/example/voting/VotingResult"}
+     owl:Class rdf:about="#VotingResult"}
