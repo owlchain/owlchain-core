@@ -110,6 +110,14 @@ trust.js
                         console.log(data);
                     }
                 });
+            } else if (_idx == 2) {
+                $.ajax({
+                    url: "./ajax/Crowdfunding.sdl",
+                    success: function(data, xhr) {
+                        _textarea.text(data);
+                        console.log(data);
+                    }
+                });
             } else {
 
             }
