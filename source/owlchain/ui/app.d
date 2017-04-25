@@ -125,7 +125,6 @@ class BlockchainRESTImpl : IBlockchainREST
 		return -1;
 	}
 
-
 	override:
 	Json sendBos(string _type, string _senderAccountAddress, string _receiverAccountAddress, double _amount, double _fee)
 	{
@@ -305,7 +304,10 @@ class BlockchainRESTImpl : IBlockchainREST
 		r.status = true;
 		r.transactionID = tmpTc.address;
 
-		rs[confirmAddress()].txCount++;
+		if (int c = confirmAddress() != -1)
+		{
+			rs[confirmAddress()].txCount++;
+		}
 
 		auto json = serializeToJson(r);
 		return json;
