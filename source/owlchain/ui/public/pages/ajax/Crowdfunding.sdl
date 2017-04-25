@@ -1,0 +1,70 @@
+@base http://www.boscoin.io/ontology/example/CrowdFunding#
+@prefix rdfs "http://www.w3.org/2000/01/rdf-schema#" 
+@prefix owlchain "http://www.owlchain.org/tal/core#"
+@prefix crowdfunding "http://www.boscoin.io/ontologies/2017/2/CrowdFunding#"
+@prefix xsd "http://www.w3.org/2001/XMLSchema#"
+@prefix fibo-fnd-acc-cur "http://www.omg.org/spec/EDMC-FIBO/FND/Accounting/CurrencyAmount/"
+@prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+@prefix owl "http://www.w3.org/2002/07/owl#"
+@prefix skos "http://www.w3.org/2004/02/skos/core#"
+@prefix xml "http://www.w3.org/XML/1998/namespace"
+
+rdf:RDF {
+
+	owl:Ontology rdf:about="http://www.boscoin.io/ontology/example/CrowdFunding"
+
+	owl:ObjectProperty rdf:about="contribute" {
+		rdfs:domain rdf:resource="Funder"
+		rdfs:range rdf:resource="Fund"}
+
+	owl:ObjectProperty rdf:about="funders" {
+		rdfs:subPropertyOf rdf:resource="owl:topObjectProperty"
+		rdfs:domain rdf:resource="Fund"}
+
+	owl:ObjectProperty rdf:about="generate" {
+		rdf:type rdf:resource="owl:FunctionalProperty"
+		rdfs:domain rdf:resource="Beneficiary"
+		rdfs:range rdf:resource="Fund"}
+
+	owl:DatatypeProperty rdf:about="address" {
+		rdfs:subPropertyOf rdf:resource="owl:topDataProperty"
+		rdfs:domain rdf:resource="Beneficiary"
+		rdfs:range rdf:resource="rdfs:Literal"}
+
+	owl:DatatypeProperty rdf:about="amount" {
+		rdfs:subPropertyOf rdf:resource="owl:topDataProperty"
+		rdfs:domain rdf:resource="Funder"
+		rdfs:range rdf:resource="xsd:intege}
+
+	owl:DatatypeProperty rdf:about="condition" {
+		rdfs:domain rdf:resource="Participant"}
+
+	owl:DatatypeProperty rdf:about="name" {
+		rdfs:label "Operator name"}
+
+	owl:DatatypeProperty rdf:about="title" {
+		rdfs:subPropertyOf rdf:resource="owl:topDataProperty"
+		rdfs:domain rdf:resource="Fund"}
+
+	owl:Class rdf:about="Beneficiary" {
+		rdfs:subClassOf rdf:resource="Participant"
+		owl:disjointWith rdf:resource="Funder"
+		rdfs:label "Beneficiary"}
+
+	owl:Class rdf:about="Fund" {
+		rdfs:label "Fund"}
+
+	owl:Class rdf:about="Funder" {
+		rdfs:subClassOf rdf:resource="Participant"
+		rdfs:label "Funder"}
+
+	owl:Class rdf:about="Participant" {
+		rdfs:label "Participant"}
+
+	owl:NamedIndividual rdf:about="fund" {
+		rdf:type rdf:resource="Fund"
+		address "1577ymBUSnL2Wm6w5tLFHszzisVxLoeGaE" rdf:datatype="rdfs:Literal"
+		amount "500000" rdf:datatype="xsd:integer"
+		deadline "20170401" rdf:datatype="xsd:integer"}
+}
+
