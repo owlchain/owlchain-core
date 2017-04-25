@@ -5,6 +5,8 @@ trust.js
     "use strict";
     const CONTRACT_LIST_LOAD = "/blockchain/trustcontract/reqTrustContractList";
     const CONTRACT_VALIDATE_LOAD = "/blockchain/trustcontract/validateTrustContract";
+    const CONTRACT_CONFIRM_LOAD = "/blockchain/trustcontract/confirmedTrustContract";
+    const CONTRACT_RUN_TEST = "/blockchain/trustcontract/runTrustContract";
     /*http://127.0.0.1:8080/blockchain/trustcontract/validateTrustContract/aaa/aaa */
 
     /*setup*/
@@ -88,18 +90,26 @@ trust.js
         });
         $('.toggle dl dt').bind('click', function(event) {
             $(this).parents('dl').toggleClass('on');
-            var _dl=$(this).parents('dl');
-            var _textarea=_dl.find('dd textarea');
+            var _dl = $(this).parents('dl');
+            var _textarea = _dl.find('dd textarea');
             var _idx = _dl.index();
-            if (_idx == 1) {
+            if (_idx == 0) {
                 $.ajax({
-                    url: "./ajax/voting.sdl",
-                    success: function(data,xhr) {
+                    url: "./ajax/RealEstateLease.sdl",
+                    success: function(data, xhr) {
                         _textarea.text(data);
-                        //console.log(data);
+                        console.log(data);
                     }
                 });
-            }else{
+            } else if (_idx == 1) {
+                $.ajax({
+                    url: "./ajax/voting.sdl",
+                    success: function(data, xhr) {
+                        _textarea.text(data);
+                        console.log(data);
+                    }
+                });
+            } else {
 
             }
         });
@@ -108,26 +118,35 @@ trust.js
             var _data = {};
             _data.no = window.DATA_LIST.length;
             window.DATA_LIST.push(_data);
-            console.log(window.DATA_LIST);
+            $('.s1 textarea').text(''); //초기화
         });
         /*=== s1 =================================================*/
         $('.s1 a.submit').bind('click', function(event) { //submit
             event.preventDefault();
-            //title validation
-            if ($('#s1_tit').val() == "") {
-                //  alert('Title value empty.');
+            var _this = $(this);
+            if (_this.hasClass('confirm')) {
+                $.get(CONTRACT_CONFIRM_LOAD + "/" + window.ContractID)
+                    .done(function(data) {
+                        console.log(data);
+                        $('.s1 textarea').text(data.status);
+                    });
+            } else {
+                _this.addClass('confirm');
+                $('.s1 .anc_gb').removeClass('on');
+                //#
+                $.get(CONTRACT_VALIDATE_LOAD + "/aaa/bbb")
+                    .done(function(data) {
+                        window.ContractID = data.tempContractID;
+                        $('.s1 textarea').text(data.statusMsg);
+                        $('.s1 a.visual_exe').removeClass('disabled');
+                        $('.s1 .info ul.list').hide().eq(1).show();
+                        //
+                        _this.text('Confirm');
+                        console.log(data);
+                    });
             }
-            if ($('.s1 textarea').text() == "") {
-                //  alert('textarea value empty');
-            }
-            $('.s1 .anc_gb').removeClass('on');
-            //#
-            $.get(CONTRACT_VALIDATE_LOAD + "/aaa/bbb")
-                .done(function(data) {
-                    $('.s1 textarea').text(data.tempContractID);
-                    $('.s1 a.visual_exe').removeClass('disabled');
-                    $('.s1 .info ul.list').hide().eq(1).show();
-                });
+            //            /blockchain/trustcontract/validateTrustContract
+
         });
         $('.s1 dd a.anc_gb').bind('click', function(event) {
             event.preventDefault();
@@ -138,7 +157,7 @@ trust.js
             event.preventDefault();
             var _chk = $(this).hasClass('disabled');
             if (!_chk) {
-                $(this).text('Confirm');
+                //    $(this).text('Confirm');
                 $('p.ui-visual').show();
                 $('.s1 .ui-visual').append('<iframe width="100%" height="400px" src="./libs/webvowl/index.html" frameborder="0"></iframe>');
             }
@@ -158,11 +177,14 @@ trust.js
         /*=== s4 =================================================*/
         $('.s4 .submit').bind('click', function(event) {
             var _textarea = $('.s4 textarea');
-            _textarea.text(' TxID : xdddsfsfdsfdsffds');
-            $('.s4 .info').show();
+            $.get(CONTRACT_RUN_TEST + "/AAA/BBB")
+                .done(function(data) {
+                    var _data = data.transactionID;
+                    _textarea.text(_data);
+                    $('.s4 .info').show();
+                });
         })
         /*init*/
-        //setDisplay(_cls);
     }
     /*ADD_ACCOUNT
      */
