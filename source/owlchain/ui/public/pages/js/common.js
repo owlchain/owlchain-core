@@ -88,6 +88,20 @@ trust.js
         });
         $('.toggle dl dt').bind('click', function(event) {
             $(this).parents('dl').toggleClass('on');
+            var _dl=$(this).parents('dl');
+            var _textarea=_dl.find('dd textarea');
+            var _idx = _dl.index();
+            if (_idx == 1) {
+                $.ajax({
+                    url: "./ajax/voting.sdl",
+                    success: function(data,xhr) {
+                        _textarea.text(data);
+                        //console.log(data);
+                    }
+                });
+            }else{
+
+            }
         });
         /*=== main ===============================================*/
         $('.main a.create').bind('click', function(event) {
@@ -97,7 +111,7 @@ trust.js
             console.log(window.DATA_LIST);
         });
         /*=== s1 =================================================*/
-        $('.s1 a.submit').bind('click', function(event) {//submit
+        $('.s1 a.submit').bind('click', function(event) { //submit
             event.preventDefault();
             //title validation
             if ($('#s1_tit').val() == "") {
@@ -118,8 +132,7 @@ trust.js
         $('.s1 dd a.anc_gb').bind('click', function(event) {
             event.preventDefault();
             var _chk = $(this).hasClass('on');
-            if (!_chk) {
-            } else {}
+            if (!_chk) {} else {}
         });
         $('.s1 a.visual_exe').bind('click', function(event) {
             event.preventDefault();
@@ -143,8 +156,8 @@ trust.js
 
         });
         /*=== s4 =================================================*/
-        $('.s4 .submit').bind('click',function(event){
-            var _textarea=$('.s4 textarea');
+        $('.s4 .submit').bind('click', function(event) {
+            var _textarea = $('.s4 textarea');
             _textarea.text(' TxID : xdddsfsfdsfdsffds');
             $('.s4 .info').show();
         })
