@@ -30,7 +30,7 @@ trust.js
 
             if (cls == "s2") {
                 $.get(CONTRACT_LIST_LOAD, function(data, status) {
-                    console.log(data);
+                    data=data.reverse();//역순출력
                     var _target = $('.s2 table tbody');
                     _target.children().remove();
                     var _ele = '';
