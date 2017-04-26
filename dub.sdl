@@ -14,6 +14,7 @@ dependency "sodium" version="~>0.1.1"
 dependency "sdlang-d" version="~>0.10.1"
 dependency "d2sqlite3" version="~>0.11.0"
 dependency "vibe-sdlang" version="1.0.0-alpha.2" path="dependencies/vibe-sdlang"
+dependency "clips-d" version="0.1.0" path="dependencies/clips-d"
           
 //subConfiguration "somepackage" "glut-app"
 
