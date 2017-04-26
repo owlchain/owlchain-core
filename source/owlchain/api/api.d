@@ -4,18 +4,19 @@ import vibe.core.core;
 
 interface IOntology 
 {
-
+    bool loadData(ubyte[] owlData);
+    bool loadFile(string owlPath);
+    IOperator operator();
 }
-
 interface IOwlReasoner 
 {
-	bool loadData(ubyte[] owlData);
-	bool loadFile(string owlPath);
+	void setOntology(IOntology owlData);
+    bool run();
 }
 
 interface ITalInterpreter 
 {
-		
+	bool execute(IOperator op);
 }
 
 interface ITransaction 
@@ -95,7 +96,7 @@ interface IAddress
     bool isValid();
 }
 
-enum OCCPMethod 
+enum OCPMethod 
 {
     OM_ReceiveBos = 0,
     OM_ReceiveVote,
@@ -105,40 +106,42 @@ enum OCCPMethod
     OM_BlockchainOffline
 }
 
-interface IOCCPRequest 
+//OCP: Owlchain Consensus Protocol
+
+interface IOCPRequest 
 {
-    OCCPMethod getMethod();
-    void setMethod(OCCPMethod method);
+    OCPMethod getMethod();
+    void setMethod(OCPMethod method);
 }
 
-interface IOCCPResponse 
+interface IOCPResponse 
 {
 
 }
 
-interface IOCCPListener 
+interface IOCPListener 
 {
     Task getReqTask();
     void setReqTask(Task task);
     Task getResTask();
     void setResTask(Task task);
-    IOCCPSettings getSettings();
-    void setSettings(IOCCPSettings settings);
+    IOCPSettings getSettings();
+    void setSettings(IOCPSettings settings);
 }
 
-interface IOCCPSettings 
+interface IOCPSettings 
 {
 
 }
 
-alias OCCPRequestDeligate = void delegate(IOCCPRequest req, IOCCPResponse res);
-alias OCCPRequestFunction = void function(IOCCPRequest req, IOCCPResponse res);
+alias OCPRequestDeligate = void delegate(IOCPRequest req, IOCPResponse res);
+alias OCPRequestFunction = void function(IOCPRequest req, IOCPResponse res);
 
 interface IShell 
 {
     IWallet getWallet();
     IBlockchain getBlockchain();
-    IOCCPListener listenOCCP(IOCCPSettings settings, OCCPRequestDeligate requestHandler);
+    IOCPListener listenOCP(IOCPSettings settings, OCPRequestDeligate requestHandler);
 }
 
 interface IOperator 

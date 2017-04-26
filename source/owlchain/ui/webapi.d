@@ -145,24 +145,28 @@ struct ReleaseQuorum
 struct ValidateTrustContract
 {
 	bool status;
-	string tempContractID;
+	string statusMsg;
+	string contractAddress;
 }
 
 struct ConfirmedTrustContract
 {
 	bool status;
+	string statusMsg;
 	string contractAddress;
+	string title;
 }
 
 struct RunTrustContract
 {
 	bool status;
+	string statusMsg;
 	string transactionID;
 }
 
 struct ReqTrustContractList
 {
-	int no;
+	ulong no;
 	string title;
 	string contractID;
 	uint txCount;

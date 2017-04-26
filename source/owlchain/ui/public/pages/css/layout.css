@@ -22,7 +22,7 @@ body article.wrap  > section.on{ display:block; }
 
 /*=== Trust-Contact =================================================*/
 /*editor*/
-textarea{ display:block; width:100%; padding:7px 10px 80px 50px; color:#FFF; font-size:14px; line-height:150%; overflow-y: scroll; background:url('../images/textarea_bg.png') #000 no-repeat; box-sizing: border-box;}
+textarea{ display:block; width:100%; padding:3px 10px 80px 20px; color:#FFF; font-size:14px; line-height:160%; overflow-y: scroll; background:#000 no-repeat; box-sizing: border-box;}
 .line{ display:block; width:100%; padding:10px 0; border-bottom:1px solid #242a42; }
 .line span > img{display:inline-block; margin-right:10px;}
 .fc_w{ color:#FFF; }
@@ -85,11 +85,9 @@ table{width:100%;}
 table thead th{padding:5px 20px;color:#464646;font-weight:normal;background:#cccccc;}
 table tbody th{padding:5px 20px;border-bottom:1px solid #242a42;color:#2a375f;font-size:14px;font-weight:bold;text-align:center;}
 table td{padding:10px 5px;border-bottom:1px solid #b7b7b7; font-size:14px; text-align:center; letter-spacing: -0.5px; }
-.s2  table td:nth-child(1){  }
-.s2  table td:nth-child(2){ text-align: left; }
-.s2  table td:nth-child(3){ color:#448ccb; }
-.s2  table td:nth-child(4){ text-align: right;  }
-.s2  table td:nth-child(5){ }
+
+.s2  table td.address{ color:#448ccb; }
+
 /*s3*/
 .s3 {}
 .s3 .content{margin-top:30px;}
