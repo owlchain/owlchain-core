@@ -10,6 +10,7 @@ import std.file;
 import std.stdio;
 import std.path;
 import std.array;
+import std.random;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
@@ -56,12 +57,12 @@ interface IBlockchainREST
 
 	 // Trust Contract
 	@method(HTTPMethod.GET)
- 	@path("/blockchain/trustcontract/validateTrustContract/:accountAddress/:contents")
- 	Json validateTrustContract(string _accountAddress, string _contents);
+ 	@path("/blockchain/trustcontract/validateTrustContract/:contents")
+ 	Json validateTrustContract(string _contents);
 
 	@method(HTTPMethod.GET)
- 	@path("/blockchain/trustcontract/confirmedTrustContract/:tempContractID")
- 	Json confirmedTrustContract(uint _tempContractID);
+ 	@path("/blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title")
+ 	Json confirmedTrustContract(string _contractAddress, string _title);
 
 	@method(HTTPMethod.GET)
  	@path("/blockchain/trustcontract/runTrustContract/:contractAddress/:contents")
@@ -96,6 +97,34 @@ class BlockchainRESTImpl : IBlockchainREST
 		logInfo("receiverAccountAddress:" ~ receiverAccountAddress);
 		logInfo("amount:" ~ to!string(amount));
 		logInfo("fee:" ~ to!string(fee));
+	}
+	
+	private string generateAddress()
+	{
+		auto addrNum = uniform(10000000000000000, 99999999999999999);
+		auto s = to!string(addrNum);
+		string address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
+		
+		while(confirmAddress(address) != -1)
+		{
+			addrNum = uniform(1000000000000000, 99999999999999999);
+			s = to!string(addrNum);
+			address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
+		}
+
+		return address;
+	}
+
+	private int confirmAddress(string address)
+	{
+		foreach(int i, r; rs)
+		{
+			if (address == r.contractID)
+			{
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	override:
@@ -243,21 +272,30 @@ class BlockchainRESTImpl : IBlockchainREST
 		return json;
 	}
 
-	Json validateTrustContract(string _accountAddress, string _contents)
+	Json validateTrustContract(string _contents)
 	{
 		auto v = ValidateTrustContract();
 		v.status = true;
-		v.tempContractID = "TRX-AAAAA-AAAAA-AAAAAAA";
+		v.statusMsg = "Validated";
+		v.contractAddress = generateAddress();
 
  		auto json = serializeToJson(v);
 		return json;
 	}
 
-	Json confirmedTrustContract(uint _tempContractID)
+	Json confirmedTrustContract(string _contractAddress, string _title)
 	{
+		rs.length++;
+		rs[rs.length - 1].no = rs.length;
+		rs[rs.length - 1].contractID = _contractAddress;
+		rs[rs.length - 1].title = _title;
+		rs[rs.length - 1].txCount = 0;
+	
 		auto c = ConfirmedTrustContract();
 		c.status = true;
-		c.contractAddress = "TRX-AAAAA-AAAAA-AAAAAAA";
+		c.statusMsg = "Confirmed";
+		c.contractAddress = _contractAddress;
+		c.title = _title;
 
  		auto json = serializeToJson(c);
 		return json;
@@ -265,21 +303,24 @@ class BlockchainRESTImpl : IBlockchainREST
 
 	Json runTrustContract(string _contractAddress, string _contents)
 	{
+		int c = confirmAddress(_contractAddress);
+		if (c != -1)
+		{
+			rs[c].txCount++;
+		}
+
 		auto r = RunTrustContract();
 		r.status = true;
-		r.transactionID = "TRX-AAAAA-AAAAA-AAAAAAA";
+		r.statusMsg = "Success";
+		r.transactionID = _contractAddress;
 
 		auto json = serializeToJson(r);
-
-		// Only for Demoday
-		rs[0].txCount++;
-
 		return json;
 	}
 
- 	Json reqTrustContractList()
+	Json reqTrustContractList()
 	{
- 		auto json = serializeToJson(rs);
+		auto json = serializeToJson(rs);
 		return json;
 	}
 }
@@ -323,8 +364,8 @@ unittest
 	routes[5] = /blockchain/AccountOperations/getBlockInformation
 	routes[6] = /blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount
 	routes[7] = /blockchain/AccountOperations/createAccount
-	routes[8] = /blockchain/trustcontract/validateTrustContract/:accountAddress/:contents
-	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:tempContractID
+	routes[8] = /blockchain/trustcontract/validateTrustContract/:contents
+	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title
 	routes[10] = /blockchain/trustcontract/runTrustContract/:contractAddress/:contents
 	routes[11] = /blockchain/trustcontract/reqTrustContractList
 	*/
@@ -337,8 +378,8 @@ unittest
 	assert (routes[5].method == HTTPMethod.GET && routes[5].pattern == "/blockchain/AccountOperations/getBlockInformation");
 	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
 	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createAccount");
-	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/trustcontract/validateTrustContract/:accountAddress/:contents");
-	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:tempContractID");
+	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/trustcontract/validateTrustContract/:contents");
+	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title");
 	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/trustcontract/runTrustContract/:contractAddress/:contents");
 	assert (routes[11].method == HTTPMethod.GET && routes[11].pattern == "/blockchain/trustcontract/reqTrustContractList");
 }
@@ -371,23 +412,13 @@ shared static this()
             socket.send(json.toString().dup);
         }
     });
-    logInfo("listenOCP");
-
 	// only for Demoday
 	createReqTC();
+    logInfo("listenOCP");
 }
 
 // only for Demoday
-ReqTrustContractList[1] rs;
-
-// only for Demoday
-void createReqTC()
-{
-	rs[0].no = 1;
-	rs[0].title = "BOScoin";
-	rs[0].contractID = "TRX-AAAAA-AAAAA-AAAAAAA";
-	rs[0].txCount = 1186;
-}
+ReqTrustContractList[] rs;
 
 private IOCPListener listener;
 private WebSocket[] sockets;

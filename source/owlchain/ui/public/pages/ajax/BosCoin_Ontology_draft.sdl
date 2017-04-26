@@ -1,0 +1,74 @@
+@base "http://boscoin.io/ontology/boscoin#"
+@prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+@prefix ns "http://www.w3.org/2003/06/sw-vocab-status/ns#"
+@prefix owl "http://www.w3.org/2002/07/owl#"
+@prefix xml "http://www.w3.org/XML/1998/namespace"
+@prefix boscoin "http://boscoin.io/"
+@prefix xsd "http://www.w3.org/2001/XMLSchema#"
+@prefix rdfs "http://www.w3.org/2000/01/rdf-schema#"
+@prefix dc "http://purl.org/dc/elements/1.1/"
+
+rdf:RDF{ 
+
+     owl:Ontology rdf:about="http://boscoin.io/ontology/boscoin#"
+
+     owl:ObjectProperty rdf:about="boscoin:from"{
+         rdfs:domain rdf:resource="boscoin:Transaction" 
+	 rdfs:range rdf:resource="boscoin:Account"}
+
+     owl:ObjectProperty rdf:about="boscoin:to"{
+         rdfs:subPropertyOf rdf:resource="owl:topObjectProperty" 
+         rdfs:domain rdf:resource="boscoin:Transaction" 
+	 rdfs:range rdf:resource="boscoin:Account"}    
+
+     owl:DatatypeProperty rdf:about="boscoin:accountBalance"{
+         rdfs:subPropertyOf rdf:resource="owl:topDataProperty" 
+         rdf:type rdf:resource="owl:FunctionalProperty" 
+         rdfs:domain rdf:resource="boscoin:Account" 
+	 rdfs:range rdf:resource="xsd:integer"}
+
+     owl:DatatypeProperty rdf:about="boscoin:address"{
+	 rdfs:subPropertyOf rdf:resource="owl:topDataProperty" 
+         rdf:type rdf:resource="owl:FunctionalProperty" 
+         rdfs:domain rdf:resource="boscoin:Account" 
+	 rdfs:range rdf:resource="xsd:hexBinary"}
+
+     owl:DatatypeProperty rdf:about="boscoin:conformationReward"{
+         rdfs:domain rdf:resource="boscoin:CryptocurrencyCoin" 
+	 rdfs:range rdf:resource="xsd:positiveInteger"}
+
+     owl:DatatypeProperty rdf:about="boscoin:freezingReward"{
+         rdfs:domain rdf:resource="boscoin:CryptocurrencyCoin" 
+	 rdfs:range rdf:resource="xsd:positiveInteger"}
+
+     owl:DatatypeProperty rdf:about="boscoin:freezingState"{
+         rdfs:subPropertyOf rdf:resource="owl:topDataProperty" 
+         rdfs:domain rdf:resource="boscoin:Account" 
+	 rdfs:range rdf:resource="xsd:boolean"}
+
+     owl:DatatypeProperty rdf:about="boscoin:coinSymbol" {
+         rdfs:subPropertyOf rdf:resource="owl:topDataProperty" 
+         rdfs:domain rdf:resource="boscoin:CryptocurrencyCoin" 
+	 rdfs:range rdf:resource="xsd:string" }
+
+     owl:DatatypeProperty rdf:about="boscoin:coinName" {
+         rdfs:subPropertyOf rdf:resource="owl:topDataProperty" 
+         rdfs:domain rdf:resource="boscoin:CryptocurrencyCoin" 
+	 rdfs:range rdf:resource="xsd:string"}
+
+     owl:DatatypeProperty rdf:about="boscoin:totalSupplyCoin" {
+         rdfs:domain rdf:resource="boscoin:CryptocurrencyCoin" 
+	 rdfs:range rdf:resource="xsd:positiveInteger"}
+
+     owl:DatatypeProperty rdf:about="boscoin:transactionFee" { 
+         rdfs:domain rdf:resource="boscoin:Transaction" 
+	 rdfs:range rdf:resource="xsd:positiveInteger"}
+
+     owl:Class rdf:about="boscoin:Account" 
+
+     owl:Class rdf:about="boscoin:CryptocurrentCoin" 
+
+     owl:Class rdf:about="boscoin:Transaction" 
+
+}
+

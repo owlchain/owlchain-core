@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://boscoin.io/voting#"
+     xml:base="http://boscoin.io/voting"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://boscoin.io/voting#"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/create_Proposal -->
+
+    <owl:ObjectProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/create_Proposal">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Member"/>
+        <rdfs:range rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Proposal"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/has_Member -->
+
+    <owl:ObjectProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/has_Member">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Congress"/>
+        <rdfs:range rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Member"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/has_Result -->
+
+    <owl:ObjectProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/has_Result">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Proposal"/>
+        <rdfs:range rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Voting_Result"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/vote_Proposal -->
+
+    <owl:ObjectProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/vote_Proposal">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Member"/>
+        <rdfs:range rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Proposal"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/affirmative_vote -->
+
+    <owl:DatatypeProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/affirmative_vote">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Voting_Result"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/can_vote -->
+
+    <owl:DatatypeProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/can_vote">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Member"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/has_FinishTime -->
+
+    <owl:DatatypeProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/has_FinishTime">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Proposal"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/has_address -->
+
+    <owl:DatatypeProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/has_address">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Member"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#hexBinary"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/has_number_of_member -->
+
+    <owl:DatatypeProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/has_number_of_member">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Congress"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/minimum_quorum -->
+
+    <owl:DatatypeProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/minimum_quorum">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Proposal"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/negative_vote -->
+
+    <owl:DatatypeProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/negative_vote">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Voting_Result"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/proppsal_description -->
+
+    <owl:DatatypeProperty rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/proppsal_description">
+        <rdfs:domain rdf:resource="https://www.w3.org/TR/2017/WD-owl-time-20170202/Proposal"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/Congress -->
+
+    <owl:Class rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/Congress"/>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/Member -->
+
+    <owl:Class rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/Member"/>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/Proposal -->
+
+    <owl:Class rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/Proposal"/>
+    
+
+
+    <!-- https://www.w3.org/TR/2017/WD-owl-time-20170202/Voting_Result -->
+
+    <owl:Class rdf:about="https://www.w3.org/TR/2017/WD-owl-time-20170202/Voting_Result"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+

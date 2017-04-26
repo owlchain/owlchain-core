@@ -1,0 +1,119 @@
+@base "http://boscoin.io/ontology/example/LeaseContract#"
+@prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+@prefix owl "http://www.w3.org/2002/07/owl#"
+@prefix xml "http://www.w3.org/XML/1998/namespace"
+@prefix xsd "http://www.w3.org/2001/XMLSchema#"
+@prefix rdfs "http://www.w3.org/2000/01/rdf-schema#"
+@prefix rc "http://www.boscoin.io/ontology/example/LeaseContract#"
+
+rdf:RDF{ 
+
+     owl:Ontology rdf:about="http://boscoin.io/ontology/example/LeaseContract#"
+    
+     owl:AnnotationProperty rdf:about="owl:sameAs"
+    
+     owl:ObjectProperty rdf:about="rc:hasBroker"{
+         rdfs:subPropertyOf rdf:resource="owl:topObjectProperty" 
+         rdfs:domain rdf:resource="rc:LeaseContract" 
+	 rdfs:range rdf:resource="rc:Broker"}
+
+     owl:ObjectProperty rdf:about="hasContractor"{
+         rdfs:domain rdf:resource="rc:LeaseContract" 
+         rdfs:range rdf:resource="rc:Lessee" 
+	 rdfs:range rdf:resource="rc:Lessor"}
+
+     owl:ObjectProperty rdf:about="rc:hasLeaseTerm"{
+         rdfs:domain rdf:resource="rc:LeaseContract" 
+	 rdfs:range rdf:resource="rc:LeaseTerm"}
+
+     owl:ObjectProperty rdf:about="rc:hasRealEstate"{
+         rdfs:domain rdf:resource="rc:LeaseContract" 
+	 rdfs:range rdf:resource="rc:RealEstate"}
+
+     owl:ObjectProperty rdf:about="rc:sendMonthlyPayment" 
+
+     owl:DatatypeProperty rdf:about="rc:address"{
+         rdfs:domain rdf:resource="rc:Broker" 
+         rdfs:domain rdf:resource="rc:Lessee" 
+         rdfs:domain rdf:resource="rc:Lessor" 
+         rdfs:domain rdf:resource="rc:RealEstate" 
+	 rdfs:range rdf:resource="xsd:string"}
+
+     owl:DatatypeProperty rdf:about="balance"{
+         rdfs:domain rdf:resource="LeaseContract" 
+	 rdfs:range rdf:resource="xsd:positiveInteger"}
+
+     owl:DatatypeProperty rdf:about="rc:brokerage"{
+         rdfs:domain rdf:resource="rc:Broker" 
+	 rdfs:range rdf:resource="xsd:positiveInteger"} 
+
+     owl:DatatypeProperty rdf:about="rc:businessRegistrationNumber"{
+         rdfs:domain rdf:resource="rc:Broker" 
+	 rdfs:range rdf:resource="xsd:string"}
+
+     owl:DatatypeProperty rdf:about="rc:contracDate"{
+         rdfs:domain rdf:resource="rc:LeaseContract" 
+	 rdfs:range rdf:resource="xsd:dateTime"}
+
+     owl:DatatypeProperty rdf:about="rc:downpayment"{
+         rdfs:domain rdf:resource="rc:LeaseContract" 
+	 rdfs:range rdf:resource="xsd:positiveInteger"}
+
+     owl:DatatypeProperty rdf:about="rc:leaseEndDate"{
+         rdfs:domain rdf:resource="rc:LeaseTerm" 
+	 rdfs:range rdf:resource="xsd:dateTime"}
+
+     owl:DatatypeProperty rdf:about="rc:leaseStartDate"{
+         rdfs:domain rdf:resource="rc:LeaseTerm" 
+	 rdfs:range rdf:resource="xsd:dateTime"}
+
+     owl:DatatypeProperty rdf:about="rc:monthlypayment"{
+         rdfs:domain rdf:resource="rc:LeaseContract" 
+	 rdfs:range rdf:resource="xsd:positiveInteger"}
+
+     owl:DatatypeProperty rdf:about="rc:nameOfOffice"
+         rdfs:domain rdf:resource="rc:Broker" 
+	 rdfs:range rdf:resource="xsd:string"}
+
+     owl:DatatypeProperty rdf:about="rc:phoneNo"{
+         rdfs:domain rdf:resource="rc:Lessee" 
+	 rdfs:domain rdf:resource="rc:Lessor"}
+
+
+     owl:DatatypeProperty rdf:about="rc:registrationNumber"{
+         rdfs:domain rdf:resource="rc:Lessee" 
+         rdfs:domain rdf:resource="rc:Lessor" 
+	 rdfs:range rdf:resource="xsd:string"}
+
+     owl:DatatypeProperty rdf:about="http://xmlns.com/foaf/0.1/name"{
+         rdfs:domain rdf:resource="rc:Lessee" 
+	 rdfs:domain rdf:resource="rc:Lessor"} 
+
+     owl:Class rdf:about="rc:Broker"{
+    	 rdfs:subClassOf rdf:resource="rc:Person"}   
+
+     owl:Class rdf:about="rc:ContractOutline" 
+
+     owl:Class rdf:about="rc:LeaseBrokerage"{
+     	 rdfs:subClassOf rdf:resource="rc:ContractOutline"}
+
+     owl:Class rdf:about="rc:LeaseContract"{
+         rdfs:subClassOf rdf:resource="rc:ContractOutline"}
+
+     owl:Class rdf:about="rc:LeaseTerm"{
+         rdfs:subClassOf rdf:resource="rc:ContractOutline"}
+
+     owl:Class rdf:about="rc:Lessee"{
+         rdfs:subClassOf rdf:resource="rc:Person"}
+
+     owl:Class rdf:about="rc:Lessor"{
+         rdfs:subClassOf rdf:resource="rc:Person"}
+
+     owl:Class rdf:about="rc:Person"{
+         owl:sameAs "http://xmlns.com/foaf/0.1/Person"}
+
+     owl:Class rdf:about="rc:RealEstate"{
+         rdfs:subClassOf rdf:resource="rc:ContractOutline"}
+}
+
+
