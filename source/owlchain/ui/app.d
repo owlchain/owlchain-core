@@ -360,8 +360,8 @@ shared static this()
 	logInfo("Please open http://" ~ config.ipv4 ~ ":" ~ to!string(config.port) ~ "/ in your browser.");
 
     auto shell = new Shell;
-    auto occpSettings = new OCCPSettings;
-    listener = shell.listenOCCP(occpSettings, (IOCCPRequest req, IOCCPResponse res)
+    auto ocpSettings = new OCPSettings;
+    listener = shell.listenOCP(ocpSettings, (IOCPRequest req, IOCPResponse res)
     {
         logInfo("Callback Event Call");
         foreach(socket; sockets)
@@ -371,7 +371,7 @@ shared static this()
             socket.send(json.toString().dup);
         }
     });
-    logInfo("listenOCCP");
+    logInfo("listenOCP");
 
 	// only for Demoday
 	createReqTC();
@@ -389,7 +389,7 @@ void createReqTC()
 	rs[0].txCount = 1186;
 }
 
-private IOCCPListener listener;
+private IOCPListener listener;
 private WebSocket[] sockets;
 
 void handleWebSocketConnection(scope WebSocket socket)
