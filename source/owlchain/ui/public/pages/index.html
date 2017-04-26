@@ -44,10 +44,10 @@ theme : twilight , tomorrow_night
         <!-- Editor -->
         <section class="s1">
             <article class="content">
-                <!-- <dl class="title_form">
+                <dl class="title_form">
                     <dt><label for="s1_tit">Title : </label></dt>
                     <dd><input id="s1_tit" type="text" class="cmn"></dd>
-                </dl> -->
+                </dl>
                 <div class="editor-wrap">
                     <dl class="title-menu pdt_0 pdb_0 bg_b">
                         <dt><span class="fc_w">OWL/SDL</span></dt>
@@ -63,24 +63,24 @@ theme : twilight , tomorrow_night
                                 <option value="v7">foaf</option>
                                 <option value="v8">xsd</option>
                             </select>
-                            <a href="#" class="anc_gb trans">Vocabulary</a>
+                            <a href="#" class="anc_gb trans" >Vocabulary</a>
                         </dd>
                     </dl>
                     <textarea class="editor-code" name="" id="" cols="30" rows="10"></textarea>
                     <div class="submit-wrap"><a href="#none" class="submit anc_b trans">Submit</a></div>
                     <div class="info">
-                        <ul class="list">
+                        <ul class="list none">
                             <li><span class="tit">Status</span><span>Verified</span></li>
                             <li><span class="tit">Message</span><span>Confirm the contract to get Address</span></li>
                         </ul>
                         <ul class="list none">
                             <li><span class="tit">Status</span><span>Confirmed</span></li>
-                            <li><span class="tit">Title</span><span>Real Estate Contract</span></li>
-                            <li><span class="tit">Address</span><span>CON-24584-2548455-7894561</span></li>
+                            <li><span class="tit">Title</span><span class="data-title">Real Estate Contract</span></li>
+                            <li><span class="tit">Address</span><span class="data-address">CON-24584-2548455-7894561</span></li>
                         </ul>
                     </div>
                     <div class="button_wrap">
-                        <a href="#" class="visual_exe anc_gb disabled trans">Visualization</a>
+                        <a href="#" class="visual_exe anc_gb disabled trans" disabled="disabled">Visualization</a>
                     </div>
                 </div>
                 <p class="mgt_20 ui-visual none"></p>
@@ -89,25 +89,23 @@ theme : twilight , tomorrow_night
         <!-- Contracts -->
         <section class="s2">
             <article id="table-list" class="content">
-                <dl class="search_form">
+                <!-- <dl class="search_form">
                     <dt><label for="s2_tit">Contract  Address:</label></dt>
                     <dd><input class="cmn" type="text"></dd>
                     <dd class="anc"><a href="#none" class="anc_gb trans">Search</a></dd>
-                </dl>
+                </dl> -->
                 <table class="mgt_30">
                     <colgroup>
-                        <col width="2%" />
-                        <col width="26%" />
-                        <col width="40%" />
+                        <col width="15%" />
                         <col width="30%" />
-                        <col width="2%" />
+                        <col width="40%" />
+                        <col width="15%" />
                     </colgroup>
                     <thead>
                         <tr>
                             <th>NO</th>
                             <th>Title</th>
                             <th>Address</th>
-                            <th>Balance</th>
                             <th>TXs</th>
                         </tr>
                     </thead>
@@ -190,7 +188,8 @@ theme : twilight , tomorrow_night
                     <div class="submit-wrap"><a href="#none" class="submit anc_b trans">Run</a></div>
                     <div class="info none">
                         <ul class="list">
-                            <li><span class="tit">Tx ID</span><span>xdddsfsfdsfdsffds</span></li>
+                            <li><span class="tit">Tx ID</span><span class="data-tx"></span></li>
+                            <li><span class="tit">Status</span><span class="data-status"></span></li>
                         </ul>
                     </div>
                     <!-- <div class="button_wrap">

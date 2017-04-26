@@ -85,11 +85,9 @@ table{width:100%;}
 table thead th{padding:5px 20px;color:#464646;font-weight:normal;background:#cccccc;}
 table tbody th{padding:5px 20px;border-bottom:1px solid #242a42;color:#2a375f;font-size:14px;font-weight:bold;text-align:center;}
 table td{padding:10px 5px;border-bottom:1px solid #b7b7b7; font-size:14px; text-align:center; letter-spacing: -0.5px; }
-.s2  table td:nth-child(1){  }
-.s2  table td:nth-child(2){ text-align: left; }
-.s2  table td:nth-child(3){ color:#448ccb; }
-.s2  table td:nth-child(4){ text-align: right;  }
-.s2  table td:nth-child(5){ }
+
+.s2  table td.address{ color:#448ccb; }
+
 /*s3*/
 .s3 {}
 .s3 .content{margin-top:30px;}

@@ -34,7 +34,7 @@ trust.js
                     _target.children().remove();
                     var _ele = '';
                     for (var i = 0; i < data.length; i++) {
-                        _ele += '<tr><td class="no">' + data[i].no + '</td><td class="title">' + data[i].title + '</td> <td class="address">' + data[i].contractID + '</td> <td class="balance">0 BOS</td> <td class="txs">' + data[i].txCount + '</td> </tr>';
+                        _ele += '<tr><td class="no">' + data[i].no + '</td><td class="title">' + data[i].title + '</td> <td class="address">' + data[i].contractID + '</td><td class="txs">' + data[i].txCount + '</td> </tr>';
                     }
                     _target.append(_ele);
                     // console.log(data);
@@ -46,7 +46,7 @@ trust.js
         var _ajax = function(url, callBack) {
             console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
             $.get(url, function(data, status) {
-                //console.log(data)
+                console.log(data)
                 callBack.call(this, data);
             });
         };
@@ -105,20 +105,24 @@ trust.js
         $('.s1 a.submit').bind('click', function(event) { //submit
             event.preventDefault();
             var _this = $(this);
+            var _title = $('#s1_tit').val();
             if (_this.hasClass('confirm')) {
-                _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress, function(data) {
+                _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress+"/"+_title, function(data) {
                     $('.s1 textarea').text(data.statusMsg);
+                    $('.s1 .info ul.list').hide().eq(1).show();
+                    $('.s1 .info ul.list').find('.data-title').text(_title);
+                    $('.s1 .info ul.list').find('.data-address').text(window.contractAddress);
                 });
             } else {
                 _this.addClass('confirm');
                 $('.s1 .anc_gb').removeClass('on');
                 //#
-                _ajax(CONTRACT_VALIDATE_LOAD + "/content", function(data) {
+                _ajax(CONTRACT_VALIDATE_LOAD + "/"+_title, function(data) {
                     window.ContractID = data.tempContractID;
                     window.contractAddress = data.contractAddress;
                     $('.s1 textarea').text(data.statusMsg);
                     $('.s1 a.visual_exe').removeClass('disabled');
-                    $('.s1 .info ul.list').hide().eq(1).show();
+                    $('.s1 .info ul.list').hide().eq(0).show();
                     _this.text('Confirm');
                 });
             }
@@ -155,7 +159,8 @@ trust.js
             _ajax(CONTRACT_RUN_TEST + "/AAA/BBB", function(data) {
                 var _data = data.statusMsg;
                 $('.s4 textarea').text(data.statusMsg);
-                $('.s4 .info ul.list span:eq(1)').text(data.transactionID);
+                $('.s4 .info ul.list span.data-tx').text(data.transactionID);
+                $('.s4 .info ul.list span.data-status').text(data.statusMsg);
                 $('.s4 .info').show();
             });
         })
