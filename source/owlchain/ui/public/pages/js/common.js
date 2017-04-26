@@ -7,7 +7,6 @@ trust.js
     const CONTRACT_VALIDATE_LOAD = "/blockchain/trustcontract/validateTrustContract";
     const CONTRACT_CONFIRM_LOAD = "/blockchain/trustcontract/confirmedTrustContract";
     const CONTRACT_RUN_TEST = "/blockchain/trustcontract/runTrustContract";
-    /*http://127.0.0.1:8080/blockchain/trustcontract/validateTrustContract/aaa/aaa */
 
     /*setup*/
     var _setup = function() {
@@ -30,7 +29,7 @@ trust.js
 
             if (cls == "s2") {
                 $.get(CONTRACT_LIST_LOAD, function(data, status) {
-                    data=data.reverse();//역순출력
+                    data = data.reverse(); //역순출력
                     var _target = $('.s2 table tbody');
                     _target.children().remove();
                     var _ele = '';
@@ -43,23 +42,19 @@ trust.js
                 });
             }
         };
-        /*************************
-        popup
-        *************************/
-        function setPopup(mode) {
-            if (mode == "close") {
-                _popup.removeClass('on');
-            } else {
-                _popup.addClass('on');
-            }
-        }
+        /*=== Ajax Function =================================================*/
+        var _ajax = function(url, callBack) {
+            console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
+            $.get(url, function(data, status) {
+                //console.log(data)
+                callBack.call(this, data);
+            });
+        };
         /*=== Selector =================================================*/
         window.DATA_LIST = []; //Contract Address:
-
         var _nav = $('header nav a');
         var _link = $('a.link');
         var _select = $('select.select-value');
-        var _linkPopup = $('a.link-popup');
         var _section = $('article.wrap > section');
         var _winPop = $('a.winPop'); /* windows popup */
         var _popup = $('article.popup');
@@ -82,13 +77,6 @@ trust.js
         _winPop.bind('click', function(event) {
             window.open("vocabulary.html", "windowNewPop", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=0,width=1000,height=800");
         });
-        /**/
-        _linkPopup.bind('click', function(event) {
-            setPopup("open");
-        });
-        _popup.bind('click', function(event) {
-            setPopup("close");
-        });
         $('.toggle dl dt').bind('click', function(event) {
             $(this).parents('dl').toggleClass('on');
             var _dl = $(this).parents('dl');
@@ -102,11 +90,8 @@ trust.js
             } else if (_idx == 2) {
                 _url = "./ajax/Crowdfunding.sdl";
             }
-            $.ajax({
-                url: _url,
-                success: function(data, xhr) {
-                    _textarea.text(data);
-                }
+            _ajax(_url, function(data) {
+                _textarea.text(data);
             });
         });
         /*=== main ===============================================*/
@@ -121,28 +106,22 @@ trust.js
             event.preventDefault();
             var _this = $(this);
             if (_this.hasClass('confirm')) {
-                $.get(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress)
-                    .done(function(data) {
-                        console.log(data);
-                        $('.s1 textarea').text(data.statusMsg);
-                    });
+                _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress, function(data) {
+                    $('.s1 textarea').text(data.statusMsg);
+                });
             } else {
                 _this.addClass('confirm');
                 $('.s1 .anc_gb').removeClass('on');
                 //#
-                $.get(CONTRACT_VALIDATE_LOAD + "/content")
-                    .done(function(data) {
-                        window.ContractID = data.tempContractID;
-                        window.contractAddress = data.contractAddress;
-                        $('.s1 textarea').text(data.statusMsg);
-                        $('.s1 a.visual_exe').removeClass('disabled');
-                        $('.s1 .info ul.list').hide().eq(1).show();
-                        _this.text('Confirm');
-                        console.log(data);
-                    });
+                _ajax(CONTRACT_VALIDATE_LOAD + "/content", function(data) {
+                    window.ContractID = data.tempContractID;
+                    window.contractAddress = data.contractAddress;
+                    $('.s1 textarea').text(data.statusMsg);
+                    $('.s1 a.visual_exe').removeClass('disabled');
+                    $('.s1 .info ul.list').hide().eq(1).show();
+                    _this.text('Confirm');
+                });
             }
-            //            /blockchain/trustcontract/validateTrustContract
-
         });
         $('.s1 dd a.anc_gb').bind('click', function(event) {
             event.preventDefault();
@@ -173,19 +152,19 @@ trust.js
         /*=== s4 =================================================*/
         $('.s4 .submit').bind('click', function(event) {
             var _textarea = $('.s4 textarea');
-            $.get(CONTRACT_RUN_TEST + "/AAA/BBB")
-                .done(function(data) {
-                    var _data = data.statusMsg;
-                    $('.s4 textarea').text(data.statusMsg);
-                    $('.s4 .info ul.list span:eq(1)').text(data.transactionID);
-                    $('.s4 .info').show();
-                });
+            _ajax(CONTRACT_RUN_TEST + "/AAA/BBB", function(data) {
+                var _data = data.statusMsg;
+                $('.s4 textarea').text(data.statusMsg);
+                $('.s4 .info ul.list span:eq(1)').text(data.transactionID);
+                $('.s4 .info').show();
+            });
         })
         /*init*/
     }
     /*ADD_ACCOUNT
      */
     $(document).ready(function() {
+        //  _setup();
         _bind();
     });
 })($);
