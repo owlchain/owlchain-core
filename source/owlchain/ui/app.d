@@ -61,8 +61,8 @@ interface IBlockchainREST
  	Json validateTrustContract(string _contents);
 
 	@method(HTTPMethod.GET)
- 	@path("/blockchain/trustcontract/confirmedTrustContract/:contractAddress")
- 	Json confirmedTrustContract(string _contractAddress);
+ 	@path("/blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title")
+ 	Json confirmedTrustContract(string _contractAddress, string _title);
 
 	@method(HTTPMethod.GET)
  	@path("/blockchain/trustcontract/runTrustContract/:contractAddress/:contents")
@@ -276,14 +276,14 @@ class BlockchainRESTImpl : IBlockchainREST
 	{
 		auto v = ValidateTrustContract();
 		v.status = true;
-		v.statusMsg = "Valid";
+		v.statusMsg = "Validated";
 		v.contractAddress = generateAddress();
 
  		auto json = serializeToJson(v);
 		return json;
 	}
 
-	Json confirmedTrustContract(string _contractAddress)
+	Json confirmedTrustContract(string _contractAddress, string _title)
 	{
 		rs.length++;
 		rs[rs.length - 1].no = rs.length;
@@ -295,6 +295,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		c.status = true;
 		c.statusMsg = "Confirmed";
 		c.contractAddress = _contractAddress;
+		c.title = _title;
 
  		auto json = serializeToJson(c);
 		return json;
@@ -364,7 +365,7 @@ unittest
 	routes[6] = /blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount
 	routes[7] = /blockchain/AccountOperations/createAccount
 	routes[8] = /blockchain/trustcontract/validateTrustContract/:contents
-	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:contractAddress
+	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title
 	routes[10] = /blockchain/trustcontract/runTrustContract/:contractAddress/:contents
 	routes[11] = /blockchain/trustcontract/reqTrustContractList
 	*/
@@ -378,7 +379,7 @@ unittest
 	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
 	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createAccount");
 	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/trustcontract/validateTrustContract/:contents");
-	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:contractAddress");
+	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title");
 	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/trustcontract/runTrustContract/:contractAddress/:contents");
 	assert (routes[11].method == HTTPMethod.GET && routes[11].pattern == "/blockchain/trustcontract/reqTrustContractList");
 }

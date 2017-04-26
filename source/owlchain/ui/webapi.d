@@ -154,6 +154,7 @@ struct ConfirmedTrustContract
 	bool status;
 	string statusMsg;
 	string contractAddress;
+	string title;
 }
 
 struct RunTrustContract
