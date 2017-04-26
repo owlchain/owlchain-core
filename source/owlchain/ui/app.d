@@ -288,7 +288,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		rs.length++;
 		rs[rs.length - 1].no = rs.length;
 		rs[rs.length - 1].contractID = _contractAddress;
-		rs[rs.length - 1].title = "BOScoin";
+		rs[rs.length - 1].title = _title;
 		rs[rs.length - 1].txCount = 0;
 	
 		auto c = ConfirmedTrustContract();
