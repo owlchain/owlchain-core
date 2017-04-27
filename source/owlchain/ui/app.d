@@ -131,11 +131,11 @@ class BlockchainRESTImpl : IBlockchainREST
 	{
 		int balance = 0;
 
-		for (int i = 0; i < contents.length - 7; i++)
+		for (int i = 0; i < contents.length - 10; i++)
 		{
 			if (contents[i..i + 11] == "sendCoin = ")
 			{
-				for (int j = i + 11; j < contents.length - 3; j++)
+				for (int j = i + 11; j < contents.length - 2; j++)
 				{
 					if (contents[j..j + 3] == "HWC")
 					{
@@ -439,7 +439,7 @@ shared static this()
     auto occpSettings = new OCCPSettings;
     listener = shell.listenOCCP(occpSettings, (IOCCPRequest req, IOCCPResponse res)
     {
-        logInfo("Callback Event Call");
+        // logInfo("Callback Event Call");
         foreach(socket; sockets)
         {
 			auto r = receiveBos();
@@ -447,7 +447,7 @@ shared static this()
             socket.send(json.toString().dup);
         }
     });
-    logInfo("listenOCCP");
+    // logInfo("listenOCCP");
 }
 
 // only for Demoday
