@@ -22,7 +22,6 @@ class Reasoner : IOwlReasoner {
     }
 
     bool run() {
-
         // RerouteStdin(_theEnv, cast(int)argv.length, cast(char **)argv.ptr);
         // CommandLoop(theEnv);
         return false;
@@ -31,6 +30,10 @@ class Reasoner : IOwlReasoner {
 
 
 unittest {
+    auto reasoner = new Reasoner;
 
+    assert(reasoner.run() is false);
+    import std.stdio: writefln;
 
+    writefln("reasoner test...");
 }

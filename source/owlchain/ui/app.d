@@ -417,6 +417,10 @@ shared static this()
     logInfo("listenOCP");
 }
 
+void createReqTC(){
+
+}
+
 // only for Demoday
 ReqTrustContractList[] rs;
 

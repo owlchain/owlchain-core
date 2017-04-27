@@ -20,14 +20,6 @@ Bitcoin Address - https://en.bitcoin.it/wiki/Address
                                                     1234567890123456789012345678901234
     Newer P2SH type starting with the number 3, eg: 3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy.
 
-NXT Address - https://nxtwiki.org/wiki/RS_Address_Format
-    1.Reed–Solomon error correction - https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction
-
-    NXT-3DH5-DSAE-4WQ7-3LPSE
-    NXT-K4G2-FF32-WLL3-QBGEL
-    
-    BOS-K4G2F-F32WL-L3QBGEL
-
 crypto lib:
     - botan: https://github.com/etcimon/botan
     - libsodium https://code.dlang.org/packages/sodium
