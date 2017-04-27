@@ -176,6 +176,7 @@ trust.js
             _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _textarea.val(), function(data) {
                 var _mode = data.mode;
                 if (_mode == "done") {
+                    $('.s4 .info ul.list li').show();
                     $('.s4 .info ul.list span.data-tx').text(data.transactionID);
                     $('.s4 .info ul.list span.data-status').text("statusMsg ( " + data.statusMsg + " )");
                     $('.s4 .info ul.list span.data-balance').text(data.balance);
