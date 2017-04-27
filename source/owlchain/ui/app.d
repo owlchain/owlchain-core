@@ -131,19 +131,22 @@ class BlockchainRESTImpl : IBlockchainREST
 	{
 		int balance = 0;
 
-		for (int i = 0; i < contents.length - 10; i++)
+		if (contents.length > 10)
 		{
-			if (contents[i..i + 11] == "sendCoin = ")
+			for (int i = 0; i < contents.length - 10; i++)
 			{
-				for (int j = i + 11; j < contents.length - 2; j++)
+				if (contents[i..i + 11] == "sendCoin = ")
 				{
-					if (contents[j..j + 3] == "HWC")
+					for (int j = i + 11; j < contents.length - 2; j++)
 					{
-						balance = to!int(contents[i + 11.. j - 1]);
-						break;
+						if (contents[j..j + 3] == "HWC")
+						{
+							balance = to!int(contents[i + 11.. j - 1]);
+							break;
+						}
 					}
+					break;
 				}
-				break;
 			}
 		}
 
