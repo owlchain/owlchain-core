@@ -42,6 +42,12 @@ trust.js
                 });
             }
         };
+        /*=== init =================================================*/
+        var _init = function() {
+            $('textarea').text('');
+            $('textarea').val('');
+            $('input').val('');
+        };
         /*=== Ajax Function =================================================*/
         var _ajax = function(url, callBack) {
             console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
@@ -100,6 +106,8 @@ trust.js
             _data.no = window.DATA_LIST.length;
             window.DATA_LIST.push(_data);
             $('.s1 textarea').text(''); //초기화
+            _init();
+            //  $('.s1 textarea').text(''); //초기화
         });
         /*=== s1 =================================================*/
         $('.s1 a.submit').bind('click', function(event) { //submit
@@ -107,7 +115,7 @@ trust.js
             var _this = $(this);
             var _title = $('#s1_tit').val();
             if (_this.hasClass('confirm')) {
-                _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress+"/"+_title, function(data) {
+                _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress + "/" + _title, function(data) {
                     $('.s1 textarea').text(data.statusMsg);
                     $('.s1 .info ul.list').hide().eq(1).show();
                     $('.s1 .info ul.list').find('.data-title').text(_title);
@@ -117,7 +125,7 @@ trust.js
                 _this.addClass('confirm');
                 $('.s1 .anc_gb').removeClass('on');
                 //#
-                _ajax(CONTRACT_VALIDATE_LOAD + "/"+_title, function(data) {
+                _ajax(CONTRACT_VALIDATE_LOAD + "/" + _title, function(data) {
                     window.ContractID = data.tempContractID;
                     window.contractAddress = data.contractAddress;
                     $('.s1 textarea').text(data.statusMsg);
@@ -164,7 +172,10 @@ trust.js
                 $('.s4 .info').show();
             });
         })
-        /*init*/
+
+
+        //init
+            _init();
     }
     /*ADD_ACCOUNT
      */
