@@ -127,26 +127,25 @@ class BlockchainRESTImpl : IBlockchainREST
 		return -1;
 	}
 
-	private uint calculateBalance(string contents)
+	private int calculateBalance(string contents)
 	{
-		uint balance = 0;
+		int balance = 0;
 
 		for (int i = 0; i < contents.length - 7; i++)
 		{
-			if (contents[i..i + 7] == "sendCoin")
+			if (contents[i..i + 11] == "sendCoin = ")
 			{
 				for (int j = i + 11; j < contents.length - 3; j++)
 				{
-					if (contents[j..j + 2] == "HWC")
+					if (contents[j..j + 3] == "HWC")
 					{
-						balance = to!int(contents[i + 11.. j + 2]);
+						balance = to!int(contents[i + 11.. j - 1]);
 						break;
 					}
 				}
 				break;
 			}
 		}
-		logInfo("sendCoin = " ~ to!string(balance));
 
 		return balance;
 	}
@@ -334,12 +333,21 @@ class BlockchainRESTImpl : IBlockchainREST
 		}
 
 		auto r = RunTrustContract();
-		r.status = true;
-		r.statusMsg = "Success";
+
+		if (calculateBalance(_contents) > tcwallet.totalBalance)
+		{
+			r.status = false;
+			r.statusMsg = "Not enough balance.";
+		}
+		else
+		{
+			r.status = true;
+			r.statusMsg = "Success";
+			tcwallet.totalBalance -= calculateBalance(_contents);
+		}
+		
 		r.transactionID = _contractAddress;
-		// tcwallet.totalBalance -= calculateBalance(_contents);
-		// r.balance = tcwallet.totalBalance;
-		r.balance = 10000;
+		r.balance = tcwallet.totalBalance;
 
 		auto json = serializeToJson(r);
 		return json;

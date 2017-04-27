@@ -162,7 +162,7 @@ struct RunTrustContract
 	bool status;
 	string statusMsg;
 	string transactionID;
-	uint balance;
+	int balance;
 }
 
 struct ReqTrustContractList
