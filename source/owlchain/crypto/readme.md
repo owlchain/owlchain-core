@@ -1,6 +1,3 @@
-# Crypto wrappers
-[botan](https://botan.randombit.net/,https://github.com/etcimon/botan)
-
 # owlchain addressing and identification name system
 
 owlchain name system refer to 
