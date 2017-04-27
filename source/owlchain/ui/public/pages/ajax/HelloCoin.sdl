@@ -1,0 +1,138 @@
+@base "http://boscoin.io/ontology/finance_ontolgy"
+@prefix finance_ontolgy="http://boscoin.io/ontology/finance_ontolgy#"
+@prefix rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+@prefix owl="http://www.w3.org/2002/07/owl#"
+@prefix xml="http://www.w3.org/xml/1998/namespace"
+@prefix xsd="http://www.w3.org/2001/xmlschema#"
+@prefix rdfs="http://www.w3.org/2000/01/rdf-schema#"
+
+rdf:rdf {
+     owl:ontology rdf:about="http://boscoin.io/ontology/finance_ontolgy"
+
+     owl:objectproperty rdf:about="#drawing"{
+         rdfs:subpropertyof rdf:resource="#financeoperation"}
+
+     owl:objectproperty rdf:about="#financeoperation"{
+         rdfs:subpropertyof rdf:resource="#transaction"}
+
+     owl:objectproperty rdf:about="#hascomponent"{
+         owl:inverseof rdf:resource="#iscomponentof"
+         rdfs:domain rdf:resource="#cryptocurrencysystem"
+         rdfs:range rdf:resource="#account"
+         rdfs:range rdf:resource="#coin"
+         rdfs:range rdf:resource="#contract"}
+
+     owl:objectproperty rdf:about="#haspolicy"{
+         rdfs:domain rdf:resource="#coin"
+         rdfs:range rdf:resource="#coinpolicy"}
+
+     owl:objectproperty rdf:about="#iscomponentof"{
+         rdfs:domain rdf:resource="#account"
+         rdfs:domain rdf:resource="#coin"
+         rdfs:domain rdf:resource="#Contract"
+         rdfs:range rdf:resource="#CryptoCurrencySystem"}
+
+     owl:ObjectProperty rdf:about="#isCreatedBy"    
+
+     owl:ObjectProperty rdf:about="#remittance"{
+         rdfs:subPropertyOf rdf:resource="#financeOperation"}
+
+     owl:ObjectProperty rdf:about="#saving"{
+         rdfs:subPropertyOf rdf:resource="#financeOperation"}
+
+     owl:ObjectProperty rdf:about="#transaction"
+
+     owl:ObjectProperty rdf:about="#transfer"{
+         rdfs:subPropertyOf rdf:resource="#financeOperation"}
+
+     owl:DatatypeProperty rdf:about="#accountDataProperty"
+    
+     owl:DatatypeProperty rdf:about="#address"{
+         rdfs:subPropertyOf rdf:resource="#accountDataProperty"
+         rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"
+         rdfs:domain rdf:resource="#Account"
+	 rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"}
+
+     owl:DatatypeProperty rdf:about="#amount"{
+         rdfs:domain rdf:resource="#Account"}
+
+     owl:DatatypeProperty rdf:about="#balance"{
+         rdfs:domain rdf:resource="#Account"}
+
+     owl:DatatypeProperty rdf:about="#coinDataProperty"{
+         rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"
+         rdfs:domain rdf:resource="#Coin"}
+
+     owl:DatatypeProperty rdf:about="#name"{
+         rdfs:subPropertyOf rdf:resource="#coinDataProperty"
+         rdfs:domain rdf:resource="#CoinPolicy"}
+
+     owl:DatatypeProperty rdf:about="#symbol"{
+         rdfs:subPropertyOf rdf:resource="#coinDataProperty"
+         rdfs:domain rdf:resource="#CoinPolicy"}
+
+     owl:DatatypeProperty rdf:about="#totalSupply"{
+         rdfs:subPropertyOf rdf:resource="#coinDataProperty"
+         rdfs:domain rdf:resource="#CoinPolicy"}
+
+     owl:Class rdf:about="#Account"    
+
+     owl:Class rdf:about="#Coin"
+
+     owl:Class rdf:about="#CoinContract"{
+         rdfs:subClassOf rdf:resource="#Contract"}
+
+     owl:Class rdf:about="#CoinPolicy"
+    
+     owl:Class rdf:about="#Contract"
+    
+     owl:Class rdf:about="#ContractAccount"{
+         rdfs:subClassOf rdf:resource="#Account"}
+
+     owl:Class rdf:about="#CryptoCurrencySystem"
+    
+     owl:Class rdf:about="#Deposit"{
+         rdfs:subClassOf rdf:resource="#Operation"}
+    
+     owl:Class rdf:about="#InsuranceContract"{
+         rdfs:subClassOf rdf:resource="#Contract"}
+
+     owl:Class rdf:about="#LoanContract"{
+         rdfs:subClassOf rdf:resource="#Contract"}
+
+     owl:Class rdf:about="#NormalAccount"{
+         rdfs:subClassOf rdf:resource="#Account"}
+
+     owl:Class rdf:about="#Operation"    
+
+     owl:Class rdf:about="#RealEstateContract"{
+         rdfs:subClassOf rdf:resource="#Contract"}
+
+     owl:Class rdf:about="#accountGenerating"{
+         rdfs:subClassOf rdf:resource="#Operation"}
+
+     owl:Class rdf:about="#drawing"{
+         rdfs:subClassOf rdf:resource="#Operation"}
+
+     owl:Class rdf:about="#remmittence"{
+         owl:equivalentClass rdf:resource="#transfer"
+         rdfs:subClassOf rdf:resource="#Operation"}
+
+     owl:Class rdf:about="#saving"{
+         rdfs:subClassOf rdf:resource="#Operation"}
+
+     owl:Class rdf:about="#transfer"{
+         rdfs:subClassOf rdf:resource="#Operation"}
+
+     owl:NamedIndividual rdf:about="#HelloWorldCoin"{
+         rdf:type rdf:resource="#Coin"
+	 name xml:lang="en" "Hello World Coin"
+	 name xml:lang="kr" "헬로월드코인"
+	 symbol xml:lang="en" HWC
+	 totalSupply rdf:datatype="http://www.w3.org/2001/XMLSchema#integer" 1000000
+	 rdfs:label "Hello World Coin"
+      }
+     	 
+}
+
+
