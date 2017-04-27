@@ -15,3 +15,5 @@ dependencies/vibe-sdlang/libvibe-sdlang.a
 dependencies/clips-d/demo/clips-cli/clips-cli
 
 dependencies/clips-d/demo/clips-cli/clips-cli
+
+*.a
