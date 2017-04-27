@@ -162,6 +162,7 @@ struct RunTrustContract
 	bool status;
 	string statusMsg;
 	string transactionID;
+	uint balance;
 }
 
 struct ReqTrustContractList
@@ -170,6 +171,11 @@ struct ReqTrustContractList
 	string title;
 	string contractID;
 	uint txCount;
+}
+
+struct TcWallet
+{
+	uint totalBalance = 100000;
 }
 
 // User receiveTransaction
