@@ -54,14 +54,15 @@ theme : twilight , tomorrow_night
                         <dd class="prefix">
                             <label for="">Prefix</label>
                             <select name="" class="select-value">
-                                <option value="v1">owl</option>
-                                <option value="v2">rdf</option>
-                                <option value="v3">rdfs</option>
-                                <option value="v4">boscoin</option>
-                                <option value="v5">dc</option>
-                                <option value="v6">dct</option>
-                                <option value="v7">foaf</option>
-                                <option value="v8">xsd</option>
+                                <option value='' selected="selected"></option>
+                                <option value='@prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"'>rdf</option>
+                                <option value='@prefix rdfs "http://www.w3.org/2000/01/rdf-schema#"'>rdfs</option>
+                                <option value='@prefix rdfs "http://www.w3.org/2000/01/rdf-schema#"'>rdfs</option>
+                                <option value='@prefix xsd "http://www.w3.org/2001/XMLSchema#"'>xsd</option>
+                                <option value='@prefix dc "http://purl.org/dc/elements/1.1/"'>dc</option>
+                                <option value='@prefix dcterm "http://purl.org/dc/terms/"'>dcterm</option>
+                                <option value='@prefix foaf "http://xmlns.com/foaf/0.1/"'>foaf</option>
+                                <option value='@prefix boscoin "http://www.boscoin.io/ontology/boscoin/"'>boscoin</option>
                             </select>
                             <a href="#" class="anc_gb trans" >Vocabulary</a>
                         </dd>
@@ -162,24 +163,25 @@ theme : twilight , tomorrow_night
         <!-- Test -->
         <section class="s4">
             <article class="content">
-                <!-- <dl class="title_form">
-                    <dt><label for="s1_tit">Title : </label></dt>
-                    <dd><input id="s1_tit" type="text" class="cmn"></dd>
-                </dl> -->
+                <dl class="title_form">
+                    <dt><label for="s2_tit">Contract Address : </label></dt>
+                    <dd style="padding-left:170px;"><input id="s2_tit" type="text" class="cmn"></dd>
+                </dl>
                 <div class="editor-wrap">
                     <dl class="title-menu pdt_0 pdb_0 bg_b">
                         <dt><span class="fc_w">OWL/SDL</span></dt>
                         <dd class="prefix">
                             <label for="">Prefix</label>
                             <select name="" class="select-value">
-                                <option value="v1">owl</option>
-                                <option value="v2">rdf</option>
-                                <option value="v3">rdfs</option>
-                                <option value="v4">boscoin</option>
-                                <option value="v5">dc</option>
-                                <option value="v6">dct</option>
-                                <option value="v7">foaf</option>
-                                <option value="v8">xsd</option>
+                                <option value='' selected="selected"></option>
+                                <option value='@prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"'>rdf</option>
+                                <option value='@prefix rdfs "http://www.w3.org/2000/01/rdf-schema#"'>rdfs</option>
+                                <option value='@prefix rdfs "http://www.w3.org/2000/01/rdf-schema#"'>rdfs</option>
+                                <option value='@prefix xsd "http://www.w3.org/2001/XMLSchema#"'>xsd</option>
+                                <option value='@prefix dc "http://purl.org/dc/elements/1.1/"'>dc</option>
+                                <option value='@prefix dcterm "http://purl.org/dc/terms/"'>dcterm</option>
+                                <option value='@prefix foaf "http://xmlns.com/foaf/0.1/"'>foaf</option>
+                                <option value='@prefix boscoin "http://www.boscoin.io/ontology/boscoin/"'>boscoin</option>
                             </select>
                             <a href="#" class="anc_gb trans">Vocabulary</a>
                         </dd>

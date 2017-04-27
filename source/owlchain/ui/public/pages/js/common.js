@@ -75,10 +75,11 @@ trust.js
             $(this).addClass('on').siblings('a').removeClass('on');
         });
         _select.bind('change', function(event) { // Select Option value에 의한 textarea 출력
-            var _val = $(this).find('option:selected').text();
+            var _val = $(this).find('option:selected').val();
             var _textarea = $(this).parents('article.content').find('textarea');
-            var _str = _textarea.text() + "\n";
-            _textarea.text(_str + _val);
+            var _str = _textarea.val() + "\n";
+            _textarea.val(_str + _val);
+            console.log(_val);
         });
         _winPop.bind('click', function(event) {
             window.open("vocabulary.html", "windowNewPop", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=0,width=1000,height=800");
@@ -163,12 +164,13 @@ trust.js
         });
         /*=== s4 =================================================*/
         $('.s4 .submit').bind('click', function(event) {
+            var _title=$('#s2_tit').val();
             var _textarea = $('.s4 textarea');
-            _ajax(CONTRACT_RUN_TEST + "/AAA/BBB", function(data) {
+            _ajax(CONTRACT_RUN_TEST + "/"+_title+"/"+_textarea.val(), function(data) {
                 var _data = data.statusMsg;
                 $('.s4 textarea').text(data.statusMsg);
                 $('.s4 .info ul.list span.data-tx').text(data.transactionID);
-                $('.s4 .info ul.list span.data-status').text(data.statusMsg);
+                $('.s4 .info ul.list span.data-status').text("statusMsg ( "+data.statusMsg+" )");
                 $('.s4 .info').show();
             });
         })
