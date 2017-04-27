@@ -69,7 +69,7 @@ trust.js
         var _link = $('a.link');
         var _select = $('select.select-value');
         var _section = $('article.wrap > section');
-        var _winPop = $('a.winPop'); /* windows popup */
+        var _winPop = $('a.link-winPop'); /* windows popup */
         var _popup = $('article.popup');
         var _testCode = $('.s1 textarea');
         var _testRun = $('.s4 .submit');
@@ -160,8 +160,8 @@ trust.js
             });
         });
         $('.s3 a.copy-code').bind('click', function(event) {
-            var _code = $(this).parents('dd').find('textarea').text();
-            _testCode.text(_code);
+            var _code = $(this).parents('dd').find('textarea').val();
+            _testCode.val(_code);
         });
         _testRun.bind('click', function(event) {
             _testVisualBtn.removeClass('disabled');
