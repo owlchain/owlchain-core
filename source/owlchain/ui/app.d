@@ -105,7 +105,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		auto s = to!string(addrNum);
 		string address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
 		
-		while(confirmAddress(address) != -1)
+		while (confirmAddress(address) != -1)
 		{
 			addrNum = uniform(1000000000000000, 99999999999999999);
 			s = to!string(addrNum);
@@ -117,7 +117,7 @@ class BlockchainRESTImpl : IBlockchainREST
 
 	private int confirmAddress(string address)
 	{
-		foreach(int i, r; rs)
+		foreach (int i, r; rs)
 		{
 			if (address == r.contractID)
 			{
@@ -125,6 +125,29 @@ class BlockchainRESTImpl : IBlockchainREST
 			}
 		}
 		return -1;
+	}
+
+	private int calculateBalance(string contents)
+	{
+		int balance = 0;
+
+		for (int i = 0; i < contents.length - 7; i++)
+		{
+			if (contents[i..i + 11] == "sendCoin = ")
+			{
+				for (int j = i + 11; j < contents.length - 3; j++)
+				{
+					if (contents[j..j + 3] == "HWC")
+					{
+						balance = to!int(contents[i + 11.. j - 1]);
+						break;
+					}
+				}
+				break;
+			}
+		}
+
+		return balance;
 	}
 
 	override:
@@ -184,7 +207,7 @@ class BlockchainRESTImpl : IBlockchainREST
 	{
 		GetAccountTransaction[10] gs;
 
-		foreach(uint i, g; gs)
+		foreach (uint i, g; gs)
 		{
 			gs[i].type = "SendBOS";
 			gs[i].timestamp = i;
@@ -224,7 +247,7 @@ class BlockchainRESTImpl : IBlockchainREST
 	{
 		GetBlockInformation[10] gs;
 
-		foreach(uint i, g; gs)
+		foreach (uint i, g; gs)
 		{
 			gs[i].blockHeight = i + 1;
 			gs[i].timestamp = 10000 + i;
@@ -310,9 +333,21 @@ class BlockchainRESTImpl : IBlockchainREST
 		}
 
 		auto r = RunTrustContract();
-		r.status = true;
-		r.statusMsg = "Success";
+
+		if (calculateBalance(_contents) > tcwallet.totalBalance)
+		{
+			r.status = false;
+			r.statusMsg = "Not enough balance.";
+		}
+		else
+		{
+			r.status = true;
+			r.statusMsg = "Success";
+			tcwallet.totalBalance -= calculateBalance(_contents);
+		}
+		
 		r.transactionID = _contractAddress;
+		r.balance = tcwallet.totalBalance;
 
 		auto json = serializeToJson(r);
 		return json;
@@ -419,6 +454,7 @@ shared static this()
 
 // only for Demoday
 ReqTrustContractList[] rs;
+TcWallet tcwallet;
 
 private IOCPListener listener;
 private WebSocket[] sockets;

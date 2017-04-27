@@ -67,10 +67,11 @@ a.anc_b:hover{ background:#489fe2; }
 a.anc_b:active{ background:#00aeef; }
 a.anc_b.disabled{ background:#8da1b1; }
 
-a.anc_gb{ display:inline-block; padding:5px 10px; color:#FFF; background:#7490a6; }
-a.anc_gb:hover{ background:#428bc4; }
+a.anc_gb{ display:inline-block; padding:5px 10px; color:#FFF; border:1px solid transparent; background:#1b75bb; }
+a.anc_gb:hover{ border-color:#FFF; background:#428bc4; }
 a.anc_gb:active{ background:#00aeef; }
 a.anc_gb.disabled{ background:#959595; }
+a.anc_gb.disabled:hover{ border:1px solid transparent; background:#959595; }
 
 /*s1*/
 .s1 .submit-wrap{ width:464px; margin:15px auto; text-align: center; }

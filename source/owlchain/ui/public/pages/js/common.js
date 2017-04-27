@@ -42,11 +42,23 @@ trust.js
                 });
             }
         };
+        /*=== init =================================================*/
+        var _init = function() {
+            $('textarea').text('');
+            $('textarea').val('');
+            $('input').val('');
+        };
         /*=== Ajax Function =================================================*/
         var _ajax = function(url, callBack) {
             console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
             $.get(url, function(data, status) {
-                console.log(data)
+                console.log(data);
+                //  callBack.call(this, data);
+            }).done(function(data) {
+                data.mode = "done";
+                callBack.call(this, data);
+            }).fail(function(data) {
+                data.mode = "fail";
                 callBack.call(this, data);
             });
         };
@@ -69,10 +81,11 @@ trust.js
             $(this).addClass('on').siblings('a').removeClass('on');
         });
         _select.bind('change', function(event) { // Select Option value에 의한 textarea 출력
-            var _val = $(this).find('option:selected').text();
+            var _val = $(this).find('option:selected').val();
             var _textarea = $(this).parents('article.content').find('textarea');
-            var _str = _textarea.text() + "\n";
-            _textarea.text(_str + _val);
+            var _str = _textarea.val() + "\n";
+            _textarea.val(_str + _val);
+            console.log(_val);
         });
         _winPop.bind('click', function(event) {
             window.open("vocabulary.html", "windowNewPop", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=0,width=1000,height=800");
@@ -100,6 +113,8 @@ trust.js
             _data.no = window.DATA_LIST.length;
             window.DATA_LIST.push(_data);
             $('.s1 textarea').text(''); //초기화
+            _init();
+            //  $('.s1 textarea').text(''); //초기화
         });
         /*=== s1 =================================================*/
         $('.s1 a.submit').bind('click', function(event) { //submit
@@ -107,7 +122,7 @@ trust.js
             var _this = $(this);
             var _title = $('#s1_tit').val();
             if (_this.hasClass('confirm')) {
-                _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress+"/"+_title, function(data) {
+                _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress + "/" + _title, function(data) {
                     $('.s1 textarea').text(data.statusMsg);
                     $('.s1 .info ul.list').hide().eq(1).show();
                     $('.s1 .info ul.list').find('.data-title').text(_title);
@@ -117,7 +132,7 @@ trust.js
                 _this.addClass('confirm');
                 $('.s1 .anc_gb').removeClass('on');
                 //#
-                _ajax(CONTRACT_VALIDATE_LOAD + "/"+_title, function(data) {
+                _ajax(CONTRACT_VALIDATE_LOAD + "/" + _title, function(data) {
                     window.ContractID = data.tempContractID;
                     window.contractAddress = data.contractAddress;
                     $('.s1 textarea').text(data.statusMsg);
@@ -155,16 +170,26 @@ trust.js
         });
         /*=== s4 =================================================*/
         $('.s4 .submit').bind('click', function(event) {
+            var _title = $('#s2_tit').val();
             var _textarea = $('.s4 textarea');
-            _ajax(CONTRACT_RUN_TEST + "/AAA/BBB", function(data) {
-                var _data = data.statusMsg;
+            _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _textarea.val(), function(data) {
+                var _mode = data.mode;
+                console.log(_mode);
+                if (_mode == "done") {
+                    $('.s4 .info ul.list span.data-tx').text(data.transactionID);
+                    $('.s4 .info ul.list span.data-status').text("statusMsg ( " + data.statusMsg + " )");
+                    $('.s4 .info ul.list span.data-balance').text(data.balance);
+                } else if (_mode == "fail") {
+                    $('.s4 .info ul.list span.data-tx').parents('li').hide();
+                    $('.s4 .info ul.list span.data-status').text("statusMsg ( false )");
+                    $('.s4 .info ul.list span.data-balance').parents('li').hide();
+                }
                 $('.s4 textarea').text(data.statusMsg);
-                $('.s4 .info ul.list span.data-tx').text(data.transactionID);
-                $('.s4 .info ul.list span.data-status').text(data.statusMsg);
                 $('.s4 .info').show();
             });
         })
-        /*init*/
+        //init
+        _init();
     }
     /*ADD_ACCOUNT
      */
