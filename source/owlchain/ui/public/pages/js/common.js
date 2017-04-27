@@ -52,7 +52,13 @@ trust.js
         var _ajax = function(url, callBack) {
             console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
             $.get(url, function(data, status) {
-                console.log(data)
+                console.log(data);
+                //  callBack.call(this, data);
+            }).done(function(data) {
+                data.mode = "done";
+                callBack.call(this, data);
+            }).fail(function(data) {
+                data.mode = "fail";
                 callBack.call(this, data);
             });
         };
@@ -164,20 +170,26 @@ trust.js
         });
         /*=== s4 =================================================*/
         $('.s4 .submit').bind('click', function(event) {
-            var _title=$('#s2_tit').val();
+            var _title = $('#s2_tit').val();
             var _textarea = $('.s4 textarea');
-            _ajax(CONTRACT_RUN_TEST + "/"+_title+"/"+_textarea.val(), function(data) {
-                var _data = data.statusMsg;
+            _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _textarea.val(), function(data) {
+                var _mode = data.mode;
+                console.log(_mode);
+                if (_mode == "done") {
+                    $('.s4 .info ul.list span.data-tx').text(data.transactionID);
+                    $('.s4 .info ul.list span.data-status').text("statusMsg ( " + data.statusMsg + " )");
+                    $('.s4 .info ul.list span.data-balance').text(data.balance);
+                } else if (_mode == "fail") {
+                    $('.s4 .info ul.list span.data-tx').parents('li').hide();
+                    $('.s4 .info ul.list span.data-status').text("statusMsg ( false )");
+                    $('.s4 .info ul.list span.data-balance').parents('li').hide();
+                }
                 $('.s4 textarea').text(data.statusMsg);
-                $('.s4 .info ul.list span.data-tx').text(data.transactionID);
-                $('.s4 .info ul.list span.data-status').text("statusMsg ( "+data.statusMsg+" )");
                 $('.s4 .info').show();
             });
         })
-
-
         //init
-            _init();
+        _init();
     }
     /*ADD_ACCOUNT
      */
