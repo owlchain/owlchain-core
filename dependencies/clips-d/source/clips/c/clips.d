@@ -1,12 +1,12 @@
 /* Converted to D from clips.h by htod */
-module clips;
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                   API HEADER FILE                   */
-   /*******************************************************/
+module clips.c.clips;
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                   API HEADER FILE                   */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -33,16 +33,17 @@ module clips;
 //C     #define _STDIO_INCLUDED_
 //C     #include <stdio.h>
 import core.stdc.stdio;
+
 //C     #endif
 
 //C     #include "setup.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/05/15            */
-   /*                                                     */
-   /*                  SETUP HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/05/15            */
+/*                                                     */
+/*                  SETUP HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: This file is the general header file included by */
@@ -100,14 +101,14 @@ import core.stdc.stdio;
 /*            Combined BASIC_IO and EXT_IO compilation       */
 /*            flags into the IO_FUNCTIONS compilation flag.  */
 /*                                                           */
-    
+
 /*            Changed the EX_MATH compilation flag to        */
 /*            EXTENDED_MATH_FUNCTIONS.                       */
 /*                                                           */
 /*            Removed VOID definition because of conflict    */
 /*            with Windows.h header file.                    */
 /*                                                           */
-    
+
 /*            Removed deprecated definitions.                */
 /*                                                           */
 /*            The ALLOW_ENVIRONMENT_GLOBALS flag now         */
@@ -547,13 +548,13 @@ const DEVELOPER = 0;
 /***************************/
 
 //C     #include "envrnmnt.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                ENVRNMNT HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                ENVRNMNT HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for supporting multiple environments.   */
@@ -579,7 +580,7 @@ const DEVELOPER = 0;
 /*            CLIPS environment to its parent environment).  */
 /*                                                           */
 /*      6.30: Added support for passing context information  */
- 
+
 /*            to user defined functions and callback         */
 /*            functions.                                     */
 /*                                                           */
@@ -596,13 +597,13 @@ const DEVELOPER = 0;
 
 //C     #ifndef _H_symbol
 //C     #include "symbol.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/03/15            */
-   /*                                                     */
-   /*                 SYMBOL HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/03/15            */
+/*                                                     */
+/*                 SYMBOL HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Manages the atomic data value hash tables for    */
@@ -645,7 +646,7 @@ const DEVELOPER = 0;
 /*                                                           */
 /*            Used genstrcpy instead of strcpy.              */
 /*                                                           */
-             
+
 /*            Added support for external address hash table  */
 /*            and subtyping.                                 */
 /*                                                           */
@@ -678,13 +679,13 @@ import core.stdc.stdlib;
 
 //C     #ifndef _H_multifld
 //C     #include "multifld.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/19/14            */
-   /*                                                     */
-   /*                MULTIFIELD HEADER FILE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/19/14            */
+/*                                                     */
+/*                MULTIFIELD HEADER FILE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for creating and manipulating           */
@@ -731,13 +732,13 @@ import core.stdc.stdlib;
 
 //C     #ifndef _H_evaluatn
 //C     #include "evaluatn.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/04/15            */
-   /*                                                     */
-   /*               EVALUATION HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/04/15            */
+/*                                                     */
+/*               EVALUATION HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides routines for evaluating expressions.    */
@@ -756,7 +757,7 @@ import core.stdc.stdlib;
 /*            Added EvaluateAndStoreInDataObject function.   */
 /*                                                           */
 /*      6.30: Added support for passing context information  */
- 
+
 /*            to user defined functions.                     */
 /*                                                           */
 /*            Added support for external address hash table  */
@@ -786,13 +787,13 @@ import core.stdc.stdlib;
 
 //C     #ifndef _H_constant
 //C     #include "constant.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/05/15            */
-   /*                                                     */
-   /*                CONSTANTS HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/05/15            */
+/*                                                     */
+/*                CONSTANTS HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -1123,24 +1124,19 @@ alias int FACT_ID;
 
 //C     #endif
 
-
-
-
-
-
 //C     #endif
 //C     #ifndef _H_symbol
 //C     #include "symbol.h"
 //C     #endif
 //C     #ifndef _H_expressn
 //C     #include "expressn.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*               EXPRESSION HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*               EXPRESSION HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Contains routines for creating, deleting,        */
@@ -1175,13 +1171,13 @@ alias int FACT_ID;
 
 //C     #ifndef _H_exprnops
 //C     #include "exprnops.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*          EXPRESSION OPERATIONS HEADER FILE          */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*          EXPRESSION OPERATIONS HEADER FILE          */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides utility routines for manipulating and   */
@@ -1224,36 +1220,35 @@ alias int FACT_ID;
 //C -- alias extern LOCALE;
 
 //C        LOCALE intBool                        ConstantExpression(struct expr *);
-int  ConstantExpression(expr *);
+int ConstantExpression(expr*);
 //C        LOCALE void                           PrintExpression(void *,const char *,struct expr *);
-void  PrintExpression(void *, char *, expr *);
+void PrintExpression(void*, char*, expr*);
 //C        LOCALE long                           ExpressionSize(struct expr *);
-int  ExpressionSize(expr *);
+int ExpressionSize(expr*);
 //C        LOCALE int                            CountArguments(struct expr *);
-int  CountArguments(expr *);
+int CountArguments(expr*);
 //C        LOCALE struct expr                   *CopyExpression(void *,struct expr *);
-expr * CopyExpression(void *, expr *);
+expr* CopyExpression(void*, expr*);
 //C        LOCALE intBool                        ExpressionContainsVariables(struct expr *,int);
-int  ExpressionContainsVariables(expr *, int );
+int ExpressionContainsVariables(expr*, int);
 //C        LOCALE intBool                        IdenticalExpression(struct expr *,struct expr *);
-int  IdenticalExpression(expr *, expr *);
+int IdenticalExpression(expr*, expr*);
 //C        LOCALE struct expr                   *GenConstant(void *,unsigned short,void *);
-expr * GenConstant(void *, ushort , void *);
+expr* GenConstant(void*, ushort, void*);
 //C     #if ! RUN_TIME
 //C        LOCALE int                            CheckArgumentAgainstRestriction(void *,struct expr *,int);
-int  CheckArgumentAgainstRestriction(void *, expr *, int );
+int CheckArgumentAgainstRestriction(void*, expr*, int);
 //C     #endif
 //C        LOCALE intBool                        ConstantType(int);
-int  ConstantType(int );
+int ConstantType(int);
 //C        LOCALE struct expr                   *CombineExpressions(void *,struct expr *,struct expr *);
-expr * CombineExpressions(void *, expr *, expr *);
+expr* CombineExpressions(void*, expr*, expr*);
 //C        LOCALE struct expr                   *AppendExpressions(struct expr *,struct expr *);
-expr * AppendExpressions(expr *, expr *);
+expr* AppendExpressions(expr*, expr*);
 //C        LOCALE struct expr                   *NegateExpression(void *,struct expr *);
-expr * NegateExpression(void *, expr *);
+expr* NegateExpression(void*, expr*);
 
 //C     #endif /* _H_exprnops */
-
 
 //C     #endif
 
@@ -1271,9 +1266,9 @@ expr * NegateExpression(void *, expr *);
 struct expr
 {
     ushort type;
-    void *value;
-    expr *argList;
-    expr *nextArg;
+    void* value;
+    expr* argList;
+    expr* nextArg;
 }
 
 //C     #define arg_list argList
@@ -1296,10 +1291,11 @@ struct exprHashNode
 {
     uint hashval;
     uint count;
-    expr *exp;
-    exprHashNode *next;
+    expr* exp;
+    exprHashNode* next;
     int bsaveID;
 }
+
 alias exprHashNode EXPRESSION_HN;
 
 //C     #define EXPRESSION_HASH_SIZE 503
@@ -1310,14 +1306,18 @@ const EXPRESSION_HASH_SIZE = 503;
 /*************************/
 
 //C     #define GetType(target)         ((target).type)
+// mixin GetType(alias target) { return target.type; }
 //C     #define GetpType(target)        ((target)->type)
 //C     #define SetType(target,val)     ((target).type = (unsigned short) (val))
 //C     #define SetpType(target,val)    ((target)->type = (unsigned short) (val))
+void    SetpType(dataObject *target, ushort type) { target.type = type; }
 //C     #define GetValue(target)        ((target).value)
+void*   GetValue(dataObject target) { return target.value ;}
 //C     #define GetpValue(target)       ((target)->value)
 //C     #define SetValue(target,val)    ((target).value = (void *) (val))
+void    SetValue(dataObject target, void* val) { target.value = val; }
 //C     #define SetpValue(target,val)   ((target)->value = (void *) (val))
-
+void    SetpValue(dataObject *target, void* val) { target.value = val; }
 //C     #define EnvGetType(theEnv,target)         ((target).type)
 //C     #define EnvGetpType(theEnv,target)        ((target)->type)
 //C     #define EnvSetType(theEnv,target,val)     ((target).type = (unsigned short) (val))
@@ -1333,13 +1333,13 @@ const EXPRESSION_HASH_SIZE = 503;
 
 //C     #ifndef _H_exprnpsr
 //C     #include "exprnpsr.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*            EXPRESSION PARSER HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*            EXPRESSION PARSER HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides routines for parsing expressions.       */
@@ -1386,21 +1386,22 @@ struct saved_contexts
 {
     int rtn;
     int brk;
-    saved_contexts *nxt;
+    saved_contexts* nxt;
 }
+
 alias saved_contexts SAVED_CONTEXTS;
 
 //C     #endif
 
 //C     #ifndef _H_extnfunc
 //C     #include "extnfunc.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*            EXTERNAL FUNCTIONS HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*            EXTERNAL FUNCTIONS HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for adding new user or system defined   */
@@ -1416,7 +1417,7 @@ alias saved_contexts SAVED_CONTEXTS;
 /*      6.24: Renamed BOOLEAN macro type to intBool.         */
 /*                                                           */
 /*      6.30: Added support for passing context information  */
- 
+
 /*            to user defined functions.                     */
 /*                                                           */
 /*            Support for long long integers.                */
@@ -1441,13 +1442,13 @@ alias saved_contexts SAVED_CONTEXTS;
 //C     #endif
 
 //C     #include "userdata.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                USER DATA HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                USER DATA HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for attaching user data to constructs,  */
@@ -1482,14 +1483,14 @@ alias saved_contexts SAVED_CONTEXTS;
 struct userData
 {
     ubyte dataID;
-    userData *next;
+    userData* next;
 }
 
 //C     typedef struct userData USER_DATA;
 alias userData USER_DATA;
 //C     typedef struct userData * USER_DATA_PTR;
-alias userData *USER_DATA_PTR;
-  
+alias userData* USER_DATA_PTR;
+
 //C     struct userDataRecord
 //C       {
 //C        unsigned char dataID;
@@ -1499,14 +1500,14 @@ alias userData *USER_DATA_PTR;
 struct userDataRecord
 {
     ubyte dataID;
-    void * function(void *)createUserData;
-    void  function(void *, void *)deleteUserData;
+    void* function(void*) createUserData;
+    void function(void*, void*) deleteUserData;
 }
-  
+
 //C     typedef struct userDataRecord USER_DATA_RECORD;
 alias userDataRecord USER_DATA_RECORD;
 //C     typedef struct userDataRecord * USER_DATA_RECORD_PTR;
-alias userDataRecord *USER_DATA_RECORD_PTR;
+alias userDataRecord* USER_DATA_RECORD_PTR;
 
 //C     #define MAXIMUM_USER_DATA_RECORDS 100
 
@@ -1521,27 +1522,26 @@ const USER_DATA_DATA = 56;
 //C       };
 struct userDataData
 {
-    userDataRecord *[100]UserDataRecordArray;
+    userDataRecord*[100] UserDataRecordArray;
     ubyte UserDataRecordCount;
 }
 
 //C     #define UserDataData(theEnv) ((struct userDataData *) GetEnvironmentData(theEnv,USER_DATA_DATA))
 
 //C        LOCALE void                           InitializeUserDataData(void *);
-void  InitializeUserDataData(void *);
+void InitializeUserDataData(void*);
 //C        LOCALE unsigned char                  InstallUserDataRecord(void *,struct userDataRecord *);
-ubyte  InstallUserDataRecord(void *, userDataRecord *);
+ubyte InstallUserDataRecord(void*, userDataRecord*);
 //C        LOCALE struct userData               *FetchUserData(void *,unsigned char,struct userData **);
-userData * FetchUserData(void *, ubyte , userData **);
+userData* FetchUserData(void*, ubyte, userData**);
 //C        LOCALE struct userData               *TestUserData(unsigned char,struct userData *);
-userData * TestUserData(ubyte , userData *);
+userData* TestUserData(ubyte, userData*);
 //C        LOCALE void                           ClearUserDataList(void *,struct userData *);
-void  ClearUserDataList(void *, userData *);
+void ClearUserDataList(void*, userData*);
 //C        LOCALE struct userData               *DeleteUserData(void *,unsigned char,struct userData *);
-userData * DeleteUserData(void *, ubyte , userData *);
+userData* DeleteUserData(void*, ubyte, userData*);
 
 //C     #endif
-
 
 //C     struct FunctionDefinition
 //C       {
@@ -1561,19 +1561,19 @@ userData * DeleteUserData(void *, ubyte , userData *);
 //C       };
 struct FunctionDefinition
 {
-    symbolHashNode *callFunctionName;
-    char *actualFunctionName;
+    symbolHashNode* callFunctionName;
+    char* actualFunctionName;
     char returnValueType;
-    int  function()functionPointer;
-    expr * function(void *, expr *, char *)parser;
-    char *restrictions;
+    int function() functionPointer;
+    expr* function(void*, expr*, char*) parser;
+    char* restrictions;
     short overloadable;
     short sequenceuseok;
     short environmentAware;
     short bsaveIndex;
-    FunctionDefinition *next;
-    userData *usrData;
-    void *context;
+    FunctionDefinition* next;
+    userData* usrData;
+    void* context;
 }
 
 //C     #define ValueFunctionType(target) (((struct FunctionDefinition *) target)->returnValueType)
@@ -1599,8 +1599,8 @@ const EXTERNAL_FUNCTION_DATA = 50;
 //C       };
 struct externalFunctionData
 {
-    FunctionDefinition *ListOfFunctions;
-    FunctionHash **FunctionHashtable;
+    FunctionDefinition* ListOfFunctions;
+    FunctionHash** FunctionHashtable;
 }
 
 //C     #define ExternalFunctionData(theEnv) ((struct externalFunctionData *) GetEnvironmentData(theEnv,EXTERNAL_FUNCTION_DATA))
@@ -1624,8 +1624,8 @@ struct externalFunctionData
 //C       };
 struct FunctionHash
 {
-    FunctionDefinition *fdPtr;
-    FunctionHash *next;
+    FunctionDefinition* fdPtr;
+    FunctionHash* next;
 }
 
 //C     #define SIZE_FUNCTION_HASH 517
@@ -1633,45 +1633,45 @@ struct FunctionHash
 const SIZE_FUNCTION_HASH = 517;
 
 //C        LOCALE void                           InitializeExternalFunctionData(void *);
-void  InitializeExternalFunctionData(void *);
+void InitializeExternalFunctionData(void*);
 //C        LOCALE int                            EnvDefineFunction(void *,const char *,int,
 //C                                                                int (*)(void *),const char *);
-int  EnvDefineFunction(void *, char *, int , int  function(void *), char *);
+int EnvDefineFunction(void*, char*, int, int function(void*), char*);
 //C        LOCALE int                            EnvDefineFunction2(void *,const char *,int,
 //C                                                                 int (*)(void *),const char *,const char *);
-int  EnvDefineFunction2(void *, char *, int , int  function(void *), char *, char *);
+int EnvDefineFunction2(void*, char*, int, int function(void*), char*, char*);
 //C        LOCALE int                            EnvDefineFunctionWithContext(void *,const char *,int,
 //C                                                                int (*)(void *),const char *,void *);
-int  EnvDefineFunctionWithContext(void *, char *, int , int  function(void *), char *, void *);
+int EnvDefineFunctionWithContext(void*, char*, int, int function(void*), char*, void*);
 //C        LOCALE int                            EnvDefineFunction2WithContext(void *,const char *,int,
 //C                                                                 int (*)(void *),const char *,const char *,void *);
-int  EnvDefineFunction2WithContext(void *, char *, int , int  function(void *), char *, char *, void *);
+int EnvDefineFunction2WithContext(void*, char*, int, int function(void*), char*, char*, void*);
 //C        LOCALE int                            DefineFunction3(void *,const char *,int,
 //C                                                              int (*)(void *),const char *,const char *,intBool,void *);
-int  DefineFunction3(void *, char *, int , int  function(void *), char *, char *, int , void *);
+int DefineFunction3(void*, char*, int, int function(void*), char*, char*, int, void*);
 //C        LOCALE int                            AddFunctionParser(void *,const char *,
 //C                                                                struct expr *(*)( void *,struct expr *,const char *));
-int  AddFunctionParser(void *, char *, expr * function(void *, expr *, char *));
+int AddFunctionParser(void*, char*, expr* function(void*, expr*, char*));
 //C        LOCALE int                            RemoveFunctionParser(void *,const char *);
-int  RemoveFunctionParser(void *, char *);
+int RemoveFunctionParser(void*, char*);
 //C        LOCALE int                            FuncSeqOvlFlags(void *,const char *,int,int);
-int  FuncSeqOvlFlags(void *, char *, int , int );
+int FuncSeqOvlFlags(void*, char*, int, int);
 //C        LOCALE struct FunctionDefinition     *GetFunctionList(void *);
-FunctionDefinition * GetFunctionList(void *);
+FunctionDefinition* GetFunctionList(void*);
 //C        LOCALE void                           InstallFunctionList(void *,struct FunctionDefinition *);
-void  InstallFunctionList(void *, FunctionDefinition *);
+void InstallFunctionList(void*, FunctionDefinition*);
 //C        LOCALE struct FunctionDefinition     *FindFunction(void *,const char *);
-FunctionDefinition * FindFunction(void *, char *);
+FunctionDefinition* FindFunction(void*, char*);
 //C        LOCALE int                            GetNthRestriction(struct FunctionDefinition *,int);
-int  GetNthRestriction(FunctionDefinition *, int );
+int GetNthRestriction(FunctionDefinition*, int);
 //C        LOCALE const char                    *GetArgumentTypeName(int);
-char * GetArgumentTypeName(int );
+char* GetArgumentTypeName(int);
 //C        LOCALE int                            UndefineFunction(void *,const char *);
-int  UndefineFunction(void *, char *);
+int UndefineFunction(void*, char*);
 //C        LOCALE int                            GetMinimumArgs(struct FunctionDefinition *);
-int  GetMinimumArgs(FunctionDefinition *);
+int GetMinimumArgs(FunctionDefinition*);
 //C        LOCALE int                            GetMaximumArgs(struct FunctionDefinition *);
-int  GetMaximumArgs(FunctionDefinition *);
+int GetMaximumArgs(FunctionDefinition*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -1684,18 +1684,16 @@ int  GetMaximumArgs(FunctionDefinition *);
 
 //C     #endif /* _H_extnfunc */
 
-
-
 //C     #endif
 //C     #ifndef _H_scanner
 //C     #include "scanner.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                 SCANNER HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                 SCANNER HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for scanning lexical tokens from an     */
@@ -1728,13 +1726,13 @@ int  GetMaximumArgs(FunctionDefinition *);
 
 //C     #ifndef _H_pprint
 //C     #include "pprint.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*               PRETTY PRINT HEADER FILE              */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*               PRETTY PRINT HEADER FILE              */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for processing the pretty print         */
@@ -1751,7 +1749,7 @@ int  GetMaximumArgs(FunctionDefinition *);
 /*                                                           */
 /*            Used genstrcpy instead of strcpy.              */
 /*                                                           */
-             
+
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
 /*                                                           */
@@ -1783,7 +1781,7 @@ struct prettyPrintData
     size_t PPBufferMax;
     size_t PPBackupOnce;
     size_t PPBackupTwice;
-    char *PrettyPrintBuffer;
+    char* PrettyPrintBuffer;
 }
 
 //C     #define PrettyPrintData(theEnv) ((struct prettyPrintData *) GetEnvironmentData(theEnv,PRETTY_PRINT_DATA))
@@ -1800,39 +1798,37 @@ struct prettyPrintData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializePrettyPrintData(void *);
-void  InitializePrettyPrintData(void *);
+void InitializePrettyPrintData(void*);
 //C        LOCALE void                           FlushPPBuffer(void *);
-void  FlushPPBuffer(void *);
+void FlushPPBuffer(void*);
 //C        LOCALE void                           DestroyPPBuffer(void *);
-void  DestroyPPBuffer(void *);
+void DestroyPPBuffer(void*);
 //C        LOCALE void                           SavePPBuffer(void *,const char *);
-void  SavePPBuffer(void *, char *);
+void SavePPBuffer(void*, char*);
 //C        LOCALE void                           PPBackup(void *);
-void  PPBackup(void *);
+void PPBackup(void*);
 //C        LOCALE char                          *CopyPPBuffer(void *);
-char * CopyPPBuffer(void *);
+char* CopyPPBuffer(void*);
 //C        LOCALE char                          *GetPPBuffer(void *);
-char * GetPPBuffer(void *);
+char* GetPPBuffer(void*);
 //C        LOCALE void                           PPCRAndIndent(void *);
-void  PPCRAndIndent(void *);
+void PPCRAndIndent(void*);
 //C        LOCALE void                           IncrementIndentDepth(void *,int);
-void  IncrementIndentDepth(void *, int );
+void IncrementIndentDepth(void*, int);
 //C        LOCALE void                           DecrementIndentDepth(void *,int);
-void  DecrementIndentDepth(void *, int );
+void DecrementIndentDepth(void*, int);
 //C        LOCALE void                           SetIndentDepth(void *,int);
-void  SetIndentDepth(void *, int );
+void SetIndentDepth(void*, int);
 //C        LOCALE void                           SetPPBufferStatus(void *,int);
-void  SetPPBufferStatus(void *, int );
+void SetPPBufferStatus(void*, int);
 //C        LOCALE int                            GetPPBufferStatus(void *);
-int  GetPPBufferStatus(void *);
+int GetPPBufferStatus(void*);
 //C        LOCALE int                            SetPPBufferEnabled(void *,int);
-int  SetPPBufferEnabled(void *, int );
+int SetPPBufferEnabled(void*, int);
 //C        LOCALE int                            GetPPBufferEnabled(void *);
-int  GetPPBufferEnabled(void *);
+int GetPPBufferEnabled(void*);
 
 //C     #endif
-
-
 
 //C     #endif
 
@@ -1856,8 +1852,8 @@ int  GetPPBufferEnabled(void *);
 struct token
 {
     ushort type;
-    void *value;
-    char *printForm;
+    void* value;
+    char* printForm;
 }
 
 //C     #define SCANNER_DATA 57
@@ -1873,7 +1869,7 @@ const SCANNER_DATA = 57;
 //C       };
 struct scannerData
 {
-    char *GlobalString;
+    char* GlobalString;
     size_t GlobalMax;
     size_t GlobalPos;
     int LineCount;
@@ -1883,26 +1879,23 @@ struct scannerData
 //C     #define ScannerData(theEnv) ((struct scannerData *) GetEnvironmentData(theEnv,SCANNER_DATA))
 
 //C        LOCALE void                           InitializeScannerData(void *);
-void  InitializeScannerData(void *);
+void InitializeScannerData(void*);
 //C        LOCALE void                           GetToken(void *,const char *,struct token *);
-void  GetToken(void *, char *, token *);
+void GetToken(void*, char*, token*);
 //C        LOCALE void                           CopyToken(struct token *,struct token *);
-void  CopyToken(token *, token *);
+void CopyToken(token*, token*);
 //C        LOCALE void                           ResetLineCount(void *);
-void  ResetLineCount(void *);
+void ResetLineCount(void*);
 //C        LOCALE long                           GetLineCount(void *);
-int  GetLineCount(void *);
+int GetLineCount(void*);
 //C        LOCALE long                           SetLineCount(void *,long);
-int  SetLineCount(void *, int );
+int SetLineCount(void*, int);
 //C        LOCALE void                           IncrementLineCount(void *);
-void  IncrementLineCount(void *);
+void IncrementLineCount(void*);
 //C        LOCALE void                           DecrementLineCount(void *);
-void  DecrementLineCount(void *);
+void DecrementLineCount(void*);
 
 //C     #endif /* _H_scanner */
-
-
-
 
 //C     #endif
 
@@ -1918,41 +1911,41 @@ void  DecrementLineCount(void *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE struct expr                   *Function0Parse(void *,const char *);
-expr * Function0Parse(void *, char *);
+expr* Function0Parse(void*, char*);
 //C        LOCALE struct expr                   *Function1Parse(void *,const char *);
-expr * Function1Parse(void *, char *);
+expr* Function1Parse(void*, char*);
 //C        LOCALE struct expr                   *Function2Parse(void *,const char *,const char *);
-expr * Function2Parse(void *, char *, char *);
+expr* Function2Parse(void*, char*, char*);
 //C        LOCALE void                           PushRtnBrkContexts(void *);
-void  PushRtnBrkContexts(void *);
+void PushRtnBrkContexts(void*);
 //C        LOCALE void                           PopRtnBrkContexts(void *);
-void  PopRtnBrkContexts(void *);
+void PopRtnBrkContexts(void*);
 //C        LOCALE intBool                        ReplaceSequenceExpansionOps(void *,struct expr *,struct expr *,
 //C                                                                          void *,void *);
-int  ReplaceSequenceExpansionOps(void *, expr *, expr *, void *, void *);
+int ReplaceSequenceExpansionOps(void*, expr*, expr*, void*, void*);
 //C        LOCALE struct expr                   *CollectArguments(void *,struct expr *,const char *);
-expr * CollectArguments(void *, expr *, char *);
+expr* CollectArguments(void*, expr*, char*);
 //C        LOCALE struct expr                   *ArgumentParse(void *,const char *,int *);
-expr * ArgumentParse(void *, char *, int *);
+expr* ArgumentParse(void*, char*, int*);
 //C        LOCALE struct expr                   *ParseAtomOrExpression(void *,const char *,struct token *);
-expr * ParseAtomOrExpression(void *, char *, token *);
+expr* ParseAtomOrExpression(void*, char*, token*);
 //C        LOCALE EXPRESSION                    *ParseConstantArguments(void *,const char *,int *);
-EXPRESSION * ParseConstantArguments(void *, char *, int *);
+EXPRESSION* ParseConstantArguments(void*, char*, int*);
 //C        LOCALE intBool                        EnvSetSequenceOperatorRecognition(void *,int);
-int  EnvSetSequenceOperatorRecognition(void *, int );
+int EnvSetSequenceOperatorRecognition(void*, int);
 //C        LOCALE intBool                        EnvGetSequenceOperatorRecognition(void *);
-int  EnvGetSequenceOperatorRecognition(void *);
+int EnvGetSequenceOperatorRecognition(void*);
 //C        LOCALE struct expr                   *GroupActions(void *,const char *,struct token *,
 //C                                                           int,const char *,int);
-expr * GroupActions(void *, char *, token *, int , char *, int );
+expr* GroupActions(void*, char*, token*, int, char*, int);
 //C        LOCALE struct expr                   *RemoveUnneededProgn(void *,struct expr *);
-expr * RemoveUnneededProgn(void *, expr *);
+expr* RemoveUnneededProgn(void*, expr*);
 
 //C     #if (! RUN_TIME)
 
 //C        LOCALE int                            CheckExpressionAgainstRestrictions(void *,struct expr *,
 //C                                                                                 const char *,const char *);
-int  CheckExpressionAgainstRestrictions(void *, expr *, char *, char *);
+int CheckExpressionAgainstRestrictions(void*, expr*, char*, char*);
 //C     #endif
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
@@ -1963,9 +1956,6 @@ int  CheckExpressionAgainstRestrictions(void *, expr *, char *, char *);
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_exprnpsr */
-
-
-
 
 //C     #endif
 
@@ -1994,16 +1984,16 @@ const EXPRESSION_DATA = 45;
 //C       };
 struct expressionData
 {
-    void *PTR_AND;
-    void *PTR_OR;
-    void *PTR_EQ;
-    void *PTR_NEQ;
-    void *PTR_NOT;
-    EXPRESSION_HN **ExpressionHashTable;
+    void* PTR_AND;
+    void* PTR_OR;
+    void* PTR_EQ;
+    void* PTR_NEQ;
+    void* PTR_NOT;
+    EXPRESSION_HN** ExpressionHashTable;
     int NumberOfExpressions;
-    expr *ExpressionArray;
+    expr* ExpressionArray;
     int ExpressionCount;
-    SAVED_CONTEXTS *svContexts;
+    SAVED_CONTEXTS* svContexts;
     int ReturnContext;
     int BreakContext;
     int SequenceOpMode;
@@ -2027,36 +2017,33 @@ struct expressionData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           ReturnExpression(void *,struct expr *);
-void  ReturnExpression(void *, expr *);
+void ReturnExpression(void*, expr*);
 //C        LOCALE void                           ExpressionInstall(void *,struct expr *);
-void  ExpressionInstall(void *, expr *);
+void ExpressionInstall(void*, expr*);
 //C        LOCALE void                           ExpressionDeinstall(void *,struct expr *);
-void  ExpressionDeinstall(void *, expr *);
+void ExpressionDeinstall(void*, expr*);
 //C        LOCALE struct expr                   *PackExpression(void *,struct expr *);
-expr * PackExpression(void *, expr *);
+expr* PackExpression(void*, expr*);
 //C        LOCALE void                           ReturnPackedExpression(void *,struct expr *);
-void  ReturnPackedExpression(void *, expr *);
+void ReturnPackedExpression(void*, expr*);
 //C        LOCALE void                           InitExpressionData(void *);
-void  InitExpressionData(void *);
+void InitExpressionData(void*);
 //C        LOCALE void                           InitExpressionPointers(void *);
-void  InitExpressionPointers(void *);
+void InitExpressionPointers(void*);
 //C     #if (! BLOAD_ONLY) && (! RUN_TIME)
 //C        LOCALE EXPRESSION                    *AddHashedExpression(void *,EXPRESSION *);
-EXPRESSION * AddHashedExpression(void *, EXPRESSION *);
+EXPRESSION* AddHashedExpression(void*, EXPRESSION*);
 //C     #endif
 //C     #if (! RUN_TIME)
 //C        LOCALE void                           RemoveHashedExpression(void *,EXPRESSION *);
-void  RemoveHashedExpression(void *, EXPRESSION *);
+void RemoveHashedExpression(void*, EXPRESSION*);
 //C     #endif
 //C     #if BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD || CONSTRUCT_COMPILER
 //C        LOCALE long                           HashedExpressionIndex(void *,EXPRESSION *);
-int  HashedExpressionIndex(void *, EXPRESSION *);
+int HashedExpressionIndex(void*, EXPRESSION*);
 //C     #endif
 
 //C     #endif
-
-
-
 
 //C     #endif
 
@@ -2071,18 +2058,18 @@ int  HashedExpressionIndex(void *, EXPRESSION *);
 //C       };
 struct dataObject
 {
-    void *supplementalInfo;
+    void* supplementalInfo;
     ushort type;
-    void *value;
+    void* value;
     int begin;
     int end;
-    dataObject *next;
+    dataObject* next;
 }
 
 //C     typedef struct dataObject DATA_OBJECT;
 alias dataObject DATA_OBJECT;
 //C     typedef struct dataObject * DATA_OBJECT_PTR;
-alias dataObject *DATA_OBJECT_PTR;
+alias dataObject* DATA_OBJECT_PTR;
 
 //C     typedef struct expr FUNCTION_REFERENCE;
 alias expr FUNCTION_REFERENCE;
@@ -2094,13 +2081,13 @@ alias DATA_OBJECT_PTR DATA_OBJECT_PTR_ARG;
 
 const C_POINTER_EXTERNAL_ADDRESS = 0;
 //C     #include "userdata.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                USER DATA HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                USER DATA HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for attaching user data to constructs,  */
@@ -2134,14 +2121,14 @@ const C_POINTER_EXTERNAL_ADDRESS = 0;
 
 //C     typedef struct userData USER_DATA;
 //C     typedef struct userData * USER_DATA_PTR;
-  
+
 //C     struct userDataRecord
 //C       {
 //C        unsigned char dataID;
 //C        void *(*createUserData)(void *);
 //C        void (*deleteUserData)(void *,void *);
 //C       };
-  
+
 //C     typedef struct userDataRecord USER_DATA_RECORD;
 //C     typedef struct userDataRecord * USER_DATA_RECORD_PTR;
 
@@ -2166,7 +2153,6 @@ const C_POINTER_EXTERNAL_ADDRESS = 0;
 
 //C     #endif
 
-
 //C     struct entityRecord
 //C       {
 //C        const char *name;
@@ -2189,28 +2175,64 @@ const C_POINTER_EXTERNAL_ADDRESS = 0;
 //C       };
 struct entityRecord
 {
-    char *name;
+    char* name;
     uint __bitfield1;
-    uint type() { return (__bitfield1 >> 0) & 0x1fff; }
-    uint type(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffe000) | (value << 0); return value; }
-    uint copyToEvaluate() { return (__bitfield1 >> 13) & 0x1; }
-    uint copyToEvaluate(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffdfff) | (value << 13); return value; }
-    uint bitMap() { return (__bitfield1 >> 14) & 0x1; }
-    uint bitMap(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffbfff) | (value << 14); return value; }
-    uint addsToRuleComplexity() { return (__bitfield1 >> 15) & 0x1; }
-    uint addsToRuleComplexity(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffff7fff) | (value << 15); return value; }
-    void  function(void *, char *, void *)shortPrintFunction;
-    void  function(void *, char *, void *)longPrintFunction;
-    int  function(void *, void *)deleteFunction;
-    int  function(void *, void *, DATA_OBJECT *)evaluateFunction;
-    void * function(void *, void *)getNextFunction;
-    void  function(void *, void *)decrementBusyCount;
-    void  function(void *, void *)incrementBusyCount;
-    void  function(void *, void *)propagateDepth;
-    void  function(void *, void *)markNeeded;
-    void  function(void *, void *)install;
-    void  function(void *, void *)deinstall;
-    userData *usrData;
+    uint type()
+    {
+        return (__bitfield1 >> 0) & 0x1fff;
+    }
+
+    uint type(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffe000) | (value << 0);
+        return value;
+    }
+
+    uint copyToEvaluate()
+    {
+        return (__bitfield1 >> 13) & 0x1;
+    }
+
+    uint copyToEvaluate(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffdfff) | (value << 13);
+        return value;
+    }
+
+    uint bitMap()
+    {
+        return (__bitfield1 >> 14) & 0x1;
+    }
+
+    uint bitMap(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffbfff) | (value << 14);
+        return value;
+    }
+
+    uint addsToRuleComplexity()
+    {
+        return (__bitfield1 >> 15) & 0x1;
+    }
+
+    uint addsToRuleComplexity(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffff7fff) | (value << 15);
+        return value;
+    }
+
+    void function(void*, char*, void*) shortPrintFunction;
+    void function(void*, char*, void*) longPrintFunction;
+    int function(void*, void*) deleteFunction;
+    int function(void*, void*, DATA_OBJECT*) evaluateFunction;
+    void* function(void*, void*) getNextFunction;
+    void function(void*, void*) decrementBusyCount;
+    void function(void*, void*) incrementBusyCount;
+    void function(void*, void*) propagateDepth;
+    void function(void*, void*) markNeeded;
+    void function(void*, void*) install;
+    void function(void*, void*) deinstall;
+    userData* usrData;
 }
 
 //C     struct externalAddressType
@@ -2224,30 +2246,33 @@ struct entityRecord
 //C       };
 struct externalAddressType
 {
-    char *name;
-    void  function(void *, char *, void *)shortPrintFunction;
-    void  function(void *, char *, void *)longPrintFunction;
-    int  function(void *, void *)discardFunction;
-    void  function(void *, DATA_OBJECT *)newFunction;
-    int  function(void *, DATA_OBJECT *, DATA_OBJECT *)callFunction;
+    char* name;
+    void function(void*, char*, void*) shortPrintFunction;
+    void function(void*, char*, void*) longPrintFunction;
+    int function(void*, void*) discardFunction;
+    void function(void*, DATA_OBJECT*) newFunction;
+    int function(void*, DATA_OBJECT*, DATA_OBJECT*) callFunction;
 }
 
 //C     typedef struct entityRecord ENTITY_RECORD;
 alias entityRecord ENTITY_RECORD;
 //C     typedef struct entityRecord * ENTITY_RECORD_PTR;
-alias entityRecord *ENTITY_RECORD_PTR;
+alias entityRecord* ENTITY_RECORD_PTR;
 
 //C     #define GetDOLength(target)       (((target).end - (target).begin) + 1)
 //C     #define GetpDOLength(target)      (((target)->end - (target)->begin) + 1)
 //C     #define GetDOBegin(target)        ((target).begin + 1)
+int     GetDOBegin(dataObject target) { return target.begin + 1; }
 //C     #define GetDOEnd(target)          ((target).end + 1)
+int     GetDOEnd(dataObject target) { return target.end + 1; }
 //C     #define GetpDOBegin(target)       ((target)->begin + 1)
 //C     #define GetpDOEnd(target)         ((target)->end + 1)
 //C     #define SetDOBegin(target,val)   ((target).begin = (long) ((val) - 1))
 //C     #define SetDOEnd(target,val)     ((target).end = (long) ((val) - 1))
 //C     #define SetpDOBegin(target,val)   ((target)->begin = (long) ((val) - 1))
+void    SetpDOBegin(dataObject *target, int val) { target.begin = val - 1; }
 //C     #define SetpDOEnd(target,val)     ((target)->end = (long) ((val) - 1))
-
+void    SetpDOEnd(dataObject *target, int val) { target.end = val - 1; }
 //C     #define EnvGetDOLength(theEnv,target)       (((target).end - (target).begin) + 1)
 //C     #define EnvGetpDOLength(theEnv,target)      (((target)->end - (target)->begin) + 1)
 //C     #define EnvGetDOBegin(theEnv,target)        ((target).begin + 1)
@@ -2276,13 +2301,19 @@ alias entityRecord *ENTITY_RECORD_PTR;
 //C     #define EnvDOPToExternalAddress(target) (((struct externalAddressHashNode *) ((target)->value))->externalAddress)
 
 //C     #define DOToString(target) (((struct symbolHashNode *) ((target).value))->contents)
+char *       DOToString(dataObject target) { return (cast(symbolHashNode *)(target.value)).contents; }
 //C     #define DOToDouble(target) (((struct floatHashNode *) ((target).value))->contents)
+double       DOToDouble(dataObject target) { return (cast(floatHashNode *)(target.value)).contents; }
 //C     #define DOToFloat(target) ((float) (((struct floatHashNode *) ((target).value))->contents))
+float        DOToFloat(dataObject target) { return (cast(floatHashNode *)(target.value)).contents; }
 //C     #define DOToLong(target) (((struct integerHashNode *) ((target).value))->contents)
+long         DOToLong(dataObject target) { return (cast(integerHashNode *)(target.value)).contents; }
 //C     #define DOToInteger(target) ((int) (((struct integerHashNode *) ((target).value))->contents))
+long         DOToInteger(dataObject target) { return (cast(integerHashNode *)(target.value)).contents; }
 //C     #define DOToPointer(target)        ((target).value)
+void*        DOToPointer(dataObject target) { return target.value; }
 //C     #define DOToExternalAddress(target) (((struct externalAddressHashNode *) ((target).value))->externalAddress)
-
+void*        DOToExternalAddress(dataObject target) { return (cast(externalAddressHashNode *)(target.value)).externalAddress; }
 //C     #define EnvDOToString(theEnv,target) (((struct symbolHashNode *) ((target).value))->contents)
 //C     #define EnvDOToDouble(theEnv,target) (((struct floatHashNode *) ((target).value))->contents)
 //C     #define EnvDOToFloat(theEnv,target) ((float) (((struct floatHashNode *) ((target).value))->contents))
@@ -2329,13 +2360,13 @@ const EVALUATION_DATA = 44;
 //C       };
 struct evaluationData
 {
-    expr *CurrentExpression;
+    expr* CurrentExpression;
     int EvaluationError;
     int HaltExecution;
     int CurrentEvaluationDepth;
     int numberOfAddressTypes;
-    entityRecord *[150]PrimitivesArray;
-    externalAddressType *[10]ExternalAddressTypes;
+    entityRecord*[150] PrimitivesArray;
+    externalAddressType*[10] ExternalAddressTypes;
 }
 
 //C     #define EvaluationData(theEnv) ((struct evaluationData *) GetEnvironmentData(theEnv,EVALUATION_DATA))
@@ -2352,57 +2383,57 @@ struct evaluationData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeEvaluationData(void *);
-void  InitializeEvaluationData(void *);
+void InitializeEvaluationData(void*);
 //C        LOCALE int                            EvaluateExpression(void *,struct expr *,struct dataObject *);
-int  EvaluateExpression(void *, expr *, dataObject *);
+int EvaluateExpression(void*, expr*, dataObject*);
 //C        LOCALE void                           SetEvaluationError(void *,intBool);
-void  SetEvaluationError(void *, int );
+void SetEvaluationError(void*, int);
 //C        LOCALE int                            GetEvaluationError(void *);
-int  GetEvaluationError(void *);
+int GetEvaluationError(void*);
 //C        LOCALE void                           SetHaltExecution(void *,int);
-void  SetHaltExecution(void *, int );
+void SetHaltExecution(void*, int);
 //C        LOCALE int                            GetHaltExecution(void *);
-int  GetHaltExecution(void *);
+int GetHaltExecution(void*);
 //C        LOCALE void                           ReturnValues(void *,struct dataObject *,intBool);
-void  ReturnValues(void *, dataObject *, int );
+void ReturnValues(void*, dataObject*, int);
 //C        LOCALE void                           PrintDataObject(void *,const char *,struct dataObject *);
-void  PrintDataObject(void *, char *, dataObject *);
+void PrintDataObject(void*, char*, dataObject*);
 //C        LOCALE void                           EnvSetMultifieldErrorValue(void *,struct dataObject *);
-void  EnvSetMultifieldErrorValue(void *, dataObject *);
+void EnvSetMultifieldErrorValue(void*, dataObject*);
 //C        LOCALE void                           ValueInstall(void *,struct dataObject *);
-void  ValueInstall(void *, dataObject *);
+void ValueInstall(void*, dataObject*);
 //C        LOCALE void                           ValueDeinstall(void *,struct dataObject *);
-void  ValueDeinstall(void *, dataObject *);
+void ValueDeinstall(void*, dataObject*);
 //C     #if DEFFUNCTION_CONSTRUCT || DEFGENERIC_CONSTRUCT
 //C        LOCALE int                            EnvFunctionCall(void *,const char *,const char *,DATA_OBJECT *);
-int  EnvFunctionCall(void *, char *, char *, DATA_OBJECT *);
+int EnvFunctionCall(void*, char*, char*, DATA_OBJECT*);
 //C        LOCALE int                            FunctionCall2(void *,FUNCTION_REFERENCE *,const char *,DATA_OBJECT *);
-int  FunctionCall2(void *, FUNCTION_REFERENCE *, char *, DATA_OBJECT *);
+int FunctionCall2(void*, FUNCTION_REFERENCE*, char*, DATA_OBJECT*);
 //C     #endif
 //C        LOCALE void                           CopyDataObject(void *,DATA_OBJECT *,DATA_OBJECT *,int);
-void  CopyDataObject(void *, DATA_OBJECT *, DATA_OBJECT *, int );
+void CopyDataObject(void*, DATA_OBJECT*, DATA_OBJECT*, int);
 //C        LOCALE void                           AtomInstall(void *,int,void *);
-void  AtomInstall(void *, int , void *);
+void AtomInstall(void*, int, void*);
 //C        LOCALE void                           AtomDeinstall(void *,int,void *);
-void  AtomDeinstall(void *, int , void *);
+void AtomDeinstall(void*, int, void*);
 //C        LOCALE struct expr                   *ConvertValueToExpression(void *,DATA_OBJECT *);
-expr * ConvertValueToExpression(void *, DATA_OBJECT *);
+expr* ConvertValueToExpression(void*, DATA_OBJECT*);
 //C        LOCALE unsigned long                  GetAtomicHashValue(unsigned short,void *,int);
-uint  GetAtomicHashValue(ushort , void *, int );
+uint GetAtomicHashValue(ushort, void*, int);
 //C        LOCALE void                           InstallPrimitive(void *,struct entityRecord *,int);
-void  InstallPrimitive(void *, entityRecord *, int );
+void InstallPrimitive(void*, entityRecord*, int);
 //C        LOCALE int                            InstallExternalAddressType(void *,struct externalAddressType *);
-int  InstallExternalAddressType(void *, externalAddressType *);
+int InstallExternalAddressType(void*, externalAddressType*);
 //C        LOCALE void                           TransferDataObjectValues(DATA_OBJECT *,DATA_OBJECT *);
-void  TransferDataObjectValues(DATA_OBJECT *, DATA_OBJECT *);
+void TransferDataObjectValues(DATA_OBJECT*, DATA_OBJECT*);
 //C        LOCALE struct expr                   *FunctionReferenceExpression(void *,const char *);
-expr * FunctionReferenceExpression(void *, char *);
+expr* FunctionReferenceExpression(void*, char*);
 //C        LOCALE intBool                        GetFunctionReference(void *,const char *,FUNCTION_REFERENCE *);
-int  GetFunctionReference(void *, char *, FUNCTION_REFERENCE *);
+int GetFunctionReference(void*, char*, FUNCTION_REFERENCE*);
 //C        LOCALE intBool                        DOsEqual(DATA_OBJECT_PTR,DATA_OBJECT_PTR);
-int  DOsEqual(DATA_OBJECT_PTR , DATA_OBJECT_PTR );
+int DOsEqual(DATA_OBJECT_PTR, DATA_OBJECT_PTR);
 //C        LOCALE int                            EvaluateAndStoreInDataObject(void *,int,EXPRESSION *,DATA_OBJECT *,int);
-int  EvaluateAndStoreInDataObject(void *, int , EXPRESSION *, DATA_OBJECT *, int );
+int EvaluateAndStoreInDataObject(void*, int, EXPRESSION*, DATA_OBJECT*, int);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -2422,7 +2453,7 @@ int  EvaluateAndStoreInDataObject(void *, int , EXPRESSION *, DATA_OBJECT *, int
 struct field
 {
     ushort type;
-    void *value;
+    void* value;
 }
 
 //C     struct multifield
@@ -2436,28 +2467,31 @@ struct multifield
 {
     uint busyCount;
     int multifieldLength;
-    multifield *next;
-    field [1]theFields;
+    multifield* next;
+    field[1] theFields;
 }
 
 //C     typedef struct multifield SEGMENT;
 alias multifield SEGMENT;
 //C     typedef struct multifield * SEGMENT_PTR;
-alias multifield *SEGMENT_PTR;
+alias multifield* SEGMENT_PTR;
 //C     typedef struct multifield * MULTIFIELD_PTR;
-alias multifield *MULTIFIELD_PTR;
+alias multifield* MULTIFIELD_PTR;
 //C     typedef struct field FIELD;
 alias field FIELD;
 //C     typedef struct field * FIELD_PTR;
-alias field *FIELD_PTR;
+alias field* FIELD_PTR;
 
 //C     #define GetMFLength(target)     (((struct multifield *) (target))->multifieldLength)
 //C     #define GetMFPtr(target,index)  (&(((struct field *) ((struct multifield *) (target))->theFields)[index-1]))
 //C     #define SetMFType(target,index,value)  (((struct field *) ((struct multifield *) (target))->theFields)[index-1].type = (unsigned short) (value))
+void    SetMFType(void *target, int index, ushort type) { (cast(multifield *)target).theFields[index-1].type = type;}
 //C     #define SetMFValue(target,index,val)  (((struct field *) ((struct multifield *) (target))->theFields)[index-1].value = (void *) (val))
+void    SetMFValue(void *target, int index, void *val) { (cast(multifield *)target).theFields[index-1].value = val;}
 //C     #define GetMFType(target,index)  (((struct field *) ((struct multifield *) (target))->theFields)[index-1].type)
+ushort  GetMFType(void * target, int index) { return (cast(multifield *)target).theFields[index-1].type; }
 //C     #define GetMFValue(target,index)  (((struct field *) ((struct multifield *) (target))->theFields)[index-1].value)
-
+void*   GetMFValue(void * target, int index) { return (cast(multifield *)target).theFields[index-1].value; }
 //C     #define EnvGetMFLength(theEnv,target)     (((struct multifield *) (target))->multifieldLength)
 //C     #define EnvGetMFPtr(theEnv,target,index)  (&(((struct field *) ((struct multifield *) (target))->theFields)[index-1]))
 //C     #define EnvSetMFType(theEnv,target,index,value)  (((struct field *) ((struct multifield *) (target))->theFields)[index-1].type = (unsigned short) (value))
@@ -2476,52 +2510,49 @@ alias field *FIELD_PTR;
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                          *CreateMultifield2(void *,long);
-void * CreateMultifield2(void *, int );
+void* CreateMultifield2(void*, int);
 //C        LOCALE void                           ReturnMultifield(void *,struct multifield *);
-void  ReturnMultifield(void *, multifield *);
+void ReturnMultifield(void*, multifield*);
 //C        LOCALE void                           MultifieldInstall(void *,struct multifield *);
-void  MultifieldInstall(void *, multifield *);
+void MultifieldInstall(void*, multifield*);
 //C        LOCALE void                           MultifieldDeinstall(void *,struct multifield *);
-void  MultifieldDeinstall(void *, multifield *);
+void MultifieldDeinstall(void*, multifield*);
 //C        LOCALE struct multifield             *StringToMultifield(void *,const char *);
-multifield * StringToMultifield(void *, char *);
+multifield* StringToMultifield(void*, char*);
 //C        LOCALE void                          *EnvCreateMultifield(void *,long);
-void * EnvCreateMultifield(void *, int );
+void* EnvCreateMultifield(void*, int);
 //C        LOCALE void                           AddToMultifieldList(void *,struct multifield *);
-void  AddToMultifieldList(void *, multifield *);
+void AddToMultifieldList(void*, multifield*);
 //C        LOCALE void                           FlushMultifields(void *);
-void  FlushMultifields(void *);
+void FlushMultifields(void*);
 //C        LOCALE void                           DuplicateMultifield(void *,struct dataObject *,struct dataObject *);
-void  DuplicateMultifield(void *, dataObject *, dataObject *);
+void DuplicateMultifield(void*, dataObject*, dataObject*);
 //C        LOCALE void                           PrintMultifield(void *,const char *,SEGMENT_PTR,long,long,int);
-void  PrintMultifield(void *, char *, SEGMENT_PTR , int , int , int );
+void PrintMultifield(void*, char*, SEGMENT_PTR, int, int, int);
 //C        LOCALE intBool                        MultifieldDOsEqual(DATA_OBJECT_PTR,DATA_OBJECT_PTR);
-int  MultifieldDOsEqual(DATA_OBJECT_PTR , DATA_OBJECT_PTR );
+int MultifieldDOsEqual(DATA_OBJECT_PTR, DATA_OBJECT_PTR);
 //C        LOCALE void                           StoreInMultifield(void *,DATA_OBJECT *,EXPRESSION *,int);
-void  StoreInMultifield(void *, DATA_OBJECT *, EXPRESSION *, int );
+void StoreInMultifield(void*, DATA_OBJECT*, EXPRESSION*, int);
 //C        LOCALE void                          *CopyMultifield(void *,struct multifield *);
-void * CopyMultifield(void *, multifield *);
+void* CopyMultifield(void*, multifield*);
 //C        LOCALE intBool                        MultifieldsEqual(struct multifield *,struct multifield *);
-int  MultifieldsEqual(multifield *, multifield *);
+int MultifieldsEqual(multifield*, multifield*);
 //C        LOCALE void                          *DOToMultifield(void *,DATA_OBJECT *);
-void * DOToMultifield(void *, DATA_OBJECT *);
+void* DOToMultifield(void*, DATA_OBJECT*);
 //C        LOCALE unsigned long                  HashMultifield(struct multifield *,unsigned long);
-uint  HashMultifield(multifield *, uint );
+uint HashMultifield(multifield*, uint);
 //C        LOCALE struct multifield             *GetMultifieldList(void *);
-multifield * GetMultifieldList(void *);
+multifield* GetMultifieldList(void*);
 //C        LOCALE void                          *ImplodeMultifield(void *,DATA_OBJECT *);
-void * ImplodeMultifield(void *, DATA_OBJECT *);
+void* ImplodeMultifield(void*, DATA_OBJECT*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
 //C        LOCALE void                          *CreateMultifield(long);
-   
+
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_multifld */
-
-
-
 
 //C     #endif
 
@@ -2565,18 +2596,54 @@ const EXTERNAL_ADDRESS_HASH_SIZE = 8191;
 //C       };
 struct symbolHashNode
 {
-    symbolHashNode *next;
+    symbolHashNode* next;
     int count;
     uint __bitfield1;
-    uint permanent() { return (__bitfield1 >> 0) & 0x1; }
-    uint permanent(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint markedEphemeral() { return (__bitfield1 >> 1) & 0x1; }
-    uint markedEphemeral(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint neededSymbol() { return (__bitfield1 >> 2) & 0x1; }
-    uint neededSymbol(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint bucket() { return (__bitfield1 >> 3) & 0x1fffffff; }
-    uint bucket(uint value) { __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3); return value; }
-    char *contents;
+    uint permanent()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint permanent(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint markedEphemeral()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint markedEphemeral(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint neededSymbol()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint neededSymbol(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint bucket()
+    {
+        return (__bitfield1 >> 3) & 0x1fffffff;
+    }
+
+    uint bucket(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3);
+        return value;
+    }
+
+    char* contents;
 }
 
 /************************************************************/
@@ -2594,17 +2661,53 @@ struct symbolHashNode
 //C       };
 struct floatHashNode
 {
-    floatHashNode *next;
+    floatHashNode* next;
     int count;
     uint __bitfield1;
-    uint permanent() { return (__bitfield1 >> 0) & 0x1; }
-    uint permanent(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint markedEphemeral() { return (__bitfield1 >> 1) & 0x1; }
-    uint markedEphemeral(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint neededFloat() { return (__bitfield1 >> 2) & 0x1; }
-    uint neededFloat(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint bucket() { return (__bitfield1 >> 3) & 0x1fffffff; }
-    uint bucket(uint value) { __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3); return value; }
+    uint permanent()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint permanent(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint markedEphemeral()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint markedEphemeral(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint neededFloat()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint neededFloat(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint bucket()
+    {
+        return (__bitfield1 >> 3) & 0x1fffffff;
+    }
+
+    uint bucket(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3);
+        return value;
+    }
+
     double contents;
 }
 
@@ -2623,17 +2726,53 @@ struct floatHashNode
 //C       };
 struct integerHashNode
 {
-    integerHashNode *next;
+    integerHashNode* next;
     int count;
     uint __bitfield1;
-    uint permanent() { return (__bitfield1 >> 0) & 0x1; }
-    uint permanent(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint markedEphemeral() { return (__bitfield1 >> 1) & 0x1; }
-    uint markedEphemeral(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint neededInteger() { return (__bitfield1 >> 2) & 0x1; }
-    uint neededInteger(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint bucket() { return (__bitfield1 >> 3) & 0x1fffffff; }
-    uint bucket(uint value) { __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3); return value; }
+    uint permanent()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint permanent(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint markedEphemeral()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint markedEphemeral(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint neededInteger()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint neededInteger(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint bucket()
+    {
+        return (__bitfield1 >> 3) & 0x1fffffff;
+    }
+
+    uint bucket(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3);
+        return value;
+    }
+
     long contents;
 }
 
@@ -2653,18 +2792,54 @@ struct integerHashNode
 //C       };
 struct bitMapHashNode
 {
-    bitMapHashNode *next;
+    bitMapHashNode* next;
     int count;
     uint __bitfield1;
-    uint permanent() { return (__bitfield1 >> 0) & 0x1; }
-    uint permanent(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint markedEphemeral() { return (__bitfield1 >> 1) & 0x1; }
-    uint markedEphemeral(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint neededBitMap() { return (__bitfield1 >> 2) & 0x1; }
-    uint neededBitMap(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint bucket() { return (__bitfield1 >> 3) & 0x1fffffff; }
-    uint bucket(uint value) { __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3); return value; }
-    char *contents;
+    uint permanent()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint permanent(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint markedEphemeral()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint markedEphemeral(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint neededBitMap()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint neededBitMap(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint bucket()
+    {
+        return (__bitfield1 >> 3) & 0x1fffffff;
+    }
+
+    uint bucket(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3);
+        return value;
+    }
+
+    char* contents;
     ushort size;
 }
 
@@ -2684,18 +2859,54 @@ struct bitMapHashNode
 //C       };
 struct externalAddressHashNode
 {
-    externalAddressHashNode *next;
+    externalAddressHashNode* next;
     int count;
     uint __bitfield1;
-    uint permanent() { return (__bitfield1 >> 0) & 0x1; }
-    uint permanent(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint markedEphemeral() { return (__bitfield1 >> 1) & 0x1; }
-    uint markedEphemeral(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint neededPointer() { return (__bitfield1 >> 2) & 0x1; }
-    uint neededPointer(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint bucket() { return (__bitfield1 >> 3) & 0x1fffffff; }
-    uint bucket(uint value) { __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3); return value; }
-    void *externalAddress;
+    uint permanent()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint permanent(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint markedEphemeral()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint markedEphemeral(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint neededPointer()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint neededPointer(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint bucket()
+    {
+        return (__bitfield1 >> 3) & 0x1fffffff;
+    }
+
+    uint bucket(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3);
+        return value;
+    }
+
+    void* externalAddress;
     ushort type;
 }
 
@@ -2713,17 +2924,52 @@ struct externalAddressHashNode
 //C       };
 struct genericHashNode
 {
-    genericHashNode *next;
+    genericHashNode* next;
     int count;
     uint __bitfield1;
-    uint permanent() { return (__bitfield1 >> 0) & 0x1; }
-    uint permanent(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint markedEphemeral() { return (__bitfield1 >> 1) & 0x1; }
-    uint markedEphemeral(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint needed() { return (__bitfield1 >> 2) & 0x1; }
-    uint needed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint bucket() { return (__bitfield1 >> 3) & 0x1fffffff; }
-    uint bucket(uint value) { __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3); return value; }
+    uint permanent()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint permanent(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint markedEphemeral()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint markedEphemeral(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint needed()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint needed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint bucket()
+    {
+        return (__bitfield1 >> 3) & 0x1fffffff;
+    }
+
+    uint bucket(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffff00000007) | (value << 3);
+        return value;
+    }
 }
 
 //C     typedef struct symbolHashNode SYMBOL_HN;
@@ -2757,8 +3003,8 @@ alias genericHashNode GENERIC_HN;
 //C       };
 struct ephemeron
 {
-    GENERIC_HN *associatedValue;
-    ephemeron *next;
+    GENERIC_HN* associatedValue;
+    ephemeron* next;
 }
 
 /************************************************************/
@@ -2771,18 +3017,24 @@ struct ephemeron
 //C       };
 struct symbolMatch
 {
-    symbolHashNode *match;
-    symbolMatch *next;
+    symbolHashNode* match;
+    symbolMatch* next;
 }
 
 //C     #define ValueToString(target) (((struct symbolHashNode *) (target))->contents)
+char*   ValueToString(void * target) { return (cast(symbolHashNode *)target).contents; }
 //C     #define ValueToDouble(target) (((struct floatHashNode *) (target))->contents)
+double  ValueToDouble(void * target) { return (cast(floatHashNode *)target).contents; }
 //C     #define ValueToLong(target) (((struct integerHashNode *) (target))->contents)
+long    ValueToLong(void * target) { return (cast(integerHashNode *)target).contents; }
 //C     #define ValueToInteger(target) ((int) (((struct integerHashNode *) (target))->contents))
+long    ValueToInteger(void * target) { return (cast(integerHashNode *)target).contents; }
 //C     #define ValueToBitMap(target) ((void *) ((struct bitMapHashNode *) (target))->contents)
+void*   ValueToBitMap(void * target) { return (cast(bitMapHashNode *)target).contents;}
 //C     #define ValueToPointer(target) ((void *) target)
+void*   ValueToPointer(void * target) { return target; }
 //C     #define ValueToExternalAddress(target) ((void *) ((struct externalAddressHashNode *) (target))->externalAddress)
-
+void*   ValueToExternalAddress(void * target) { return (cast(externalAddressHashNode *)target).externalAddress; }
 //C     #define EnvValueToString(theEnv,target) (((struct symbolHashNode *) (target))->contents)
 //C     #define EnvValueToDouble(theEnv,target) (((struct floatHashNode *) (target))->contents)
 //C     #define EnvValueToLong(theEnv,target) (((struct integerHashNode *) (target))->contents)
@@ -2831,26 +3083,26 @@ const SYMBOL_DATA = 49;
 //C       };
 struct symbolData
 {
-    void *TrueSymbolHN;
-    void *FalseSymbolHN;
-    void *PositiveInfinity;
-    void *NegativeInfinity;
-    void *Zero;
-    SYMBOL_HN **SymbolTable;
-    FLOAT_HN **FloatTable;
-    INTEGER_HN **IntegerTable;
-    BITMAP_HN **BitMapTable;
-    EXTERNAL_ADDRESS_HN **ExternalAddressTable;
+    void* TrueSymbolHN;
+    void* FalseSymbolHN;
+    void* PositiveInfinity;
+    void* NegativeInfinity;
+    void* Zero;
+    SYMBOL_HN** SymbolTable;
+    FLOAT_HN** FloatTable;
+    INTEGER_HN** IntegerTable;
+    BITMAP_HN** BitMapTable;
+    EXTERNAL_ADDRESS_HN** ExternalAddressTable;
     int NumberOfSymbols;
     int NumberOfFloats;
     int NumberOfIntegers;
     int NumberOfBitMaps;
     int NumberOfExternalAddresses;
-    SYMBOL_HN **SymbolArray;
-    floatHashNode **FloatArray;
-    INTEGER_HN **IntegerArray;
-    BITMAP_HN **BitMapArray;
-    EXTERNAL_ADDRESS_HN **ExternalAddressArray;
+    SYMBOL_HN** SymbolArray;
+    floatHashNode** FloatArray;
+    INTEGER_HN** IntegerArray;
+    BITMAP_HN** BitMapArray;
+    EXTERNAL_ADDRESS_HN** ExternalAddressArray;
 }
 
 //C     #define SymbolData(theEnv) ((struct symbolData *) GetEnvironmentData(theEnv,SYMBOL_DATA))
@@ -2858,86 +3110,87 @@ struct symbolData
 //C        LOCALE void                           InitializeAtomTables(void *,struct symbolHashNode **,struct floatHashNode **,
 //C                                                                   struct integerHashNode **,struct bitMapHashNode **,
 //C                                                                   struct externalAddressHashNode **);
-void  InitializeAtomTables(void *, symbolHashNode **, floatHashNode **, integerHashNode **, bitMapHashNode **, externalAddressHashNode **);
+void InitializeAtomTables(void*, symbolHashNode**, floatHashNode**,
+        integerHashNode**, bitMapHashNode**, externalAddressHashNode**);
 //C        LOCALE void                          *EnvAddSymbol(void *,const char *);
-void * EnvAddSymbol(void *, char *);
+void* EnvAddSymbol(void*, char*);
 //C        LOCALE SYMBOL_HN                     *FindSymbolHN(void *,const char *);
-SYMBOL_HN * FindSymbolHN(void *, char *);
+SYMBOL_HN* FindSymbolHN(void*, char*);
 //C        LOCALE void                          *EnvAddDouble(void *,double);
-void * EnvAddDouble(void *, double );
+void* EnvAddDouble(void*, double);
 //C        LOCALE void                          *EnvAddLong(void *,long long);
-void * EnvAddLong(void *, long );
+void* EnvAddLong(void*, long);
 //C        LOCALE void                          *EnvAddBitMap(void *,void *,unsigned);
-void * EnvAddBitMap(void *, void *, uint );
+void* EnvAddBitMap(void*, void*, uint);
 //C        LOCALE void                          *EnvAddExternalAddress(void *,void *,unsigned);
-void * EnvAddExternalAddress(void *, void *, uint );
+void* EnvAddExternalAddress(void*, void*, uint);
 //C        LOCALE INTEGER_HN                    *FindLongHN(void *,long long);
-INTEGER_HN * FindLongHN(void *, long );
+INTEGER_HN* FindLongHN(void*, long);
 //C        LOCALE unsigned long                  HashSymbol(const char *,unsigned long);
-uint  HashSymbol(char *, uint );
+uint HashSymbol(char*, uint);
 //C        LOCALE unsigned long                  HashFloat(double,unsigned long);
-uint  HashFloat(double , uint );
+uint HashFloat(double, uint);
 //C        LOCALE unsigned long                  HashInteger(long long,unsigned long);
-uint  HashInteger(long , uint );
+uint HashInteger(long, uint);
 //C        LOCALE unsigned long                  HashBitMap(const char *,unsigned long,unsigned);
-uint  HashBitMap(char *, uint , uint );
+uint HashBitMap(char*, uint, uint);
 //C        LOCALE unsigned long                  HashExternalAddress(void *,unsigned long);
-uint  HashExternalAddress(void *, uint );
+uint HashExternalAddress(void*, uint);
 //C        LOCALE void                           DecrementSymbolCount(void *,struct symbolHashNode *);
-void  DecrementSymbolCount(void *, symbolHashNode *);
+void DecrementSymbolCount(void*, symbolHashNode*);
 //C        LOCALE void                           DecrementFloatCount(void *,struct floatHashNode *);
-void  DecrementFloatCount(void *, floatHashNode *);
+void DecrementFloatCount(void*, floatHashNode*);
 //C        LOCALE void                           DecrementIntegerCount(void *,struct integerHashNode *);
-void  DecrementIntegerCount(void *, integerHashNode *);
+void DecrementIntegerCount(void*, integerHashNode*);
 //C        LOCALE void                           DecrementBitMapCount(void *,struct bitMapHashNode *);
-void  DecrementBitMapCount(void *, bitMapHashNode *);
+void DecrementBitMapCount(void*, bitMapHashNode*);
 //C        LOCALE void                           DecrementExternalAddressCount(void *,struct externalAddressHashNode *);
-void  DecrementExternalAddressCount(void *, externalAddressHashNode *);
+void DecrementExternalAddressCount(void*, externalAddressHashNode*);
 //C        LOCALE void                           RemoveEphemeralAtoms(void *);
-void  RemoveEphemeralAtoms(void *);
+void RemoveEphemeralAtoms(void*);
 //C        LOCALE struct symbolHashNode        **GetSymbolTable(void *);
-symbolHashNode ** GetSymbolTable(void *);
+symbolHashNode** GetSymbolTable(void*);
 //C        LOCALE void                           SetSymbolTable(void *,struct symbolHashNode **);
-void  SetSymbolTable(void *, symbolHashNode **);
+void SetSymbolTable(void*, symbolHashNode**);
 //C        LOCALE struct floatHashNode          **GetFloatTable(void *);
-floatHashNode ** GetFloatTable(void *);
+floatHashNode** GetFloatTable(void*);
 //C        LOCALE void                           SetFloatTable(void *,struct floatHashNode **);
-void  SetFloatTable(void *, floatHashNode **);
+void SetFloatTable(void*, floatHashNode**);
 //C        LOCALE struct integerHashNode       **GetIntegerTable(void *);
-integerHashNode ** GetIntegerTable(void *);
+integerHashNode** GetIntegerTable(void*);
 //C        LOCALE void                           SetIntegerTable(void *,struct integerHashNode **);
-void  SetIntegerTable(void *, integerHashNode **);
+void SetIntegerTable(void*, integerHashNode**);
 //C        LOCALE struct bitMapHashNode        **GetBitMapTable(void *);
-bitMapHashNode ** GetBitMapTable(void *);
+bitMapHashNode** GetBitMapTable(void*);
 //C        LOCALE void                           SetBitMapTable(void *,struct bitMapHashNode **);
-void  SetBitMapTable(void *, bitMapHashNode **);
+void SetBitMapTable(void*, bitMapHashNode**);
 //C        LOCALE struct externalAddressHashNode        
 //C                                            **GetExternalAddressTable(void *);
-externalAddressHashNode ** GetExternalAddressTable(void *);
+externalAddressHashNode** GetExternalAddressTable(void*);
 //C        LOCALE void                           SetExternalAddressTable(void *,struct externalAddressHashNode **);
-void  SetExternalAddressTable(void *, externalAddressHashNode **);
+void SetExternalAddressTable(void*, externalAddressHashNode**);
 //C        LOCALE void                           RefreshSpecialSymbols(void *);
-void  RefreshSpecialSymbols(void *);
+void RefreshSpecialSymbols(void*);
 //C        LOCALE struct symbolMatch            *FindSymbolMatches(void *,const char *,unsigned *,size_t *);
-symbolMatch * FindSymbolMatches(void *, char *, uint *, size_t *);
+symbolMatch* FindSymbolMatches(void*, char*, uint*, size_t*);
 //C        LOCALE void                           ReturnSymbolMatches(void *,struct symbolMatch *);
-void  ReturnSymbolMatches(void *, symbolMatch *);
+void ReturnSymbolMatches(void*, symbolMatch*);
 //C        LOCALE SYMBOL_HN                     *GetNextSymbolMatch(void *,const char *,size_t,SYMBOL_HN *,int,size_t *);
-SYMBOL_HN * GetNextSymbolMatch(void *, char *, size_t , SYMBOL_HN *, int , size_t *);
+SYMBOL_HN* GetNextSymbolMatch(void*, char*, size_t, SYMBOL_HN*, int, size_t*);
 //C        LOCALE void                           ClearBitString(void *,unsigned);
-void  ClearBitString(void *, uint );
+void ClearBitString(void*, uint);
 //C        LOCALE void                           SetAtomicValueIndices(void *,int);
-void  SetAtomicValueIndices(void *, int );
+void SetAtomicValueIndices(void*, int);
 //C        LOCALE void                           RestoreAtomicValueBuckets(void *);
-void  RestoreAtomicValueBuckets(void *);
+void RestoreAtomicValueBuckets(void*);
 //C        LOCALE void                          *EnvFalseSymbol(void *);
-void * EnvFalseSymbol(void *);
+void* EnvFalseSymbol(void*);
 //C        LOCALE void                          *EnvTrueSymbol(void *);
-void * EnvTrueSymbol(void *);
+void* EnvTrueSymbol(void*);
 //C        LOCALE void                           EphemerateValue(void *,int,void *);
-void  EphemerateValue(void *, int , void *);
+void EphemerateValue(void*, int, void*);
 //C        LOCALE void                           EphemerateMultifield(void *,struct multifield *);
-void  EphemerateMultifield(void *, multifield *);
+void EphemerateMultifield(void*, multifield*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -2950,8 +3203,6 @@ void  EphemerateMultifield(void *, multifield *);
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_symbol */
-
-
 
 //C     #endif
 
@@ -2980,10 +3231,10 @@ const MAXIMUM_ENVIRONMENT_POSITIONS = 100;
 //C       };
 struct environmentCleanupFunction
 {
-    char *name;
-    void  function(void *)func;
+    char* name;
+    void function(void*) func;
     int priority;
-    environmentCleanupFunction *next;
+    environmentCleanupFunction* next;
 }
 
 //C     struct environmentData
@@ -3002,31 +3253,40 @@ struct environmentCleanupFunction
 struct environmentData
 {
     uint __bitfield1;
-    uint initialized() { return (__bitfield1 >> 0) & 0x1; }
-    uint initialized(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
+    uint initialized()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint initialized(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
     uint environmentIndex;
-    void *context;
-    void *routerContext;
-    void *functionContext;
-    void *callbackContext;
-    void **theData;
-    void  function(void *)*cleanupFunctions;
-    environmentCleanupFunction *listOfCleanupEnvironmentFunctions;
-    environmentData *next;
+    void* context;
+    void* routerContext;
+    void* functionContext;
+    void* callbackContext;
+    void** theData;
+    void function(void*)* cleanupFunctions;
+    environmentCleanupFunction* listOfCleanupEnvironmentFunctions;
+    environmentData* next;
 }
 
 //C     typedef struct environmentData ENVIRONMENT_DATA;
 alias environmentData ENVIRONMENT_DATA;
 //C     typedef struct environmentData * ENVIRONMENT_DATA_PTR;
-alias environmentData *ENVIRONMENT_DATA_PTR;
+alias environmentData* ENVIRONMENT_DATA_PTR;
 
 //C     #define GetEnvironmentData(theEnv,position) (((struct environmentData *) theEnv)->theData[position])
 //C     #define SetEnvironmentData(theEnv,position,value) (((struct environmentData *) theEnv)->theData[position] = value)
 
 //C        LOCALE intBool                        AllocateEnvironmentData(void *,unsigned int,unsigned long,void (*)(void *));
-int  AllocateEnvironmentData(void *, uint , uint , void  function(void *));
+int AllocateEnvironmentData(void*, uint, uint, void function(void*));
 //C        LOCALE intBool                        DeallocateEnvironmentData(void);
-int  DeallocateEnvironmentData();
+int DeallocateEnvironmentData();
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 //C        LOCALE void                           SetCurrentEnvironment(void *);
 //C        LOCALE intBool                        SetCurrentEnvironmentByIndex(unsigned long);
@@ -3035,33 +3295,33 @@ int  DeallocateEnvironmentData();
 //C        LOCALE unsigned long                  GetEnvironmentIndex(void *);
 //C     #endif
 //C        LOCALE void                          *CreateEnvironment(void);
-void * CreateEnvironment();
+void* CreateEnvironment();
 //C        LOCALE void                          *CreateRuntimeEnvironment(struct symbolHashNode **,struct floatHashNode **,
 //C                                                                       struct integerHashNode **,struct bitMapHashNode **);
-void * CreateRuntimeEnvironment(symbolHashNode **, floatHashNode **, integerHashNode **, bitMapHashNode **);
+void* CreateRuntimeEnvironment(symbolHashNode**, floatHashNode**,
+        integerHashNode**, bitMapHashNode**);
 //C        LOCALE intBool                        DestroyEnvironment(void *);
-int  DestroyEnvironment(void *);
+int DestroyEnvironment(void*);
 //C        LOCALE intBool                        AddEnvironmentCleanupFunction(void *,const char *,void (*)(void *),int);
-int  AddEnvironmentCleanupFunction(void *, char *, void  function(void *), int );
+int AddEnvironmentCleanupFunction(void*, char*, void function(void*), int);
 //C        LOCALE void                          *GetEnvironmentContext(void *);
-void * GetEnvironmentContext(void *);
+void* GetEnvironmentContext(void*);
 //C        LOCALE void                          *SetEnvironmentContext(void *,void *);
-void * SetEnvironmentContext(void *, void *);
+void* SetEnvironmentContext(void*, void*);
 //C        LOCALE void                          *GetEnvironmentRouterContext(void *);
-void * GetEnvironmentRouterContext(void *);
+void* GetEnvironmentRouterContext(void*);
 //C        LOCALE void                          *SetEnvironmentRouterContext(void *,void *);
-void * SetEnvironmentRouterContext(void *, void *);
+void* SetEnvironmentRouterContext(void*, void*);
 //C        LOCALE void                          *GetEnvironmentFunctionContext(void *);
-void * GetEnvironmentFunctionContext(void *);
+void* GetEnvironmentFunctionContext(void*);
 //C        LOCALE void                          *SetEnvironmentFunctionContext(void *,void *);
-void * SetEnvironmentFunctionContext(void *, void *);
+void* SetEnvironmentFunctionContext(void*, void*);
 //C        LOCALE void                          *GetEnvironmentCallbackContext(void *);
-void * GetEnvironmentCallbackContext(void *);
+void* GetEnvironmentCallbackContext(void*);
 //C        LOCALE void                          *SetEnvironmentCallbackContext(void *,void *);
-void * SetEnvironmentCallbackContext(void *, void *);
+void* SetEnvironmentCallbackContext(void*, void*);
 
 //C     #endif /* _H_envrnmnt */
-
 
 /*************************************************/
 /* Any user defined global setup information can */
@@ -3071,27 +3331,17 @@ void * SetEnvironmentCallbackContext(void *, void *);
 
 //C     #include "usrsetup.h"
 
-
 //C     #endif	/* _H_setup */
-
-
-
-
-
-
-
-
-
 
 //C     #ifndef _H_argacces
 //C     #include "argacces.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
-   /*                                                     */
-   /*             ARGUMENT ACCESS HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/22/14            */
+/*                                                     */
+/*             ARGUMENT ACCESS HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides access routines for accessing arguments */
@@ -3131,13 +3381,13 @@ void * SetEnvironmentCallbackContext(void *, void *);
 //C     #endif
 //C     #ifndef _H_moduldef
 //C     #include "moduldef.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
-   /*                                                     */
-   /*                DEFMODULE HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/22/14            */
+/*                                                     */
+/*                DEFMODULE HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Defines basic defmodule primitive functions such */
@@ -3187,13 +3437,13 @@ void * SetEnvironmentCallbackContext(void *, void *);
 
 //C     #ifndef _H_conscomp
 //C     #include "conscomp.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*           CONSTRUCT COMPILER HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*           CONSTRUCT COMPILER HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -3250,13 +3500,13 @@ void * SetEnvironmentCallbackContext(void *, void *);
 
 //C     #ifndef _H_constrct
 //C     #include "constrct.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  01/25/15            */
-   /*                                                     */
-   /*                  CONSTRUCT MODULE                   */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  01/25/15            */
+/*                                                     */
+/*                  CONSTRUCT MODULE                   */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -3318,13 +3568,13 @@ void * SetEnvironmentCallbackContext(void *, void *);
 //C     #endif
 
 //C     #include "userdata.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                USER DATA HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                USER DATA HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for attaching user data to constructs,  */
@@ -3358,14 +3608,14 @@ void * SetEnvironmentCallbackContext(void *, void *);
 
 //C     typedef struct userData USER_DATA;
 //C     typedef struct userData * USER_DATA_PTR;
-  
+
 //C     struct userDataRecord
 //C       {
 //C        unsigned char dataID;
 //C        void *(*createUserData)(void *);
 //C        void (*deleteUserData)(void *,void *);
 //C       };
-  
+
 //C     typedef struct userDataRecord USER_DATA_RECORD;
 //C     typedef struct userDataRecord * USER_DATA_RECORD_PTR;
 
@@ -3390,7 +3640,6 @@ void * SetEnvironmentCallbackContext(void *, void *);
 
 //C     #endif
 
-
 //C     struct constructHeader
 //C       {
 //C        struct symbolHashNode *name;
@@ -3402,12 +3651,12 @@ void * SetEnvironmentCallbackContext(void *, void *);
 //C       };
 struct constructHeader
 {
-    symbolHashNode *name;
-    char *ppForm;
-    defmoduleItemHeader *whichModule;
+    symbolHashNode* name;
+    char* ppForm;
+    defmoduleItemHeader* whichModule;
     int bsaveID;
-    constructHeader *next;
-    userData *usrData;
+    constructHeader* next;
+    userData* usrData;
 }
 
 //C     #define CHS (struct constructHeader *)
@@ -3430,19 +3679,19 @@ struct constructHeader
 //C       };
 struct construct
 {
-    char *constructName;
-    char *pluralName;
-    int  function(void *, char *)parseFunction;
-    void * function(void *, char *)findFunction;
-    symbolHashNode * function(constructHeader *)getConstructNameFunction;
-    char * function(void *, constructHeader *)getPPFormFunction;
-    defmoduleItemHeader * function(constructHeader *)getModuleItemFunction;
-    void * function(void *, void *)getNextItemFunction;
-    void  function(constructHeader *, constructHeader *)setNextItemFunction;
-    int  function(void *, void *)isConstructDeletableFunction;
-    int  function(void *, void *)deleteFunction;
-    void  function(void *, void *)freeFunction;
-    construct *next;
+    char* constructName;
+    char* pluralName;
+    int function(void*, char*) parseFunction;
+    void* function(void*, char*) findFunction;
+    symbolHashNode* function(constructHeader*) getConstructNameFunction;
+    char* function(void*, constructHeader*) getPPFormFunction;
+    defmoduleItemHeader* function(constructHeader*) getModuleItemFunction;
+    void* function(void*, void*) getNextItemFunction;
+    void function(constructHeader*, constructHeader*) setNextItemFunction;
+    int function(void*, void*) isConstructDeletableFunction;
+    int function(void*, void*) deleteFunction;
+    void function(void*, void*) freeFunction;
+    construct* next;
 }
 
 //C     #ifndef _H_evaluatn
@@ -3498,16 +3747,16 @@ struct constructData
     int ResetInProgress;
     short ClearReadyLocks;
     int DanglingConstructs;
-    callFunctionItem *ListOfSaveFunctions;
+    callFunctionItem* ListOfSaveFunctions;
     int PrintWhileLoading;
     uint WatchCompilations;
     int CheckSyntaxMode;
     int ParsingConstruct;
-    char *ErrorString;
-    char *WarningString;
-    char *ParsingFileName;
-    char *ErrorFileName;
-    char *WarningFileName;
+    char* ErrorString;
+    char* WarningString;
+    char* ParsingFileName;
+    char* ErrorFileName;
+    char* WarningFileName;
     int ErrLineNumber;
     int WrnLineNumber;
     int errorCaptureRouterCount;
@@ -3515,13 +3764,13 @@ struct constructData
     size_t CurErrPos;
     size_t MaxWrnChars;
     size_t CurWrnPos;
-    void  function(void *, char *, char *, char *, int )ParserErrorCallback;
-    construct *ListOfConstructs;
-    callFunctionItem *ListOfResetFunctions;
-    callFunctionItem *ListOfClearFunctions;
-    callFunctionItem *ListOfClearReadyFunctions;
+    void function(void*, char*, char*, char*, int) ParserErrorCallback;
+    construct* ListOfConstructs;
+    callFunctionItem* ListOfResetFunctions;
+    callFunctionItem* ListOfClearFunctions;
+    callFunctionItem* ListOfClearReadyFunctions;
     int Executing;
-    int  function(void *)BeforeResetFunction;
+    int function(void*) BeforeResetFunction;
 }
 
 //C     #define ConstructData(theEnv) ((struct constructData *) GetEnvironmentData(theEnv,CONSTRUCT_DATA))
@@ -3538,34 +3787,34 @@ struct constructData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           EnvClear(void *);
-void  EnvClear(void *);
+void EnvClear(void*);
 //C        LOCALE void                           EnvReset(void *);
-void  EnvReset(void *);
+void EnvReset(void*);
 //C        LOCALE int                            EnvSave(void *,const char *);
-int  EnvSave(void *, char *);
+int EnvSave(void*, char*);
 
 //C        LOCALE void                           InitializeConstructData(void *);
-void  InitializeConstructData(void *);
+void InitializeConstructData(void*);
 //C        LOCALE intBool                        AddSaveFunction(void *,const char *,void (*)(void *,void *,const char *),int);
-int  AddSaveFunction(void *, char *, void  function(void *, void *, char *), int );
+int AddSaveFunction(void*, char*, void function(void*, void*, char*), int);
 //C        LOCALE intBool                        RemoveSaveFunction(void *,const char *);
-int  RemoveSaveFunction(void *, char *);
+int RemoveSaveFunction(void*, char*);
 //C        LOCALE intBool                        EnvAddResetFunction(void *,const char *,void (*)(void *),int);
-int  EnvAddResetFunction(void *, char *, void  function(void *), int );
+int EnvAddResetFunction(void*, char*, void function(void*), int);
 //C        LOCALE intBool                        EnvRemoveResetFunction(void *,const char *);
-int  EnvRemoveResetFunction(void *, char *);
+int EnvRemoveResetFunction(void*, char*);
 //C        LOCALE intBool                        AddClearReadyFunction(void *,const char *,int (*)(void *),int);
-int  AddClearReadyFunction(void *, char *, int  function(void *), int );
+int AddClearReadyFunction(void*, char*, int function(void*), int);
 //C        LOCALE intBool                        RemoveClearReadyFunction(void *,const char *);
-int  RemoveClearReadyFunction(void *, char *);
+int RemoveClearReadyFunction(void*, char*);
 //C        LOCALE intBool                        EnvAddClearFunction(void *,const char *,void (*)(void *),int);
-int  EnvAddClearFunction(void *, char *, void  function(void *), int );
+int EnvAddClearFunction(void*, char*, void function(void*), int);
 //C        LOCALE intBool                        EnvRemoveClearFunction(void *,const char *);
-int  EnvRemoveClearFunction(void *, char *);
+int EnvRemoveClearFunction(void*, char*);
 //C        LOCALE void                           EnvIncrementClearReadyLocks(void *);
-void  EnvIncrementClearReadyLocks(void *);
+void EnvIncrementClearReadyLocks(void*);
 //C        LOCALE void                           EnvDecrementClearReadyLocks(void *);
-void  EnvDecrementClearReadyLocks(void *);
+void EnvDecrementClearReadyLocks(void*);
 //C        LOCALE struct construct              *AddConstruct(void *,const char *,const char *,
 //C                                                           int (*)(void *,const char *),
 //C                                                           void *(*)(void *,const char *),
@@ -3577,43 +3826,47 @@ void  EnvDecrementClearReadyLocks(void *);
 //C                                                           intBool (*)(void *,void *),
 //C                                                           int (*)(void *,void *),
 //C                                                           void (*)(void *,void *));
-construct * AddConstruct(void *, char *, char *, int  function(void *, char *), void * function(void *, char *), SYMBOL_HN * function(constructHeader *), char * function(void *, constructHeader *), defmoduleItemHeader * function(constructHeader *), void * function(void *, void *), void  function(constructHeader *, constructHeader *), int  function(void *, void *), int  function(void *, void *), void  function(void *, void *));
+construct* AddConstruct(void*, char*, char*, int function(void*, char*),
+        void* function(void*, char*), SYMBOL_HN* function(constructHeader*), char* function(void*,
+            constructHeader*), defmoduleItemHeader* function(constructHeader*), void* function(void*,
+            void*), void function(constructHeader*, constructHeader*),
+        int function(void*, void*), int function(void*, void*), void function(void*, void*));
 //C        LOCALE int                            RemoveConstruct(void *,const char *);
-int  RemoveConstruct(void *, char *);
+int RemoveConstruct(void*, char*);
 //C        LOCALE void                           SetCompilationsWatch(void *,unsigned);
-void  SetCompilationsWatch(void *, uint );
+void SetCompilationsWatch(void*, uint);
 //C        LOCALE unsigned                       GetCompilationsWatch(void *);
-uint  GetCompilationsWatch(void *);
+uint GetCompilationsWatch(void*);
 //C        LOCALE void                           SetPrintWhileLoading(void *,intBool);
-void  SetPrintWhileLoading(void *, int );
+void SetPrintWhileLoading(void*, int);
 //C        LOCALE intBool                        GetPrintWhileLoading(void *);
-int  GetPrintWhileLoading(void *);
+int GetPrintWhileLoading(void*);
 //C        LOCALE int                            ExecutingConstruct(void *);
-int  ExecutingConstruct(void *);
+int ExecutingConstruct(void*);
 //C        LOCALE void                           SetExecutingConstruct(void *,int);
-void  SetExecutingConstruct(void *, int );
+void SetExecutingConstruct(void*, int);
 //C        LOCALE void                           InitializeConstructs(void *);
-void  InitializeConstructs(void *);
+void InitializeConstructs(void*);
 //C        LOCALE int                          (*SetBeforeResetFunction(void *,int (*)(void *)))(void *);
-int  function(void *) SetBeforeResetFunction(void *, int  function(void *));
+int function(void*) SetBeforeResetFunction(void*, int function(void*));
 //C        LOCALE void                           ResetCommand(void *);
-void  ResetCommand(void *);
+void ResetCommand(void*);
 //C        LOCALE void                           ClearCommand(void *);
-void  ClearCommand(void *);
+void ClearCommand(void*);
 //C        LOCALE intBool                        ClearReady(void *);
-int  ClearReady(void *);
+int ClearReady(void*);
 //C        LOCALE struct construct              *FindConstruct(void *,const char *);
-construct * FindConstruct(void *, char *);
+construct* FindConstruct(void*, char*);
 //C        LOCALE void                           DeinstallConstructHeader(void *,struct constructHeader *);
-void  DeinstallConstructHeader(void *, constructHeader *);
+void DeinstallConstructHeader(void*, constructHeader*);
 //C        LOCALE void                           DestroyConstructHeader(void *,struct constructHeader *);
-void  DestroyConstructHeader(void *, constructHeader *);
+void DestroyConstructHeader(void*, constructHeader*);
 //C        LOCALE void                         (*EnvSetParserErrorCallback(void *theEnv,
 //C                                                                        void (*functionPtr)(void *,const char *,const char *,
 //C                                                                                            const char *,long)))
 //C                                                 (void *,const char *,const char *,const char*,long);
-void  function(void *, char *, char *, char *, int ) EnvSetParserErrorCallback(void *theEnv, void  function(void *, char *, char *, char *, int )functionPtr);
-
+void function(void*, char*, char*, char*, int) EnvSetParserErrorCallback(
+        void* theEnv, void function(void*, char*, char*, char*, int) functionPtr);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -3631,22 +3884,19 @@ void  function(void *, char *, char *, char *, int ) EnvSetParserErrorCallback(v
 
 //C     #endif /* _H_constrct */
 
-
-
-
 //C     #endif
 //C     #ifndef _H_extnfunc
 //C     #include "extnfunc.h"
 //C     #endif
 //C     #ifndef _H_symblcmp
 //C     #include "symblcmp.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*        SYMBOL CONSTRUCT COMPILER HEADER FILE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*        SYMBOL CONSTRUCT COMPILER HEADER FILE        */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements the constructs-to-c feature for       */
@@ -3699,18 +3949,17 @@ void  function(void *, char *, char *, char *, int ) EnvSetParserErrorCallback(v
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                     PrintSymbolReference(void *,FILE *,SYMBOL_HN *);
-void  PrintSymbolReference(void *, FILE *, SYMBOL_HN *);
+void PrintSymbolReference(void*, FILE*, SYMBOL_HN*);
 //C        LOCALE void                     PrintFloatReference(void *,FILE *,FLOAT_HN *);
-void  PrintFloatReference(void *, FILE *, FLOAT_HN *);
+void PrintFloatReference(void*, FILE*, FLOAT_HN*);
 //C        LOCALE void                     PrintIntegerReference(void *,FILE *,INTEGER_HN *);
-void  PrintIntegerReference(void *, FILE *, INTEGER_HN *);
+void PrintIntegerReference(void*, FILE*, INTEGER_HN*);
 //C        LOCALE void                     PrintBitMapReference(void *,FILE *,BITMAP_HN *);
-void  PrintBitMapReference(void *, FILE *, BITMAP_HN *);
+void PrintBitMapReference(void*, FILE*, BITMAP_HN*);
 //C        LOCALE void                     AtomicValuesToCode(void *,const char *,const char *,char *);
-void  AtomicValuesToCode(void *, char *, char *, char *);
+void AtomicValuesToCode(void*, char*, char*, char*);
 
 //C     #endif /* _H_symblcmp */
-
 
 //C     #endif
 //C     #ifndef _H_moduldef
@@ -3733,14 +3982,14 @@ const CONSTRUCT_COMPILER_DATA = 41;
 //C       };
 struct CodeGeneratorItem
 {
-    char *name;
-    void  function(void *)beforeFunction;
-    void  function(void *, FILE *, int , int )initFunction;
-    int  function(void *, char *, char *, char *, int , FILE *, int , int )generateFunction;
+    char* name;
+    void function(void*) beforeFunction;
+    void function(void*, FILE*, int, int) initFunction;
+    int function(void*, char*, char*, char*, int, FILE*, int, int) generateFunction;
     int priority;
-    char **arrayNames;
+    char** arrayNames;
     int arrayCount;
-    CodeGeneratorItem *next;
+    CodeGeneratorItem* next;
 }
 
 //C     struct constructCompilerData
@@ -3762,18 +4011,18 @@ struct CodeGeneratorItem
 struct constructCompilerData
 {
     int ImageID;
-    FILE *HeaderFP;
+    FILE* HeaderFP;
     int MaxIndices;
-    FILE *ExpressionFP;
-    FILE *FixupFP;
-    char *FilePrefix;
-    char *PathName;
-    char *FileNameBuffer;
+    FILE* ExpressionFP;
+    FILE* FixupFP;
+    char* FilePrefix;
+    char* PathName;
+    char* FileNameBuffer;
     int ExpressionHeader;
     int ExpressionCount;
     int ExpressionVersion;
     int CodeGeneratorCount;
-    CodeGeneratorItem *ListOfCodeGeneratorItems;
+    CodeGeneratorItem* ListOfCodeGeneratorItems;
 }
 
 //C     #define ConstructCompilerData(theEnv) ((struct constructCompilerData *) GetEnvironmentData(theEnv,CONSTRUCT_COMPILER_DATA))
@@ -3796,9 +4045,9 @@ struct constructCompilerData
 //C      };
 struct CodeGeneratorFile
 {
-    char *filePrefix;
-    char *pathName;
-    char *fileNameBuffer;
+    char* filePrefix;
+    char* pathName;
+    char* fileNameBuffer;
     int id;
     int version_;
 }
@@ -3811,51 +4060,51 @@ struct CodeGeneratorFile
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                      InitializeConstructCompilerData(void *);
-void  InitializeConstructCompilerData(void *);
+void InitializeConstructCompilerData(void*);
 //C        LOCALE void                      ConstructsToCCommandDefinition(void *);
-void  ConstructsToCCommandDefinition(void *);
+void ConstructsToCCommandDefinition(void*);
 //C        LOCALE FILE                     *NewCFile(void *,const char *,const char *,char *,int,int,int);
-FILE * NewCFile(void *, char *, char *, char *, int , int , int );
+FILE* NewCFile(void*, char*, char*, char*, int, int, int);
 //C        LOCALE int                       ExpressionToCode(void *,FILE *,struct expr *);
-int  ExpressionToCode(void *, FILE *, expr *);
+int ExpressionToCode(void*, FILE*, expr*);
 //C        LOCALE void                      PrintFunctionReference(void *,FILE *,struct FunctionDefinition *);
-void  PrintFunctionReference(void *, FILE *, FunctionDefinition *);
+void PrintFunctionReference(void*, FILE*, FunctionDefinition*);
 //C        LOCALE struct CodeGeneratorItem *AddCodeGeneratorItem(void *,const char *,int,
 //C                                                              void (*)(void *),
 //C                                                              void (*)(void *,FILE *,int,int),
 //C                                                              int (*)(void *,const char *,const char *,char *,int,FILE *,int,int),int);
-CodeGeneratorItem * AddCodeGeneratorItem(void *, char *, int , void  function(void *), void  function(void *, FILE *, int , int ), int  function(void *, char *, char *, char *, int , FILE *, int , int ), int );
+CodeGeneratorItem* AddCodeGeneratorItem(void*, char*, int,
+        void function(void*), void function(void*, FILE*, int, int),
+        int function(void*, char*, char*, char*, int, FILE*, int, int), int);
 //C        LOCALE FILE                     *CloseFileIfNeeded(void *,FILE *,int *,int *,int,int *,struct CodeGeneratorFile *);
-FILE * CloseFileIfNeeded(void *, FILE *, int *, int *, int , int *, CodeGeneratorFile *);
+FILE* CloseFileIfNeeded(void*, FILE*, int*, int*, int, int*, CodeGeneratorFile*);
 //C        LOCALE FILE                     *OpenFileIfNeeded(void *,FILE *,const char *,const char *,char *,int,int,int *,
 //C                                                          int,FILE *,const char *,char *,int,struct CodeGeneratorFile *);
-FILE * OpenFileIfNeeded(void *, FILE *, char *, char *, char *, int , int , int *, int , FILE *, char *, char *, int , CodeGeneratorFile *);
+FILE* OpenFileIfNeeded(void*, FILE*, char*, char*, char*, int, int, int*,
+        int, FILE*, char*, char*, int, CodeGeneratorFile*);
 //C        LOCALE void                      MarkConstructBsaveIDs(void *,int);
-void  MarkConstructBsaveIDs(void *, int );
+void MarkConstructBsaveIDs(void*, int);
 //C        LOCALE void                      ConstructHeaderToCode(void *,FILE *,struct constructHeader *,int,int,
 //C                                                              int,const char *,const char *);
-void  ConstructHeaderToCode(void *, FILE *, constructHeader *, int , int , int , char *, char *);
+void ConstructHeaderToCode(void*, FILE*, constructHeader*, int, int, int, char*, char*);
 //C        LOCALE void                      ConstructModuleToCode(void *,FILE *,struct defmodule *,int,int,
 //C                                                              int,const char *);
-void  ConstructModuleToCode(void *, FILE *, defmodule *, int , int , int , char *);
+void ConstructModuleToCode(void*, FILE*, defmodule*, int, int, int, char*);
 //C        LOCALE void                      PrintHashedExpressionReference(void *,FILE *,struct expr *,int,int);
-void  PrintHashedExpressionReference(void *, FILE *, expr *, int , int );
+void PrintHashedExpressionReference(void*, FILE*, expr*, int, int);
 
 //C     #endif
-
-
-
 
 //C     #endif
 //C     #ifndef _H_modulpsr
 //C     #include "modulpsr.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*             DEFMODULE PARSER HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*             DEFMODULE PARSER HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -3890,9 +4139,9 @@ void  PrintHashedExpressionReference(void *, FILE *, expr *, int , int );
 //C       };
 struct portConstructItem
 {
-    char *constructName;
+    char* constructName;
     int typeExpected;
-    portConstructItem *next;
+    portConstructItem* next;
 }
 
 //C     #ifndef _H_symbol
@@ -3917,33 +4166,32 @@ struct portConstructItem
 //C -- alias extern LOCALE;
 
 //C        LOCALE long                           GetNumberOfDefmodules(void *);
-int  GetNumberOfDefmodules(void *);
+int GetNumberOfDefmodules(void*);
 //C        LOCALE void                           SetNumberOfDefmodules(void *,long);
-void  SetNumberOfDefmodules(void *, int );
+void SetNumberOfDefmodules(void*, int);
 //C        LOCALE void                           AddAfterModuleDefinedFunction(void *,const char *,void (*)(void *),int);
-void  AddAfterModuleDefinedFunction(void *, char *, void  function(void *), int );
+void AddAfterModuleDefinedFunction(void*, char*, void function(void*), int);
 //C        LOCALE int                            ParseDefmodule(void *,const char *);
-int  ParseDefmodule(void *, char *);
+int ParseDefmodule(void*, char*);
 //C        LOCALE void                           AddPortConstructItem(void *,const char *,int);
-void  AddPortConstructItem(void *, char *, int );
+void AddPortConstructItem(void*, char*, int);
 //C        LOCALE struct portConstructItem      *ValidPortConstructItem(void *,const char *);
-portConstructItem * ValidPortConstructItem(void *, char *);
+portConstructItem* ValidPortConstructItem(void*, char*);
 //C        LOCALE int                            FindImportExportConflict(void *,const char *,struct defmodule *,const char *);
-int  FindImportExportConflict(void *, char *, defmodule *, char *);
+int FindImportExportConflict(void*, char*, defmodule*, char*);
 
 //C     #endif /* _H_modulpsr */
-
 
 //C     #endif
 //C     #ifndef _H_utility
 //C     #include "utility.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
-   /*                                                     */
-   /*                 UTILITY HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/22/14            */
+/*                                                     */
+/*                 UTILITY HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides a set of utility functions useful to    */
@@ -4006,12 +4254,12 @@ int  FindImportExportConflict(void *, char *, defmodule *, char *);
 //C       };
 struct callFunctionItem
 {
-    char *name;
-    void  function(void *)func;
+    char* name;
+    void function(void*) func;
     int priority;
-    callFunctionItem *next;
+    callFunctionItem* next;
     short environmentAware;
-    void *context;
+    void* context;
 }
 
 //C     struct callFunctionItemWithArg
@@ -4025,14 +4273,14 @@ struct callFunctionItem
 //C       };
 struct callFunctionItemWithArg
 {
-    char *name;
-    void  function(void *, void *)func;
+    char* name;
+    void function(void*, void*) func;
     int priority;
-    callFunctionItemWithArg *next;
+    callFunctionItemWithArg* next;
     short environmentAware;
-    void *context;
+    void* context;
 }
-  
+
 //C     struct trackedMemory
 //C       {
 //C        void *theMemory;
@@ -4042,9 +4290,9 @@ struct callFunctionItemWithArg
 //C       };
 struct trackedMemory
 {
-    void *theMemory;
-    trackedMemory *next;
-    trackedMemory *prev;
+    void* theMemory;
+    trackedMemory* next;
+    trackedMemory* prev;
     size_t memSize;
 }
 
@@ -4065,14 +4313,14 @@ struct garbageFrame
 {
     short dirty;
     short topLevel;
-    garbageFrame *priorFrame;
-    ephemeron *ephemeralSymbolList;
-    ephemeron *ephemeralFloatList;
-    ephemeron *ephemeralIntegerList;
-    ephemeron *ephemeralBitMapList;
-    ephemeron *ephemeralExternalAddressList;
-    multifield *ListOfMultifields;
-    multifield *LastMultifield;
+    garbageFrame* priorFrame;
+    ephemeron* ephemeralSymbolList;
+    ephemeron* ephemeralFloatList;
+    ephemeron* ephemeralIntegerList;
+    ephemeron* ephemeralBitMapList;
+    ephemeron* ephemeralExternalAddressList;
+    multifield* ListOfMultifields;
+    multifield* LastMultifield;
 }
 
 //C     #define UTILITY_DATA 55
@@ -4092,20 +4340,20 @@ const UTILITY_DATA = 55;
 //C       };
 struct utilityData
 {
-    callFunctionItem *ListOfCleanupFunctions;
-    callFunctionItem *ListOfPeriodicFunctions;
+    callFunctionItem* ListOfCleanupFunctions;
+    callFunctionItem* ListOfPeriodicFunctions;
     short GarbageCollectionLocks;
     short PeriodicFunctionsEnabled;
     short YieldFunctionEnabled;
-    void  function()YieldTimeFunction;
-    trackedMemory *trackList;
+    void function() YieldTimeFunction;
+    trackedMemory* trackList;
     garbageFrame MasterGarbageFrame;
-    garbageFrame *CurrentGarbageFrame;
+    garbageFrame* CurrentGarbageFrame;
 }
 
 //C     #define UtilityData(theEnv) ((struct utilityData *) GetEnvironmentData(theEnv,UTILITY_DATA))
 
-  /* Is c the start of a utf8 sequence? */
+/* Is c the start of a utf8 sequence? */
 //C     #define IsUTF8Start(ch) (((ch) & 0xC0) != 0x80)
 //C     #define IsUTF8MultiByteStart(ch) ((((unsigned char) ch) >= 0xC0) && (((unsigned char) ch) <= 0xF7))
 //C     #define IsUTF8MultiByteContinuation(ch) ((((unsigned char) ch) >= 0x80) && (((unsigned char) ch) <= 0xBF))
@@ -4118,91 +4366,96 @@ struct utilityData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeUtilityData(void *);
-void  InitializeUtilityData(void *);
+void InitializeUtilityData(void*);
 //C        LOCALE intBool                        AddCleanupFunction(void *,const char *,void (*)(void *),int);
-int  AddCleanupFunction(void *, char *, void  function(void *), int );
+int AddCleanupFunction(void*, char*, void function(void*), int);
 //C        LOCALE intBool                        EnvAddPeriodicFunction(void *,const char *,void (*)(void *),int);
-int  EnvAddPeriodicFunction(void *, char *, void  function(void *), int );
+int EnvAddPeriodicFunction(void*, char*, void function(void*), int);
 //C        LOCALE intBool                        AddPeriodicFunction(const char *,void (*)(void),int);
-int  AddPeriodicFunction(char *, void  function(), int );
+int AddPeriodicFunction(char*, void function(), int);
 //C        LOCALE intBool                        RemoveCleanupFunction(void *,const char *);
-int  RemoveCleanupFunction(void *, char *);
+int RemoveCleanupFunction(void*, char*);
 //C        LOCALE intBool                        EnvRemovePeriodicFunction(void *,const char *);
-int  EnvRemovePeriodicFunction(void *, char *);
+int EnvRemovePeriodicFunction(void*, char*);
 //C        LOCALE char                          *CopyString(void *,const char *);
-char * CopyString(void *, char *);
+char* CopyString(void*, char*);
 //C        LOCALE void                           DeleteString(void *,char *);
-void  DeleteString(void *, char *);
+void DeleteString(void*, char*);
 //C        LOCALE const char                    *AppendStrings(void *,const char *,const char *);
-char * AppendStrings(void *, char *, char *);
+char* AppendStrings(void*, char*, char*);
 //C        LOCALE const char                    *StringPrintForm(void *,const char *);
-char * StringPrintForm(void *, char *);
+char* StringPrintForm(void*, char*);
 //C        LOCALE char                          *AppendToString(void *,const char *,char *,size_t *,size_t *);
-char * AppendToString(void *, char *, char *, size_t *, size_t *);
+char* AppendToString(void*, char*, char*, size_t*, size_t*);
 //C        LOCALE char                          *InsertInString(void *,const char *,size_t,char *,size_t *,size_t *);
-char * InsertInString(void *, char *, size_t , char *, size_t *, size_t *);
+char* InsertInString(void*, char*, size_t, char*, size_t*, size_t*);
 //C        LOCALE char                          *AppendNToString(void *,const char *,char *,size_t,size_t *,size_t *);
-char * AppendNToString(void *, char *, char *, size_t , size_t *, size_t *);
+char* AppendNToString(void*, char*, char*, size_t, size_t*, size_t*);
 //C        LOCALE char                          *EnlargeString(void *,size_t,char *,size_t *,size_t *);
-char * EnlargeString(void *, size_t , char *, size_t *, size_t *);
+char* EnlargeString(void*, size_t, char*, size_t*, size_t*);
 //C        LOCALE char                          *ExpandStringWithChar(void *,int,char *,size_t *,size_t *,size_t);
-char * ExpandStringWithChar(void *, int , char *, size_t *, size_t *, size_t );
+char* ExpandStringWithChar(void*, int, char*, size_t*, size_t*, size_t);
 //C        LOCALE struct callFunctionItem       *AddFunctionToCallList(void *,const char *,int,void (*)(void *),
 //C                                                                    struct callFunctionItem *,intBool);
-callFunctionItem * AddFunctionToCallList(void *, char *, int , void  function(void *), callFunctionItem *, int );
+callFunctionItem* AddFunctionToCallList(void*, char*, int,
+        void function(void*), callFunctionItem*, int);
 //C        LOCALE struct callFunctionItem       *AddFunctionToCallListWithContext(void *,const char *,int,void (*)(void *),
 //C                                                                               struct callFunctionItem *,intBool,void *);
-callFunctionItem * AddFunctionToCallListWithContext(void *, char *, int , void  function(void *), callFunctionItem *, int , void *);
+callFunctionItem* AddFunctionToCallListWithContext(void*, char*, int,
+        void function(void*), callFunctionItem*, int, void*);
 //C        LOCALE struct callFunctionItem       *RemoveFunctionFromCallList(void *,const char *,
 //C                                                                  struct callFunctionItem *,
 //C                                                                  int *);
-callFunctionItem * RemoveFunctionFromCallList(void *, char *, callFunctionItem *, int *);
+callFunctionItem* RemoveFunctionFromCallList(void*, char*, callFunctionItem*, int*);
 //C        LOCALE void                           DeallocateCallList(void *,struct callFunctionItem *);
-void  DeallocateCallList(void *, callFunctionItem *);
+void DeallocateCallList(void*, callFunctionItem*);
 //C        LOCALE struct callFunctionItemWithArg *AddFunctionToCallListWithArg(void *,const char *,int,void (*)(void *, void *),
 //C                                                                            struct callFunctionItemWithArg *,intBool);
-callFunctionItemWithArg * AddFunctionToCallListWithArg(void *, char *, int , void  function(void *, void *), callFunctionItemWithArg *, int );
+callFunctionItemWithArg* AddFunctionToCallListWithArg(void*, char*, int,
+        void function(void*, void*), callFunctionItemWithArg*, int);
 //C        LOCALE struct callFunctionItemWithArg *AddFunctionToCallListWithArgWithContext(void *,const char *,int,void (*)(void *, void *),
 //C                                                                                       struct callFunctionItemWithArg *,intBool,void *);
-callFunctionItemWithArg * AddFunctionToCallListWithArgWithContext(void *, char *, int , void  function(void *, void *), callFunctionItemWithArg *, int , void *);
+callFunctionItemWithArg* AddFunctionToCallListWithArgWithContext(void*, char*,
+        int, void function(void*, void*), callFunctionItemWithArg*, int, void*);
 //C        LOCALE struct callFunctionItemWithArg *RemoveFunctionFromCallListWithArg(void *,const char *,
 //C                                                                                 struct callFunctionItemWithArg *,
 //C                                                                                 int *);
-callFunctionItemWithArg * RemoveFunctionFromCallListWithArg(void *, char *, callFunctionItemWithArg *, int *);
+callFunctionItemWithArg* RemoveFunctionFromCallListWithArg(void*, char*,
+        callFunctionItemWithArg*, int*);
 //C        LOCALE void                           DeallocateCallListWithArg(void *,struct callFunctionItemWithArg *);
-void  DeallocateCallListWithArg(void *, callFunctionItemWithArg *);
+void DeallocateCallListWithArg(void*, callFunctionItemWithArg*);
 //C        LOCALE unsigned long                  ItemHashValue(void *,unsigned short,void *,unsigned long);
-uint  ItemHashValue(void *, ushort , void *, uint );
+uint ItemHashValue(void*, ushort, void*, uint);
 //C        LOCALE void                           YieldTime(void *);
-void  YieldTime(void *);
+void YieldTime(void*);
 //C        LOCALE void                           EnvIncrementGCLocks(void *);
-void  EnvIncrementGCLocks(void *);
+void EnvIncrementGCLocks(void*);
 //C        LOCALE void                           EnvDecrementGCLocks(void *);
-void  EnvDecrementGCLocks(void *);
+void EnvDecrementGCLocks(void*);
 //C        LOCALE short                          EnablePeriodicFunctions(void *,short);
-short  EnablePeriodicFunctions(void *, short );
+short EnablePeriodicFunctions(void*, short);
 //C        LOCALE short                          EnableYieldFunction(void *,short);
-short  EnableYieldFunction(void *, short );
+short EnableYieldFunction(void*, short);
 //C        LOCALE struct trackedMemory          *AddTrackedMemory(void *,void *,size_t);
-trackedMemory * AddTrackedMemory(void *, void *, size_t );
+trackedMemory* AddTrackedMemory(void*, void*, size_t);
 //C        LOCALE void                           RemoveTrackedMemory(void *,struct trackedMemory *);
-void  RemoveTrackedMemory(void *, trackedMemory *);
+void RemoveTrackedMemory(void*, trackedMemory*);
 //C        LOCALE void                           UTF8Increment(const char *,size_t *);
-void  UTF8Increment(char *, size_t *);
+void UTF8Increment(char*, size_t*);
 //C        LOCALE size_t                         UTF8Offset(const char *,size_t);
-size_t  UTF8Offset(char *, size_t );
+size_t UTF8Offset(char*, size_t);
 //C        LOCALE size_t                         UTF8Length(const char *);
-size_t  UTF8Length(char *);
+size_t UTF8Length(char*);
 //C        LOCALE size_t                         UTF8CharNum(const char *,size_t);
-size_t  UTF8CharNum(char *, size_t );
+size_t UTF8CharNum(char*, size_t);
 //C        LOCALE void                           RestorePriorGarbageFrame(void *,struct garbageFrame *,struct garbageFrame *,struct dataObject *);
-void  RestorePriorGarbageFrame(void *, garbageFrame *, garbageFrame *, dataObject *);
+void RestorePriorGarbageFrame(void*, garbageFrame*, garbageFrame*, dataObject*);
 //C        LOCALE void                           CallCleanupFunctions(void *);
-void  CallCleanupFunctions(void *);
+void CallCleanupFunctions(void*);
 //C        LOCALE void                           CallPeriodicTasks(void *);
-void  CallPeriodicTasks(void *);
+void CallPeriodicTasks(void*);
 //C        LOCALE void                           CleanCurrentGarbageFrame(void *,struct dataObject *);
-void  CleanCurrentGarbageFrame(void *, dataObject *);
+void CleanCurrentGarbageFrame(void*, dataObject*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -4213,9 +4466,6 @@ void  CleanCurrentGarbageFrame(void *, dataObject *);
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_utility */
-
-
-
 
 //C     #endif
 //C     #ifndef _H_symbol
@@ -4261,15 +4511,15 @@ void  CleanCurrentGarbageFrame(void *, dataObject *);
 //C       };
 struct defmodule
 {
-    symbolHashNode *name;
-    char *ppForm;
-    defmoduleItemHeader **itemsArray;
-    portItem *importList;
-    portItem *exportList;
+    symbolHashNode* name;
+    char* ppForm;
+    defmoduleItemHeader** itemsArray;
+    portItem* importList;
+    portItem* exportList;
     uint visitedFlag;
     int bsaveID;
-    userData *usrData;
-    defmodule *next;
+    userData* usrData;
+    defmodule* next;
 }
 
 //C     struct portItem
@@ -4281,10 +4531,10 @@ struct defmodule
 //C       };
 struct portItem
 {
-    symbolHashNode *moduleName;
-    symbolHashNode *constructType;
-    symbolHashNode *constructName;
-    portItem *next;
+    symbolHashNode* moduleName;
+    symbolHashNode* constructType;
+    symbolHashNode* constructName;
+    portItem* next;
 }
 
 //C     struct defmoduleItemHeader
@@ -4295,9 +4545,9 @@ struct portItem
 //C       };
 struct defmoduleItemHeader
 {
-    defmodule *theModule;
-    constructHeader *firstItem;
-    constructHeader *lastItem;
+    defmodule* theModule;
+    constructHeader* firstItem;
+    constructHeader* lastItem;
 }
 
 //C     #define MIHS (struct defmoduleItemHeader *)
@@ -4346,14 +4596,14 @@ struct defmoduleItemHeader
 //C       };
 struct moduleItem
 {
-    char *name;
+    char* name;
     int moduleIndex;
-    void * function(void *)allocateFunction;
-    void  function(void *, void *)freeFunction;
-    void * function(void *, int )bloadModuleReference;
-    void  function(void *, FILE *, int , int , int )constructsToCModuleReference;
-    void * function(void *, char *)findFunction;
-    moduleItem *next;
+    void* function(void*) allocateFunction;
+    void function(void*, void*) freeFunction;
+    void* function(void*, int) bloadModuleReference;
+    void function(void*, FILE*, int, int, int) constructsToCModuleReference;
+    void* function(void*, char*) findFunction;
+    moduleItem* next;
 }
 
 //C     typedef struct moduleStackItem
@@ -4365,9 +4615,10 @@ struct moduleItem
 struct moduleStackItem
 {
     int changeFlag;
-    defmodule *theModule;
-    moduleStackItem *next;
+    defmodule* theModule;
+    moduleStackItem* next;
 }
+
 alias moduleStackItem MODULE_STACK_ITEM;
 
 //C     #define DEFMODULE_DATA 4
@@ -4403,27 +4654,27 @@ const DEFMODULE_DATA = 4;
 //C       };
 struct defmoduleData
 {
-    moduleItem *LastModuleItem;
-    callFunctionItem *AfterModuleChangeFunctions;
-    MODULE_STACK_ITEM *ModuleStack;
+    moduleItem* LastModuleItem;
+    callFunctionItem* AfterModuleChangeFunctions;
+    MODULE_STACK_ITEM* ModuleStack;
     int CallModuleChangeFunctions;
-    defmodule *ListOfDefmodules;
-    defmodule *CurrentModule;
-    defmodule *LastDefmodule;
+    defmodule* ListOfDefmodules;
+    defmodule* CurrentModule;
+    defmodule* LastDefmodule;
     int NumberOfModuleItems;
-    moduleItem *ListOfModuleItems;
+    moduleItem* ListOfModuleItems;
     int ModuleChangeIndex;
     int MainModuleRedefinable;
-    portConstructItem *ListOfPortConstructItems;
+    portConstructItem* ListOfPortConstructItems;
     int NumberOfDefmodules;
-    callFunctionItem *AfterModuleDefinedFunctions;
-    CodeGeneratorItem *DefmoduleCodeItem;
+    callFunctionItem* AfterModuleDefinedFunctions;
+    CodeGeneratorItem* DefmoduleCodeItem;
     int BNumberOfDefmodules;
     int NumberOfPortItems;
-    portItem *PortItemArray;
-    defmodule *DefmoduleArray;
+    portItem* PortItemArray;
+    defmodule* DefmoduleArray;
 }
-  
+
 //C     #define DefmoduleData(theEnv) ((struct defmoduleData *) GetEnvironmentData(theEnv,DEFMODULE_DATA))
 
 //C     #ifdef LOCALE
@@ -4438,58 +4689,60 @@ struct defmoduleData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeDefmodules(void *);
-void  InitializeDefmodules(void *);
+void InitializeDefmodules(void*);
 //C        LOCALE void                          *EnvFindDefmodule(void *,const char *);
-void * EnvFindDefmodule(void *, char *);
+void* EnvFindDefmodule(void*, char*);
 //C        LOCALE const char                    *EnvGetDefmoduleName(void *,void *);
-char * EnvGetDefmoduleName(void *, void *);
+char* EnvGetDefmoduleName(void*, void*);
 //C        LOCALE const char                    *EnvGetDefmodulePPForm(void *,void *);
-char * EnvGetDefmodulePPForm(void *, void *);
+char* EnvGetDefmodulePPForm(void*, void*);
 //C        LOCALE void                          *EnvGetNextDefmodule(void *,void *);
-void * EnvGetNextDefmodule(void *, void *);
+void* EnvGetNextDefmodule(void*, void*);
 //C        LOCALE void                           RemoveAllDefmodules(void *);
-void  RemoveAllDefmodules(void *);
+void RemoveAllDefmodules(void*);
 //C        LOCALE int                            AllocateModuleStorage(void);
-int  AllocateModuleStorage();
+int AllocateModuleStorage();
 //C        LOCALE int                            RegisterModuleItem(void *,const char *,
 //C                                                                 void *(*)(void *),
 //C                                                                 void (*)(void *,void *),
 //C                                                                 void *(*)(void *,int),
 //C                                                                 void (*)(void *,FILE *,int,int,int),
 //C                                                                 void *(*)(void *,const char *));
-int  RegisterModuleItem(void *, char *, void * function(void *), void  function(void *, void *), void * function(void *, int ), void  function(void *, FILE *, int , int , int ), void * function(void *, char *));
+int RegisterModuleItem(void*, char*, void* function(void*),
+        void function(void*, void*), void* function(void*, int),
+        void function(void*, FILE*, int, int, int), void* function(void*, char*));
 //C        LOCALE void                          *GetModuleItem(void *,struct defmodule *,int);
-void * GetModuleItem(void *, defmodule *, int );
+void* GetModuleItem(void*, defmodule*, int);
 //C        LOCALE void                           SetModuleItem(void *,struct defmodule *,int,void *);
-void  SetModuleItem(void *, defmodule *, int , void *);
+void SetModuleItem(void*, defmodule*, int, void*);
 //C        LOCALE void                          *EnvGetCurrentModule(void *);
-void * EnvGetCurrentModule(void *);
+void* EnvGetCurrentModule(void*);
 //C        LOCALE void                          *EnvSetCurrentModule(void *,void *);
-void * EnvSetCurrentModule(void *, void *);
+void* EnvSetCurrentModule(void*, void*);
 //C        LOCALE void                          *GetCurrentModuleCommand(void *);
-void * GetCurrentModuleCommand(void *);
+void* GetCurrentModuleCommand(void*);
 //C        LOCALE void                          *SetCurrentModuleCommand(void *);
-void * SetCurrentModuleCommand(void *);
+void* SetCurrentModuleCommand(void*);
 //C        LOCALE int                            GetNumberOfModuleItems(void *);
-int  GetNumberOfModuleItems(void *);
+int GetNumberOfModuleItems(void*);
 //C        LOCALE void                           CreateMainModule(void *);
-void  CreateMainModule(void *);
+void CreateMainModule(void*);
 //C        LOCALE void                           SetListOfDefmodules(void *,void *);
-void  SetListOfDefmodules(void *, void *);
+void SetListOfDefmodules(void*, void*);
 //C        LOCALE struct moduleItem             *GetListOfModuleItems(void *);
-moduleItem * GetListOfModuleItems(void *);
+moduleItem* GetListOfModuleItems(void*);
 //C        LOCALE struct moduleItem             *FindModuleItem(void *,const char *);
-moduleItem * FindModuleItem(void *, char *);
+moduleItem* FindModuleItem(void*, char*);
 //C        LOCALE void                           SaveCurrentModule(void *);
-void  SaveCurrentModule(void *);
+void SaveCurrentModule(void*);
 //C        LOCALE void                           RestoreCurrentModule(void *);
-void  RestoreCurrentModule(void *);
+void RestoreCurrentModule(void*);
 //C        LOCALE void                           AddAfterModuleChangeFunction(void *,const char *,void (*)(void *),int);
-void  AddAfterModuleChangeFunction(void *, char *, void  function(void *), int );
+void AddAfterModuleChangeFunction(void*, char*, void function(void*), int);
 //C        LOCALE void                           IllegalModuleSpecifierMessage(void *);
-void  IllegalModuleSpecifierMessage(void *);
+void IllegalModuleSpecifierMessage(void*);
 //C        LOCALE void                           AllocateDefmoduleGlobals(void *);
-void  AllocateDefmoduleGlobals(void *);
+void AllocateDefmoduleGlobals(void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -4503,7 +4756,6 @@ void  AllocateDefmoduleGlobals(void *);
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_moduldef */
-
 
 //C     #endif
 
@@ -4519,45 +4771,45 @@ void  AllocateDefmoduleGlobals(void *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE int                            EnvRtnArgCount(void *);
-int  EnvRtnArgCount(void *);
+int EnvRtnArgCount(void*);
 //C        LOCALE int                            EnvArgCountCheck(void *,const char *,int,int);
-int  EnvArgCountCheck(void *, char *, int , int );
+int EnvArgCountCheck(void*, char*, int, int);
 //C        LOCALE int                            EnvArgRangeCheck(void *,const char *,int,int);
-int  EnvArgRangeCheck(void *, char *, int , int );
+int EnvArgRangeCheck(void*, char*, int, int);
 //C        LOCALE const char                    *EnvRtnLexeme(void *,int);
-char * EnvRtnLexeme(void *, int );
+char* EnvRtnLexeme(void*, int);
 //C        LOCALE double                         EnvRtnDouble(void *,int);
-double  EnvRtnDouble(void *, int );
+double EnvRtnDouble(void*, int);
 //C        LOCALE long long                      EnvRtnLong(void *,int);
-long  EnvRtnLong(void *, int );
+long EnvRtnLong(void*, int);
 //C        LOCALE struct dataObject             *EnvRtnUnknown(void *,int,struct dataObject *);
-dataObject * EnvRtnUnknown(void *, int , dataObject *);
+dataObject* EnvRtnUnknown(void*, int, dataObject*);
 //C        LOCALE int                            EnvArgTypeCheck(void *,const char *,int,int,struct dataObject *);
-int  EnvArgTypeCheck(void *, char *, int , int , dataObject *);
+int EnvArgTypeCheck(void*, char*, int, int, dataObject*);
 //C        LOCALE intBool                        GetNumericArgument(void *,struct expr *,const char *,struct dataObject *,int,int);
-int  GetNumericArgument(void *, expr *, char *, dataObject *, int , int );
+int GetNumericArgument(void*, expr*, char*, dataObject*, int, int);
 //C        LOCALE const char                    *GetLogicalName(void *,int,const char *);
-char * GetLogicalName(void *, int , char *);
+char* GetLogicalName(void*, int, char*);
 //C        LOCALE const char                    *GetFileName(void *,const char *,int);
-char * GetFileName(void *, char *, int );
+char* GetFileName(void*, char*, int);
 //C        LOCALE const char                    *GetConstructName(void *,const char *,const char *);
-char * GetConstructName(void *, char *, char *);
+char* GetConstructName(void*, char*, char*);
 //C        LOCALE void                           ExpectedCountError(void *,const char *,int,int);
-void  ExpectedCountError(void *, char *, int , int );
+void ExpectedCountError(void*, char*, int, int);
 //C        LOCALE void                           OpenErrorMessage(void *,const char *,const char *);
-void  OpenErrorMessage(void *, char *, char *);
+void OpenErrorMessage(void*, char*, char*);
 //C        LOCALE intBool                        CheckFunctionArgCount(void *,const char *,const char *,int);
-int  CheckFunctionArgCount(void *, char *, char *, int );
+int CheckFunctionArgCount(void*, char*, char*, int);
 //C        LOCALE void                           ExpectedTypeError1(void *,const char *,int,const char *);
-void  ExpectedTypeError1(void *, char *, int , char *);
+void ExpectedTypeError1(void*, char*, int, char*);
 //C        LOCALE void                           ExpectedTypeError2(void *,const char *,int);
-void  ExpectedTypeError2(void *, char *, int );
+void ExpectedTypeError2(void*, char*, int);
 //C        LOCALE struct defmodule              *GetModuleName(void *,const char *,int,int *);
-defmodule * GetModuleName(void *, char *, int , int *);
+defmodule* GetModuleName(void*, char*, int, int*);
 //C        LOCALE void                          *GetFactOrInstanceArgument(void *,int,DATA_OBJECT *,const char *);
-void * GetFactOrInstanceArgument(void *, int , DATA_OBJECT *, char *);
+void* GetFactOrInstanceArgument(void*, int, DATA_OBJECT*, char*);
 //C        LOCALE void                           IllegalLogicalNameMessage(void *,const char *);
-void  IllegalLogicalNameMessage(void *, char *);
+void IllegalLogicalNameMessage(void*, char*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -4574,20 +4826,15 @@ void  IllegalLogicalNameMessage(void *, char *);
 
 //C     #endif
 
-
-
-
-
-
 //C     #endif
 //C     #include "constant.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/05/15            */
-   /*                                                     */
-   /*                CONSTANTS HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/05/15            */
+/*                                                     */
+/*                CONSTANTS HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -4811,19 +5058,14 @@ void  IllegalLogicalNameMessage(void *, char *);
 
 //C     #endif
 
-
-
-
-
-
 //C     #include "memalloc.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/05/15            */
-   /*                                                     */
-   /*            MEMORY ALLOCATION HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/05/15            */
+/*                                                     */
+/*            MEMORY ALLOCATION HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Memory allocation routines.                      */
@@ -4896,9 +5138,9 @@ const MEM_TABLE_SIZE = 500;
 //C       };
 struct chunkInfo
 {
-    chunkInfo *prevChunk;
-    chunkInfo *nextFree;
-    chunkInfo *lastFree;
+    chunkInfo* prevChunk;
+    chunkInfo* nextFree;
+    chunkInfo* lastFree;
     int size;
 }
 
@@ -4911,9 +5153,9 @@ struct chunkInfo
 //C       };
 struct blockInfo
 {
-    blockInfo *nextBlock;
-    blockInfo *prevBlock;
-    chunkInfo *nextFree;
+    blockInfo* nextBlock;
+    blockInfo* prevBlock;
+    chunkInfo* nextFree;
     int size;
 }
 
@@ -4923,7 +5165,7 @@ struct blockInfo
 //C       };
 struct memoryPtr
 {
-    memoryPtr *next;
+    memoryPtr* next;
 }
 
 //C     #if (MEM_TABLE_SIZE > 0)
@@ -4986,62 +5228,62 @@ struct memoryData
     int MemoryAmount;
     int MemoryCalls;
     int ConserveMemory;
-    int  function(void *, size_t )OutOfMemoryFunction;
-    memoryPtr *TempMemoryPtr;
-    memoryPtr **MemoryTable;
+    int function(void*, size_t) OutOfMemoryFunction;
+    memoryPtr* TempMemoryPtr;
+    memoryPtr** MemoryTable;
     size_t TempSize;
 }
 
 //C     #define MemoryData(theEnv) ((struct memoryData *) GetEnvironmentData(theEnv,MEMORY_DATA))
 
 //C        LOCALE void                           InitializeMemory(void *);
-void  InitializeMemory(void *);
+void InitializeMemory(void*);
 //C        LOCALE void                          *genalloc(void *,size_t);
-void * genalloc(void *, size_t );
+void* genalloc(void*, size_t);
 //C        LOCALE int                            DefaultOutOfMemoryFunction(void *,size_t);
-int  DefaultOutOfMemoryFunction(void *, size_t );
+int DefaultOutOfMemoryFunction(void*, size_t);
 //C        LOCALE int                          (*EnvSetOutOfMemoryFunction(void *,int (*)(void *,size_t)))(void *,size_t);
-int  function(void *, size_t ) EnvSetOutOfMemoryFunction(void *, int  function(void *, size_t ));
+int function(void*, size_t) EnvSetOutOfMemoryFunction(void*, int function(void*, size_t));
 //C        LOCALE int                            genfree(void *,void *,size_t);
-int  genfree(void *, void *, size_t );
+int genfree(void*, void*, size_t);
 //C        LOCALE void                          *genrealloc(void *,void *,size_t,size_t);
-void * genrealloc(void *, void *, size_t , size_t );
+void* genrealloc(void*, void*, size_t, size_t);
 //C        LOCALE long                           EnvMemUsed(void *);
-int  EnvMemUsed(void *);
+int EnvMemUsed(void*);
 //C        LOCALE long                           EnvMemRequests(void *);
-int  EnvMemRequests(void *);
+int EnvMemRequests(void*);
 //C        LOCALE long                           UpdateMemoryUsed(void *,long int);
-int  UpdateMemoryUsed(void *, int );
+int UpdateMemoryUsed(void*, int);
 //C        LOCALE long                           UpdateMemoryRequests(void *,long int);
-int  UpdateMemoryRequests(void *, int );
+int UpdateMemoryRequests(void*, int);
 //C        LOCALE long                           EnvReleaseMem(void *,long);
-int  EnvReleaseMem(void *, int );
+int EnvReleaseMem(void*, int);
 //C        LOCALE void                          *gm1(void *,size_t);
-void * gm1(void *, size_t );
+void* gm1(void*, size_t);
 //C        LOCALE void                          *gm2(void *,size_t);
-void * gm2(void *, size_t );
+void* gm2(void*, size_t);
 //C        LOCALE void                          *gm3(void *,size_t);
-void * gm3(void *, size_t );
+void* gm3(void*, size_t);
 //C        LOCALE int                            rm(void *,void *,size_t);
-int  rm(void *, void *, size_t );
+int rm(void*, void*, size_t);
 //C        LOCALE int                            rm3(void *,void *,size_t);
-int  rm3(void *, void *, size_t );
+int rm3(void*, void*, size_t);
 //C        LOCALE unsigned long                  PoolSize(void *);
-uint  PoolSize(void *);
+uint PoolSize(void*);
 //C        LOCALE unsigned long                  ActualPoolSize(void *);
-uint  ActualPoolSize(void *);
+uint ActualPoolSize(void*);
 //C        LOCALE void                          *RequestChunk(void *,size_t);
-void * RequestChunk(void *, size_t );
+void* RequestChunk(void*, size_t);
 //C        LOCALE int                            ReturnChunk(void *,void *,size_t);
-int  ReturnChunk(void *, void *, size_t );
+int ReturnChunk(void*, void*, size_t);
 //C        LOCALE intBool                        EnvSetConserveMemory(void *,intBool);
-int  EnvSetConserveMemory(void *, int );
+int EnvSetConserveMemory(void*, int);
 //C        LOCALE intBool                        EnvGetConserveMemory(void *);
-int  EnvGetConserveMemory(void *);
+int EnvGetConserveMemory(void*);
 //C        LOCALE void                           genmemcpy(char *,char *,unsigned long);
-void  genmemcpy(char *, char *, uint );
+void genmemcpy(char*, char*, uint);
 //C        LOCALE void                           ReturnAllBlocks(void *);
-void  ReturnAllBlocks(void *);
+void ReturnAllBlocks(void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -5051,24 +5293,19 @@ void  ReturnAllBlocks(void *);
 //C        LOCALE long int                       ReleaseMem(long);
 //C        LOCALE intBool                        SetConserveMemory(intBool);
 //C        LOCALE int                          (*SetOutOfMemoryFunction(int (*)(void *,size_t)))(void *,size_t);
- 
+
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_memalloc */
 
-
-
-
-
-
 //C     #include "cstrcpsr.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*              CONSTRUCT PARSER MODULE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*              CONSTRUCT PARSER MODULE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Parsing routines and utilities for parsing       */
@@ -5137,58 +5374,53 @@ void  ReturnAllBlocks(void *);
 //C     #endif
 
 //C        LOCALE int                            EnvLoad(void *,const char *);
-int  EnvLoad(void *, char *);
+int EnvLoad(void*, char*);
 //C        LOCALE int                            LoadConstructsFromLogicalName(void *,const char *);
-int  LoadConstructsFromLogicalName(void *, char *);
+int LoadConstructsFromLogicalName(void*, char*);
 //C        LOCALE int                            ParseConstruct(void *,const char *,const char *);
-int  ParseConstruct(void *, char *, char *);
+int ParseConstruct(void*, char*, char*);
 //C        LOCALE void                           RemoveConstructFromModule(void *,struct constructHeader *);
-void  RemoveConstructFromModule(void *, constructHeader *);
+void RemoveConstructFromModule(void*, constructHeader*);
 //C        LOCALE struct symbolHashNode         *GetConstructNameAndComment(void *,const char *,
 //C                                                                         struct token *,const char *,
 //C                                                                         void *(*)(void *,const char *),
 //C                                                                         int (*)(void *,void *),
 //C                                                                         const char *,int,int,int,int);
-symbolHashNode * GetConstructNameAndComment(void *, char *, token *, char *, void * function(void *, char *), int  function(void *, void *), char *, int , int , int , int );
+symbolHashNode* GetConstructNameAndComment(void*, char*, token*, char*,
+        void* function(void*, char*), int function(void*, void*), char*, int, int, int, int);
 //C        LOCALE void                           ImportExportConflictMessage(void *,const char *,const char *,const char *,const char *);
-void  ImportExportConflictMessage(void *, char *, char *, char *, char *);
+void ImportExportConflictMessage(void*, char*, char*, char*, char*);
 //C     #if (! RUN_TIME) && (! BLOAD_ONLY)
 //C        LOCALE void                           FlushParsingMessages(void *);
-void  FlushParsingMessages(void *);
+void FlushParsingMessages(void*);
 //C        LOCALE char                          *EnvGetParsingFileName(void *);
-char * EnvGetParsingFileName(void *);
+char* EnvGetParsingFileName(void*);
 //C        LOCALE void                           EnvSetParsingFileName(void *,const char *);
-void  EnvSetParsingFileName(void *, char *);
+void EnvSetParsingFileName(void*, char*);
 //C        LOCALE char                          *EnvGetErrorFileName(void *);
-char * EnvGetErrorFileName(void *);
+char* EnvGetErrorFileName(void*);
 //C        LOCALE void                           EnvSetErrorFileName(void *,const char *);
-void  EnvSetErrorFileName(void *, char *);
+void EnvSetErrorFileName(void*, char*);
 //C        LOCALE char                          *EnvGetWarningFileName(void *);
-char * EnvGetWarningFileName(void *);
+char* EnvGetWarningFileName(void*);
 //C        LOCALE void                           EnvSetWarningFileName(void *,const char *);
-void  EnvSetWarningFileName(void *, char *);
+void EnvSetWarningFileName(void*, char*);
 //C        LOCALE void                           CreateErrorCaptureRouter(void *);
-void  CreateErrorCaptureRouter(void *);
+void CreateErrorCaptureRouter(void*);
 //C        LOCALE void                           DeleteErrorCaptureRouter(void *);
-void  DeleteErrorCaptureRouter(void *);
+void DeleteErrorCaptureRouter(void*);
 //C     #endif
 
 //C     #endif
-
-
-
-
-
-
 
 //C     #include "filecom.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*              FILE COMMANDS HEADER FILE              */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*              FILE COMMANDS HEADER FILE              */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Contains the code for file commands including    */
@@ -5215,7 +5447,7 @@ void  DeleteErrorCaptureRouter(void *);
 /*                                                           */
 /*            Added AwaitingInput flag.                      */
 /*                                                           */
-             
+
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
 /*                                                           */
@@ -5242,45 +5474,45 @@ void  DeleteErrorCaptureRouter(void *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           FileCommandDefinitions(void *);
-void  FileCommandDefinitions(void *);
+void FileCommandDefinitions(void*);
 //C        LOCALE intBool                        EnvDribbleOn(void *,const char *);
-int  EnvDribbleOn(void *, char *);
+int EnvDribbleOn(void*, char*);
 //C        LOCALE intBool                        EnvDribbleActive(void *);
-int  EnvDribbleActive(void *);
+int EnvDribbleActive(void*);
 //C        LOCALE intBool                        EnvDribbleOff(void *);
-int  EnvDribbleOff(void *);
+int EnvDribbleOff(void*);
 //C        LOCALE void                           SetDribbleStatusFunction(void *,int (*)(void *,int));
-void  SetDribbleStatusFunction(void *, int  function(void *, int ));
+void SetDribbleStatusFunction(void*, int function(void*, int));
 //C        LOCALE int                            LLGetcBatch(void *,const char *,int);
-int  LLGetcBatch(void *, char *, int );
+int LLGetcBatch(void*, char*, int);
 //C        LOCALE int                            Batch(void *,const char *);
-int  Batch(void *, char *);
+int Batch(void*, char*);
 //C        LOCALE int                            OpenBatch(void *,const char *,int);
-int  OpenBatch(void *, char *, int );
+int OpenBatch(void*, char*, int);
 //C        LOCALE int                            OpenStringBatch(void *,const char *,const char *,int);
-int  OpenStringBatch(void *, char *, char *, int );
+int OpenStringBatch(void*, char*, char*, int);
 //C        LOCALE int                            RemoveBatch(void *);
-int  RemoveBatch(void *);
+int RemoveBatch(void*);
 //C        LOCALE intBool                        BatchActive(void *);
-int  BatchActive(void *);
+int BatchActive(void*);
 //C        LOCALE void                           CloseAllBatchSources(void *);
-void  CloseAllBatchSources(void *);
+void CloseAllBatchSources(void*);
 //C        LOCALE int                            BatchCommand(void *);
-int  BatchCommand(void *);
+int BatchCommand(void*);
 //C        LOCALE int                            BatchStarCommand(void *);
-int  BatchStarCommand(void *);
+int BatchStarCommand(void*);
 //C        LOCALE int                            EnvBatchStar(void *,const char *);
-int  EnvBatchStar(void *, char *);
+int EnvBatchStar(void*, char*);
 //C        LOCALE int                            LoadCommand(void *);
-int  LoadCommand(void *);
+int LoadCommand(void*);
 //C        LOCALE int                            LoadStarCommand(void *);
-int  LoadStarCommand(void *);
+int LoadStarCommand(void*);
 //C        LOCALE int                            SaveCommand(void *);
-int  SaveCommand(void *);
+int SaveCommand(void*);
 //C        LOCALE int                            DribbleOnCommand(void *);
-int  DribbleOnCommand(void *);
+int DribbleOnCommand(void*);
 //C        LOCALE int                            DribbleOffCommand(void *);
-int  DribbleOffCommand(void *);
+int DribbleOffCommand(void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -5293,19 +5525,14 @@ int  DribbleOffCommand(void *);
 
 //C     #endif /* _H_filecom */
 
-
-
-
-
-
 //C     #include "strngfun.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*             STRING FUNCTIONS HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*             STRING FUNCTIONS HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -5364,51 +5591,46 @@ int  DribbleOffCommand(void *);
 //C     #endif
 
 //C        LOCALE int                            EnvBuild(void *,const char *);
-int  EnvBuild(void *, char *);
+int EnvBuild(void*, char*);
 //C        LOCALE int                            EnvEval(void *,const char *,DATA_OBJECT_PTR);
-int  EnvEval(void *, char *, DATA_OBJECT_PTR );
+int EnvEval(void*, char*, DATA_OBJECT_PTR);
 //C        LOCALE void                           StringFunctionDefinitions(void *);
-void  StringFunctionDefinitions(void *);
+void StringFunctionDefinitions(void*);
 //C        LOCALE void                           StrCatFunction(void *,DATA_OBJECT_PTR);
-void  StrCatFunction(void *, DATA_OBJECT_PTR );
+void StrCatFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           SymCatFunction(void *,DATA_OBJECT_PTR);
-void  SymCatFunction(void *, DATA_OBJECT_PTR );
+void SymCatFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE long long                      StrLengthFunction(void *);
-long  StrLengthFunction(void *);
+long StrLengthFunction(void*);
 //C        LOCALE void                           UpcaseFunction(void *,DATA_OBJECT_PTR);
-void  UpcaseFunction(void *, DATA_OBJECT_PTR );
+void UpcaseFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           LowcaseFunction(void *,DATA_OBJECT_PTR);
-void  LowcaseFunction(void *, DATA_OBJECT_PTR );
+void LowcaseFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE long long                      StrCompareFunction(void *);
-long  StrCompareFunction(void *);
+long StrCompareFunction(void*);
 //C        LOCALE void                          *SubStringFunction(void *);
-void * SubStringFunction(void *);
+void* SubStringFunction(void*);
 //C        LOCALE void                           StrIndexFunction(void *,DATA_OBJECT_PTR);
-void  StrIndexFunction(void *, DATA_OBJECT_PTR );
+void StrIndexFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           EvalFunction(void *,DATA_OBJECT_PTR);
-void  EvalFunction(void *, DATA_OBJECT_PTR );
+void EvalFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE int                            BuildFunction(void *);
-int  BuildFunction(void *);
+int BuildFunction(void*);
 //C        LOCALE void                           StringToFieldFunction(void *,DATA_OBJECT *);
-void  StringToFieldFunction(void *, DATA_OBJECT *);
+void StringToFieldFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                           StringToField(void *,const char *,DATA_OBJECT *);
-void  StringToField(void *, char *, DATA_OBJECT *);
+void StringToField(void*, char*, DATA_OBJECT*);
 
 //C     #endif /* _H_strngfun */
 
-
-
-
-
-
 //C     #include "envrnmnt.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                ENVRNMNT HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                ENVRNMNT HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for supporting multiple environments.   */
@@ -5434,7 +5656,7 @@ void  StringToField(void *, char *, DATA_OBJECT *);
 /*            CLIPS environment to its parent environment).  */
 /*                                                           */
 /*      6.30: Added support for passing context information  */
- 
+
 /*            to user defined functions and callback         */
 /*            functions.                                     */
 /*                                                           */
@@ -5520,13 +5742,13 @@ void  StringToField(void *, char *, DATA_OBJECT *);
 //C     #endif /* _H_envrnmnt */
 
 //C     #include "commline.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*              COMMAND LINE HEADER FILE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*              COMMAND LINE HEADER FILE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides a set of routines for processing        */
@@ -5561,18 +5783,18 @@ void  StringToField(void *, char *, DATA_OBJECT *);
 /*                                                           */
 /*            Used genstrcpy instead of strcpy.              */
 /*                                                           */
-             
+
 /*            Added before command execution callback        */
 /*            function.                                      */
 /*                                                           */
-  
+
 /*            Fixed RouteCommand return value.               */
-           
+
 /*                                                           */
-             
+
 /*            Added AwaitingInput flag.                      */
 /*                                                           */
-             
+
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
 /*                                                           */
@@ -5604,14 +5826,14 @@ struct commandLineData
 {
     int EvaluatingTopLevelCommand;
     int HaltCommandLoopBatch;
-    expr *CurrentCommand;
-    char *CommandString;
+    expr* CurrentCommand;
+    char* CommandString;
     size_t MaximumCharacters;
     int ParsingTopLevelCommand;
-    char *BannerString;
-    int  function(void *)EventFunction;
-    int  function(void *)AfterPromptFunction;
-    int  function(void *)BeforeCommandExecutionFunction;
+    char* BannerString;
+    int function(void*) EventFunction;
+    int function(void*) AfterPromptFunction;
+    int function(void*) BeforeCommandExecutionFunction;
 }
 
 //C     #define CommandLineData(theEnv) ((struct commandLineData *) GetEnvironmentData(theEnv,COMMANDLINE_DATA))
@@ -5628,76 +5850,72 @@ struct commandLineData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeCommandLineData(void *);
-void  InitializeCommandLineData(void *);
+void InitializeCommandLineData(void*);
 //C        LOCALE int                            ExpandCommandString(void *,int);
-int  ExpandCommandString(void *, int );
+int ExpandCommandString(void*, int);
 //C        LOCALE void                           FlushCommandString(void *);
-void  FlushCommandString(void *);
+void FlushCommandString(void*);
 //C        LOCALE void                           SetCommandString(void *,const char *);
-void  SetCommandString(void *, char *);
+void SetCommandString(void*, char*);
 //C        LOCALE void                           AppendCommandString(void *,const char *);
-void  AppendCommandString(void *, char *);
+void AppendCommandString(void*, char*);
 //C        LOCALE void                           InsertCommandString(void *,const char *,unsigned);
-void  InsertCommandString(void *, char *, uint );
+void InsertCommandString(void*, char*, uint);
 //C        LOCALE char                          *GetCommandString(void *);
-char * GetCommandString(void *);
+char* GetCommandString(void*);
 //C        LOCALE int                            CompleteCommand(const char *);
-int  CompleteCommand(char *);
+int CompleteCommand(char*);
 //C        LOCALE void                           CommandLoop(void *);
-void  CommandLoop(void *);
+void CommandLoop(void*);
 //C        LOCALE void                           CommandLoopBatch(void *);
-void  CommandLoopBatch(void *);
+void CommandLoopBatch(void*);
 //C        LOCALE void                           CommandLoopBatchDriver(void *);
-void  CommandLoopBatchDriver(void *);
+void CommandLoopBatchDriver(void*);
 //C        LOCALE void                           PrintPrompt(void *);
-void  PrintPrompt(void *);
+void PrintPrompt(void*);
 //C        LOCALE void                           PrintBanner(void *);
-void  PrintBanner(void *);
+void PrintBanner(void*);
 //C        LOCALE void                           SetAfterPromptFunction(void *,int (*)(void *));
-void  SetAfterPromptFunction(void *, int  function(void *));
+void SetAfterPromptFunction(void*, int function(void*));
 //C        LOCALE void                           SetBeforeCommandExecutionFunction(void *,int (*)(void *));
-void  SetBeforeCommandExecutionFunction(void *, int  function(void *));
+void SetBeforeCommandExecutionFunction(void*, int function(void*));
 //C        LOCALE intBool                        RouteCommand(void *,const char *,int);
-int  RouteCommand(void *, char *, int );
+int RouteCommand(void*, char*, int);
 //C        LOCALE int                          (*SetEventFunction(void *,int (*)(void *)))(void *);
-int  function(void *) SetEventFunction(void *, int  function(void *));
+int function(void*) SetEventFunction(void*, int function(void*));
 //C        LOCALE intBool                        TopLevelCommand(void *);
-int  TopLevelCommand(void *);
+int TopLevelCommand(void*);
 //C        LOCALE void                           AppendNCommandString(void *,const char *,unsigned);
-void  AppendNCommandString(void *, char *, uint );
+void AppendNCommandString(void*, char*, uint);
 //C        LOCALE void                           SetNCommandString(void *,const char *,unsigned);
-void  SetNCommandString(void *, char *, uint );
+void SetNCommandString(void*, char*, uint);
 //C        LOCALE const char                    *GetCommandCompletionString(void *,const char *,size_t);
-char * GetCommandCompletionString(void *, char *, size_t );
+char* GetCommandCompletionString(void*, char*, size_t);
 //C        LOCALE intBool                        ExecuteIfCommandComplete(void *);
-int  ExecuteIfCommandComplete(void *);
+int ExecuteIfCommandComplete(void*);
 //C        LOCALE void                           CommandLoopOnceThenBatch(void *);
-void  CommandLoopOnceThenBatch(void *);
+void CommandLoopOnceThenBatch(void*);
 //C        LOCALE intBool                        CommandCompleteAndNotEmpty(void *);
-int  CommandCompleteAndNotEmpty(void *);
+int CommandCompleteAndNotEmpty(void*);
 //C        LOCALE void                           SetHaltCommandLoopBatch(void *,int);
-void  SetHaltCommandLoopBatch(void *, int );
+void SetHaltCommandLoopBatch(void*, int);
 //C        LOCALE int                            GetHaltCommandLoopBatch(void *);
-int  GetHaltCommandLoopBatch(void *);
+int GetHaltCommandLoopBatch(void*);
 
 //C     #endif
-
-
-
-
 
 //C     #ifndef _H_symbol
 //C     #include "symbol.h"
 //C     #endif
 
 //C     #include "router.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  01/26/15            */
-   /*                                                     */
-   /*                 ROUTER HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  01/26/15            */
+/*                                                     */
+/*                 ROUTER HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides a centralized mechanism for handling    */
@@ -5716,14 +5934,14 @@ int  GetHaltCommandLoopBatch(void *);
 /*            Renamed BOOLEAN macro type to intBool.         */
 /*                                                           */
 /*            Added support for passing context information  */
- 
+
 /*            to the router functions.                       */
 /*                                                           */
 /*      6.30: Fixed issues with passing context to routers.  */
 /*                                                           */
 /*            Added AwaitingInput flag.                      */
 /*                                                           */
-             
+
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
 /*                                                           */
@@ -5739,13 +5957,13 @@ int  GetHaltCommandLoopBatch(void *);
 
 //C     #ifndef _H_prntutil
 //C     #include "prntutil.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
-   /*                                                     */
-   /*              PRINT UTILITY HEADER FILE              */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/22/14            */
+/*                                                     */
+/*              PRINT UTILITY HEADER FILE              */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Utility routines for printing various items      */
@@ -5829,58 +6047,53 @@ struct printUtilityData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializePrintUtilityData(void *);
-void  InitializePrintUtilityData(void *);
+void InitializePrintUtilityData(void*);
 //C        LOCALE void                           PrintInChunks(void *,const char *,const char *);
-void  PrintInChunks(void *, char *, char *);
+void PrintInChunks(void*, char*, char*);
 //C        LOCALE void                           PrintFloat(void *,const char *,double);
-void  PrintFloat(void *, char *, double );
+void PrintFloat(void*, char*, double);
 //C        LOCALE void                           PrintLongInteger(void *,const char *,long long);
-void  PrintLongInteger(void *, char *, long );
+void PrintLongInteger(void*, char*, long);
 //C        LOCALE void                           PrintAtom(void *,const char *,int,void *);
-void  PrintAtom(void *, char *, int , void *);
+void PrintAtom(void*, char*, int, void*);
 //C        LOCALE void                           PrintTally(void *,const char *,long long,const char *,const char *);
-void  PrintTally(void *, char *, long , char *, char *);
+void PrintTally(void*, char*, long, char*, char*);
 //C        LOCALE const char                    *FloatToString(void *,double);
-char * FloatToString(void *, double );
+char* FloatToString(void*, double);
 //C        LOCALE const char                    *LongIntegerToString(void *,long long);
-char * LongIntegerToString(void *, long );
+char* LongIntegerToString(void*, long);
 //C        LOCALE const char                    *DataObjectToString(void *,DATA_OBJECT *);
-char * DataObjectToString(void *, DATA_OBJECT *);
+char* DataObjectToString(void*, DATA_OBJECT*);
 //C        LOCALE void                           SyntaxErrorMessage(void *,const char *);
-void  SyntaxErrorMessage(void *, char *);
+void SyntaxErrorMessage(void*, char*);
 //C        LOCALE void                           SystemError(void *,const char *,int);
-void  SystemError(void *, char *, int );
+void SystemError(void*, char*, int);
 //C        LOCALE void                           PrintErrorID(void *,const char *,int,int);
-void  PrintErrorID(void *, char *, int , int );
+void PrintErrorID(void*, char*, int, int);
 //C        LOCALE void                           PrintWarningID(void *,const char *,int,int);
-void  PrintWarningID(void *, char *, int , int );
+void PrintWarningID(void*, char*, int, int);
 //C        LOCALE void                           CantFindItemErrorMessage(void *,const char *,const char *);
-void  CantFindItemErrorMessage(void *, char *, char *);
+void CantFindItemErrorMessage(void*, char*, char*);
 //C        LOCALE void                           CantDeleteItemErrorMessage(void *,const char *,const char *);
-void  CantDeleteItemErrorMessage(void *, char *, char *);
+void CantDeleteItemErrorMessage(void*, char*, char*);
 //C        LOCALE void                           AlreadyParsedErrorMessage(void *,const char *,const char *);
-void  AlreadyParsedErrorMessage(void *, char *, char *);
+void AlreadyParsedErrorMessage(void*, char*, char*);
 //C        LOCALE void                           LocalVariableErrorMessage(void *,const char *);
-void  LocalVariableErrorMessage(void *, char *);
+void LocalVariableErrorMessage(void*, char*);
 //C        LOCALE void                           DivideByZeroErrorMessage(void *,const char *);
-void  DivideByZeroErrorMessage(void *, char *);
+void DivideByZeroErrorMessage(void*, char*);
 //C        LOCALE void                           SalienceInformationError(void *,const char *,const char *);
-void  SalienceInformationError(void *, char *, char *);
+void SalienceInformationError(void*, char*, char*);
 //C        LOCALE void                           SalienceRangeError(void *,int,int);
-void  SalienceRangeError(void *, int , int );
+void SalienceRangeError(void*, int, int);
 //C        LOCALE void                           SalienceNonIntegerError(void *);
-void  SalienceNonIntegerError(void *);
+void SalienceNonIntegerError(void*);
 //C        LOCALE void                           CantFindItemInFunctionErrorMessage(void *,const char *,const char *,const char *);
-void  CantFindItemInFunctionErrorMessage(void *, char *, char *, char *);
+void CantFindItemInFunctionErrorMessage(void*, char*, char*, char*);
 //C        LOCALE void                           SlotExistError(void *,const char *,const char *);
-void  SlotExistError(void *, char *, char *);
+void SlotExistError(void*, char*, char*);
 
 //C     #endif /* _H_prntutil */
-
-
-
-
-
 
 //C     #endif
 
@@ -5918,17 +6131,17 @@ const ROUTER_DATA = 46;
 //C       };
 struct router
 {
-    char *name;
+    char* name;
     int active;
     int priority;
     short environmentAware;
-    void *context;
-    int  function(void *, char *)query;
-    int  function(void *, char *, char *)printer;
-    int  function(void *, int )exiter;
-    int  function(void *, char *)charget;
-    int  function(void *, int , char *)charunget;
-    router *next;
+    void* context;
+    int function(void*, char*) query;
+    int function(void*, char*, char*) printer;
+    int function(void*, int) exiter;
+    int function(void*, char*) charget;
+    int function(void*, int, char*) charunget;
+    router* next;
 }
 
 //C     struct routerData
@@ -5948,13 +6161,13 @@ struct routerData
 {
     size_t CommandBufferInputCount;
     int AwaitingInput;
-    char *LineCountRouter;
-    char *FastCharGetRouter;
-    char *FastCharGetString;
+    char* LineCountRouter;
+    char* FastCharGetRouter;
+    char* FastCharGetString;
     int FastCharGetIndex;
-    router *ListOfRouters;
-    FILE *FastLoadFilePtr;
-    FILE *FastSaveFilePtr;
+    router* ListOfRouters;
+    FILE* FastLoadFilePtr;
+    FILE* FastSaveFilePtr;
     int Abort;
 }
 
@@ -5972,17 +6185,17 @@ struct routerData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeDefaultRouters(void *);
-void  InitializeDefaultRouters(void *);
+void InitializeDefaultRouters(void*);
 //C        LOCALE int                            EnvPrintRouter(void *,const char *,const char *);
-int  EnvPrintRouter(void *, char *, char *);
+int EnvPrintRouter(void*, char*, char*);
 //C        LOCALE int                            EnvGetcRouter(void *,const char *);
-int  EnvGetcRouter(void *, char *);
+int EnvGetcRouter(void*, char*);
 //C        LOCALE int                            EnvUngetcRouter(void *,int,const char *);
-int  EnvUngetcRouter(void *, int , char *);
+int EnvUngetcRouter(void*, int, char*);
 //C        LOCALE void                           EnvExitRouter(void *,int);
-void  EnvExitRouter(void *, int );
+void EnvExitRouter(void*, int);
 //C        LOCALE void                           AbortExit(void *);
-void  AbortExit(void *);
+void AbortExit(void*);
 //C        LOCALE intBool                        EnvAddRouterWithContext(void *,
 //C                                                        const char *,int,
 //C                                                        int (*)(void *,const char *),
@@ -5991,7 +6204,9 @@ void  AbortExit(void *);
 //C                                                        int (*)(void *,int,const char *),
 //C                                                        int (*)(void *,int),
 //C                                                        void *);
-int  EnvAddRouterWithContext(void *, char *, int , int  function(void *, char *), int  function(void *, char *, char *), int  function(void *, char *), int  function(void *, int , char *), int  function(void *, int ), void *);
+int EnvAddRouterWithContext(void*, char*, int, int function(void*, char*),
+        int function(void*, char*, char*), int function(void*, char*),
+        int function(void*, int, char*), int function(void*, int), void*);
 //C        LOCALE intBool                        EnvAddRouter(void *,
 //C                                                        const char *,int,
 //C                                                        int (*)(void *,const char *),
@@ -5999,29 +6214,31 @@ int  EnvAddRouterWithContext(void *, char *, int , int  function(void *, char *)
 //C                                                        int (*)(void *,const char *),
 //C                                                        int (*)(void *,int,const char *),
 //C                                                        int (*)(void *,int));
-int  EnvAddRouter(void *, char *, int , int  function(void *, char *), int  function(void *, char *, char *), int  function(void *, char *), int  function(void *, int , char *), int  function(void *, int ));
+int EnvAddRouter(void*, char*, int, int function(void*, char*),
+        int function(void*, char*, char*), int function(void*, char*),
+        int function(void*, int, char*), int function(void*, int));
 //C        LOCALE int                            EnvDeleteRouter(void *,const char *);
-int  EnvDeleteRouter(void *, char *);
+int EnvDeleteRouter(void*, char*);
 //C        LOCALE int                            QueryRouters(void *,const char *);
-int  QueryRouters(void *, char *);
+int QueryRouters(void*, char*);
 //C        LOCALE int                            EnvDeactivateRouter(void *,const char *);
-int  EnvDeactivateRouter(void *, char *);
+int EnvDeactivateRouter(void*, char*);
 //C        LOCALE int                            EnvActivateRouter(void *,const char *);
-int  EnvActivateRouter(void *, char *);
+int EnvActivateRouter(void*, char*);
 //C        LOCALE void                           SetFastLoad(void *,FILE *);
-void  SetFastLoad(void *, FILE *);
+void SetFastLoad(void*, FILE*);
 //C        LOCALE void                           SetFastSave(void *,FILE *);
-void  SetFastSave(void *, FILE *);
+void SetFastSave(void*, FILE*);
 //C        LOCALE FILE                          *GetFastLoad(void *);
-FILE * GetFastLoad(void *);
+FILE* GetFastLoad(void*);
 //C        LOCALE FILE                          *GetFastSave(void *);
-FILE * GetFastSave(void *);
+FILE* GetFastSave(void*);
 //C        LOCALE void                           UnrecognizedRouterMessage(void *,const char *);
-void  UnrecognizedRouterMessage(void *, char *);
+void UnrecognizedRouterMessage(void*, char*);
 //C        LOCALE void                           ExitCommand(void *);
-void  ExitCommand(void *);
+void ExitCommand(void*);
 //C        LOCALE int                            PrintNRouter(void *,const char *,const char *,unsigned long);
-int  PrintNRouter(void *, char *, char *, uint );
+int PrintNRouter(void*, char*, char*, uint);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -6038,20 +6255,19 @@ int  PrintNRouter(void *, char *, char *, uint );
 //C        LOCALE int                            GetcRouter(const char *);
 //C        LOCALE int                            PrintRouter(const char *,const char *);
 //C        LOCALE int                            UngetcRouter(int,const char *);
-   
+
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_router */
 
-
 //C     #include "filertr.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*             FILE I/O ROUTER HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*             FILE I/O ROUTER HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: I/O Router routines which allow files to be used */
@@ -6094,7 +6310,7 @@ int  PrintNRouter(void *, char *, char *, uint );
 //C     #endif
 
 //C     #define FILE_ROUTER_DATA 47
-   
+
 const FILE_ROUTER_DATA = 47;
 //C     struct fileRouter
 //C       {
@@ -6104,9 +6320,9 @@ const FILE_ROUTER_DATA = 47;
 //C       };
 struct fileRouter
 {
-    char *logicalName;
-    FILE *stream;
-    fileRouter *next;
+    char* logicalName;
+    FILE* stream;
+    fileRouter* next;
 }
 
 //C     struct fileRouterData
@@ -6115,7 +6331,7 @@ struct fileRouter
 //C       };
 struct fileRouterData
 {
-    fileRouter *ListOfFileRouters;
+    fileRouter* ListOfFileRouters;
 }
 
 //C     #define FileRouterData(theEnv) ((struct fileRouterData *) GetEnvironmentData(theEnv,FILE_ROUTER_DATA))
@@ -6132,33 +6348,28 @@ struct fileRouterData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeFileRouter(void *);
-void  InitializeFileRouter(void *);
+void InitializeFileRouter(void*);
 //C        LOCALE FILE                          *FindFptr(void *,const char *);
-FILE * FindFptr(void *, char *);
+FILE* FindFptr(void*, char*);
 //C        LOCALE int                            OpenAFile(void *,const char *,const char *,const char *);
-int  OpenAFile(void *, char *, char *, char *);
+int OpenAFile(void*, char*, char*, char*);
 //C        LOCALE int                            CloseAllFiles(void *);
-int  CloseAllFiles(void *);
+int CloseAllFiles(void*);
 //C        LOCALE int                            CloseFile(void *,const char *);
-int  CloseFile(void *, char *);
+int CloseFile(void*, char*);
 //C        LOCALE int                            FindFile(void *,const char *);
-int  FindFile(void *, char *);
+int FindFile(void*, char*);
 
 //C     #endif /* _H_filertr */
 
-
-
-
-
-
 //C     #include "strngrtr.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*            STRING I/O ROUTER HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*            STRING I/O ROUTER HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: I/O Router routines which allow strings to be    */
@@ -6173,7 +6384,7 @@ int  FindFile(void *, char *);
 /*                                                           */
 /*      6.30: Used genstrcpy instead of strcpy.              */
 /*                                                           */
-             
+
 /*            Removed conditional code for unsupported       */
 /*            compilers/operating systems (IBM_MCW,          */
 /*            MAC_MCW, and IBM_TBC).                         */
@@ -6201,7 +6412,7 @@ const STRING_ROUTER_DATA = 48;
 //C        const char *name;
 //C        const char *readString;
 //C        char *writeString;
-   //char *str;
+//char *str;
 //C        size_t currentPosition;
 //C        size_t maximumPosition;
 //C        int readWriteType;
@@ -6209,13 +6420,13 @@ const STRING_ROUTER_DATA = 48;
 //C       };
 struct stringRouter
 {
-    char *name;
-    char *readString;
-    char *writeString;
+    char* name;
+    char* readString;
+    char* writeString;
     size_t currentPosition;
     size_t maximumPosition;
     int readWriteType;
-    stringRouter *next;
+    stringRouter* next;
 }
 
 //C     struct stringRouterData
@@ -6224,7 +6435,7 @@ struct stringRouter
 //C       };
 struct stringRouterData
 {
-    stringRouter *ListOfStringRouters;
+    stringRouter* ListOfStringRouters;
 }
 
 //C     #define StringRouterData(theEnv) ((struct stringRouterData *) GetEnvironmentData(theEnv,STRING_ROUTER_DATA))
@@ -6245,30 +6456,28 @@ struct stringRouterData
 /**************************/
 
 //C        LOCALE void                           InitializeStringRouter(void *);
-void  InitializeStringRouter(void *);
+void InitializeStringRouter(void*);
 //C        LOCALE int                            OpenStringSource(void *,const char *,const char *,size_t);
-int  OpenStringSource(void *, char *, char *, size_t );
+int OpenStringSource(void*, char*, char*, size_t);
 //C        LOCALE int                            OpenTextSource(void *,const char *,const char *,size_t,size_t);
-int  OpenTextSource(void *, char *, char *, size_t , size_t );
+int OpenTextSource(void*, char*, char*, size_t, size_t);
 //C        LOCALE int                            CloseStringSource(void *,const char *);
-int  CloseStringSource(void *, char *);
+int CloseStringSource(void*, char*);
 //C        LOCALE int                            OpenStringDestination(void *,const char *,char *,size_t);
-int  OpenStringDestination(void *, char *, char *, size_t );
+int OpenStringDestination(void*, char*, char*, size_t);
 //C        LOCALE int                            CloseStringDestination(void *,const char *);
-int  CloseStringDestination(void *, char *);
+int CloseStringDestination(void*, char*);
 
 //C     #endif /* _H_strngrtr */
 
-
-
 //C     #include "iofun.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*               I/O FUNCTIONS HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*               I/O FUNCTIONS HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -6317,7 +6526,7 @@ int  CloseStringDestination(void *, char *);
 /*                                                           */
 /*            Added AwaitingInput flag.                      */
 /*                                                           */
-             
+
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
 /*                                                           */
@@ -6339,52 +6548,46 @@ int  CloseStringDestination(void *, char *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           IOFunctionDefinitions(void *);
-void  IOFunctionDefinitions(void *);
+void IOFunctionDefinitions(void*);
 //C     #if IO_FUNCTIONS
 //C        LOCALE intBool                        SetFullCRLF(void *,intBool);
-int  SetFullCRLF(void *, int );
+int SetFullCRLF(void*, int);
 //C        LOCALE void                           PrintoutFunction(void *);
-void  PrintoutFunction(void *);
+void PrintoutFunction(void*);
 //C        LOCALE void                           ReadFunction(void *,DATA_OBJECT_PTR);
-void  ReadFunction(void *, DATA_OBJECT_PTR );
+void ReadFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE int                            OpenFunction(void *);
-int  OpenFunction(void *);
+int OpenFunction(void*);
 //C        LOCALE int                            CloseFunction(void *);
-int  CloseFunction(void *);
+int CloseFunction(void*);
 //C        LOCALE int                            GetCharFunction(void *);
-int  GetCharFunction(void *);
+int GetCharFunction(void*);
 //C        LOCALE void                           PutCharFunction(void *);
-void  PutCharFunction(void *);
+void PutCharFunction(void*);
 //C        LOCALE void                           ReadlineFunction(void *,DATA_OBJECT_PTR);
-void  ReadlineFunction(void *, DATA_OBJECT_PTR );
+void ReadlineFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                          *FormatFunction(void *);
-void * FormatFunction(void *);
+void* FormatFunction(void*);
 //C        LOCALE int                            RemoveFunction(void *);
-int  RemoveFunction(void *);
+int RemoveFunction(void*);
 //C        LOCALE int                            RenameFunction(void *);
-int  RenameFunction(void *);
+int RenameFunction(void*);
 //C        LOCALE void                           SetLocaleFunction(void *,DATA_OBJECT_PTR);
-void  SetLocaleFunction(void *, DATA_OBJECT_PTR );
+void SetLocaleFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           ReadNumberFunction(void *,DATA_OBJECT_PTR);
-void  ReadNumberFunction(void *, DATA_OBJECT_PTR );
+void ReadNumberFunction(void*, DATA_OBJECT_PTR);
 //C     #endif
 
 //C     #endif /* _H_iofun */
 
-
-
-
-
-
-
 //C     #include "sysdep.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/04/15            */
-   /*                                                     */
-   /*            SYSTEM DEPENDENT HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/04/15            */
+/*                                                     */
+/*            SYSTEM DEPENDENT HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Isolation of system dependent routines.          */
@@ -6403,7 +6606,7 @@ void  ReadNumberFunction(void *, DATA_OBJECT_PTR );
 /*            the hash tables for initialization.            */
 /*                                                           */
 /*            Made gensystem functional for Xcode.           */
- 
+
 /*                                                           */
 /*            Added BeforeOpenFunction and AfterOpenFunction */
 /*            hooks.                                         */
@@ -6493,94 +6696,91 @@ void  ReadNumberFunction(void *, DATA_OBJECT_PTR );
 //C        LOCALE void                        EnvInitializeEnvironment(void *,struct symbolHashNode **,struct floatHashNode **,
 //C     															   struct integerHashNode **,struct bitMapHashNode **,
 //C     															   struct externalAddressHashNode **);
-void  EnvInitializeEnvironment(void *, symbolHashNode **, floatHashNode **, integerHashNode **, bitMapHashNode **, externalAddressHashNode **);
+void EnvInitializeEnvironment(void*, symbolHashNode**, floatHashNode**,
+        integerHashNode**, bitMapHashNode**, externalAddressHashNode**);
 //C        LOCALE void                        SetRedrawFunction(void *,void (*)(void *));
-void  SetRedrawFunction(void *, void  function(void *));
+void SetRedrawFunction(void*, void function(void*));
 //C        LOCALE void                        SetPauseEnvFunction(void *,void (*)(void *));
-void  SetPauseEnvFunction(void *, void  function(void *));
+void SetPauseEnvFunction(void*, void function(void*));
 //C        LOCALE void                        SetContinueEnvFunction(void *,void (*)(void *,int));
-void  SetContinueEnvFunction(void *, void  function(void *, int ));
+void SetContinueEnvFunction(void*, void function(void*, int));
 //C        LOCALE void                        (*GetRedrawFunction(void *))(void *);
-void  function(void *) GetRedrawFunction(void *);
+void function(void*) GetRedrawFunction(void*);
 //C        LOCALE void                        (*GetPauseEnvFunction(void *))(void *);
-void  function(void *) GetPauseEnvFunction(void *);
+void function(void*) GetPauseEnvFunction(void*);
 //C        LOCALE void                        (*GetContinueEnvFunction(void *))(void *,int);
-void  function(void *, int ) GetContinueEnvFunction(void *);
+void function(void*, int) GetContinueEnvFunction(void*);
 //C        LOCALE void                        RerouteStdin(void *,int,char *[]);
-void  RerouteStdin(void *, int , char **);
+void RerouteStdin(void*, int, char**);
 //C        LOCALE double                      gentime(void);
-double  gentime();
+double gentime();
 //C        LOCALE void                        gensystem(void *theEnv);
-void  gensystem(void *theEnv);
+void gensystem(void* theEnv);
 //C        LOCALE void                        VMSSystem(char *);
-void  VMSSystem(char *);
+void VMSSystem(char*);
 //C        LOCALE int                         GenOpenReadBinary(void *,const char *,const char *);
-int  GenOpenReadBinary(void *, char *, char *);
+int GenOpenReadBinary(void*, char*, char*);
 //C        LOCALE void                        GetSeekCurBinary(void *,long);
-void  GetSeekCurBinary(void *, int );
+void GetSeekCurBinary(void*, int);
 //C        LOCALE void                        GetSeekSetBinary(void *,long);
-void  GetSeekSetBinary(void *, int );
+void GetSeekSetBinary(void*, int);
 //C        LOCALE void                        GenTellBinary(void *,long *);
-void  GenTellBinary(void *, int *);
+void GenTellBinary(void*, int*);
 //C        LOCALE void                        GenCloseBinary(void *);
-void  GenCloseBinary(void *);
+void GenCloseBinary(void*);
 //C        LOCALE void                        GenReadBinary(void *,void *,size_t);
-void  GenReadBinary(void *, void *, size_t );
+void GenReadBinary(void*, void*, size_t);
 //C        LOCALE FILE                       *GenOpen(void *,const char *,const char *);
-FILE * GenOpen(void *, char *, char *);
+FILE* GenOpen(void*, char*, char*);
 //C        LOCALE int                         GenClose(void *,FILE *);
-int  GenClose(void *, FILE *);
+int GenClose(void*, FILE*);
 //C        LOCALE void                        genexit(void *,int);
-void  genexit(void *, int );
+void genexit(void*, int);
 //C        LOCALE int                         genrand(void);
-int  genrand();
+int genrand();
 //C        LOCALE void                        genseed(int);
-void  genseed(int );
+void genseed(int);
 //C        LOCALE int                         genremove(const char *);
-int  genremove(char *);
+int genremove(char*);
 //C        LOCALE int                         genrename(const char *,const char *);
-int  genrename(char *, char *);
+int genrename(char*, char*);
 //C        LOCALE char                       *gengetcwd(char *,int);
-char * gengetcwd(char *, int );
+char* gengetcwd(char*, int);
 //C        LOCALE void                        GenWrite(void *,size_t,FILE *);
-void  GenWrite(void *, size_t , FILE *);
+void GenWrite(void*, size_t, FILE*);
 //C        LOCALE int                       (*EnvSetBeforeOpenFunction(void *,int (*)(void *)))(void *);
-int  function(void *) EnvSetBeforeOpenFunction(void *, int  function(void *));
+int function(void*) EnvSetBeforeOpenFunction(void*, int function(void*));
 //C        LOCALE int                       (*EnvSetAfterOpenFunction(void *,int (*)(void *)))(void *);
-int  function(void *) EnvSetAfterOpenFunction(void *, int  function(void *));
+int function(void*) EnvSetAfterOpenFunction(void*, int function(void*));
 //C        LOCALE int                         gensprintf(char *,const char *,...);
-int  gensprintf(char *, char *,...);
+int gensprintf(char*, char*, ...);
 //C        LOCALE char                       *genstrcpy(char *,const char *);
-char * genstrcpy(char *, char *);
+char* genstrcpy(char*, char*);
 //C        LOCALE char                       *genstrncpy(char *,const char *,size_t);
-char * genstrncpy(char *, char *, size_t );
+char* genstrncpy(char*, char*, size_t);
 //C        LOCALE char                       *genstrcat(char *,const char *);
-char * genstrcat(char *, char *);
+char* genstrcat(char*, char*);
 //C        LOCALE char                       *genstrncat(char *,const char *,size_t);
-char * genstrncat(char *, char *, size_t );
+char* genstrncat(char*, char*, size_t);
 //C        LOCALE void                        SetJmpBuffer(void *,jmp_buf *);
 //void  SetJmpBuffer(void *, jmp_buf *);
 //C        LOCALE void                        genprintfile(void *,FILE *,const char *);
-void  genprintfile(void *, FILE *, char *);
+void genprintfile(void*, FILE*, char*);
 //C        LOCALE int                         gengetchar(void *);
-int  gengetchar(void *);
+int gengetchar(void*);
 //C        LOCALE int                         genungetchar(void *,int);
-int  genungetchar(void *, int );
-   
+int genungetchar(void*, int);
+
 //C     #endif /* _H_sysdep */
 
-
-
-
-
 //C     #include "bmathfun.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*             BASIC MATH FUNCTIONS MODULE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*             BASIC MATH FUNCTIONS MODULE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -6620,35 +6820,35 @@ int  genungetchar(void *, int );
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                    BasicMathFunctionDefinitions(void *);
-void  BasicMathFunctionDefinitions(void *);
+void BasicMathFunctionDefinitions(void*);
 //C        LOCALE void                    AdditionFunction(void *,DATA_OBJECT_PTR);
-void  AdditionFunction(void *, DATA_OBJECT_PTR );
+void AdditionFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                    MultiplicationFunction(void *,DATA_OBJECT_PTR);
-void  MultiplicationFunction(void *, DATA_OBJECT_PTR );
+void MultiplicationFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                    SubtractionFunction(void *,DATA_OBJECT_PTR);
-void  SubtractionFunction(void *, DATA_OBJECT_PTR );
+void SubtractionFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                    DivisionFunction(void *,DATA_OBJECT_PTR);
-void  DivisionFunction(void *, DATA_OBJECT_PTR );
+void DivisionFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE long long               DivFunction(void *);
-long  DivFunction(void *);
+long DivFunction(void*);
 //C        LOCALE intBool                 SetAutoFloatDividendCommand(void *);
-int  SetAutoFloatDividendCommand(void *);
+int SetAutoFloatDividendCommand(void*);
 //C        LOCALE intBool                 GetAutoFloatDividendCommand(void *);
-int  GetAutoFloatDividendCommand(void *);
+int GetAutoFloatDividendCommand(void*);
 //C        LOCALE intBool                 EnvGetAutoFloatDividend(void *);
-int  EnvGetAutoFloatDividend(void *);
+int EnvGetAutoFloatDividend(void*);
 //C        LOCALE intBool                 EnvSetAutoFloatDividend(void *,int);
-int  EnvSetAutoFloatDividend(void *, int );
+int EnvSetAutoFloatDividend(void*, int);
 //C        LOCALE long long               IntegerFunction(void *);
-long  IntegerFunction(void *);
+long IntegerFunction(void*);
 //C        LOCALE double                  FloatFunction(void *);
-double  FloatFunction(void *);
+double FloatFunction(void*);
 //C        LOCALE void                    AbsFunction(void *,DATA_OBJECT_PTR);
-void  AbsFunction(void *, DATA_OBJECT_PTR );
+void AbsFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                    MinFunction(void *,DATA_OBJECT_PTR);
-void  MinFunction(void *, DATA_OBJECT_PTR );
+void MinFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                    MaxFunction(void *,DATA_OBJECT_PTR);
-void  MaxFunction(void *, DATA_OBJECT_PTR );
+void MaxFunction(void*, DATA_OBJECT_PTR);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -6659,20 +6859,17 @@ void  MaxFunction(void *, DATA_OBJECT_PTR );
 
 //C     #endif
 
-
-
-
 //C     #ifndef _H_expressn
 //C     #include "expressn.h"
 //C     #endif
 //C     #include "exprnpsr.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*            EXPRESSION PARSER HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*            EXPRESSION PARSER HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides routines for parsing expressions.       */
@@ -6767,9 +6964,6 @@ void  MaxFunction(void *, DATA_OBJECT_PTR );
 
 //C     #endif /* _H_exprnpsr */
 
-
-
-
 //C     #ifndef _H_evaluatn
 //C     #include "evaluatn.h"
 //C     #endif
@@ -6777,13 +6971,13 @@ void  MaxFunction(void *, DATA_OBJECT_PTR );
 //C     #include "constrct.h"
 //C     #endif
 //C     #include "utility.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
-   /*                                                     */
-   /*                 UTILITY HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/22/14            */
+/*                                                     */
+/*                 UTILITY HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides a set of utility functions useful to    */
@@ -6854,7 +7048,7 @@ void  MaxFunction(void *, DATA_OBJECT_PTR );
 //C        short int environmentAware;
 //C        void *context;
 //C       };
-  
+
 //C     struct trackedMemory
 //C       {
 //C        void *theMemory;
@@ -6894,7 +7088,7 @@ void  MaxFunction(void *, DATA_OBJECT_PTR );
 
 //C     #define UtilityData(theEnv) ((struct utilityData *) GetEnvironmentData(theEnv,UTILITY_DATA))
 
-  /* Is c the start of a utf8 sequence? */
+/* Is c the start of a utf8 sequence? */
 //C     #define IsUTF8Start(ch) (((ch) & 0xC0) != 0x80)
 //C     #define IsUTF8MultiByteStart(ch) ((((unsigned char) ch) >= 0xC0) && (((unsigned char) ch) <= 0xF7))
 //C     #define IsUTF8MultiByteContinuation(ch) ((((unsigned char) ch) >= 0x80) && (((unsigned char) ch) <= 0xBF))
@@ -6963,17 +7157,14 @@ void  MaxFunction(void *, DATA_OBJECT_PTR );
 
 //C     #endif /* _H_utility */
 
-
-
-
 //C     #include "watch.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                  WATCH HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                  WATCH HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Support functions for the watch and unwatch      */
@@ -7026,13 +7217,13 @@ const WATCH_DATA = 54;
 //C       };
 struct watchItem
 {
-    char *name;
-    uint *flag;
+    char* name;
+    uint* flag;
     int code;
     int priority;
-    uint  function(void *, int , uint , expr *)accessFunc;
-    uint  function(void *, char *, int , expr *)printFunc;
-    watchItem *next;
+    uint function(void*, int, uint, expr*) accessFunc;
+    uint function(void*, char*, int, expr*) printFunc;
+    watchItem* next;
 }
 
 //C     struct watchData
@@ -7041,7 +7232,7 @@ struct watchItem
 //C       };
 struct watchData
 {
-    watchItem *ListOfWatchItems;
+    watchItem* ListOfWatchItems;
 }
 
 //C     #define WatchData(theEnv) ((struct watchData *) GetEnvironmentData(theEnv,WATCH_DATA))
@@ -7058,33 +7249,34 @@ struct watchData
 //C -- alias extern LOCALE;
 
 //C        LOCALE intBool                        EnvWatch(void *,const char *);
-int  EnvWatch(void *, char *);
+int EnvWatch(void*, char*);
 //C        LOCALE intBool                        EnvUnwatch(void *,const char *);
-int  EnvUnwatch(void *, char *);
+int EnvUnwatch(void*, char*);
 //C        LOCALE void                           InitializeWatchData(void *);   
-void  InitializeWatchData(void *);
+void InitializeWatchData(void*);
 //C        LOCALE int                            EnvSetWatchItem(void *,const char *,unsigned,struct expr *);
-int  EnvSetWatchItem(void *, char *, uint , expr *);
+int EnvSetWatchItem(void*, char*, uint, expr*);
 //C        LOCALE int                            EnvGetWatchItem(void *,const char *);
-int  EnvGetWatchItem(void *, char *);
+int EnvGetWatchItem(void*, char*);
 //C        LOCALE intBool                        AddWatchItem(void *,const char *,int,unsigned *,int,
 //C                                                           unsigned (*)(void *,int,unsigned,struct expr *),
 //C                                                           unsigned (*)(void *,const char *,int,struct expr *));
-int  AddWatchItem(void *, char *, int , uint *, int , uint  function(void *, int , uint , expr *), uint  function(void *, char *, int , expr *));
+int AddWatchItem(void*, char*, int, uint*, int, uint function(void*, int,
+        uint, expr*), uint function(void*, char*, int, expr*));
 //C        LOCALE const char                    *GetNthWatchName(void *,int);
-char * GetNthWatchName(void *, int );
+char* GetNthWatchName(void*, int);
 //C        LOCALE int                            GetNthWatchValue(void *,int);
-int  GetNthWatchValue(void *, int );
+int GetNthWatchValue(void*, int);
 //C        LOCALE void                           WatchCommand(void *);
-void  WatchCommand(void *);
+void WatchCommand(void*);
 //C        LOCALE void                           UnwatchCommand(void *);
-void  UnwatchCommand(void *);
+void UnwatchCommand(void*);
 //C        LOCALE void                           ListWatchItemsCommand(void *);
-void  ListWatchItemsCommand(void *);
+void ListWatchItemsCommand(void*);
 //C        LOCALE void                           WatchFunctionDefinitions(void *);
-void  WatchFunctionDefinitions(void *);
+void WatchFunctionDefinitions(void*);
 //C        LOCALE int                            GetWatchItemCommand(void *);
-int  GetWatchItemCommand(void *);
+int GetWatchItemCommand(void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -7097,16 +7289,14 @@ int  GetWatchItemCommand(void *);
 
 //C     #endif /* _H_watch */
 
-
-
 //C     #include "modulbsc.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*         DEFMODULE BASIC COMMANDS HEADER FILE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*         DEFMODULE BASIC COMMANDS HEADER FILE        */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements core commands for the deffacts        */
@@ -7151,17 +7341,17 @@ int  GetWatchItemCommand(void *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           DefmoduleBasicCommands(void *);
-void  DefmoduleBasicCommands(void *);
+void DefmoduleBasicCommands(void*);
 //C        LOCALE void                           EnvGetDefmoduleList(void *,DATA_OBJECT_PTR);
-void  EnvGetDefmoduleList(void *, DATA_OBJECT_PTR );
+void EnvGetDefmoduleList(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           PPDefmoduleCommand(void *);
-void  PPDefmoduleCommand(void *);
+void PPDefmoduleCommand(void*);
 //C        LOCALE int                            PPDefmodule(void *,const char *,const char *);
-int  PPDefmodule(void *, char *, char *);
+int PPDefmodule(void*, char*, char*);
 //C        LOCALE void                           ListDefmodulesCommand(void *);
-void  ListDefmodulesCommand(void *);
+void ListDefmodulesCommand(void*);
 //C        LOCALE void                           EnvListDefmodules(void *,const char *);
-void  EnvListDefmodules(void *, char *);
+void EnvListDefmodules(void*, char*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -7174,16 +7364,15 @@ void  EnvListDefmodules(void *, char *);
 
 //C     #endif /* _H_modulbsc */
 
-
 //C     #if BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
 //C     #include "bload.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                 BLOAD HEADER FILE                   */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                 BLOAD HEADER FILE                   */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -7221,13 +7410,13 @@ void  EnvListDefmodules(void *, char *);
 //C     #endif
 //C     #ifndef _H_exprnbin
 //C     #include "exprnbin.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*           EXPRESSION BLOAD/BSAVE HEADER FILE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*           EXPRESSION BLOAD/BSAVE HEADER FILE        */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements the binary save/load feature for the  */
@@ -7270,27 +7459,21 @@ void  EnvListDefmodules(void *, char *);
 //C     #define HashedExpressionPointer(i) ExpressionPointer(i)
 
 //C        LOCALE void                        AllocateExpressions(void *);
-void  AllocateExpressions(void *);
+void AllocateExpressions(void*);
 //C        LOCALE void                        RefreshExpressions(void *);
-void  RefreshExpressions(void *);
+void RefreshExpressions(void*);
 //C        LOCALE void                        ClearBloadedExpressions(void *);
-void  ClearBloadedExpressions(void *);
+void ClearBloadedExpressions(void*);
 //C        LOCALE void                        FindHashedExpressions(void *);
-void  FindHashedExpressions(void *);
+void FindHashedExpressions(void*);
 //C        LOCALE void                        BsaveHashedExpressions(void *,FILE *);
-void  BsaveHashedExpressions(void *, FILE *);
+void BsaveHashedExpressions(void*, FILE*);
 //C        LOCALE void                        BsaveConstructExpressions(void *,FILE *);
-void  BsaveConstructExpressions(void *, FILE *);
+void BsaveConstructExpressions(void*, FILE*);
 //C        LOCALE void                        BsaveExpression(void *,struct expr *,FILE *);
-void  BsaveExpression(void *, expr *, FILE *);
+void BsaveExpression(void*, expr*, FILE*);
 
 //C     #endif /* _H_exprnbin */
-
-
-
-
-
-
 
 //C     #endif
 //C     #ifndef _H_symbol
@@ -7301,13 +7484,13 @@ void  BsaveExpression(void *, expr *, FILE *);
 //C     #endif
 //C     #ifndef _H_symblbin
 //C     #include "symblbin.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*           SYMBOL BINARY SAVE HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*           SYMBOL BINARY SAVE HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements the binary save/load feature for      */
@@ -7356,31 +7539,29 @@ void  BsaveExpression(void *, expr *, FILE *);
 //C     #define IntegerPointer(i) ((INTEGER_HN *) (SymbolData(theEnv)->IntegerArray[i]))
 
 //C        LOCALE void                    MarkNeededAtomicValues(void);
-void  MarkNeededAtomicValues();
+void MarkNeededAtomicValues();
 //C        LOCALE void                    WriteNeededAtomicValues(void *,FILE *);
-void  WriteNeededAtomicValues(void *, FILE *);
+void WriteNeededAtomicValues(void*, FILE*);
 //C        LOCALE void                    ReadNeededAtomicValues(void *);
-void  ReadNeededAtomicValues(void *);
+void ReadNeededAtomicValues(void*);
 //C        LOCALE void                    InitAtomicValueNeededFlags(void *);
-void  InitAtomicValueNeededFlags(void *);
+void InitAtomicValueNeededFlags(void*);
 //C        LOCALE void                    FreeAtomicValueStorage(void *);
-void  FreeAtomicValueStorage(void *);
+void FreeAtomicValueStorage(void*);
 //C        LOCALE void                    WriteNeededSymbols(void *,FILE *);
-void  WriteNeededSymbols(void *, FILE *);
+void WriteNeededSymbols(void*, FILE*);
 //C        LOCALE void                    WriteNeededFloats(void *,FILE *);
-void  WriteNeededFloats(void *, FILE *);
+void WriteNeededFloats(void*, FILE*);
 //C        LOCALE void                    WriteNeededIntegers(void *,FILE *);
-void  WriteNeededIntegers(void *, FILE *);
+void WriteNeededIntegers(void*, FILE*);
 //C        LOCALE void                    ReadNeededSymbols(void *);
-void  ReadNeededSymbols(void *);
+void ReadNeededSymbols(void*);
 //C        LOCALE void                    ReadNeededFloats(void *);
-void  ReadNeededFloats(void *);
+void ReadNeededFloats(void*);
 //C        LOCALE void                    ReadNeededIntegers(void *);
-void  ReadNeededIntegers(void *);
+void ReadNeededIntegers(void*);
 
 //C     #endif /* _H_symblbin */
-
-
 
 //C     #endif
 
@@ -7400,14 +7581,14 @@ const BLOAD_DATA = 38;
 //C       };
 struct bloadData
 {
-    char *BinaryPrefixID;
-    char *BinaryVersionID;
-    FunctionDefinition **FunctionArray;
+    char* BinaryPrefixID;
+    char* BinaryVersionID;
+    FunctionDefinition** FunctionArray;
     int BloadActive;
-    callFunctionItem *BeforeBloadFunctions;
-    callFunctionItem *AfterBloadFunctions;
-    callFunctionItem *ClearBloadReadyFunctions;
-    callFunctionItem *AbortBloadFunctions;
+    callFunctionItem* BeforeBloadFunctions;
+    callFunctionItem* AfterBloadFunctions;
+    callFunctionItem* ClearBloadReadyFunctions;
+    callFunctionItem* AbortBloadFunctions;
 }
 
 //C     #define BloadData(theEnv) ((struct bloadData *) GetEnvironmentData(theEnv,BLOAD_DATA))
@@ -7425,25 +7606,25 @@ struct bloadData
 //C     #define FunctionPointer(i) ((struct FunctionDefinition *) (((i) == -1L) ? NULL : BloadData(theEnv)->FunctionArray[i]))
 
 //C        LOCALE void                    InitializeBloadData(void *);
-void  InitializeBloadData(void *);
+void InitializeBloadData(void*);
 //C        LOCALE int                     BloadCommand(void *);
-int  BloadCommand(void *);
+int BloadCommand(void*);
 //C        LOCALE intBool                 EnvBload(void *,const char *);
-int  EnvBload(void *, char *);
+int EnvBload(void*, char*);
 //C        LOCALE void                    BloadandRefresh(void *,long,size_t,void (*)(void *,void *,long));
-void  BloadandRefresh(void *, int , size_t , void  function(void *, void *, int ));
+void BloadandRefresh(void*, int, size_t, void function(void*, void*, int));
 //C        LOCALE intBool                 Bloaded(void *);
-int  Bloaded(void *);
+int Bloaded(void*);
 //C        LOCALE void                    AddBeforeBloadFunction(void *,const char *,void (*)(void *),int);
-void  AddBeforeBloadFunction(void *, char *, void  function(void *), int );
+void AddBeforeBloadFunction(void*, char*, void function(void*), int);
 //C        LOCALE void                    AddAfterBloadFunction(void *,const char *,void (*)(void *),int);
-void  AddAfterBloadFunction(void *, char *, void  function(void *), int );
+void AddAfterBloadFunction(void*, char*, void function(void*), int);
 //C        LOCALE void                    AddClearBloadReadyFunction(void *,const char *,int (*)(void *),int);
-void  AddClearBloadReadyFunction(void *, char *, int  function(void *), int );
+void AddClearBloadReadyFunction(void*, char*, int function(void*), int);
 //C        LOCALE void                    AddAbortBloadFunction(void *,const char *,void (*)(void *),int);
-void  AddAbortBloadFunction(void *, char *, void  function(void *), int );
+void AddAbortBloadFunction(void*, char*, void function(void*), int);
 //C        LOCALE void                    CannotLoadWithBloadMessage(void *,const char *);
-void  CannotLoadWithBloadMessage(void *, char *);
+void CannotLoadWithBloadMessage(void*, char*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 //C        LOCALE int                     Bload(const char *);
@@ -7455,13 +7636,13 @@ void  CannotLoadWithBloadMessage(void *, char *);
 
 //C     #if BLOAD_AND_BSAVE
 //C     #include "bsave.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                 BSAVE HEADER FILE                   */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                 BSAVE HEADER FILE                   */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -7530,16 +7711,16 @@ void  CannotLoadWithBloadMessage(void *, char *);
 //C       };
 struct BinaryItem
 {
-    char *name;
-    void  function(void *)findFunction;
-    void  function(void *)bloadStorageFunction;
-    void  function(void *)bloadFunction;
-    void  function(void *)clearFunction;
-    void  function(void *, FILE *)expressionFunction;
-    void  function(void *, FILE *)bsaveStorageFunction;
-    void  function(void *, FILE *)bsaveFunction;
+    char* name;
+    void function(void*) findFunction;
+    void function(void*) bloadStorageFunction;
+    void function(void*) bloadFunction;
+    void function(void*) clearFunction;
+    void function(void*, FILE*) expressionFunction;
+    void function(void*, FILE*) bsaveStorageFunction;
+    void function(void*, FILE*) bsaveFunction;
     int priority;
-    BinaryItem *next;
+    BinaryItem* next;
 }
 
 //C     #if BLOAD_AND_BSAVE
@@ -7551,8 +7732,9 @@ struct BinaryItem
 struct bloadcntsv
 {
     int val;
-    bloadcntsv *nxt;
+    bloadcntsv* nxt;
 }
+
 alias bloadcntsv BLOADCNTSV;
 //C     #endif
 
@@ -7568,6 +7750,7 @@ struct bsave_expr
     int argList;
     int nextArg;
 }
+
 alias bsave_expr BSAVE_EXPRESSION;
 
 //C     #define CONSTRUCT_HEADER_SIZE 20
@@ -7585,25 +7768,25 @@ const BSAVE_DATA = 39;
 //C       };
 struct bsaveData
 {
-    BinaryItem *ListOfBinaryItems;
-    BLOADCNTSV *BloadCountSaveTop;
+    BinaryItem* ListOfBinaryItems;
+    BLOADCNTSV* BloadCountSaveTop;
 }
 
 //C     #define BsaveData(theEnv) ((struct bsaveData *) GetEnvironmentData(theEnv,BSAVE_DATA))
 
 //C        LOCALE void                    InitializeBsaveData(void *);
-void  InitializeBsaveData(void *);
+void InitializeBsaveData(void*);
 //C        LOCALE int                     BsaveCommand(void *);
-int  BsaveCommand(void *);
+int BsaveCommand(void*);
 //C     #if BLOAD_AND_BSAVE
 //C        LOCALE intBool                 EnvBsave(void *,const char *);
-int  EnvBsave(void *, char *);
+int EnvBsave(void*, char*);
 //C        LOCALE void                    MarkNeededItems(void *,struct expr *);
-void  MarkNeededItems(void *, expr *);
+void MarkNeededItems(void*, expr*);
 //C        LOCALE void                    SaveBloadCount(void *,long);
-void  SaveBloadCount(void *, int );
+void SaveBloadCount(void*, int);
 //C        LOCALE void                    RestoreBloadCount(void *,long *);
-void  RestoreBloadCount(void *, int *);
+void RestoreBloadCount(void*, int*);
 //C     #endif
 //C        LOCALE intBool                 AddBinaryItem(void *,const char *,int,
 //C                                                     void (*)(void *),
@@ -7613,7 +7796,10 @@ void  RestoreBloadCount(void *, int *);
 //C                                                     void (*)(void *),
 //C                                                     void (*)(void *),
 //C                                                     void (*)(void *));
-int  AddBinaryItem(void *, char *, int , void  function(void *), void  function(void *, FILE *), void  function(void *, FILE *), void  function(void *, FILE *), void  function(void *), void  function(void *), void  function(void *));
+int AddBinaryItem(void*, char*, int, void function(void*),
+        void function(void*, FILE*), void function(void*, FILE*),
+        void function(void*, FILE*), void function(void*),
+        void function(void*), void function(void*));
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -7623,24 +7809,18 @@ int  AddBinaryItem(void *, char *, int , void  function(void *), void  function(
 
 //C     #endif /* _H_bsave */
 
-
-
-
-
-
-
 //C     #endif
 
 //C     #if DEFRULE_CONSTRUCT
 //C     #ifndef _H_ruledef
 //C     #include "ruledef.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  01/25/15            */
-   /*                                                     */
-   /*                 DEFRULE HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  01/25/15            */
+/*                                                     */
+/*                 DEFRULE HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Defines basic defrule primitive functions such   */
@@ -7721,13 +7901,13 @@ int  AddBinaryItem(void *, char *, int , void  function(void *), void  function(
 //C     #endif
 //C     #ifndef _H_constrnt
 //C     #include "constrnt.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                CONSTRAINT HEADER FILE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                CONSTRAINT HEADER FILE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides functions for creating and removing     */
@@ -7814,53 +7994,224 @@ int  AddBinaryItem(void *, char *, int , void  function(void *), void  function(
 struct constraintRecord
 {
     uint __bitfield1;
-    uint anyAllowed() { return (__bitfield1 >> 0) & 0x1; }
-    uint anyAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint symbolsAllowed() { return (__bitfield1 >> 1) & 0x1; }
-    uint symbolsAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint stringsAllowed() { return (__bitfield1 >> 2) & 0x1; }
-    uint stringsAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint floatsAllowed() { return (__bitfield1 >> 3) & 0x1; }
-    uint floatsAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3); return value; }
-    uint integersAllowed() { return (__bitfield1 >> 4) & 0x1; }
-    uint integersAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4); return value; }
-    uint instanceNamesAllowed() { return (__bitfield1 >> 5) & 0x1; }
-    uint instanceNamesAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5); return value; }
-    uint instanceAddressesAllowed() { return (__bitfield1 >> 6) & 0x1; }
-    uint instanceAddressesAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffbf) | (value << 6); return value; }
-    uint externalAddressesAllowed() { return (__bitfield1 >> 7) & 0x1; }
-    uint externalAddressesAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffff7f) | (value << 7); return value; }
-    uint factAddressesAllowed() { return (__bitfield1 >> 8) & 0x1; }
-    uint factAddressesAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffeff) | (value << 8); return value; }
-    uint voidAllowed() { return (__bitfield1 >> 9) & 0x1; }
-    uint voidAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffdff) | (value << 9); return value; }
-    uint anyRestriction() { return (__bitfield1 >> 10) & 0x1; }
-    uint anyRestriction(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffbff) | (value << 10); return value; }
-    uint symbolRestriction() { return (__bitfield1 >> 11) & 0x1; }
-    uint symbolRestriction(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffff7ff) | (value << 11); return value; }
-    uint stringRestriction() { return (__bitfield1 >> 12) & 0x1; }
-    uint stringRestriction(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffefff) | (value << 12); return value; }
-    uint floatRestriction() { return (__bitfield1 >> 13) & 0x1; }
-    uint floatRestriction(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffdfff) | (value << 13); return value; }
-    uint integerRestriction() { return (__bitfield1 >> 14) & 0x1; }
-    uint integerRestriction(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffbfff) | (value << 14); return value; }
-    uint classRestriction() { return (__bitfield1 >> 15) & 0x1; }
-    uint classRestriction(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffff7fff) | (value << 15); return value; }
-    uint instanceNameRestriction() { return (__bitfield1 >> 16) & 0x1; }
-    uint instanceNameRestriction(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffeffff) | (value << 16); return value; }
-    uint multifieldsAllowed() { return (__bitfield1 >> 17) & 0x1; }
-    uint multifieldsAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffdffff) | (value << 17); return value; }
-    uint singlefieldsAllowed() { return (__bitfield1 >> 18) & 0x1; }
-    uint singlefieldsAllowed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffbffff) | (value << 18); return value; }
+    uint anyAllowed()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint anyAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint symbolsAllowed()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint symbolsAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint stringsAllowed()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint stringsAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint floatsAllowed()
+    {
+        return (__bitfield1 >> 3) & 0x1;
+    }
+
+    uint floatsAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3);
+        return value;
+    }
+
+    uint integersAllowed()
+    {
+        return (__bitfield1 >> 4) & 0x1;
+    }
+
+    uint integersAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4);
+        return value;
+    }
+
+    uint instanceNamesAllowed()
+    {
+        return (__bitfield1 >> 5) & 0x1;
+    }
+
+    uint instanceNamesAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5);
+        return value;
+    }
+
+    uint instanceAddressesAllowed()
+    {
+        return (__bitfield1 >> 6) & 0x1;
+    }
+
+    uint instanceAddressesAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffbf) | (value << 6);
+        return value;
+    }
+
+    uint externalAddressesAllowed()
+    {
+        return (__bitfield1 >> 7) & 0x1;
+    }
+
+    uint externalAddressesAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffff7f) | (value << 7);
+        return value;
+    }
+
+    uint factAddressesAllowed()
+    {
+        return (__bitfield1 >> 8) & 0x1;
+    }
+
+    uint factAddressesAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffeff) | (value << 8);
+        return value;
+    }
+
+    uint voidAllowed()
+    {
+        return (__bitfield1 >> 9) & 0x1;
+    }
+
+    uint voidAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffdff) | (value << 9);
+        return value;
+    }
+
+    uint anyRestriction()
+    {
+        return (__bitfield1 >> 10) & 0x1;
+    }
+
+    uint anyRestriction(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffbff) | (value << 10);
+        return value;
+    }
+
+    uint symbolRestriction()
+    {
+        return (__bitfield1 >> 11) & 0x1;
+    }
+
+    uint symbolRestriction(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffff7ff) | (value << 11);
+        return value;
+    }
+
+    uint stringRestriction()
+    {
+        return (__bitfield1 >> 12) & 0x1;
+    }
+
+    uint stringRestriction(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffefff) | (value << 12);
+        return value;
+    }
+
+    uint floatRestriction()
+    {
+        return (__bitfield1 >> 13) & 0x1;
+    }
+
+    uint floatRestriction(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffdfff) | (value << 13);
+        return value;
+    }
+
+    uint integerRestriction()
+    {
+        return (__bitfield1 >> 14) & 0x1;
+    }
+
+    uint integerRestriction(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffbfff) | (value << 14);
+        return value;
+    }
+
+    uint classRestriction()
+    {
+        return (__bitfield1 >> 15) & 0x1;
+    }
+
+    uint classRestriction(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffff7fff) | (value << 15);
+        return value;
+    }
+
+    uint instanceNameRestriction()
+    {
+        return (__bitfield1 >> 16) & 0x1;
+    }
+
+    uint instanceNameRestriction(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffeffff) | (value << 16);
+        return value;
+    }
+
+    uint multifieldsAllowed()
+    {
+        return (__bitfield1 >> 17) & 0x1;
+    }
+
+    uint multifieldsAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffdffff) | (value << 17);
+        return value;
+    }
+
+    uint singlefieldsAllowed()
+    {
+        return (__bitfield1 >> 18) & 0x1;
+    }
+
+    uint singlefieldsAllowed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffbffff) | (value << 18);
+        return value;
+    }
+
     ushort bsaveIndex;
-    expr *classList;
-    expr *restrictionList;
-    expr *minValue;
-    expr *maxValue;
-    expr *minFields;
-    expr *maxFields;
-    constraintRecord *multifield;
-    constraintRecord *next;
+    expr* classList;
+    expr* restrictionList;
+    expr* minValue;
+    expr* maxValue;
+    expr* minFields;
+    expr* maxFields;
+    constraintRecord* multifield;
+    constraintRecord* next;
     int bucket;
     int count;
 }
@@ -7886,42 +8237,42 @@ const CONSTRAINT_DATA = 43;
 //C       };
 struct constraintData
 {
-    constraintRecord **ConstraintHashtable;
+    constraintRecord** ConstraintHashtable;
     int StaticConstraintChecking;
     int DynamicConstraintChecking;
-    constraintRecord *ConstraintArray;
+    constraintRecord* ConstraintArray;
     int NumberOfConstraints;
 }
 
 //C     #define ConstraintData(theEnv) ((struct constraintData *) GetEnvironmentData(theEnv,CONSTRAINT_DATA))
 
 //C        LOCALE void                           InitializeConstraints(void *);
-void  InitializeConstraints(void *);
+void InitializeConstraints(void*);
 //C        LOCALE int                            GDCCommand(void *);
-int  GDCCommand(void *);
+int GDCCommand(void*);
 //C        LOCALE int                            SDCCommand(void *d);
-int  SDCCommand(void *d);
+int SDCCommand(void* d);
 //C        LOCALE int                            GSCCommand(void *);
-int  GSCCommand(void *);
+int GSCCommand(void*);
 //C        LOCALE int                            SSCCommand(void *);
-int  SSCCommand(void *);
+int SSCCommand(void*);
 //C        LOCALE intBool                        EnvSetDynamicConstraintChecking(void *,int);
-int  EnvSetDynamicConstraintChecking(void *, int );
+int EnvSetDynamicConstraintChecking(void*, int);
 //C        LOCALE intBool                        EnvGetDynamicConstraintChecking(void *);
-int  EnvGetDynamicConstraintChecking(void *);
+int EnvGetDynamicConstraintChecking(void*);
 //C        LOCALE intBool                        EnvSetStaticConstraintChecking(void *,int);
-int  EnvSetStaticConstraintChecking(void *, int );
+int EnvSetStaticConstraintChecking(void*, int);
 //C        LOCALE intBool                        EnvGetStaticConstraintChecking(void *);
-int  EnvGetStaticConstraintChecking(void *);
+int EnvGetStaticConstraintChecking(void*);
 //C     #if (! BLOAD_ONLY) && (! RUN_TIME)
 //C        LOCALE unsigned long                  HashConstraint(struct constraintRecord *);
-uint  HashConstraint(constraintRecord *);
+uint HashConstraint(constraintRecord*);
 //C        LOCALE struct constraintRecord       *AddConstraint(void *,struct constraintRecord *);
-constraintRecord * AddConstraint(void *, constraintRecord *);
+constraintRecord* AddConstraint(void*, constraintRecord*);
 //C     #endif
 //C     #if (! RUN_TIME)
 //C        LOCALE void                           RemoveConstraint(void *,struct constraintRecord *);
-void  RemoveConstraint(void *, constraintRecord *);
+void RemoveConstraint(void*, constraintRecord*);
 //C     #endif
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
@@ -7935,19 +8286,16 @@ void  RemoveConstraint(void *, constraintRecord *);
 
 //C     #endif
 
-
-
-
 //C     #endif
 //C     #ifndef _H_cstrccom
 //C     #include "cstrccom.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  01/25/15            */
-   /*                                                     */
-   /*           CONSTRUCT COMMAND HEADER MODULE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  01/25/15            */
+/*                                                     */
+/*           CONSTRUCT COMMAND HEADER MODULE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -7996,102 +8344,103 @@ void  RemoveConstraint(void *, constraintRecord *);
 
 //C     #if (! RUN_TIME)
 //C        LOCALE void                           AddConstructToModule(struct constructHeader *);
-void  AddConstructToModule(constructHeader *);
+void AddConstructToModule(constructHeader*);
 //C     #endif
 //C        LOCALE intBool                        DeleteNamedConstruct(void *,const char *,struct construct *);
-int  DeleteNamedConstruct(void *, char *, construct *);
+int DeleteNamedConstruct(void*, char*, construct*);
 //C        LOCALE void                          *FindNamedConstructInModule(void *,const char *,struct construct *);
-void * FindNamedConstructInModule(void *, char *, construct *);
+void* FindNamedConstructInModule(void*, char*, construct*);
 //C        LOCALE void                          *FindNamedConstructInModuleOrImports(void *,const char *,struct construct *);
-void * FindNamedConstructInModuleOrImports(void *, char *, construct *);
+void* FindNamedConstructInModuleOrImports(void*, char*, construct*);
 //C        LOCALE void                           UndefconstructCommand(void *,const char *,struct construct *);
-void  UndefconstructCommand(void *, char *, construct *);
+void UndefconstructCommand(void*, char*, construct*);
 //C        LOCALE int                            PPConstruct(void *,const char *,const char *,struct construct *);
-int  PPConstruct(void *, char *, char *, construct *);
+int PPConstruct(void*, char*, char*, construct*);
 //C        LOCALE SYMBOL_HN                     *GetConstructModuleCommand(void *,const char *,struct construct *);
-SYMBOL_HN * GetConstructModuleCommand(void *, char *, construct *);
+SYMBOL_HN* GetConstructModuleCommand(void*, char*, construct*);
 //C        LOCALE struct defmodule              *GetConstructModule(void *,const char *,struct construct *);
-defmodule * GetConstructModule(void *, char *, construct *);
+defmodule* GetConstructModule(void*, char*, construct*);
 //C        LOCALE intBool                        Undefconstruct(void *,void *,struct construct *);
-int  Undefconstruct(void *, void *, construct *);
+int Undefconstruct(void*, void*, construct*);
 //C        LOCALE void                           SaveConstruct(void *,void *,const char *,struct construct *);
-void  SaveConstruct(void *, void *, char *, construct *);
+void SaveConstruct(void*, void*, char*, construct*);
 //C        LOCALE const char                    *GetConstructNameString(struct constructHeader *);
-char * GetConstructNameString(constructHeader *);
+char* GetConstructNameString(constructHeader*);
 //C        LOCALE const char                    *EnvGetConstructNameString(void *,struct constructHeader *);
-char * EnvGetConstructNameString(void *, constructHeader *);
+char* EnvGetConstructNameString(void*, constructHeader*);
 //C        LOCALE const char                    *GetConstructModuleName(struct constructHeader *);
-char * GetConstructModuleName(constructHeader *);
+char* GetConstructModuleName(constructHeader*);
 //C        LOCALE SYMBOL_HN                     *GetConstructNamePointer(struct constructHeader *);
-SYMBOL_HN * GetConstructNamePointer(constructHeader *);
+SYMBOL_HN* GetConstructNamePointer(constructHeader*);
 //C        LOCALE void                           GetConstructListFunction(void *,const char *,DATA_OBJECT_PTR,
 //C                                                                       struct construct *);
-void  GetConstructListFunction(void *, char *, DATA_OBJECT_PTR , construct *);
+void GetConstructListFunction(void*, char*, DATA_OBJECT_PTR, construct*);
 //C        LOCALE void                           GetConstructList(void *,DATA_OBJECT_PTR,struct construct *,
 //C                                                               struct defmodule *);
-void  GetConstructList(void *, DATA_OBJECT_PTR , construct *, defmodule *);
+void GetConstructList(void*, DATA_OBJECT_PTR, construct*, defmodule*);
 //C        LOCALE void                           ListConstructCommand(void *,const char *,struct construct *);
-void  ListConstructCommand(void *, char *, construct *);
+void ListConstructCommand(void*, char*, construct*);
 //C        LOCALE void                           ListConstruct(void *,struct construct *,const char *,struct defmodule *);
-void  ListConstruct(void *, construct *, char *, defmodule *);
+void ListConstruct(void*, construct*, char*, defmodule*);
 //C        LOCALE void                           SetNextConstruct(struct constructHeader *,struct constructHeader *);
-void  SetNextConstruct(constructHeader *, constructHeader *);
+void SetNextConstruct(constructHeader*, constructHeader*);
 //C        LOCALE struct defmoduleItemHeader    *GetConstructModuleItem(struct constructHeader *);
-defmoduleItemHeader * GetConstructModuleItem(constructHeader *);
+defmoduleItemHeader* GetConstructModuleItem(constructHeader*);
 //C        LOCALE const char                    *GetConstructPPForm(void *,struct constructHeader *);
-char * GetConstructPPForm(void *, constructHeader *);
+char* GetConstructPPForm(void*, constructHeader*);
 //C        LOCALE void                           PPConstructCommand(void *,const char *,struct construct *);
-void  PPConstructCommand(void *, char *, construct *);
+void PPConstructCommand(void*, char*, construct*);
 //C        LOCALE struct constructHeader        *GetNextConstructItem(void *,struct constructHeader *,int);
-constructHeader * GetNextConstructItem(void *, constructHeader *, int );
+constructHeader* GetNextConstructItem(void*, constructHeader*, int);
 //C        LOCALE struct defmoduleItemHeader    *GetConstructModuleItemByIndex(void *,struct defmodule *,int);
-defmoduleItemHeader * GetConstructModuleItemByIndex(void *, defmodule *, int );
+defmoduleItemHeader* GetConstructModuleItemByIndex(void*, defmodule*, int);
 //C        LOCALE void                           FreeConstructHeaderModule(void *,struct defmoduleItemHeader *,
 //C                                                                        struct construct *);
-void  FreeConstructHeaderModule(void *, defmoduleItemHeader *, construct *);
+void FreeConstructHeaderModule(void*, defmoduleItemHeader*, construct*);
 //C        LOCALE long                           DoForAllConstructs(void *,
 //C                                                                 void (*)(void *,struct constructHeader *,void *),
 //C                                                                 int,int,void *);
-int  DoForAllConstructs(void *, void  function(void *, constructHeader *, void *), int , int , void *);
+int DoForAllConstructs(void*, void function(void*, constructHeader*, void*), int, int, void*);
 //C        LOCALE void                           DoForAllConstructsInModule(void *,void *,
 //C                                                                 void (*)(void *,struct constructHeader *,void *),
 //C                                                                 int,int,void *);
-void  DoForAllConstructsInModule(void *, void *, void  function(void *, constructHeader *, void *), int , int , void *);
+void DoForAllConstructsInModule(void*, void*, void function(void*,
+        constructHeader*, void*), int, int, void*);
 //C        LOCALE void                           InitializeConstructHeader(void *,const char *,struct constructHeader *,SYMBOL_HN *);
-void  InitializeConstructHeader(void *, char *, constructHeader *, SYMBOL_HN *);
+void InitializeConstructHeader(void*, char*, constructHeader*, SYMBOL_HN*);
 //C        LOCALE void                           SetConstructPPForm(void *,struct constructHeader *,const char *);
-void  SetConstructPPForm(void *, constructHeader *, char *);
+void SetConstructPPForm(void*, constructHeader*, char*);
 //C        LOCALE void                          *LookupConstruct(void *,struct construct *,const char *,intBool);
-void * LookupConstruct(void *, construct *, char *, int );
+void* LookupConstruct(void*, construct*, char*, int);
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE unsigned                       ConstructPrintWatchAccess(void *,struct construct *,const char *,
 //C                                                 EXPRESSION *,
 //C                                                 unsigned (*)(void *,void *),
 //C                                                 void (*)(void *,unsigned,void *));
-uint  ConstructPrintWatchAccess(void *, construct *, char *, EXPRESSION *, uint  function(void *, void *), void  function(void *, uint , void *));
+uint ConstructPrintWatchAccess(void*, construct*, char*, EXPRESSION*,
+        uint function(void*, void*), void function(void*, uint, void*));
 //C        LOCALE unsigned                       ConstructSetWatchAccess(void *,struct construct *,unsigned,
 //C                                                 EXPRESSION *,
 //C                                                 unsigned (*)(void *,void *),
 //C                                                 void (*)(void *,unsigned,void *));
-uint  ConstructSetWatchAccess(void *, construct *, uint , EXPRESSION *, uint  function(void *, void *), void  function(void *, uint , void *));
+uint ConstructSetWatchAccess(void*, construct*, uint, EXPRESSION*,
+        uint function(void*, void*), void function(void*, uint, void*));
 //C     #endif
 //C        LOCALE intBool                        ConstructsDeletable(void *);
-int  ConstructsDeletable(void *);
+int ConstructsDeletable(void*);
 
 //C     #endif
-
-
 
 //C     #endif
 //C     #ifndef _H_agenda
 //C     #include "agenda.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
-   /*                                                     */
-   /*                 AGENDA HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/22/14            */
+/*                                                     */
+/*                 AGENDA HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -8142,13 +8491,13 @@ int  ConstructsDeletable(void *);
 //C     #endif
 //C     #ifndef _H_match
 //C     #include "match.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                  MATCH HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                  MATCH HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -8182,13 +8531,13 @@ int  ConstructsDeletable(void *);
 //C     #endif
 //C     #ifndef _H_network
 //C     #include "network.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                 NETWORK HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                 NETWORK HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -8237,27 +8586,98 @@ int  ConstructsDeletable(void *);
 //C       };
 struct patternNodeHeader
 {
-    alphaMemoryHash *firstHash;
-    alphaMemoryHash *lastHash;
-    joinNode *entryJoin;
-    expr *rightHash;
+    alphaMemoryHash* firstHash;
+    alphaMemoryHash* lastHash;
+    joinNode* entryJoin;
+    expr* rightHash;
     uint __bitfield1;
-    uint singlefieldNode() { return (__bitfield1 >> 0) & 0x1; }
-    uint singlefieldNode(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint multifieldNode() { return (__bitfield1 >> 1) & 0x1; }
-    uint multifieldNode(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint stopNode() { return (__bitfield1 >> 2) & 0x1; }
-    uint stopNode(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint initialize() { return (__bitfield1 >> 3) & 0x1; }
-    uint initialize(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3); return value; }
-    uint marked() { return (__bitfield1 >> 4) & 0x1; }
-    uint marked(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4); return value; }
-    uint beginSlot() { return (__bitfield1 >> 5) & 0x1; }
-    uint beginSlot(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5); return value; }
-    uint endSlot() { return (__bitfield1 >> 6) & 0x1; }
-    uint endSlot(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffbf) | (value << 6); return value; }
-    uint selector() { return (__bitfield1 >> 7) & 0x1; }
-    uint selector(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffff7f) | (value << 7); return value; }
+    uint singlefieldNode()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint singlefieldNode(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint multifieldNode()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint multifieldNode(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint stopNode()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint stopNode(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint initialize()
+    {
+        return (__bitfield1 >> 3) & 0x1;
+    }
+
+    uint initialize(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3);
+        return value;
+    }
+
+    uint marked()
+    {
+        return (__bitfield1 >> 4) & 0x1;
+    }
+
+    uint marked(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4);
+        return value;
+    }
+
+    uint beginSlot()
+    {
+        return (__bitfield1 >> 5) & 0x1;
+    }
+
+    uint beginSlot(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5);
+        return value;
+    }
+
+    uint endSlot()
+    {
+        return (__bitfield1 >> 6) & 0x1;
+    }
+
+    uint endSlot(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffbf) | (value << 6);
+        return value;
+    }
+
+    uint selector()
+    {
+        return (__bitfield1 >> 7) & 0x1;
+    }
+
+    uint selector(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffff7f) | (value << 7);
+        return value;
+    }
 }
 
 //C     struct patternNodeHashEntry
@@ -8270,11 +8690,11 @@ struct patternNodeHeader
 //C       };
 struct patternNodeHashEntry
 {
-    void *parent;
-    void *child;
+    void* parent;
+    void* child;
     int type;
-    void *value;
-    patternNodeHashEntry *next;
+    void* value;
+    patternNodeHashEntry* next;
 }
 
 //C     #define SIZE_PATTERN_HASH 16231
@@ -8294,13 +8714,13 @@ const SIZE_PATTERN_HASH = 16231;
 struct alphaMemoryHash
 {
     uint bucket;
-    patternNodeHeader *owner;
-    partialMatch *alphaMemory;
-    partialMatch *endOfQueue;
-    alphaMemoryHash *nextHash;
-    alphaMemoryHash *prevHash;
-    alphaMemoryHash *next;
-    alphaMemoryHash *prev;
+    patternNodeHeader* owner;
+    partialMatch* alphaMemory;
+    partialMatch* endOfQueue;
+    alphaMemoryHash* nextHash;
+    alphaMemoryHash* prevHash;
+    alphaMemoryHash* next;
+    alphaMemoryHash* prev;
 }
 
 //C     typedef struct alphaMemoryHash ALPHA_MEMORY_HASH;
@@ -8324,8 +8744,8 @@ struct betaMemory
 {
     uint size;
     uint count;
-    partialMatch **beta;
-    partialMatch **last;
+    partialMatch** beta;
+    partialMatch** last;
 }
 
 //C     struct joinLink
@@ -8338,11 +8758,11 @@ struct betaMemory
 struct joinLink
 {
     char enterDirection;
-    joinNode *join;
-    joinLink *next;
+    joinNode* join;
+    joinLink* next;
     int bsaveID;
 }
-    
+
 //C     struct joinNode
 //C       {
 //C        unsigned int firstJoin : 1;
@@ -8375,58 +8795,136 @@ struct joinLink
 struct joinNode
 {
     uint __bitfield1;
-    uint firstJoin() { return (__bitfield1 >> 0) & 0x1; }
-    uint firstJoin(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint logicalJoin() { return (__bitfield1 >> 1) & 0x1; }
-    uint logicalJoin(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint joinFromTheRight() { return (__bitfield1 >> 2) & 0x1; }
-    uint joinFromTheRight(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint patternIsNegated() { return (__bitfield1 >> 3) & 0x1; }
-    uint patternIsNegated(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3); return value; }
-    uint patternIsExists() { return (__bitfield1 >> 4) & 0x1; }
-    uint patternIsExists(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4); return value; }
-    uint initialize() { return (__bitfield1 >> 5) & 0x1; }
-    uint initialize(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5); return value; }
-    uint marked() { return (__bitfield1 >> 6) & 0x1; }
-    uint marked(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffbf) | (value << 6); return value; }
-    uint rhsType() { return (__bitfield1 >> 7) & 0x7; }
-    uint rhsType(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffc7f) | (value << 7); return value; }
-    uint depth() { return (__bitfield1 >> 10) & 0xffff; }
-    uint depth(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffc0003ff) | (value << 10); return value; }
+    uint firstJoin()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint firstJoin(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint logicalJoin()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint logicalJoin(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint joinFromTheRight()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint joinFromTheRight(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint patternIsNegated()
+    {
+        return (__bitfield1 >> 3) & 0x1;
+    }
+
+    uint patternIsNegated(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3);
+        return value;
+    }
+
+    uint patternIsExists()
+    {
+        return (__bitfield1 >> 4) & 0x1;
+    }
+
+    uint patternIsExists(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4);
+        return value;
+    }
+
+    uint initialize()
+    {
+        return (__bitfield1 >> 5) & 0x1;
+    }
+
+    uint initialize(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5);
+        return value;
+    }
+
+    uint marked()
+    {
+        return (__bitfield1 >> 6) & 0x1;
+    }
+
+    uint marked(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffbf) | (value << 6);
+        return value;
+    }
+
+    uint rhsType()
+    {
+        return (__bitfield1 >> 7) & 0x7;
+    }
+
+    uint rhsType(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffc7f) | (value << 7);
+        return value;
+    }
+
+    uint depth()
+    {
+        return (__bitfield1 >> 10) & 0xffff;
+    }
+
+    uint depth(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffc0003ff) | (value << 10);
+        return value;
+    }
+
     int bsaveID;
     long memoryLeftAdds;
     long memoryRightAdds;
     long memoryLeftDeletes;
     long memoryRightDeletes;
     long memoryCompares;
-    betaMemory *leftMemory;
-    betaMemory *rightMemory;
-    expr *networkTest;
-    expr *secondaryNetworkTest;
-    expr *leftHash;
-    expr *rightHash;
-    void *rightSideEntryStructure;
-    joinLink *nextLinks;
-    joinNode *lastLevel;
-    joinNode *rightMatchNode;
-    defrule *ruleToActivate;
+    betaMemory* leftMemory;
+    betaMemory* rightMemory;
+    expr* networkTest;
+    expr* secondaryNetworkTest;
+    expr* leftHash;
+    expr* rightHash;
+    void* rightSideEntryStructure;
+    joinLink* nextLinks;
+    joinNode* lastLevel;
+    joinNode* rightMatchNode;
+    defrule* ruleToActivate;
 }
 
 //C     #endif /* _H_network */
 
-
-
-
 //C     #endif
 //C     #ifndef _H_pattern
 //C     #include "pattern.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                PATTERN HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                PATTERN HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides the mechanism for recognizing and       */
@@ -8478,17 +8976,17 @@ struct joinNode
 struct patternEntityRecord
 {
     entityRecord base;
-    void  function(void *, void *)decrementBasisCount;
-    void  function(void *, void *)incrementBasisCount;
-    void  function(void *, void *)matchFunction;
-    int  function(void *, void *)synchronized_;
-    int  function(void *, void *)isDeleted;
+    void function(void*, void*) decrementBasisCount;
+    void function(void*, void*) incrementBasisCount;
+    void function(void*, void*) matchFunction;
+    int function(void*, void*) synchronized_;
+    int function(void*, void*) isDeleted;
 }
 
 //C     typedef struct patternEntityRecord PTRN_ENTITY_RECORD;
 alias patternEntityRecord PTRN_ENTITY_RECORD;
 //C     typedef struct patternEntityRecord *PTRN_ENTITY_RECORD_PTR;
-alias patternEntityRecord *PTRN_ENTITY_RECORD_PTR;
+alias patternEntityRecord* PTRN_ENTITY_RECORD_PTR;
 
 //C     struct patternEntity
 //C       {
@@ -8499,8 +8997,8 @@ alias patternEntityRecord *PTRN_ENTITY_RECORD_PTR;
 //C       };
 struct patternEntity
 {
-    patternEntityRecord *theInfo;
-    void *dependents;
+    patternEntityRecord* theInfo;
+    void* dependents;
     uint busyCount;
     ulong timeTag;
 }
@@ -8508,7 +9006,7 @@ struct patternEntity
 //C     typedef struct patternEntity PATTERN_ENTITY;
 alias patternEntity PATTERN_ENTITY;
 //C     typedef struct patternEntity * PATTERN_ENTITY_PTR;
-alias patternEntity *PATTERN_ENTITY_PTR;
+alias patternEntity* PATTERN_ENTITY_PTR;
 
 //C     struct patternParser;
 
@@ -8526,13 +9024,13 @@ alias patternEntity *PATTERN_ENTITY_PTR;
 //C     #endif
 //C     #ifndef _H_reorder
 //C     #include "reorder.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                 REORDER HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                 REORDER HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides routines necessary for converting the   */
@@ -8643,89 +9141,184 @@ alias patternEntity *PATTERN_ENTITY_PTR;
 struct lhsParseNode
 {
     ushort type;
-    void *value;
+    void* value;
     uint __bitfield1;
-    uint negated() { return (__bitfield1 >> 0) & 0x1; }
-    uint negated(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint exists() { return (__bitfield1 >> 1) & 0x1; }
-    uint exists(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint existsNand() { return (__bitfield1 >> 2) & 0x1; }
-    uint existsNand(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint logical() { return (__bitfield1 >> 3) & 0x1; }
-    uint logical(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3); return value; }
-    uint multifieldSlot() { return (__bitfield1 >> 4) & 0x1; }
-    uint multifieldSlot(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4); return value; }
-    uint bindingVariable() { return (__bitfield1 >> 5) & 0x1; }
-    uint bindingVariable(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5); return value; }
-    uint derivedConstraints() { return (__bitfield1 >> 6) & 0x1; }
-    uint derivedConstraints(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffbf) | (value << 6); return value; }
-    uint userCE() { return (__bitfield1 >> 7) & 0x1; }
-    uint userCE(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffff7f) | (value << 7); return value; }
-    uint whichCE() { return (__bitfield1 >> 8) & 0x7f; }
-    uint whichCE(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffff80ff) | (value << 8); return value; }
-    uint marked() { return (__bitfield1 >> 15) & 0x1; }
-    uint marked(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffff7fff) | (value << 15); return value; }
-    uint withinMultifieldSlot() { return (__bitfield1 >> 16) & 0x1; }
-    uint withinMultifieldSlot(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffeffff) | (value << 16); return value; }
+    uint negated()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint negated(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint exists()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint exists(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint existsNand()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint existsNand(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint logical()
+    {
+        return (__bitfield1 >> 3) & 0x1;
+    }
+
+    uint logical(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3);
+        return value;
+    }
+
+    uint multifieldSlot()
+    {
+        return (__bitfield1 >> 4) & 0x1;
+    }
+
+    uint multifieldSlot(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4);
+        return value;
+    }
+
+    uint bindingVariable()
+    {
+        return (__bitfield1 >> 5) & 0x1;
+    }
+
+    uint bindingVariable(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5);
+        return value;
+    }
+
+    uint derivedConstraints()
+    {
+        return (__bitfield1 >> 6) & 0x1;
+    }
+
+    uint derivedConstraints(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffbf) | (value << 6);
+        return value;
+    }
+
+    uint userCE()
+    {
+        return (__bitfield1 >> 7) & 0x1;
+    }
+
+    uint userCE(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffff7f) | (value << 7);
+        return value;
+    }
+
+    uint whichCE()
+    {
+        return (__bitfield1 >> 8) & 0x7f;
+    }
+
+    uint whichCE(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffff80ff) | (value << 8);
+        return value;
+    }
+
+    uint marked()
+    {
+        return (__bitfield1 >> 15) & 0x1;
+    }
+
+    uint marked(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffff7fff) | (value << 15);
+        return value;
+    }
+
+    uint withinMultifieldSlot()
+    {
+        return (__bitfield1 >> 16) & 0x1;
+    }
+
+    uint withinMultifieldSlot(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffeffff) | (value << 16);
+        return value;
+    }
+
     ushort multiFieldsBefore;
     ushort multiFieldsAfter;
     ushort singleFieldsBefore;
     ushort singleFieldsAfter;
-    constraintRecord *constraints;
-    lhsParseNode *referringNode;
-    patternParser *patternType;
+    constraintRecord* constraints;
+    lhsParseNode* referringNode;
+    patternParser* patternType;
     short pattern;
     short index;
-    symbolHashNode *slot;
+    symbolHashNode* slot;
     short slotNumber;
     int beginNandDepth;
     int endNandDepth;
     int joinDepth;
-    expr *networkTest;
-    expr *externalNetworkTest;
-    expr *secondaryNetworkTest;
-    expr *externalLeftHash;
-    expr *externalRightHash;
-    expr *constantSelector;
-    expr *constantValue;
-    expr *leftHash;
-    expr *rightHash;
-    expr *betaHash;
-    lhsParseNode *expression;
-    lhsParseNode *secondaryExpression;
-    void *userData;
-    lhsParseNode *right;
-    lhsParseNode *bottom;
+    expr* networkTest;
+    expr* externalNetworkTest;
+    expr* secondaryNetworkTest;
+    expr* externalLeftHash;
+    expr* externalRightHash;
+    expr* constantSelector;
+    expr* constantValue;
+    expr* leftHash;
+    expr* rightHash;
+    expr* betaHash;
+    lhsParseNode* expression;
+    lhsParseNode* secondaryExpression;
+    void* userData;
+    lhsParseNode* right;
+    lhsParseNode* bottom;
 }
 
 //C        LOCALE struct lhsParseNode           *ReorderPatterns(void *,struct lhsParseNode *,int *);
-lhsParseNode * ReorderPatterns(void *, lhsParseNode *, int *);
+lhsParseNode* ReorderPatterns(void*, lhsParseNode*, int*);
 //C        LOCALE struct lhsParseNode           *CopyLHSParseNodes(void *,struct lhsParseNode *);
-lhsParseNode * CopyLHSParseNodes(void *, lhsParseNode *);
+lhsParseNode* CopyLHSParseNodes(void*, lhsParseNode*);
 //C        LOCALE void                           CopyLHSParseNode(void *,struct lhsParseNode *,struct lhsParseNode *,int);
-void  CopyLHSParseNode(void *, lhsParseNode *, lhsParseNode *, int );
+void CopyLHSParseNode(void*, lhsParseNode*, lhsParseNode*, int);
 //C        LOCALE struct lhsParseNode           *GetLHSParseNode(void *);
-lhsParseNode * GetLHSParseNode(void *);
+lhsParseNode* GetLHSParseNode(void*);
 //C        LOCALE void                           ReturnLHSParseNodes(void *,struct lhsParseNode *);
-void  ReturnLHSParseNodes(void *, lhsParseNode *);
+void ReturnLHSParseNodes(void*, lhsParseNode*);
 //C        LOCALE struct lhsParseNode           *ExpressionToLHSParseNodes(void *,struct expr *);
-lhsParseNode * ExpressionToLHSParseNodes(void *, expr *);
+lhsParseNode* ExpressionToLHSParseNodes(void*, expr*);
 //C        LOCALE struct expr                   *LHSParseNodesToExpression(void *,struct lhsParseNode *);
-expr * LHSParseNodesToExpression(void *, lhsParseNode *);
+expr* LHSParseNodesToExpression(void*, lhsParseNode*);
 //C        LOCALE void                           AddInitialPatterns(void *,struct lhsParseNode *);
-void  AddInitialPatterns(void *, lhsParseNode *);
+void AddInitialPatterns(void*, lhsParseNode*);
 //C        LOCALE int                            IsExistsSubjoin(struct lhsParseNode *,int);
-int  IsExistsSubjoin(lhsParseNode *, int );
+int IsExistsSubjoin(lhsParseNode*, int);
 //C        LOCALE struct lhsParseNode           *CombineLHSParseNodes(void *,struct lhsParseNode *,struct lhsParseNode *);
-lhsParseNode * CombineLHSParseNodes(void *, lhsParseNode *, lhsParseNode *);
+lhsParseNode* CombineLHSParseNodes(void*, lhsParseNode*, lhsParseNode*);
 //C        LOCALE void                           AssignPatternMarkedFlag(struct lhsParseNode *,short);
-void  AssignPatternMarkedFlag(lhsParseNode *, short );
+void AssignPatternMarkedFlag(lhsParseNode*, short);
 
 //C     #endif /* _H_reorder */
-
-
-
-
 
 //C     #endif
 //C     #ifndef _H_constrnt
@@ -8764,30 +9357,30 @@ const MAXIMUM_NUMBER_OF_PATTERNS = 128;
 //C       };
 struct patternParser
 {
-    char *name;
-    patternEntityRecord *entityType;
+    char* name;
+    patternEntityRecord* entityType;
     int positionInArray;
-    int  function(SYMBOL_HN *)recognizeFunction;
-    lhsParseNode * function(void *, char *, token *)parseFunction;
-    int  function(void *, lhsParseNode *)postAnalysisFunction;
-    patternNodeHeader * function(void *, lhsParseNode *)addPatternFunction;
-    void  function(void *, patternNodeHeader *)removePatternFunction;
-    expr * function(void *, lhsParseNode *, int )genJNConstantFunction;
-    void  function(void *, expr *, lhsParseNode *, int )replaceGetJNValueFunction;
-    expr * function(void *, lhsParseNode *, int )genGetJNValueFunction;
-    expr * function(void *, lhsParseNode *, lhsParseNode *, int )genCompareJNValuesFunction;
-    expr * function(void *, lhsParseNode *)genPNConstantFunction;
-    void  function(void *, expr *, lhsParseNode *)replaceGetPNValueFunction;
-    expr * function(void *, lhsParseNode *)genGetPNValueFunction;
-    expr * function(void *, lhsParseNode *, lhsParseNode *)genComparePNValuesFunction;
-    void  function(void *, void *)returnUserDataFunction;
-    void * function(void *, void *)copyUserDataFunction;
-    void  function(void *, patternNodeHeader *, int )markIRPatternFunction;
-    void  function(void *)incrementalResetFunction;
-    lhsParseNode * function(void *)initialPatternFunction;
-    void  function(void *, void *, FILE *, int , int )codeReferenceFunction;
+    int function(SYMBOL_HN*) recognizeFunction;
+    lhsParseNode* function(void*, char*, token*) parseFunction;
+    int function(void*, lhsParseNode*) postAnalysisFunction;
+    patternNodeHeader* function(void*, lhsParseNode*) addPatternFunction;
+    void function(void*, patternNodeHeader*) removePatternFunction;
+    expr* function(void*, lhsParseNode*, int) genJNConstantFunction;
+    void function(void*, expr*, lhsParseNode*, int) replaceGetJNValueFunction;
+    expr* function(void*, lhsParseNode*, int) genGetJNValueFunction;
+    expr* function(void*, lhsParseNode*, lhsParseNode*, int) genCompareJNValuesFunction;
+    expr* function(void*, lhsParseNode*) genPNConstantFunction;
+    void function(void*, expr*, lhsParseNode*) replaceGetPNValueFunction;
+    expr* function(void*, lhsParseNode*) genGetPNValueFunction;
+    expr* function(void*, lhsParseNode*, lhsParseNode*) genComparePNValuesFunction;
+    void function(void*, void*) returnUserDataFunction;
+    void* function(void*, void*) copyUserDataFunction;
+    void function(void*, patternNodeHeader*, int) markIRPatternFunction;
+    void function(void*) incrementalResetFunction;
+    lhsParseNode* function(void*) initialPatternFunction;
+    void function(void*, void*, FILE*, int, int) codeReferenceFunction;
     int priority;
-    patternParser *next;
+    patternParser* next;
 }
 
 //C     struct reservedSymbol
@@ -8798,9 +9391,9 @@ struct patternParser
 //C       };
 struct reservedSymbol
 {
-    char *theSymbol;
-    char *reservedBy;
-    reservedSymbol *next;
+    char* theSymbol;
+    char* reservedBy;
+    reservedSymbol* next;
 }
 
 //C     #define MAX_POSITIONS 8
@@ -8824,15 +9417,15 @@ const PATTERN_DATA = 19;
 //C       };
 struct patternData
 {
-    patternParser *ListOfPatternParsers;
-    patternParser *[8]PatternParserArray;
+    patternParser* ListOfPatternParsers;
+    patternParser*[8] PatternParserArray;
     int NextPosition;
-    reservedSymbol *ListOfReservedPatternSymbols;
+    reservedSymbol* ListOfReservedPatternSymbols;
     int WithinNotCE;
     int GlobalSalience;
     int GlobalAutoFocus;
-    expr *SalienceExpression;
-    patternNodeHashEntry **PatternHashTable;
+    expr* SalienceExpression;
+    patternNodeHashEntry** PatternHashTable;
     uint PatternHashTableSize;
 }
 
@@ -8850,49 +9443,42 @@ struct patternData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializePatterns(void *);
-void  InitializePatterns(void *);
+void InitializePatterns(void*);
 //C        LOCALE int                            AddPatternParser(void *,struct patternParser *);
-int  AddPatternParser(void *, patternParser *);
+int AddPatternParser(void*, patternParser*);
 //C        LOCALE struct patternParser          *FindPatternParser(void *,const char *);
-patternParser * FindPatternParser(void *, char *);
+patternParser* FindPatternParser(void*, char*);
 //C        LOCALE void                           DetachPattern(void *,int,struct patternNodeHeader *);
-void  DetachPattern(void *, int , patternNodeHeader *);
+void DetachPattern(void*, int, patternNodeHeader*);
 //C        LOCALE void                           GetNextPatternEntity(void *,
 //C                                                                   struct patternParser **,
 //C                                                                   struct patternEntity **);
-void  GetNextPatternEntity(void *, patternParser **, patternEntity **);
+void GetNextPatternEntity(void*, patternParser**, patternEntity**);
 //C        LOCALE struct patternParser          *GetPatternParser(void *,int);
-patternParser * GetPatternParser(void *, int );
+patternParser* GetPatternParser(void*, int);
 //C        LOCALE struct lhsParseNode           *RestrictionParse(void *,const char *,struct token *,int,
 //C                                                            struct symbolHashNode *,short,
 //C                                                            struct constraintRecord *,short);
-lhsParseNode * RestrictionParse(void *, char *, token *, int , symbolHashNode *, short , constraintRecord *, short );
+lhsParseNode* RestrictionParse(void*, char*, token*, int, symbolHashNode*,
+        short, constraintRecord*, short);
 //C        LOCALE int                            PostPatternAnalysis(void *,struct lhsParseNode *);
-int  PostPatternAnalysis(void *, lhsParseNode *);
+int PostPatternAnalysis(void*, lhsParseNode*);
 //C        LOCALE void                           PatternNodeHeaderToCode(void *,FILE *,struct patternNodeHeader *,int,int);
-void  PatternNodeHeaderToCode(void *, FILE *, patternNodeHeader *, int , int );
+void PatternNodeHeaderToCode(void*, FILE*, patternNodeHeader*, int, int);
 //C        LOCALE void                           AddReservedPatternSymbol(void *,const char *,const char *);
-void  AddReservedPatternSymbol(void *, char *, char *);
+void AddReservedPatternSymbol(void*, char*, char*);
 //C        LOCALE intBool                        ReservedPatternSymbol(void *,const char *,const char *);
-int  ReservedPatternSymbol(void *, char *, char *);
+int ReservedPatternSymbol(void*, char*, char*);
 //C        LOCALE void                           ReservedPatternSymbolErrorMsg(void *,const char *,const char *);
-void  ReservedPatternSymbolErrorMsg(void *, char *, char *);
+void ReservedPatternSymbolErrorMsg(void*, char*, char*);
 //C        LOCALE void                           AddHashedPatternNode(void *,void *,void *,unsigned short,void *);
-void  AddHashedPatternNode(void *, void *, void *, ushort , void *);
+void AddHashedPatternNode(void*, void*, void*, ushort, void*);
 //C        LOCALE intBool                        RemoveHashedPatternNode(void *,void *,void *,unsigned short,void *);
-int  RemoveHashedPatternNode(void *, void *, void *, ushort , void *);
+int RemoveHashedPatternNode(void*, void*, void*, ushort, void*);
 //C        LOCALE void                          *FindHashedPatternNode(void *,void *,unsigned short,void *);
-void * FindHashedPatternNode(void *, void *, ushort , void *);
+void* FindHashedPatternNode(void*, void*, ushort, void*);
 
 //C     #endif /* _H_pattern */
-
-
-
-
-
-
-
-
 
 //C     #endif
 
@@ -8907,9 +9493,9 @@ void * FindHashedPatternNode(void *, void *, ushort , void *);
 //C       };
 struct patternMatch
 {
-    patternMatch *next;
-    partialMatch *theMatch;
-    patternNodeHeader *matchingPattern;
+    patternMatch* next;
+    partialMatch* theMatch;
+    patternNodeHeader* matchingPattern;
 }
 
 /**************************/
@@ -8924,8 +9510,8 @@ struct patternMatch
 //C          } gm;
 union _N1
 {
-    void *theValue;
-    alphaMatch *theMatch;
+    void* theValue;
+    alphaMatch* theMatch;
 }
 //C       };
 struct genericMatch
@@ -8963,30 +9549,57 @@ struct genericMatch
 struct partialMatch
 {
     uint __bitfield1;
-    uint betaMemory() { return (__bitfield1 >> 0) & 0x1; }
-    uint betaMemory(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint busy() { return (__bitfield1 >> 1) & 0x1; }
-    uint busy(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint rhsMemory() { return (__bitfield1 >> 2) & 0x1; }
-    uint rhsMemory(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
+    uint betaMemory()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint betaMemory(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint busy()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint busy(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint rhsMemory()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint rhsMemory(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
     ushort bcount;
     uint hashValue;
-    void *owner;
-    void *marker;
-    void *dependents;
-    partialMatch *nextInMemory;
-    partialMatch *prevInMemory;
-    partialMatch *children;
-    partialMatch *rightParent;
-    partialMatch *nextRightChild;
-    partialMatch *prevRightChild;
-    partialMatch *leftParent;
-    partialMatch *nextLeftChild;
-    partialMatch *prevLeftChild;
-    partialMatch *blockList;
-    partialMatch *nextBlocked;
-    partialMatch *prevBlocked;
-    genericMatch [1]binds;
+    void* owner;
+    void* marker;
+    void* dependents;
+    partialMatch* nextInMemory;
+    partialMatch* prevInMemory;
+    partialMatch* children;
+    partialMatch* rightParent;
+    partialMatch* nextRightChild;
+    partialMatch* prevRightChild;
+    partialMatch* leftParent;
+    partialMatch* nextLeftChild;
+    partialMatch* prevLeftChild;
+    partialMatch* blockList;
+    partialMatch* nextBlocked;
+    partialMatch* prevBlocked;
+    genericMatch[1] binds;
 }
 
 /************************************************************/
@@ -9001,9 +9614,9 @@ struct partialMatch
 //C       };
 struct alphaMatch
 {
-    patternEntity *matchingItem;
-    multifieldMarker *markers;
-    alphaMatch *next;
+    patternEntity* matchingItem;
+    multifieldMarker* markers;
+    alphaMatch* next;
     uint bucket;
 }
 
@@ -9023,7 +9636,7 @@ struct alphaMatch
 //C          } where;
 union _N2
 {
-    void *whichSlot;
+    void* whichSlot;
     short whichSlotNumber;
 }
 //C         long startPosition;
@@ -9036,7 +9649,7 @@ struct multifieldMarker
     _N2 where;
     int startPosition;
     int endPosition;
-    multifieldMarker *next;
+    multifieldMarker* next;
 }
 
 //C     #define get_nth_pm_value(thePM,thePos) (thePM->binds[thePos].gm.theValue)
@@ -9046,11 +9659,6 @@ struct multifieldMarker
 //C     #define set_nth_pm_match(thePM,thePos,theVal) (thePM->binds[thePos].gm.theMatch = theVal)
 
 //C     #endif /* _H_match */
-
-
-
-
-
 
 //C     #endif
 
@@ -9064,7 +9672,7 @@ const EVERY_CYCLE = 2;
 //C     #define MAX_DEFRULE_SALIENCE  10000
 //C     #define MIN_DEFRULE_SALIENCE -10000
 const MAX_DEFRULE_SALIENCE = 10000;
-  
+
 const MIN_DEFRULE_SALIENCE = -10000;
 /*******************/
 /* DATA STRUCTURES */
@@ -9082,13 +9690,13 @@ const MIN_DEFRULE_SALIENCE = -10000;
 //C       };
 struct activation
 {
-    defrule *theRule;
-    partialMatch *basis;
+    defrule* theRule;
+    partialMatch* basis;
     int salience;
     ulong timetag;
     int randomID;
-    activation *prev;
-    activation *next;
+    activation* prev;
+    activation* next;
 }
 
 //C     struct salienceGroup
@@ -9102,10 +9710,10 @@ struct activation
 struct salienceGroup
 {
     int salience;
-    activation *first;
-    activation *last;
-    salienceGroup *next;
-    salienceGroup *prev;
+    activation* first;
+    activation* last;
+    salienceGroup* next;
+    salienceGroup* prev;
 }
 
 //C     typedef struct activation ACTIVATION;
@@ -9153,66 +9761,66 @@ struct agendaData
 /****************************************/
 
 //C        LOCALE void                    AddActivation(void *,void *,void *);
-void  AddActivation(void *, void *, void *);
+void AddActivation(void*, void*, void*);
 //C        LOCALE void                    ClearRuleFromAgenda(void *,void *);
-void  ClearRuleFromAgenda(void *, void *);
+void ClearRuleFromAgenda(void*, void*);
 //C        LOCALE void                   *EnvGetNextActivation(void *,void *);
-void * EnvGetNextActivation(void *, void *);
+void* EnvGetNextActivation(void*, void*);
 //C        LOCALE struct partialMatch    *EnvGetActivationBasis(void *,void *);
-partialMatch * EnvGetActivationBasis(void *, void *);
+partialMatch* EnvGetActivationBasis(void*, void*);
 //C        LOCALE const char             *EnvGetActivationName(void *,void *);
-char * EnvGetActivationName(void *, void *);
+char* EnvGetActivationName(void*, void*);
 //C        LOCALE struct defrule         *EnvGetActivationRule(void *,void *);
-defrule * EnvGetActivationRule(void *, void *);
+defrule* EnvGetActivationRule(void*, void*);
 //C        LOCALE int                     EnvGetActivationSalience(void *,void *);
-int  EnvGetActivationSalience(void *, void *);
+int EnvGetActivationSalience(void*, void*);
 //C        LOCALE int                     EnvSetActivationSalience(void *,void *,int);
-int  EnvSetActivationSalience(void *, void *, int );
+int EnvSetActivationSalience(void*, void*, int);
 //C        LOCALE void                    EnvGetActivationPPForm(void *,char *,size_t,void *);
-void  EnvGetActivationPPForm(void *, char *, size_t , void *);
+void EnvGetActivationPPForm(void*, char*, size_t, void*);
 //C        LOCALE void                    EnvGetActivationBasisPPForm(void *,char *,size_t,void *);
-void  EnvGetActivationBasisPPForm(void *, char *, size_t , void *);
+void EnvGetActivationBasisPPForm(void*, char*, size_t, void*);
 //C        LOCALE intBool                 MoveActivationToTop(void *,void *);
-int  MoveActivationToTop(void *, void *);
+int MoveActivationToTop(void*, void*);
 //C        LOCALE intBool                 EnvDeleteActivation(void *,void *);
-int  EnvDeleteActivation(void *, void *);
+int EnvDeleteActivation(void*, void*);
 //C        LOCALE intBool                 DetachActivation(void *,void *);
-int  DetachActivation(void *, void *);
+int DetachActivation(void*, void*);
 //C        LOCALE void                    EnvAgenda(void *,const char *,void *);
-void  EnvAgenda(void *, char *, void *);
+void EnvAgenda(void*, char*, void*);
 //C        LOCALE void                    RemoveActivation(void *,void *,int,int);
-void  RemoveActivation(void *, void *, int , int );
+void RemoveActivation(void*, void*, int, int);
 //C        LOCALE void                    RemoveAllActivations(void *);
-void  RemoveAllActivations(void *);
+void RemoveAllActivations(void*);
 //C        LOCALE int                     EnvGetAgendaChanged(void *);
-int  EnvGetAgendaChanged(void *);
+int EnvGetAgendaChanged(void*);
 //C        LOCALE void                    EnvSetAgendaChanged(void *,int);
-void  EnvSetAgendaChanged(void *, int );
+void EnvSetAgendaChanged(void*, int);
 //C        LOCALE unsigned long           GetNumberOfActivations(void *);
-uint  GetNumberOfActivations(void *);
+uint GetNumberOfActivations(void*);
 //C        LOCALE intBool                 EnvGetSalienceEvaluation(void *);
-int  EnvGetSalienceEvaluation(void *);
+int EnvGetSalienceEvaluation(void*);
 //C        LOCALE intBool                 EnvSetSalienceEvaluation(void *,intBool);
-int  EnvSetSalienceEvaluation(void *, int );
+int EnvSetSalienceEvaluation(void*, int);
 //C        LOCALE void                    EnvRefreshAgenda(void *,void *);
-void  EnvRefreshAgenda(void *, void *);
+void EnvRefreshAgenda(void*, void*);
 //C        LOCALE void                    EnvReorderAgenda(void *,void *);
-void  EnvReorderAgenda(void *, void *);
+void EnvReorderAgenda(void*, void*);
 //C        LOCALE void                    InitializeAgenda(void *);
-void  InitializeAgenda(void *);
+void InitializeAgenda(void*);
 //C        LOCALE void                   *SetSalienceEvaluationCommand(void *);
-void * SetSalienceEvaluationCommand(void *);
+void* SetSalienceEvaluationCommand(void*);
 //C        LOCALE void                   *GetSalienceEvaluationCommand(void *);
-void * GetSalienceEvaluationCommand(void *);
+void* GetSalienceEvaluationCommand(void*);
 //C        LOCALE void                    RefreshAgendaCommand(void *);
-void  RefreshAgendaCommand(void *);
+void RefreshAgendaCommand(void*);
 //C        LOCALE void                    RefreshCommand(void *);
-void  RefreshCommand(void *);
+void RefreshCommand(void*);
 //C        LOCALE intBool                 EnvRefresh(void *,void *);
-int  EnvRefresh(void *, void *);
+int EnvRefresh(void*, void*);
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE void                    AgendaCommand(void *);
-void  AgendaCommand(void *);
+void AgendaCommand(void*);
 //C     #endif
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
@@ -9237,11 +9845,6 @@ void  AgendaCommand(void *);
 //C     #endif
 
 //C     #endif
-
-
-
-
-
 
 //C     #endif
 //C     #ifndef _H_network
@@ -9271,23 +9874,77 @@ struct defrule
     int salience;
     int localVarCnt;
     uint __bitfield1;
-    uint complexity() { return (__bitfield1 >> 0) & 0x7ff; }
-    uint complexity(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffff800) | (value << 0); return value; }
-    uint afterBreakpoint() { return (__bitfield1 >> 11) & 0x1; }
-    uint afterBreakpoint(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffff7ff) | (value << 11); return value; }
-    uint watchActivation() { return (__bitfield1 >> 12) & 0x1; }
-    uint watchActivation(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffefff) | (value << 12); return value; }
-    uint watchFiring() { return (__bitfield1 >> 13) & 0x1; }
-    uint watchFiring(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffdfff) | (value << 13); return value; }
-    uint autoFocus() { return (__bitfield1 >> 14) & 0x1; }
-    uint autoFocus(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffbfff) | (value << 14); return value; }
-    uint executing() { return (__bitfield1 >> 15) & 0x1; }
-    uint executing(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffff7fff) | (value << 15); return value; }
-    expr *dynamicSalience;
-    expr *actions;
-    joinNode *logicalJoin;
-    joinNode *lastJoin;
-    defrule *disjunct;
+    uint complexity()
+    {
+        return (__bitfield1 >> 0) & 0x7ff;
+    }
+
+    uint complexity(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffff800) | (value << 0);
+        return value;
+    }
+
+    uint afterBreakpoint()
+    {
+        return (__bitfield1 >> 11) & 0x1;
+    }
+
+    uint afterBreakpoint(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffff7ff) | (value << 11);
+        return value;
+    }
+
+    uint watchActivation()
+    {
+        return (__bitfield1 >> 12) & 0x1;
+    }
+
+    uint watchActivation(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffefff) | (value << 12);
+        return value;
+    }
+
+    uint watchFiring()
+    {
+        return (__bitfield1 >> 13) & 0x1;
+    }
+
+    uint watchFiring(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffdfff) | (value << 13);
+        return value;
+    }
+
+    uint autoFocus()
+    {
+        return (__bitfield1 >> 14) & 0x1;
+    }
+
+    uint autoFocus(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffbfff) | (value << 14);
+        return value;
+    }
+
+    uint executing()
+    {
+        return (__bitfield1 >> 15) & 0x1;
+    }
+
+    uint executing(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffff7fff) | (value << 15);
+        return value;
+    }
+
+    expr* dynamicSalience;
+    expr* actions;
+    joinNode* logicalJoin;
+    joinNode* lastJoin;
+    defrule* disjunct;
 }
 
 //C     struct defruleModule
@@ -9299,8 +9956,8 @@ struct defrule
 struct defruleModule
 {
     defmoduleItemHeader header;
-    salienceGroup *groupings;
-    activation *agenda;
+    salienceGroup* groupings;
+    activation* agenda;
 }
 
 //C     #ifndef ALPHA_MEMORY_HASH_SIZE
@@ -9334,16 +9991,16 @@ const DEFRULE_DATA = 16;
 //C       };
 struct defruleData
 {
-    construct *DefruleConstruct;
+    construct* DefruleConstruct;
     int DefruleModuleIndex;
     long CurrentEntityTimeTag;
-    alphaMemoryHash **AlphaMemoryTable;
+    alphaMemoryHash** AlphaMemoryTable;
     int BetaMemoryResizingFlag;
-    joinLink *RightPrimeJoins;
-    joinLink *LeftPrimeJoins;
+    joinLink* RightPrimeJoins;
+    joinLink* LeftPrimeJoins;
     uint WatchRules;
     int DeletedRuleDebugFlags;
-    CodeGeneratorItem *DefruleCodeItem;
+    CodeGeneratorItem* DefruleCodeItem;
 }
 
 //C     #define DefruleData(theEnv) ((struct defruleData *) GetEnvironmentData(theEnv,DEFRULE_DATA))
@@ -9363,34 +10020,34 @@ struct defruleData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeDefrules(void *);
-void  InitializeDefrules(void *);
+void InitializeDefrules(void*);
 //C        LOCALE void                          *EnvFindDefrule(void *,const char *);
-void * EnvFindDefrule(void *, char *);
+void* EnvFindDefrule(void*, char*);
 //C        LOCALE void                          *EnvFindDefruleInModule(void *,const char *);
-void * EnvFindDefruleInModule(void *, char *);
+void* EnvFindDefruleInModule(void*, char*);
 //C        LOCALE void                          *EnvGetNextDefrule(void *,void *);
-void * EnvGetNextDefrule(void *, void *);
+void* EnvGetNextDefrule(void*, void*);
 //C        LOCALE struct defruleModule          *GetDefruleModuleItem(void *,struct defmodule *);
-defruleModule * GetDefruleModuleItem(void *, defmodule *);
+defruleModule* GetDefruleModuleItem(void*, defmodule*);
 //C        LOCALE intBool                        EnvIsDefruleDeletable(void *,void *);
-int  EnvIsDefruleDeletable(void *, void *);
+int EnvIsDefruleDeletable(void*, void*);
 //C     #if RUN_TIME
 //C        LOCALE void                           DefruleRunTimeInitialize(void *,struct joinLink *,struct joinLink *);
 //C     #endif
 //C     #if RUN_TIME || BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
 //C        LOCALE void                           AddBetaMemoriesToJoin(void *,struct joinNode *);
-void  AddBetaMemoriesToJoin(void *, joinNode *);
+void AddBetaMemoriesToJoin(void*, joinNode*);
 //C     #endif
 //C        LOCALE long                           EnvGetDisjunctCount(void *,void *);
-int  EnvGetDisjunctCount(void *, void *);
+int EnvGetDisjunctCount(void*, void*);
 //C        LOCALE void                          *EnvGetNthDisjunct(void *,void *,long);
-void * EnvGetNthDisjunct(void *, void *, int );
+void* EnvGetNthDisjunct(void*, void*, int);
 //C        LOCALE const char                    *EnvDefruleModule(void *,void *);
-char * EnvDefruleModule(void *, void *);
+char* EnvDefruleModule(void*, void*);
 //C        LOCALE const char                    *EnvGetDefruleName(void *,void *);
-char * EnvGetDefruleName(void *, void *);
+char* EnvGetDefruleName(void*, void*);
 //C        LOCALE const char                    *EnvGetDefrulePPForm(void *,void *);
-char * EnvGetDefrulePPForm(void *, void *);
+char* EnvGetDefrulePPForm(void*, void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -9403,19 +10060,17 @@ char * EnvGetDefrulePPForm(void *, void *);
 
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
-
 //C     #endif /* _H_ruledef */
-
 
 //C     #endif
 //C     #include "rulebsc.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/04/15            */
-   /*                                                     */
-   /*         DEFRULE BASIC COMMANDS HEADER FILE          */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/04/15            */
+/*                                                     */
+/*         DEFRULE BASIC COMMANDS HEADER FILE          */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements core commands for the defrule         */
@@ -9476,38 +10131,38 @@ char * EnvGetDefrulePPForm(void *, void *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           DefruleBasicCommands(void *);
-void  DefruleBasicCommands(void *);
+void DefruleBasicCommands(void*);
 //C        LOCALE void                           UndefruleCommand(void *);
-void  UndefruleCommand(void *);
+void UndefruleCommand(void*);
 //C        LOCALE intBool                        EnvUndefrule(void *,void *);
-int  EnvUndefrule(void *, void *);
+int EnvUndefrule(void*, void*);
 //C        LOCALE void                           GetDefruleListFunction(void *,DATA_OBJECT_PTR);
-void  GetDefruleListFunction(void *, DATA_OBJECT_PTR );
+void GetDefruleListFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           EnvGetDefruleList(void *,DATA_OBJECT_PTR,void *);
-void  EnvGetDefruleList(void *, DATA_OBJECT_PTR , void *);
+void EnvGetDefruleList(void*, DATA_OBJECT_PTR, void*);
 //C        LOCALE void                          *DefruleModuleFunction(void *);
-void * DefruleModuleFunction(void *);
+void* DefruleModuleFunction(void*);
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE void                           PPDefruleCommand(void *);
-void  PPDefruleCommand(void *);
+void PPDefruleCommand(void*);
 //C        LOCALE int                            PPDefrule(void *,const char *,const char *);
-int  PPDefrule(void *, char *, char *);
+int PPDefrule(void*, char*, char*);
 //C        LOCALE void                           ListDefrulesCommand(void *);
-void  ListDefrulesCommand(void *);
+void ListDefrulesCommand(void*);
 //C        LOCALE void                           EnvListDefrules(void *,const char *,void *);
-void  EnvListDefrules(void *, char *, void *);
+void EnvListDefrules(void*, char*, void*);
 //C        LOCALE unsigned                       EnvGetDefruleWatchFirings(void *,void *);
-uint  EnvGetDefruleWatchFirings(void *, void *);
+uint EnvGetDefruleWatchFirings(void*, void*);
 //C        LOCALE unsigned                       EnvGetDefruleWatchActivations(void *,void *);
-uint  EnvGetDefruleWatchActivations(void *, void *);
+uint EnvGetDefruleWatchActivations(void*, void*);
 //C        LOCALE void                           EnvSetDefruleWatchFirings(void *,unsigned,void *);
-void  EnvSetDefruleWatchFirings(void *, uint , void *);
+void EnvSetDefruleWatchFirings(void*, uint, void*);
 //C        LOCALE void                           EnvSetDefruleWatchActivations(void *,unsigned,void *);
-void  EnvSetDefruleWatchActivations(void *, uint , void *);
+void EnvSetDefruleWatchActivations(void*, uint, void*);
 //C        LOCALE unsigned                       DefruleWatchAccess(void *,int,unsigned,struct expr *);
-uint  DefruleWatchAccess(void *, int , uint , expr *);
+uint DefruleWatchAccess(void*, int, uint, expr*);
 //C        LOCALE unsigned                       DefruleWatchPrint(void *,const char *,int,struct expr *);
-uint  DefruleWatchPrint(void *, char *, int , expr *);
+uint DefruleWatchPrint(void*, char*, int, expr*);
 //C     #endif
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
@@ -9526,15 +10181,14 @@ uint  DefruleWatchPrint(void *, char *, int , expr *);
 
 //C     #endif /* _H_rulebsc */
 
-
 //C     #include "engine.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/04/15            */
-   /*                                                     */
-   /*                 ENGINE HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/04/15            */
+/*                                                     */
+/*                 ENGINE HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides functionality primarily associated with */
@@ -9570,7 +10224,7 @@ uint  DefruleWatchPrint(void *, char *, int , expr *);
 /*            Added context information for run functions.   */
 /*                                                           */
 /*            Added before rule firing callback function.    */
- 
+
 /*                                                           */
 /*            Changed garbage collection algorithm.          */
 /*                                                           */
@@ -9596,13 +10250,13 @@ uint  DefruleWatchPrint(void *, char *, int , expr *);
 
 //C     #ifndef _H_lgcldpnd
 //C     #include "lgcldpnd.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*          LOGICAL DEPENDENCIES HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*          LOGICAL DEPENDENCIES HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provide support routines for managing truth      */
@@ -9637,8 +10291,8 @@ uint  DefruleWatchPrint(void *, char *, int , expr *);
 //C       };
 struct dependency
 {
-    void *dPtr;
-    dependency *next;
+    void* dPtr;
+    dependency* next;
 }
 
 //C     #ifndef _H_match
@@ -9659,35 +10313,31 @@ struct dependency
 //C -- alias extern LOCALE;
 
 //C        LOCALE intBool                        AddLogicalDependencies(void *,struct patternEntity *,int);
-int  AddLogicalDependencies(void *, patternEntity *, int );
+int AddLogicalDependencies(void*, patternEntity*, int);
 //C        LOCALE void                           RemoveEntityDependencies(void *,struct patternEntity *);
-void  RemoveEntityDependencies(void *, patternEntity *);
+void RemoveEntityDependencies(void*, patternEntity*);
 //C        LOCALE void                           RemovePMDependencies(void *,struct partialMatch *);
-void  RemovePMDependencies(void *, partialMatch *);
+void RemovePMDependencies(void*, partialMatch*);
 //C        LOCALE void                           DestroyPMDependencies(void *,struct partialMatch *);
-void  DestroyPMDependencies(void *, partialMatch *);
+void DestroyPMDependencies(void*, partialMatch*);
 //C        LOCALE void                           RemoveLogicalSupport(void *,struct partialMatch *);
-void  RemoveLogicalSupport(void *, partialMatch *);
+void RemoveLogicalSupport(void*, partialMatch*);
 //C        LOCALE void                           ForceLogicalRetractions(void *);
-void  ForceLogicalRetractions(void *);
+void ForceLogicalRetractions(void*);
 //C        LOCALE void                           Dependencies(void *,struct patternEntity *);
-void  Dependencies(void *, patternEntity *);
+void Dependencies(void*, patternEntity*);
 //C        LOCALE void                           Dependents(void *,struct patternEntity *);
-void  Dependents(void *, patternEntity *);
+void Dependents(void*, patternEntity*);
 //C        LOCALE void                           DependenciesCommand(void *);
-void  DependenciesCommand(void *);
+void DependenciesCommand(void*);
 //C        LOCALE void                           DependentsCommand(void *);
-void  DependentsCommand(void *);
+void DependentsCommand(void*);
 //C        LOCALE void                           ReturnEntityDependencies(void *,struct patternEntity *);
-void  ReturnEntityDependencies(void *, patternEntity *);
+void ReturnEntityDependencies(void*, patternEntity*);
 //C        LOCALE struct partialMatch           *FindLogicalBind(struct joinNode *,struct partialMatch *);
-partialMatch * FindLogicalBind(joinNode *, partialMatch *);
+partialMatch* FindLogicalBind(joinNode*, partialMatch*);
 
 //C     #endif /* _H_lgcldpnd */
-
-
-
-
 
 //C     #endif
 //C     #ifndef _H_ruledef
@@ -9701,13 +10351,13 @@ partialMatch * FindLogicalBind(joinNode *, partialMatch *);
 //C     #endif
 //C     #ifndef _H_retract
 //C     #include "retract.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                RETRACT HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                RETRACT HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:  Handles join network activity associated with   */
@@ -9766,31 +10416,29 @@ partialMatch * FindLogicalBind(joinNode *, partialMatch *);
 //C       };
 struct rdriveinfo
 {
-    partialMatch *link;
-    joinNode *jlist;
-    rdriveinfo *next;
+    partialMatch* link;
+    joinNode* jlist;
+    rdriveinfo* next;
 }
 
 //C     LOCALE void                           NetworkRetract(void *,struct patternMatch *);
-void  NetworkRetract(void *, patternMatch *);
+void NetworkRetract(void*, patternMatch*);
 //C     LOCALE void                           ReturnPartialMatch(void *,struct partialMatch *);
-void  ReturnPartialMatch(void *, partialMatch *);
+void ReturnPartialMatch(void*, partialMatch*);
 //C     LOCALE void                           DestroyPartialMatch(void *,struct partialMatch *);
-void  DestroyPartialMatch(void *, partialMatch *);
+void DestroyPartialMatch(void*, partialMatch*);
 //C     LOCALE void                           FlushGarbagePartialMatches(void *);
-void  FlushGarbagePartialMatches(void *);
+void FlushGarbagePartialMatches(void*);
 //C     LOCALE void                           DeletePartialMatches(void *,struct partialMatch *);
-void  DeletePartialMatches(void *, partialMatch *);
+void DeletePartialMatches(void*, partialMatch*);
 //C     LOCALE void                           PosEntryRetractBeta(void *,struct partialMatch *,struct partialMatch *,int);
-void  PosEntryRetractBeta(void *, partialMatch *, partialMatch *, int );
+void PosEntryRetractBeta(void*, partialMatch*, partialMatch*, int);
 //C     LOCALE void                           PosEntryRetractAlpha(void *,struct partialMatch *,int);
-void  PosEntryRetractAlpha(void *, partialMatch *, int );
+void PosEntryRetractAlpha(void*, partialMatch*, int);
 //C     LOCALE intBool                        PartialMatchWillBeDeleted(void *,struct partialMatch *);
-int  PartialMatchWillBeDeleted(void *, partialMatch *);
+int PartialMatchWillBeDeleted(void*, partialMatch*);
 
 //C     #endif /* _H_retract */
-
-
 
 //C     #endif
 
@@ -9802,11 +10450,11 @@ int  PartialMatchWillBeDeleted(void *, partialMatch *);
 //C       };
 struct focus
 {
-    defmodule *theModule;
-    defruleModule *theDefruleModule;
-    focus *next;
+    defmodule* theModule;
+    defruleModule* theDefruleModule;
+    focus* next;
 }
-  
+
 //C     #define ENGINE_DATA 18
 
 const ENGINE_DATA = 18;
@@ -9850,26 +10498,26 @@ const ENGINE_DATA = 18;
 //C       };
 struct engineData
 {
-    defrule *ExecutingRule;
+    defrule* ExecutingRule;
     int HaltRules;
-    joinNode *TheLogicalJoin;
-    partialMatch *TheLogicalBind;
-    dependency *UnsupportedDataEntities;
+    joinNode* TheLogicalJoin;
+    partialMatch* TheLogicalBind;
+    dependency* UnsupportedDataEntities;
     int alreadyEntered;
-    callFunctionItem *ListOfRunFunctions;
-    callFunctionItemWithArg *ListOfBeforeRunFunctions;
-    focus *CurrentFocus;
+    callFunctionItem* ListOfRunFunctions;
+    callFunctionItemWithArg* ListOfBeforeRunFunctions;
+    focus* CurrentFocus;
     int FocusChanged;
     uint WatchStatistics;
     uint WatchFocus;
     int IncrementalResetInProgress;
     int IncrementalResetFlag;
     int JoinOperationInProgress;
-    partialMatch *GlobalLHSBinds;
-    partialMatch *GlobalRHSBinds;
-    joinNode *GlobalJoin;
-    partialMatch *GarbagePartialMatches;
-    alphaMatch *GarbageAlphaMatches;
+    partialMatch* GlobalLHSBinds;
+    partialMatch* GlobalRHSBinds;
+    joinNode* GlobalJoin;
+    partialMatch* GarbagePartialMatches;
+    alphaMatch* GarbageAlphaMatches;
     int AlreadyRunning;
 }
 
@@ -9890,83 +10538,83 @@ const MAX_PATTERNS_CHECKED = 64;
 //C -- alias extern LOCALE;
 
 //C        LOCALE long long               EnvRun(void *,long long);
-long  EnvRun(void *, long );
+long EnvRun(void*, long);
 //C        LOCALE intBool                 EnvAddRunFunction(void *,const char *,
 //C                                                         void (*)(void *),int);
-int  EnvAddRunFunction(void *, char *, void  function(void *), int );
+int EnvAddRunFunction(void*, char*, void function(void*), int);
 //C        LOCALE intBool                 EnvAddRunFunctionWithContext(void *,const char *,
 //C                                                                    void (*)(void *),int,void *);
-int  EnvAddRunFunctionWithContext(void *, char *, void  function(void *), int , void *);
+int EnvAddRunFunctionWithContext(void*, char*, void function(void*), int, void*);
 //C        LOCALE intBool                 EnvRemoveRunFunction(void *,const char *);
-int  EnvRemoveRunFunction(void *, char *);
+int EnvRemoveRunFunction(void*, char*);
 //C        LOCALE intBool                 EnvAddBeforeRunFunction(void *,const char *,
 //C                                                         void (*)(void *,void *),int);
-int  EnvAddBeforeRunFunction(void *, char *, void  function(void *, void *), int );
+int EnvAddBeforeRunFunction(void*, char*, void function(void*, void*), int);
 //C        LOCALE intBool                 EnvAddBeforeRunFunctionWithContext(void *,const char *,
 //C                                                                    void (*)(void *, void *),int,void *);
-int  EnvAddBeforeRunFunctionWithContext(void *, char *, void  function(void *, void *), int , void *);
+int EnvAddBeforeRunFunctionWithContext(void*, char*, void function(void*, void*), int, void*);
 //C        LOCALE intBool                 EnvRemoveBeforeRunFunction(void *,const char *);
-int  EnvRemoveBeforeRunFunction(void *, char *);
+int EnvRemoveBeforeRunFunction(void*, char*);
 //C        LOCALE void                    InitializeEngine(void *);
-void  InitializeEngine(void *);
+void InitializeEngine(void*);
 //C        LOCALE void                    EnvSetBreak(void *,void *);
-void  EnvSetBreak(void *, void *);
+void EnvSetBreak(void*, void*);
 //C        LOCALE void                    EnvHalt(void *);
-void  EnvHalt(void *);
+void EnvHalt(void*);
 //C        LOCALE intBool                 EnvRemoveBreak(void *,void *);
-int  EnvRemoveBreak(void *, void *);
+int EnvRemoveBreak(void*, void*);
 //C        LOCALE void                    RemoveAllBreakpoints(void *);
-void  RemoveAllBreakpoints(void *);
+void RemoveAllBreakpoints(void*);
 //C        LOCALE void                    EnvShowBreaks(void *,const char *,void *);
-void  EnvShowBreaks(void *, char *, void *);
+void EnvShowBreaks(void*, char*, void*);
 //C        LOCALE intBool                 EnvDefruleHasBreakpoint(void *,void *);
-int  EnvDefruleHasBreakpoint(void *, void *);
+int EnvDefruleHasBreakpoint(void*, void*);
 //C        LOCALE void                    RunCommand(void *);
-void  RunCommand(void *);
+void RunCommand(void*);
 //C        LOCALE void                    SetBreakCommand(void *);
-void  SetBreakCommand(void *);
+void SetBreakCommand(void*);
 //C        LOCALE void                    RemoveBreakCommand(void *);
-void  RemoveBreakCommand(void *);
+void RemoveBreakCommand(void*);
 //C        LOCALE void                    ShowBreaksCommand(void *);
-void  ShowBreaksCommand(void *);
+void ShowBreaksCommand(void*);
 //C        LOCALE void                    HaltCommand(void *);
-void  HaltCommand(void *);
+void HaltCommand(void*);
 //C        LOCALE int                     FocusCommand(void *);
-int  FocusCommand(void *);
+int FocusCommand(void*);
 //C        LOCALE void                    ClearFocusStackCommand(void *);
-void  ClearFocusStackCommand(void *);
+void ClearFocusStackCommand(void*);
 //C        LOCALE void                    EnvClearFocusStack(void *);
-void  EnvClearFocusStack(void *);
+void EnvClearFocusStack(void*);
 //C        LOCALE void                   *EnvGetNextFocus(void *,void *);
-void * EnvGetNextFocus(void *, void *);
+void* EnvGetNextFocus(void*, void*);
 //C        LOCALE void                    EnvFocus(void *,void *);
-void  EnvFocus(void *, void *);
+void EnvFocus(void*, void*);
 //C        LOCALE int                     EnvGetFocusChanged(void *);
-int  EnvGetFocusChanged(void *);
+int EnvGetFocusChanged(void*);
 //C        LOCALE void                    EnvSetFocusChanged(void *,int);
-void  EnvSetFocusChanged(void *, int );
+void EnvSetFocusChanged(void*, int);
 //C        LOCALE void                    ListFocusStackCommand(void *);
-void  ListFocusStackCommand(void *);
+void ListFocusStackCommand(void*);
 //C        LOCALE void                    EnvListFocusStack(void *,const char *);
-void  EnvListFocusStack(void *, char *);
+void EnvListFocusStack(void*, char*);
 //C        LOCALE void                    GetFocusStackFunction(void *,DATA_OBJECT_PTR);
-void  GetFocusStackFunction(void *, DATA_OBJECT_PTR );
+void GetFocusStackFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                    EnvGetFocusStack(void *,DATA_OBJECT_PTR);
-void  EnvGetFocusStack(void *, DATA_OBJECT_PTR );
+void EnvGetFocusStack(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                   *PopFocusFunction(void *);
-void * PopFocusFunction(void *);
+void* PopFocusFunction(void*);
 //C        LOCALE void                   *GetFocusFunction(void *);
-void * GetFocusFunction(void *);
+void* GetFocusFunction(void*);
 //C        LOCALE void                   *EnvPopFocus(void *);
-void * EnvPopFocus(void *);
+void* EnvPopFocus(void*);
 //C        LOCALE void                   *EnvGetFocus(void *);
-void * EnvGetFocus(void *);
+void* EnvGetFocus(void*);
 //C        LOCALE intBool                 EnvGetHaltRules(void *);
-int  EnvGetHaltRules(void *);
+int EnvGetHaltRules(void*);
 //C        LOCALE void                    EnvSetHaltRules(void *,intBool);
-void  EnvSetHaltRules(void *, int );
+void EnvSetHaltRules(void*, int);
 //C        LOCALE struct activation      *NextActivationToFire(void *);
-activation * NextActivationToFire(void *);
+activation* NextActivationToFire(void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -9995,19 +10643,14 @@ activation * NextActivationToFire(void *);
 
 //C     #endif /* _H_engine */
 
-
-
-
-
-
 //C     #include "drive.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  12/04/07            */
-   /*                                                     */
-   /*                  DRIVE HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  12/04/07            */
+/*                                                     */
+/*                  DRIVE HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Handles join network activity associated with    */
@@ -10058,36 +10701,32 @@ activation * NextActivationToFire(void *);
 //C -- alias extern LOCALE;
 
 //C        void                           NetworkAssert(void *,struct partialMatch *,struct joinNode *);
-void  NetworkAssert(void *, partialMatch *, joinNode *);
+void NetworkAssert(void*, partialMatch*, joinNode*);
 //C        intBool                        EvaluateJoinExpression(void *,struct expr *,struct joinNode *);
-int  EvaluateJoinExpression(void *, expr *, joinNode *);
+int EvaluateJoinExpression(void*, expr*, joinNode*);
 //C        void                           NetworkAssertLeft(void *,struct partialMatch *,struct joinNode *,int);
-void  NetworkAssertLeft(void *, partialMatch *, joinNode *, int );
+void NetworkAssertLeft(void*, partialMatch*, joinNode*, int);
 //C        void                           NetworkAssertRight(void *,struct partialMatch *,struct joinNode *,int);
-void  NetworkAssertRight(void *, partialMatch *, joinNode *, int );
+void NetworkAssertRight(void*, partialMatch*, joinNode*, int);
 //C        void                           PPDrive(void *,struct partialMatch *,struct partialMatch *,struct joinNode *,int);
-void  PPDrive(void *, partialMatch *, partialMatch *, joinNode *, int );
+void PPDrive(void*, partialMatch*, partialMatch*, joinNode*, int);
 //C        unsigned long                  BetaMemoryHashValue(void *,struct expr *,struct partialMatch *,struct partialMatch *,struct joinNode *);
-uint  BetaMemoryHashValue(void *, expr *, partialMatch *, partialMatch *, joinNode *);
+uint BetaMemoryHashValue(void*, expr*, partialMatch*, partialMatch*, joinNode*);
 //C        intBool                        EvaluateSecondaryNetworkTest(void *,struct partialMatch *,struct joinNode *);
-int  EvaluateSecondaryNetworkTest(void *, partialMatch *, joinNode *);
+int EvaluateSecondaryNetworkTest(void*, partialMatch*, joinNode*);
 //C        void                           EPMDrive(void *,struct partialMatch *,struct joinNode *,int);
-void  EPMDrive(void *, partialMatch *, joinNode *, int );
-   
+void EPMDrive(void*, partialMatch*, joinNode*, int);
+
 //C     #endif /* _H_drive */
 
-
-
-
-
 //C     #include "incrrset.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*            INCREMENTAL RESET HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*            INCREMENTAL RESET HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides functionality for the incremental       */
@@ -10141,15 +10780,15 @@ void  EPMDrive(void *, partialMatch *, joinNode *, int );
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           IncrementalReset(void *,struct defrule *);
-void  IncrementalReset(void *, defrule *);
+void IncrementalReset(void*, defrule*);
 //C        LOCALE intBool                        EnvGetIncrementalReset(void *);
-int  EnvGetIncrementalReset(void *);
+int EnvGetIncrementalReset(void*);
 //C        LOCALE intBool                        EnvSetIncrementalReset(void *,intBool);
-int  EnvSetIncrementalReset(void *, int );
+int EnvSetIncrementalReset(void*, int);
 //C        LOCALE int                            GetIncrementalResetCommand(void *);
-int  GetIncrementalResetCommand(void *);
+int GetIncrementalResetCommand(void*);
 //C        LOCALE int                            SetIncrementalResetCommand(void *);
-int  SetIncrementalResetCommand(void *);
+int SetIncrementalResetCommand(void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -10160,22 +10799,14 @@ int  SetIncrementalResetCommand(void *);
 
 //C     #endif /* _H_incrrset */
 
-
-
-
-
-
-
-
-
 //C     #include "rulecom.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*             DEFRULE COMMANDS HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*             DEFRULE COMMANDS HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides the matches command. Also provides the  */
@@ -10251,12 +10882,12 @@ int  SetIncrementalResetCommand(void *);
 struct joinInformation
 {
     int whichCE;
-    joinNode *theJoin;
+    joinNode* theJoin;
     int patternBegin;
     int patternEnd;
     int marked;
-    betaMemory *theMemory;
-    joinNode *nextJoin;
+    betaMemory* theMemory;
+    joinNode* nextJoin;
 }
 
 //C     #define VERBOSE  0
@@ -10267,40 +10898,40 @@ const SUCCINCT = 1;
 
 const TERSE = 2;
 //C        LOCALE intBool                        EnvGetBetaMemoryResizing(void *);
-int  EnvGetBetaMemoryResizing(void *);
+int EnvGetBetaMemoryResizing(void*);
 //C        LOCALE intBool                        EnvSetBetaMemoryResizing(void *,intBool);
-int  EnvSetBetaMemoryResizing(void *, int );
+int EnvSetBetaMemoryResizing(void*, int);
 //C        LOCALE int                            GetBetaMemoryResizingCommand(void *);
-int  GetBetaMemoryResizingCommand(void *);
+int GetBetaMemoryResizingCommand(void*);
 //C        LOCALE int                            SetBetaMemoryResizingCommand(void *);
-int  SetBetaMemoryResizingCommand(void *);
+int SetBetaMemoryResizingCommand(void*);
 
 //C        LOCALE void                           EnvMatches(void *,void *,int,DATA_OBJECT *);
-void  EnvMatches(void *, void *, int , DATA_OBJECT *);
+void EnvMatches(void*, void*, int, DATA_OBJECT*);
 //C        LOCALE void                           EnvJoinActivity(void *,void *,int,DATA_OBJECT *);
-void  EnvJoinActivity(void *, void *, int , DATA_OBJECT *);
+void EnvJoinActivity(void*, void*, int, DATA_OBJECT*);
 //C        LOCALE void                           DefruleCommands(void *);
-void  DefruleCommands(void *);
+void DefruleCommands(void*);
 //C        LOCALE void                           MatchesCommand(void *,DATA_OBJECT *);
-void  MatchesCommand(void *, DATA_OBJECT *);
+void MatchesCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           JoinActivityCommand(void *,DATA_OBJECT *);
-void  JoinActivityCommand(void *, DATA_OBJECT *);
+void JoinActivityCommand(void*, DATA_OBJECT*);
 //C        LOCALE long long                      TimetagFunction(void *);
-long  TimetagFunction(void *);
+long TimetagFunction(void*);
 //C        LOCALE long                           EnvAlphaJoinCount(void *,void *);
-int  EnvAlphaJoinCount(void *, void *);
+int EnvAlphaJoinCount(void*, void*);
 //C        LOCALE long                           EnvBetaJoinCount(void *,void *);
-int  EnvBetaJoinCount(void *, void *);
+int EnvBetaJoinCount(void*, void*);
 //C        LOCALE struct joinInformation        *EnvCreateJoinArray(void *,long);
-joinInformation * EnvCreateJoinArray(void *, int );
+joinInformation* EnvCreateJoinArray(void*, int);
 //C        LOCALE void                           EnvFreeJoinArray(void *,struct joinInformation *,long);
-void  EnvFreeJoinArray(void *, joinInformation *, int );
+void EnvFreeJoinArray(void*, joinInformation*, int);
 //C        LOCALE void                           EnvAlphaJoins(void *,void *,long,struct joinInformation *);
-void  EnvAlphaJoins(void *, void *, int , joinInformation *);
+void EnvAlphaJoins(void*, void*, int, joinInformation*);
 //C        LOCALE void                           EnvBetaJoins(void *,void *,long,struct joinInformation *);
-void  EnvBetaJoins(void *, void *, int , joinInformation *);
+void EnvBetaJoins(void*, void*, int, joinInformation*);
 //C        LOCALE void                           JoinActivityResetCommand(void *);
-void  JoinActivityResetCommand(void *);
+void JoinActivityResetCommand(void*);
 //C     #if DEVELOPER
 //C        LOCALE void                           ShowJoinsCommand(void *);
 //C        LOCALE long                           RuleComplexityCommand(void *);
@@ -10320,13 +10951,13 @@ void  JoinActivityResetCommand(void *);
 
 //C     #endif /* _H_rulecom */
 //C     #include "crstrtgy.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*      CONFLICT RESOLUTION STRATEGY HEADER MODULE     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*      CONFLICT RESOLUTION STRATEGY HEADER MODULE     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Used to determine where a new activation is      */
@@ -10368,13 +10999,13 @@ void  JoinActivityResetCommand(void *);
 //C     #define _H_crstrtgy
 
 //C     #include "agenda.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
-   /*                                                     */
-   /*                 AGENDA HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/22/14            */
+/*                                                     */
+/*                 AGENDA HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -10433,7 +11064,7 @@ void  JoinActivityResetCommand(void *);
 
 //C     #define MAX_DEFRULE_SALIENCE  10000
 //C     #define MIN_DEFRULE_SALIENCE -10000
-  
+
 /*******************/
 /* DATA STRUCTURES */
 /*******************/
@@ -10546,19 +11177,14 @@ void  JoinActivityResetCommand(void *);
 
 //C     #endif
 
-
-
-
-
-
 //C     #include "symbol.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/03/15            */
-   /*                                                     */
-   /*                 SYMBOL HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/03/15            */
+/*                                                     */
+/*                 SYMBOL HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Manages the atomic data value hash tables for    */
@@ -10601,7 +11227,7 @@ void  JoinActivityResetCommand(void *);
 /*                                                           */
 /*            Used genstrcpy instead of strcpy.              */
 /*                                                           */
-             
+
 /*            Added support for external address hash table  */
 /*            and subtyping.                                 */
 /*                                                           */
@@ -10884,9 +11510,6 @@ void  JoinActivityResetCommand(void *);
 
 //C     #endif /* _H_symbol */
 
-
-
-
 //C     #define DEPTH_STRATEGY 0
 //C     #define BREADTH_STRATEGY 1
 const DEPTH_STRATEGY = 0;
@@ -10917,15 +11540,15 @@ alias DEPTH_STRATEGY DEFAULT_STRATEGY;
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           PlaceActivation(void *,ACTIVATION **,ACTIVATION *,struct salienceGroup *);
-void  PlaceActivation(void *, ACTIVATION **, ACTIVATION *, salienceGroup *);
+void PlaceActivation(void*, ACTIVATION**, ACTIVATION*, salienceGroup*);
 //C        LOCALE int                            EnvSetStrategy(void *,int);
-int  EnvSetStrategy(void *, int );
+int EnvSetStrategy(void*, int);
 //C        LOCALE int                            EnvGetStrategy(void *);
-int  EnvGetStrategy(void *);
+int EnvGetStrategy(void*);
 //C        LOCALE void                          *SetStrategyCommand(void *);
-void * SetStrategyCommand(void *);
+void* SetStrategyCommand(void*);
 //C        LOCALE void                          *GetStrategyCommand(void *);
-void * GetStrategyCommand(void *);
+void* GetStrategyCommand(void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -10936,18 +11559,17 @@ void * GetStrategyCommand(void *);
 
 //C     #endif /* _H_crstrtgy */
 
-
 //C     #endif
 
 //C     #if DEFFACTS_CONSTRUCT
 //C     #include "dffctdef.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  01/25/15            */
-   /*                                                     */
-   /*                DEFFACTS HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  01/25/15            */
+/*                                                     */
+/*                DEFFACTS HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -11015,11 +11637,11 @@ const DEFFACTS_DATA = 0;
 //C       };
 struct deffactsData
 {
-    construct *DeffactsConstruct;
+    construct* DeffactsConstruct;
     int DeffactsModuleIndex;
-    CodeGeneratorItem *DeffactsCodeItem;
+    CodeGeneratorItem* DeffactsCodeItem;
 }
-  
+
 //C     struct deffacts
 //C       {
 //C        struct constructHeader header;
@@ -11028,7 +11650,7 @@ struct deffactsData
 struct deffacts
 {
     constructHeader header;
-    expr *assertList;
+    expr* assertList;
 }
 
 //C     struct deffactsModule
@@ -11054,25 +11676,25 @@ struct deffactsModule
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeDeffacts(void *);
-void  InitializeDeffacts(void *);
+void InitializeDeffacts(void*);
 //C        LOCALE void                          *EnvFindDeffacts(void *,const char *);
-void * EnvFindDeffacts(void *, char *);
+void* EnvFindDeffacts(void*, char*);
 //C        LOCALE void                          *EnvFindDeffactsInModule(void *,const char *);
-void * EnvFindDeffactsInModule(void *, char *);
+void* EnvFindDeffactsInModule(void*, char*);
 //C        LOCALE void                          *EnvGetNextDeffacts(void *,void *);
-void * EnvGetNextDeffacts(void *, void *);
+void* EnvGetNextDeffacts(void*, void*);
 //C        LOCALE void                           CreateInitialFactDeffacts(void);
-void  CreateInitialFactDeffacts();
+void CreateInitialFactDeffacts();
 //C        LOCALE intBool                        EnvIsDeffactsDeletable(void *,void *);
-int  EnvIsDeffactsDeletable(void *, void *);
+int EnvIsDeffactsDeletable(void*, void*);
 //C        LOCALE struct deffactsModule         *GetDeffactsModuleItem(void *,struct defmodule *);
-deffactsModule * GetDeffactsModuleItem(void *, defmodule *);
+deffactsModule* GetDeffactsModuleItem(void*, defmodule*);
 //C        LOCALE const char                    *EnvDeffactsModule(void *,void *);
-char * EnvDeffactsModule(void *, void *);
+char* EnvDeffactsModule(void*, void*);
 //C        LOCALE const char                    *EnvGetDeffactsName(void *,void *);
-char * EnvGetDeffactsName(void *, void *);
+char* EnvGetDeffactsName(void*, void*);
 //C        LOCALE const char                    *EnvGetDeffactsPPForm(void *,void *);
-char * EnvGetDeffactsPPForm(void *, void *);
+char* EnvGetDeffactsPPForm(void*, void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -11082,20 +11704,19 @@ char * EnvGetDeffactsPPForm(void *, void *);
 //C        LOCALE const char                    *DeffactsModule(void *);
 //C        LOCALE const char                    *GetDeffactsName(void *);
 //C        LOCALE const char                    *GetDeffactsPPForm(void *);
-   
+
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_dffctdef */
 
-
 //C     #include "dffctbsc.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*         DEFFACTS BASIC COMMANDS HEADER FILE         */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*         DEFFACTS BASIC COMMANDS HEADER FILE         */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements core commands for the deffacts        */
@@ -11145,25 +11766,25 @@ char * EnvGetDeffactsPPForm(void *, void *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           DeffactsBasicCommands(void *);
-void  DeffactsBasicCommands(void *);
+void DeffactsBasicCommands(void*);
 //C        LOCALE void                           UndeffactsCommand(void *);
-void  UndeffactsCommand(void *);
+void UndeffactsCommand(void*);
 //C        LOCALE intBool                        EnvUndeffacts(void *,void *);
-int  EnvUndeffacts(void *, void *);
+int EnvUndeffacts(void*, void*);
 //C        LOCALE void                           GetDeffactsListFunction(void *,DATA_OBJECT_PTR);
-void  GetDeffactsListFunction(void *, DATA_OBJECT_PTR );
+void GetDeffactsListFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           EnvGetDeffactsList(void *,DATA_OBJECT_PTR,void *);
-void  EnvGetDeffactsList(void *, DATA_OBJECT_PTR , void *);
+void EnvGetDeffactsList(void*, DATA_OBJECT_PTR, void*);
 //C        LOCALE void                          *DeffactsModuleFunction(void *);
-void * DeffactsModuleFunction(void *);
+void* DeffactsModuleFunction(void*);
 //C        LOCALE void                           PPDeffactsCommand(void *);
-void  PPDeffactsCommand(void *);
+void PPDeffactsCommand(void*);
 //C        LOCALE int                            PPDeffacts(void *,const char *,const char *);
-int  PPDeffacts(void *, char *, char *);
+int PPDeffacts(void*, char*, char*);
 //C        LOCALE void                           ListDeffactsCommand(void *);
-void  ListDeffactsCommand(void *);
+void ListDeffactsCommand(void*);
 //C        LOCALE void                           EnvListDeffacts(void *,const char *,void *);
-void  EnvListDeffacts(void *, char *, void *);
+void EnvListDeffacts(void*, char*, void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -11181,13 +11802,13 @@ void  EnvListDeffacts(void *, char *, void *);
 
 //C     #if DEFTEMPLATE_CONSTRUCT
 //C     #include "tmpltdef.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  01/25/15            */
-   /*                                                     */
-   /*               DEFTEMPLATE HEADER FILE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  01/25/15            */
+/*                                                     */
+/*               DEFTEMPLATE HEADER FILE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -11258,13 +11879,13 @@ void  EnvListDeffacts(void *, char *, void *);
 //C     #include "constrnt.h"
 //C     #endif
 //C     #include "factbld.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                FACT BUILD HEADER FILE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                FACT BUILD HEADER FILE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -11318,11 +11939,11 @@ struct factPatternNode
     ushort whichField;
     ushort whichSlot;
     ushort leaveFields;
-    expr *networkTest;
-    factPatternNode *nextLevel;
-    factPatternNode *lastLevel;
-    factPatternNode *leftNode;
-    factPatternNode *rightNode;
+    expr* networkTest;
+    factPatternNode* nextLevel;
+    factPatternNode* lastLevel;
+    factPatternNode* leftNode;
+    factPatternNode* rightNode;
 }
 
 //C     #ifdef _FACTBUILD_SOURCE_
@@ -11333,21 +11954,21 @@ struct factPatternNode
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeFactPatterns(void *);
-void  InitializeFactPatterns(void *);
+void InitializeFactPatterns(void*);
 //C        LOCALE void                           DestroyFactPatternNetwork(void *,
 //C                                                                        struct factPatternNode *);
-void  DestroyFactPatternNetwork(void *, factPatternNode *);
+void DestroyFactPatternNetwork(void*, factPatternNode*);
 
 //C     #endif /* _H_factbld */
 //C     #ifndef _H_factmngr
 //C     #include "factmngr.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/04/15            */
-   /*                                                     */
-   /*              FACTS MANAGER HEADER FILE              */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/04/15            */
+/*                                                     */
+/*              FACTS MANAGER HEADER FILE              */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -11406,13 +12027,13 @@ void  DestroyFactPatternNetwork(void *, factPatternNode *);
 
 //C     #ifndef _H_facthsh
 //C     #include "facthsh.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                 FACT HASHING MODULE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                 FACT HASHING MODULE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -11455,8 +12076,8 @@ void  DestroyFactPatternNetwork(void *, factPatternNode *);
 //C       };
 struct factHashEntry
 {
-    fact *theFact;
-    factHashEntry *next;
+    fact* theFact;
+    factHashEntry* next;
 }
 
 //C     #define SIZE_FACT_HASH 16231
@@ -11473,23 +12094,23 @@ const SIZE_FACT_HASH = 16231;
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           AddHashedFact(void *,struct fact *,unsigned long);
-void  AddHashedFact(void *, fact *, uint );
+void AddHashedFact(void*, fact*, uint);
 //C        LOCALE intBool                        RemoveHashedFact(void *,struct fact *);
-int  RemoveHashedFact(void *, fact *);
+int RemoveHashedFact(void*, fact*);
 //C        LOCALE unsigned long                  HandleFactDuplication(void *,void *,intBool *);
-uint  HandleFactDuplication(void *, void *, int *);
+uint HandleFactDuplication(void*, void*, int*);
 //C        LOCALE intBool                        EnvGetFactDuplication(void *);
-int  EnvGetFactDuplication(void *);
+int EnvGetFactDuplication(void*);
 //C        LOCALE intBool                        EnvSetFactDuplication(void *,int);
-int  EnvSetFactDuplication(void *, int );
+int EnvSetFactDuplication(void*, int);
 //C        LOCALE void                           InitializeFactHashTable(void *);
-void  InitializeFactHashTable(void *);
+void InitializeFactHashTable(void*);
 //C        LOCALE void                           ShowFactHashTable(void *);
-void  ShowFactHashTable(void *);
+void ShowFactHashTable(void*);
 //C        LOCALE unsigned long                  HashFact(struct fact *);
-uint  HashFact(fact *);
+uint HashFact(fact*);
 //C        LOCALE intBool                        FactWillBeAsserted(void *,void *);
-int  FactWillBeAsserted(void *, void *);
+int FactWillBeAsserted(void*, void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -11500,7 +12121,6 @@ int  FactWillBeAsserted(void *, void *);
 
 //C     #endif /* _H_facthsh */
 
-
 //C     #endif
 //C     #ifndef _H_conscomp
 //C     #include "conscomp.h"
@@ -11509,13 +12129,13 @@ int  FactWillBeAsserted(void *, void *);
 //C     #include "pattern.h"
 //C     #endif
 //C     #include "multifld.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/19/14            */
-   /*                                                     */
-   /*                MULTIFIELD HEADER FILE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/19/14            */
+/*                                                     */
+/*                MULTIFIELD HEADER FILE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for creating and manipulating           */
@@ -11629,13 +12249,10 @@ int  FactWillBeAsserted(void *, void *);
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
 //C        LOCALE void                          *CreateMultifield(long);
-   
+
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_multifld */
-
-
-
 
 //C     #ifndef _H_evaluatn
 //C     #include "evaluatn.h"
@@ -11661,20 +12278,29 @@ int  FactWillBeAsserted(void *, void *);
 struct fact
 {
     patternEntity factHeader;
-    deftemplate *whichDeftemplate;
-    void *list;
+    deftemplate* whichDeftemplate;
+    void* list;
     long factIndex;
     uint hashValue;
     uint __bitfield1;
-    uint garbage() { return (__bitfield1 >> 0) & 0x1; }
-    uint garbage(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    fact *previousFact;
-    fact *nextFact;
-    fact *previousTemplateFact;
-    fact *nextTemplateFact;
+    uint garbage()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint garbage(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    fact* previousFact;
+    fact* nextFact;
+    fact* previousTemplateFact;
+    fact* nextTemplateFact;
     multifield theProposition;
 }
-  
+
 //C     #define FACTS_DATA 3
 
 const FACTS_DATA = 3;
@@ -11714,25 +12340,25 @@ struct factsData
     int ChangeToFactList;
     uint WatchFacts;
     fact DummyFact;
-    fact *GarbageFacts;
-    fact *LastFact;
-    fact *FactList;
+    fact* GarbageFacts;
+    fact* LastFact;
+    fact* FactList;
     long NextFactIndex;
     uint NumberOfFacts;
-    callFunctionItemWithArg *ListOfAssertFunctions;
-    callFunctionItemWithArg *ListOfRetractFunctions;
-    callFunctionItemWithArg *ListOfModifyFunctions;
+    callFunctionItemWithArg* ListOfAssertFunctions;
+    callFunctionItemWithArg* ListOfRetractFunctions;
+    callFunctionItemWithArg* ListOfModifyFunctions;
     patternEntityRecord FactInfo;
-    deftemplate *CurrentDeftemplate;
-    CodeGeneratorItem *FactCodeItem;
-    factHashEntry **FactHashTable;
+    deftemplate* CurrentDeftemplate;
+    CodeGeneratorItem* FactCodeItem;
+    factHashEntry** FactHashTable;
     uint FactHashTableSize;
     int FactDuplication;
-    fact *CurrentPatternFact;
-    multifieldMarker *CurrentPatternMarks;
+    fact* CurrentPatternFact;
+    multifieldMarker* CurrentPatternMarks;
     int LastModuleIndex;
 }
-  
+
 //C     #define FactData(theEnv) ((struct factsData *) GetEnvironmentData(theEnv,FACTS_DATA))
 
 //C     #ifdef LOCALE
@@ -11746,97 +12372,97 @@ struct factsData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                          *EnvAssert(void *,void *);
-void * EnvAssert(void *, void *);
+void* EnvAssert(void*, void*);
 //C        LOCALE void                          *EnvAssertString(void *,const char *);
-void * EnvAssertString(void *, char *);
+void* EnvAssertString(void*, char*);
 //C        LOCALE struct fact                   *EnvCreateFact(void *,void *);
-fact * EnvCreateFact(void *, void *);
+fact* EnvCreateFact(void*, void*);
 //C        LOCALE void                           EnvDecrementFactCount(void *,void *);
-void  EnvDecrementFactCount(void *, void *);
+void EnvDecrementFactCount(void*, void*);
 //C        LOCALE long long                      EnvFactIndex(void *,void *);
-long  EnvFactIndex(void *, void *);
+long EnvFactIndex(void*, void*);
 //C        LOCALE intBool                        EnvGetFactSlot(void *,void *,const char *,DATA_OBJECT *);
-int  EnvGetFactSlot(void *, void *, char *, DATA_OBJECT *);
+int EnvGetFactSlot(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           PrintFactWithIdentifier(void *,const char *,struct fact *);
-void  PrintFactWithIdentifier(void *, char *, fact *);
+void PrintFactWithIdentifier(void*, char*, fact*);
 //C        LOCALE void                           PrintFact(void *,const char *,struct fact *,int,int);
-void  PrintFact(void *, char *, fact *, int , int );
+void PrintFact(void*, char*, fact*, int, int);
 //C        LOCALE void                           PrintFactIdentifierInLongForm(void *,const char *,void *);
-void  PrintFactIdentifierInLongForm(void *, char *, void *);
+void PrintFactIdentifierInLongForm(void*, char*, void*);
 //C        LOCALE intBool                        EnvRetract(void *,void *);
-int  EnvRetract(void *, void *);
+int EnvRetract(void*, void*);
 //C        LOCALE void                           RemoveAllFacts(void *);
-void  RemoveAllFacts(void *);
+void RemoveAllFacts(void*);
 //C        LOCALE struct fact                   *CreateFactBySize(void *,unsigned);
-fact * CreateFactBySize(void *, uint );
+fact* CreateFactBySize(void*, uint);
 //C        LOCALE void                           FactInstall(void *,struct fact *);
-void  FactInstall(void *, fact *);
+void FactInstall(void*, fact*);
 //C        LOCALE void                           FactDeinstall(void *,struct fact *);
-void  FactDeinstall(void *, fact *);
+void FactDeinstall(void*, fact*);
 //C        LOCALE void                          *EnvGetNextFact(void *,void *);
-void * EnvGetNextFact(void *, void *);
+void* EnvGetNextFact(void*, void*);
 //C        LOCALE void                          *GetNextFactInScope(void *theEnv,void *);
-void * GetNextFactInScope(void *theEnv, void *);
+void* GetNextFactInScope(void* theEnv, void*);
 //C        LOCALE void                           EnvGetFactPPForm(void *,char *,size_t,void *);
-void  EnvGetFactPPForm(void *, char *, size_t , void *);
+void EnvGetFactPPForm(void*, char*, size_t, void*);
 //C        LOCALE int                            EnvGetFactListChanged(void *);
-int  EnvGetFactListChanged(void *);
+int EnvGetFactListChanged(void*);
 //C        LOCALE void                           EnvSetFactListChanged(void *,int);
-void  EnvSetFactListChanged(void *, int );
+void EnvSetFactListChanged(void*, int);
 //C        LOCALE unsigned long                  GetNumberOfFacts(void *);
-uint  GetNumberOfFacts(void *);
+uint GetNumberOfFacts(void*);
 //C        LOCALE void                           InitializeFacts(void *);
-void  InitializeFacts(void *);
+void InitializeFacts(void*);
 //C        LOCALE struct fact                   *FindIndexedFact(void *,long long);
-fact * FindIndexedFact(void *, long );
+fact* FindIndexedFact(void*, long);
 //C        LOCALE void                           EnvIncrementFactCount(void *,void *);
-void  EnvIncrementFactCount(void *, void *);
+void EnvIncrementFactCount(void*, void*);
 //C        LOCALE void                           PrintFactIdentifier(void *,const char *,void *);
-void  PrintFactIdentifier(void *, char *, void *);
+void PrintFactIdentifier(void*, char*, void*);
 //C        LOCALE void                           DecrementFactBasisCount(void *,void *);
-void  DecrementFactBasisCount(void *, void *);
+void DecrementFactBasisCount(void*, void*);
 //C        LOCALE void                           IncrementFactBasisCount(void *,void *);
-void  IncrementFactBasisCount(void *, void *);
+void IncrementFactBasisCount(void*, void*);
 //C        LOCALE intBool                        FactIsDeleted(void *,void *);
-int  FactIsDeleted(void *, void *);
+int FactIsDeleted(void*, void*);
 //C        LOCALE void                           ReturnFact(void *,struct fact *);
-void  ReturnFact(void *, fact *);
+void ReturnFact(void*, fact*);
 //C        LOCALE void                           MatchFactFunction(void *,void *);
-void  MatchFactFunction(void *, void *);
+void MatchFactFunction(void*, void*);
 //C        LOCALE intBool                        EnvPutFactSlot(void *,void *,const char *,DATA_OBJECT *);
-int  EnvPutFactSlot(void *, void *, char *, DATA_OBJECT *);
+int EnvPutFactSlot(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE intBool                        EnvAssignFactSlotDefaults(void *,void *);
-int  EnvAssignFactSlotDefaults(void *, void *);
+int EnvAssignFactSlotDefaults(void*, void*);
 //C        LOCALE intBool                        CopyFactSlotValues(void *,void *,void *);
-int  CopyFactSlotValues(void *, void *, void *);
+int CopyFactSlotValues(void*, void*, void*);
 //C        LOCALE intBool                        DeftemplateSlotDefault(void *,struct deftemplate *,
 //C                                                                     struct templateSlot *,DATA_OBJECT *,int);
-int  DeftemplateSlotDefault(void *, deftemplate *, templateSlot *, DATA_OBJECT *, int );
+int DeftemplateSlotDefault(void*, deftemplate*, templateSlot*, DATA_OBJECT*, int);
 //C        LOCALE intBool                        EnvAddAssertFunction(void *,const char *,
 //C                                                                   void (*)(void *,void *),int);
-int  EnvAddAssertFunction(void *, char *, void  function(void *, void *), int );
+int EnvAddAssertFunction(void*, char*, void function(void*, void*), int);
 //C        LOCALE intBool                        EnvAddAssertFunctionWithContext(void *,const char *,
 //C                                                                              void (*)(void *,void *),int,void *);
-int  EnvAddAssertFunctionWithContext(void *, char *, void  function(void *, void *), int , void *);
+int EnvAddAssertFunctionWithContext(void*, char*, void function(void*, void*), int, void*);
 //C        LOCALE intBool                        EnvRemoveAssertFunction(void *,const char *);
-int  EnvRemoveAssertFunction(void *, char *);
+int EnvRemoveAssertFunction(void*, char*);
 //C        LOCALE intBool                        EnvAddRetractFunction(void *,const char *,
 //C                                                                         void (*)(void *,void *),int);
-int  EnvAddRetractFunction(void *, char *, void  function(void *, void *), int );
+int EnvAddRetractFunction(void*, char*, void function(void*, void*), int);
 //C        LOCALE intBool                        EnvAddRetractFunctionWithContext(void *,const char *,
 //C                                                                               void (*)(void *,void *),int,void *);
-int  EnvAddRetractFunctionWithContext(void *, char *, void  function(void *, void *), int , void *);
+int EnvAddRetractFunctionWithContext(void*, char*, void function(void*, void*), int, void*);
 //C        LOCALE intBool                        EnvRemoveRetractFunction(void *,const char *);
-int  EnvRemoveRetractFunction(void *, char *);
+int EnvRemoveRetractFunction(void*, char*);
 //C        LOCALE intBool                        EnvAddModifyFunction(void *,const char *,
 //C                                                                   void (*)(void *,void *,void *),int);
-int  EnvAddModifyFunction(void *, char *, void  function(void *, void *, void *), int );
+int EnvAddModifyFunction(void*, char*, void function(void*, void*, void*), int);
 //C        LOCALE intBool                        EnvAddModifyFunctionWithContext(void *,const char *,
 //C                                                                              void (*)(void *,void *,void *),int,void *);
-int  EnvAddModifyFunctionWithContext(void *, char *, void  function(void *, void *, void *), int , void *);
+int EnvAddModifyFunctionWithContext(void*, char*, void function(void*,
+        void*, void*), int, void*);
 //C        LOCALE intBool                        EnvRemoveModifyFunction(void *,const char *);
-int  EnvRemoveModifyFunction(void *, char *);
-
+int EnvRemoveModifyFunction(void*, char*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -11865,10 +12491,6 @@ int  EnvRemoveModifyFunction(void *, char *);
 
 //C     #endif /* _H_factmngr */
 
-
-
-
-
 //C     #endif
 //C     #ifndef _H_cstrccom
 //C     #include "cstrccom.h"
@@ -11890,19 +12512,46 @@ int  EnvRemoveModifyFunction(void *, char *);
 struct deftemplate
 {
     constructHeader header;
-    templateSlot *slotList;
+    templateSlot* slotList;
     uint __bitfield1;
-    uint implied() { return (__bitfield1 >> 0) & 0x1; }
-    uint implied(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint watch() { return (__bitfield1 >> 1) & 0x1; }
-    uint watch(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint inScope() { return (__bitfield1 >> 2) & 0x1; }
-    uint inScope(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
+    uint implied()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint implied(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint watch()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint watch(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint inScope()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint inScope(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
     ushort numberOfSlots;
     int busyCount;
-    factPatternNode *patternNetwork;
-    fact *factList;
-    fact *lastFact;
+    factPatternNode* patternNetwork;
+    fact* factList;
+    fact* lastFact;
 }
 
 //C     struct templateSlot
@@ -11919,20 +12568,56 @@ struct deftemplate
 //C       };
 struct templateSlot
 {
-    symbolHashNode *slotName;
+    symbolHashNode* slotName;
     uint __bitfield1;
-    uint multislot() { return (__bitfield1 >> 0) & 0x1; }
-    uint multislot(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint noDefault() { return (__bitfield1 >> 1) & 0x1; }
-    uint noDefault(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint defaultPresent() { return (__bitfield1 >> 2) & 0x1; }
-    uint defaultPresent(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint defaultDynamic() { return (__bitfield1 >> 3) & 0x1; }
-    uint defaultDynamic(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3); return value; }
-    CONSTRAINT_RECORD *constraints;
-    expr *defaultList;
-    expr *facetList;
-    templateSlot *next;
+    uint multislot()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint multislot(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint noDefault()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint noDefault(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint defaultPresent()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint defaultPresent(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint defaultDynamic()
+    {
+        return (__bitfield1 >> 3) & 0x1;
+    }
+
+    uint defaultDynamic(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3);
+        return value;
+    }
+
+    CONSTRAINT_RECORD* constraints;
+    expr* defaultList;
+    expr* facetList;
+    templateSlot* next;
 }
 
 //C     struct deftemplateModule
@@ -11964,11 +12649,11 @@ const DEFTEMPLATE_DATA = 5;
 //C       };
 struct deftemplateData
 {
-    construct *DeftemplateConstruct;
+    construct* DeftemplateConstruct;
     int DeftemplateModuleIndex;
     entityRecord DeftemplatePtrRecord;
     int DeletedTemplateDebugFlags;
-    CodeGeneratorItem *DeftemplateCodeItem;
+    CodeGeneratorItem* DeftemplateCodeItem;
     int DeftemplateError;
 }
 
@@ -11986,36 +12671,36 @@ struct deftemplateData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeDeftemplates(void *);
-void  InitializeDeftemplates(void *);
+void InitializeDeftemplates(void*);
 //C        LOCALE void                          *EnvFindDeftemplate(void *,const char *);
-void * EnvFindDeftemplate(void *, char *);
+void* EnvFindDeftemplate(void*, char*);
 //C        LOCALE void                          *EnvFindDeftemplateInModule(void *,const char *);
-void * EnvFindDeftemplateInModule(void *, char *);
+void* EnvFindDeftemplateInModule(void*, char*);
 //C        LOCALE void                          *EnvGetNextDeftemplate(void *,void *);
-void * EnvGetNextDeftemplate(void *, void *);
+void* EnvGetNextDeftemplate(void*, void*);
 //C        LOCALE intBool                        EnvIsDeftemplateDeletable(void *,void *);
-int  EnvIsDeftemplateDeletable(void *, void *);
+int EnvIsDeftemplateDeletable(void*, void*);
 //C        LOCALE void                          *EnvGetNextFactInTemplate(void *,void *,void *);
-void * EnvGetNextFactInTemplate(void *, void *, void *);
+void* EnvGetNextFactInTemplate(void*, void*, void*);
 //C        LOCALE struct deftemplateModule      *GetDeftemplateModuleItem(void *,struct defmodule *);
-deftemplateModule * GetDeftemplateModuleItem(void *, defmodule *);
+deftemplateModule* GetDeftemplateModuleItem(void*, defmodule*);
 //C        LOCALE void                           ReturnSlots(void *,struct templateSlot *);
-void  ReturnSlots(void *, templateSlot *);
+void ReturnSlots(void*, templateSlot*);
 //C        LOCALE void                           IncrementDeftemplateBusyCount(void *,void *);
-void  IncrementDeftemplateBusyCount(void *, void *);
+void IncrementDeftemplateBusyCount(void*, void*);
 //C        LOCALE void                           DecrementDeftemplateBusyCount(void *,void *);
-void  DecrementDeftemplateBusyCount(void *, void *);
+void DecrementDeftemplateBusyCount(void*, void*);
 //C        LOCALE void                          *CreateDeftemplateScopeMap(void *,struct deftemplate *);
-void * CreateDeftemplateScopeMap(void *, deftemplate *);
+void* CreateDeftemplateScopeMap(void*, deftemplate*);
 //C     #if RUN_TIME
 //C        LOCALE void                           DeftemplateRunTimeInitialize(void *);
 //C     #endif
 //C        LOCALE const char                    *EnvDeftemplateModule(void *,void *);
-char * EnvDeftemplateModule(void *, void *);
+char* EnvDeftemplateModule(void*, void*);
 //C        LOCALE const char                    *EnvGetDeftemplateName(void *,void *);
-char * EnvGetDeftemplateName(void *, void *);
+char* EnvGetDeftemplateName(void*, void*);
 //C        LOCALE const char                    *EnvGetDeftemplatePPForm(void *,void *);
-char * EnvGetDeftemplatePPForm(void *, void *);
+char* EnvGetDeftemplatePPForm(void*, void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -12031,15 +12716,14 @@ char * EnvGetDeftemplatePPForm(void *, void *);
 
 //C     #endif /* _H_tmpltdef */
 
-
 //C     #include "tmpltbsc.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*       DEFTEMPLATE BASIC COMMANDS HEADER FILE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*       DEFTEMPLATE BASIC COMMANDS HEADER FILE        */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements core commands for the deftemplate     */
@@ -12097,34 +12781,34 @@ char * EnvGetDeftemplatePPForm(void *, void *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           DeftemplateBasicCommands(void *);
-void  DeftemplateBasicCommands(void *);
+void DeftemplateBasicCommands(void*);
 //C        LOCALE void                           UndeftemplateCommand(void *);
-void  UndeftemplateCommand(void *);
+void UndeftemplateCommand(void*);
 //C        LOCALE intBool                        EnvUndeftemplate(void *,void *);
-int  EnvUndeftemplate(void *, void *);
+int EnvUndeftemplate(void*, void*);
 //C        LOCALE void                           GetDeftemplateListFunction(void *,DATA_OBJECT_PTR);
-void  GetDeftemplateListFunction(void *, DATA_OBJECT_PTR );
+void GetDeftemplateListFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           EnvGetDeftemplateList(void *,DATA_OBJECT_PTR,void *);
-void  EnvGetDeftemplateList(void *, DATA_OBJECT_PTR , void *);
+void EnvGetDeftemplateList(void*, DATA_OBJECT_PTR, void*);
 //C        LOCALE void                          *DeftemplateModuleFunction(void *);
-void * DeftemplateModuleFunction(void *);
+void* DeftemplateModuleFunction(void*);
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE void                           PPDeftemplateCommand(void *);
-void  PPDeftemplateCommand(void *);
+void PPDeftemplateCommand(void*);
 //C        LOCALE int                            PPDeftemplate(void *,const char *,const char *);
-int  PPDeftemplate(void *, char *, char *);
+int PPDeftemplate(void*, char*, char*);
 //C        LOCALE void                           ListDeftemplatesCommand(void *);
-void  ListDeftemplatesCommand(void *);
+void ListDeftemplatesCommand(void*);
 //C        LOCALE void                           EnvListDeftemplates(void *,const char *,void *);
-void  EnvListDeftemplates(void *, char *, void *);
+void EnvListDeftemplates(void*, char*, void*);
 //C        LOCALE unsigned                       EnvGetDeftemplateWatch(void *,void *);
-uint  EnvGetDeftemplateWatch(void *, void *);
+uint EnvGetDeftemplateWatch(void*, void*);
 //C        LOCALE void                           EnvSetDeftemplateWatch(void *,unsigned,void *);
-void  EnvSetDeftemplateWatch(void *, uint , void *);
+void EnvSetDeftemplateWatch(void*, uint, void*);
 //C        LOCALE unsigned                       DeftemplateWatchAccess(void *,int,unsigned,struct expr *);
-uint  DeftemplateWatchAccess(void *, int , uint , expr *);
+uint DeftemplateWatchAccess(void*, int, uint, expr*);
 //C        LOCALE unsigned                       DeftemplateWatchPrint(void *,const char *,int,struct expr *);
-uint  DeftemplateWatchPrint(void *, char *, int , expr *);
+uint DeftemplateWatchPrint(void*, char*, int, expr*);
 //C     #endif
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
@@ -12141,15 +12825,14 @@ uint  DeftemplateWatchPrint(void *, char *, int , expr *);
 
 //C     #endif /* _H_tmpltbsc */
 
-
 //C     #include "tmpltfun.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/20/14            */
-   /*                                                     */
-   /*          DEFTEMPLATE FUNCTION HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/20/14            */
+/*                                                     */
+/*          DEFTEMPLATE FUNCTION HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -12234,65 +12917,65 @@ uint  DeftemplateWatchPrint(void *, char *, int , expr *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE intBool                        UpdateModifyDuplicate(void *,struct expr *,const char *,void *);
-int  UpdateModifyDuplicate(void *, expr *, char *, void *);
+int UpdateModifyDuplicate(void*, expr*, char*, void*);
 //C        LOCALE struct expr                   *ModifyParse(void *,struct expr *,const char *);
-expr * ModifyParse(void *, expr *, char *);
+expr* ModifyParse(void*, expr*, char*);
 //C        LOCALE struct expr                   *DuplicateParse(void *,struct expr *,const char *);
-expr * DuplicateParse(void *, expr *, char *);
+expr* DuplicateParse(void*, expr*, char*);
 //C        LOCALE void                           DeftemplateFunctions( void *);
-void  DeftemplateFunctions(void *);
+void DeftemplateFunctions(void*);
 //C        LOCALE void                           ModifyCommand(void *,DATA_OBJECT_PTR);
-void  ModifyCommand(void *, DATA_OBJECT_PTR );
+void ModifyCommand(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           DuplicateCommand(void *,DATA_OBJECT_PTR);
-void  DuplicateCommand(void *, DATA_OBJECT_PTR );
+void DuplicateCommand(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           DeftemplateSlotNamesFunction(void *,DATA_OBJECT *);
-void  DeftemplateSlotNamesFunction(void *, DATA_OBJECT *);
+void DeftemplateSlotNamesFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvDeftemplateSlotNames(void *,void *,DATA_OBJECT *);
-void  EnvDeftemplateSlotNames(void *, void *, DATA_OBJECT *);
+void EnvDeftemplateSlotNames(void*, void*, DATA_OBJECT*);
 //C        LOCALE void                           DeftemplateSlotDefaultValueFunction(void *,DATA_OBJECT *);
-void  DeftemplateSlotDefaultValueFunction(void *, DATA_OBJECT *);
+void DeftemplateSlotDefaultValueFunction(void*, DATA_OBJECT*);
 //C        LOCALE intBool                        EnvDeftemplateSlotDefaultValue(void *,void *,const char *,DATA_OBJECT *);
-int  EnvDeftemplateSlotDefaultValue(void *, void *, char *, DATA_OBJECT *);
+int EnvDeftemplateSlotDefaultValue(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           DeftemplateSlotCardinalityFunction(void *,DATA_OBJECT *);
-void  DeftemplateSlotCardinalityFunction(void *, DATA_OBJECT *);
+void DeftemplateSlotCardinalityFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvDeftemplateSlotCardinality(void *,void *,const char *,DATA_OBJECT *);
-void  EnvDeftemplateSlotCardinality(void *, void *, char *, DATA_OBJECT *);
+void EnvDeftemplateSlotCardinality(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           DeftemplateSlotAllowedValuesFunction(void *,DATA_OBJECT *);
-void  DeftemplateSlotAllowedValuesFunction(void *, DATA_OBJECT *);
+void DeftemplateSlotAllowedValuesFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvDeftemplateSlotAllowedValues(void *,void *,const char *,DATA_OBJECT *);
-void  EnvDeftemplateSlotAllowedValues(void *, void *, char *, DATA_OBJECT *);
+void EnvDeftemplateSlotAllowedValues(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           DeftemplateSlotRangeFunction(void *,DATA_OBJECT *);
-void  DeftemplateSlotRangeFunction(void *, DATA_OBJECT *);
+void DeftemplateSlotRangeFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvDeftemplateSlotRange(void *,void *,const char *,DATA_OBJECT *);
-void  EnvDeftemplateSlotRange(void *, void *, char *, DATA_OBJECT *);
+void EnvDeftemplateSlotRange(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           DeftemplateSlotTypesFunction(void *,DATA_OBJECT *);
-void  DeftemplateSlotTypesFunction(void *, DATA_OBJECT *);
+void DeftemplateSlotTypesFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvDeftemplateSlotTypes(void *,void *,const char *,DATA_OBJECT *);
-void  EnvDeftemplateSlotTypes(void *, void *, char *, DATA_OBJECT *);
+void EnvDeftemplateSlotTypes(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE int                            DeftemplateSlotMultiPFunction(void *);
-int  DeftemplateSlotMultiPFunction(void *);
+int DeftemplateSlotMultiPFunction(void*);
 //C        LOCALE int                            EnvDeftemplateSlotMultiP(void *,void *,const char *);
-int  EnvDeftemplateSlotMultiP(void *, void *, char *);
+int EnvDeftemplateSlotMultiP(void*, void*, char*);
 //C        LOCALE int                            DeftemplateSlotSinglePFunction(void *);
-int  DeftemplateSlotSinglePFunction(void *);
+int DeftemplateSlotSinglePFunction(void*);
 //C        LOCALE int                            EnvDeftemplateSlotSingleP(void *,void *,const char *);
-int  EnvDeftemplateSlotSingleP(void *, void *, char *);
+int EnvDeftemplateSlotSingleP(void*, void*, char*);
 //C        LOCALE int                            DeftemplateSlotExistPFunction(void *);
-int  DeftemplateSlotExistPFunction(void *);
+int DeftemplateSlotExistPFunction(void*);
 //C        LOCALE int                            EnvDeftemplateSlotExistP(void *,void *,const char *);
-int  EnvDeftemplateSlotExistP(void *, void *, char *);
+int EnvDeftemplateSlotExistP(void*, void*, char*);
 //C        LOCALE void                          *DeftemplateSlotDefaultPFunction(void *);
-void * DeftemplateSlotDefaultPFunction(void *);
+void* DeftemplateSlotDefaultPFunction(void*);
 //C        LOCALE int                            EnvDeftemplateSlotDefaultP(void *,void *,const char *);
-int  EnvDeftemplateSlotDefaultP(void *, void *, char *);
+int EnvDeftemplateSlotDefaultP(void*, void*, char*);
 //C        LOCALE int                            DeftemplateSlotFacetExistPFunction(void *);
-int  DeftemplateSlotFacetExistPFunction(void *);
+int DeftemplateSlotFacetExistPFunction(void*);
 //C        LOCALE int                            EnvDeftemplateSlotFacetExistP(void *,void *,const char *,const char *);
-int  EnvDeftemplateSlotFacetExistP(void *, void *, char *, char *);
+int EnvDeftemplateSlotFacetExistP(void*, void*, char*, char*);
 //C        LOCALE void                           DeftemplateSlotFacetValueFunction(void *,DATA_OBJECT *);
-void  DeftemplateSlotFacetValueFunction(void *, DATA_OBJECT *);
+void DeftemplateSlotFacetValueFunction(void*, DATA_OBJECT*);
 //C        LOCALE int                            EnvDeftemplateSlotFacetValue(void *,void *,const char *,const char *,DATA_OBJECT *);
-int  EnvDeftemplateSlotFacetValue(void *, void *, char *, char *, DATA_OBJECT *);
+int EnvDeftemplateSlotFacetValue(void*, void*, char*, char*, DATA_OBJECT*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -12311,17 +12994,14 @@ int  EnvDeftemplateSlotFacetValue(void *, void *, char *, char *, DATA_OBJECT *)
 
 //C     #endif /* _H_tmpltfun */
 
-
-
-
 //C     #include "factcom.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  02/04/15            */
-   /*                                                     */
-   /*               FACT COMMANDS HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  02/04/15            */
+/*                                                     */
+/*               FACT COMMANDS HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -12378,35 +13058,35 @@ int  EnvDeftemplateSlotFacetValue(void *, void *, char *, char *, DATA_OBJECT *)
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           FactCommandDefinitions(void *);
-void  FactCommandDefinitions(void *);
+void FactCommandDefinitions(void*);
 //C        LOCALE void                           AssertCommand(void *,DATA_OBJECT_PTR);
-void  AssertCommand(void *, DATA_OBJECT_PTR );
+void AssertCommand(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           RetractCommand(void *);
-void  RetractCommand(void *);
+void RetractCommand(void*);
 //C        LOCALE void                           AssertStringFunction(void *,DATA_OBJECT_PTR);
-void  AssertStringFunction(void *, DATA_OBJECT_PTR );
+void AssertStringFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           FactsCommand(void *);
-void  FactsCommand(void *);
+void FactsCommand(void*);
 //C        LOCALE void                           EnvFacts(void *,const char *,void *,long long,long long,long long);
-void  EnvFacts(void *, char *, void *, long , long , long );
+void EnvFacts(void*, char*, void*, long, long, long);
 //C        LOCALE int                            SetFactDuplicationCommand(void *);
-int  SetFactDuplicationCommand(void *);
+int SetFactDuplicationCommand(void*);
 //C        LOCALE int                            GetFactDuplicationCommand(void *);
-int  GetFactDuplicationCommand(void *);
+int GetFactDuplicationCommand(void*);
 //C        LOCALE int                            SaveFactsCommand(void *);
-int  SaveFactsCommand(void *);
+int SaveFactsCommand(void*);
 //C        LOCALE int                            LoadFactsCommand(void *);
-int  LoadFactsCommand(void *);
+int LoadFactsCommand(void*);
 //C        LOCALE int                            EnvSaveFacts(void *,const char *,int);
-int  EnvSaveFacts(void *, char *, int );
+int EnvSaveFacts(void*, char*, int);
 //C        LOCALE int                            EnvSaveFactsDriver(void *,const char *,int,struct expr *);
-int  EnvSaveFactsDriver(void *, char *, int , expr *);
+int EnvSaveFactsDriver(void*, char*, int, expr*);
 //C        LOCALE int                            EnvLoadFacts(void *,const char *);
-int  EnvLoadFacts(void *, char *);
+int EnvLoadFacts(void*, char*);
 //C        LOCALE int                            EnvLoadFactsFromString(void *,const char *,long);
-int  EnvLoadFactsFromString(void *, char *, int );
+int EnvLoadFactsFromString(void*, char*, int);
 //C        LOCALE long long                      FactIndexFunction(void *);
-long  FactIndexFunction(void *);
+long FactIndexFunction(void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -12421,15 +13101,14 @@ long  FactIndexFunction(void *);
 
 //C     #endif /* _H_factcom */
 
-
 //C     #include "factfun.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*              FACT FUNCTIONS HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*              FACT FUNCTIONS HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -12480,35 +13159,35 @@ long  FactIndexFunction(void *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           FactFunctionDefinitions(void *);
-void  FactFunctionDefinitions(void *);
+void FactFunctionDefinitions(void*);
 //C        LOCALE void                          *FactRelationFunction(void *);
-void * FactRelationFunction(void *);
+void* FactRelationFunction(void*);
 //C        LOCALE void                          *FactRelation(void *);
-void * FactRelation(void *);
+void* FactRelation(void*);
 //C        LOCALE void                          *EnvFactDeftemplate(void *,void *);
-void * EnvFactDeftemplate(void *, void *);
+void* EnvFactDeftemplate(void*, void*);
 //C        LOCALE int                            FactExistpFunction(void *);
-int  FactExistpFunction(void *);
+int FactExistpFunction(void*);
 //C        LOCALE int                            EnvFactExistp(void *,void *);
-int  EnvFactExistp(void *, void *);
+int EnvFactExistp(void*, void*);
 //C        LOCALE void                           FactSlotValueFunction(void *,DATA_OBJECT *);
-void  FactSlotValueFunction(void *, DATA_OBJECT *);
+void FactSlotValueFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                           FactSlotValue(void *,void *,const char *,DATA_OBJECT *);
-void  FactSlotValue(void *, void *, char *, DATA_OBJECT *);
+void FactSlotValue(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           FactSlotNamesFunction(void *,DATA_OBJECT *);
-void  FactSlotNamesFunction(void *, DATA_OBJECT *);
+void FactSlotNamesFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvFactSlotNames(void *,void *,DATA_OBJECT *);
-void  EnvFactSlotNames(void *, void *, DATA_OBJECT *);
+void EnvFactSlotNames(void*, void*, DATA_OBJECT*);
 //C        LOCALE void                           GetFactListFunction(void *,DATA_OBJECT *);
-void  GetFactListFunction(void *, DATA_OBJECT *);
+void GetFactListFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvGetFactList(void *,DATA_OBJECT *,void *);
-void  EnvGetFactList(void *, DATA_OBJECT *, void *);
+void EnvGetFactList(void*, DATA_OBJECT*, void*);
 //C        LOCALE void                           PPFactFunction(void *);
-void  PPFactFunction(void *);
+void PPFactFunction(void*);
 //C        LOCALE void                           EnvPPFact(void *,void *,const char *,int);
-void  EnvPPFact(void *, void *, char *, int );
+void EnvPPFact(void*, void*, char*, int);
 //C        LOCALE struct fact                   *GetFactAddressOrIndexArgument(void *,const char *,int,int);
-fact * GetFactAddressOrIndexArgument(void *, char *, int , int );
+fact* GetFactAddressOrIndexArgument(void*, char*, int, int);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -12526,13 +13205,13 @@ fact * GetFactAddressOrIndexArgument(void *, char *, int , int );
 //C     #include "factmngr.h"
 //C     #endif
 //C     #include "facthsh.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*                 FACT HASHING MODULE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*                 FACT HASHING MODULE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -12604,18 +13283,17 @@ fact * GetFactAddressOrIndexArgument(void *, char *, int , int );
 
 //C     #endif /* _H_facthsh */
 
-
 //C     #endif
 
 //C     #if DEFGLOBAL_CONSTRUCT
 //C     #include "globldef.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  01/25/15            */
-   /*                                                     */
-   /*                DEFGLOBAL HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  01/25/15            */
+/*                                                     */
+/*                DEFGLOBAL HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -12702,7 +13380,7 @@ const DEFGLOBAL_DATA = 1;
 //C       };
 struct defglobalData
 {
-    construct *DefglobalConstruct;
+    construct* DefglobalConstruct;
     int DefglobalModuleIndex;
     int ChangeToGlobals;
     uint WatchGlobals;
@@ -12710,8 +13388,8 @@ struct defglobalData
     entityRecord GlobalInfo;
     entityRecord DefglobalPtrRecord;
     int LastModuleIndex;
-    defmodule *TheDefmodule;
-    CodeGeneratorItem *DefglobalCodeItem;
+    defmodule* TheDefmodule;
+    CodeGeneratorItem* DefglobalCodeItem;
 }
 
 //C     struct defglobal
@@ -12727,13 +13405,31 @@ struct defglobal
 {
     constructHeader header;
     uint __bitfield1;
-    uint watch() { return (__bitfield1 >> 0) & 0x1; }
-    uint watch(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint inScope() { return (__bitfield1 >> 1) & 0x1; }
-    uint inScope(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
+    uint watch()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint watch(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint inScope()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint inScope(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
     int busyCount;
     DATA_OBJECT current;
-    expr *initial;
+    expr* initial;
 }
 
 //C     struct defglobalModule
@@ -12759,45 +13455,45 @@ struct defglobalModule
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           InitializeDefglobals(void *);
-void  InitializeDefglobals(void *);
+void InitializeDefglobals(void*);
 //C        LOCALE void                          *EnvFindDefglobal(void *,const char *);
-void * EnvFindDefglobal(void *, char *);
+void* EnvFindDefglobal(void*, char*);
 //C        LOCALE void                          *EnvFindDefglobalInModule(void *,const char *);
-void * EnvFindDefglobalInModule(void *, char *);
+void* EnvFindDefglobalInModule(void*, char*);
 //C        LOCALE void                          *EnvGetNextDefglobal(void *,void *);
-void * EnvGetNextDefglobal(void *, void *);
+void* EnvGetNextDefglobal(void*, void*);
 //C        LOCALE void                           CreateInitialFactDefglobal(void);
-void  CreateInitialFactDefglobal();
+void CreateInitialFactDefglobal();
 //C        LOCALE intBool                        EnvIsDefglobalDeletable(void *,void *);
-int  EnvIsDefglobalDeletable(void *, void *);
+int EnvIsDefglobalDeletable(void*, void*);
 //C        LOCALE struct defglobalModule        *GetDefglobalModuleItem(void *,struct defmodule *);
-defglobalModule * GetDefglobalModuleItem(void *, defmodule *);
+defglobalModule* GetDefglobalModuleItem(void*, defmodule*);
 //C        LOCALE void                           QSetDefglobalValue(void *,struct defglobal *,DATA_OBJECT_PTR,int);
-void  QSetDefglobalValue(void *, defglobal *, DATA_OBJECT_PTR , int );
+void QSetDefglobalValue(void*, defglobal*, DATA_OBJECT_PTR, int);
 //C        LOCALE struct defglobal              *QFindDefglobal(void *,struct symbolHashNode *);
-defglobal * QFindDefglobal(void *, symbolHashNode *);
+defglobal* QFindDefglobal(void*, symbolHashNode*);
 //C        LOCALE void                           EnvGetDefglobalValueForm(void *,char *,size_t,void *);
-void  EnvGetDefglobalValueForm(void *, char *, size_t , void *);
+void EnvGetDefglobalValueForm(void*, char*, size_t, void*);
 //C        LOCALE int                            EnvGetGlobalsChanged(void *);
-int  EnvGetGlobalsChanged(void *);
+int EnvGetGlobalsChanged(void*);
 //C        LOCALE void                           EnvSetGlobalsChanged(void *,int);
-void  EnvSetGlobalsChanged(void *, int );
+void EnvSetGlobalsChanged(void*, int);
 //C        LOCALE intBool                        EnvGetDefglobalValue(void *,const char *,DATA_OBJECT_PTR);
-int  EnvGetDefglobalValue(void *, char *, DATA_OBJECT_PTR );
+int EnvGetDefglobalValue(void*, char*, DATA_OBJECT_PTR);
 //C        LOCALE intBool                        EnvSetDefglobalValue(void *,const char *,DATA_OBJECT_PTR);
-int  EnvSetDefglobalValue(void *, char *, DATA_OBJECT_PTR );
+int EnvSetDefglobalValue(void*, char*, DATA_OBJECT_PTR);
 //C        LOCALE void                           UpdateDefglobalScope(void *);
-void  UpdateDefglobalScope(void *);
+void UpdateDefglobalScope(void*);
 //C        LOCALE void                          *GetNextDefglobalInScope(void *,void *);
-void * GetNextDefglobalInScope(void *, void *);
+void* GetNextDefglobalInScope(void*, void*);
 //C        LOCALE int                            QGetDefglobalValue(void *,void *,DATA_OBJECT_PTR);
-int  QGetDefglobalValue(void *, void *, DATA_OBJECT_PTR );
+int QGetDefglobalValue(void*, void*, DATA_OBJECT_PTR);
 //C        LOCALE const char                    *EnvDefglobalModule(void *,void *);
-char * EnvDefglobalModule(void *, void *);
+char* EnvDefglobalModule(void*, void*);
 //C        LOCALE const char                    *EnvGetDefglobalName(void *,void *);
-char * EnvGetDefglobalName(void *, void *);
+char* EnvGetDefglobalName(void*, void*);
 //C        LOCALE const char                    *EnvGetDefglobalPPForm(void *,void *);
-char * EnvGetDefglobalPPForm(void *, void *);
+char* EnvGetDefglobalPPForm(void*, void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -12817,15 +13513,14 @@ char * EnvGetDefglobalPPForm(void *, void *);
 
 //C     #endif /* _H_globldef */
 
-
 //C     #include "globlbsc.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*         DEFGLOBAL BASIC COMMANDS HEADER FILE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*         DEFGLOBAL BASIC COMMANDS HEADER FILE        */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -12880,33 +13575,33 @@ char * EnvGetDefglobalPPForm(void *, void *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           DefglobalBasicCommands(void *);
-void  DefglobalBasicCommands(void *);
+void DefglobalBasicCommands(void*);
 //C        LOCALE void                           UndefglobalCommand(void *);
-void  UndefglobalCommand(void *);
+void UndefglobalCommand(void*);
 //C        LOCALE intBool                        EnvUndefglobal(void *,void *);
-int  EnvUndefglobal(void *, void *);
+int EnvUndefglobal(void*, void*);
 //C        LOCALE void                           GetDefglobalListFunction(void *,DATA_OBJECT_PTR);
-void  GetDefglobalListFunction(void *, DATA_OBJECT_PTR );
+void GetDefglobalListFunction(void*, DATA_OBJECT_PTR);
 //C        LOCALE void                           EnvGetDefglobalList(void *,DATA_OBJECT_PTR,void *);
-void  EnvGetDefglobalList(void *, DATA_OBJECT_PTR , void *);
+void EnvGetDefglobalList(void*, DATA_OBJECT_PTR, void*);
 //C        LOCALE void                          *DefglobalModuleFunction(void *);
-void * DefglobalModuleFunction(void *);
+void* DefglobalModuleFunction(void*);
 //C        LOCALE void                           PPDefglobalCommand(void *);
-void  PPDefglobalCommand(void *);
+void PPDefglobalCommand(void*);
 //C        LOCALE int                            PPDefglobal(void *,const char *,const char *);
-int  PPDefglobal(void *, char *, char *);
+int PPDefglobal(void*, char*, char*);
 //C        LOCALE void                           ListDefglobalsCommand(void *);
-void  ListDefglobalsCommand(void *);
+void ListDefglobalsCommand(void*);
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE unsigned                       EnvGetDefglobalWatch(void *,void *);
-uint  EnvGetDefglobalWatch(void *, void *);
+uint EnvGetDefglobalWatch(void*, void*);
 //C        LOCALE void                           EnvListDefglobals(void *,const char *,void *);
-void  EnvListDefglobals(void *, char *, void *);
+void EnvListDefglobals(void*, char*, void*);
 //C        LOCALE void                           EnvSetDefglobalWatch(void *,unsigned,void *);
-void  EnvSetDefglobalWatch(void *, uint , void *);
+void EnvSetDefglobalWatch(void*, uint, void*);
 //C     #endif
 //C        LOCALE void                           ResetDefglobals(void *);
-void  ResetDefglobals(void *);
+void ResetDefglobals(void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -12917,20 +13612,19 @@ void  ResetDefglobals(void *);
 //C        LOCALE void                           SetDefglobalWatch(unsigned,void *);
 //C     #endif
 //C        LOCALE intBool                        Undefglobal(void *);
-   
+
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_globlbsc */
 
-
 //C     #include "globlcom.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
-   /*                                                     */
-   /*            DEFGLOBAL COMMANDS HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  08/16/14            */
+/*                                                     */
+/*            DEFGLOBAL COMMANDS HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -12973,19 +13667,19 @@ void  ResetDefglobals(void *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           DefglobalCommandDefinitions(void *);
-void  DefglobalCommandDefinitions(void *);
+void DefglobalCommandDefinitions(void*);
 //C        LOCALE int                            SetResetGlobalsCommand(void *);
-int  SetResetGlobalsCommand(void *);
+int SetResetGlobalsCommand(void*);
 //C        LOCALE intBool                        EnvSetResetGlobals(void *,int);
-int  EnvSetResetGlobals(void *, int );
+int EnvSetResetGlobals(void*, int);
 //C        LOCALE int                            GetResetGlobalsCommand(void *);
-int  GetResetGlobalsCommand(void *);
+int GetResetGlobalsCommand(void*);
 //C        LOCALE intBool                        EnvGetResetGlobals(void *);
-int  EnvGetResetGlobals(void *);
+int EnvGetResetGlobals(void*);
 //C        LOCALE void                           ShowDefglobalsCommand(void *);
-void  ShowDefglobalsCommand(void *);
+void ShowDefglobalsCommand(void*);
 //C        LOCALE void                           EnvShowDefglobals(void *,const char *,void *);
-void  EnvShowDefglobals(void *, char *, void *);
+void EnvShowDefglobals(void*, char*, void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -13003,13 +13697,13 @@ void  EnvShowDefglobals(void *, char *, void *);
 
 //C     #if DEFFUNCTION_CONSTRUCT
 //C     #include "dffnxfun.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.30  01/25/15            */
-   /*                                                     */
-   /*              DEFFUNCTION HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.30  01/25/15            */
+/*                                                     */
+/*              DEFFUNCTION HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -13118,12 +13812,12 @@ struct deffunctionStruct
     uint busy;
     uint executing;
     ushort trace;
-    EXPRESSION *code;
+    EXPRESSION* code;
     int minNumberOfParameters;
     int maxNumberOfParameters;
     int numberOfLocalVars;
 }
-  
+
 //C     #define DEFFUNCTION_DATA 23
 
 const DEFFUNCTION_DATA = 23;
@@ -13143,74 +13837,74 @@ const DEFFUNCTION_DATA = 23;
 //C       };
 struct deffunctionData
 {
-    construct *DeffunctionConstruct;
+    construct* DeffunctionConstruct;
     int DeffunctionModuleIndex;
     ENTITY_RECORD DeffunctionEntityRecord;
     uint WatchDeffunctions;
-    CodeGeneratorItem *DeffunctionCodeItem;
-    DEFFUNCTION *ExecutingDeffunction;
+    CodeGeneratorItem* DeffunctionCodeItem;
+    DEFFUNCTION* ExecutingDeffunction;
     token DFInputToken;
 }
 
 //C     #define DeffunctionData(theEnv) ((struct deffunctionData *) GetEnvironmentData(theEnv,DEFFUNCTION_DATA))
 
 //C        LOCALE int                            CheckDeffunctionCall(void *,void *,int);
-int  CheckDeffunctionCall(void *, void *, int );
+int CheckDeffunctionCall(void*, void*, int);
 //C        LOCALE void                           DeffunctionGetBind(DATA_OBJECT *);
-void  DeffunctionGetBind(DATA_OBJECT *);
+void DeffunctionGetBind(DATA_OBJECT*);
 //C        LOCALE void                           DFRtnUnknown(DATA_OBJECT *);
-void  DFRtnUnknown(DATA_OBJECT *);
+void DFRtnUnknown(DATA_OBJECT*);
 //C        LOCALE void                           DFWildargs(DATA_OBJECT *);
-void  DFWildargs(DATA_OBJECT *);
+void DFWildargs(DATA_OBJECT*);
 //C        LOCALE const char                    *EnvDeffunctionModule(void *,void *);
-char * EnvDeffunctionModule(void *, void *);
+char* EnvDeffunctionModule(void*, void*);
 //C        LOCALE void                          *EnvFindDeffunction(void *,const char *);
-void * EnvFindDeffunction(void *, char *);
+void* EnvFindDeffunction(void*, char*);
 //C        LOCALE void                          *EnvFindDeffunctionInModule(void *,const char *);
-void * EnvFindDeffunctionInModule(void *, char *);
+void* EnvFindDeffunctionInModule(void*, char*);
 //C        LOCALE void                           EnvGetDeffunctionList(void *,DATA_OBJECT *,struct defmodule *);
-void  EnvGetDeffunctionList(void *, DATA_OBJECT *, defmodule *);
+void EnvGetDeffunctionList(void*, DATA_OBJECT*, defmodule*);
 //C        LOCALE const char                    *EnvGetDeffunctionName(void *,void *);
-char * EnvGetDeffunctionName(void *, void *);
+char* EnvGetDeffunctionName(void*, void*);
 //C        LOCALE SYMBOL_HN                     *EnvGetDeffunctionNamePointer(void *,void *);
-SYMBOL_HN * EnvGetDeffunctionNamePointer(void *, void *);
+SYMBOL_HN* EnvGetDeffunctionNamePointer(void*, void*);
 //C        LOCALE const char                    *EnvGetDeffunctionPPForm(void *,void *);
-char * EnvGetDeffunctionPPForm(void *, void *);
+char* EnvGetDeffunctionPPForm(void*, void*);
 //C        LOCALE void                          *EnvGetNextDeffunction(void *,void *);
-void * EnvGetNextDeffunction(void *, void *);
+void* EnvGetNextDeffunction(void*, void*);
 //C        LOCALE int                            EnvIsDeffunctionDeletable(void *,void *);
-int  EnvIsDeffunctionDeletable(void *, void *);
+int EnvIsDeffunctionDeletable(void*, void*);
 //C        LOCALE void                           EnvSetDeffunctionPPForm(void *,void *,const char *);
-void  EnvSetDeffunctionPPForm(void *, void *, char *);
+void EnvSetDeffunctionPPForm(void*, void*, char*);
 //C        LOCALE intBool                        EnvUndeffunction(void *,void *);
-int  EnvUndeffunction(void *, void *);
+int EnvUndeffunction(void*, void*);
 //C        LOCALE void                           GetDeffunctionListFunction(void *,DATA_OBJECT *);
-void  GetDeffunctionListFunction(void *, DATA_OBJECT *);
+void GetDeffunctionListFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                          *GetDeffunctionModuleCommand(void *);
-void * GetDeffunctionModuleCommand(void *);
+void* GetDeffunctionModuleCommand(void*);
 //C        LOCALE DEFFUNCTION                   *LookupDeffunctionByMdlOrScope(void *,const char *);
-DEFFUNCTION * LookupDeffunctionByMdlOrScope(void *, char *);
+DEFFUNCTION* LookupDeffunctionByMdlOrScope(void*, char*);
 //C        LOCALE DEFFUNCTION                   *LookupDeffunctionInScope(void *,const char *);
-DEFFUNCTION * LookupDeffunctionInScope(void *, char *);
+DEFFUNCTION* LookupDeffunctionInScope(void*, char*);
 //C     #if (! BLOAD_ONLY) && (! RUN_TIME)
 //C        LOCALE void                           RemoveDeffunction(void *,void *);
-void  RemoveDeffunction(void *, void *);
+void RemoveDeffunction(void*, void*);
 //C     #endif
 //C        LOCALE void                           SetupDeffunctions(void *);
-void  SetupDeffunctions(void *);
+void SetupDeffunctions(void*);
 //C        LOCALE void                           UndeffunctionCommand(void *);
-void  UndeffunctionCommand(void *);
+void UndeffunctionCommand(void*);
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE unsigned                       EnvGetDeffunctionWatch(void *,void *);
-uint  EnvGetDeffunctionWatch(void *, void *);
+uint EnvGetDeffunctionWatch(void*, void*);
 //C        LOCALE void                           EnvListDeffunctions(void *,const char *,struct defmodule *);
-void  EnvListDeffunctions(void *, char *, defmodule *);
+void EnvListDeffunctions(void*, char*, defmodule*);
 //C        LOCALE void                           EnvSetDeffunctionWatch(void *,unsigned,void *);
-void  EnvSetDeffunctionWatch(void *, uint , void *);
+void EnvSetDeffunctionWatch(void*, uint, void*);
 //C        LOCALE void                           ListDeffunctionsCommand(void *);
-void  ListDeffunctionsCommand(void *);
+void ListDeffunctionsCommand(void*);
 //C        LOCALE void                           PPDeffunctionCommand(void *);
-void  PPDeffunctionCommand(void *);
+void PPDeffunctionCommand(void*);
 //C     #endif
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
@@ -13233,22 +13927,17 @@ void  PPDeffunctionCommand(void *);
 
 //C     #endif /* _H_dffnxfun */
 
-
-
-
-
-
 //C     #endif
 
 //C     #if DEFGENERIC_CONSTRUCT
 //C     #include "genrccom.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  01/25/15          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  01/25/15          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -13302,13 +13991,13 @@ void  PPDeffunctionCommand(void *);
 //C     #endif
 //C     #ifndef _H_genrcfun
 //C     #include "genrcfun.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -13387,13 +14076,13 @@ alias defgeneric DEFGENERIC;
 //C     #if OBJECT_SYSTEM
 //C     #ifndef _H_object
 //C     #include "object.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                OBJECT SYSTEM DEFINITIONS            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                OBJECT SYSTEM DEFINITIONS            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -13488,7 +14177,7 @@ const VALUE_NOT_REQUIRED = 2;
 struct packedClassLinks
 {
     int classCount;
-    DEFCLASS **classArray;
+    DEFCLASS** classArray;
 }
 
 //C     struct defclassModule
@@ -13535,39 +14224,93 @@ struct defclass
 {
     constructHeader header;
     uint __bitfield1;
-    uint installed() { return (__bitfield1 >> 0) & 0x1; }
-    uint installed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint system() { return (__bitfield1 >> 1) & 0x1; }
-    uint system(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint abstract_() { return (__bitfield1 >> 2) & 0x1; }
-    uint abstract_(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint reactive() { return (__bitfield1 >> 3) & 0x1; }
-    uint reactive(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3); return value; }
-    uint traceInstances() { return (__bitfield1 >> 4) & 0x1; }
-    uint traceInstances(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4); return value; }
-    uint traceSlots() { return (__bitfield1 >> 5) & 0x1; }
-    uint traceSlots(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5); return value; }
+    uint installed()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint installed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint system()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint system(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint abstract_()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint abstract_(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint reactive()
+    {
+        return (__bitfield1 >> 3) & 0x1;
+    }
+
+    uint reactive(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3);
+        return value;
+    }
+
+    uint traceInstances()
+    {
+        return (__bitfield1 >> 4) & 0x1;
+    }
+
+    uint traceInstances(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4);
+        return value;
+    }
+
+    uint traceSlots()
+    {
+        return (__bitfield1 >> 5) & 0x1;
+    }
+
+    uint traceSlots(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5);
+        return value;
+    }
+
     uint id;
     uint busy;
     uint hashTableIndex;
     PACKED_CLASS_LINKS directSuperclasses;
     PACKED_CLASS_LINKS directSubclasses;
     PACKED_CLASS_LINKS allSuperclasses;
-    SLOT_DESC *slots;
-    SLOT_DESC **instanceTemplate;
-    uint *slotNameMap;
+    SLOT_DESC* slots;
+    SLOT_DESC** instanceTemplate;
+    uint* slotNameMap;
     short slotCount;
     short localInstanceSlotCount;
     short instanceSlotCount;
     short maxSlotNameID;
-    INSTANCE_TYPE *instanceList;
-    INSTANCE_TYPE *instanceListBottom;
-    HANDLER *handlers;
-    uint *handlerOrderMap;
+    INSTANCE_TYPE* instanceList;
+    INSTANCE_TYPE* instanceListBottom;
+    HANDLER* handlers;
+    uint* handlerOrderMap;
     short handlerCount;
-    DEFCLASS *nxtHash;
-    BITMAP_HN *scopeMap;
-    char [32]traversalRecord;
+    DEFCLASS* nxtHash;
+    BITMAP_HN* scopeMap;
+    char[32] traversalRecord;
 }
 
 //C     struct classLink
@@ -13577,8 +14320,8 @@ struct defclass
 //C       };
 struct classLink
 {
-    DEFCLASS *cls;
-    classLink *nxt;
+    DEFCLASS* cls;
+    classLink* nxt;
 }
 
 //C     struct slotName
@@ -13596,9 +14339,9 @@ struct slotName
     uint hashTableIndex;
     uint use;
     short id;
-    SYMBOL_HN *name;
-    SYMBOL_HN *putHandlerName;
-    slotName *nxt;
+    SYMBOL_HN* name;
+    SYMBOL_HN* putHandlerName;
+    slotName* nxt;
     int bsaveIndex;
 }
 
@@ -13612,14 +14355,32 @@ struct slotName
 //C       };
 struct instanceSlot
 {
-    SLOT_DESC *desc;
+    SLOT_DESC* desc;
     uint __bitfield1;
-    uint valueRequired() { return (__bitfield1 >> 0) & 0x1; }
-    uint valueRequired(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint override_() { return (__bitfield1 >> 1) & 0x1; }
-    uint override_(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
+    uint valueRequired()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint valueRequired(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint override_()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint override_(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
     ushort type;
-    void *value;
+    void* value;
 }
 
 //C     struct slotDescriptor
@@ -13650,39 +14411,165 @@ struct instanceSlot
 struct slotDescriptor
 {
     uint __bitfield1;
-    uint shared_() { return (__bitfield1 >> 0) & 0x1; }
-    uint shared_(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint multiple() { return (__bitfield1 >> 1) & 0x1; }
-    uint multiple(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint composite() { return (__bitfield1 >> 2) & 0x1; }
-    uint composite(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint noInherit() { return (__bitfield1 >> 3) & 0x1; }
-    uint noInherit(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3); return value; }
-    uint noWrite() { return (__bitfield1 >> 4) & 0x1; }
-    uint noWrite(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4); return value; }
-    uint initializeOnly() { return (__bitfield1 >> 5) & 0x1; }
-    uint initializeOnly(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5); return value; }
-    uint dynamicDefault() { return (__bitfield1 >> 6) & 0x1; }
-    uint dynamicDefault(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffbf) | (value << 6); return value; }
-    uint defaultSpecified() { return (__bitfield1 >> 7) & 0x1; }
-    uint defaultSpecified(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffff7f) | (value << 7); return value; }
-    uint noDefault() { return (__bitfield1 >> 8) & 0x1; }
-    uint noDefault(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffeff) | (value << 8); return value; }
-    uint reactive() { return (__bitfield1 >> 9) & 0x1; }
-    uint reactive(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffdff) | (value << 9); return value; }
-    uint publicVisibility() { return (__bitfield1 >> 10) & 0x1; }
-    uint publicVisibility(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffbff) | (value << 10); return value; }
-    uint createReadAccessor() { return (__bitfield1 >> 11) & 0x1; }
-    uint createReadAccessor(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffff7ff) | (value << 11); return value; }
-    uint createWriteAccessor() { return (__bitfield1 >> 12) & 0x1; }
-    uint createWriteAccessor(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffefff) | (value << 12); return value; }
-    uint overrideMessageSpecified() { return (__bitfield1 >> 13) & 0x1; }
-    uint overrideMessageSpecified(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffdfff) | (value << 13); return value; }
-    DEFCLASS *cls;
-    SLOT_NAME *slotName;
-    SYMBOL_HN *overrideMessage;
-    void *defaultValue;
-    CONSTRAINT_RECORD *constraint;
+    uint shared_()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint shared_(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint multiple()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint multiple(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint composite()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint composite(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint noInherit()
+    {
+        return (__bitfield1 >> 3) & 0x1;
+    }
+
+    uint noInherit(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3);
+        return value;
+    }
+
+    uint noWrite()
+    {
+        return (__bitfield1 >> 4) & 0x1;
+    }
+
+    uint noWrite(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4);
+        return value;
+    }
+
+    uint initializeOnly()
+    {
+        return (__bitfield1 >> 5) & 0x1;
+    }
+
+    uint initializeOnly(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffdf) | (value << 5);
+        return value;
+    }
+
+    uint dynamicDefault()
+    {
+        return (__bitfield1 >> 6) & 0x1;
+    }
+
+    uint dynamicDefault(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffbf) | (value << 6);
+        return value;
+    }
+
+    uint defaultSpecified()
+    {
+        return (__bitfield1 >> 7) & 0x1;
+    }
+
+    uint defaultSpecified(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffff7f) | (value << 7);
+        return value;
+    }
+
+    uint noDefault()
+    {
+        return (__bitfield1 >> 8) & 0x1;
+    }
+
+    uint noDefault(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffeff) | (value << 8);
+        return value;
+    }
+
+    uint reactive()
+    {
+        return (__bitfield1 >> 9) & 0x1;
+    }
+
+    uint reactive(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffdff) | (value << 9);
+        return value;
+    }
+
+    uint publicVisibility()
+    {
+        return (__bitfield1 >> 10) & 0x1;
+    }
+
+    uint publicVisibility(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffbff) | (value << 10);
+        return value;
+    }
+
+    uint createReadAccessor()
+    {
+        return (__bitfield1 >> 11) & 0x1;
+    }
+
+    uint createReadAccessor(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffff7ff) | (value << 11);
+        return value;
+    }
+
+    uint createWriteAccessor()
+    {
+        return (__bitfield1 >> 12) & 0x1;
+    }
+
+    uint createWriteAccessor(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffefff) | (value << 12);
+        return value;
+    }
+
+    uint overrideMessageSpecified()
+    {
+        return (__bitfield1 >> 13) & 0x1;
+    }
+
+    uint overrideMessageSpecified(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffdfff) | (value << 13);
+        return value;
+    }
+
+    DEFCLASS* cls;
+    SLOT_NAME* slotName;
+    SYMBOL_HN* overrideMessage;
+    void* defaultValue;
+    CONSTRAINT_RECORD* constraint;
     uint sharedCount;
     int bsaveIndex;
     INSTANCE_SLOT sharedValue;
@@ -13711,31 +14598,76 @@ struct slotDescriptor
 struct instance
 {
     patternEntity header;
-    void *partialMatchList;
-    INSTANCE_SLOT *basisSlots;
+    void* partialMatchList;
+    INSTANCE_SLOT* basisSlots;
     uint __bitfield1;
-    uint installed() { return (__bitfield1 >> 0) & 0x1; }
-    uint installed(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint garbage() { return (__bitfield1 >> 1) & 0x1; }
-    uint garbage(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint initSlotsCalled() { return (__bitfield1 >> 2) & 0x1; }
-    uint initSlotsCalled(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint initializeInProgress() { return (__bitfield1 >> 3) & 0x1; }
-    uint initializeInProgress(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3); return value; }
-    uint reteSynchronized() { return (__bitfield1 >> 4) & 0x1; }
-    uint reteSynchronized(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4); return value; }
-    SYMBOL_HN *name;
+    uint installed()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint installed(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint garbage()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint garbage(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint initSlotsCalled()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint initSlotsCalled(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint initializeInProgress()
+    {
+        return (__bitfield1 >> 3) & 0x1;
+    }
+
+    uint initializeInProgress(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3);
+        return value;
+    }
+
+    uint reteSynchronized()
+    {
+        return (__bitfield1 >> 4) & 0x1;
+    }
+
+    uint reteSynchronized(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4);
+        return value;
+    }
+
+    SYMBOL_HN* name;
     uint hashTableIndex;
     uint busy;
-    DEFCLASS *cls;
-    INSTANCE_TYPE *prvClass;
-    INSTANCE_TYPE *nxtClass;
-    INSTANCE_TYPE *prvHash;
-    INSTANCE_TYPE *nxtHash;
-    INSTANCE_TYPE *prvList;
-    INSTANCE_TYPE *nxtList;
-    INSTANCE_SLOT **slotAddresses;
-    INSTANCE_SLOT *slots;
+    DEFCLASS* cls;
+    INSTANCE_TYPE* prvClass;
+    INSTANCE_TYPE* nxtClass;
+    INSTANCE_TYPE* prvHash;
+    INSTANCE_TYPE* nxtHash;
+    INSTANCE_TYPE* prvList;
+    INSTANCE_TYPE* nxtList;
+    INSTANCE_SLOT** slotAddresses;
+    INSTANCE_SLOT* slots;
 }
 
 //C     struct messageHandler
@@ -13757,30 +14689,62 @@ struct instance
 struct messageHandler
 {
     uint __bitfield1;
-    uint system() { return (__bitfield1 >> 0) & 0x1; }
-    uint system(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint type() { return (__bitfield1 >> 1) & 0x3; }
-    uint type(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff9) | (value << 1); return value; }
-    uint mark() { return (__bitfield1 >> 3) & 0x1; }
-    uint mark(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3); return value; }
-    uint trace() { return (__bitfield1 >> 4) & 0x1; }
-    uint trace(uint value) { __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4); return value; }
+    uint system()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint system(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint type()
+    {
+        return (__bitfield1 >> 1) & 0x3;
+    }
+
+    uint type(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff9) | (value << 1);
+        return value;
+    }
+
+    uint mark()
+    {
+        return (__bitfield1 >> 3) & 0x1;
+    }
+
+    uint mark(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3);
+        return value;
+    }
+
+    uint trace()
+    {
+        return (__bitfield1 >> 4) & 0x1;
+    }
+
+    uint trace(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xffffffffffffffef) | (value << 4);
+        return value;
+    }
+
     uint busy;
-    SYMBOL_HN *name;
-    DEFCLASS *cls;
+    SYMBOL_HN* name;
+    DEFCLASS* cls;
     short minParams;
     short maxParams;
     short localVarCount;
-    EXPRESSION *actions;
-    char *ppForm;
-    userData *usrData;
+    EXPRESSION* actions;
+    char* ppForm;
+    userData* usrData;
 }
 
 //C     #endif /* _H_object */
-
-
-
-
 
 //C     #endif
 //C     #endif
@@ -13802,8 +14766,8 @@ struct defgenericModule
 //C       };
 struct restriction
 {
-    void **types;
-    EXPRESSION *query;
+    void** types;
+    EXPRESSION* query;
     short tcnt;
 }
 
@@ -13831,14 +14795,32 @@ struct method
     short maxRestrictions;
     short localVarCount;
     uint __bitfield1;
-    uint system() { return (__bitfield1 >> 0) & 0x1; }
-    uint system(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint trace() { return (__bitfield1 >> 1) & 0x1; }
-    uint trace(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    RESTRICTION *restrictions;
-    EXPRESSION *actions;
-    char *ppForm;
-    userData *usrData;
+    uint system()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint system(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint trace()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint trace(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    RESTRICTION* restrictions;
+    EXPRESSION* actions;
+    char* ppForm;
+    userData* usrData;
 }
 
 //C     struct defgeneric
@@ -13854,7 +14836,7 @@ struct defgeneric
     constructHeader header;
     uint busy;
     uint trace;
-    DEFMETHOD *methods;
+    DEFMETHOD* methods;
     short mcnt;
     short new_index;
 }
@@ -13886,16 +14868,16 @@ const DEFGENERIC_DATA = 27;
 //C       };
 struct defgenericData
 {
-    construct *DefgenericConstruct;
+    construct* DefgenericConstruct;
     int DefgenericModuleIndex;
     ENTITY_RECORD GenericEntityRecord;
     uint WatchGenerics;
     uint WatchMethods;
-    DEFGENERIC *CurrentGeneric;
-    DEFMETHOD *CurrentMethod;
-    DATA_OBJECT *GenericCurrentArgument;
+    DEFGENERIC* CurrentGeneric;
+    DEFMETHOD* CurrentMethod;
+    DATA_OBJECT* GenericCurrentArgument;
     uint OldGenericBusySave;
-    CodeGeneratorItem *DefgenericCodeItem;
+    CodeGeneratorItem* DefgenericCodeItem;
     token GenericInputToken;
 }
 
@@ -13916,57 +14898,57 @@ struct defgenericData
 
 //C     #if ! RUN_TIME
 //C        LOCALE intBool                        ClearDefgenericsReady(void *);
-int  ClearDefgenericsReady(void *);
+int ClearDefgenericsReady(void*);
 //C        LOCALE void                          *AllocateDefgenericModule(void *);
-void * AllocateDefgenericModule(void *);
+void* AllocateDefgenericModule(void*);
 //C        LOCALE void                           FreeDefgenericModule(void *,void *);
-void  FreeDefgenericModule(void *, void *);
+void FreeDefgenericModule(void*, void*);
 //C     #endif
 
 //C     #if (! BLOAD_ONLY) && (! RUN_TIME)
 
 //C        LOCALE int                            ClearDefmethods(void *);
-int  ClearDefmethods(void *);
+int ClearDefmethods(void*);
 //C        LOCALE int                            RemoveAllExplicitMethods(void *,DEFGENERIC *);
-int  RemoveAllExplicitMethods(void *, DEFGENERIC *);
+int RemoveAllExplicitMethods(void*, DEFGENERIC*);
 //C        LOCALE void                           RemoveDefgeneric(void *,void *);
-void  RemoveDefgeneric(void *, void *);
+void RemoveDefgeneric(void*, void*);
 //C        LOCALE int                            ClearDefgenerics(void *);
-int  ClearDefgenerics(void *);
+int ClearDefgenerics(void*);
 //C        LOCALE void                           MethodAlterError(void *,DEFGENERIC *);
-void  MethodAlterError(void *, DEFGENERIC *);
+void MethodAlterError(void*, DEFGENERIC*);
 //C        LOCALE void                           DeleteMethodInfo(void *,DEFGENERIC *,DEFMETHOD *);
-void  DeleteMethodInfo(void *, DEFGENERIC *, DEFMETHOD *);
+void DeleteMethodInfo(void*, DEFGENERIC*, DEFMETHOD*);
 //C        LOCALE void                           DestroyMethodInfo(void *,DEFGENERIC *,DEFMETHOD *);
-void  DestroyMethodInfo(void *, DEFGENERIC *, DEFMETHOD *);
+void DestroyMethodInfo(void*, DEFGENERIC*, DEFMETHOD*);
 //C        LOCALE int                            MethodsExecuting(DEFGENERIC *);
-int  MethodsExecuting(DEFGENERIC *);
+int MethodsExecuting(DEFGENERIC*);
 //C     #endif
 //C     #if ! OBJECT_SYSTEM
 //C        LOCALE intBool                        SubsumeType(int,int);
 //C     #endif
 
 //C        LOCALE long                           FindMethodByIndex(DEFGENERIC *,long);
-int  FindMethodByIndex(DEFGENERIC *, int );
+int FindMethodByIndex(DEFGENERIC*, int);
 //C     #if DEBUGGING_FUNCTIONS || PROFILING_FUNCTIONS
 //C        LOCALE void                           PrintMethod(void *,char *,size_t,DEFMETHOD *);
-void  PrintMethod(void *, char *, size_t , DEFMETHOD *);
+void PrintMethod(void*, char*, size_t, DEFMETHOD*);
 //C     #endif
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE void                           PreviewGeneric(void *);
-void  PreviewGeneric(void *);
+void PreviewGeneric(void*);
 //C     #endif
 //C        LOCALE DEFGENERIC                    *CheckGenericExists(void *,const char *,const char *);
-DEFGENERIC * CheckGenericExists(void *, char *, char *);
+DEFGENERIC* CheckGenericExists(void*, char*, char*);
 //C        LOCALE long                           CheckMethodExists(void *,const char *,DEFGENERIC *,long);
-int  CheckMethodExists(void *, char *, DEFGENERIC *, int );
+int CheckMethodExists(void*, char*, DEFGENERIC*, int);
 
 //C     #if ! OBJECT_SYSTEM
 //C        LOCALE const char                    *TypeName(void *,int);
 //C     #endif
 
 //C        LOCALE void                           PrintGenericName(void *,const char *,DEFGENERIC *);
-void  PrintGenericName(void *, char *, DEFGENERIC *);
+void PrintGenericName(void*, char*, DEFGENERIC*);
 
 //C     #endif /* _H_genrcfun */
 
@@ -13987,92 +14969,92 @@ void  PrintGenericName(void *, char *, DEFGENERIC *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           SetupGenericFunctions(void *);
-void  SetupGenericFunctions(void *);
+void SetupGenericFunctions(void*);
 //C        LOCALE void                          *EnvFindDefgeneric(void *,const char *);
-void * EnvFindDefgeneric(void *, char *);
+void* EnvFindDefgeneric(void*, char*);
 //C        LOCALE void                          *EnvFindDefgenericInModule(void *,const char *);
-void * EnvFindDefgenericInModule(void *, char *);
+void* EnvFindDefgenericInModule(void*, char*);
 //C        LOCALE DEFGENERIC                    *LookupDefgenericByMdlOrScope(void *,const char *);
-DEFGENERIC * LookupDefgenericByMdlOrScope(void *, char *);
+DEFGENERIC* LookupDefgenericByMdlOrScope(void*, char*);
 //C        LOCALE DEFGENERIC                    *LookupDefgenericInScope(void *,const char *);
-DEFGENERIC * LookupDefgenericInScope(void *, char *);
+DEFGENERIC* LookupDefgenericInScope(void*, char*);
 //C        LOCALE void                          *EnvGetNextDefgeneric(void *,void *);
-void * EnvGetNextDefgeneric(void *, void *);
+void* EnvGetNextDefgeneric(void*, void*);
 //C        LOCALE long                           EnvGetNextDefmethod(void *,void *,long);
-int  EnvGetNextDefmethod(void *, void *, int );
+int EnvGetNextDefmethod(void*, void*, int);
 //C        LOCALE int                            EnvIsDefgenericDeletable(void *,void *);
-int  EnvIsDefgenericDeletable(void *, void *);
+int EnvIsDefgenericDeletable(void*, void*);
 //C        LOCALE int                            EnvIsDefmethodDeletable(void *,void *,long);
-int  EnvIsDefmethodDeletable(void *, void *, int );
+int EnvIsDefmethodDeletable(void*, void*, int);
 //C        LOCALE void                           UndefgenericCommand(void *);
-void  UndefgenericCommand(void *);
+void UndefgenericCommand(void*);
 //C        LOCALE void                          *GetDefgenericModuleCommand(void *);
-void * GetDefgenericModuleCommand(void *);
+void* GetDefgenericModuleCommand(void*);
 //C        LOCALE void                           UndefmethodCommand(void *);
-void  UndefmethodCommand(void *);
+void UndefmethodCommand(void*);
 //C        LOCALE DEFMETHOD                     *GetDefmethodPointer(void *,long);
-DEFMETHOD * GetDefmethodPointer(void *, int );
+DEFMETHOD* GetDefmethodPointer(void*, int);
 //C        LOCALE intBool                        EnvUndefgeneric(void *,void *);
-int  EnvUndefgeneric(void *, void *);
+int EnvUndefgeneric(void*, void*);
 //C        LOCALE intBool                        EnvUndefmethod(void *,void *,long);
-int  EnvUndefmethod(void *, void *, int );
+int EnvUndefmethod(void*, void*, int);
 //C     #if ! OBJECT_SYSTEM
 //C        LOCALE void                           TypeCommand(void *,DATA_OBJECT *);
 //C     #endif
 //C     #if DEBUGGING_FUNCTIONS || PROFILING_FUNCTIONS
 //C        LOCALE void                           EnvGetDefmethodDescription(void *,char *,size_t,void *,long);
-void  EnvGetDefmethodDescription(void *, char *, size_t , void *, int );
+void EnvGetDefmethodDescription(void*, char*, size_t, void*, int);
 //C     #endif
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE unsigned                       EnvGetDefgenericWatch(void *,void *);
-uint  EnvGetDefgenericWatch(void *, void *);
+uint EnvGetDefgenericWatch(void*, void*);
 //C        LOCALE void                           EnvSetDefgenericWatch(void *,unsigned,void *);
-void  EnvSetDefgenericWatch(void *, uint , void *);
+void EnvSetDefgenericWatch(void*, uint, void*);
 //C        LOCALE unsigned                       EnvGetDefmethodWatch(void *,void *,long);
-uint  EnvGetDefmethodWatch(void *, void *, int );
+uint EnvGetDefmethodWatch(void*, void*, int);
 //C        LOCALE void                           EnvSetDefmethodWatch(void *,unsigned,void *,long);
-void  EnvSetDefmethodWatch(void *, uint , void *, int );
+void EnvSetDefmethodWatch(void*, uint, void*, int);
 //C        LOCALE void                           PPDefgenericCommand(void *);
-void  PPDefgenericCommand(void *);
+void PPDefgenericCommand(void*);
 //C        LOCALE void                           PPDefmethodCommand(void *);
-void  PPDefmethodCommand(void *);
+void PPDefmethodCommand(void*);
 //C        LOCALE void                           ListDefmethodsCommand(void *);
-void  ListDefmethodsCommand(void *);
+void ListDefmethodsCommand(void*);
 //C        LOCALE const char                    *EnvGetDefmethodPPForm(void *,void *,long);
-char * EnvGetDefmethodPPForm(void *, void *, int );
+char* EnvGetDefmethodPPForm(void*, void*, int);
 //C        LOCALE void                           ListDefgenericsCommand(void *);
-void  ListDefgenericsCommand(void *);
+void ListDefgenericsCommand(void*);
 //C        LOCALE void                           EnvListDefgenerics(void *,const char *,struct defmodule *);
-void  EnvListDefgenerics(void *, char *, defmodule *);
+void EnvListDefgenerics(void*, char*, defmodule*);
 //C        LOCALE void                           EnvListDefmethods(void *,const char *,void *);
-void  EnvListDefmethods(void *, char *, void *);
+void EnvListDefmethods(void*, char*, void*);
 //C     #endif
 //C        LOCALE void                           GetDefgenericListFunction(void *,DATA_OBJECT *);
-void  GetDefgenericListFunction(void *, DATA_OBJECT *);
+void GetDefgenericListFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvGetDefgenericList(void *,DATA_OBJECT *,struct defmodule *);
-void  EnvGetDefgenericList(void *, DATA_OBJECT *, defmodule *);
+void EnvGetDefgenericList(void*, DATA_OBJECT*, defmodule*);
 //C        LOCALE void                           GetDefmethodListCommand(void *,DATA_OBJECT *);
-void  GetDefmethodListCommand(void *, DATA_OBJECT *);
+void GetDefmethodListCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvGetDefmethodList(void *,void *,DATA_OBJECT *);
-void  EnvGetDefmethodList(void *, void *, DATA_OBJECT *);
+void EnvGetDefmethodList(void*, void*, DATA_OBJECT*);
 //C        LOCALE void                           GetMethodRestrictionsCommand(void *,DATA_OBJECT *);
-void  GetMethodRestrictionsCommand(void *, DATA_OBJECT *);
+void GetMethodRestrictionsCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvGetMethodRestrictions(void *,void *,long,DATA_OBJECT *);
-void  EnvGetMethodRestrictions(void *, void *, int , DATA_OBJECT *);
+void EnvGetMethodRestrictions(void*, void*, int, DATA_OBJECT*);
 //C        LOCALE SYMBOL_HN                     *GetDefgenericNamePointer(void *);
-SYMBOL_HN * GetDefgenericNamePointer(void *);
+SYMBOL_HN* GetDefgenericNamePointer(void*);
 //C        LOCALE void                           SetNextDefgeneric(void *,void *);
-void  SetNextDefgeneric(void *, void *);
+void SetNextDefgeneric(void*, void*);
 //C        LOCALE const char                    *EnvDefgenericModule(void *,void *);
-char * EnvDefgenericModule(void *, void *);
+char* EnvDefgenericModule(void*, void*);
 //C        LOCALE const char                    *EnvGetDefgenericName(void *,void *);
-char * EnvGetDefgenericName(void *, void *);
+char* EnvGetDefgenericName(void*, void*);
 //C        LOCALE const char                    *EnvGetDefgenericPPForm(void *,void *);
-char * EnvGetDefgenericPPForm(void *, void *);
+char* EnvGetDefgenericPPForm(void*, void*);
 //C        LOCALE SYMBOL_HN                     *EnvGetDefgenericNamePointer(void *,void *);
-SYMBOL_HN * EnvGetDefgenericNamePointer(void *, void *);
+SYMBOL_HN* EnvGetDefgenericNamePointer(void*, void*);
 //C        LOCALE void                           EnvSetDefgenericPPForm(void *,void *,const char *);
-void  EnvSetDefgenericPPForm(void *, void *, char *);
+void EnvSetDefgenericPPForm(void*, void*, char*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -14107,18 +15089,14 @@ void  EnvSetDefgenericPPForm(void *, void *, char *);
 
 //C     #endif /* _H_genrccom */
 
-
-
-
-
 //C     #include "genrcfun.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -14315,13 +15293,13 @@ void  EnvSetDefgenericPPForm(void *, void *, char *);
 
 //C     #if OBJECT_SYSTEM
 //C     #include "classcom.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  01/04/15          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  01/04/15          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -14385,85 +15363,85 @@ const CONSERVATION_MODE = 1;
 //C -- alias extern LOCALE;
 
 //C        LOCALE const char             *EnvGetDefclassName(void *,void *);
-char * EnvGetDefclassName(void *, void *);
+char* EnvGetDefclassName(void*, void*);
 //C        LOCALE const char             *EnvGetDefclassPPForm(void *,void *);
-char * EnvGetDefclassPPForm(void *, void *);
+char* EnvGetDefclassPPForm(void*, void*);
 //C        LOCALE struct defmoduleItemHeader 
 //C                                      *EnvGetDefclassModule(void *,void *);
-defmoduleItemHeader * EnvGetDefclassModule(void *, void *);
+defmoduleItemHeader* EnvGetDefclassModule(void*, void*);
 //C        LOCALE const char             *EnvDefclassModule(void *,void *);
-char * EnvDefclassModule(void *, void *);
+char* EnvDefclassModule(void*, void*);
 //C        LOCALE SYMBOL_HN              *GetDefclassNamePointer(void *);
-SYMBOL_HN * GetDefclassNamePointer(void *);
+SYMBOL_HN* GetDefclassNamePointer(void*);
 //C        LOCALE void                    SetNextDefclass(void *,void *);
-void  SetNextDefclass(void *, void *);
+void SetNextDefclass(void*, void*);
 //C        LOCALE void                    EnvSetDefclassPPForm(void *,void *,char *);
-void  EnvSetDefclassPPForm(void *, void *, char *);
+void EnvSetDefclassPPForm(void*, void*, char*);
 
 //C        LOCALE void                   *EnvFindDefclass(void *,const char *);
-void * EnvFindDefclass(void *, char *);
+void* EnvFindDefclass(void*, char*);
 //C        LOCALE void                   *EnvFindDefclassInModule(void *,const char *);
-void * EnvFindDefclassInModule(void *, char *);
+void* EnvFindDefclassInModule(void*, char*);
 //C        LOCALE DEFCLASS               *LookupDefclassByMdlOrScope(void *,const char *);
-DEFCLASS * LookupDefclassByMdlOrScope(void *, char *);
+DEFCLASS* LookupDefclassByMdlOrScope(void*, char*);
 //C        LOCALE DEFCLASS               *LookupDefclassInScope(void *,const char *);
-DEFCLASS * LookupDefclassInScope(void *, char *);
+DEFCLASS* LookupDefclassInScope(void*, char*);
 //C        LOCALE DEFCLASS               *LookupDefclassAnywhere(void *,struct defmodule *,const char *);
-DEFCLASS * LookupDefclassAnywhere(void *, defmodule *, char *);
+DEFCLASS* LookupDefclassAnywhere(void*, defmodule*, char*);
 //C        LOCALE intBool                 DefclassInScope(void *,DEFCLASS *,struct defmodule *);
-int  DefclassInScope(void *, DEFCLASS *, defmodule *);
+int DefclassInScope(void*, DEFCLASS*, defmodule*);
 //C        LOCALE void                   *EnvGetNextDefclass(void *,void *);
-void * EnvGetNextDefclass(void *, void *);
+void* EnvGetNextDefclass(void*, void*);
 //C        LOCALE intBool                 EnvIsDefclassDeletable(void *,void *);
-int  EnvIsDefclassDeletable(void *, void *);
+int EnvIsDefclassDeletable(void*, void*);
 
 //C        LOCALE void                    UndefclassCommand(void *);
-void  UndefclassCommand(void *);
+void UndefclassCommand(void*);
 //C        LOCALE unsigned short          EnvSetClassDefaultsMode(void *,unsigned short);
-ushort  EnvSetClassDefaultsMode(void *, ushort );
+ushort EnvSetClassDefaultsMode(void*, ushort);
 //C        LOCALE unsigned short          EnvGetClassDefaultsMode(void *);
-ushort  EnvGetClassDefaultsMode(void *);
+ushort EnvGetClassDefaultsMode(void*);
 //C        LOCALE void                   *GetClassDefaultsModeCommand(void *);
-void * GetClassDefaultsModeCommand(void *);
+void* GetClassDefaultsModeCommand(void*);
 //C        LOCALE void                   *SetClassDefaultsModeCommand(void *);
-void * SetClassDefaultsModeCommand(void *);
+void* SetClassDefaultsModeCommand(void*);
 
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE void                    PPDefclassCommand(void *);
-void  PPDefclassCommand(void *);
+void PPDefclassCommand(void*);
 //C        LOCALE void                    ListDefclassesCommand(void *);
-void  ListDefclassesCommand(void *);
+void ListDefclassesCommand(void*);
 //C        LOCALE void                    EnvListDefclasses(void *,const char *,struct defmodule *);
-void  EnvListDefclasses(void *, char *, defmodule *);
+void EnvListDefclasses(void*, char*, defmodule*);
 //C        LOCALE unsigned                EnvGetDefclassWatchInstances(void *,void *);
-uint  EnvGetDefclassWatchInstances(void *, void *);
+uint EnvGetDefclassWatchInstances(void*, void*);
 //C        LOCALE void                    EnvSetDefclassWatchInstances(void *,unsigned,void *);
-void  EnvSetDefclassWatchInstances(void *, uint , void *);
+void EnvSetDefclassWatchInstances(void*, uint, void*);
 //C        LOCALE unsigned                EnvGetDefclassWatchSlots(void *,void *);
-uint  EnvGetDefclassWatchSlots(void *, void *);
+uint EnvGetDefclassWatchSlots(void*, void*);
 //C        LOCALE void                    EnvSetDefclassWatchSlots(void *,unsigned,void *);
-void  EnvSetDefclassWatchSlots(void *, uint , void *);
+void EnvSetDefclassWatchSlots(void*, uint, void*);
 //C        LOCALE unsigned                DefclassWatchAccess(void *,int,unsigned,EXPRESSION *);
-uint  DefclassWatchAccess(void *, int , uint , EXPRESSION *);
+uint DefclassWatchAccess(void*, int, uint, EXPRESSION*);
 //C        LOCALE unsigned                DefclassWatchPrint(void *,const char *,int,EXPRESSION *);
-uint  DefclassWatchPrint(void *, char *, int , EXPRESSION *);
+uint DefclassWatchPrint(void*, char*, int, EXPRESSION*);
 //C     #endif
 
 //C        LOCALE void                    GetDefclassListFunction(void *,DATA_OBJECT *);
-void  GetDefclassListFunction(void *, DATA_OBJECT *);
+void GetDefclassListFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                    EnvGetDefclassList(void *,DATA_OBJECT *,struct defmodule *);
-void  EnvGetDefclassList(void *, DATA_OBJECT *, defmodule *);
+void EnvGetDefclassList(void*, DATA_OBJECT*, defmodule*);
 //C        LOCALE intBool                 EnvUndefclass(void *,void *);
-int  EnvUndefclass(void *, void *);
+int EnvUndefclass(void*, void*);
 //C        LOCALE intBool                 HasSuperclass(DEFCLASS *,DEFCLASS *);
-int  HasSuperclass(DEFCLASS *, DEFCLASS *);
+int HasSuperclass(DEFCLASS*, DEFCLASS*);
 
 //C        LOCALE SYMBOL_HN              *CheckClassAndSlot(void *,const char *,DEFCLASS **);
-SYMBOL_HN * CheckClassAndSlot(void *, char *, DEFCLASS **);
+SYMBOL_HN* CheckClassAndSlot(void*, char*, DEFCLASS**);
 
 //C     #if (! BLOAD_ONLY) && (! RUN_TIME)
 //C        LOCALE void                    SaveDefclasses(void *,void *,const char *);
-void  SaveDefclasses(void *, void *, char *);
+void SaveDefclasses(void*, void*, char*);
 //C     #endif
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
@@ -14490,13 +15468,13 @@ void  SaveDefclasses(void *, void *, char *);
 
 //C     #endif /* _H_classcom */
 //C     #include "classexm.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -14511,7 +15489,7 @@ void  SaveDefclasses(void *, void *, char *);
 /*      6.23: Corrected compilation errors for files         */
 /*            generated by constructs-to-c. DR0861           */
 /*                                                           */
-                                      
+
 /*      6.24: The DescribeClass macros were incorrectly      */
 /*            defined. DR0862                                */
 /*                                                           */
@@ -14551,59 +15529,59 @@ void  SaveDefclasses(void *, void *, char *);
 //C     #if DEBUGGING_FUNCTIONS
 
 //C        LOCALE void                           BrowseClassesCommand(void *);
-void  BrowseClassesCommand(void *);
+void BrowseClassesCommand(void*);
 //C        LOCALE void                           EnvBrowseClasses(void *,const char *,void *);
-void  EnvBrowseClasses(void *, char *, void *);
+void EnvBrowseClasses(void*, char*, void*);
 //C        LOCALE void                           DescribeClassCommand(void *);
-void  DescribeClassCommand(void *);
+void DescribeClassCommand(void*);
 //C        LOCALE void                           EnvDescribeClass(void *,const char *,void *);
-void  EnvDescribeClass(void *, char *, void *);
+void EnvDescribeClass(void*, char*, void*);
 
 //C     #endif /* DEBUGGING_FUNCTIONS */
 
 //C        LOCALE const char                    *GetCreateAccessorString(void *);
-char * GetCreateAccessorString(void *);
+char* GetCreateAccessorString(void*);
 //C        LOCALE void                          *GetDefclassModuleCommand(void *);
-void * GetDefclassModuleCommand(void *);
+void* GetDefclassModuleCommand(void*);
 //C        LOCALE intBool                        SuperclassPCommand(void *);
-int  SuperclassPCommand(void *);
+int SuperclassPCommand(void*);
 //C        LOCALE intBool                        EnvSuperclassP(void *,void *,void *);
-int  EnvSuperclassP(void *, void *, void *);
+int EnvSuperclassP(void*, void*, void*);
 //C        LOCALE intBool                        SubclassPCommand(void *);
-int  SubclassPCommand(void *);
+int SubclassPCommand(void*);
 //C        LOCALE intBool                        EnvSubclassP(void *,void *,void *);
-int  EnvSubclassP(void *, void *, void *);
+int EnvSubclassP(void*, void*, void*);
 //C        LOCALE int                            SlotExistPCommand(void *);
-int  SlotExistPCommand(void *);
+int SlotExistPCommand(void*);
 //C        LOCALE intBool                        EnvSlotExistP(void *,void *,const char *,intBool);
-int  EnvSlotExistP(void *, void *, char *, int );
+int EnvSlotExistP(void*, void*, char*, int);
 //C        LOCALE int                            MessageHandlerExistPCommand(void *);
-int  MessageHandlerExistPCommand(void *);
+int MessageHandlerExistPCommand(void*);
 //C        LOCALE intBool                        SlotWritablePCommand(void *);
-int  SlotWritablePCommand(void *);
+int SlotWritablePCommand(void*);
 //C        LOCALE intBool                        EnvSlotWritableP(void *,void *,const char *);
-int  EnvSlotWritableP(void *, void *, char *);
+int EnvSlotWritableP(void*, void*, char*);
 //C        LOCALE intBool                        SlotInitablePCommand(void *);
-int  SlotInitablePCommand(void *);
+int SlotInitablePCommand(void*);
 //C        LOCALE intBool                        EnvSlotInitableP(void *,void *,const char *);
-int  EnvSlotInitableP(void *, void *, char *);
+int EnvSlotInitableP(void*, void*, char*);
 //C        LOCALE intBool                        SlotPublicPCommand(void *);
-int  SlotPublicPCommand(void *);
+int SlotPublicPCommand(void*);
 //C        LOCALE intBool                        EnvSlotPublicP(void *,void *,const char *);
-int  EnvSlotPublicP(void *, void *, char *);
+int EnvSlotPublicP(void*, void*, char*);
 //C        LOCALE intBool                        SlotDirectAccessPCommand(void *);
-int  SlotDirectAccessPCommand(void *);
+int SlotDirectAccessPCommand(void*);
 //C        LOCALE intBool                        EnvSlotDirectAccessP(void *,void *,const char *);
-int  EnvSlotDirectAccessP(void *, void *, char *);
+int EnvSlotDirectAccessP(void*, void*, char*);
 //C        LOCALE void                           SlotDefaultValueCommand(void *,DATA_OBJECT_PTR);
-void  SlotDefaultValueCommand(void *, DATA_OBJECT_PTR );
+void SlotDefaultValueCommand(void*, DATA_OBJECT_PTR);
 //C        LOCALE intBool                        EnvSlotDefaultValue(void *,void *,const char *,DATA_OBJECT_PTR);
-int  EnvSlotDefaultValue(void *, void *, char *, DATA_OBJECT_PTR );
+int EnvSlotDefaultValue(void*, void*, char*, DATA_OBJECT_PTR);
 //C        LOCALE int                            ClassExistPCommand(void *);
-int  ClassExistPCommand(void *);
+int ClassExistPCommand(void*);
 //C        LOCALE int                            EnvSlotDefaultP(void *,void *,const char *);
-int  EnvSlotDefaultP(void *, void *, char *);
-  
+int EnvSlotDefaultP(void*, void*, char*);
+
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
 //C     #if DEBUGGING_FUNCTIONS
@@ -14624,13 +15602,13 @@ int  EnvSlotDefaultP(void *, void *, char *);
 
 //C     #endif /* _H_classexm */
 //C     #include "classinf.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -14677,65 +15655,65 @@ int  EnvSlotDefaultP(void *, void *, char *);
 //C -- alias extern LOCALE;
 
 //C        LOCALE intBool                        ClassAbstractPCommand(void *);
-int  ClassAbstractPCommand(void *);
+int ClassAbstractPCommand(void*);
 //C     #if DEFRULE_CONSTRUCT
 //C        LOCALE intBool                        ClassReactivePCommand(void *);
-int  ClassReactivePCommand(void *);
+int ClassReactivePCommand(void*);
 //C     #endif
 //C        LOCALE void                          *ClassInfoFnxArgs(void *,const char *,int *);
-void * ClassInfoFnxArgs(void *, char *, int *);
+void* ClassInfoFnxArgs(void*, char*, int*);
 //C        LOCALE void                           ClassSlotsCommand(void *,DATA_OBJECT *);
-void  ClassSlotsCommand(void *, DATA_OBJECT *);
+void ClassSlotsCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           ClassSuperclassesCommand(void *,DATA_OBJECT *);
-void  ClassSuperclassesCommand(void *, DATA_OBJECT *);
+void ClassSuperclassesCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           ClassSubclassesCommand(void *,DATA_OBJECT *);
-void  ClassSubclassesCommand(void *, DATA_OBJECT *);
+void ClassSubclassesCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           GetDefmessageHandlersListCmd(void *,DATA_OBJECT *);
-void  GetDefmessageHandlersListCmd(void *, DATA_OBJECT *);
+void GetDefmessageHandlersListCmd(void*, DATA_OBJECT*);
 //C        LOCALE void                           SlotFacetsCommand(void *,DATA_OBJECT *);
-void  SlotFacetsCommand(void *, DATA_OBJECT *);
+void SlotFacetsCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           SlotSourcesCommand(void *,DATA_OBJECT *);
-void  SlotSourcesCommand(void *, DATA_OBJECT *);
+void SlotSourcesCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           SlotTypesCommand(void *,DATA_OBJECT *);
-void  SlotTypesCommand(void *, DATA_OBJECT *);
+void SlotTypesCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           SlotAllowedValuesCommand(void *,DATA_OBJECT *);
-void  SlotAllowedValuesCommand(void *, DATA_OBJECT *);
+void SlotAllowedValuesCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           SlotAllowedClassesCommand(void *,DATA_OBJECT *);
-void  SlotAllowedClassesCommand(void *, DATA_OBJECT *);
+void SlotAllowedClassesCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           SlotRangeCommand(void *,DATA_OBJECT *);
-void  SlotRangeCommand(void *, DATA_OBJECT *);
+void SlotRangeCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           SlotCardinalityCommand(void *,DATA_OBJECT *);
-void  SlotCardinalityCommand(void *, DATA_OBJECT *);
+void SlotCardinalityCommand(void*, DATA_OBJECT*);
 //C        LOCALE intBool                        EnvClassAbstractP(void *,void *);
-int  EnvClassAbstractP(void *, void *);
+int EnvClassAbstractP(void*, void*);
 //C     #if DEFRULE_CONSTRUCT
 //C        LOCALE intBool                        EnvClassReactiveP(void *,void *);
-int  EnvClassReactiveP(void *, void *);
+int EnvClassReactiveP(void*, void*);
 //C     #endif
 //C        LOCALE void                           EnvClassSlots(void *,void *,DATA_OBJECT *,int);
-void  EnvClassSlots(void *, void *, DATA_OBJECT *, int );
+void EnvClassSlots(void*, void*, DATA_OBJECT*, int);
 //C        LOCALE void                           EnvGetDefmessageHandlerList(void *,void *,DATA_OBJECT *,int);
-void  EnvGetDefmessageHandlerList(void *, void *, DATA_OBJECT *, int );
+void EnvGetDefmessageHandlerList(void*, void*, DATA_OBJECT*, int);
 //C        LOCALE void                           EnvClassSuperclasses(void *,void *,DATA_OBJECT *,int);
-void  EnvClassSuperclasses(void *, void *, DATA_OBJECT *, int );
+void EnvClassSuperclasses(void*, void*, DATA_OBJECT*, int);
 //C        LOCALE void                           EnvClassSubclasses(void *,void *,DATA_OBJECT *,int);
-void  EnvClassSubclasses(void *, void *, DATA_OBJECT *, int );
+void EnvClassSubclasses(void*, void*, DATA_OBJECT*, int);
 //C        LOCALE void                           ClassSubclassAddresses(void *,void *,DATA_OBJECT *,int);
-void  ClassSubclassAddresses(void *, void *, DATA_OBJECT *, int );
+void ClassSubclassAddresses(void*, void*, DATA_OBJECT*, int);
 //C        LOCALE void                           EnvSlotFacets(void *,void *,const char *,DATA_OBJECT *);
-void  EnvSlotFacets(void *, void *, char *, DATA_OBJECT *);
+void EnvSlotFacets(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           EnvSlotSources(void *,void *,const char *,DATA_OBJECT *);
-void  EnvSlotSources(void *, void *, char *, DATA_OBJECT *);
+void EnvSlotSources(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           EnvSlotTypes(void *,void *,const char *,DATA_OBJECT *);
-void  EnvSlotTypes(void *, void *, char *, DATA_OBJECT *);
+void EnvSlotTypes(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           EnvSlotAllowedValues(void *,void *,const char *,DATA_OBJECT *);
-void  EnvSlotAllowedValues(void *, void *, char *, DATA_OBJECT *);
+void EnvSlotAllowedValues(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           EnvSlotAllowedClasses(void *,void *,const char *,DATA_OBJECT *);
-void  EnvSlotAllowedClasses(void *, void *, char *, DATA_OBJECT *);
+void EnvSlotAllowedClasses(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           EnvSlotRange(void *,void *,const char *,DATA_OBJECT *);
-void  EnvSlotRange(void *, void *, char *, DATA_OBJECT *);
+void EnvSlotRange(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE void                           EnvSlotCardinality(void *,void *,const char *,DATA_OBJECT *);
-void  EnvSlotCardinality(void *, void *, char *, DATA_OBJECT *);
+void EnvSlotCardinality(void*, void*, char*, DATA_OBJECT*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -14759,18 +15737,14 @@ void  EnvSlotCardinality(void *, void *, char *, DATA_OBJECT *);
 
 //C     #endif /* _H_classinf */
 
-
-
-
-
 //C     #include "classini.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -14829,30 +15803,26 @@ void  EnvSlotCardinality(void *, void *, char *, DATA_OBJECT *);
 //C -- alias extern LOCALE;
 
 //C     LOCALE void SetupObjectSystem(void *);
-void  SetupObjectSystem(void *);
+void SetupObjectSystem(void*);
 //C     #if RUN_TIME
 //C     LOCALE void ObjectsRunTimeInitialize(void *,DEFCLASS *[],SLOT_NAME *[],DEFCLASS *[],unsigned);
 //C     #else
 //C     LOCALE void CreateSystemClasses(void *);
-void  CreateSystemClasses(void *);
+void CreateSystemClasses(void*);
 //C     #endif
 
 //C     #endif
 
 //C     #endif
-
-
-
-
 
 //C     #include "classpsr.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -14902,27 +15872,25 @@ void  CreateSystemClasses(void *);
 //C -- alias extern LOCALE;
 
 //C     LOCALE int ParseDefclass(void *,const char *);
-int  ParseDefclass(void *, char *);
+int ParseDefclass(void*, char*);
 
 //C     #if DEFMODULE_CONSTRUCT
 //C     LOCALE void *CreateClassScopeMap(void *,DEFCLASS *);
-void * CreateClassScopeMap(void *, DEFCLASS *);
+void* CreateClassScopeMap(void*, DEFCLASS*);
 //C     #endif
 
 //C     #endif
 
 //C     #endif
-
-
 
 //C     #include "defins.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  02/04/15          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  02/04/15          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -14987,6 +15955,7 @@ struct definstancesModule
 {
     defmoduleItemHeader header;
 }
+
 alias definstancesModule DEFINSTANCES_MODULE;
 
 //C     typedef struct definstances
@@ -14999,8 +15968,9 @@ struct definstances
 {
     constructHeader header;
     uint busy;
-    EXPRESSION *mkinstance;
+    EXPRESSION* mkinstance;
 }
+
 alias definstances DEFINSTANCES;
 
 //C     #define DEFINSTANCES_DATA 22
@@ -15016,9 +15986,9 @@ const DEFINSTANCES_DATA = 22;
 //C       };
 struct definstancesData
 {
-    construct *DefinstancesConstruct;
+    construct* DefinstancesConstruct;
     int DefinstancesModuleIndex;
-    CodeGeneratorItem *DefinstancesCodeItem;
+    CodeGeneratorItem* DefinstancesCodeItem;
 }
 
 //C     #define DefinstancesData(theEnv) ((struct definstancesData *) GetEnvironmentData(theEnv,DEFINSTANCES_DATA))
@@ -15035,44 +16005,44 @@ struct definstancesData
 //C -- alias extern LOCALE;
 
 //C        LOCALE const char                    *EnvDefinstancesModule(void *,void *);
-char * EnvDefinstancesModule(void *, void *);
+char* EnvDefinstancesModule(void*, void*);
 //C        LOCALE const char                    *EnvDefinstancesModuleName(void *,void *);
-char * EnvDefinstancesModuleName(void *, void *);
+char* EnvDefinstancesModuleName(void*, void*);
 //C        LOCALE void                          *EnvFindDefinstances(void *,const char *);
-void * EnvFindDefinstances(void *, char *);
+void* EnvFindDefinstances(void*, char*);
 //C        LOCALE void                          *EnvFindDefinstancesInModule(void *,const char *);
-void * EnvFindDefinstancesInModule(void *, char *);
+void* EnvFindDefinstancesInModule(void*, char*);
 //C        LOCALE void                           EnvGetDefinstancesList(void *,DATA_OBJECT *,struct defmodule *);
-void  EnvGetDefinstancesList(void *, DATA_OBJECT *, defmodule *);
+void EnvGetDefinstancesList(void*, DATA_OBJECT*, defmodule*);
 //C        LOCALE const char                    *EnvGetDefinstancesName(void *,void *);
-char * EnvGetDefinstancesName(void *, void *);
+char* EnvGetDefinstancesName(void*, void*);
 //C        LOCALE SYMBOL_HN                     *EnvGetDefinstancesNamePointer(void *,void *);
-SYMBOL_HN * EnvGetDefinstancesNamePointer(void *, void *);
+SYMBOL_HN* EnvGetDefinstancesNamePointer(void*, void*);
 //C        LOCALE const char                    *EnvGetDefinstancesPPForm(void *,void *);
-char * EnvGetDefinstancesPPForm(void *, void *);
+char* EnvGetDefinstancesPPForm(void*, void*);
 //C        LOCALE void                          *EnvGetNextDefinstances(void *,void *);
-void * EnvGetNextDefinstances(void *, void *);
+void* EnvGetNextDefinstances(void*, void*);
 //C        LOCALE int                            EnvIsDefinstancesDeletable(void *,void *);
-int  EnvIsDefinstancesDeletable(void *, void *);
+int EnvIsDefinstancesDeletable(void*, void*);
 //C        LOCALE void                           EnvSetDefinstancesPPForm(void *,void *,const char *);
-void  EnvSetDefinstancesPPForm(void *, void *, char *);
+void EnvSetDefinstancesPPForm(void*, void*, char*);
 //C        LOCALE intBool                        EnvUndefinstances(void *,void *);
-int  EnvUndefinstances(void *, void *);
+int EnvUndefinstances(void*, void*);
 //C        LOCALE void                           GetDefinstancesListFunction(void *,DATA_OBJECT *);
-void  GetDefinstancesListFunction(void *, DATA_OBJECT *);
+void GetDefinstancesListFunction(void*, DATA_OBJECT*);
 //C        LOCALE void                          *GetDefinstancesModuleCommand(void *);
-void * GetDefinstancesModuleCommand(void *);
+void* GetDefinstancesModuleCommand(void*);
 //C        LOCALE void                           SetupDefinstances(void *);
-void  SetupDefinstances(void *);
+void SetupDefinstances(void*);
 //C        LOCALE void                           UndefinstancesCommand(void *);
-void  UndefinstancesCommand(void *);
+void UndefinstancesCommand(void*);
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE void                           PPDefinstancesCommand(void *);
-void  PPDefinstancesCommand(void *);
+void PPDefinstancesCommand(void*);
 //C        LOCALE void                           ListDefinstancesCommand(void *);
-void  ListDefinstancesCommand(void *);
+void ListDefinstancesCommand(void*);
 //C        LOCALE void                           EnvListDefinstances(void *,const char *,struct defmodule *);
-void  EnvListDefinstances(void *, char *, defmodule *);
+void EnvListDefinstances(void*, char*, defmodule*);
 //C     #endif
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
@@ -15095,17 +16065,14 @@ void  EnvListDefinstances(void *, char *, defmodule *);
 
 //C     #endif /* _H_defins */
 
-
-
-
 //C     #include "inscom.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/22/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/22/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -15156,13 +16123,13 @@ void  EnvListDefinstances(void *, char *, defmodule *);
 
 //C     #ifndef _H_insfun
 //C     #include "insfun.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                INSTANCE FUNCTIONS MODULE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                INSTANCE FUNCTIONS MODULE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -15239,9 +16206,10 @@ void  EnvListDefinstances(void *, char *, defmodule *);
 //C       } IGARBAGE;
 struct igarbage
 {
-    INSTANCE_TYPE *ins;
-    igarbage *nxt;
+    INSTANCE_TYPE* ins;
+    igarbage* nxt;
 }
+
 alias igarbage IGARBAGE;
 
 //C     #define INSTANCE_TABLE_HASH_SIZE 8191
@@ -15260,63 +16228,63 @@ const INSTANCE_TABLE_HASH_SIZE = 8191;
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           EnvIncrementInstanceCount(void *,void *);
-void  EnvIncrementInstanceCount(void *, void *);
+void EnvIncrementInstanceCount(void*, void*);
 //C        LOCALE void                           EnvDecrementInstanceCount(void *,void *);
-void  EnvDecrementInstanceCount(void *, void *);
+void EnvDecrementInstanceCount(void*, void*);
 //C        LOCALE void                           InitializeInstanceTable(void *);
-void  InitializeInstanceTable(void *);
+void InitializeInstanceTable(void*);
 //C        LOCALE void                           CleanupInstances(void *);
-void  CleanupInstances(void *);
+void CleanupInstances(void*);
 //C        LOCALE unsigned                       HashInstance(SYMBOL_HN *);
-uint  HashInstance(SYMBOL_HN *);
+uint HashInstance(SYMBOL_HN*);
 //C        LOCALE void                           DestroyAllInstances(void *);
-void  DestroyAllInstances(void *);
+void DestroyAllInstances(void*);
 //C        LOCALE void                           RemoveInstanceData(void *,INSTANCE_TYPE *);
-void  RemoveInstanceData(void *, INSTANCE_TYPE *);
+void RemoveInstanceData(void*, INSTANCE_TYPE*);
 //C        LOCALE INSTANCE_TYPE                 *FindInstanceBySymbol(void *,SYMBOL_HN *);
-INSTANCE_TYPE * FindInstanceBySymbol(void *, SYMBOL_HN *);
+INSTANCE_TYPE* FindInstanceBySymbol(void*, SYMBOL_HN*);
 //C        LOCALE INSTANCE_TYPE                 *FindInstanceInModule(void *,SYMBOL_HN *,struct defmodule *,
 //C                                                struct defmodule *,unsigned);
-INSTANCE_TYPE * FindInstanceInModule(void *, SYMBOL_HN *, defmodule *, defmodule *, uint );
+INSTANCE_TYPE* FindInstanceInModule(void*, SYMBOL_HN*, defmodule*, defmodule*, uint);
 //C        LOCALE INSTANCE_SLOT                 *FindInstanceSlot(void *,INSTANCE_TYPE *,SYMBOL_HN *);
-INSTANCE_SLOT * FindInstanceSlot(void *, INSTANCE_TYPE *, SYMBOL_HN *);
+INSTANCE_SLOT* FindInstanceSlot(void*, INSTANCE_TYPE*, SYMBOL_HN*);
 //C        LOCALE int                            FindInstanceTemplateSlot(void *,DEFCLASS *,SYMBOL_HN *);
-int  FindInstanceTemplateSlot(void *, DEFCLASS *, SYMBOL_HN *);
+int FindInstanceTemplateSlot(void*, DEFCLASS*, SYMBOL_HN*);
 //C        LOCALE int                            PutSlotValue(void *,INSTANCE_TYPE *,INSTANCE_SLOT *,DATA_OBJECT *,DATA_OBJECT *,const char *);
-int  PutSlotValue(void *, INSTANCE_TYPE *, INSTANCE_SLOT *, DATA_OBJECT *, DATA_OBJECT *, char *);
+int PutSlotValue(void*, INSTANCE_TYPE*, INSTANCE_SLOT*, DATA_OBJECT*, DATA_OBJECT*, char*);
 //C        LOCALE int                            DirectPutSlotValue(void *,INSTANCE_TYPE *,INSTANCE_SLOT *,DATA_OBJECT *,DATA_OBJECT *);
-int  DirectPutSlotValue(void *, INSTANCE_TYPE *, INSTANCE_SLOT *, DATA_OBJECT *, DATA_OBJECT *);
+int DirectPutSlotValue(void*, INSTANCE_TYPE*, INSTANCE_SLOT*, DATA_OBJECT*, DATA_OBJECT*);
 //C        LOCALE intBool                        ValidSlotValue(void *,DATA_OBJECT *,SLOT_DESC *,INSTANCE_TYPE *,const char *);
-int  ValidSlotValue(void *, DATA_OBJECT *, SLOT_DESC *, INSTANCE_TYPE *, char *);
+int ValidSlotValue(void*, DATA_OBJECT*, SLOT_DESC*, INSTANCE_TYPE*, char*);
 //C        LOCALE INSTANCE_TYPE                 *CheckInstance(void *,const char *);
-INSTANCE_TYPE * CheckInstance(void *, char *);
+INSTANCE_TYPE* CheckInstance(void*, char*);
 //C        LOCALE void                           NoInstanceError(void *,const char *,const char *);
-void  NoInstanceError(void *, char *, char *);
+void NoInstanceError(void*, char*, char*);
 //C        LOCALE void                           StaleInstanceAddress(void *,const char *,int);
-void  StaleInstanceAddress(void *, char *, int );
+void StaleInstanceAddress(void*, char*, int);
 //C        LOCALE int                            EnvGetInstancesChanged(void *);
-int  EnvGetInstancesChanged(void *);
+int EnvGetInstancesChanged(void*);
 //C        LOCALE void                           EnvSetInstancesChanged(void *,int);
-void  EnvSetInstancesChanged(void *, int );
+void EnvSetInstancesChanged(void*, int);
 //C        LOCALE void                           PrintSlot(void *,const char *,SLOT_DESC *,INSTANCE_TYPE *,const char *);
-void  PrintSlot(void *, char *, SLOT_DESC *, INSTANCE_TYPE *, char *);
+void PrintSlot(void*, char*, SLOT_DESC*, INSTANCE_TYPE*, char*);
 //C        LOCALE void                           PrintInstanceNameAndClass(void *,const char *,INSTANCE_TYPE *,intBool);
-void  PrintInstanceNameAndClass(void *, char *, INSTANCE_TYPE *, int );
+void PrintInstanceNameAndClass(void*, char*, INSTANCE_TYPE*, int);
 //C        LOCALE void                           PrintInstanceName(void *,const char *,void *);
-void  PrintInstanceName(void *, char *, void *);
+void PrintInstanceName(void*, char*, void*);
 //C        LOCALE void                           PrintInstanceLongForm(void *,const char *,void *);
-void  PrintInstanceLongForm(void *, char *, void *);
+void PrintInstanceLongForm(void*, char*, void*);
 //C     #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 //C        LOCALE void                           DecrementObjectBasisCount(void *,void *);
-void  DecrementObjectBasisCount(void *, void *);
+void DecrementObjectBasisCount(void*, void*);
 //C        LOCALE void                           IncrementObjectBasisCount(void *,void *);
-void  IncrementObjectBasisCount(void *, void *);
+void IncrementObjectBasisCount(void*, void*);
 //C        LOCALE void                           MatchObjectFunction(void *,void *);
-void  MatchObjectFunction(void *, void *);
+void MatchObjectFunction(void*, void*);
 //C        LOCALE intBool                        NetworkSynchronized(void *,void *);
-int  NetworkSynchronized(void *, void *);
+int NetworkSynchronized(void*, void*);
 //C        LOCALE intBool                        InstanceIsDeleted(void *,void *);
-int  InstanceIsDeleted(void *, void *);
+int InstanceIsDeleted(void*, void*);
 //C     #endif
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
@@ -15329,12 +16297,6 @@ int  InstanceIsDeleted(void *, void *);
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_insfun */
-
-
-
-
-
-
 
 //C     #endif
 
@@ -15359,16 +16321,16 @@ const INSTANCE_DATA = 29;
 struct instanceData
 {
     INSTANCE_TYPE DummyInstance;
-    INSTANCE_TYPE **InstanceTable;
+    INSTANCE_TYPE** InstanceTable;
     int MaintainGarbageInstances;
     int MkInsMsgPass;
     int ChangesToInstances;
-    IGARBAGE *InstanceGarbageList;
+    IGARBAGE* InstanceGarbageList;
     patternEntityRecord InstanceInfo;
-    INSTANCE_TYPE *InstanceList;
+    INSTANCE_TYPE* InstanceList;
     uint GlobalNumberOfInstances;
-    INSTANCE_TYPE *CurrentInstance;
-    INSTANCE_TYPE *InstanceListBottom;
+    INSTANCE_TYPE* CurrentInstance;
+    INSTANCE_TYPE* InstanceListBottom;
     int ObjectModDupMsgValid;
 }
 
@@ -15386,71 +16348,71 @@ struct instanceData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           SetupInstances(void *);
-void  SetupInstances(void *);
+void SetupInstances(void*);
 //C        LOCALE intBool                        EnvDeleteInstance(void *,void *);
-int  EnvDeleteInstance(void *, void *);
+int EnvDeleteInstance(void*, void*);
 //C        LOCALE intBool                        EnvUnmakeInstance(void *,void *);
-int  EnvUnmakeInstance(void *, void *);
+int EnvUnmakeInstance(void*, void*);
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE void                           InstancesCommand(void *);
-void  InstancesCommand(void *);
+void InstancesCommand(void*);
 //C        LOCALE void                           PPInstanceCommand(void *);
-void  PPInstanceCommand(void *);
+void PPInstanceCommand(void*);
 //C        LOCALE void                           EnvInstances(void *,const char *,void *,const char *,int);
-void  EnvInstances(void *, char *, void *, char *, int );
+void EnvInstances(void*, char*, void*, char*, int);
 //C     #endif
 //C        LOCALE void                          *EnvMakeInstance(void *,const char *);
-void * EnvMakeInstance(void *, char *);
+void* EnvMakeInstance(void*, char*);
 //C        LOCALE void                          *EnvCreateRawInstance(void *,void *,const char *);
-void * EnvCreateRawInstance(void *, void *, char *);
+void* EnvCreateRawInstance(void*, void*, char*);
 //C        LOCALE void                          *EnvFindInstance(void *,void *,const char *,unsigned);
-void * EnvFindInstance(void *, void *, char *, uint );
+void* EnvFindInstance(void*, void*, char*, uint);
 //C        LOCALE int                            EnvValidInstanceAddress(void *,void *);
-int  EnvValidInstanceAddress(void *, void *);
+int EnvValidInstanceAddress(void*, void*);
 //C        LOCALE void                           EnvDirectGetSlot(void *,void *,const char *,DATA_OBJECT *);
-void  EnvDirectGetSlot(void *, void *, char *, DATA_OBJECT *);
+void EnvDirectGetSlot(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE int                            EnvDirectPutSlot(void *,void *,const char *,DATA_OBJECT *);
-int  EnvDirectPutSlot(void *, void *, char *, DATA_OBJECT *);
+int EnvDirectPutSlot(void*, void*, char*, DATA_OBJECT*);
 //C        LOCALE const char                    *EnvGetInstanceName(void *,void *);
-char * EnvGetInstanceName(void *, void *);
+char* EnvGetInstanceName(void*, void*);
 //C        LOCALE void                          *EnvGetInstanceClass(void *,void *);
-void * EnvGetInstanceClass(void *, void *);
+void* EnvGetInstanceClass(void*, void*);
 //C        LOCALE unsigned long GetGlobalNumberOfInstances(void *);
-uint  GetGlobalNumberOfInstances(void *);
+uint GetGlobalNumberOfInstances(void*);
 //C        LOCALE void                          *EnvGetNextInstance(void *,void *);
-void * EnvGetNextInstance(void *, void *);
+void* EnvGetNextInstance(void*, void*);
 //C        LOCALE void                          *GetNextInstanceInScope(void *,void *);
-void * GetNextInstanceInScope(void *, void *);
+void* GetNextInstanceInScope(void*, void*);
 //C        LOCALE void                          *EnvGetNextInstanceInClass(void *,void *,void *);
-void * EnvGetNextInstanceInClass(void *, void *, void *);
+void* EnvGetNextInstanceInClass(void*, void*, void*);
 //C        LOCALE void                          *EnvGetNextInstanceInClassAndSubclasses(void *,void **,void *,DATA_OBJECT *);
-void * EnvGetNextInstanceInClassAndSubclasses(void *, void **, void *, DATA_OBJECT *);
+void* EnvGetNextInstanceInClassAndSubclasses(void*, void**, void*, DATA_OBJECT*);
 //C        LOCALE void                           EnvGetInstancePPForm(void *,char *,size_t,void *);
-void  EnvGetInstancePPForm(void *, char *, size_t , void *);
+void EnvGetInstancePPForm(void*, char*, size_t, void*);
 //C        LOCALE void                           ClassCommand(void *,DATA_OBJECT *);
-void  ClassCommand(void *, DATA_OBJECT *);
+void ClassCommand(void*, DATA_OBJECT*);
 //C        LOCALE intBool                        DeleteInstanceCommand(void *);
-int  DeleteInstanceCommand(void *);
+int DeleteInstanceCommand(void*);
 //C        LOCALE intBool                        UnmakeInstanceCommand(void *);
-int  UnmakeInstanceCommand(void *);
+int UnmakeInstanceCommand(void*);
 //C        LOCALE void                           SymbolToInstanceName(void *,DATA_OBJECT *);
-void  SymbolToInstanceName(void *, DATA_OBJECT *);
+void SymbolToInstanceName(void*, DATA_OBJECT*);
 //C        LOCALE void                          *InstanceNameToSymbol(void *);
-void * InstanceNameToSymbol(void *);
+void* InstanceNameToSymbol(void*);
 //C        LOCALE void                           InstanceAddressCommand(void *,DATA_OBJECT *);
-void  InstanceAddressCommand(void *, DATA_OBJECT *);
+void InstanceAddressCommand(void*, DATA_OBJECT*);
 //C        LOCALE void                           InstanceNameCommand(void *,DATA_OBJECT *);
-void  InstanceNameCommand(void *, DATA_OBJECT *);
+void InstanceNameCommand(void*, DATA_OBJECT*);
 //C        LOCALE intBool                        InstanceAddressPCommand(void *);
-int  InstanceAddressPCommand(void *);
+int InstanceAddressPCommand(void*);
 //C        LOCALE intBool                        InstanceNamePCommand(void *);
-int  InstanceNamePCommand(void *);
+int InstanceNamePCommand(void*);
 //C        LOCALE intBool                        InstancePCommand(void *);
-int  InstancePCommand(void *);
+int InstancePCommand(void*);
 //C        LOCALE intBool                        InstanceExistPCommand(void *);
-int  InstanceExistPCommand(void *);
+int InstanceExistPCommand(void*);
 //C        LOCALE intBool                        CreateInstanceHandler(void *);
-int  CreateInstanceHandler(void *);
+int CreateInstanceHandler(void*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -15476,18 +16438,14 @@ int  CreateInstanceHandler(void *);
 
 //C     #endif /* _H_inscom */
 
-
-
-
-
 //C     #include "insfile.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  02/04/15          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  02/04/15          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -15545,11 +16503,11 @@ const INSTANCE_FILE_DATA = 30;
 //C       };
 struct instanceFileData
 {
-    char *InstanceBinaryPrefixID;
-    char *InstanceBinaryVersionID;
+    char* InstanceBinaryPrefixID;
+    char* InstanceBinaryVersionID;
     uint BinaryInstanceFileSize;
     uint BinaryInstanceFileOffset;
-    char *CurrentReadBuffer;
+    char* CurrentReadBuffer;
     uint CurrentReadBufferSize;
     uint CurrentReadBufferOffset;
 }
@@ -15570,39 +16528,39 @@ struct instanceFileData
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                           SetupInstanceFileCommands(void *);
-void  SetupInstanceFileCommands(void *);
+void SetupInstanceFileCommands(void*);
 //C        LOCALE long                           SaveInstancesCommand(void *);
-int  SaveInstancesCommand(void *);
+int SaveInstancesCommand(void*);
 //C        LOCALE long                           LoadInstancesCommand(void *);
-int  LoadInstancesCommand(void *);
+int LoadInstancesCommand(void*);
 //C        LOCALE long                           RestoreInstancesCommand(void *);
-int  RestoreInstancesCommand(void *);
+int RestoreInstancesCommand(void*);
 //C        LOCALE long                           EnvSaveInstancesDriver(void *,const char *,int,EXPRESSION *,intBool);
-int  EnvSaveInstancesDriver(void *, char *, int , EXPRESSION *, int );
+int EnvSaveInstancesDriver(void*, char*, int, EXPRESSION*, int);
 //C        LOCALE long                           EnvSaveInstances(void *,const char *,int);
-int  EnvSaveInstances(void *, char *, int );
+int EnvSaveInstances(void*, char*, int);
 //C     #if BSAVE_INSTANCES
 //C        LOCALE long                           BinarySaveInstancesCommand(void *);
-int  BinarySaveInstancesCommand(void *);
+int BinarySaveInstancesCommand(void*);
 //C        LOCALE long                           EnvBinarySaveInstancesDriver(void *,const char *,int,EXPRESSION *,intBool);
-int  EnvBinarySaveInstancesDriver(void *, char *, int , EXPRESSION *, int );
+int EnvBinarySaveInstancesDriver(void*, char*, int, EXPRESSION*, int);
 //C        LOCALE long                           EnvBinarySaveInstances(void *,const char *,int);
-int  EnvBinarySaveInstances(void *, char *, int );
+int EnvBinarySaveInstances(void*, char*, int);
 //C     #endif
 //C     #if BLOAD_INSTANCES
 //C        LOCALE long                           BinaryLoadInstancesCommand(void *);
-int  BinaryLoadInstancesCommand(void *);
+int BinaryLoadInstancesCommand(void*);
 //C        LOCALE long                           EnvBinaryLoadInstances(void *,const char *);
-int  EnvBinaryLoadInstances(void *, char *);
+int EnvBinaryLoadInstances(void*, char*);
 //C     #endif
 //C        LOCALE long                           EnvLoadInstances(void *,const char *);
-int  EnvLoadInstances(void *, char *);
+int EnvLoadInstances(void*, char*);
 //C        LOCALE long                           EnvLoadInstancesFromString(void *,const char *,int);
-int  EnvLoadInstancesFromString(void *, char *, int );
+int EnvLoadInstancesFromString(void*, char*, int);
 //C        LOCALE long                           EnvRestoreInstances(void *,const char *);
-int  EnvRestoreInstances(void *, char *);
+int EnvRestoreInstances(void*, char*);
 //C        LOCALE long                           EnvRestoreInstancesFromString(void *,const char *,int);
-int  EnvRestoreInstancesFromString(void *, char *, int );
+int EnvRestoreInstancesFromString(void*, char*, int);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -15617,21 +16575,19 @@ int  EnvRestoreInstancesFromString(void *, char *, int );
 //C        LOCALE long                           RestoreInstances(const char *);
 //C        LOCALE long                           RestoreInstancesFromString(const char *,int);
 //C        LOCALE long                           SaveInstances(const char *,int);
-   
+
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_insfile */
 
-
-
 //C     #include "insfun.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                INSTANCE FUNCTIONS MODULE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                INSTANCE FUNCTIONS MODULE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -15763,20 +16719,14 @@ int  EnvRestoreInstancesFromString(void *, char *, int );
 
 //C     #endif /* _H_insfun */
 
-
-
-
-
-
-
 //C     #include "msgcom.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/22/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/22/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -15823,13 +16773,13 @@ int  EnvRestoreInstancesFromString(void *, char *, int );
 
 //C     #ifndef _H_msgpass
 //C     #include "msgpass.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Message-passing support functions                */
@@ -15881,10 +16831,11 @@ int  EnvRestoreInstancesFromString(void *, char *, int );
 //C       } HANDLER_LINK;
 struct messageHandlerLink
 {
-    HANDLER *hnd;
-    messageHandlerLink *nxt;
-    messageHandlerLink *nxtInStack;
+    HANDLER* hnd;
+    messageHandlerLink* nxt;
+    messageHandlerLink* nxtInStack;
 }
+
 alias messageHandlerLink HANDLER_LINK;
 
 //C     #ifdef LOCALE
@@ -15900,39 +16851,39 @@ alias messageHandlerLink HANDLER_LINK;
 
 //C        LOCALE intBool          DirectMessage(void *,SYMBOL_HN *,INSTANCE_TYPE *,
 //C                                              DATA_OBJECT *,EXPRESSION *);
-int  DirectMessage(void *, SYMBOL_HN *, INSTANCE_TYPE *, DATA_OBJECT *, EXPRESSION *);
+int DirectMessage(void*, SYMBOL_HN*, INSTANCE_TYPE*, DATA_OBJECT*, EXPRESSION*);
 //C        LOCALE void             EnvSend(void *,DATA_OBJECT *,const char *,const char *,DATA_OBJECT *);
-void  EnvSend(void *, DATA_OBJECT *, char *, char *, DATA_OBJECT *);
+void EnvSend(void*, DATA_OBJECT*, char*, char*, DATA_OBJECT*);
 //C        LOCALE void             DestroyHandlerLinks(void *,HANDLER_LINK *);
-void  DestroyHandlerLinks(void *, HANDLER_LINK *);
+void DestroyHandlerLinks(void*, HANDLER_LINK*);
 //C        LOCALE void             SendCommand(void *,DATA_OBJECT *);
-void  SendCommand(void *, DATA_OBJECT *);
+void SendCommand(void*, DATA_OBJECT*);
 //C        LOCALE DATA_OBJECT     *GetNthMessageArgument(void *,int);
-DATA_OBJECT * GetNthMessageArgument(void *, int );
+DATA_OBJECT* GetNthMessageArgument(void*, int);
 
 //C        LOCALE int              NextHandlerAvailable(void *);
-int  NextHandlerAvailable(void *);
+int NextHandlerAvailable(void*);
 //C        LOCALE void             CallNextHandler(void *,DATA_OBJECT *);
-void  CallNextHandler(void *, DATA_OBJECT *);
+void CallNextHandler(void*, DATA_OBJECT*);
 
 //C        LOCALE void             FindApplicableOfName(void *,DEFCLASS *,HANDLER_LINK *[],
 //C                                                     HANDLER_LINK *[],SYMBOL_HN *);
-void  FindApplicableOfName(void *, DEFCLASS *, HANDLER_LINK **, HANDLER_LINK **, SYMBOL_HN *);
+void FindApplicableOfName(void*, DEFCLASS*, HANDLER_LINK**, HANDLER_LINK**, SYMBOL_HN*);
 //C        LOCALE HANDLER_LINK    *JoinHandlerLinks(void *,HANDLER_LINK *[],HANDLER_LINK *[],SYMBOL_HN *);
-HANDLER_LINK * JoinHandlerLinks(void *, HANDLER_LINK **, HANDLER_LINK **, SYMBOL_HN *);
+HANDLER_LINK* JoinHandlerLinks(void*, HANDLER_LINK**, HANDLER_LINK**, SYMBOL_HN*);
 
 //C        LOCALE void             PrintHandlerSlotGetFunction(void *,const char *,void *);
-void  PrintHandlerSlotGetFunction(void *, char *, void *);
+void PrintHandlerSlotGetFunction(void*, char*, void*);
 //C        LOCALE intBool          HandlerSlotGetFunction(void *,void *,DATA_OBJECT *);
-int  HandlerSlotGetFunction(void *, void *, DATA_OBJECT *);
+int HandlerSlotGetFunction(void*, void*, DATA_OBJECT*);
 //C        LOCALE void             PrintHandlerSlotPutFunction(void *,const char *,void *);
-void  PrintHandlerSlotPutFunction(void *, char *, void *);
+void PrintHandlerSlotPutFunction(void*, char*, void*);
 //C        LOCALE intBool          HandlerSlotPutFunction(void *,void *,DATA_OBJECT *);
-int  HandlerSlotPutFunction(void *, void *, DATA_OBJECT *);
+int HandlerSlotPutFunction(void*, void*, DATA_OBJECT*);
 //C        LOCALE void             DynamicHandlerGetSlot(void *,DATA_OBJECT *);
-void  DynamicHandlerGetSlot(void *, DATA_OBJECT *);
+void DynamicHandlerGetSlot(void*, DATA_OBJECT*);
 //C        LOCALE void             DynamicHandlerPutSlot(void *,DATA_OBJECT *);
-void  DynamicHandlerPutSlot(void *, DATA_OBJECT *);
+void DynamicHandlerPutSlot(void*, DATA_OBJECT*);
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
 
@@ -15941,12 +16892,6 @@ void  DynamicHandlerPutSlot(void *, DATA_OBJECT *);
 //C     #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 
 //C     #endif /* _H_object */
-
-
-
-
-
-
 
 //C     #endif
 
@@ -15976,22 +16921,21 @@ struct messageHandlerData
 {
     ENTITY_RECORD HandlerGetInfo;
     ENTITY_RECORD HandlerPutInfo;
-    SYMBOL_HN *INIT_SYMBOL;
-    SYMBOL_HN *DELETE_SYMBOL;
-    SYMBOL_HN *CREATE_SYMBOL;
+    SYMBOL_HN* INIT_SYMBOL;
+    SYMBOL_HN* DELETE_SYMBOL;
+    SYMBOL_HN* CREATE_SYMBOL;
     uint WatchHandlers;
     uint WatchMessages;
-    char *[4]hndquals;
-    SYMBOL_HN *SELF_SYMBOL;
-    SYMBOL_HN *CurrentMessageName;
-    HANDLER_LINK *CurrentCore;
-    HANDLER_LINK *TopOfCore;
-    HANDLER_LINK *NextInCore;
-    HANDLER_LINK *OldCore;
+    char*[4] hndquals;
+    SYMBOL_HN* SELF_SYMBOL;
+    SYMBOL_HN* CurrentMessageName;
+    HANDLER_LINK* CurrentCore;
+    HANDLER_LINK* TopOfCore;
+    HANDLER_LINK* NextInCore;
+    HANDLER_LINK* OldCore;
 }
 
 //C     #define MessageHandlerData(theEnv) ((struct messageHandlerData *) GetEnvironmentData(theEnv,MESSAGE_HANDLER_DATA))
-
 
 //C     #ifdef LOCALE
 //C     #undef LOCALE
@@ -16010,44 +16954,44 @@ struct messageHandlerData
 //C     #define CREATE_STRING "create"
 
 //C        LOCALE void             SetupMessageHandlers(void *);
-void  SetupMessageHandlers(void *);
+void SetupMessageHandlers(void*);
 //C        LOCALE const char      *EnvGetDefmessageHandlerName(void *,void *,int);
-char * EnvGetDefmessageHandlerName(void *, void *, int );
+char* EnvGetDefmessageHandlerName(void*, void*, int);
 //C        LOCALE const char      *EnvGetDefmessageHandlerType(void *,void *,int);
-char * EnvGetDefmessageHandlerType(void *, void *, int );
+char* EnvGetDefmessageHandlerType(void*, void*, int);
 //C        LOCALE int              EnvGetNextDefmessageHandler(void *,void *,int);
-int  EnvGetNextDefmessageHandler(void *, void *, int );
+int EnvGetNextDefmessageHandler(void*, void*, int);
 //C        LOCALE HANDLER         *GetDefmessageHandlerPointer(void *,int);
-HANDLER * GetDefmessageHandlerPointer(void *, int );
+HANDLER* GetDefmessageHandlerPointer(void*, int);
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE unsigned         EnvGetDefmessageHandlerWatch(void *,void *,int);
-uint  EnvGetDefmessageHandlerWatch(void *, void *, int );
+uint EnvGetDefmessageHandlerWatch(void*, void*, int);
 //C        LOCALE void             EnvSetDefmessageHandlerWatch(void *,int,void *,int);
-void  EnvSetDefmessageHandlerWatch(void *, int , void *, int );
+void EnvSetDefmessageHandlerWatch(void*, int, void*, int);
 //C     #endif
 //C        LOCALE unsigned         EnvFindDefmessageHandler(void *,void *,const char *,const char *);
-uint  EnvFindDefmessageHandler(void *, void *, char *, char *);
+uint EnvFindDefmessageHandler(void*, void*, char*, char*);
 //C        LOCALE int              EnvIsDefmessageHandlerDeletable(void *,void *,int);
-int  EnvIsDefmessageHandlerDeletable(void *, void *, int );
+int EnvIsDefmessageHandlerDeletable(void*, void*, int);
 //C        LOCALE void             UndefmessageHandlerCommand(void *);
-void  UndefmessageHandlerCommand(void *);
+void UndefmessageHandlerCommand(void*);
 //C        LOCALE int              EnvUndefmessageHandler(void *,void *,int);
-int  EnvUndefmessageHandler(void *, void *, int );
+int EnvUndefmessageHandler(void*, void*, int);
 //C     #if DEBUGGING_FUNCTIONS
 //C        LOCALE void             PPDefmessageHandlerCommand(void *);
-void  PPDefmessageHandlerCommand(void *);
+void PPDefmessageHandlerCommand(void*);
 //C        LOCALE void             ListDefmessageHandlersCommand(void *);
-void  ListDefmessageHandlersCommand(void *);
+void ListDefmessageHandlersCommand(void*);
 //C        LOCALE void             PreviewSendCommand(void *); 
-void  PreviewSendCommand(void *);
+void PreviewSendCommand(void*);
 //C        LOCALE const char      *EnvGetDefmessageHandlerPPForm(void *,void *,int);
-char * EnvGetDefmessageHandlerPPForm(void *, void *, int );
+char* EnvGetDefmessageHandlerPPForm(void*, void*, int);
 //C        LOCALE void             EnvListDefmessageHandlers(void *,const char *,void *,int);
-void  EnvListDefmessageHandlers(void *, char *, void *, int );
+void EnvListDefmessageHandlers(void*, char*, void*, int);
 //C        LOCALE void             EnvPreviewSend(void *,const char *,void *,const char *);
-void  EnvPreviewSend(void *, char *, void *, char *);
+void EnvPreviewSend(void*, char*, void*, char*);
 //C        LOCALE long             DisplayHandlersInLinks(void *,const char *,PACKED_CLASS_LINKS *,int);
-int  DisplayHandlersInLinks(void *, char *, PACKED_CLASS_LINKS *, int );
+int DisplayHandlersInLinks(void*, char*, PACKED_CLASS_LINKS*, int);
 //C     #endif
 
 //C     #if ALLOW_ENVIRONMENT_GLOBALS
@@ -16070,18 +17014,14 @@ int  DisplayHandlersInLinks(void *, char *, PACKED_CLASS_LINKS *, int );
 
 //C     #endif /* _H_msgcom */
 
-
-
-
-
 //C     #include "msgpass.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Message-passing support functions                */
@@ -16171,20 +17111,14 @@ int  DisplayHandlersInLinks(void *, char *, PACKED_CLASS_LINKS *, int );
 
 //C     #endif /* _H_object */
 
-
-
-
-
-
-
 //C     #include "objrtmch.h"
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.30  08/16/14          */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -16262,8 +17196,9 @@ const OBJECT_MODIFY = 3;
 struct classBitMap
 {
     ushort maxid;
-    char [1]map;
+    char[1] map;
 }
+
 alias classBitMap CLASS_BITMAP;
 
 //C     #define ClassBitMapSize(bmp) ((sizeof(CLASS_BITMAP) +                                      (sizeof(char) * (bmp->maxid / BITS_PER_BYTE))))
@@ -16276,8 +17211,9 @@ alias classBitMap CLASS_BITMAP;
 struct slotBitMap
 {
     ushort maxid;
-    char [1]map;
+    char[1] map;
 }
+
 alias slotBitMap SLOT_BITMAP;
 
 //C     #define SlotBitMapSize(bmp) ((sizeof(SLOT_BITMAP) +                                      (sizeof(char) * (bmp->maxid / BITS_PER_BYTE))))
@@ -16306,27 +17242,73 @@ alias objectAlphaNode OBJECT_ALPHA_NODE;
 struct objectPatternNode
 {
     uint __bitfield1;
-    uint blocked() { return (__bitfield1 >> 0) & 0x1; }
-    uint blocked(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0); return value; }
-    uint multifieldNode() { return (__bitfield1 >> 1) & 0x1; }
-    uint multifieldNode(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1); return value; }
-    uint endSlot() { return (__bitfield1 >> 2) & 0x1; }
-    uint endSlot(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2); return value; }
-    uint selector() { return (__bitfield1 >> 3) & 0x1; }
-    uint selector(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3); return value; }
-    uint whichField() { return (__bitfield1 >> 4) & 0xff; }
-    uint whichField(uint value) { __bitfield1 = (__bitfield1 & 0xfffffffffffff00f) | (value << 4); return value; }
+    uint blocked()
+    {
+        return (__bitfield1 >> 0) & 0x1;
+    }
+
+    uint blocked(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffe) | (value << 0);
+        return value;
+    }
+
+    uint multifieldNode()
+    {
+        return (__bitfield1 >> 1) & 0x1;
+    }
+
+    uint multifieldNode(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffd) | (value << 1);
+        return value;
+    }
+
+    uint endSlot()
+    {
+        return (__bitfield1 >> 2) & 0x1;
+    }
+
+    uint endSlot(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffffb) | (value << 2);
+        return value;
+    }
+
+    uint selector()
+    {
+        return (__bitfield1 >> 3) & 0x1;
+    }
+
+    uint selector(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffffff7) | (value << 3);
+        return value;
+    }
+
+    uint whichField()
+    {
+        return (__bitfield1 >> 4) & 0xff;
+    }
+
+    uint whichField(uint value)
+    {
+        __bitfield1 = (__bitfield1 & 0xfffffffffffff00f) | (value << 4);
+        return value;
+    }
+
     ushort leaveFields;
     ulong matchTimeTag;
     int slotNameID;
-    EXPRESSION *networkTest;
-    objectPatternNode *nextLevel;
-    objectPatternNode *lastLevel;
-    objectPatternNode *leftNode;
-    objectPatternNode *rightNode;
-    OBJECT_ALPHA_NODE *alphaNode;
+    EXPRESSION* networkTest;
+    objectPatternNode* nextLevel;
+    objectPatternNode* lastLevel;
+    objectPatternNode* leftNode;
+    objectPatternNode* rightNode;
+    OBJECT_ALPHA_NODE* alphaNode;
     int bsaveID;
 }
+
 alias objectPatternNode OBJECT_PATTERN_NODE;
 
 //C     struct objectAlphaNode
@@ -16343,11 +17325,11 @@ struct objectAlphaNode
 {
     patternNodeHeader header;
     ulong matchTimeTag;
-    BITMAP_HN *classbmp;
-    BITMAP_HN *slotbmp;
-    OBJECT_PATTERN_NODE *patternNode;
-    objectAlphaNode *nxtInGroup;
-    objectAlphaNode *nxtTerminal;
+    BITMAP_HN* classbmp;
+    BITMAP_HN* slotbmp;
+    OBJECT_PATTERN_NODE* patternNode;
+    objectAlphaNode* nxtInGroup;
+    objectAlphaNode* nxtTerminal;
     int bsaveID;
 }
 
@@ -16361,10 +17343,11 @@ struct objectAlphaNode
 struct objectMatchAction
 {
     int type;
-    INSTANCE_TYPE *ins;
-    SLOT_BITMAP *slotNameIDs;
-    objectMatchAction *nxt;
+    INSTANCE_TYPE* ins;
+    SLOT_BITMAP* slotNameIDs;
+    objectMatchAction* nxt;
 }
+
 alias objectMatchAction OBJECT_MATCH_ACTION;
 
 //C     #ifdef LOCALE
@@ -16379,34 +17362,28 @@ alias objectMatchAction OBJECT_MATCH_ACTION;
 //C -- alias extern LOCALE;
 
 //C        LOCALE void                  ObjectMatchDelay(void *,DATA_OBJECT *);
-void  ObjectMatchDelay(void *, DATA_OBJECT *);
+void ObjectMatchDelay(void*, DATA_OBJECT*);
 //C        LOCALE intBool               SetDelayObjectPatternMatching(void *,int);
-int  SetDelayObjectPatternMatching(void *, int );
+int SetDelayObjectPatternMatching(void*, int);
 //C        LOCALE intBool               GetDelayObjectPatternMatching(void *);
-int  GetDelayObjectPatternMatching(void *);
+int GetDelayObjectPatternMatching(void*);
 //C        LOCALE OBJECT_PATTERN_NODE  *ObjectNetworkPointer(void *);
-OBJECT_PATTERN_NODE * ObjectNetworkPointer(void *);
+OBJECT_PATTERN_NODE* ObjectNetworkPointer(void*);
 //C        LOCALE OBJECT_ALPHA_NODE    *ObjectNetworkTerminalPointer(void *);
-OBJECT_ALPHA_NODE * ObjectNetworkTerminalPointer(void *);
+OBJECT_ALPHA_NODE* ObjectNetworkTerminalPointer(void*);
 //C        LOCALE void                  SetObjectNetworkPointer(void *,OBJECT_PATTERN_NODE *);
-void  SetObjectNetworkPointer(void *, OBJECT_PATTERN_NODE *);
+void SetObjectNetworkPointer(void*, OBJECT_PATTERN_NODE*);
 //C        LOCALE void                  SetObjectNetworkTerminalPointer(void *,OBJECT_ALPHA_NODE *);
-void  SetObjectNetworkTerminalPointer(void *, OBJECT_ALPHA_NODE *);
+void SetObjectNetworkTerminalPointer(void*, OBJECT_ALPHA_NODE*);
 //C        LOCALE void                  ObjectNetworkAction(void *,int,INSTANCE_TYPE *,int);
-void  ObjectNetworkAction(void *, int , INSTANCE_TYPE *, int );
+void ObjectNetworkAction(void*, int, INSTANCE_TYPE*, int);
 //C        LOCALE void                  ResetObjectMatchTimeTags(void *);
-void  ResetObjectMatchTimeTags(void *);
+void ResetObjectMatchTimeTags(void*);
 
 //C     #endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
 
 //C     #endif /* _H_objrtmch */
 
-
-
 //C     #endif
 
-
 //C     #endif
-
-
-
