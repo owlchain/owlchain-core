@@ -1,20 +1,20 @@
 module owlchain.reasoner.reasoner;
 
 import owlchain.api.api;
-import clips;
+//import clips;
 
 class Reasoner : IOwlReasoner {
 
-    void *_theEnv;
+    //void *_theEnv;
     IOntology _ont;
 
     this(){
-        _theEnv = CreateEnvironment();
+        //_theEnv = CreateEnvironment();
 
     }
     ~this() {
-        DeallocateEnvironmentData();
-        DestroyEnvironment(_theEnv);
+        //DeallocateEnvironmentData();
+        //DestroyEnvironment(_theEnv);
     }
     
     void setOntology(IOntology ont) {
