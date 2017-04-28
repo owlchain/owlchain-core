@@ -2,8 +2,9 @@ module owlchain.ui.webapi;
 
 struct ErrorState
 {
-	string errCode;	
-	string errMessage;
+	string code;	
+	string status;
+	string strMsg;
 }
 
 // User sendTransaction
@@ -144,24 +145,32 @@ struct ReleaseQuorum
 // TrustContract Operations
 struct ValidateTrustContract
 {
-	bool status;
-	string statusMsg;
-	string contractAddress;
+	string code;
+	string status;
+	string strMsg;
+	string address;
 }
 
 struct ConfirmedTrustContract
 {
-	bool status;
-	string statusMsg;
-	string contractAddress;
+	string code;
+	string status;
+	string strMsg;
 	string title;
 }
 
-struct RunTrustContract
+struct CreateIndividual
 {
-	bool status;
-	string statusMsg;
-	string transactionID;
+	string code;
+	string status;
+	string txID;
+}
+
+struct SendCoin
+{
+	string code;
+	string status;
+	string txID;
 	int balance;
 }
 
