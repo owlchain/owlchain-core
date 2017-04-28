@@ -16,6 +16,7 @@ import owlchain.api.api;
 import owlchain.ui.webapi;
 import owlchain.shell.shell;
 import owlchain.wallet.wallet;
+import owlchain.crypto.ReedSolomon;
 
 //@rootPathFromName
 interface IBlockchainREST
@@ -99,22 +100,6 @@ class BlockchainRESTImpl : IBlockchainREST
 		logInfo("fee:" ~ to!string(fee));
 	}
 	
-	private string generateAddress()
-	{
-		auto addrNum = uniform(10000000000000000, 99999999999999999);
-		auto s = to!string(addrNum);
-		string address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
-		
-		while (confirmAddress(address) != -1)
-		{
-			addrNum = uniform(1000000000000000, 99999999999999999);
-			s = to!string(addrNum);
-			address = "TRX-" ~ s[0..5] ~ "-" ~ s[5..10] ~ "-" ~ s[10..17];
-		}
-
-		return address;
-	}
-
 	private int confirmAddress(string address)
 	{
 		foreach (int i, r; rs)
@@ -162,8 +147,8 @@ class BlockchainRESTImpl : IBlockchainREST
 		{
 			auto e = ErrorState();
 			
-			e.errCode = "01";
-			e.errMessage = "no value.";
+			e.code = "01";
+			e.strMsg = "no value.";
 			
 			json = serializeToJson(e);
 		}
@@ -180,8 +165,8 @@ class BlockchainRESTImpl : IBlockchainREST
 		{
 			auto e = ErrorState();
 
-			e.errCode = "00";
-			e.errMessage = "type is not 'SendBOS'.";
+			e.code = "00";
+			e.strMsg = "type is not 'SendBOS'.";
 
 			json = serializeToJson(e);
 		}
@@ -301,11 +286,15 @@ class BlockchainRESTImpl : IBlockchainREST
 	Json validateTrustContract(string _contents)
 	{
 		auto v = ValidateTrustContract();
-		v.status = true;
-		v.statusMsg = "Validated";
-		v.contractAddress = generateAddress();
-
- 		auto json = serializeToJson(v);
+		v.code = "00";
+		v.status = "Verify OK";
+		v.strMsg = "Please confirm to get address";
+		v.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
+		while (confirmAddress(v.address) != -1)
+		{
+			v.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
+		}
+		auto json = serializeToJson(v);
 		return json;
 	}
 
@@ -318,9 +307,10 @@ class BlockchainRESTImpl : IBlockchainREST
 		rs[rs.length - 1].txCount = 0;
 	
 		auto c = ConfirmedTrustContract();
-		c.status = true;
-		c.statusMsg = "Confirmed";
-		c.contractAddress = _contractAddress;
+		c.code = "00";
+		c.status = "Confirm OK";
+		c.strMsg = "Created new trust contract address";
+
 		c.title = _title;
 
  		auto json = serializeToJson(c);
@@ -329,30 +319,46 @@ class BlockchainRESTImpl : IBlockchainREST
 
 	Json runTrustContract(string _contractAddress, string _contents)
 	{
-		int c = confirmAddress(_contractAddress);
-		if (c != -1)
+		int ca = confirmAddress(_contractAddress);
+		if (ca != -1)
 		{
-			rs[c].txCount++;
-		}
-
-		auto r = RunTrustContract();
-
-		if (calculateBalance(_contents) > tcwallet.totalBalance)
-		{
-			r.status = false;
-			r.statusMsg = "Not enough balance.";
-		}
-		else
-		{
-			r.status = true;
-			r.statusMsg = "Success";
-			tcwallet.totalBalance -= calculateBalance(_contents);
+			rs[ca].txCount++;
 		}
 		
-		r.transactionID = _contractAddress;
-		r.balance = tcwallet.totalBalance;
+		Json json;
+		if (1)
+		{
+			auto c = CreateIndividual();
+			c.code = "00";
+			c.status = "Transaction Success";
+			c.txID = _contractAddress;
+			
+			json = serializeToJson(c);
+		}
+		else if (2)
+		{
+			if (calculateBalance(_contents) > tcwallet.totalBalance)
+			{
+				auto e = ErrorState();
+				e.code = "99";
+				e.status = "Error(97)";
+				e.strMsg = "Not enough balance.";
+				
+				json = serializeToJson(e);
+			}
+			else
+			{
+				auto s = SendCoin();
+				s.code = "00";
+				s.status = "Transaction Success";
+				s.txID = _contractAddress;
+				tcwallet.totalBalance -= calculateBalance(_contents);
+				s.balance = tcwallet.totalBalance;
+			
+				json = serializeToJson(s);
+			}
+		}
 
-		auto json = serializeToJson(r);
 		return json;
 	}
 
