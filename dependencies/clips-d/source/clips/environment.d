@@ -10,13 +10,11 @@ import core.sync.mutex:Mutex;
 class Environment 
 {
     void *m_cobj; 
-    shared Mutex m_mutex_run;
-    shared Mutex m_mutex_run_signal;
+    // Mutex m_mutex_run;
+    // Mutex m_mutex_run_signal;
     
-    this(){
+    this()  {
         m_cobj = CreateEnvironment();
-        m_mutex_run = new shared Mutex;
-        m_mutex_run_signal = new shared Mutex;
     }
 
     ~this()
@@ -105,15 +103,15 @@ class Environment
         return cast(bool)EnvUnwatch( m_cobj, cast(char*)item.toStringz );
     }
 
-    long run( long runlimit ) //shared @safe nothrow @nogc
+    long run( long runlimit ) // shared @safe nothrow @nogc
     {
         long executed;
-        m_mutex_run.lock_nothrow(); // Grab the lock before running
+        //m_mutex_run.lock(); // Grab the lock before running
         executed = EnvRun( m_cobj, runlimit ); // Run CLIPS
-        m_mutex_run_signal.lock_nothrow(); // Lock the emit signal to guarantee that another run doesn't emit first
-        m_mutex_run.unlock_nothrow(); // Unlock the run, because we have the signal lock
+        //m_mutex_run_signal.lock(); // Lock the emit signal to guarantee that another run doesn't emit first
+        //m_mutex_run.unlock(); // Unlock the run, because we have the signal lock
         //m_signal_run.emit(executed); // Emit the signal for this run
-        m_mutex_run_signal.unlock_nothrow(); // Unlock the signal
+        //m_mutex_run_signal.unlock(); // Unlock the signal
         return executed;
     }
 }
