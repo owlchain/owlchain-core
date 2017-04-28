@@ -10,13 +10,11 @@ import core.sync.mutex:Mutex;
 class Environment 
 {
     void *m_cobj; 
-    shared Mutex m_mutex_run;
-    shared Mutex m_mutex_run_signal;
+    // Mutex m_mutex_run;
+    // Mutex m_mutex_run_signal;
     
-    this(){
+    this()  {
         m_cobj = CreateEnvironment();
-        m_mutex_run = new shared Mutex;
-        m_mutex_run_signal = new shared Mutex;
     }
 
     ~this()
@@ -105,26 +103,60 @@ class Environment
         return cast(bool)EnvUnwatch( m_cobj, cast(char*)item.toStringz );
     }
 
-    long run( long runlimit ) //shared @safe nothrow @nogc
+    long run( long runlimit ) // shared @safe nothrow @nogc
     {
         long executed;
-        m_mutex_run.lock_nothrow(); // Grab the lock before running
+        //m_mutex_run.lock(); // Grab the lock before running
         executed = EnvRun( m_cobj, runlimit ); // Run CLIPS
-        m_mutex_run_signal.lock_nothrow(); // Lock the emit signal to guarantee that another run doesn't emit first
-        m_mutex_run.unlock_nothrow(); // Unlock the run, because we have the signal lock
+        //m_mutex_run_signal.lock(); // Lock the emit signal to guarantee that another run doesn't emit first
+        //m_mutex_run.unlock(); // Unlock the run, because we have the signal lock
         //m_signal_run.emit(executed); // Emit the signal for this run
-        m_mutex_run_signal.unlock_nothrow(); // Unlock the signal
+        //m_mutex_run_signal.unlock(); // Unlock the signal
         return executed;
     }
 }
 
-
 unittest {
     auto env = new Environment;
-    env.load("strips.clp");
+
+    env.build(`(clear)
+    (deftemplate girl
+        (slot name)
+        (slot sex (default female)) 
+        (slot age (default 4)))
+    (deftemplate woman
+        (slot name)
+        (slot sex (default female)) 
+        (slot age (default 25)))
+    (deftemplate boy
+        (slot name)
+        (slot sex (default male)) 
+        (slot age (default 4)))
+    (deftemplate man
+        (slot name)
+        (slot sex (default male)) 
+        (slot age (default 25)))
+    (deffacts PEOPLE
+        (man (name Man-1) (age 18)) 
+        (man (name Man-2) (age 60)) 
+        (woman (name Woman-1) (age 18)) 
+        (woman (name Woman-2) (age 60)) 
+        (woman (name Woman-3))
+        (boy (name Boy-1) (age 8)) 
+        (boy (name Boy-2))
+        (boy (name Boy-3))
+        (boy (name Boy-4))
+        (girl (name Girl-1) (age 8))
+        (girl (name Girl-2)))
+    (reset)
+    (facts)
+    `);
+    //env.load("strips.clp");
+    auto v = env.evaluate(`(facts)`);
     env.watch("all");
     env.reset();
     //env.build();
     //env.clear();
     env.run(-1);
+    writefln("clips.environment!!");
 }
