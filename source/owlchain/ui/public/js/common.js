@@ -1,393 +1,222 @@
 /*************************
-common.js
-
-common.js -> module.js 연동처리
+trust.js
 *************************/
 (function($) {
+    "use strict";
+    const CONTRACT_LIST_LOAD = "/blockchain/trustcontract/reqTrustContractList";
+    const CONTRACT_VALIDATE_LOAD = "/blockchain/trustcontract/validateTrustContract";
+    const CONTRACT_CONFIRM_LOAD = "/blockchain/trustcontract/confirmedTrustContract";
+    const CONTRACT_RUN_TEST = "/blockchain/trustcontract/runTrustContract";
+
     /*setup*/
     var _setup = function() {
-        var beepOne = $("#snd_over")[0];
-        //        $('a').bind('mouseenter', function (event) {
-        //            beepOne.pause();
-        //            beepOne.play();
-        //        });
+        var options = {
+            valueNames: ['address']
+        };
+        var hackerList = new List('table-list', options);
     };
-    $.COM = {};
-    $.COM = {
-        setup: function() {
-            $.COM._logo = $('header .logo a');
-            $.COM._new = $('article.new');
-            $.COM._main = $('article.main');
-            $.COM._dash = $('section.da');
-            $.COM._account = $('section.ac');
-            $.COM._blockInfo = $('section.bl');
-            $.COM._config = $('section.co');
-            $.COM._about = $('section.ah');
-            $.COM._footer = $('footer');
-            $.COM._wallet = $('ul.account');
-            $.COM._walletAddBtn = $('nav .wallet ');
-            $.COM._popup = $('article.popup');
-            $.COM._toggle = $.COM._account.find('.toggle dl');
-            $.COM._receiveBos = '';
-            /*  init  ************************/
-            $.COM._accountAddress = '';
-            $.COM._passPhraseStr = '';
-            $.COM._passPhrase = [];
-
-            var _mode = "test";
-            if (_mode == "test") {
-                $.COM._new.hide();
-                $.COM._main.show();
-                $.COM.setLayout("dash");
-            } else {
-                $.COM.setLoginMode("start");
-            }
-        },
-        createPhrase: function() {
-            $.FUNC.creatSeed(function(data) {
-                $.COM._passPhraseStr = data.passphrase + "";
-                var _word = data.passphrase.split(" ");
-                var _ul = $.COM._new.find('> section.phrase ul.list');
-                $.COM._passPhrase = [];
-                _ul.children().remove();
-                var _ele = '';
-                for (var i in _word) {
-                    _ele += '<li><span>' + _word[i] + '</span></li>';
-                    $.COM._passPhrase.push(_word[i]);
-                }
-                _ul.append(_ele);
-            });
-        },
-        writePhrase: function() {
-            var _ele = '';
-            var _ul = $.COM._new.find('> section.check ul.write');
-            _ul.children().remove();
-            for (var i in $.COM._passPhrase) {
-                _ele += '<li><input type="text" data-val=' + $.COM._passPhrase[i] + '></li>';
-            }
-            _ul.append(_ele);
-        },
-        loading: function() {
-            $.COM._new.addClass('loading');
-            var _param = '{ "passphrase" : "' + $.COM._passPhraseStr + '"}';
-            $.FUNC.confirmSeed(function(data) {
-                // Create Complete
-                var _time = 1000;
-                var _st = setTimeout(function() {
-                    clearTimeout(_st);
-                    _time = null;
-                    $.COM._new.hide();
-                    $.COM._new.removeClass('loading');
-                    $.COM._main.show();
-                    $.COM.setLayout("dash");
-                }, _time);
-            }, _param);
-        },
-        /*
-        login / New Accout / passPhrase
-         */
-        setLoginMode: function(mode) {
-            $.COM._new.find('> section').removeClass('on');
-            var _target = $.COM._new.find('section.' + mode).addClass('on');
-            if (mode == "start") {
-                /* recvAccountInforamation으로 수신한  addres count가 “0” 인 경우에만 이 화면이 나타나게 되고 1개 이상이면 받은
-                address로   getAccount Rest API로 call하여 대쉬보드 화면이  나타나면 됩니다.*/
-                $.COM._new.show();
-                $.COM._main.hide();
-            } else if (mode == "create") {
-                $.COM._new.show();
-                $.COM._main.hide();
-                var _time = 3000;
-                var _st = setTimeout(function() {
-                    clearTimeout(_st);
-                    _time = null;
-                    $.COM.setLoginMode('phrase');
-                }, _time);
-            } else if (mode == "phrase") {
-                $.COM.createPhrase();
-                //$.COM._new.find('section.' + mode).fadeIn();
-            } else if (mode == "check") {
-                $.COM.writePhrase();
-            } else if (mode == "loading") {
-                /*12개 단어 모두 맞아야 이동합니다.   현재는 next 누르면 넘어가게 하시면 되지만
-                 며칠내로 실제 데이타 송수신될테니 그 때는 test가   아닌 정상적인 절차로 처리 되어야 합니다.
-                 "You have not typed the passphrase correctly, please try again! "  */
-                $.COM.loading();
-            }
-        },
-        /*
-            Dashboard / Account / Block Mode
-        */
-        setLayout: function(mode) {
-            $.COM._main.find('> section').removeClass('on');
-            if (mode == "dash") {
-                $.COM._dash.addClass('on');
-                //--대쉬보드
-                var _list = $.COM._dash.find('nav > section'); //account계정리스트
-                /*
-                https://github.com/owlchain/owlchain-core/tree/PoC0/source/owlchain/ui#recvaccountinformation
-                상기 내용 참고 : 전달될 account count와 그에 해당하는 account address 전달
-               */
-                if (_list.length == 0) {
-                    $.FUNC.createCount(function(data) {
-                        $.COM._accountAddress = data.accountAddress;
-                        $.COM.addCount($.COM._accountAddress);
-                        //-------------------------------------------------------
-                        $.FUNC.getAccount(function(data) {
-                            $.COM._dash.find('.address').text(data.accountAddress);
-                            $.COM._dash.find('.coin').text(data.accountBalance.toLocaleString());
-                        }, $.COM._accountAddress);
-                    });
-                }
-            } else if (mode == "account") {
-                $.COM._account.addClass('on');
-                var _address = '';
-                $.FUNC.getAccount(function(data) {
-                    //acount
-                    $.COM._account.find('.address em').text(data.accountAddress.toLocaleString());
-                    $.COM._account.find('.account span').text(data.accountBalance.toLocaleString());
-                    $.COM._account.find('.available span').text(data.availableBalance.toLocaleString());
-                    $.COM._account.find('.pending span').text(data.pendingBalance.toLocaleString());
-                    //전역변수
-                    $.COM._accountAddress = data.accountAddress;
-                    //freezingStatus
-                    if (Boolean(data.freezingStatus)) {
-                        $('nav.freezing-cont').addClass('freezing');
-                    } else {
-                        $('nav.freezing-cont').removeClass('freezing');
-                    }
-                }, $.COM._accountAddress);
-            } else if (mode == "block") {
-                $.COM._blockInfo.addClass('on');
-                $.FUNC.getBlockInformation(function(data) {
-                    var _ele = '';
-                    var _tbody = $.COM._blockInfo.find('table tbody');
-                    _tbody.children().remove();
-                    for (var i in data) {
-                        _ele += '<tr><td>' + data[i].blockHeight + '</td><td>' + data[i].timestamp + '</td><td>' + data[i].amount.toLocaleString() + '</td><td>' + data[i].fee + '</td><td>' + data[i].generator + '</td></tr>';
-                    }
-                    _tbody.append(_ele);
-                });
-            } else if (mode == "config") {
-                $.COM._config.addClass('on');
-            } else if (mode == "about") {
-                $.COM._about.addClass('on');
-            }
-        },
-        /*
-            Set Layer Popup
-        */
-        setPopup: function(mode) {
-            if (mode == "close") {
-                $.COM._popup.removeClass('on');
-                $.COM._popup.find('section.layer').hide();
-            } else {
-                $.COM._popup.addClass('on');
-                $(mode).fadeIn('fast');
-            }
-        },
-        /*
-         */
-        setToggleMenu: function(mode) {
-            if (mode == "init") {
-                $.COM._toggle.removeClass('on');
-            } else if (mode == "receive") {
-                $.COM._toggle.eq(0).addClass('on').siblings().removeClass('on');
-            } else if (mode == "send") {
-                $.COM._toggle.eq(1).addClass('on').siblings().removeClass('on');
-            } else if (mode == "transaction") {
-                $.COM._toggle.eq(2).addClass('on').siblings().removeClass('on');
-                //myTransaction
-                $.FUNC.getAccountTransaction(function(data) {
+    /*trust-contract*/
+    var _bind = function() {
+        /*************************
+        Scene display
+        *************************/
+        function setDisplay(cls) {
+            //nav
+            _nav.removeClass('on').siblings('a[data-val=' + cls + ']').addClass('on');
+            //section
+            var _sec = _section.siblings('.' + cls);
+            _sec.addClass('on').siblings('section').removeClass('on');
+            if (cls == "s2") {
+                $.get(CONTRACT_LIST_LOAD, function(data, status) {
+                    data = data.reverse(); //역순출력
+                    var _target = $('.s2 table tbody');
+                //    _target.children().remove();
                     var _ele = '';
                     for (var i = 0; i < data.length; i++) {
-                        _ele += '<tr><td>' + data[i].type + '</td><td>' + data[i].timestamp + '</td><td>' + data[i].amount.toLocaleString() + '</td><td>' + data[i].feeOrReward + '</td> <td>' + data[i].accountAddress + '<em></em></td></tr>';
+                        _ele += '<tr><td class="no">' + data[i].no + '</td><td class="title">' + data[i].title + '</td> <td class="address">' + data[i].contractID + '</td><td class="txs">' + data[i].txCount + '</td> </tr>';
                     }
-                    $('.my-transaction table tbody').children().remove();
-                    $('.my-transaction table tbody').append(_ele)
-                }, $.COM._accountAddress);
-            }
-        },
-        /*
-        receiveBos
-        websocket.js 에서 받은 return 값
-        */
-        receiveBos: function(param) {
-            if (param.isTrusted) { //유효성체크
-                //{TEXT} 형태로 받은것을 REG 및 object로 치환
-                var _re = /[{"}]/gi,
-                    _data = {};
-                var _ary = param.data.replace(_re, '').split(',');
-                for (var i = 0; i < _ary.length; i++) {
-                    var filter = _ary[i].replace(_re, '').split(":");
-                    _data[filter[0]] = filter[1];
-                };
-                $.COM._receiveBos = _data;
-                var _receiveAddrs = _data.receiverAccountAddress;
-                var _div = $.COM._dash.find('div.address').filter(function(index) {
-                    return $(this).text() == _receiveAddrs;
+                    _target.append(_ele);
+                     console.log(data);
+                    //console.log("Data: " + data + "\nStatus: " + status);
                 });
-                $.COM.addReceiveBos(_data);
-                //$.COM.setLayout("account");
-                //$.COM.setToggleMenu("receive");
-                $.COM._dash.find('section').find('.receive').after('<i class="receive">2</i>');
-                $.COM._account.find('.toggle dl:eq(0) dt span').append('<i class="receive">2</i>');
             }
-        },
-        /*
-        add Receive BOS
-        */
-        addReceiveBos: function(data) {
-            var _ele = '<tr><td><i><img src="./images/ac_ico_receive_arrow.png"></i>Receiving..</td> <td>' + data.amount + '<em>BOS</em></td> <td>Show Detail</td></tr>';
-            $.COM._account.find('dl.receive table tbody').append(_ele);
-        },
-        /**/
-        addCount: function(address) {
-            var _ele = '<section class="clfix"><div class="pay"><a href="#"><div class="address">' + address + '</div><p class="coin">0<em>BOS</em></p></a></div><ul class="ctl clfix"> <li> <a href="#" class="receive"><img src="/images/ico_receive.png"></a> </li> <li> <a href="#" class="send"><img src="/images/ico_send.png"></a> </li> <li class="freez"> <a href="#"><img src="/images/ico_freezing.png"></a> </li> </ul> </section>';
-            $('.da nav').append(_ele);
-        },
-        end: function() {}
-    }
-    /*
-    Binding
-    */
-    var _bind = function() {
-        /*테스트코드*/
-        /*login passPhrase*/
-        $.COM._new.on('click', 'a.link', function(event) {
-            var _cls = $(this).attr('data-val');
-            var _section = $.COM._new.find('>section');
-            $.COM.setLoginMode(_cls);
-        });
-        /*대쉬보드 이동*/
-        $.COM._main.on('click', 'header .close', function(event) {
-            $.COM.setLayout("dash");
-        });
-        /*Configuration 이동*/
-        $.COM._main.on('click', 'a.config', function(event) {
-            $.COM.setLayout("config");
-        });
-        /*계정추가 add_new_account*/
-        $.COM._wallet.on('click', '.add', function(event) {
-            $.COM.setLoginMode("create");
-        });
-        /*Block Info*/
-        $.COM._dash.on('click', '.info-wrap a', function(event) {
-            $.COM.setLayout("block");
-        });
-        /*계정자세히보기*/
-        $.COM._dash.on('click', '.pay>a', function(event) {
-            $.COM.setLayout("account");
-            $.COM.setToggleMenu("init");
-            //-
-        });
-        /*Receive*/
-        $.COM._dash.on('click', '.ctl .receive', function(event) {
-            $.COM.setLayout("account");
-            $.COM.setToggleMenu("receive");
-        });
-        /*Send*/
-        $.COM._dash.on('click', '.ctl .send', function(event) {
-            $.COM.setLayout("account");
-            $.COM.setToggleMenu("send");
-        });
-        /*Toggle Freezing*/
-        $.COM._dash.on('click', '.ctl .freez', function(event) {
-            $.COM.setLayout("account");
-            $.COM.setPopup('section.un-freezing');
-        });
-        /*Set Freezing*/
-        $.COM._account.on('click', 'button.freezing', function(event) {
-            $.COM.setPopup('section.freezing');
-        });
-        /*Send BOS*/
-        $.COM._account.on('click', 'ul.form button.send', function(event) {
-            $.COM.setPopup('section.send-bos');
-        });
-        /*Send BOS Cancel*/
-        $.COM._account.on('click', 'ul.form button.cancel', function(event) {
-            $.COM.setPopup('section.send-bos-cancel');
-        });
-        /*BOS Receive,Send,Transaction,Backup*/
-        $.COM._account.on('click', '.toggle dl dt', function(event) {
-            var _dl = $(this).parents('dl');
-            var _idx = _dl.index();
-            var _param = ["receive", "send", "transaction", "backup"];
-            if (_dl.hasClass('on')) {
-                _dl.removeClass('on');
-            } else {
-                $.COM.setToggleMenu(_param[_idx]);
-            }
-            //		$(this).parents('dl').toggleClass('on');
-        });
-        /*Configuration Toggle*/
-        $.COM._config.on('click', '.toggle dl dt', function(event) {
-            $(this).parents('dl').toggleClass('on');
-        });
-        //  Configuration ->  Wallet Backup
-        $.COM._config.on('click', 'a.btn_backup', function(event) {
-            $.COM.setPopup('section.backup1');
-        });
-        /*About & Help Toggle*/
-        $.COM._about.on('click', '.toggle dl dt', function(event) {
-            $(this).parents('dl').toggleClass('on');
-        });
-        /*Footer */
-        $.COM._footer.on('click', 'a', function(event) {
-            var _mode=$(this).attr('data-val');
-            if(_mode=="main"){
-                $.COM.setLayout('dash');
-            }else if(_mode=="about" || _mode=="help"){
-                $.COM._about.find('.info-wrap').find('dl.'+_mode).addClass('on').siblings('dl').removeClass('on');
-                $.COM.setLayout('about');
-            }
-        });
-        /*팝업닫기*/
-        $.COM._popup.on('click', '.layer footer a', function(event) {
-            //팝업에 바로가기 기능이 있는지 확인여부
-            if( $(this).hasClass('link')){
-                var _target=$(this).attr('data-val');
-                console.log(_target);
-                $.COM.setPopup("."+_target);
-            }else{
-                $.COM.setPopup('close');
-            }
-        });
-        /*프리징하기*/
-        $.COM._popup.on('click', '.freezing footer a', function(event) {
-            $.COM.setPopup('close');
-            //calc
-            $('.freezing-cont').addClass('freezing');
-        });
-        /*언프리징하기*/
-        $.COM._popup.on('click', '.un-freezing footer a', function(event) {
-            $.COM.setPopup('close');
-            //calc
-            $('.freezing-cont').removeClass('freezing');
-        });
-        /*BOS보내기*/
-        $.COM._popup.on('click', '.send-bos footer a', function(event) {
-            var _params = '';
-            _params = $.COM._account.find('.account .address').text();
-            _params += "/" + $('ul.form input.receiver').val();
-            _params += "/" + $('ul.form input.amount').val();
-            _params += "/" + $('ul.form input.memo').val();
-            $.FUNC.sendBos(function(data) {
-                // Object {sendBos: true}    false일경우 필요.
-                var _chk = Boolean(data.sendBos);
-                if (_chk) {
-                    $.COM.setPopup('section.send-bos-ok');
-                } else {
-                    $.COM.setPopup('section.send-bos-cancel');
+        };
+        /*=== init =================================================*/
+        var _init = function() {
+            $('textarea').text('');
+            $('textarea').val('');
+            $('input').val('');
+            $('.s1 a.submit').removeClass('disabled');
+            $('.s1 a.confirm').addClass('disabled');
+            $('.s1 a.visual_exe').addClass('disabled');
+            $('.s1 .info ul.list').hide().eq(0).show();
+        };
+        /*=== Ajax Function =================================================*/
+        var _ajax = function(url, callBack) {
+            console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
+            $.get(url, function(data, status) {
+                console.log(data);
+                //  callBack.call(this, data);
+            }).done(function(data) {
+                if (typeof(data) != "string") {
+                    //  data.mode = "done";
                 }
-            }, _params);
+                callBack.call(this, data);
+            }).fail(function(data) {
+                //  data.mode = "fail";
+                callBack.call(this, data);
+            });
+        };
+        /*=== Selector =================================================*/
+        window.DATA_LIST = []; //Contract Address:
+        var _nav = $('header nav a');
+        var _link = $('a.link');
+        var _select = $('select.select-value');
+        var _section = $('article.wrap > section');
+        var _winPop = $('a.link-winPop'); /* windows popup */
+        var _popup = $('article.popup');
+        var _testCode = $('.s1 textarea');
+        var _testRun = $('.s4 .submit');
+        var _testVisualBtn = $('.s2 .visual_exe');
+        /*=== common =================================================*/
+        /*공통UI*/
+        _link.bind('click', function(event) {
+            var _val = $(this).attr('data-val');
+            setDisplay(_val);
+            $(this).addClass('on').siblings('a').removeClass('on');
         });
+        _select.bind('change', function(event) { // Select Option value에 의한 textarea 출력
+            var _val = $(this).find('option:selected').val();
+            var _textarea = $(this).parents('article.content').find('textarea');
+            var _str = _textarea.val() + "\n";
+            _textarea.val(_str + _val);
+            console.log(_val);
+        });
+        _winPop.bind('click', function(event) {
+            window.open("vocabulary.html", "windowNewPop", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=0,width=1000,height=800");
+        });
+        /*=== main ===============================================*/
+        $('.main a.create').bind('click', function(event) {
+            var _data = {};
+            _data.no = window.DATA_LIST.length;
+            window.DATA_LIST.push(_data);
+            $('.s1 textarea').text(''); //초기화
+            _init();
+            //  $('.s1 textarea').text(''); //초기화
+        });
+        /*=== s1 =================================================*/
+        $('.s1 a.submit').bind('click', function(event) { //submit
+            event.preventDefault();
+            var _this = $(this);
+            var _title = $('#s1_tit').val();
+
+            $('.s1 .anc_gb').removeClass('on');
+            //#
+            $('.s1 a.submit').addClass('disabled');
+            $('.s1 a.confirm').removeClass('disabled');
+            _ajax(CONTRACT_VALIDATE_LOAD + "/" + _title, function(data) {
+                window.ContractID = data.tempContractID;
+                window.contractAddress = data.contractAddress;
+                $('.s1 textarea').text(data.statusMsg);
+                $('.s1 a.visual_exe').removeClass('disabled');
+                $('.s1 .info ul.list').hide().eq(0).show();
+            });
+
+        });
+        $('.s1 a.confirm').bind('click', function(event) { //submit
+            event.preventDefault();
+            var _this = $(this);
+            var _title = $('#s1_tit').val();
+            $('.s1 a.submit').addClass('disabled');
+            //$('.s1 a.confirm').addClass('disabled');
+            _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress + "/" + _title, function(data) {
+                $('.s1 textarea').text(data.statusMsg);
+                $('.s1 .info ul.list').hide().eq(1).show();
+                $('.s1 .info ul.list').find('.data-title').text(_title);
+                $('.s1 .info ul.list').find('.data-address').text(window.contractAddress);
+            });
+        });
+        $('.s1 dd a.anc_gb').bind('click', function(event) {
+            event.preventDefault();
+            var _chk = $(this).hasClass('on');
+            if (!_chk) {} else {}
+        });
+        $('.s1 a.visual_exe').bind('click', function(event) {
+            event.preventDefault();
+            var _chk = $(this).hasClass('disabled');
+            if (!_chk) {
+                //    $(this).text('Confirm');
+                $('p.ui-visual').show();
+                $('.s1 .ui-visual').append('<iframe width="100%" height="400px" src="./libs/webvowl/index.html" frameborder="0"></iframe>');
+            }
+        });
+        /*=== s2 =================================================*/
+        /*=== s3 =================================================*/
+        $('.s3 .toggle dl dt').bind('click', function(event) {
+            $(this).parents('dl').toggleClass('on');
+            var _dl = $(this).parents('dl');
+            var _textarea = _dl.find('dd textarea');
+            var _idx = _dl.index();
+            var _url = '';
+            if (_idx == 0) {
+                _url = "./ajax/RealEstateLeaseContract6.sdl";
+            } else if (_idx == 1) {
+                _url = "./ajax/voting.sdl";
+            } else if (_idx == 2) {
+                _url = "./ajax/Crowdfunding.sdl";
+            } else if (_idx == 3) {
+                _url = "./ajax/HelloCoin.sdl";
+            }
+            _ajax(_url, function(data) {
+                _textarea.val(data);
+            });
+        });
+        $('.s3 a.copy-code').bind('click', function(event) {
+            var _code = $(this).parents('dd').find('textarea').val();
+            _testCode.val(_code);
+        });
+        _testRun.bind('click', function(event) {
+            _testVisualBtn.removeClass('disabled');
+        });
+        _testVisualBtn.bind('click', function(event) {
+
+        });
+        /*=== s4 =================================================*/
+        $('.s4 .submit').bind('click', function(event) {
+            var _title = $('#s2_tit').val();
+            var _textarea = $('.s4 textarea');
+            _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _textarea.val(), function(data) {
+                var _ul=$('.s4 .info ul.list');
+                _ul.children().remove();
+                var _ele='';
+                console.log(data);
+                for( var i in data){
+                    _ele+='<li><span class="tit">'+i+'</span><span class="value">'+data[i]+'</span></li>';
+                }
+                _ul.append(_ele);
+                /*
+                if (_mode == "done") {
+                    $('.s4 .info ul.list li').show();
+                    $('.s4 .info ul.list span.data-tx').text(data.transactionID);
+                    $('.s4 .info ul.list span.data-status').text("statusMsg ( " + data.statusMsg + " )");
+                    $('.s4 .info ul.list span.data-balance').text(data.balance);
+                } else if (_mode == "fail") {
+                    $('.s4 .info ul.list span.data-tx').parents('li').hide();
+                    $('.s4 .info ul.list span.data-status').text("statusMsg ( false )");
+                    $('.s4 .info ul.list span.data-balance').parents('li').hide();
+                }
+                */
+                //  $('.s4 textarea').text(data.statusMsg);
+                $('.s4 .info').show();
+            });
+        })
+        //init
+        _init();
     }
-
+    /*ADD_ACCOUNT
+     */
     $(document).ready(function() {
-        _setup();
-
-        $.COM.setup();
+        //  _setup();
         _bind();
     });
 })($);

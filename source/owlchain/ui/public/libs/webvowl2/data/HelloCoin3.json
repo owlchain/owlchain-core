@@ -1,0 +1,51 @@
+{
+  "_comment" : "Created with OWL2VOWL (version 0.3.1), http://vowl.visualdataweb.org",
+  "header" : {
+    "baseIris" : [ "http://boscoin.io/ontology/HelloWorldCoin/", "http://www.w3.org/2000/01/rdf-schema", "http://www.w3.org/2001/XMLSchema", "http://www.semanticweb.org/techny/ontologies/finance_ontolgy" ],
+    "iri" : "http://boscoin.io/ontology/HelloWorldCoin/"
+  },
+  "namespace" : [ ],
+  "metrics" : {
+    "classCount" : 2,
+    "objectPropertyCount" : 0,
+    "datatypePropertyCount" : 0,
+    "individualCount" : 1
+  },
+  "class" : [ {
+    "id" : "0",
+    "type" : "owl:Class"
+  }, {
+    "id" : "1",
+    "type" : "owl:Class"
+  } ],
+  "classAttribute" : [ {
+    "iri" : "http://boscoin.io/ontology/HelloWorldCoin/#HelloWorldCoin",
+    "baseIri" : "http://boscoin.io/ontology/HelloWorldCoin/",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "HelloWorldCoin"
+    },
+    "id" : "0",
+    "superClasses" : [ "1" ]
+  }, {
+    "iri" : "http://www.semanticweb.org/techny/ontologies/finance_ontolgy#Coin",
+    "baseIri" : "http://www.semanticweb.org/techny/ontologies/finance_ontolgy",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Coin"
+    },
+    "subClasses" : [ "0" ],
+    "attributes" : [ "external" ],
+    "id" : "1"
+  } ],
+  "property" : [ {
+    "id" : "2",
+    "type" : "rdfs:SubClassOf"
+  } ],
+  "propertyAttribute" : [ {
+    "range" : "1",
+    "domain" : "0",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "2"
+  } ]
+}
