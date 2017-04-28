@@ -46,6 +46,9 @@ trust.js
             $('textarea').text('');
             $('textarea').val('');
             $('input').val('');
+            $('.s1 a.submit').removeClass('disabled');
+            $('.s1 a.confirm').addClass('disabled');
+                $('.s1 a.visual_exe').addClass('disabled');
         };
         /*=== Ajax Function =================================================*/
         var _ajax = function(url, callBack) {
@@ -54,12 +57,12 @@ trust.js
                 console.log(data);
                 //  callBack.call(this, data);
             }).done(function(data) {
-                if( typeof(data)!="string"){
-                    data.mode = "done";
+                if (typeof(data) != "string") {
+                    //  data.mode = "done";
                 }
                 callBack.call(this, data);
             }).fail(function(data) {
-                data.mode = "fail";
+                //  data.mode = "fail";
                 callBack.call(this, data);
             });
         };
@@ -105,26 +108,32 @@ trust.js
             event.preventDefault();
             var _this = $(this);
             var _title = $('#s1_tit').val();
-            if (_this.hasClass('confirm')) {
-                _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress + "/" + _title, function(data) {
-                    $('.s1 textarea').text(data.statusMsg);
-                    $('.s1 .info ul.list').hide().eq(1).show();
-                    $('.s1 .info ul.list').find('.data-title').text(_title);
-                    $('.s1 .info ul.list').find('.data-address').text(window.contractAddress);
-                });
-            } else {
-                _this.addClass('confirm');
-                $('.s1 .anc_gb').removeClass('on');
-                //#
-                _ajax(CONTRACT_VALIDATE_LOAD + "/" + _title, function(data) {
-                    window.ContractID = data.tempContractID;
-                    window.contractAddress = data.contractAddress;
-                    $('.s1 textarea').text(data.statusMsg);
-                    $('.s1 a.visual_exe').removeClass('disabled');
-                    $('.s1 .info ul.list').hide().eq(0).show();
-                    _this.text('Confirm');
-                });
-            }
+
+            $('.s1 .anc_gb').removeClass('on');
+            //#
+            $('.s1 a.submit').addClass('disabled');
+            $('.s1 a.confirm').removeClass('disabled');
+            _ajax(CONTRACT_VALIDATE_LOAD + "/" + _title, function(data) {
+                window.ContractID = data.tempContractID;
+                window.contractAddress = data.contractAddress;
+                $('.s1 textarea').text(data.statusMsg);
+                $('.s1 a.visual_exe').removeClass('disabled');
+                $('.s1 .info ul.list').hide().eq(0).show();
+            });
+
+        });
+        $('.s1 a.confirm').bind('click', function(event) { //submit
+            event.preventDefault();
+            var _this = $(this);
+            var _title = $('#s1_tit').val();
+            $('.s1 a.submit').addClass('disabled');
+            //$('.s1 a.confirm').addClass('disabled');
+            _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress + "/" + _title, function(data) {
+                $('.s1 textarea').text(data.statusMsg);
+                $('.s1 .info ul.list').hide().eq(1).show();
+                $('.s1 .info ul.list').find('.data-title').text(_title);
+                $('.s1 .info ul.list').find('.data-address').text(window.contractAddress);
+            });
         });
         $('.s1 dd a.anc_gb').bind('click', function(event) {
             event.preventDefault();
@@ -176,7 +185,15 @@ trust.js
             var _title = $('#s2_tit').val();
             var _textarea = $('.s4 textarea');
             _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _textarea.val(), function(data) {
-                var _mode = data.mode;
+                var _ul=$('.s4 .info ul.list');
+                _ul.children().remove();
+                var _ele='';
+                console.log(data);
+                for( var i in data){
+                    _ele+='<li><span class="tit">'+i+'</span><span class="value">'+data[i]+'</span></li>';
+                }
+                _ul.append(_ele);
+                /*
                 if (_mode == "done") {
                     $('.s4 .info ul.list li').show();
                     $('.s4 .info ul.list span.data-tx').text(data.transactionID);
@@ -187,7 +204,8 @@ trust.js
                     $('.s4 .info ul.list span.data-status').text("statusMsg ( false )");
                     $('.s4 .info ul.list span.data-balance').parents('li').hide();
                 }
-                $('.s4 textarea').text(data.statusMsg);
+                */
+                //  $('.s4 textarea').text(data.statusMsg);
                 $('.s4 .info').show();
             });
         })
