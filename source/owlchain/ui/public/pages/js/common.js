@@ -149,11 +149,13 @@ trust.js
             var _idx = _dl.index();
             var _url = '';
             if (_idx == 0) {
-                _url = "./ajax/RealEstateLease.sdl";
+                _url = "./ajax/RealEstateLeaseContract6.sdl";
             } else if (_idx == 1) {
                 _url = "./ajax/voting.sdl";
             } else if (_idx == 2) {
                 _url = "./ajax/Crowdfunding.sdl";
+            } else if (_idx == 3) {
+                _url = "./ajax/HelloCoin.sdl";
             }
             _ajax(_url, function(data) {
                 _textarea.val(data);
