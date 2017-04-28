@@ -57,7 +57,7 @@ textarea{ display:block; width:100%; padding:3px 10px 80px 20px; color:#FFF; fon
 .editor-wrap .info .btn-wrap a {display:inline-block; margin:5px 3px;}
 .editor-wrap .info .list{padding:10px 0;}
 .editor-wrap .info .list span{ color:#FFF; font-size:14px;}
-.editor-wrap .info .list span.tit{ display:inline-block; position:relative; width:80px; margin-right:20px; font-weight: bold; }
+.editor-wrap .info .list span.tit{ display:inline-block; position:relative; width:120px; margin-right:20px; font-weight: bold; }
 .editor-wrap .info .list span.tit:after{ position:absolute; right:0; top:0; content:':'; }
 .editor-wrap .title-menu dt { padding:12px 0 0 12px;}
 /*main*/
@@ -75,7 +75,8 @@ a.anc_gb.disabled:hover{ border:1px solid transparent; background:#959595; }
 
 /*s1*/
 .s1 .submit-wrap{ width:464px; margin:15px auto; text-align: center; }
-.s1 .submit-wrap a{ display:block; }
+.s1 .submit-wrap a{ display:inline-block; margin:0 10px;padding:10px 30px; }
+
 .content dl dd input{ width:100%; }
 .content dl dd select { width: 200px; padding:5px 10px;}
 .content dl dd select option { padding:8px; }
