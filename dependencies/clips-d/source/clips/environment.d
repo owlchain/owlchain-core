@@ -118,13 +118,47 @@ class Environment
     }
 }
 
-
 unittest {
     auto env = new Environment;
-    env.load("strips.clp");
+
+    env.build(`(clear)
+    (deftemplate girl
+        (slot name)
+        (slot sex (default female)) 
+        (slot age (default 4)))
+    (deftemplate woman
+        (slot name)
+        (slot sex (default female)) 
+        (slot age (default 25)))
+    (deftemplate boy
+        (slot name)
+        (slot sex (default male)) 
+        (slot age (default 4)))
+    (deftemplate man
+        (slot name)
+        (slot sex (default male)) 
+        (slot age (default 25)))
+    (deffacts PEOPLE
+        (man (name Man-1) (age 18)) 
+        (man (name Man-2) (age 60)) 
+        (woman (name Woman-1) (age 18)) 
+        (woman (name Woman-2) (age 60)) 
+        (woman (name Woman-3))
+        (boy (name Boy-1) (age 8)) 
+        (boy (name Boy-2))
+        (boy (name Boy-3))
+        (boy (name Boy-4))
+        (girl (name Girl-1) (age 8))
+        (girl (name Girl-2)))
+    (reset)
+    (facts)
+    `);
+    //env.load("strips.clp");
+    auto v = env.evaluate(`(facts)`);
     env.watch("all");
     env.reset();
     //env.build();
     //env.clear();
     env.run(-1);
+    writefln("clips.environment!!");
 }
