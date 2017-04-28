@@ -9,25 +9,25 @@ import vibe.core.concurrency : receive;
 import core.time;
 import std.functional;
 
-class OCCPRequest : IOCCPRequest {
-    OCCPMethod _method;
+class OCPRequest : IOCPRequest {
+    OCPMethod _method;
 
-    OCCPMethod getMethod() {
+    OCPMethod getMethod() {
         return _method;
     }
-    void setMethod(OCCPMethod method) {
+    void setMethod(OCPMethod method) {
       _method = method;
     }
 }
 
-class OCCPResponse : IOCCPResponse {
+class OCPResponse : IOCPResponse {
 
 }
 
-class OCCPListener : IOCCPListener {
+class OCPListener : IOCPListener {
     Task _reqTask;
     Task _resTask;
-    IOCCPSettings _settings;
+    IOCPSettings _settings;
     
     Task getReqTask() {
         return _reqTask;
@@ -41,16 +41,16 @@ class OCCPListener : IOCCPListener {
     void setResTask(Task task) {
         _resTask = task;
     } 
-    IOCCPSettings getSettings() {
+    IOCPSettings getSettings() {
         return _settings;
     }
     
-    void setSettings(IOCCPSettings settings) {
+    void setSettings(IOCPSettings settings) {
         _settings = settings;
     }
 }
 
-class OCCPSettings : IOCCPSettings {
+class OCPSettings : IOCPSettings {
 
 }
 
@@ -71,11 +71,11 @@ class Shell : IShell {
         return _blockchain;
     }
 
-    IOCCPListener listenOCCP(IOCCPSettings settings, OCCPRequestDeligate requestHandler) {
-        auto req = new OCCPRequest; 
-        req.setMethod(OCCPMethod.OM_ReceiveBos);
+    IOCPListener listenOCP(IOCPSettings settings, OCPRequestDeligate requestHandler) {
+        auto req = new OCPRequest; 
+        req.setMethod(OCPMethod.OM_ReceiveBos);
 
-        auto res = new OCCPResponse;
+        auto res = new OCPResponse;
         
         auto reqTask = runTask({
             sleep(5.seconds);
@@ -86,16 +86,16 @@ class Shell : IShell {
             while(true){
                 receive(
                     (string msg) {
-                        logInfo("listenOCCP resTask: %s", msg);
+                        logInfo("listenOCP resTask: %s", msg);
                     },
                     (string msg, ulong time) {
-                        logInfo("listenOCCP Time: %d msg: %s", time, msg);
+                        logInfo("listenOCP Time: %d msg: %s", time, msg);
                     }
                 );
             }
         });
 
-        auto listener = new OCCPListener;
+        auto listener = new OCPListener;
         listener.setSettings(settings);
         listener.setReqTask(reqTask);
         listener.setResTask(resTask);

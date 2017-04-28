@@ -1,5 +1,5 @@
 import std.stdio;
-import clips;
+import clips.c.clips;
 
 int main( string[] argv)
  {
