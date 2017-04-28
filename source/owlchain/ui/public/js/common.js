@@ -30,13 +30,13 @@ trust.js
                 $.get(CONTRACT_LIST_LOAD, function(data, status) {
                     data = data.reverse(); //역순출력
                     var _target = $('.s2 table tbody');
-                //    _target.children().remove();
+                    //    _target.children().remove();
                     var _ele = '';
                     for (var i = 0; i < data.length; i++) {
                         _ele += '<tr><td class="no">' + data[i].no + '</td><td class="title">' + data[i].title + '</td> <td class="address">' + data[i].contractID + '</td><td class="txs">' + data[i].txCount + '</td> </tr>';
                     }
                     _target.append(_ele);
-                     console.log(data);
+                    console.log(data);
                     //console.log("Data: " + data + "\nStatus: " + status);
                 });
             }
@@ -105,25 +105,24 @@ trust.js
             //  $('.s1 textarea').text(''); //초기화
         });
         /*=== s1 =================================================*/
-        $('.s1 a.submit').bind('click', function(event) { //submit
+        // Submit
+        $('.s1 a.submit').bind('click', function(event) {
             event.preventDefault();
             var _this = $(this);
             var _title = $('#s1_tit').val();
-
             $('.s1 .anc_gb').removeClass('on');
-            //#
             $('.s1 a.submit').addClass('disabled');
             $('.s1 a.confirm').removeClass('disabled');
             _ajax(CONTRACT_VALIDATE_LOAD + "/" + _title, function(data) {
                 window.ContractID = data.tempContractID;
                 window.contractAddress = data.contractAddress;
                 $('.s1 textarea').text(data.statusMsg);
-                $('.s1 a.visual_exe').removeClass('disabled');
+
                 $('.s1 .info ul.list').hide().eq(0).show();
             });
-
         });
-        $('.s1 a.confirm').bind('click', function(event) { //submit
+        // Confirm
+        $('.s1 a.confirm').bind('click', function(event) {
             event.preventDefault();
             var _this = $(this);
             var _title = $('#s1_tit').val();
@@ -134,6 +133,7 @@ trust.js
                 $('.s1 .info ul.list').hide().eq(1).show();
                 $('.s1 .info ul.list').find('.data-title').text(_title);
                 $('.s1 .info ul.list').find('.data-address').text(window.contractAddress);
+                $('.s1 a.visual_exe').removeClass('disabled');
             });
         });
         $('.s1 dd a.anc_gb').bind('click', function(event) {
@@ -143,11 +143,20 @@ trust.js
         });
         $('.s1 a.visual_exe').bind('click', function(event) {
             event.preventDefault();
+            var _title = $('#s1_tit').val();
             var _chk = $(this).hasClass('disabled');
             if (!_chk) {
                 //    $(this).text('Confirm');
                 $('p.ui-visual').show();
-                $('.s1 .ui-visual').append('<iframe width="100%" height="400px" src="./libs/webvowl/index.html" frameborder="0"></iframe>');
+                if (_title.indexOf("Coin") !== -1) {
+                    console.log('coin');
+                    var _load = '<iframe width="100%" height="400px" src="./libs/webvowl/index.html" frameborder="0"></iframe>';
+                } else if (_title.indexOf("Real") !== -1) {
+                    console.log('Real');
+                    var _load = '<iframe width="100%" height="400px" src="./libs/webvowl2/index.html" frameborder="0"></iframe>';
+                }
+
+                $('.s1 .ui-visual').append(_load);
             }
         });
         /*=== s2 =================================================*/
@@ -186,12 +195,12 @@ trust.js
             var _title = $('#s2_tit').val();
             var _textarea = $('.s4 textarea');
             _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _textarea.val(), function(data) {
-                var _ul=$('.s4 .info ul.list');
+                var _ul = $('.s4 .info ul.list');
                 _ul.children().remove();
-                var _ele='';
+                var _ele = '';
                 console.log(data);
-                for( var i in data){
-                    _ele+='<li><span class="tit">'+i+'</span><span class="value">'+data[i]+'</span></li>';
+                for (var i in data) {
+                    _ele += '<li><span class="tit">' + i + '</span><span class="value">' + data[i] + '</span></li>';
                 }
                 _ul.append(_ele);
                 /*
