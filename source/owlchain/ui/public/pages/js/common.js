@@ -26,7 +26,6 @@ trust.js
             //section
             var _sec = _section.siblings('.' + cls);
             _sec.addClass('on').siblings('section').removeClass('on');
-
             if (cls == "s2") {
                 $.get(CONTRACT_LIST_LOAD, function(data, status) {
                     data = data.reverse(); //역순출력
@@ -55,7 +54,9 @@ trust.js
                 console.log(data);
                 //  callBack.call(this, data);
             }).done(function(data) {
-                data.mode = "done";
+                if( typeof(data)!="string"){
+                    data.mode = "done";
+                }
                 callBack.call(this, data);
             }).fail(function(data) {
                 data.mode = "fail";
@@ -68,7 +69,7 @@ trust.js
         var _link = $('a.link');
         var _select = $('select.select-value');
         var _section = $('article.wrap > section');
-        var _winPop = $('a.winPop'); /* windows popup */
+        var _winPop = $('a.link-winPop'); /* windows popup */
         var _popup = $('article.popup');
         var _testCode = $('.s1 textarea');
         var _testRun = $('.s4 .submit');
@@ -89,23 +90,6 @@ trust.js
         });
         _winPop.bind('click', function(event) {
             window.open("vocabulary.html", "windowNewPop", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=0,width=1000,height=800");
-        });
-        $('.toggle dl dt').bind('click', function(event) {
-            $(this).parents('dl').toggleClass('on');
-            var _dl = $(this).parents('dl');
-            var _textarea = _dl.find('dd textarea');
-            var _idx = _dl.index();
-            var _url = '';
-            if (_idx == 0) {
-                _url = "./ajax/RealEstateLease.sdl";
-            } else if (_idx == 1) {
-                _url = "./ajax/voting.sdl";
-            } else if (_idx == 2) {
-                _url = "./ajax/Crowdfunding.sdl";
-            }
-            _ajax(_url, function(data) {
-                _textarea.text(data);
-            });
         });
         /*=== main ===============================================*/
         $('.main a.create').bind('click', function(event) {
@@ -158,9 +142,28 @@ trust.js
         });
         /*=== s2 =================================================*/
         /*=== s3 =================================================*/
+        $('.s3 .toggle dl dt').bind('click', function(event) {
+            $(this).parents('dl').toggleClass('on');
+            var _dl = $(this).parents('dl');
+            var _textarea = _dl.find('dd textarea');
+            var _idx = _dl.index();
+            var _url = '';
+            if (_idx == 0) {
+                _url = "./ajax/RealEstateLeaseContract6.sdl";
+            } else if (_idx == 1) {
+                _url = "./ajax/voting.sdl";
+            } else if (_idx == 2) {
+                _url = "./ajax/Crowdfunding.sdl";
+            } else if (_idx == 3) {
+                _url = "./ajax/HelloCoin.sdl";
+            }
+            _ajax(_url, function(data) {
+                _textarea.val(data);
+            });
+        });
         $('.s3 a.copy-code').bind('click', function(event) {
-            var _code = $(this).parents('dd').find('textarea').text();
-            _testCode.text(_code);
+            var _code = $(this).parents('dd').find('textarea').val();
+            _testCode.val(_code);
         });
         _testRun.bind('click', function(event) {
             _testVisualBtn.removeClass('disabled');
@@ -174,8 +177,8 @@ trust.js
             var _textarea = $('.s4 textarea');
             _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _textarea.val(), function(data) {
                 var _mode = data.mode;
-                console.log(_mode);
                 if (_mode == "done") {
+                    $('.s4 .info ul.list li').show();
                     $('.s4 .info ul.list span.data-tx').text(data.transactionID);
                     $('.s4 .info ul.list span.data-status').text("statusMsg ( " + data.statusMsg + " )");
                     $('.s4 .info ul.list span.data-balance').text(data.balance);

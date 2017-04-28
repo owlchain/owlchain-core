@@ -1,0 +1,117 @@
+@prefix http://boscoin.io/ontology/rentalcontract
+@prefix rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+@prefix owl="http://www.w3.org/2002/07/owl#"
+@prefix xml="http://www.w3.org/XML/1998/namespace"
+@prefix boscoin="http://boscoin.io/ontology/rentalcontract.owl#"
+@prefix xsd="http://www.w3.org/2001/XMLSchema#"
+@prefix rdfs="http://www.w3.org/2000/01/rdf-schema#"
+@prefix foaf="http://xmlns.com/foaf/0.1/"
+
+rdf:RDF{
+     owl:Ontology rdf:about="http://boscoin.io/ontology/rentalcontract"
+    
+     owl:AnnotationProperty rdf:about="http://www.w3.org/2002/07/owl#sameAs"    
+
+     rdfs:Datatype rdf:about="http://www.w3.org/2001/XMLSchema#date"
+
+     owl:ObjectProperty rdf:about="#hasContractor"{
+         rdfs:domain rdf:resource="#RentalContract"
+         rdfs:range rdf:resource="#Lessee"
+         rdfs:range rdf:resource="#Lessor"}
+
+     owl:ObjectProperty rdf:about="#hasRealEstate"{
+         rdfs:domain rdf:resource="#RentalContract"
+         rdfs:range rdf:resource="#RealEstate"}
+
+     owl:DatatypeProperty rdf:about="#RentalEndingDate"{
+         rdfs:domain rdf:resource="#RentalContract"
+         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"}
+
+     owl:DatatypeProperty rdf:about="#RentalStartingDate"{
+         rdfs:domain rdf:resource="#RentalContract"
+         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"}
+
+     owl:DatatypeProperty rdf:about="#address"{
+         rdfs:domain rdf:resource="#Lessee"
+         rdfs:domain rdf:resource="#Lessor"
+         rdfs:domain rdf:resource="#RealEstate"
+         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"}
+
+     owl:DatatypeProperty rdf:about="#businessRegistrationNumber"{
+         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"}
+
+     owl:DatatypeProperty rdf:about="#initialDeposit"{
+         rdfs:domain rdf:resource="#RentalContract"
+         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"}
+
+     owl:DatatypeProperty rdf:about="#monthlypayment"{
+         rdfs:domain rdf:resource="#RentalContract"
+         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"}
+
+     owl:DatatypeProperty rdf:about="#phoneNo"{
+         rdfs:domain rdf:resource="#Lessee"
+         rdfs:domain rdf:resource="#Lessor"}
+
+     owl:DatatypeProperty rdf:about="#registrationNumber"{
+         rdfs:domain rdf:resource="#Lessee"
+         rdfs:domain rdf:resource="#Lessor"
+         rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"}
+
+     owl:DatatypeProperty rdf:about="http://xmlns.com/foaf/0.1/name"{
+         rdfs:domain rdf:resource="#Lessee"
+         rdfs:domain rdf:resource="#Lessor"}
+
+     owl:Class rdf:about="#ContractOutline"
+
+     owl:Class rdf:about="#Lessee"{
+         rdfs:subClassOf rdf:resource="#Person"}
+
+     owl:Class rdf:about="#Lessor"{
+         rdfs:subClassOf rdf:resource="#Person"}
+
+     owl:Class rdf:about="#Operation"
+
+     owl:Class rdf:about="#Person"{
+         owl:sameAs{http://xmlns.com/foaf/0.1/Person /owl:sameAs{
+
+     owl:Class rdf:about="#RealEstate"{
+         rdfs:subClassOf rdf:resource="#ContractOutline"}
+
+     owl:Class rdf:about="#RentalContract"{
+         rdfs:subClassOf rdf:resource="#ContractOutline"}
+
+     owl:Class rdf:about="#Send"{
+         rdfs:subClassOf rdf:resource="#Operation"}
+
+
+
+
+     owl:NamedIndividual rdf:about="#Lessee01"{
+         rdf:type rdf:resource="#Lessee"
+         address "165, Yeoksam-ro, Gangnam-gu, Seoul, Republic of Korea"
+         phoneNo "02-123-4567"
+         registrationNumber "123456-1001234"
+	 foaf:name "Hong Kil Dong"}
+
+     owl:NamedIndividual rdf:about="#Lessor01"{
+         rdf:type rdf:resource="#Lessor"
+         address "166, Yeoksam-ro, Gangnam-gu, Seoul, Republic of Korea"
+         phoneNo "02-234-5678"
+         registrationNumber "234567-1002345"
+	 foaf:name "Kim Chul Soo"}
+
+     owl:NamedIndividual rdf:about="#RealEstate01"{
+         rdf:type rdf:resource="#RealEstate"
+	 address "167, Yeoksam-ro, Gangnam-gu, Seoul, Republic of Korea"}
+
+     owl:NamedIndividual rdf:about="#RentalContract01"{
+         rdf:type rdf:resource="#RentalContract"
+         hasContractor rdf:resource="#Lessee01"
+         hasContractor rdf:resource="#Lessor01"
+         hasRealEstate rdf:resource="#RealEstate01"
+         RentalEndingDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date" 2019-05-02
+         RentalStartingDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date" 2017-05-02
+         initialDeposit rdf:datatype="http://www.w3.org/2001/XMLSchema#integer" 10000
+	 monthlypayment rdf:datatype="http://www.w3.org/2001/XMLSchema#integer" 200}
+}
+
