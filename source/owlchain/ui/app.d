@@ -342,7 +342,7 @@ class BlockchainRESTImpl : IBlockchainREST
 				c.accountAddress = encodeWithPrefix("HWC", uniform(0L, 1000000000000000000L));
 			}	
 			tcwallet.address = c.accountAddress;
-			tcwallet.balance = 100000;
+			tcwallet.totalBalance = 100000;
 
 			json = serializeToJson(c);
 		}
