@@ -148,7 +148,6 @@ struct ValidateTrustContract
 	string code;
 	string status;
 	string strMsg;
-	string address;
 }
 
 struct ConfirmedTrustContract

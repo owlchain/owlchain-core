@@ -64,8 +64,8 @@ interface IBlockchainREST
  	Json validateTrustContract(string _contents);
 
 	@method(HTTPMethod.GET)
- 	@path("/blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title")
- 	Json confirmedTrustContract(string _contractAddress, string _title);
+ 	@path("/blockchain/trustcontract/confirmedTrustContract/:title")
+ 	Json confirmedTrustContract(string _title);
 
 	@method(HTTPMethod.GET)
  	@path("/blockchain/trustcontract/runTrustContract/:contractAddress/:contents")
@@ -313,31 +313,28 @@ class BlockchainRESTImpl : IBlockchainREST
 		v.code = "00";
 		v.status = "Verify OK";
 		v.strMsg = "Please confirm to get address";
-		v.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
-		while (confirmAddress(v.address) != -1)
-		{
-			v.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
-		}
-
 		auto json = serializeToJson(v);
 		return json;
 	}
 
-	Json confirmedTrustContract(string _contractAddress, string _title)
+	Json confirmedTrustContract(string _title)
 	{
-		rs.length++;
-		rs[rs.length - 1].no = rs.length;
-		rs[rs.length - 1].contractID = _contractAddress;
-		rs[rs.length - 1].title = _title;
-		rs[rs.length - 1].txCount = 0;
-	
 		auto c = ConfirmedTrustContract();
 		c.code = "00";
 		c.status = "Confirm OK";
 		c.strMsg = "Created new trust contract address";
-
 		c.title = _title;
-		c.address = _contractAddress;
+		c.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
+		while (confirmAddress(c.address) != -1)
+		{
+			c.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
+		}
+
+		rs.length++;
+		rs[rs.length - 1].no = rs.length;
+		rs[rs.length - 1].contractID = c.address;
+		rs[rs.length - 1].title = c.title;
+		rs[rs.length - 1].txCount = 0;
 
  		auto json = serializeToJson(c);
 		return json;
