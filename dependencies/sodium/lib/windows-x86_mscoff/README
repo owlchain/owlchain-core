@@ -1,0 +1,14 @@
+General Note:
+While I'm not a fan of deploying binaries, I do this here for testing puposes and lazy users,
+though I recommend to get Your own copies from https://download.libsodium.org/libsodium/releases/ or build from source.
+
+
+This folder has to be populated at least with file libsodium.lib (COFF format for -m32mscoff, 32 bit) (import library or static lib).
+
+
+At Your option (if You opted for the import library) place the .dll here as well (or within %PATH%), and dub.json (copyFiles-windows-*)
+will copy the .dll to directory 'targetPath' (in turn for possibly different Windows builds), thus this ensures, that always the
+matching pair of import lib and .dll is used; requires adding 'targetPath' (/lib) to %PATH%.
+
+The files included are from https://download.libsodium.org/libsodium/releases/libsodium-1.0.12-msvc.zip,
+folder ...\libsodium-1.0.12-msvc\Win32\Release\v140\dynamic  (Visual Studio 2015)

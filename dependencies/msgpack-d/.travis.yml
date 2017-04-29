@@ -1,0 +1,28 @@
+language: d
+
+os:
+  - linux
+  - osx
+
+d:
+  - dmd
+  - gdc
+  - ldc
+
+install:
+
+script:
+  - dub test
+
+branches:
+  only:
+    - master
+
+notifications:
+  email: true
+
+sudo: false
+
+matrix:
+  allow_failures:
+    - d: ldc

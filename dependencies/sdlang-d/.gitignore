@@ -1,0 +1,15 @@
+
+/.dub
+/obj
+/bin
+*.pnps
+/*.a
+/*.lib
+
+/docs/docs.json
+/docs/public/sdlang/
+/docs/public/file_hashes.json
+/docs/public/index.html
+/docs/public/sdlang.html
+/docs/public/sitemap.xml
+/docs/public/symbols.js

@@ -1,0 +1,8 @@
+﻿{
+	"name": "rest-example",
+	"description": "Shows how the REST interface generator can be used for RPC communication.",
+	"dependencies": {
+		"vibe-d:web": {"path": "../../"}
+	},
+	"versions": ["VibeDefaultMain"]
+}

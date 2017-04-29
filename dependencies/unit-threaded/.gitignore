@@ -1,0 +1,10 @@
+*.o
+main
+*.a
+dtest
+.dub
+__test__library__
+unit-threaded
+unit-threaded.exe
+dub.selections.json
+*.csv

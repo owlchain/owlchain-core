@@ -1,0 +1,7 @@
+{
+    "name": "tcp_listener",
+    "description": "A simple TCP listener",
+    "dependencies": {
+        "libasync": {"version": "~master", "path": "../../"}
+    }
+}

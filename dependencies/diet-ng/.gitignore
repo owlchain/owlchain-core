@@ -1,0 +1,24 @@
+*.[oa]
+*.so
+*.lib
+*.dll
+.*.sw*
+
+docs.json
+/docs/*
+
+.dub
+dub.selections.json
+
+# Mono-D files
+*.userprefs
+
+# Unittest binaries
+__test__*__
+diet-ng-test-library
+
+# Examples
+examples/htmlgenerator/htmlgenerator
+examples/htmlgenerator/index.html
+examples/htmlserver/htmlserver
+*.exe

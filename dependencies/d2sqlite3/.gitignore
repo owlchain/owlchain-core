@@ -1,0 +1,8 @@
+.dub
+dub.selections.json
+__test__*
+libd2sqlite3.a
+TODO.txt
+docs.json
+docs
+sqlite3.o

@@ -1,0 +1,37 @@
+HTTP
+====
+
+ - defer writing the header of server responses to the second written chunk in case of using bodyWriter() - if only one chunk is ever written, write non-chunked instead
+ - implement generators for http.rest to generate a JavaScript client and "documentation" with all possible requests.
+ - support pipelining for HttpClient
+
+TCP
+===
+
+ - Keep a live count of all event objects in the libevent2 driver and exit as soon as the count drops to zero
+ - Add a DoS barrier that closes old connections in case of high connection counts (e.g. Slowloris attack)
+
+GENERAL
+=======
+
+ - Asynchronous file I/O (already works for Win32)
+ - Load balancer with support for seemless recompile (vibedist)
+ - Use the event_set_*_callback functions to log libevent messages
+ - Analyze all code for memory leaks (e.g. SSLContext)
+ - HTTP server comparison to nginx
+ - Mention the API used for Diet templates on the /templates page
+ - Implement a soft-shutdown in case of catching an Error (in conjunction with vibedist)
+ - Add support for an entry "lowerPrivileges" to package.json which will use the system's 'vibe' user for priviledge lowering
+ - Document the different -version specifiers that are possible
+
+DIET TEMPLATES
+==============
+
+ - block comments
+ - block default contents
+ 
+MARKDOWN FILTER
+===============
+
+ - see markdown.d
+ - add SmartyPants support

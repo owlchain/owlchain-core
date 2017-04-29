@@ -1,0 +1,35 @@
+{
+	"authors": [
+		"Etienne Cimon",
+		"Sönke Ludwig",
+		"others..."
+	],
+	"configurations": [
+		{
+			"name": "secure",
+			"targetType": "library"
+		},
+		{
+			"name": "unittest",
+			"targetType": "library",
+			"versions": [
+				"EnableDebugger",
+				"MemutilsTests"
+			]
+		}
+	],
+	"importPaths": [
+		"source/"
+	],
+	"name": "memutils",
+	"version": "0.4.9",
+	"license": "MIT",
+	"copyright": "Copyright © 2015, Etienne Cimon",
+	"description": "Overhead allocators, allocator-aware containers and lifetime management for D objects.",
+	"versions": [
+		"CryptoSafe"
+	],
+	"sourcePaths": [
+		"source/"
+	]
+}
