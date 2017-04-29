@@ -258,8 +258,6 @@ trust.js
         //init
         _init();
     }
-    /*ADD_ACCOUNT
-     */
     $(document).ready(function() {
         //  _setup();
         _bind();
