@@ -110,7 +110,7 @@ trust.js
             event.preventDefault();
             var _this = $(this);
             var _title = $('#s1_tit').val();
-
+            $('.s1 a.visual_exe').removeClass('disabled').removeAttr('disabled', 'disabled');
             function appendElements(data) {
                 var _ul = $('.s1 .info ul.list').show();
                 _ul.children().remove();
@@ -129,7 +129,7 @@ trust.js
                     window.contractAddress = data.address;
                     $('.s1 textarea').text(data.statusMsg);
                     appendElements(data);
-                    $('.s1 a.visual_exe').addClass('disabled').attr('disabled', 'disabled');
+
                 });
             }
             if ($(this).hasClass('confirm')) {
@@ -137,7 +137,6 @@ trust.js
                 _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress + "/" + _title, function(data) {
                     $('.s1 textarea').text(data.statusMsg);
                     appendElements(data);
-                    $('.s1 a.visual_exe').removeClass('disabled').removeAttr('disabled', 'disabled');
                 });
             }
         });
