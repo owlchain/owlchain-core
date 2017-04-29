@@ -1,0 +1,8 @@
+{
+	"name": "message-example",
+	"description": "Demonstrates cross-task message communication.",
+	"dependencies": {
+		"vibe-d:core": {"path": "../../"}
+	},
+	"versions": ["VibeDefaultMain"]
+}

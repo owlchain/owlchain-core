@@ -6,15 +6,31 @@ homepage "https://www.blockchainos.org"
 license "GPL-3.0"
 
 // library dependancies
-dependency "vibe-d" version="~>0.7.31"
-dependency "msgpack-d" version="~>1.0.0-beta.5"
-dependency "msgpack-rpc" version="~>0.1.2"
-dependency "pegged" version="~>0.3.3"
-dependency "sodium" version="~>0.1.1"
-dependency "sdlang-d" version="~>0.10.1"
-dependency "d2sqlite3" version="~>0.11.0"
+dependency "vibe-d" version="0.7.31" path="dependencies/vibe-d"
 dependency "vibe-sdlang" version="1.0.0-alpha.2" path="dependencies/vibe-sdlang"
+dependency "diet-ng" version="1.2.1" path="dependencies/diet-ng"
+dependency "libasync" version="0.8.3" path="dependencies/libasync"
+dependency "libevent" version="2.0.2+2.0.16" path="dependencies/libevent"
+dependency "memutils" version="0.4.9" path="dependencies/memutils"
+dependency "openssl" version="1.1.5+1.0.1g" path="dependencies/openssl"
+
+dependency "msgpack-d" version="1.0.0-beta.6" path="dependencies/msgpack-d"
+dependency "msgpack-rpc" version="0.1.2" path="dependencies/msgpack-rpc"
+
+dependency "pegged" version="0.3.3" path="dependencies/pegged"
+
+dependency "sdlang-d" version="0.10.1" path="dependencies/sdlang-d"
+dependency "libinputvisitor" version="1.2.2" path="dependencies/libinputvisitor"
+dependency "taggedalgebraic" version="0.10.5" path="dependencies/taggedalgebraic"
+dependency "unit-threaded" version="0.6.36" path="dependencies/unit-threaded"
+
+dependency "d2sqlite3" version="0.11.0" path="dependencies/d2sqlite3"
+dependency "sodium:wrapper" version="0.1.3" path="dependencies/sodium"
 dependency "clips-d" version="0.1.0" path="dependencies/clips-d"
+
+
+
+
           
 //subConfiguration "somepackage" "glut-app"
 

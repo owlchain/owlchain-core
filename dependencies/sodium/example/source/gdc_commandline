@@ -1,0 +1,3 @@
+$ gdc app.d -o app -I../../deimos -lsodium -frelease
+$ strip -s app
+$ ./app

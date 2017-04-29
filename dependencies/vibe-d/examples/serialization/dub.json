@@ -1,0 +1,9 @@
+{
+	"name": "serialization-example",
+	"description": "Example of data (de-)serialization.",
+	"dependencies": {
+		"vibe-d:core": {"path": "../../"},
+		"vibe-d:data": {"path": "../../"}
+	},
+	"versions": ["VibeCustomMain"]
+}

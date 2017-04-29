@@ -1,0 +1,8 @@
+{
+	"name": "bench-http-server",
+	"dependencies": {
+		"vibe-d:diet": {"path": "../../"},
+		"vibe-d:http": {"path": "../../"}
+	},
+	"versions": ["VibeDefaultMain", "VibeManualMemoryManagement"]
+}

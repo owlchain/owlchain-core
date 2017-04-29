@@ -1,0 +1,8 @@
+name "with_http_server"
+description "A simple vibe.d server application."
+copyright "Copyright © 2015, yannick"
+authors "yannick"
+dependency "vibe-d" version="~>0.7.25"
+dependency "msgpack-rpc" version="~master" path="../../"
+subConfiguration "msgpack-rpc" "integrated" 
+versions "VibeCustomMain"
