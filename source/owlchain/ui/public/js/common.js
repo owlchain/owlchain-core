@@ -30,7 +30,7 @@ trust.js
                 $.get(CONTRACT_LIST_LOAD, function(data, status) {
                     data = data.reverse(); //역순출력
                     var _target = $('.s2 table tbody');
-                    //    _target.children().remove();
+                    _target.children().remove();
                     var _ele = '';
                     for (var i = 0; i < data.length; i++) {
                         _ele += '<tr><td class="no">' + data[i].no + '</td><td class="title">' + data[i].title + '</td> <td class="address">' + data[i].contractID + '</td><td class="txs">' + data[i].txCount + '</td> </tr>';
@@ -49,13 +49,15 @@ trust.js
             $('.s1 a.submit').removeClass('disabled');
             $('.s1 a.confirm').addClass('disabled');
             $('.s1 a.visual_exe').addClass('disabled');
+            $('.s1 .ui-visual').children().remove();
             $('.s1 .info ul.list').hide().eq(0).show();
+            console.log('init');
         };
         /*=== Ajax Function =================================================*/
         var _ajax = function(url, callBack) {
             console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
             $.get(url, function(data, status) {
-                console.log(data);
+                //  console.log(data);
                 //  callBack.call(this, data);
             }).done(function(data) {
                 if (typeof(data) != "string") {
@@ -114,10 +116,10 @@ trust.js
             $('.s1 a.submit').addClass('disabled');
             $('.s1 a.confirm').removeClass('disabled');
             _ajax(CONTRACT_VALIDATE_LOAD + "/" + _title, function(data) {
+                console.log(data);
                 window.ContractID = data.tempContractID;
-                window.contractAddress = data.contractAddress;
+                window.contractAddress = data.address;
                 $('.s1 textarea').text(data.statusMsg);
-
                 $('.s1 .info ul.list').hide().eq(0).show();
             });
         });
@@ -157,7 +159,7 @@ trust.js
                 }else{
                     var _load = '<iframe width="100%" height="400px" src="./libs/webvowl2/index.html" frameborder="0"></iframe>';
                 }
-                
+
                 $('.s1 .ui-visual').append(_load);
                 setTimeout(function(){
                     $('.s1 iframe').contents().find('#graph').css ('height','400px');
