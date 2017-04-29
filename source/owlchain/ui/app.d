@@ -442,7 +442,7 @@ unittest
 	routes[6] = /blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount
 	routes[7] = /blockchain/AccountOperations/createAccount
 	routes[8] = /blockchain/trustcontract/validateTrustContract/:contents
-	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title
+	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:title
 	routes[10] = /blockchain/trustcontract/runTrustContract/:contractAddress/:contents
 	routes[11] = /blockchain/trustcontract/reqTrustContractList
 	*/
@@ -456,7 +456,7 @@ unittest
 	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
 	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createAccount");
 	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/trustcontract/validateTrustContract/:contents");
-	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title");
+	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:title");
 	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/trustcontract/runTrustContract/:contractAddress/:contents");
 	assert (routes[11].method == HTTPMethod.GET && routes[11].pattern == "/blockchain/trustcontract/reqTrustContractList");
 }
