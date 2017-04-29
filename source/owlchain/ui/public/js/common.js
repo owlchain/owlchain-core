@@ -51,14 +51,14 @@ trust.js
             $('.s1 a.confirm').addClass('disabled');
             $('.s1 a.visual_exe').addClass('disabled').attr('disabled', 'disabled');
             $('.s1 .ui-visual').children().remove();
-            $('.s1 .info').hide();
-            $('.s1 .info ul.list').hide().eq(0).show();
+
+            $('.s1 .info ul.list').hide().children().remove();
         };
         /*=== Ajax Function =================================================*/
         var _ajax = function(url, callBack) {
             console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
             $.get(url, function(data, status) {
-                //  console.log(data);
+                  console.log(data);
                 //  callBack.call(this, data);
             }).done(function(data) {
                 if (typeof(data) != "string") {
@@ -117,12 +117,16 @@ trust.js
             $('.s1 a.submit').addClass('disabled');
             $('.s1 a.confirm').removeClass('disabled');
             _ajax(CONTRACT_VALIDATE_LOAD + "/" + _title, function(data) {
-                console.log(data);
                 window.ContractID = data.tempContractID;
                 window.contractAddress = data.address;
                 $('.s1 textarea').text(data.statusMsg);
-                $('.s1 .info').show();
-                $('.s1 .info ul.list').hide().eq(0).show();
+                var _ul = $('.s1 .info ul.list').show();
+                _ul.children().remove();
+                var _ele = '';
+                for (var i in data) {
+                    _ele += '<li><span class="tit">' + i + '</span><span class="value">' + data[i] + '</span></li>';
+                }
+                _ul.append(_ele);
             });
         });
         // Confirm
@@ -131,12 +135,15 @@ trust.js
             var _this = $(this);
             var _title = $('#s1_tit').val();
             $('.s1 a.submit').addClass('disabled');
-            //$('.s1 a.confirm').addClass('disabled');
             _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress + "/" + _title, function(data) {
                 $('.s1 textarea').text(data.statusMsg);
-                $('.s1 .info ul.list').hide().eq(1).show();
-                $('.s1 .info ul.list').find('.data-title').text(_title);
-                $('.s1 .info ul.list').find('.data-address').text(window.contractAddress);
+                var _ul = $('.s1 .info ul.list').show();
+                _ul.children().remove();
+                var _ele = '';
+                for (var i in data) {
+                    _ele += '<li><span class="tit">' + i + '</span><span class="value">' + data[i] + '</span></li>';
+                }
+                _ul.append(_ele);
                 $('.s1 a.visual_exe').removeClass('disabled').removeAttr('disabled', 'disabled');
             });
         });
