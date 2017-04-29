@@ -1,5 +1,5 @@
 os:
-#  - linux
+  - linux
   - osx
 
 language: d
@@ -16,24 +16,26 @@ services:
 addons:
   apt:
     packages:
-    - libevent-dev
-    - libssl-dev
-    - pkg-config
-    - zlib1g-dev
-    - libsodium-dev
+      - libevent-dev
+      - libssl-dev
+      - pkg-config
+      - zlib1g-dev
+#      - libsodium-dev
 before_install:
 # osx
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libsodium; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libevent; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install openssl; fi
   
 ## linux
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq ; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:chris-lea/libsodium ; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo echo "deb http://ppa.launchpad.net/chris-lea/libsodium/ubuntu trusty main" >> /etc/apt/sources.list; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo echo "deb-src http://ppa.launchpad.net/chris-lea/libsodium/ubuntu trusty main" >> /etc/apt/sources.list; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq && sudo apt-get install libsodium-dev; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then git clone git://github.com/jedisct1/libsodium.git ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd libsodium ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./autogen.sh fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./configure --disable-dependency-tracking --enable-minimal; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo make install ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo /sbin/ldconfig ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd ..; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then rm -fr libsodium; fi
 
 script: dub --build=unittest --compiler=$DC
 #sudo: false
