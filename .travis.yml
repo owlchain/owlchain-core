@@ -28,8 +28,8 @@ before_install:
   
 ## linux
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then git clone git://github.com/jedisct1/libsodium.git ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd libsodium ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./autogen.sh fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd libsodium; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./autogen.sh; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./configure --disable-dependency-tracking --enable-minimal; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo make install ; fi
