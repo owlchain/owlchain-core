@@ -461,6 +461,7 @@ shared static this()
 	createReqTC();
 }
 
+// only for Demoday
 void createReqTC()
 {
 	rs.length = 5;
@@ -490,8 +491,6 @@ void createReqTC()
 	rs[4].contractID = "TRX-SF86-P98D-RLTD-2ZV7Q";
 	rs[4].txCount = 22;
 }
-
-// only for Demoday
 ReqTrustContractList[] rs;
 TcWallet tcwallet;
 
