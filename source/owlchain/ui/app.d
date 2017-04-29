@@ -114,7 +114,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		return -1;
 	}
 
-	private int splitContents(string contents)
+	private string getOperation(string contents)
 	{
 		auto cs = split(contents, regex(`([\r\n\t\s=:])`));
 		
@@ -122,20 +122,43 @@ class BlockchainRESTImpl : IBlockchainREST
 		{
 			if (c1 == "“remittance”}")
 			{
-				// return coin amount
-				foreach (j, c2; cs)
-				{
-					if (c2 == "unit")
-					{
-						return to!int(cs[j - 1]);
-					}
-				}
+				return "remittance";
 			}
 			else if (c1 == "“Creation”}")
 			{
-				return -1;
+				return "creation";
 			}
 		}
+		return "";
+	}
+
+	private int getAccountBalance(string contents)
+	{
+		auto cs = split(contents, regex(`([\r\n\t\s=:])`));
+
+		foreach (i, c; cs)
+		{
+			if (c == "balance")
+			{
+				return to!int(cs[i + 1]);
+			}
+		}
+
+		return 0;
+	}
+
+	private int getRemittanceAmount(string contents)
+	{
+		auto cs = split(contents, regex(`([\r\n\t\s=:])`));
+				
+		foreach (i, c; cs)
+		{
+			if (c == "unit")
+			{
+				return to!int(cs[i - 1]);
+			}
+		}
+
 		return 0;
 	}
 
@@ -329,9 +352,8 @@ class BlockchainRESTImpl : IBlockchainREST
 		}
 		
 		Json json;
-		auto splitResult = splitContents(_contents);
 
-		if (splitResult == -1)
+		if (getOperation(_contents) == "creation")
 		{
 			auto c = CreateHWCAccount();
 			c.code = "00";
@@ -341,15 +363,17 @@ class BlockchainRESTImpl : IBlockchainREST
 			while (confirmAddress(c.accountAddress) != -1)
 			{
 				c.accountAddress = encodeWithPrefix("HWC", uniform(0L, 1000000000000000000L));
-			}	
+			}
+			c.balance = getAccountBalance(_contents);
+
 			tcwallet.address = c.accountAddress;
-			tcwallet.totalBalance = 100000;
+			tcwallet.totalBalance = c.balance;
 
 			json = serializeToJson(c);
 		}
-		else
+		else if (getOperation(_contents) == "remittance")
 		{
-			if (splitResult > tcwallet.totalBalance)
+			if (getRemittanceAmount(_contents) > tcwallet.totalBalance)
 			{
 				auto e = ErrorState();
 				e.code = "99";
@@ -364,7 +388,7 @@ class BlockchainRESTImpl : IBlockchainREST
 				s.code = "00";
 				s.status = "Transaction Success";
 				s.txID = _contractAddress;
-				tcwallet.totalBalance -= splitResult;
+				tcwallet.totalBalance -= getRemittanceAmount(_contents);
 				s.balance = tcwallet.totalBalance;
 			
 				json = serializeToJson(s);

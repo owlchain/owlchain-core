@@ -166,6 +166,7 @@ struct CreateHWCAccount
 	string status;
 	string txID;
 	string accountAddress;
+	int balance;
 }
 
 struct SendCoin
