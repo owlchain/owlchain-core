@@ -159,11 +159,12 @@ struct ConfirmedTrustContract
 	string title;
 }
 
-struct CreateIndividual
+struct CreateHWCAccount
 {
 	string code;
 	string status;
 	string txID;
+	string accountAddress;
 }
 
 struct SendCoin
@@ -184,6 +185,7 @@ struct ReqTrustContractList
 
 struct TcWallet
 {
+	string address;
 	uint totalBalance = 100000;
 }
 

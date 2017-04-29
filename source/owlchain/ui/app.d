@@ -11,6 +11,8 @@ import std.stdio;
 import std.path;
 import std.array;
 import std.random;
+import std.regex;
+import std.string;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
@@ -112,30 +114,29 @@ class BlockchainRESTImpl : IBlockchainREST
 		return -1;
 	}
 
-	private int calculateBalance(string contents)
+	private int splitContents(string contents)
 	{
-		int balance = 0;
-
-		if (contents.length > 10)
+		auto cs = split(contents, regex(`([\r\n\t\s=:])`));
+		
+		foreach (i, c1; cs)
 		{
-			for (int i = 0; i < contents.length - 10; i++)
+			if (c1 == "“remittance”}")
 			{
-				if (contents[i..i + 11] == "sendCoin = ")
+				// return coin amount
+				foreach (j, c2; cs)
 				{
-					for (int j = i + 11; j < contents.length - 2; j++)
+					if (c2 == "unit")
 					{
-						if (contents[j..j + 3] == "HWC")
-						{
-							balance = to!int(contents[i + 11.. j - 1]);
-							break;
-						}
+						return to!int(cs[j - 1]);
 					}
-					break;
 				}
 			}
+			else if (c1 == "“Creation”}")
+			{
+				return -1;
+			}
 		}
-
-		return balance;
+		return 0;
 	}
 
 	override:
@@ -294,6 +295,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		{
 			v.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
 		}
+
 		auto json = serializeToJson(v);
 		return json;
 	}
@@ -326,18 +328,26 @@ class BlockchainRESTImpl : IBlockchainREST
 		}
 		
 		Json json;
-		if (1)
+		auto splitResult = splitContents(_contents);
+
+		if (splitResult == -1)
 		{
-			auto c = CreateIndividual();
+			auto c = CreateHWCAccount();
 			c.code = "00";
 			c.status = "Transaction Success";
 			c.txID = _contractAddress;
-			
+			c.accountAddress = encodeWithPrefix("HWC", uniform(0L, 1000000000000000000L));
+			while (confirmAddress(c.accountAddress) != -1)
+			{
+				c.accountAddress = encodeWithPrefix("HWC", uniform(0L, 1000000000000000000L));
+			}	
+			tcwallet.address = c.accountAddress;
+
 			json = serializeToJson(c);
 		}
-		else if (2)
+		else
 		{
-			if (calculateBalance(_contents) > tcwallet.totalBalance)
+			if (splitResult > tcwallet.totalBalance)
 			{
 				auto e = ErrorState();
 				e.code = "99";
@@ -352,7 +362,7 @@ class BlockchainRESTImpl : IBlockchainREST
 				s.code = "00";
 				s.status = "Transaction Success";
 				s.txID = _contractAddress;
-				tcwallet.totalBalance -= calculateBalance(_contents);
+				tcwallet.totalBalance -= splitResult;
 				s.balance = tcwallet.totalBalance;
 			
 				json = serializeToJson(s);
