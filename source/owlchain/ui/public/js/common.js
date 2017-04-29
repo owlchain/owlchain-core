@@ -43,15 +43,16 @@ trust.js
         };
         /*=== init =================================================*/
         var _init = function() {
+            console.log('%c ## init ## ', 'font-size:14px;color:blue;');
             $('textarea').text('');
             $('textarea').val('');
             $('input').val('');
             $('.s1 a.submit').removeClass('disabled');
             $('.s1 a.confirm').addClass('disabled');
-            $('.s1 a.visual_exe').addClass('disabled').attr('disabled','disabled');
+            $('.s1 a.visual_exe').addClass('disabled').attr('disabled', 'disabled');
             $('.s1 .ui-visual').children().remove();
+            $('.s1 .info').hide();
             $('.s1 .info ul.list').hide().eq(0).show();
-            console.log('init');
         };
         /*=== Ajax Function =================================================*/
         var _ajax = function(url, callBack) {
@@ -120,6 +121,7 @@ trust.js
                 window.ContractID = data.tempContractID;
                 window.contractAddress = data.address;
                 $('.s1 textarea').text(data.statusMsg);
+                $('.s1 .info').show();
                 $('.s1 .info ul.list').hide().eq(0).show();
             });
         });
@@ -135,7 +137,7 @@ trust.js
                 $('.s1 .info ul.list').hide().eq(1).show();
                 $('.s1 .info ul.list').find('.data-title').text(_title);
                 $('.s1 .info ul.list').find('.data-address').text(window.contractAddress);
-                $('.s1 a.visual_exe').removeClass('disabled').removeAttr('disabled','disabled');
+                $('.s1 a.visual_exe').removeClass('disabled').removeAttr('disabled', 'disabled');
             });
         });
         $('.s1 dd a.anc_gb').bind('click', function(event) {
@@ -154,15 +156,15 @@ trust.js
                     var _load = '<iframe width="100%" height="400px" src="./libs/webvowl/index.html" frameborder="0"></iframe>';
                 } else if (_title.indexOf("Real") !== -1) {
                     var _load = '<iframe width="100%" height="400px" src="./libs/webvowl2/index.html" frameborder="0"></iframe>';
-                }else{
+                } else {
                     return false;
                 }
                 $('.s1 .ui-visual').append(_load);
-                $('.s1 a.visual_exe').addClass('disabled').attr('disabled','disabled');
-                setTimeout(function(){
-                    $('.s1 iframe').contents().find('#graph').css ('height','400px');
-                    $('.s1 iframe').contents().find('.vowlGraph').attr('width','784px').attr('height','400px').css('border','1px solid #242a42');
-                },500);
+                $('.s1 a.visual_exe').addClass('disabled').attr('disabled', 'disabled');
+                setTimeout(function() {
+                    $('.s1 iframe').contents().find('#graph').css('height', '400px');
+                    $('.s1 iframe').contents().find('.vowlGraph').attr('width', '784px').attr('height', '400px').css('border', '1px solid #242a42');
+                }, 500);
 
             }
         });
@@ -189,6 +191,7 @@ trust.js
         });
         $('.s3 a.copy-code').bind('click', function(event) {
             var _code = $(this).parents('dd').find('textarea').val();
+            _init();//초기화이후
             _testCode.val(_code);
         });
         _testRun.bind('click', function(event) {
