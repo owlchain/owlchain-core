@@ -157,6 +157,7 @@ trust.js
                 }else{
                     var _load = '<iframe width="100%" height="400px" src="./libs/webvowl2/index.html" frameborder="0"></iframe>';
                 }
+                
                 $('.s1 .ui-visual').append(_load);
                 setTimeout(function(){
                     $('.s1 iframe').contents().find('#graph').css ('height','400px');
