@@ -16,7 +16,7 @@ import owlchain.api.api;
 import owlchain.ui.webapi;
 import owlchain.shell.shell;
 import owlchain.wallet.wallet;
-import owlchain.crypto.ReedSolomon;
+import owlchain.crypto.reedsolomon;
 
 //@rootPathFromName
 interface IBlockchainREST
