@@ -9,9 +9,9 @@ d: dmd
 before_install:
 # osx
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libevent; fi
+#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libevent; fi
+#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install openssl; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libsodium; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install openssl; fi
   
 ## linux
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:chris-lea/libsodium ; fi
