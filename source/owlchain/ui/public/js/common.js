@@ -154,9 +154,16 @@ trust.js
                 } else if (_title.indexOf("Real") !== -1) {
                     console.log('Real');
                     var _load = '<iframe width="100%" height="400px" src="./libs/webvowl2/index.html" frameborder="0"></iframe>';
+                }else{
+                    var _load = '<iframe width="100%" height="400px" src="./libs/webvowl2/index.html" frameborder="0"></iframe>';
                 }
-
                 $('.s1 .ui-visual').append(_load);
+                setTimeout(function(){
+                    $('.s1 iframe').contents().find('#graph').css ('height','400px');
+                    //$('.s1 iframe').contents().find('#canvasArea').css ('border','1px solid #ff0000');
+                    $('.s1 iframe').contents().find('.vowlGraph').attr('width','784px').attr('height','400px').css('border','1px solid #242a42');
+                },500);
+
             }
         });
         /*=== s2 =================================================*/
