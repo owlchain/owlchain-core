@@ -1,22 +1,39 @@
 os:
-#  - linux
+  - linux
   - osx
 
 language: d
 
 d: dmd
+language: d
+sudo: false
+dist: trusty
 
+services:
+  - mongodb
+  - redis-server
+
+addons:
+  apt:
+    packages:
+    - libevent-dev
+    - libssl-dev
+    - pkg-config
+    - zlib1g-dev
+ #   - libsodium-dev
 before_install:
 # osx
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libsodium; fi
 #  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libevent; fi
 #  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install openssl; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libsodium; fi
   
 ## linux
+#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:chris-lea/libsodium ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq libevent-dev libssl-dev libsqlite3-dev libsodium-dev ; fi
-  
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo echo "deb http://ppa.launchpad.net/chris-lea/libsodium/ubuntu trusty main" >> /etc/apt/sources.list; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo echo "deb-src http://ppa.launchpad.net/chris-lea/libsodium/ubuntu trusty main" >> /etc/apt/sources.list; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq && sudo apt-get install libsodium-dev; fi
+
 script: dub --build=unittest --compiler=$DC
 #sudo: false
