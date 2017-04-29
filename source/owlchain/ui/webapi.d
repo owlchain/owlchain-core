@@ -157,6 +157,7 @@ struct ConfirmedTrustContract
 	string status;
 	string strMsg;
 	string title;
+	string address;
 }
 
 struct CreateHWCAccount

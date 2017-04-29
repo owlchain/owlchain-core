@@ -116,7 +116,7 @@ class BlockchainRESTImpl : IBlockchainREST
 
 	private int splitContents(string contents)
 	{
-		auto cs = split(contents, regex(`([\r\n\t\s=:])`));
+		auto cs = split(contents, regex(`([\r\n\t\s=:@#])`));
 		
 		foreach (i, c1; cs)
 		{
@@ -314,6 +314,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		c.strMsg = "Created new trust contract address";
 
 		c.title = _title;
+		c.address = _contractAddress;
 
  		auto json = serializeToJson(c);
 		return json;
