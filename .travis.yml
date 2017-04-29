@@ -27,13 +27,13 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libsodium; fi
   
 ## linux
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then git clone git://github.com/jedisct1/libsodium.git ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then git clone -b 1.0.12 --single-branch git://github.com/jedisct1/libsodium.git ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd libsodium; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./autogen.sh; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./configure --disable-dependency-tracking --enable-minimal; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo make install ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo /sbin/ldconfig ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make install ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then /sbin/ldconfig ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd ..; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then rm -fr libsodium; fi
 
