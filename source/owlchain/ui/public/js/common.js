@@ -48,7 +48,7 @@ trust.js
             $('input').val('');
             $('.s1 a.submit').removeClass('disabled');
             $('.s1 a.confirm').addClass('disabled');
-            $('.s1 a.visual_exe').addClass('disabled');
+            $('.s1 a.visual_exe').addClass('disabled').attr('disabled','disabled');
             $('.s1 .ui-visual').children().remove();
             $('.s1 .info ul.list').hide().eq(0).show();
             console.log('init');
@@ -135,7 +135,7 @@ trust.js
                 $('.s1 .info ul.list').hide().eq(1).show();
                 $('.s1 .info ul.list').find('.data-title').text(_title);
                 $('.s1 .info ul.list').find('.data-address').text(window.contractAddress);
-                $('.s1 a.visual_exe').removeClass('disabled');
+                $('.s1 a.visual_exe').removeClass('disabled').removeAttr('disabled','disabled');
             });
         });
         $('.s1 dd a.anc_gb').bind('click', function(event) {
@@ -151,19 +151,16 @@ trust.js
                 //    $(this).text('Confirm');
                 $('p.ui-visual').show();
                 if (_title.indexOf("Coin") !== -1) {
-                    console.log('coin');
                     var _load = '<iframe width="100%" height="400px" src="./libs/webvowl/index.html" frameborder="0"></iframe>';
                 } else if (_title.indexOf("Real") !== -1) {
-                    console.log('Real');
                     var _load = '<iframe width="100%" height="400px" src="./libs/webvowl2/index.html" frameborder="0"></iframe>';
                 }else{
-                    var _load = '<iframe width="100%" height="400px" src="./libs/webvowl2/index.html" frameborder="0"></iframe>';
+                    return false;
                 }
-
                 $('.s1 .ui-visual').append(_load);
+                $('.s1 a.visual_exe').addClass('disabled').attr('disabled','disabled');
                 setTimeout(function(){
                     $('.s1 iframe').contents().find('#graph').css ('height','400px');
-                    //$('.s1 iframe').contents().find('#canvasArea').css ('border','1px solid #ff0000');
                     $('.s1 iframe').contents().find('.vowlGraph').attr('width','784px').attr('height','400px').css('border','1px solid #242a42');
                 },500);
 
@@ -213,19 +210,6 @@ trust.js
                     _ele += '<li><span class="tit">' + i + '</span><span class="value">' + data[i] + '</span></li>';
                 }
                 _ul.append(_ele);
-                /*
-                if (_mode == "done") {
-                    $('.s4 .info ul.list li').show();
-                    $('.s4 .info ul.list span.data-tx').text(data.transactionID);
-                    $('.s4 .info ul.list span.data-status').text("statusMsg ( " + data.statusMsg + " )");
-                    $('.s4 .info ul.list span.data-balance').text(data.balance);
-                } else if (_mode == "fail") {
-                    $('.s4 .info ul.list span.data-tx').parents('li').hide();
-                    $('.s4 .info ul.list span.data-status').text("statusMsg ( false )");
-                    $('.s4 .info ul.list span.data-balance').parents('li').hide();
-                }
-                */
-                //  $('.s4 textarea').text(data.statusMsg);
                 $('.s4 .info').show();
             });
         })
