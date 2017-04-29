@@ -6,7 +6,7 @@ language: d
 
 d: dmd
 language: d
-sudo: false
+sudo: true
 dist: trusty
 
 services:
@@ -32,8 +32,8 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./autogen.sh; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./configure --disable-dependency-tracking --enable-minimal; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make install ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then /sbin/ldconfig ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo make install ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo /sbin/ldconfig ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd ..; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then rm -fr libsodium; fi
 
