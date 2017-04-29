@@ -457,10 +457,38 @@ shared static this()
         }
     });
     // logInfo("listenOCP");
+
+	createReqTC();
 }
 
-void createReqTC(){
+void createReqTC()
+{
+	rs.length = 5;
 
+	rs[0].no = 1;
+	rs[0].title = "Crowd Idea Sourcing";
+	rs[0].contractID = "TRX-N29Z-LGB7-V8HC-2JC8V";
+	rs[0].txCount = 35;
+
+	rs[1].no = 2;
+	rs[1].title = "Fair lottery Service";
+	rs[1].contractID = "TRX-CPLM-L69Y-SXMF-2MVAJ";
+	rs[1].txCount = 102;
+
+	rs[2].no = 3;
+	rs[2].title = "One room lease";
+	rs[2].contractID = "TRX-BXHG-47JL-YPMJ-2NGQJ";
+	rs[2].txCount = 55;
+
+	rs[3].no = 4;
+	rs[3].title = "P2P Insurance platform";
+	rs[3].contractID = "TRX-JAS9-RFK9-J2YE-2XBG6";
+	rs[3].txCount = 134;
+
+	rs[4].no = 5;
+	rs[4].title = "Escrow Service";
+	rs[4].contractID = "TRX-SF86-P98D-RLTD-2ZV7Q";
+	rs[4].txCount = 22;
 }
 
 // only for Demoday
