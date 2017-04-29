@@ -116,7 +116,7 @@ class BlockchainRESTImpl : IBlockchainREST
 
 	private int splitContents(string contents)
 	{
-		auto cs = split(contents, regex(`([\r\n\t\s=:@#])`));
+		auto cs = split(contents, regex(`([\r\n\t\s=:])`));
 		
 		foreach (i, c1; cs)
 		{
