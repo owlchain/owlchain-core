@@ -26,12 +26,12 @@ unittest
  
     KeyPair kp;
     assert ( keypair(kp) == true );
-    writefln("keypair(pk=%s, sk=%s", to!string(kp.publicKey), to!string(kp.secretKey));
+    writefln("keypair(pk=%s, sk=%s", kp.publicKey, kp.secretKey);
 
     KeyPair kp2;
     SeedBytes seed = ubyte.init;
     assert ( keypairWithSeed(kp2, seed) == true);
-    writefln("keypairWithSeed(pk=%s, sk=%s, seed=%s", to!string(kp.publicKey), to!string(kp.secretKey), to!string(seed));
+    writefln("keypairWithSeed(pk=%s, sk=%s, seed=%s", kp.publicKey, kp.secretKey, seed);
 
     writefln("passs KeyPair Test");
 }
