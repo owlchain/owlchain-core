@@ -1,0 +1,107 @@
+﻿# This is the sample SDL document, included for convenince, from:
+#   http://sdl.ikayzo.org/display/SDL/Language+Guide
+# Note that the comments refer to the Java API, not the D API.
+
+timespan 12:14:42
+timespan 00:09:12
+timespan 00:00:01.023
+timespan 23d:05:21:23
+timespan 23d:05:21:23.532
+
+# Examples: Time Span Literals
+hours 03:00:00
+minutes 00:12:00
+seconds 00:00:42
+short_time 00:12:32.423 # 12 minutes, 32 seconds, 423 milliseconds
+long_time 30d:15:23:04.023 # 30 days, 15 hours, 23 mins, 4 secs, 23 millis 
+before -00:02:30 # 2 hours and 30 minutes ago
+about_two_days_ago -2d:00:04:00 
+
+# Examples: Date and Date/Time Literals
+date 2005/12/05
+date -2005/12/05
+date 2005/12/05
+#date_and_int 2005/12/05 7
+here 2005/12/05 14:12:23.345
+here 2005/12/05 14:12.345
+est 2005/12/05 14:12:23.345-America/New_York
+in_japan 2005/12/05 14:12:23.345-JST
+tz 2005/12/05 14:12:23.345-GMT+00:00
+tz 2005/12/05 14:12:23.345-GMT-00:00
+tz 2005/12/05 14:12:23.345-GMT+05:00
+tz 2005/12/05 14:12:23.345-GMT-05:00
+tz 2005/12/05 14:12:23.345-GMT+00:30
+tz 2005/12/05 14:12:23.345-GMT-00:30
+tz 2005/12/05 14:12:23.345-GMT+00
+tz 2005/12/05 14:12:23.345-GMT-00
+tz 2005/12/05 14:12:23.345-GMT+05
+tz 2005/12/05 14:12:23.345-GMT-05
+tz 2005/12/05 14:12:23.345-GMT+06:20
+tz 2005/12/05 14:12:23.345-GMT-06:20
+
+# three tags acting as name value pairs
+first_name "Akiko"
+last_name "Johnson"
+height 68 68L 60l
+
+# a tag with a value list
+person "Akiko" "Johnson" 68
+
+# a tag with attributes
+person first_name="Akiko" last_name="Johnson" height=68
+
+# a tag with values and attributes
+person "Akiko" "Johnson" height=60
+
+# a tag with attributes using namespaces
+person name:first-name="Akiko" name:last-name="Johnson"
+
+# a tag with values, attributes, namespaces, and children
+my_namespace:person "Akiko" "Johnson" dimensions:height=68 {
+    son "Nouhiro" "Johnson"
+    daughter "Sabrina" "Johnson" location="Italy" {
+        hobbies "swimming" "surfing"
+        languages "English" "Italian"
+        smoker false
+    }
+}   
+
+------------------------------------------------------------------
+// (notice the separator style comment above...)
+
+# a log entry
+#     note - this tag has two values (date_time and string) and an 
+#            attribute (error)
+entry 2005/11/23 10:14:23.253-GMT "Something bad happened" error=true
+
+# a long line
+mylist "something" "another" true "shoe" 2002/12/13 "rock" \
+    "morestuff" "sink" "penny" 12:15:23.425
+
+# a long string
+text "this is a long rambling line of text with a continuation \
+   and it keeps going and going..."
+   
+# anonymous tag examples
+
+files {
+    "/folder1/file.txt"
+    "/file2.txt"
+}
+    
+# To retrieve the files as a list of strings
+#
+#     List files = tag.getChild("files").getChildrenValues("content");
+# 
+# We us the name "content" because the files tag has two children, each of 
+# which are anonymous tags (values with no name.)  These tags are assigned
+# the name "content"
+    
+matrix {
+    1 2 3
+    4 5 6
+}
+
+# To retrieve the values from the matrix (as a list of lists)
+#
+#     List rows = tag.getChild("matrix").getChildrenValues("content");

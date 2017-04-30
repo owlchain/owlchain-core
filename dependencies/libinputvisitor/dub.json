@@ -1,0 +1,25 @@
+{
+	"excludedSourceFiles": [
+		"libInputVisitorExample.d"
+	],
+	"authors": [
+		"Nick Sabalausky"
+	],
+	"configurations": [
+		{
+			"name": "library",
+			"targetType": "library"
+		}
+	],
+	"importPaths": [
+		"."
+	],
+	"name": "libinputvisitor",
+	"version": "1.2.2",
+	"license": "WTFPL",
+	"description": "Write D input range generators in a straightforward coroutine style",
+	"homepage": "https://github.com/abscissa/libInputVisitor",
+	"sourcePaths": [
+		"."
+	]
+}

@@ -1,0 +1,30 @@
+{
+	"configurations": [
+		{
+			"name": "library",
+			"targetType": "sourceLibrary"
+		},
+		{
+			"name": "unittest",
+			"targetType": "executable",
+			"dflags": [
+				"-main"
+			],
+			"sourcePaths": [
+				"deimos/openssl"
+			]
+		}
+	],
+	"importPaths": [
+		"."
+	],
+	"name": "openssl",
+	"version": "1.1.5+1.0.1g",
+	"license": "OpenSSL or SSLeay",
+	"description": "Deimos bindings for the OpenSSL cryptographic library",
+	"homepage": "http://www.openssl.org/",
+	"libs-posix": [
+		"ssl",
+		"crypto"
+	]
+}

@@ -1,0 +1,21 @@
+{
+	"configurations": [
+		{
+			"name": "library",
+			"targetType": "sourceLibrary"
+		}
+	],
+	"importPaths": [
+		"."
+	],
+	"name": "libevent",
+	"version": "2.0.2+2.0.16",
+	"targetType": "sourceLibrary",
+	"license": "BSD 3-clause",
+	"description": "Deimos bindings for libevent, a cross-platform asynchronous I/O library",
+	"homepage": "http://libevent.org/",
+	"libs-posix": [
+		"event",
+		"event_pthreads"
+	]
+}

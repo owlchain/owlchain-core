@@ -1,0 +1,42 @@
+{
+	"authors": [
+		"Masahiro Nakagawa"
+	],
+	"configurations": [
+		{
+			"name": "default",
+			"targetType": "library",
+			"versions": [
+				"VibeCustomMain"
+			]
+		},
+		{
+			"name": "integrated",
+			"targetType": "library",
+			"versions": [
+				"VibeCustomMain",
+				"noExitEventloop"
+			]
+		}
+	],
+	"importPaths": [
+		"src"
+	],
+	"name": "msgpack-rpc",
+	"version": "0.1.2",
+	"targetType": "library",
+	"license": "Boost Software License, Version 1.0",
+	"copyright": "Copyright (c) 2013- Masahiro Nakagawa",
+	"description": "MessagePack RPC for D.",
+	"homepage": "https://github.com/msgpack-rpc/msgpack-rpc-d",
+	"dependencies": {
+		"vibe-d": ">=0.7.25",
+		"msgpack-d": ">=0.9.2"
+	},
+	"subConfigurations": {
+		"vibe-d": "libevent"
+	},
+	"sourcePaths": [
+		"src/"
+	]
+}

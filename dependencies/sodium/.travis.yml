@@ -1,0 +1,26 @@
+language: d
+d:
+  - dmd
+  - gdc
+  - ldc
+
+sudo: required
+dist: trusty
+env:
+  - VERSION=1.0.12
+before_install:
+  - curl https://download.libsodium.org/libsodium/releases/libsodium-$VERSION.tar.gz | tar -C ~ -xzf -
+  - pushd ~/libsodium-$VERSION
+  - ./configure --prefix=/usr && make && sudo make install
+  - sudo ldconfig
+  - popd
+
+install:
+  - wget -O doveralls "https://github.com/ColdenCullen/doveralls/releases/download/v1.3.1/doveralls_linux_travis"
+  - chmod +x doveralls
+
+script:
+  - dub test  sodium:deimos  --compiler=${DC}
+  - dub test  sodium:wrapper --compiler=${DC} --build unittest-cov --debug=TRAVIS_TEST
+  - ./doveralls
+  - dub build sodium:wrapper --compiler=${DC} --build release

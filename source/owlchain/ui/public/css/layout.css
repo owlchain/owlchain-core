@@ -27,6 +27,10 @@ textarea{ display:block; width:100%; padding:3px 10px 80px 20px; color:#FFF; fon
 .line span > img{display:inline-block; margin-right:10px;}
 .fc_w{ color:#FFF; }
 .bg_b{background:#242a42; }
+/*select*/
+.content dl dd input{ width:100%; }
+.content dl dd select { width: 100px; padding:5px 10px;}
+.content dl dd select option { padding:8px; }
 
 /*title-anchor*/
 .title-menu{ position:relative; border-bottom:1px solid #242a42; padding:10px 0;}
@@ -79,9 +83,7 @@ a.anc_gb.disabled:hover{ border:1px solid transparent; background:#959595; }
 .s1 .submit-wrap{ width:464px; margin:15px auto; text-align: center; }
 .s1 .submit-wrap a{ display:inline-block; margin:0 10px;padding:10px 30px; }
 
-.content dl dd input{ width:100%; }
-.content dl dd select { width: 200px; padding:5px 10px;}
-.content dl dd select option { padding:8px; }
+
 
 /*s2*/
 /* table*/

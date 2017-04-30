@@ -1,0 +1,19 @@
+{
+	"authors": [
+		"Carsten Blüggel"
+	],
+	"subPackages": [
+		"deimos/",
+		"wrapper/"
+	],
+	"name": "sodium",
+	"version": "0.1.3",
+	"targetType": "none",
+	"license": "ISC license",
+	"copyright": "Copyright © 2017-, Carsten Blüggel",
+	"description": "Deimos binding to libsodium xor wrapper",
+	"homepage": "https://github.com/carblue/sodium",
+	"dependencies": {
+		"sodium:deimos": ">=0.0.0"
+	}
+}

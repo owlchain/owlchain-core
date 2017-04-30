@@ -1,0 +1,38 @@
+{
+	"authors": [
+		"Philippe Sigaud"
+	],
+	"dflags-ldc": [
+		"-check-printf-calls"
+	],
+	"dflags-gdc": [
+		"-ggdb"
+	],
+	"importPaths": [
+		"."
+	],
+	"name": "pegged",
+	"version": "0.3.3",
+	"dflags": [
+		"-ignore"
+	],
+	"license": "Boost",
+	"copyright": "Copyright © 2012-2016, Philippe Sigaud",
+	"configurations": [
+		{
+			"name": "library",
+			"targetType": "library"
+		}
+	],
+	"description": "Parsing Expression Grammar (PEG) generator",
+	"sourceFiles": [
+		"pegged/peg.d",
+		"pegged/grammar.d",
+		"pegged/parser.d",
+		"pegged/introspection.d",
+		"pegged/dynamic/grammar.d",
+		"pegged/dynamic/peg.d",
+		"pegged/tester/grammartester.d",
+		"pegged/tester/testerparser.d"
+	]
+}

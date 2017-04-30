@@ -1,0 +1,24 @@
+{
+	"authors": [
+		"Masahiro Nakagawa"
+	],
+	"configurations": [
+		{
+			"name": "library",
+			"targetType": "library"
+		}
+	],
+	"importPaths": [
+		"src"
+	],
+	"name": "msgpack-d",
+	"version": "1.0.0-beta.6",
+	"targetType": "library",
+	"license": "Boost Software License, Version 1.0",
+	"copyright": "Copyright (c) 2010- Masahiro Nakagawa",
+	"description": "MessagePack for D.",
+	"homepage": "https://github.com/msgpack/msgpack-d",
+	"sourcePaths": [
+		"src/"
+	]
+}

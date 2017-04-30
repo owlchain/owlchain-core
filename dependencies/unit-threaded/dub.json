@@ -1,0 +1,40 @@
+{
+	"authors": [
+		"Atila Neves"
+	],
+	"configurations": [
+		{
+			"name": "library",
+			"targetType": "library"
+		},
+		{
+			"name": "unittest",
+			"sourceFiles": [
+				"example/example_pass.d"
+			],
+			"targetType": "executable",
+			"mainSourceFile": "example/example_pass.d",
+			"sourcePaths": [
+				"tests/pass"
+			]
+		},
+		{
+			"name": "gen_ut_main",
+			"targetType": "executable",
+			"mainSourceFile": "gen/gen_ut_main.d"
+		}
+	],
+	"importPaths": [
+		"source/"
+	],
+	"name": "unit-threaded",
+	"version": "0.6.36",
+	"targetType": "library",
+	"license": "BSD 3-clause",
+	"copyright": "Copyright © 2013, Atila Neves",
+	"description": "Advanced multi-threaded unit testing framework with minimal to no boilerplate using built-in unittest blocks",
+	"homepage": "https://github.com/atilaneves/unit-threaded",
+	"sourcePaths": [
+		"source/"
+	]
+}

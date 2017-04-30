@@ -18,7 +18,11 @@ import owlchain.api.api;
 import owlchain.ui.webapi;
 import owlchain.shell.shell;
 import owlchain.wallet.wallet;
+<<<<<<< HEAD
 import owlchain.crypto.ReedSolomon;
+=======
+import owlchain.crypto.reedsolomon;
+>>>>>>> PoC0
 
 //@rootPathFromName
 interface IBlockchainREST
@@ -172,7 +176,11 @@ class BlockchainRESTImpl : IBlockchainREST
 			auto e = ErrorState();
 			
 			e.code = "01";
+<<<<<<< HEAD
 			e.message = "no value.";
+=======
+			e.strMsg = "no value.";
+>>>>>>> PoC0
 			
 			json = serializeToJson(e);
 		}
@@ -190,7 +198,11 @@ class BlockchainRESTImpl : IBlockchainREST
 			auto e = ErrorState();
 
 			e.code = "00";
+<<<<<<< HEAD
 			e.message = "type is not 'SendBOS'.";
+=======
+			e.strMsg = "type is not 'SendBOS'.";
+>>>>>>> PoC0
 
 			json = serializeToJson(e);
 		}
@@ -312,7 +324,16 @@ class BlockchainRESTImpl : IBlockchainREST
 		auto v = ValidateTrustContract();
 		v.code = "00";
 		v.status = "Verify OK";
+<<<<<<< HEAD
 		v.message = "Please confirm to get address";
+=======
+		v.strMsg = "Please confirm to get address";
+		v.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
+		while (confirmAddress(v.address) != -1)
+		{
+			v.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
+		}
+>>>>>>> PoC0
 		auto json = serializeToJson(v);
 		return json;
 	}
@@ -335,6 +356,16 @@ class BlockchainRESTImpl : IBlockchainREST
 		rs[rs.length - 1].contractID = c.address;
 		rs[rs.length - 1].title = c.title;
 		rs[rs.length - 1].txCount = 0;
+<<<<<<< HEAD
+=======
+	
+		auto c = ConfirmedTrustContract();
+		c.code = "00";
+		c.status = "Confirm OK";
+		c.strMsg = "Created new trust contract address";
+
+		c.title = _title;
+>>>>>>> PoC0
 
  		auto json = serializeToJson(c);
 		return json;
@@ -348,6 +379,7 @@ class BlockchainRESTImpl : IBlockchainREST
 			rs[ca].txCount++;
 		}
 		
+<<<<<<< HEAD
 		Json json = "";
 
 		if (getOperation(_contents) == "creation")
@@ -371,11 +403,30 @@ class BlockchainRESTImpl : IBlockchainREST
 		else if (getOperation(_contents) == "remittance")
 		{
 			if (getRemittanceAmount(_contents) > tcwallet.totalBalance)
+=======
+		Json json;
+		if (1)
+		{
+			auto c = CreateIndividual();
+			c.code = "00";
+			c.status = "Transaction Success";
+			c.txID = _contractAddress;
+			
+			json = serializeToJson(c);
+		}
+		else if (2)
+		{
+			if (calculateBalance(_contents) > tcwallet.totalBalance)
+>>>>>>> PoC0
 			{
 				auto e = ErrorState();
 				e.code = "99";
 				e.status = "Error(97)";
+<<<<<<< HEAD
 				e.message = "Not enough balance.";
+=======
+				e.strMsg = "Not enough balance.";
+>>>>>>> PoC0
 				
 				json = serializeToJson(e);
 			}
@@ -385,7 +436,11 @@ class BlockchainRESTImpl : IBlockchainREST
 				s.code = "00";
 				s.status = "Transaction Success";
 				s.txID = _contractAddress;
+<<<<<<< HEAD
 				tcwallet.totalBalance -= getRemittanceAmount(_contents);
+=======
+				tcwallet.totalBalance -= calculateBalance(_contents);
+>>>>>>> PoC0
 				s.balance = tcwallet.totalBalance;
 			
 				json = serializeToJson(s);

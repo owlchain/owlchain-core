@@ -1,0 +1,8 @@
+﻿{
+	"name": "auth-digest-example",
+	"description": "Demonstrates digest authentication.",
+	"dependencies": {
+		"vibe-d:diet": {"path": "../../"}
+	},
+	"versions": ["VibeDefaultMain"]
+}

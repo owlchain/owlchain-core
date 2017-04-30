@@ -1,0 +1,38 @@
+doctype html
+html(lang="en")
+	head
+		title= "pageTitle" ~ "X<Y> "
+	body
+		h1#caption Diet test page #{2+2}X
+		p.first
+			b First Paragraph!
+		p(style='color: red;', class="HELLO") This
+			br
+			b is
+			br
+			b a test
+			em= 13*12
+			| One line of text &lt;Phew!&gt;
+			| Another line of text
+		p(style="white-space: pre-line").
+			Two lines of
+			<b>Different</b> text
+		p Your user level:
+			input#adm(type='checkbox', checked=is_admin ? "checked" : null)
+			label(for="adm") Admin
+			input#usr(type='checkbox', checked=!is_admin ? "checked" : null)
+			label(for="usr") User
+			
+		#sanity(style='background-color: lightgreen')
+			- if( 12 == 13 )
+				p
+					b WTF!
+			- else
+				p
+					- foreach( i; 0 .. 10 )
+						b Everything OK! (#{i})
+							br
+		div#versions.minor Program versions:
+			ul
+				- foreach ( i; 1 .. 4) 
+					li= i

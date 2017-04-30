@@ -33,7 +33,7 @@ class Address : IAddress {
         return true;    
     }
 }
-
+@system
 unittest {
     import core.stdc.stdlib : EXIT_SUCCESS, EXIT_FAILURE;
     import std.stdio : writefln, writeln;
@@ -108,33 +108,4 @@ unittest {
 
     assert(demo() == EXIT_SUCCESS);
 
-}
-unittest {
-
-	import vibe.data.sdl : serializeSDLang;
-	import sdlang.ast : Tag;
-	import std.stdio : writeln;
-	
-	writeln("test ==== vibe.data.sdl");
-
-	struct Ticket {
-		int id;
-		string title;
-		string[] tags;
-	}
-
-	bool serialized()
-	{
-		Ticket[] tickets = [
-			Ticket(0, "foo", ["defect", "critical"]),
-			Ticket(1, "bar", ["enhancement"])
-		];
-
-		Tag sdl = serializeSDLang(tickets);
-		writeln(sdl.toSDLDocument());
-
-		return true;
-	}
-
-	assert( serialized() == true);
 }

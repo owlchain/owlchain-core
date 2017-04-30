@@ -1,0 +1,72 @@
+{
+	"authors": [
+		"Nick Sabalausky"
+	],
+	"configurations": [
+		{
+			"targetPath": "bin/",
+			"name": "cli",
+			"targetType": "executable",
+			"targetName": "sdlang",
+			"versions": [
+				"sdlangCliApp"
+			]
+		},
+		{
+			"name": "library",
+			"targetType": "library"
+		},
+		{
+			"targetPath": "bin/",
+			"name": "unittest-builtin",
+			"targetType": "executable",
+			"targetName": "sdlang-unittest-builtin",
+			"versions": [
+				"sdlangUsingBuiltinTestRunner",
+				"sdlangTrace"
+			],
+			"buildOptions": [
+				"unittests"
+			]
+		},
+		{
+			"buildOptions": [
+				"unittests"
+			],
+			"name": "unittest",
+			"targetType": "executable",
+			"preBuildCommands": [
+				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d"
+			],
+			"targetName": "sdlang-unittest",
+			"targetPath": "bin/",
+			"dependencies": {
+				"unit-threaded": "0.6.36"
+			},
+			"versions": [
+				"sdlangUsingUnitThreaded",
+				"sdlangTrace"
+			],
+			"mainSourceFile": "bin/ut.d"
+		}
+	],
+	"buildRequirements": [
+		"allowWarnings"
+	],
+	"importPaths": [
+		"src"
+	],
+	"name": "sdlang-d",
+	"version": "0.10.1",
+	"license": "zlib/libpng",
+	"copyright": "©2012-2016 Nick Sabalausky",
+	"description": "An SDL (Simple Declarative Language) library for D.",
+	"homepage": "http://github.com/Abscissa/SDLang-D",
+	"dependencies": {
+		"libinputvisitor": "~>1.2.2",
+		"taggedalgebraic": "~>0.10.2"
+	},
+	"sourcePaths": [
+		"src"
+	]
+}

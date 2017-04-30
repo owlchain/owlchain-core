@@ -1,0 +1,5 @@
+name "clips-demo"
+description "Demonstrates CLIPS."
+authors "yezune choi"
+dependency "clips-d" path="../../"
+versions "VibeDefaultMain"

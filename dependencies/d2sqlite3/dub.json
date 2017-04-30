@@ -1,0 +1,55 @@
+{
+	"authors": [
+		"Nicolas Sicard",
+		"Other contributors: see Github repo"
+	],
+	"configurations": [
+		{
+			"name": "with-lib",
+			"targetType": "library",
+			"libs": [
+				"sqlite3"
+			]
+		},
+		{
+			"name": "without-lib",
+			"targetType": "library"
+		},
+		{
+			"libs-linux-gdc": [
+				"dl"
+			],
+			"copyFiles-win64": [
+				"lib/win64/sqlite3.dll"
+			],
+			"copyFiles-win32": [
+				"lib/win32/sqlite3.dll"
+			],
+			"name": "all-included",
+			"targetType": "library",
+			"libs-windows": [
+				"sqlite3"
+			],
+			"preBuildCommands-posix": [
+				"make -C $PACKAGE_DIR -f sqlite3.mak"
+			],
+			"sourceFiles-posix": [
+				"sqlite3.o"
+			]
+		}
+	],
+	"importPaths": [
+		"source/"
+	],
+	"name": "d2sqlite3",
+	"systemDependencies": "SQLite version >= 3.8.7",
+	"targetType": "library",
+	"license": "BSL-1.0",
+	"version": "0.11.0",
+	"copyright": "Copyright 2011-16 Nicolas Sicard",
+	"description": "A thin wrapper around SQLite3",
+	"homepage": "https://github.com/biozic/d2sqlite3",
+	"sourcePaths": [
+		"source/"
+	]
+}

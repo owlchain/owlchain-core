@@ -1,4 +1,4 @@
-module owlchain.crypto.ReedSolomon;
+module owlchain.crypto.reedsolomon;
 
 import std.array : appender;
 import std.exception : Exception, enforce;
@@ -117,7 +117,7 @@ static long decode(string cypher_string)
     int codeword_length = 0;
     for (int i = 0; i < cypher_string.length; i++)
     {
-        auto position_in_alphabet = _ALPAHBET.indexOf(cypher_string[i]);
+        immutable position_in_alphabet = _ALPAHBET.indexOf(cypher_string[i]);
 
         if (position_in_alphabet <= -1 || position_in_alphabet > _ALPAHBET.length)
         {
@@ -131,7 +131,7 @@ static long decode(string cypher_string)
         codeword_length += 1;
     }
 
-    enforce(codeword_length != 17 && is_codeword_valid(codeword) || codeword_length == 17);
+    enforce((codeword_length != 17 && is_codeword_valid(codeword)) || codeword_length == 17);
 
     int length = BASE32_LENGTH;
     int[] cypher_string_32 = new int[length];
@@ -167,7 +167,8 @@ static long decode(string cypher_string)
     }
     while (length > 0);
 
-    BigInt bigInt = BigInt(plain_string_builder.data.dup.reverse);
+    BigInt bigInt = BigInt( plain_string_builder.data.dup.reverse );
+    
     return bigInt.toLong();
 }
 
@@ -178,7 +179,7 @@ private static int gmult(int a, int b)
         return 0;
     }
 
-    int idx = (_GLOG[a] + _GLOG[b]) % 31;
+    immutable idx = (_GLOG[a] + _GLOG[b]) % 31;
 
     return _GEXP[idx];
 }
@@ -211,7 +212,7 @@ private static bool is_codeword_valid(int[] codeword)
     }
     return sum == 0;
 }
-
+@system
 unittest
 {
     struct TA
@@ -222,34 +223,34 @@ unittest
 
     TA[] test_accounts = [
     {
-        8264278205416377583L, "K59H-9RMF-64CY-9X6E7"
+        8_264_278_205_416_377_583L, "K59H-9RMF-64CY-9X6E7"
     }, 
     {
-        8301188658053077183L, "4Q7Z-5BEE-F5JZ-9ZXE8"
+        8_301_188_658_053_077_183L, "4Q7Z-5BEE-F5JZ-9ZXE8"
     }, 
     {
-        1798923958688893959L, "GM29-TWRT-M5CK-3HSXK"
+        1_798_923_958_688_893_959L, "GM29-TWRT-M5CK-3HSXK"
     }, 
     {
-        6899983965971136120L, "MHMS-VHZT-W5CY-7CFJZ"
+        6_899_983_965_971_136_120L, "MHMS-VHZT-W5CY-7CFJZ"
     }, 
     {
-        1629938923029941274L, "JM2U-U4AE-G7WF-3NP9F"
+        1_629_938_923_029_941_274L, "JM2U-U4AE-G7WF-3NP9F"
     }, 
     {
-        6474206656034063375L, "4K2H-NVHQ-7WXY-72AQM"
+        6_474_206_656_034_063_375L, "4K2H-NVHQ-7WXY-72AQM"
     }, 
     {
-        1691406066100673814L, "Y9AQ-VE8F-U9SY-3NAYG"
+        1_691_406_066_100_673_814L, "Y9AQ-VE8F-U9SY-3NAYG"
     }, 
     {
-        2992669254877342352L, "6UNJ-UMFM-Z525-4S24M"
+        2_992_669_254_877_342_352L, "6UNJ-UMFM-Z525-4S24M"
     }, 
     {
-        43918951749449909L, "XY7P-3R8Y-26FC-2A293"
+        43_918_951_749_449_909L, "XY7P-3R8Y-26FC-2A293"
     }, 
     {
-        9129355674909631300L, "YSU6-MRRL-NSC4-9WHEX"
+        9_129_355_674_909_631_300L, "YSU6-MRRL-NSC4-9WHEX"
     }, 
     {
         0L, "2222-2222-2222-22222"
@@ -267,49 +268,49 @@ unittest
         1000L, "22ZA-2222-ZK43-22222"
     }, 
     {
-        10000L, "2BSJ-2222-KC3Y-22222"
+        10_000L, "2BSJ-2222-KC3Y-22222"
     }, 
     {
-        100000L, "53P2-2222-SQQW-22222"
+        100_000L, "53P2-2222-SQQW-22222"
     }, 
     {
-        1000000L, "YJL2-2222-ZZPC-22222"
+        1_000_000L, "YJL2-2222-ZZPC-22222"
     }, 
     {
-        10000000L, "K7N2-222B-FVFG-22222"
+        10_000_000L, "K7N2-222B-FVFG-22222"
     }, 
     {
-        100000000L, "DSA2-224Z-849U-22222"
+        100_000_000L, "DSA2-224Z-849U-22222"
     }, 
     {
-        1000000000L, "PLJ2-22XT-DVNG-22222"
+        1_000_000_000L, "PLJ2-22XT-DVNG-22222"
     }, 
     {
-        10000000000L, "RT22-2BC2-SMPD-22222"
+        10_000_000_000L, "RT22-2BC2-SMPD-22222"
     }, 
     {
-        100000000000L, "FU22-4X69-74VX-22222"
+        100_000_000_000L, "FU22-4X69-74VX-22222"
     }, 
     {
-        1000000000000L, "C622-X5CC-EMM8-22222"
+        1_000_000_000_000L, "C622-X5CC-EMM8-22222"
     }, 
     {
-        10000000000000L, "7A22-5399-RNFK-2B222"
+        10_000_000_000_000L, "7A22-5399-RNFK-2B222"
     }, 
     {
-        100000000000000L, "NJ22-YEA9-KWDV-2U422"
+        100_000_000_000_000L, "NJ22-YEA9-KWDV-2U422"
     }, 
     {
-        1000000000000000L, "F222-HULE-NWMS-2FW22"
+        1_000_000_000_000_000L, "F222-HULE-NWMS-2FW22"
     }, 
     {
-        10000000000000000L, "4222-YBRW-T4XW-28WA2"
+        10_000_000_000_000_000L, "4222-YBRW-T4XW-28WA2"
     }, 
     {
-        100000000000000000L, "N222-H3GS-QPZD-27US4"
+        100_000_000_000_000_000L, "N222-H3GS-QPZD-27US4"
     }, 
     {
-        1000000000000000000L, "A222-QGMQ-WDH2-2Q7SV"
+        1_000_000_000_000_000_000L, "A222-QGMQ-WDH2-2Q7SV"
     }
     ];
 
@@ -335,8 +336,9 @@ string encodeWithPrefix(string prefix, long plain)
     return prefix ~ "-" ~ encode(plain);
 }
 
+@system
 unittest
 {
-    assert(encodeWithPrefix("BOS", 1000000000000000000L) == "BOS-A222-QGMQ-WDH2-2Q7SV");
-    assert(decodeWithPrefix("BOS", "BOS-A222-QGMQ-WDH2-2Q7SV") == 1000000000000000000L);
+    assert(encodeWithPrefix("BOS", 1_000_000_000_000_000_000L) == "BOS-A222-QGMQ-WDH2-2Q7SV");
+    assert(decodeWithPrefix("BOS", "BOS-A222-QGMQ-WDH2-2Q7SV") == 1_000_000_000_000_000_000L);
 }

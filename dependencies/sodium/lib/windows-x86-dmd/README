@@ -1,0 +1,23 @@
+General Note:
+While I'm not a fan of deploying binaries, I do this here for testing puposes and lazy users,
+though I recommend to get Your own copy from https://download.libsodium.org/libsodium/releases/ or build from source.
+
+
+This folder has to be populated at least with file libsodium.lib import library (OMF format for -m32, 32 bit).
+(Maybe, not tested by me, a build of static library with Digital Mars compiler dmc will succeed too.)
+
+
+OMF format is NOT included in any of sodium's released files but an OMF import library can be build easyly from a 32 bit .dll with Digital Mars tool : implib
+which is part of Basic Utilities, downloadable from:
+http://ftp.digitalmars.com/bup.zip
+http://www.digitalmars.com/ctg/implib.html
+
+implib /s libsodium.lib libsodium.dll
+
+
+At Your option place the .dll here as well (or within %PATH%), and dub.json (copyFiles-windows-*)
+will copy the .dll to directory 'targetPath' (in turn for possibly different Windows builds), thus this ensures, that always the
+matching pair of import lib and .dll is used; requires adding 'targetPath' (/lib) to %PATH%.
+
+The libsodium.dll included is from https://download.libsodium.org/libsodium/releases/libsodium-1.0.12-msvc.zip,
+folder ...\libsodium-1.0.12-msvc\Win32\Release\v140\dynamic  (Visual Studio 2015)

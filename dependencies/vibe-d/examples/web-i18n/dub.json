@@ -1,0 +1,9 @@
+﻿{
+	"name": "web-framework-i18n-example",
+	"description": "Internationalized web framework example.",
+	"dependencies": {
+		"vibe-d:web": {"path": "../../"}
+	},
+	"stringImportPaths": ["views", "translations"],
+	"versions": ["VibeDefaultMain"]
+}

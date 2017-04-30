@@ -1,0 +1,8 @@
+﻿{
+	"name": "auth-basic-example",
+	"description": "Demonstrates basic authentication.",
+	"dependencies": {
+		"vibe-d:diet": {"path": "../../"}
+	},
+	"versions": ["VibeDefaultMain"]
+}
