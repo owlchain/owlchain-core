@@ -348,7 +348,7 @@ class BlockchainRESTImpl : IBlockchainREST
 			rs[ca].txCount++;
 		}
 		
-		Json json;
+		Json json = "";
 
 		if (getOperation(_contents) == "creation")
 		{
