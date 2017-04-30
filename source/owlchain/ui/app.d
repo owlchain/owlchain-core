@@ -13,6 +13,7 @@ import std.array;
 import std.random;
 import std.regex;
 import std.string;
+import sdlang;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
@@ -159,6 +160,21 @@ class BlockchainRESTImpl : IBlockchainREST
 			}
 		}
 
+		return 0;
+	}
+
+	private int checkSdlangSyntex(string contents)
+	{
+		Tag root;
+		try
+		{
+			root = parseSource(contents); 
+		}
+		catch(ParseException e)
+		{
+			// stderr.writeln(e.msg);
+			return 1;
+		}
 		return 0;
 	}
 
@@ -342,14 +358,25 @@ class BlockchainRESTImpl : IBlockchainREST
 
 	Json runTrustContract(string _contractAddress, string _contents)
 	{
+		_contents = "Individual" ~ _contents;
+		Json json = "";
+
+		if (checkSdlangSyntex(_contents) == 1)
+		{
+			auto e = ErrorState();
+			e.code = "99";
+			e.status = "Error(99)";
+			e.message = "Syntex Error";
+
+			json = serializeToJson(e);
+		}
+
 		int ca = confirmAddress(_contractAddress);
 		if (ca != -1)
 		{
 			rs[ca].txCount++;
 		}
 		
-		Json json = "";
-
 		if (getOperation(_contents) == "creation")
 		{
 			auto c = CreateHWCAccount();
