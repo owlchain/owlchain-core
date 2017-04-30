@@ -1,0 +1,11 @@
+@prefix bos="http://boscoin.io/ontology/BosCoin/"
+@prefix coin="http://boscoin.io/ontology/CoinOntology/"
+@prefix owl="http://www.w3.org/2002/07/owl"
+
+owl:Individual{
+bos:type "Account"
+coin:basecoin "TRX-HWVJ-G9ZJ-GB4Y-2KBMP"
+coin:balance 100000 
+
+bos:operation “Creation”
+}
