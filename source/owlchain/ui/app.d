@@ -172,7 +172,7 @@ class BlockchainRESTImpl : IBlockchainREST
 			auto e = ErrorState();
 			
 			e.code = "01";
-			e.strMsg = "no value.";
+			e.message = "no value.";
 			
 			json = serializeToJson(e);
 		}
@@ -190,7 +190,7 @@ class BlockchainRESTImpl : IBlockchainREST
 			auto e = ErrorState();
 
 			e.code = "00";
-			e.strMsg = "type is not 'SendBOS'.";
+			e.message = "type is not 'SendBOS'.";
 
 			json = serializeToJson(e);
 		}
@@ -312,7 +312,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		auto v = ValidateTrustContract();
 		v.code = "00";
 		v.status = "Verify OK";
-		v.strMsg = "Please confirm to get address";
+		v.message = "Please confirm to get address";
 		auto json = serializeToJson(v);
 		return json;
 	}
@@ -322,7 +322,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		auto c = ConfirmedTrustContract();
 		c.code = "00";
 		c.status = "Confirm OK";
-		c.strMsg = "Created new trust contract address";
+		c.message = "Created new trust contract address";
 		c.title = _title;
 		c.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
 		while (confirmAddress(c.address) != -1)
@@ -375,7 +375,7 @@ class BlockchainRESTImpl : IBlockchainREST
 				auto e = ErrorState();
 				e.code = "99";
 				e.status = "Error(97)";
-				e.strMsg = "Not enough balance.";
+				e.message = "Not enough balance.";
 				
 				json = serializeToJson(e);
 			}
