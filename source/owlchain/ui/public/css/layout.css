@@ -80,7 +80,7 @@ a.anc_gb.disabled:hover{ border:1px solid transparent; background:#959595; }
 .s1 .submit-wrap a{ display:inline-block; margin:0 10px;padding:10px 30px; }
 
 .content dl dd input{ width:100%; }
-.content dl dd select { width: 200px; padding:5px 10px;}
+.content dl dd select { width: 100px; padding:5px 10px;}
 .content dl dd select option { padding:8px; }
 
 /*s2*/
