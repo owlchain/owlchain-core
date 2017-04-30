@@ -209,7 +209,12 @@ trust.js
          var _title = $('#s2_tit').val();
          var _textarea = $('.s4 textarea');
          var _str = _textarea.val();
-          _str=_str.split('Individual')[1];
+         console.log('------------');
+         console.log(_str);
+         if (_str.indexOf('Individual') != -1) {
+            _str = _str.split('Individual')[1];
+            _str = _str.replace('#', '');
+         }
          _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _str, function(data) {
             var _ul = $('.s4 .info ul.list');
             _ul.children().remove();
