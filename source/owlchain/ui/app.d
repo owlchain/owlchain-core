@@ -121,13 +121,13 @@ class BlockchainRESTImpl : IBlockchainREST
 		
 		foreach (i, c1; cs)
 		{
-			if (c1 == "“remittance”}")
+			if (c1 == "“Remittance”}")
 			{
-				return "remittance";
+				return "Remittance";
 			}
 			else if (c1 == "“Creation”}")
 			{
-				return "creation";
+				return "Creation";
 			}
 		}
 		return "";
@@ -173,7 +173,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		catch(ParseException e)
 		{
 			// stderr.writeln(e.msg);
-			return 1;
+			return -1;
 		}
 		return 0;
 	}
@@ -361,7 +361,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		_contents = "Individual" ~ _contents;
 		Json json = "";
 
-		if (checkSdlangSyntex(_contents) == 1)
+		if (checkSdlangSyntex(_contents) == -1)
 		{
 			auto e = ErrorState();
 			e.code = "99";
@@ -377,16 +377,16 @@ class BlockchainRESTImpl : IBlockchainREST
 			rs[ca].txCount++;
 		}
 		
-		if (getOperation(_contents) == "creation")
+		if (getOperation(_contents) == "Creation")
 		{
 			auto c = CreateHWCAccount();
 			c.code = "00";
 			c.status = "Transaction Success";
 			c.txID = _contractAddress;
-			c.accountAddress = encodeWithPrefix("HWC", uniform(0L, 1000000000000000000L));
+			c.accountAddress = encodeWithPrefix("BOS", uniform(0L, 1000000000000000000L));
 			while (confirmAddress(c.accountAddress) != -1)
 			{
-				c.accountAddress = encodeWithPrefix("HWC", uniform(0L, 1000000000000000000L));
+				c.accountAddress = encodeWithPrefix("BOS", uniform(0L, 1000000000000000000L));
 			}
 			c.balance = getAccountBalance(_contents);
 
@@ -395,7 +395,7 @@ class BlockchainRESTImpl : IBlockchainREST
 
 			json = serializeToJson(c);
 		}
-		else if (getOperation(_contents) == "remittance")
+		else if (getOperation(_contents) == "Remittance")
 		{
 			if (getRemittanceAmount(_contents) > tcwallet.totalBalance)
 			{
