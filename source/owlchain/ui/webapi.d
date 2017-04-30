@@ -2,15 +2,9 @@ module owlchain.ui.webapi;
 
 struct ErrorState
 {
-<<<<<<< HEAD
 	string code;
 	string status;
 	string message;
-=======
-	string code;	
-	string status;
-	string strMsg;
->>>>>>> PoC0
 }
 
 // User sendTransaction
@@ -153,24 +147,15 @@ struct ValidateTrustContract
 {
 	string code;
 	string status;
-<<<<<<< HEAD
 	string message;
-=======
-	string strMsg;
-	string address;
->>>>>>> PoC0
 }
 
 struct ConfirmedTrustContract
 {
 	string code;
 	string status;
-<<<<<<< HEAD
 	string message;
 	string address;
-=======
-	string strMsg;
->>>>>>> PoC0
 	string title;
 
 }
@@ -184,25 +169,11 @@ struct CreateHWCAccount
 	int balance;
 }
 
-<<<<<<< HEAD
-struct SendCoin
-=======
-struct CreateIndividual
->>>>>>> PoC0
-{
-	string code;
-	string status;
-	string txID;
-<<<<<<< HEAD
-=======
-}
-
 struct SendCoin
 {
 	string code;
 	string status;
 	string txID;
->>>>>>> PoC0
 	int balance;
 }
 

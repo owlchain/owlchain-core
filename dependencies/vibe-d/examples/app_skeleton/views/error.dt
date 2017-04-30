@@ -1,8 +1,0 @@
-extends layout
-
-block title
-	- auto title = "HTTP error " ~ to!string(error.code);
-
-block body
-	p An error has occured. We are really sorry about that!
-	p Error description: #{error.message}

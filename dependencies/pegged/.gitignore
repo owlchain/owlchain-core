@@ -1,9 +1,0 @@
-*~
-*.deps
-*.obj
-*.o
-.lock-*
-build/*
-.directory
-.dub
-libpegged.a

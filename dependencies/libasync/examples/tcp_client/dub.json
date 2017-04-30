@@ -1,7 +1,0 @@
-{
-    "name": "tcp_client",
-    "description": "A simple TCP client",
-    "dependencies": {
-        "libasync": {"version": "~master", "path": "../../"}
-    }
-}

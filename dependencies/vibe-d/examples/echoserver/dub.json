@@ -1,8 +1,0 @@
-﻿{
-	"name": "echoserver-example",
-	"description": "Implementation of a minimal echo server.",
-	"dependencies": {
-		"vibe-d:core": {"path": "../../"}
-	},
-	"versions": ["VibeDefaultMain"]
-}

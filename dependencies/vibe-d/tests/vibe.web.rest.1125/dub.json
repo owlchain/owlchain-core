@@ -1,7 +1,0 @@
-{
-	"name": "1125",
-	"dependencies": {
-		"vibe-d": { "path": "../../" }
-	},
-	"versions": ["VibeDefaultMain"]
-}

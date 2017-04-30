@@ -1,8 +1,0 @@
-{
-    "name": "tests",
-    "description": "TLS tunnel and certificate test",
-    "dependencies": {
-        "vibe-d": {"path": "../../"}
-    },
-    "versions": ["VibeCustomMain"]
-}
