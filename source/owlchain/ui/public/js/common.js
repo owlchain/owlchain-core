@@ -54,31 +54,10 @@ trust.js
       };
       /*=== Ajax Function =================================================*/
       var _ajax = function(url, callBack) {
-         console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
-         /*
-         $.ajax({
-            type: "get",
-            url: url,
-            async: false,
-            cache: false,
-            dataType: "text",
-            data: {
-               //url: url
-            },
-            //   dataType: "text",
-            success: function(data, textStatus, jqXHR) {
-               console.log(data);
-               callBack.call(this, data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-               callBack.call(this);
-               console.log('error');
-            }
-         });
-         */
-         $.post(url, function(data, status) {
-            console.log(data);
-            //callBack.call(this, data);
+         console.log('%c "url: ' + url + '', 'font-size:12px;color:purple;');
+         $.get(url, function(data, status) {
+            // console.log(data);
+            //  callBack.call(this, data);
          }).done(function(data) {
             if (typeof(data) != "string") {
                //  data.mode = "done";
@@ -210,8 +189,7 @@ trust.js
          } else if (_idx == 2) {
             _url = "./ajax/Crowdfunding.sdl";
          } else if (_idx == 3) {
-            //      _url = "./ajax/HelloCoin.sdl";
-            _url = "./ajax/sample.txt";
+            _url = "./ajax/HelloCoin.sdl";
          }
          _ajax(_url, function(data) {
             _textarea.val(data);
@@ -225,14 +203,14 @@ trust.js
       _testRun.bind('click', function(event) {
          _testVisualBtn.removeClass('disabled');
       });
-      _testVisualBtn.bind('click', function(event) {
-
-      });
+      _testVisualBtn.bind('click', function(event) {});
       /*=== s4 =================================================*/
       $('.s4 .submit').bind('click', function(event) {
          var _title = $('#s2_tit').val();
          var _textarea = $('.s4 textarea');
-         _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _textarea.val(), function(data) {
+         var _str = _textarea.val();
+          _str=_str.split('Individual')[1];
+         _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _str, function(data) {
             var _ul = $('.s4 .info ul.list');
             _ul.children().remove();
             var _ele = '';
