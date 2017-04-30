@@ -8,6 +8,7 @@ license "GPL-3.0"
 // library dependancies
 dependency "vibe-d" version="0.7.31" path="dependencies/vibe-d"
 dependency "vibe-sdlang" version="1.0.0-alpha.2" path="dependencies/vibe-sdlang"
+
 dependency "diet-ng" version="1.2.1" path="dependencies/diet-ng"
 dependency "libasync" version="0.8.3" path="dependencies/libasync"
 dependency "libevent" version="2.0.2+2.0.16" path="dependencies/libevent"
@@ -27,9 +28,6 @@ dependency "unit-threaded" version="0.6.36" path="dependencies/unit-threaded"
 dependency "d2sqlite3" version="0.11.0" path="dependencies/d2sqlite3"
 dependency "sodium:wrapper" version="0.1.3" path="dependencies/sodium"
 dependency "clips-d" version="0.1.0" path="dependencies/clips-d"
-
-
-
 
           
 //subConfiguration "somepackage" "glut-app"

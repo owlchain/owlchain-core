@@ -11,6 +11,8 @@ import std.stdio;
 import std.path;
 import std.array;
 import std.random;
+import std.regex;
+import std.string;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
@@ -62,8 +64,8 @@ interface IBlockchainREST
  	Json validateTrustContract(string _contents);
 
 	@method(HTTPMethod.GET)
- 	@path("/blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title")
- 	Json confirmedTrustContract(string _contractAddress, string _title);
+ 	@path("/blockchain/trustcontract/confirmedTrustContract/:title")
+ 	Json confirmedTrustContract(string _title);
 
 	@method(HTTPMethod.GET)
  	@path("/blockchain/trustcontract/runTrustContract/:contractAddress/:contents")
@@ -112,30 +114,52 @@ class BlockchainRESTImpl : IBlockchainREST
 		return -1;
 	}
 
-	private int calculateBalance(string contents)
+	private string getOperation(string contents)
 	{
-		int balance = 0;
-
-		if (contents.length > 10)
+		auto cs = split(contents, regex(`([\r\n\t\s=:])`));
+		
+		foreach (i, c1; cs)
 		{
-			for (int i = 0; i < contents.length - 10; i++)
+			if (c1 == "“remittance”}")
 			{
-				if (contents[i..i + 11] == "sendCoin = ")
-				{
-					for (int j = i + 11; j < contents.length - 2; j++)
-					{
-						if (contents[j..j + 3] == "HWC")
-						{
-							balance = to!int(contents[i + 11.. j - 1]);
-							break;
-						}
-					}
-					break;
-				}
+				return "remittance";
+			}
+			else if (c1 == "“Creation”}")
+			{
+				return "creation";
+			}
+		}
+		return "";
+	}
+
+	private int getAccountBalance(string contents)
+	{
+		auto cs = split(contents, regex(`([\r\n\t\s=:])`));
+
+		foreach (i, c; cs)
+		{
+			if (c == "balance")
+			{
+				return to!int(cs[i + 1]);
 			}
 		}
 
-		return balance;
+		return 0;
+	}
+
+	private int getRemittanceAmount(string contents)
+	{
+		auto cs = split(contents, regex(`([\r\n\t\s=:])`));
+				
+		foreach (i, c; cs)
+		{
+			if (c == "unit")
+			{
+				return to!int(cs[i - 1]);
+			}
+		}
+
+		return 0;
 	}
 
 	override:
@@ -148,7 +172,7 @@ class BlockchainRESTImpl : IBlockchainREST
 			auto e = ErrorState();
 			
 			e.code = "01";
-			e.strMsg = "no value.";
+			e.message = "no value.";
 			
 			json = serializeToJson(e);
 		}
@@ -166,7 +190,7 @@ class BlockchainRESTImpl : IBlockchainREST
 			auto e = ErrorState();
 
 			e.code = "00";
-			e.strMsg = "type is not 'SendBOS'.";
+			e.message = "type is not 'SendBOS'.";
 
 			json = serializeToJson(e);
 		}
@@ -288,30 +312,29 @@ class BlockchainRESTImpl : IBlockchainREST
 		auto v = ValidateTrustContract();
 		v.code = "00";
 		v.status = "Verify OK";
-		v.strMsg = "Please confirm to get address";
-		v.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
-		while (confirmAddress(v.address) != -1)
-		{
-			v.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
-		}
+		v.message = "Please confirm to get address";
 		auto json = serializeToJson(v);
 		return json;
 	}
 
-	Json confirmedTrustContract(string _contractAddress, string _title)
+	Json confirmedTrustContract(string _title)
 	{
-		rs.length++;
-		rs[rs.length - 1].no = rs.length;
-		rs[rs.length - 1].contractID = _contractAddress;
-		rs[rs.length - 1].title = _title;
-		rs[rs.length - 1].txCount = 0;
-	
 		auto c = ConfirmedTrustContract();
 		c.code = "00";
 		c.status = "Confirm OK";
-		c.strMsg = "Created new trust contract address";
-
+		c.message = "Created new trust contract address";
 		c.title = _title;
+		c.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
+		while (confirmAddress(c.address) != -1)
+		{
+			c.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
+		}
+
+		rs.length++;
+		rs[rs.length - 1].no = rs.length;
+		rs[rs.length - 1].contractID = c.address;
+		rs[rs.length - 1].title = c.title;
+		rs[rs.length - 1].txCount = 0;
 
  		auto json = serializeToJson(c);
 		return json;
@@ -325,24 +348,34 @@ class BlockchainRESTImpl : IBlockchainREST
 			rs[ca].txCount++;
 		}
 		
-		Json json;
-		if (1)
+		Json json = "";
+
+		if (getOperation(_contents) == "creation")
 		{
-			auto c = CreateIndividual();
+			auto c = CreateHWCAccount();
 			c.code = "00";
 			c.status = "Transaction Success";
 			c.txID = _contractAddress;
-			
+			c.accountAddress = encodeWithPrefix("HWC", uniform(0L, 1000000000000000000L));
+			while (confirmAddress(c.accountAddress) != -1)
+			{
+				c.accountAddress = encodeWithPrefix("HWC", uniform(0L, 1000000000000000000L));
+			}
+			c.balance = getAccountBalance(_contents);
+
+			tcwallet.address = c.accountAddress;
+			tcwallet.totalBalance = c.balance;
+
 			json = serializeToJson(c);
 		}
-		else if (2)
+		else if (getOperation(_contents) == "remittance")
 		{
-			if (calculateBalance(_contents) > tcwallet.totalBalance)
+			if (getRemittanceAmount(_contents) > tcwallet.totalBalance)
 			{
 				auto e = ErrorState();
 				e.code = "99";
 				e.status = "Error(97)";
-				e.strMsg = "Not enough balance.";
+				e.message = "Not enough balance.";
 				
 				json = serializeToJson(e);
 			}
@@ -352,7 +385,7 @@ class BlockchainRESTImpl : IBlockchainREST
 				s.code = "00";
 				s.status = "Transaction Success";
 				s.txID = _contractAddress;
-				tcwallet.totalBalance -= calculateBalance(_contents);
+				tcwallet.totalBalance -= getRemittanceAmount(_contents);
 				s.balance = tcwallet.totalBalance;
 			
 				json = serializeToJson(s);
@@ -409,7 +442,7 @@ unittest
 	routes[6] = /blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount
 	routes[7] = /blockchain/AccountOperations/createAccount
 	routes[8] = /blockchain/trustcontract/validateTrustContract/:contents
-	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title
+	routes[9] = /blockchain/trustcontract/confirmedTrustContract/:title
 	routes[10] = /blockchain/trustcontract/runTrustContract/:contractAddress/:contents
 	routes[11] = /blockchain/trustcontract/reqTrustContractList
 	*/
@@ -423,7 +456,7 @@ unittest
 	assert (routes[6].method == HTTPMethod.GET && routes[6].pattern == "/blockchain/FreezingOperations/setFreezing/:accountAddress/:freezingStatus/:freezingAmount");
 	assert (routes[7].method == HTTPMethod.GET && routes[7].pattern == "/blockchain/AccountOperations/createAccount");
 	assert (routes[8].method == HTTPMethod.GET && routes[8].pattern == "/blockchain/trustcontract/validateTrustContract/:contents");
-	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:contractAddress/:title");
+	assert (routes[9].method == HTTPMethod.GET && routes[9].pattern == "/blockchain/trustcontract/confirmedTrustContract/:title");
 	assert (routes[10].method == HTTPMethod.GET && routes[10].pattern == "/blockchain/trustcontract/runTrustContract/:contractAddress/:contents");
 	assert (routes[11].method == HTTPMethod.GET && routes[11].pattern == "/blockchain/trustcontract/reqTrustContractList");
 }
