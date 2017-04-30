@@ -154,9 +154,9 @@ class BlockchainRESTImpl : IBlockchainREST
 				
 		foreach (i, c; cs)
 		{
-			if (c == "unit")
+			if (c == "amount")
 			{
-				return to!int(cs[i - 1]);
+				return to!int(cs[i + 1]);
 			}
 		}
 
