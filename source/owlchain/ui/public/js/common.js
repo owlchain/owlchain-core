@@ -134,7 +134,7 @@ trust.js
             }
             if ($(this).hasClass('confirm')) {
                 $('.s1 a.submit').addClass('disabled');
-                _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress + "/" + _title, function(data) {
+                _ajax(CONTRACT_CONFIRM_LOAD + "/" +  _title, function(data) {
                     $('.s1 textarea').text(data.statusMsg);
                     appendElements(data);
                 });

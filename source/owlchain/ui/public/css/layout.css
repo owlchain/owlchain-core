@@ -56,9 +56,11 @@ textarea{ display:block; width:100%; padding:3px 10px 80px 20px; color:#FFF; fon
 .editor-wrap .info .btn-wrap{ border-bottom:1px solid #FFF; text-align: center;}
 .editor-wrap .info .btn-wrap a {display:inline-block; margin:5px 3px;}
 .editor-wrap .info .list{padding:10px 0;}
+.editor-wrap .info .list li{position:relative;}
 .editor-wrap .info .list span{ color:#FFF; font-size:14px;}
-.editor-wrap .info .list span.tit{ display:inline-block; position:relative; width:120px; margin-right:20px;  }
+.editor-wrap .info .list span.tit{ display:inline-block; position:relative; width:200px; margin-right:20px;  }
 .editor-wrap .info .list span.tit:after{ position:absolute; right:0; top:0; content:':'; }
+.editor-wrap .info .list span.value{}
 .editor-wrap .title-menu dt { padding:12px 0 0 12px;}
 /*main*/
 .button_wrap{text-align: right;}
