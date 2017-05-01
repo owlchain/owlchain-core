@@ -1,0 +1,12 @@
+﻿@prefix coin="http://boscoin.io/ontology/CoinOntology#"
+@prefix owl="http://www.w3.org/2002/07/owl#"
+@prefix rdfs="http://www.w3.org/2000/01/rdf-schema#"
+
+owl:Ontology{
+	owl:imports "http://boscoin.io/ontology/CoinOntology"
+	rdfs:subClassOf "http://boscoin.io/ontology/CoinOntology#Coin"
+	coin:name "HelloWorldCoin"
+	coin:minimumValue 0.0001
+	coin:symbol "HWC"
+	coin:totalSupply 1000000
+}
