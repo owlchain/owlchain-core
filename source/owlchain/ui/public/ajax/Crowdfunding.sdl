@@ -7,7 +7,6 @@
 @prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 @prefix owl "http://www.w3.org/2002/07/owl#"
 @prefix skos "http://www.w3.org/2004/02/skos/core#"
-@prefix xml "http://www.w3.org/XML/1998/namespace"
 
 rdf:RDF {
 
@@ -60,11 +59,5 @@ rdf:RDF {
 
 	owl:Class rdf:about="crowdfunding:Participant" {
 		rdfs:label "Participant"}
-
-	owl:NamedIndividual rdf:about="crowdfunding:fund" {
-		rdf:type rdf:resource="crowdfunding:Fund"
-		address "1577ymBUSnL2Wm6w5tLFHszzisVxLoeGaE" rdf:datatype="rdfs:Literal"
-		amount "500000" rdf:datatype="xsd:integer"
-		deadline "20170401" rdf:datatype="xsd:integer"}
 }
 

@@ -1,5 +1,5 @@
-﻿@base "http://boscoin.io/ontology/finance_ontolgy"
-@prefix finance_ontolgy="http://boscoin.io/ontology/finance_ontolgy#"
+﻿@base "http://boscoin.io/ontology/CoinOntology"
+@prefix coin="http://boscoin.io/ontology/CoinOntology#"
 @prefix rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 @prefix owl="http://www.w3.org/2002/07/owl#"
 @prefix xml="http://www.w3.org/xml/1998/namespace"
@@ -7,7 +7,7 @@
 @prefix rdfs="http://www.w3.org/2000/01/rdf-schema#"
 
 rdf:rdf {
-     owl:ontology rdf:about="http://boscoin.io/ontology/finance_ontolgy"
+     owl:ontology rdf:about="http://boscoin.io/ontology/CoinOntology"
 
      owl:objectproperty rdf:about="#drawing"{
          rdfs:subpropertyof rdf:resource="#financeoperation"}
