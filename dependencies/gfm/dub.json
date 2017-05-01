@@ -1,0 +1,37 @@
+{
+    "name": "gfm",
+    "version": "6.2.7",
+    "description": "D gamedev toolkit. 3D maths, 128-bit integers, OpenGL/SDL/FreeImage/Assimp wrapper, coloured logger",
+    "homepage": "http://github.com/d-gamedev-team/gfm/",
+    "copyright": "none",
+    "license": "public domain",
+
+    "authors": [
+        "Daniele Bondi / maeriden: Euler angles fix",
+        "Francesco Cattoglio: OpenGL wrapper improvements",
+        "John D. Cook: original SimpleRNG author",
+        "Steven Dwy / Yoplitein: sdl_mixer wrapper, documentation improvements",
+        "Daniel Cousens / RommelVR: GL fix",
+        "Gerbrand Kamphuis / vuaru: many fixes",
+        "Kyle Hunter / Kelet: ENet wrapper",
+        "Sam Hocevar: original author of some bits of code",
+        "Guillaume Piolat / ponce: main author of GFM",
+        "Ryan Roden-Corrent / rcorre: math package improvements",
+        "Tanel Tagaväli / clinei: SDL audio wrapper",
+        "H. S. Teoh / quickfur: wideint improvements"
+    ],
+
+    "targetType": "none",
+
+    "dependencies": {
+        "gfm:integers": "*",
+    },
+
+    "subPackages": [
+        {
+            "name": "integers",
+            "sourcePaths": [ "integers/gfm/integers" ],
+            "importPaths": [ "integers" ]
+        }
+    ]
+}

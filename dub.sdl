@@ -28,8 +28,8 @@ dependency "unit-threaded" version="0.6.36" path="dependencies/unit-threaded"
 dependency "d2sqlite3" version="0.11.0" path="dependencies/d2sqlite3"
 dependency "sodium:wrapper" version="0.1.3" path="dependencies/sodium"
 dependency "clips-d" version="0.1.0" path="dependencies/clips-d"
+dependency "gfm:integers" version="6.2.7" path="dependencies/gfm"
 
-          
 //subConfiguration "somepackage" "glut-app"
 
 //versions "VibeDefaultMain"
