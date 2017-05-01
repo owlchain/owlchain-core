@@ -338,7 +338,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		auto c = ConfirmedTrustContract();
 		c.code = "00";
 		c.status = "Confirm OK";
-		c.message = "Created new trust contract address";
+		c.message = "New trust contract address has been created.";
 		c.title = _title;
 		c.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
 		while (confirmAddress(c.address) != -1)
@@ -421,7 +421,7 @@ class BlockchainRESTImpl : IBlockchainREST
 				auto e = ErrorState();
 				e.code = "99";
 				e.status = "Error(97)";
-				e.message = "Exceeded amount has been sent.";
+				e.message = "Exceeded amount has been requested.";
 				
 				json = serializeToJson(e);
 			}
