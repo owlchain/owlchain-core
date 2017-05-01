@@ -6,7 +6,7 @@
 @prefix xsd="http://www.w3.org/2001/xmlschema#"
 @prefix rdfs="http://www.w3.org/2000/01/rdf-schema#"
 
-rdf:rdf {
+rdf:RDF {
      owl:ontology rdf:about="http://boscoin.io/ontology/CoinOntology"
 
      owl:objectproperty rdf:about="#drawing"{
