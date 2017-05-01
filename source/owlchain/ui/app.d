@@ -401,8 +401,17 @@ class BlockchainRESTImpl : IBlockchainREST
 			{
 				auto e = ErrorState();
 				e.code = "99";
-				e.status = "Error(97)";
+				e.status = "Error(96)";
 				e.message = "Not enough balance.";
+				
+				json = serializeToJson(e);
+			}
+			else if (getRemittanceAmount(_contents) > 50000)
+			{
+				auto e = ErrorState();
+				e.code = "99";
+				e.status = "Error(97)";
+				e.message = "Exceeded amount has been sent.";
 				
 				json = serializeToJson(e);
 			}
