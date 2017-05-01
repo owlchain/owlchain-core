@@ -189,6 +189,7 @@ struct TcWallet
 {
 	string address;
 	uint totalBalance = 100000;
+	bool isTransfered = false;
 }
 
 // User receiveTransaction
