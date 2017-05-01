@@ -4,9 +4,9 @@
 
 owl:Individual{
    bos:type “Transaction”
-   coin:sender  “BOS-SF86-P98D-RLTD-2ZV7Q” 
-   coin:reciever “TRX-SF86-P98D-RLTD-2ZV72" 
-   coin:amount 300000
+   coin:sender  “” 
+   coin:reciever “" 
+   coin:amount 300000 coin:type="HWC"
 
    bos:operation “Remittance”
 }
