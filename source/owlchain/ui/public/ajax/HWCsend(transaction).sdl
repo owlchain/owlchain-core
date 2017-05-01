@@ -1,4 +1,4 @@
-﻿@prefix bos=“http://boscoin.io/ontology/BosCoin/”
+﻿@prefix bos=“http://boscoin.io/ontology/BOScoin/”
 @prefix coin=“http://boscoin.io/ontology/CoinOntology/”
 @prefix owl=“http://www.w3.org/2002/07/owl”
 

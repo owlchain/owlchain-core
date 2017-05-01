@@ -1,33 +1,35 @@
 @prefix rer="http://boscoin.io/ontology/RealEstateRentalOntology"
 @prefix owl="http://www.w3.org/2002/07/owl#"
 @prefix foaf="http://xmlns.com/foaf/0.1/"
+@prefix rdfs="http://www.w3.org/2000/01/rdf-schema#"
+@prefix rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 @prefix bos="http://boscoin.io/ontology/BOScoin/"
-
-owl:Class "Leessee01"{
-    bos:type "#Lessee"
-    rer:address "165, Yeoksam-ro, Gangnam-gu, Seoul, Republic of Korea"
-    rer:phoneNo "02-123-4567"
-    rer:registrationNumber "123456-1001234"
-    foaf:name "Hong Kil Dong"
-}
-
-owl:Class "Lessor01"{
-    bos:type "#Lessor"
-    rer:address "166, Yeoksam-ro, Gangnam-gu, Seoul, Republic of Korea"
-    rer:account "TRX-SF86-P98D-RLTD-2ZV7A"
-    rer:phoneNo "02-234-5678"
-    rer:registrationNumber "234567-1002345"
-    foaf:name "Kim Chul Soo"
-}
-
-owl:Class "RealEstate01"{
-    bos:type "#RealEstate"
-    rer:address "167, Yeoksam-ro, Gangnam-gu, Seoul, Republic of Korea"
-}
 
 owl:Ontology{
     owl:imports "http://boscoin.io/ontology/RealEstateRentalOntology"
-    rdfs:subClassOf "http://boscoin.io/ontology/RealEstateRentalOntology#RentalContract"
+    rdfs:subClassOf "http://boscoin.io/ontology/RealstateRentalOntology#RentalContract"
+
+    owl:Class "Leessee01"{
+        rdf:type "#Lessee"
+        rer:address "165, Yeoksam-ro, Gangnam-gu, Seoul, Republic of Korea"
+        rer:phoneNo "02-123-4567"
+        rer:registrationNumber "123456-1001234"
+        foaf:name "Hong Kil Dong"
+    }
+
+    owl:Class "Lessor01"{
+        rdf:type "#Lessor"
+        rer:address "166, Yeoksam-ro, Gangnam-gu, Seoul, Republic of Korea"
+        rer:account "TRX-SF86-P98D-RLTD-2ZV7A"
+        rer:phoneNo "02-234-5678"
+        rer:registrationNumber "234567-1002345"
+        foaf:name "Kim Chul Soo"
+    }
+
+    owl:Class "RealEstate01"{
+        rdf:type "#RealEstate"
+        rer:address "167, Yeoksam-ro, Gangnam-gu, Seoul, Republic of Korea"
+    }
 
     rer:hasContractor "#Lessee01"
     rer:hasContractor "#Lessor01"
