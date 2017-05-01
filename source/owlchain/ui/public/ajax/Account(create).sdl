@@ -4,7 +4,6 @@
 
 owl:Individual{
     bos:type "#Account"
-    coin:basecoin "TRX-HWVJ-G9ZJ-GB4Y-2KBMP"
     coin:balance 100000 
 
     bos:operation “Creation”
