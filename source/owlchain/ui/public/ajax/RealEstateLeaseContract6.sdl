@@ -33,6 +33,7 @@ owl:Ontology{
     rer:hasRealEstate "#RealEstate01"
     rer:RentalEndingDate "2019-05-02"
     rer:RentalStartingDate "2017-05-02"
+    rer:dueDay "25"
     rer:initialDeposit 50000
     rer:monthlypayment 1000
 }
