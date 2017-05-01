@@ -14,6 +14,7 @@ owl:Class "Leessee01"{
 owl:Class "Lessor01"{
     bos:type "#Lessor"
     rer:address "166, Yeoksam-ro, Gangnam-gu, Seoul, Republic of Korea"
+    rer:account "TRX-SF86-P98D-RLTD-2ZV7A"
     rer:phoneNo "02-234-5678"
     rer:registrationNumber "234567-1002345"
     foaf:name "Kim Chul Soo"
