@@ -3,7 +3,7 @@
 @prefix foaf="http://xmlns.com/foaf/0.1/"
 @prefix rdfs="http://www.w3.org/2000/01/rdf-schema#"
 @prefix rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-@prefix bos="http://boscoin.io/ontology/BOScoin/"
+@prefix coin="http://boscoin.io/ontology/CoinOntology/"
 
 owl:Ontology{
     owl:imports "http://boscoin.io/ontology/RealEstateRentalOntology"
@@ -37,6 +37,6 @@ owl:Ontology{
     rer:RentalEndingDate "2019-05-02"
     rer:RentalStartingDate "2017-05-02"
     rer:dueDay "25"
-    rer:initialDeposit 50000
-    rer:monthlypayment 1000
+    rer:initialDeposit 50000 coin:symbol="HWC"
+    rer:monthlypayment 1000 coin:symbol="HWC"
 }
