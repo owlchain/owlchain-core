@@ -1,6 +1,6 @@
 module owlchain.base.types;
 
-import std.format : FormatSpec;
+import std.format : format, FormatSpec;
 public import gfm.integers.wideint:
     int128,
     uint128,
@@ -9,34 +9,27 @@ public import gfm.integers.wideint:
 
 //enum UINT256_BYTE_LENGTH=int256.sizeof;
 
-string toHex(T)(T val, DG sink)
-    if(typeof(val.init) in [uint256, int256, int128])
+string toHexUpper(T)(T val)
 {
-    FormatSpec!char fspec;
-    fspec.spec = 'x';
-    val.toString(sink, fspec);
+    return format("%X", val);
 }
 
-alias DG = void function(const char[] v);
+string toHexLower(T)(T val)
+{
+    return format("%x", val);
+}
 
-// void toHex(int256 v, DG dg){
-//     FormatSpec!char fspec;
-//     fspec.spec = 'x';
-    
-//     v.toString(dg, fspec); 
-// }
+alias toHex = toHexUpper;
 
 @system
 unittest {
-    auto x = int128.literal!"0x111";
-    enum xd = "0x1123342223";
-    auto y = int256.literal!xd;
-    
-    FormatSpec!char fspec;
-    fspec.spec = 'x';
-    y.toString((const char[] x){
-        import std.stdio:writefln;
-        writefln(x);
-    },
-    fspec);
+    import std.stdio: writefln;
+    auto y = int256.literal!"0xf1f2f3f4f5f6f7f8f9f0_f1f2f3f4f5f6f7f8f9f0_f1f2f3f4f5f6f7f8f9f0_f0f1"; // 256bit integer
+    writefln( "y.toHex: " ~ y.toHex);
+    assert( y.toHexLower == "f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6f7f8f9f0f0f1"); 
+    assert( y.toHexUpper == "F1F2F3F4F5F6F7F8F9F0F1F2F3F4F5F6F7F8F9F0F1F2F3F4F5F6F7F8F9F0F0F1"); 
+    assert( y.toHex == "F1F2F3F4F5F6F7F8F9F0F1F2F3F4F5F6F7F8F9F0F1F2F3F4F5F6F7F8F9F0F0F1"); 
+
+    int x = 0xf0f0f0f0;
+    assert( x.toHex == "F0F0F0F0" );
 }

@@ -289,7 +289,7 @@ struct wideIntImpl(bool signed, int bits)
     void toString(DG, Char)(DG sink, FormatSpec!Char fmt) const
         if (is(typeof(sink((const(Char)[]).init))))
     {
-        if (fmt.spec == 'x')
+        if (fmt.spec == 'x' || fmt.spec == 'X')
         {
             if (this == 0)
             {
@@ -308,7 +308,12 @@ struct wideIntImpl(bool signed, int bits)
                 tmp >>= 4;
             }
             assert(i+1 < buf.length);
-            sink(buf[i+1 .. $]);
+            auto ret = buf[i+1 .. $];
+            if(fmt.spec == 'x'){
+                import std.string:toLower;
+                ret = ret.toLower;
+            }
+            sink(ret);
         }
         else // default to decimal
         {
