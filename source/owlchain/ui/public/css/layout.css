@@ -52,13 +52,15 @@ textarea{ display:block; width:100%; padding:3px 10px 80px 20px; color:#FFF; fon
 .search_form dd.anc { position:absolute; top:0; right:0;  padding:0;  }
 /*editor-wrap*/
 .editor-wrap{width:100%!important;}
-.editor-wrap .info{ margin:10px 0; padding:0 80px; border:1px solid #898989; background:#98a8ba; }
+.editor-wrap .info{ margin:10px 0; padding:0 20px; border:1px solid #898989; background:#98a8ba; }
 .editor-wrap .info .btn-wrap{ border-bottom:1px solid #FFF; text-align: center;}
 .editor-wrap .info .btn-wrap a {display:inline-block; margin:5px 3px;}
 .editor-wrap .info .list{padding:10px 0;}
+.editor-wrap .info .list li{position:relative;}
 .editor-wrap .info .list span{ color:#FFF; font-size:14px;}
-.editor-wrap .info .list span.tit{ display:inline-block; position:relative; width:120px; margin-right:20px;  }
+.editor-wrap .info .list span.tit{ display:inline-block; position:relative; width:160px; margin-right:30px;  }
 .editor-wrap .info .list span.tit:after{ position:absolute; right:0; top:0; content:':'; }
+.editor-wrap .info .list span.value{display: inline-block; width:550px; }
 .editor-wrap .title-menu dt { padding:12px 0 0 12px;}
 /*main*/
 .button_wrap{text-align: right;}
@@ -78,7 +80,7 @@ a.anc_gb.disabled:hover{ border:1px solid transparent; background:#959595; }
 .s1 .submit-wrap a{ display:inline-block; margin:0 10px;padding:10px 30px; }
 
 .content dl dd input{ width:100%; }
-.content dl dd select { width: 200px; padding:5px 10px;}
+.content dl dd select { width: 100px; padding:5px 10px;}
 .content dl dd select option { padding:8px; }
 
 /*s2*/

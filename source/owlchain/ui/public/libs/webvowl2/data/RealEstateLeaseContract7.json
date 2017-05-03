@@ -1,0 +1,501 @@
+{
+  "_comment" : "Created with OWL2VOWL (version 0.3.1), http://vowl.visualdataweb.org",
+  "header" : {
+    "languages" : [ "undefined" ],
+    "baseIris" : [ "http://www.w3.org/2000/01/rdf-schema", "http://www.w3.org/2001/XMLSchema", "http://boscoin.io/ontology/rentalcontract.owl", "http://xmlns.com/foaf/0.1" ],
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl"
+  },
+  "namespace" : [ ],
+  "metrics" : {
+    "classCount" : 8,
+    "objectPropertyCount" : 2,
+    "datatypePropertyCount" : 10,
+    "individualCount" : 4
+  },
+  "class" : [ {
+    "id" : "3",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "7",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "8",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "9",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "15",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "14",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "2",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "11",
+    "type" : "owl:Thing"
+  }, {
+    "id" : "6",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "17",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "5",
+    "type" : "owl:Class"
+  }, {
+    "id" : "23",
+    "type" : "owl:Class"
+  }, {
+    "id" : "25",
+    "type" : "owl:Class"
+  }, {
+    "id" : "26",
+    "type" : "owl:Class"
+  }, {
+    "id" : "27",
+    "type" : "owl:Class"
+  }, {
+    "id" : "18",
+    "type" : "owl:Class"
+  }, {
+    "id" : "21",
+    "type" : "owl:Class"
+  }, {
+    "id" : "20",
+    "type" : "owl:Class"
+  }, {
+    "id" : "13",
+    "type" : "owl:Class"
+  }, {
+    "id" : "29",
+    "type" : "owl:Class"
+  }, {
+    "id" : "37",
+    "type" : "owl:Class"
+  }, {
+    "id" : "38",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "1",
+    "type" : "owl:Class"
+  }, {
+    "id" : "32",
+    "type" : "owl:Class"
+  } ],
+  "classAttribute" : [ {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "3",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "7",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#date",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "8",
+    "label" : {
+      "IRI-based" : "date"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#positiveInteger",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "9",
+    "label" : {
+      "IRI-based" : "positiveInteger"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#positiveInteger",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "15",
+    "label" : {
+      "IRI-based" : "positiveInteger"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "14",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "2",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2002/07/owl#Thing",
+    "baseIri" : "http://owl2vowl.de",
+    "id" : "11",
+    "label" : {
+      "undefined" : "Thing"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#date",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "6",
+    "label" : {
+      "IRI-based" : "date"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#date",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "17",
+    "label" : {
+      "IRI-based" : "date"
+    }
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#RentalContract",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "RentalContract"
+    },
+    "individuals" : [ {
+      "iri" : "http://boscoin.io/ontology/rentalcontract.owl#RentalContract01",
+      "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+      "labels" : {
+        "IRI-based" : "RentalContract01",
+        "undefined" : "Rental Contract01"
+      }
+    } ],
+    "id" : "5",
+    "superClasses" : [ "18" ]
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#RealEstate",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "RealEstate"
+    },
+    "individuals" : [ {
+      "iri" : "http://boscoin.io/ontology/rentalcontract.owl#RealEstate01",
+      "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+      "labels" : {
+        "IRI-based" : "RealEstate01",
+        "undefined" : "Realty"
+      }
+    } ],
+    "id" : "23",
+    "superClasses" : [ "18" ]
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#Person",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "instances" : 0,
+    "annotations" : {
+      "sameAs" : [ {
+        "identifier" : "sameAs",
+        "language" : "undefined",
+        "value" : "http://xmlns.com/foaf/0.1/Person",
+        "type" : "label"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "Person"
+    },
+    "subClasses" : [ "26", "27" ],
+    "id" : "25"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#Lessor",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Lessor"
+    },
+    "individuals" : [ {
+      "iri" : "http://boscoin.io/ontology/rentalcontract.owl#Lessor01",
+      "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+      "labels" : {
+        "IRI-based" : "Lessor01",
+        "undefined" : "Lessor01"
+      }
+    } ],
+    "id" : "26",
+    "superClasses" : [ "25" ]
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#Lessee",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Lessee"
+    },
+    "individuals" : [ {
+      "iri" : "http://boscoin.io/ontology/rentalcontract.owl#Lessee01",
+      "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+      "labels" : {
+        "IRI-based" : "Lessee01",
+        "undefined" : "Lessee01"
+      }
+    } ],
+    "id" : "27",
+    "superClasses" : [ "25" ]
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#ContractOutline",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "ContractOutline"
+    },
+    "subClasses" : [ "23", "5" ],
+    "id" : "18"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#Operation",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Operation"
+    },
+    "subClasses" : [ "20" ],
+    "id" : "21"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#Send",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Send"
+    },
+    "id" : "20",
+    "superClasses" : [ "21" ]
+  }, {
+    "instances" : 0,
+    "union" : [ "26", "27" ],
+    "attributes" : [ "anonymous", "union" ],
+    "id" : "13"
+  }, {
+    "instances" : 0,
+    "union" : [ "26", "27" ],
+    "attributes" : [ "anonymous", "union" ],
+    "id" : "29"
+  }, {
+    "instances" : 0,
+    "union" : [ "26", "27" ],
+    "attributes" : [ "anonymous", "union" ],
+    "id" : "37"
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "38",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "instances" : 0,
+    "union" : [ "26", "27" ],
+    "attributes" : [ "anonymous", "union" ],
+    "id" : "1"
+  }, {
+    "instances" : 0,
+    "union" : [ "23", "26", "27" ],
+    "attributes" : [ "anonymous", "union" ],
+    "id" : "32"
+  } ],
+  "property" : [ {
+    "id" : "0",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "4",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "10",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "12",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "16",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "19",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "22",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "24",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "28",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "30",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "31",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "33",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "34",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "35",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "36",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "39",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "40",
+    "type" : "owl:datatypeProperty"
+  } ],
+  "propertyAttribute" : [ {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#phoneNo",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "2",
+    "label" : {
+      "IRI-based" : "phoneNo"
+    },
+    "domain" : "1",
+    "attributes" : [ "datatype" ],
+    "id" : "0"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#RentalEndingDate",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "6",
+    "label" : {
+      "IRI-based" : "RentalEndingDate"
+    },
+    "domain" : "5",
+    "attributes" : [ "datatype" ],
+    "id" : "4"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#businessRegistrationNumber",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "7",
+    "label" : {
+      "IRI-based" : "businessRegistrationNumber"
+    },
+    "domain" : "11",
+    "attributes" : [ "datatype" ],
+    "id" : "10"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#registrationNumber",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "14",
+    "label" : {
+      "IRI-based" : "registrationNumber"
+    },
+    "domain" : "13",
+    "attributes" : [ "datatype" ],
+    "id" : "12"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#RentalStartingDate",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "17",
+    "label" : {
+      "IRI-based" : "RentalStartingDate"
+    },
+    "domain" : "5",
+    "attributes" : [ "datatype" ],
+    "id" : "16"
+  }, {
+    "range" : "21",
+    "domain" : "20",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "19"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#initialDeposit",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "9",
+    "label" : {
+      "IRI-based" : "initialDeposit"
+    },
+    "domain" : "5",
+    "attributes" : [ "datatype" ],
+    "id" : "22"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#monthlypayment",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "15",
+    "label" : {
+      "IRI-based" : "monthlypayment"
+    },
+    "domain" : "5",
+    "attributes" : [ "datatype" ],
+    "id" : "24"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#hasContractor",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "29",
+    "label" : {
+      "IRI-based" : "hasContractor"
+    },
+    "domain" : "5",
+    "attributes" : [ "object" ],
+    "id" : "28"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#hasRealEstate",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "23",
+    "label" : {
+      "IRI-based" : "hasRealEstate"
+    },
+    "domain" : "5",
+    "attributes" : [ "object" ],
+    "id" : "30"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#address",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "3",
+    "label" : {
+      "IRI-based" : "address"
+    },
+    "domain" : "32",
+    "attributes" : [ "datatype" ],
+    "id" : "31"
+  }, {
+    "range" : "18",
+    "domain" : "23",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "33"
+  }, {
+    "range" : "25",
+    "domain" : "27",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "34"
+  }, {
+    "range" : "18",
+    "domain" : "5",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "35"
+  }, {
+    "range" : "25",
+    "domain" : "26",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "36"
+  }, {
+    "iri" : "http://xmlns.com/foaf/0.1/name",
+    "baseIri" : "http://xmlns.com/foaf/0.1",
+    "range" : "38",
+    "label" : {
+      "IRI-based" : "name"
+    },
+    "domain" : "37",
+    "attributes" : [ "datatype", "external" ],
+    "id" : "39"
+  }, {
+    "iri" : "http://boscoin.io/ontology/rentalcontract.owl#dueDate",
+    "baseIri" : "http://boscoin.io/ontology/rentalcontract.owl",
+    "range" : "8",
+    "label" : {
+      "IRI-based" : "dueDate"
+    },
+    "domain" : "5",
+    "attributes" : [ "datatype" ],
+    "id" : "40"
+  } ]
+}

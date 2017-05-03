@@ -1,4 +1,4 @@
-/*************************
+﻿/*************************
 trust.js
 *************************/
 (function($) {
@@ -46,7 +46,7 @@ trust.js
             $('textarea').val('');
             $('input').val('');
             $('.s1 a.submit').removeClass('disabled');
-            $('.s1 a.confirm').addClass('disabled');
+            $('.s1 a.confirm').addClass('disabled').attr('disabled', 'disabled');
             $('.s1 a.visual_exe').addClass('disabled').attr('disabled', 'disabled');
             $('.s1 .ui-visual').children().remove();
             $('.s1 .info ul.list').hide().children().remove();
@@ -54,9 +54,9 @@ trust.js
         };
         /*=== Ajax Function =================================================*/
         var _ajax = function(url, callBack) {
-            console.log('%c "url: ' + url + '', 'font-size:12px;color:brown;');
+            console.log('%c "url: ' + url + '', 'font-size:12px;color:purple;');
             $.get(url, function(data, status) {
-                console.log(data);
+                // console.log(data);
                 //  callBack.call(this, data);
             }).done(function(data) {
                 if (typeof(data) != "string") {
@@ -89,8 +89,8 @@ trust.js
         _select.bind('change', function(event) { // Select Option value에 의한 textarea 출력
             var _val = $(this).find('option:selected').val();
             var _textarea = $(this).parents('article.content').find('textarea');
-            var _str = _textarea.val() + "\n";
-            _textarea.val(_str + _val);
+            var _str = _val + "\n" + _textarea.val();
+            _textarea.val(_str);
             console.log(_val);
         });
         _winPop.bind('click', function(event) {
@@ -108,8 +108,12 @@ trust.js
         // Submit
         $('.s1 .submit-wrap a').bind('click', function(event) {
             event.preventDefault();
+            if ($(this).hasClass('disabled')) {
+                return false;
+            }
             var _this = $(this);
             var _title = $('#s1_tit').val();
+            $('.s1 a.visual_exe').removeClass('disabled');
 
             function appendElements(data) {
                 var _ul = $('.s1 .info ul.list').show();
@@ -129,58 +133,19 @@ trust.js
                     window.contractAddress = data.address;
                     $('.s1 textarea').text(data.statusMsg);
                     appendElements(data);
-                    $('.s1 a.visual_exe').addClass('disabled').attr('disabled', 'disabled');
+
                 });
             }
             if ($(this).hasClass('confirm')) {
                 $('.s1 a.submit').addClass('disabled');
-                _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress + "/" + _title, function(data) {
+                _ajax(CONTRACT_CONFIRM_LOAD + "/" + _title, function(data) {
                     $('.s1 textarea').text(data.statusMsg);
                     appendElements(data);
-                    $('.s1 a.visual_exe').removeClass('disabled').removeAttr('disabled', 'disabled');
+                    // Contracts 이동
+                    $('.s1 a.confirm').addClass('disabled');
                 });
             }
         });
-        /*
-        $('.s1 a.submit').bind('click', function(event) {
-            event.preventDefault();
-            var _this = $(this);
-            var _title = $('#s1_tit').val();
-            $('.s1 .anc_gb').removeClass('on');
-            $('.s1 a.submit').addClass('disabled');
-            $('.s1 a.confirm').removeClass('disabled');
-            _ajax(CONTRACT_VALIDATE_LOAD + "/" + _title, function(data) {
-                window.ContractID = data.tempContractID;
-                window.contractAddress = data.address;
-                $('.s1 textarea').text(data.statusMsg);
-                var _ul = $('.s1 .info ul.list').show();
-                _ul.children().remove();
-                var _ele = '';
-                for (var i in data) {
-                    _ele += '<li><span class="tit">' + i + '</span><span class="value">' + data[i] + '</span></li>';
-                }
-                _ul.append(_ele);
-            });
-        });
-        // Confirm
-        $('.s1 a.confirm').bind('click', function(event) {
-            event.preventDefault();
-            var _this = $(this);
-            var _title = $('#s1_tit').val();
-            $('.s1 a.submit').addClass('disabled');
-            _ajax(CONTRACT_CONFIRM_LOAD + "/" + window.contractAddress + "/" + _title, function(data) {
-                $('.s1 textarea').text(data.statusMsg);
-                var _ul = $('.s1 .info ul.list').show();
-                _ul.children().remove();
-                var _ele = '';
-                for (var i in data) {
-                    _ele += '<li><span class="tit">' + i + '</span><span class="value">' + data[i] + '</span></li>';
-                }
-                _ul.append(_ele);
-                $('.s1 a.visual_exe').removeClass('disabled').removeAttr('disabled', 'disabled');
-            });
-        });
-        */
         $('.s1 dd a.anc_gb').bind('click', function(event) {
             event.preventDefault();
             var _chk = $(this).hasClass('on');
@@ -201,7 +166,7 @@ trust.js
                 }
                 $('.s1 .ui-visual').children().remove();
                 $('.s1 .ui-visual').append(_load);
-                $('.s1 a.visual_exe').addClass('disabled').attr('disabled', 'disabled');
+                $('.s1 a.visual_exe').addClass('disabled');
                 setTimeout(function() {
                     $('.s1 iframe').contents().find('#graph').css('height', '400px');
                     $('.s1 iframe').contents().find('.vowlGraph').attr('width', '784px').attr('height', '400px').css('border', '1px solid #242a42');
@@ -218,13 +183,21 @@ trust.js
             var _idx = _dl.index();
             var _url = '';
             if (_idx == 0) {
-                _url = "./ajax/RealEstateLeaseContract6.sdl";
+                _url = "./ajax/CoinOntology.sdl";
             } else if (_idx == 1) {
-                _url = "./ajax/voting.sdl";
+                _url = "./ajax/HelloWorldCoin.sdl";
             } else if (_idx == 2) {
-                _url = "./ajax/Crowdfunding.sdl";
+                _url = "./ajax/RealEstateLeaseOntology.sdl";
             } else if (_idx == 3) {
-                _url = "./ajax/HelloCoin.sdl";
+                _url = "./ajax/RealEstateLeaseContract6.sdl";
+            } else if (_idx == 4) {
+                _url = "./ajax/voting.sdl";
+            } else if (_idx == 5) {
+                _url = "./ajax/Crowdfunding.sdl";
+            } else if (_idx == 6) {
+                _url = "./ajax/Account(create).sdl";
+            } else if (_idx == 7) {
+                _url = "./ajax/HWCsend(transaction).sdl";
             }
             _ajax(_url, function(data) {
                 _textarea.val(data);
@@ -238,29 +211,32 @@ trust.js
         _testRun.bind('click', function(event) {
             _testVisualBtn.removeClass('disabled');
         });
-        _testVisualBtn.bind('click', function(event) {
-
-        });
+        _testVisualBtn.bind('click', function(event) {});
         /*=== s4 =================================================*/
         $('.s4 .submit').bind('click', function(event) {
-            var _title = $('#s2_tit').val();
-            var _textarea = $('.s4 textarea');
-            _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _textarea.val(), function(data) {
-                var _ul = $('.s4 .info ul.list');
-                _ul.children().remove();
-                var _ele = '';
-                for (var i in data) {
-                    _ele += '<li><span class="tit">' + i + '</span><span class="value">' + data[i] + '</span></li>';
+                var _title = $('#s2_tit').val();
+                var _textarea = $('.s4 textarea');
+                var _str = _textarea.val();
+                console.log('------------');
+                console.log(_str);
+                if (_str.indexOf('Individual') != -1) {
+                    _str = _str.split('Individual')[1];
+                    _str = _str.replace('#', '');
                 }
-                _ul.append(_ele);
-                $('.s4 .info').show();
-            });
-        })
-        //init
+                _ajax(CONTRACT_RUN_TEST + "/" + _title + "/" + _str, function(data) {
+                    var _ul = $('.s4 .info ul.list');
+                    _ul.children().remove();
+                    var _ele = '';
+                    for (var i in data) {
+                        _ele += '<li><span class="tit">' + i + '</span><span class="value">' + data[i] + '</span></li>';
+                    }
+                    _ul.append(_ele);
+                    $('.s4 .info').show();
+                });
+            })
+            //init
         _init();
     }
-    /*ADD_ACCOUNT
-     */
     $(document).ready(function() {
         //  _setup();
         _bind();

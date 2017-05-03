@@ -13,6 +13,7 @@ import std.array;
 import std.random;
 import std.regex;
 import std.string;
+import sdlang;
 
 import owlchain.api.api;
 import owlchain.ui.webapi;
@@ -120,13 +121,13 @@ class BlockchainRESTImpl : IBlockchainREST
 		
 		foreach (i, c1; cs)
 		{
-			if (c1 == "“remittance”}")
+			if (c1 == "“Remittance”}")
 			{
-				return "remittance";
+				return "Remittance";
 			}
 			else if (c1 == "“Creation”}")
 			{
-				return "creation";
+				return "Creation";
 			}
 		}
 		return "";
@@ -153,12 +154,27 @@ class BlockchainRESTImpl : IBlockchainREST
 				
 		foreach (i, c; cs)
 		{
-			if (c == "unit")
+			if (c == "amount")
 			{
-				return to!int(cs[i - 1]);
+				return to!int(cs[i + 1]);
 			}
 		}
 
+		return 0;
+	}
+
+	private int checkSdlangSyntex(string contents)
+	{
+		Tag root;
+		try
+		{
+			root = parseSource(contents); 
+		}
+		catch(ParseException e)
+		{
+			// stderr.writeln(e.msg);
+			return -1;
+		}
 		return 0;
 	}
 
@@ -342,13 +358,24 @@ class BlockchainRESTImpl : IBlockchainREST
 
 	Json runTrustContract(string _contractAddress, string _contents)
 	{
+		_contents = "Individual" ~ _contents;
+		Json json = "";
+
+		if (checkSdlangSyntex(_contents) == -1)
+		{
+			auto e = ErrorState();
+			e.code = "99";
+			e.status = "Error(99)";
+			e.message = "Syntex Error";
+
+			json = serializeToJson(e);
+		}
+
 		int ca = confirmAddress(_contractAddress);
 		if (ca != -1)
 		{
 			rs[ca].txCount++;
 		}
-		
-		Json json = "";
 
 		if (getOperation(_contents) == "creation")
 		{
@@ -356,10 +383,10 @@ class BlockchainRESTImpl : IBlockchainREST
 			c.code = "00";
 			c.status = "Transaction Success";
 			c.txID = _contractAddress;
-			c.accountAddress = encodeWithPrefix("HWC", uniform(0L, 1000000000000000000L));
+			c.accountAddress = encodeWithPrefix("BOS", uniform(0L, 1000000000000000000L));
 			while (confirmAddress(c.accountAddress) != -1)
 			{
-				c.accountAddress = encodeWithPrefix("HWC", uniform(0L, 1000000000000000000L));
+				c.accountAddress = encodeWithPrefix("BOS", uniform(0L, 1000000000000000000L));
 			}
 			c.balance = getAccountBalance(_contents);
 
@@ -368,14 +395,23 @@ class BlockchainRESTImpl : IBlockchainREST
 
 			json = serializeToJson(c);
 		}
-		else if (getOperation(_contents) == "remittance")
+		else if (getOperation(_contents) == "Remittance")
 		{
 			if (getRemittanceAmount(_contents) > tcwallet.totalBalance)
 			{
 				auto e = ErrorState();
 				e.code = "99";
-				e.status = "Error(97)";
+				e.status = "Error(96)";
 				e.message = "Not enough balance.";
+				
+				json = serializeToJson(e);
+			}
+			else if (getRemittanceAmount(_contents) > 50000)
+			{
+				auto e = ErrorState();
+				e.code = "99";
+				e.status = "Error(97)";
+				e.message = "Exceeded amount has been sent.";
 				
 				json = serializeToJson(e);
 			}
