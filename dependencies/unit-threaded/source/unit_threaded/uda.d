@@ -1,14 +1,13 @@
 module unit_threaded.uda;
 
-import unit_threaded.meta;
-import std.traits;
-import std.meta;
-
 /**
  * For the given module, return true if this module's member has
  * the given UDA. UDAs can be types or values.
  */
 template HasAttribute(alias module_, string member, alias attribute) {
+    import unit_threaded.meta: importMember;
+    import std.meta: Filter;
+
     mixin(importMember!module_(member));
 
     static if(!__traits(compiles, __traits(getAttributes, mixin(member))))
@@ -33,6 +32,9 @@ template HasAttribute(alias module_, string member, alias attribute) {
  * the given UDA. UDAs can be types or values.
  */
 template GetAttributes(alias module_, string member, A) {
+    import unit_threaded.meta: importMember;
+    import std.meta: Filter;
+
     mixin(importMember!module_(member));
     enum isAttribute(alias T) = is(TypeOf!T == A);
     alias GetAttributes = Filter!(isAttribute, __traits(getAttributes, mixin(member)));
@@ -56,6 +58,7 @@ private template TypeOf(alias T) {
 unittest {
     import unit_threaded.attrs;
     import unit_threaded.tests.module_with_attrs;
+    import std.traits: hasUDA;
 
     //check for value UDAs
     static assert(HasAttribute!(unit_threaded.tests.module_with_attrs, "testAttrs", HiddenTest));
@@ -85,6 +88,9 @@ enum HasTypes(alias T) = GetTypes!T.length > 0;
 
 /// Returns the types in the @Types UDA associated to a test
 template GetTypes(alias T) {
+    import std.meta: Filter, AliasSeq;
+    import std.traits: TemplateArgsOf;
+
     static if(!__traits(compiles, __traits(getAttributes, T))) {
         alias GetTypes = AliasSeq!();
     } else {
@@ -100,8 +106,55 @@ template GetTypes(alias T) {
 ///
 unittest {
     import unit_threaded.attrs;
+    import std.meta;
+
     @Types!(int, float) int i;
     static assert(HasTypes!i);
     static assert(is(GetTypes!i == AliasSeq!(int, float)));
 
+}
+
+// copy of recent hasUDA from Phobos here because old
+// compilers will fail otherwise
+
+enum hasUtUDA(alias symbol, alias attribute) = getUtUDAs!(symbol, attribute).length > 0;
+
+template getUtUDAs(alias symbol, alias attribute)
+{
+    import std.meta : Filter;
+    import std.traits: isInstanceOf;
+
+    template isDesiredUDA(alias toCheck)
+    {
+        static if (is(typeof(attribute)) && !__traits(isTemplate, attribute))
+        {
+            static if (__traits(compiles, toCheck == attribute))
+                enum isDesiredUDA = toCheck == attribute;
+            else
+                enum isDesiredUDA = false;
+        }
+        else static if (is(typeof(toCheck)))
+        {
+            static if (__traits(isTemplate, attribute))
+                enum isDesiredUDA =  isInstanceOf!(attribute, typeof(toCheck));
+            else
+                enum isDesiredUDA = is(typeof(toCheck) == attribute);
+        }
+        else static if (__traits(isTemplate, attribute))
+            enum isDesiredUDA = isInstanceOf!(attribute, toCheck);
+        else
+            enum isDesiredUDA = is(toCheck == attribute);
+    }
+
+    alias getUtUDAs = Filter!(isDesiredUDA, __traits(getAttributes, symbol));
+}
+
+unittest {
+    import unit_threaded.attrs;
+    import unit_threaded.tests.module_with_attrs;
+    import std.traits: hasUDA;
+
+    static assert(hasUtUDA!(unit_threaded.tests.module_with_attrs.testOtherAttrs, ShouldFailWith));
+    static assert(hasUtUDA!(unit_threaded.tests.module_with_attrs.testOtherAttrs, ShouldFailWith!Exception));
+    static assert(!hasUtUDA!(unit_threaded.tests.module_with_attrs.testOtherAttrs, ShouldFailWith!Throwable));
 }

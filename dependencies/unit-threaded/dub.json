@@ -8,19 +8,72 @@
 			"targetType": "library"
 		},
 		{
+			"sourcePaths": [
+				"tests/pass"
+			],
 			"name": "unittest",
+			"targetType": "executable",
+			"targetName": "ut_pass",
 			"sourceFiles": [
 				"example/example_pass.d"
 			],
-			"targetType": "executable",
-			"mainSourceFile": "example/example_pass.d",
+			"versions": [
+				"testing_unit_threaded"
+			],
+			"mainSourceFile": "example/example_pass.d"
+		},
+		{
 			"sourcePaths": [
 				"tests/pass"
-			]
+			],
+			"name": "unittest-unthreaded",
+			"targetType": "executable",
+			"targetName": "ut_pass",
+			"sourceFiles": [
+				"example/example_pass.d"
+			],
+			"versions": [
+				"testing_unit_threaded",
+				"unitUnthreaded"
+			],
+			"mainSourceFile": "example/example_pass.d"
+		},
+		{
+			"sourcePaths": [
+				"tests/pass"
+			],
+			"name": "unittest-light",
+			"targetType": "executable",
+			"targetName": "ut_pass",
+			"sourceFiles": [
+				"example/example_pass.d"
+			],
+			"versions": [
+				"testing_unit_threaded",
+				"unitThreadedLight"
+			],
+			"mainSourceFile": "example/example_pass.d"
+		},
+		{
+			"sourcePaths": [
+				"tests/pass",
+				"tests/fail/"
+			],
+			"name": "unittest-fail",
+			"targetType": "executable",
+			"targetName": "ut_fail",
+			"sourceFiles": [
+				"example/example_fail.d"
+			],
+			"versions": [
+				"testing_unit_threaded"
+			],
+			"mainSourceFile": "example/example_fail.d"
 		},
 		{
 			"name": "gen_ut_main",
 			"targetType": "executable",
+			"targetName": "gen_ut_main",
 			"mainSourceFile": "gen/gen_ut_main.d"
 		}
 	],
@@ -28,7 +81,7 @@
 		"source/"
 	],
 	"name": "unit-threaded",
-	"version": "0.6.36",
+	"version": "0.7.22",
 	"targetType": "library",
 	"license": "BSD 3-clause",
 	"copyright": "Copyright © 2013, Atila Neves",

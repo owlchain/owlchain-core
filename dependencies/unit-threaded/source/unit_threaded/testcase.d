@@ -1,13 +1,5 @@
 module unit_threaded.testcase;
 
-import unit_threaded.should;
-import unit_threaded.io;
-import unit_threaded.reflection: TestData, TestFunction;
-
-import std.exception;
-import std.string;
-import std.conv;
-import std.algorithm;
 
 private shared(bool) _stacktrace = false;
 
@@ -32,7 +24,7 @@ public void disableStackTrace() @safe nothrow @nogc {
  */
 class TestCase {
 
-    import std.datetime;
+    import unit_threaded.io: Output;
 
     /**
      * Returns: the name of the test
@@ -46,9 +38,12 @@ class TestCase {
      * Returns: array of failures (child classes may have more than 1)
      */
     string[] opCall() {
+        import std.datetime: StopWatch, AutoStart;
+
+        currentTest = this;
         auto sw = StopWatch(AutoStart.yes);
         doTest();
-        printOutput();
+        flushOutput();
         return _failed ? [getPath()] : [];
     }
 
@@ -57,11 +52,19 @@ class TestCase {
      */
     ulong numTestsRun() const { return 1; }
     void showChrono() @safe pure nothrow { _showChrono = true; }
+    void setOutput(Output output) @safe pure nothrow { _output = output; }
 
 package:
 
+    static TestCase currentTest;
+    Output _output;
+
     void silence() @safe pure nothrow { _silent = true; }
-    string output() @safe const pure nothrow { return _output; }
+
+    final Output getWriter() @safe {
+        import unit_threaded.io: WriterThread;
+        return _output is null ? WriterThread.get : _output;
+    }
 
 protected:
 
@@ -72,12 +75,12 @@ protected:
 private:
 
     bool _failed;
-    string _output;
     bool _silent;
     bool _showChrono;
 
     final auto doTest() {
-        import std.conv: to;
+        import std.conv: text;
+        import std.datetime: StopWatch, AutoStart, Duration;
 
         auto sw = StopWatch(AutoStart.yes);
         print(getPath() ~ ":\n");
@@ -90,6 +93,7 @@ private:
     }
 
     final bool check(E)(lazy E expression) {
+        import unit_threaded.should: UnitTestException;
         try {
             expression();
         } catch(UnitTestException ex) {
@@ -107,11 +111,12 @@ private:
     }
 
     final void print(in string msg) {
-        _output ~= msg;
+        import unit_threaded.io: write;
+        if(!_silent) getWriter.write(msg);
     }
 
-    final void printOutput() const {
-        if(!_silent) utWrite(_output);
+    final void flushOutput() {
+        getWriter.flush;
     }
 }
 
@@ -123,6 +128,7 @@ class CompositeTestCase: TestCase {
     }
 
     override string[] opCall() {
+        import std.algorithm: map, reduce;
         return _tests.map!(a => a()).reduce!((a, b) => a ~ b);
     }
 
@@ -146,8 +152,9 @@ private:
 }
 
 class ShouldFailTestCase: TestCase {
-    this(TestCase testCase) {
+    this(TestCase testCase, in TypeInfo exceptionTypeInfo) {
         this.testCase = testCase;
+        this.exceptionTypeInfo = exceptionTypeInfo;
     }
 
     override string getPath() const pure nothrow {
@@ -155,18 +162,27 @@ class ShouldFailTestCase: TestCase {
     }
 
     override void test() {
+        import unit_threaded.should: UnitTestException;
+        import std.exception: enforce, collectException;
+        import std.conv: text;
+
         const ex = collectException!Throwable(testCase.test());
-        if(ex is null) {
-            throw new Exception("Test " ~ testCase.getPath() ~ " was expected to fail but did not");
-        }
+        enforce!UnitTestException(ex !is null, "Test '" ~ testCase.getPath ~ "' was expected to fail but did not");
+        enforce!UnitTestException(exceptionTypeInfo is null || typeid(ex) == exceptionTypeInfo,
+                                  text("Test '", testCase.getPath, "' was expected to throw ",
+                                       exceptionTypeInfo, " but threw ", typeid(ex)));
     }
 
 private:
 
     TestCase testCase;
+    const(TypeInfo) exceptionTypeInfo;
 }
 
 class FunctionTestCase: TestCase {
+
+    import unit_threaded.reflection: TestData, TestFunction;
+
     this(in TestData data) pure nothrow {
         _name = data.getPath;
         _func = data.testFunction;
@@ -185,6 +201,9 @@ class FunctionTestCase: TestCase {
 }
 
 class BuiltinTestCase: FunctionTestCase {
+
+    import unit_threaded.reflection: TestData;
+
     this(in TestData data) pure nothrow {
         super(data);
     }
@@ -195,7 +214,8 @@ class BuiltinTestCase: FunctionTestCase {
         try
             super.test();
         catch(AssertError e) {
-             unit_threaded.should.fail(_stacktrace? e.toString() : e.msg, e.file, e.line);
+            import unit_threaded.should: fail;
+             fail(_stacktrace? e.toString() : e.msg, e.file, e.line);
         }
     }
 }

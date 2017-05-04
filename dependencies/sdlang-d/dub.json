@@ -41,7 +41,7 @@
 			"targetName": "sdlang-unittest",
 			"targetPath": "bin/",
 			"dependencies": {
-				"unit-threaded": "0.6.36"
+				"unit-threaded": "0.7.22"
 			},
 			"versions": [
 				"sdlangUsingUnitThreaded",

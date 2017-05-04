@@ -1,14 +1,8 @@
 module unit_threaded.mock;
 
-import unit_threaded.should: fail;
 import std.traits;
-import std.typecons;
-
-version(unittest) {
-    import unit_threaded.asserts;
-    import unit_threaded.should;
-}
-
+import std.traits: allSameType, allSatisfy;
+import unit_threaded.should: UnitTestException;
 
 alias Identity(alias T) = T;
 private enum isPrivate(T, string member) = !__traits(compiles, __traits(getMember, T, member));
@@ -16,56 +10,69 @@ private enum isPrivate(T, string member) = !__traits(compiles, __traits(getMembe
 
 string implMixinStr(T)() {
     import std.array: join;
-    import std.traits: functionAttributes, FunctionAttribute;
+    import std.format : format;
+    import std.range : iota;
+    import std.traits: functionAttributes, FunctionAttribute, Parameters, arity;
+    import std.conv: text;
 
     string[] lines;
 
-    foreach(m; __traits(allMembers, T)) {
+    string getOverload(in string memberName, in int i) {
+        return `Identity!(__traits(getOverloads, T, "%s")[%s])`
+            .format(memberName, i);
+    }
 
-        static if(!isPrivate!(T, m)) {
+    foreach(memberName; __traits(allMembers, T)) {
 
-            alias member = Identity!(__traits(getMember, T, m));
+        static if(!isPrivate!(T, memberName)) {
+
+            alias member = Identity!(__traits(getMember, T, memberName));
 
             static if(__traits(isAbstractFunction, member)) {
+                foreach(i, overload; __traits(getOverloads, T, memberName)) {
 
-                enum parameters = Parameters!member.stringof;
-                enum returnType = ReturnType!member.stringof;
+                    enum overloadName = text(memberName, "_", i);
 
-                static if(functionAttributes!member & FunctionAttribute.nothrow_)
-                    enum tryIndent = "    ";
-                else
-                    enum tryIndent = "";
+                    enum overloadString = getOverload(memberName, i);
+                    lines ~= "private alias %s_parameters = Parameters!(%s);".format(overloadName, overloadString);
+                    lines ~= "private alias %s_returnType = ReturnType!(%s);".format(overloadName, overloadString);
 
+                    static if(functionAttributes!member & FunctionAttribute.nothrow_)
+                        enum tryIndent = "    ";
+                    else
+                        enum tryIndent = "";
 
-                static if(is(ReturnType!member == void))
-                    enum returnDefault = "";
-                else {
-                    enum varName = m ~ `_returnValues`;
-                    lines ~= returnType ~ `[] ` ~ varName ~ `;`;
+                    static if(is(ReturnType!member == void))
+                        enum returnDefault = "";
+                    else {
+                        enum varName = overloadName ~ `_returnValues`;
+                        lines ~= `%s_returnType[] %s;`.format(overloadName, varName);
+                        lines ~= "";
+                        enum returnDefault = [`    if(` ~ varName ~ `.length > 0) {`,
+                                              `        auto ret = ` ~ varName ~ `[0];`,
+                                              `        ` ~ varName ~ ` = ` ~ varName ~ `[1..$];`,
+                                              `        return ret;`,
+                                              `    } else`,
+                                              `        return %s_returnType.init;`.format(overloadName)];
+                    }
+
+                    lines ~= `override ` ~ overloadName ~ "_returnType " ~ memberName ~
+                        typeAndArgsParens!(Parameters!member)(overloadName) ~ ` {`;
+
+                    static if(functionAttributes!member & FunctionAttribute.nothrow_)
+                        lines ~= "try {";
+
+                    lines ~= tryIndent ~ `    calledFuncs ~= "` ~ memberName ~ `";`;
+                    lines ~= tryIndent ~ `    calledValues ~= tuple` ~ argNamesParens(arity!member) ~ `.to!string;`;
+
+                    static if(functionAttributes!member & FunctionAttribute.nothrow_)
+                        lines ~= "    } catch(Exception) {}";
+
+                    lines ~= returnDefault;
+
+                    lines ~= `}`;
                     lines ~= "";
-                    enum returnDefault = [`    if(` ~ varName ~ `.length > 0) {`,
-                                          `        auto ret = ` ~ varName ~ `[0];`,
-                                          `        ` ~ varName ~ ` = ` ~ varName ~ `[1..$];`,
-                                          `        return ret;`,
-                                          `    } else`,
-                                          `        return (` ~ returnType ~ `).init;`];
                 }
-
-                lines ~= `override ` ~ returnType ~ " " ~ m ~ typeAndArgsParens!(Parameters!member) ~ ` {`;
-
-                static if(functionAttributes!member & FunctionAttribute.nothrow_)
-                    lines ~= "try {";
-
-                lines ~= tryIndent ~ `    calledFuncs ~= "` ~ m ~ `";`;
-                lines ~= tryIndent ~ `    calledValues ~= tuple` ~ argNamesParens(arity!member) ~ `.to!string;`;
-
-                static if(functionAttributes!member & FunctionAttribute.nothrow_)
-                    lines ~= "    } catch(Exception) {}";
-
-                lines ~= returnDefault;
-
-                lines ~= `}`;
-                lines ~= "";
             }
         }
     }
@@ -84,23 +91,24 @@ private string argNames(int N) @safe pure {
     return iota(N).map!(a => "arg" ~ a.to!string).join(", ");
 }
 
-private string typeAndArgsParens(T...)() {
+private string typeAndArgsParens(T...)(string prefix) {
     import std.array;
     import std.conv;
+    import std.format : format;
     string[] parts;
     foreach(i, t; T)
-        parts ~= T[i].stringof ~ " arg" ~ i.to!string;
+        parts ~= "%s_parameters[%s] arg%s".format(prefix, i, i);
     return "(" ~ parts.join(", ") ~ ")";
 }
 
 mixin template MockImplCommon() {
-    bool verified;
+    bool _verified;
     string[] expectedFuncs;
     string[] calledFuncs;
     string[] expectedValues;
     string[] calledValues;
 
-    void expect(string funcName, V...)(V values) @safe pure {
+    void expect(string funcName, V...)(auto ref V values) @safe pure {
         import std.conv: to;
         import std.typecons: tuple;
 
@@ -111,19 +119,21 @@ mixin template MockImplCommon() {
             expectedValues ~= "";
     }
 
-    void expectCalled(string func, string file = __FILE__, size_t line = __LINE__, V...)(V values) {
+    void expectCalled(string func, string file = __FILE__, size_t line = __LINE__, V...)(auto ref V values) {
         expect!func(values);
         verify(file, line);
+        _verified = false;
     }
 
     void verify(string file = __FILE__, size_t line = __LINE__) @safe pure {
-        import std.range;
-        import std.conv;
+        import std.range: repeat, take, join;
+        import std.conv: to;
+        import unit_threaded.should: fail, UnitTestException;
 
-        if(verified)
-            fail("Mock already verified", file, line);
+        if(_verified)
+            fail("Mock already _verified", file, line);
 
-        verified = true;
+        _verified = true;
 
         for(int i = 0; i < expectedFuncs.length; ++i) {
 
@@ -144,39 +154,62 @@ mixin template MockImplCommon() {
     }
 }
 
-struct Mock(T, string module_ = __MODULE__) {
+private enum isString(alias T) = is(typeof(T) == string);
+
+struct Mock(T) {
 
     MockAbstract _impl;
     alias _impl this;
 
     class MockAbstract: T {
         import std.conv: to;
-        mixin(`import ` ~ module_ ~ ";");
-        //pragma(msg, implMixinStr!T);
+        import std.traits: Parameters, ReturnType;
+        import std.typecons: tuple;
+        //pragma(msg, "\nimplMixinStr for ", T, "\n\n", implMixinStr!T, "\n\n");
         mixin(implMixinStr!T);
         mixin MockImplCommon;
     }
 
+    this(int/* force constructor*/) {
+        _impl = new MockAbstract;
+    }
+
     ~this() pure @safe {
-        if(!verified) verify;
+        if(!_verified) verify;
     }
 
     void returnValue(string funcName, V...)(V values) {
-        enum varName = funcName ~ `_returnValues`;
+        return returnValue!(0, funcName)(values);
+    }
+
+    /**
+       This version takes overloads into account. i is the overload
+       index. e.g.:
+       ---------
+       interface Interface { void foo(int); void foo(string); }
+       auto m = mock!Interface;
+       m.returnValue!(0, "foo"); // int overload
+       m.returnValue!(1, "foo"); // string overload
+       ---------
+     */
+    void returnValue(int i, string funcName, V...)(V values) {
+        import std.conv: text;
+        enum varName = funcName ~ text(`_`, i, `_returnValues`);
         foreach(v; values)
             mixin(varName ~ ` ~=  v;`);
     }
 }
 
-auto mock(T, string module_ = __MODULE__)() {
-    mixin(`import ` ~ module_ ~ ";");
-    auto m = Mock!(T, module_)();
-    // The following line is ugly, but necessary.
-    // If moved to the declaration of impl, it's constructed at compile-time
-    // and only one instance is ever used. Since structs can't have default
-    // constructors, it has to be done here
-    m._impl = new Mock!(T, module_).MockAbstract;
-    return m;
+private string importsString(string module_, string[] Modules...) {
+    auto ret = `import ` ~ module_ ~ ";\n";
+    foreach(extraModule; Modules) {
+        ret ~= `import ` ~ extraModule ~ ";\n";
+    }
+    return ret;
+}
+
+auto mock(T)() {
+    return Mock!T(0);
 }
 
 
@@ -220,8 +253,8 @@ auto mock(T, string module_ = __MODULE__)() {
         m.expect!"foo"(6, "foobar");
         fun(m);
         assertExceptionMsg(m.verify,
-                           "    source/unit_threaded/mock.d:123 - foo was called with unexpected Tuple!(int, string)(5, \"foobar\")\n" ~
-                           "    source/unit_threaded/mock.d:123 -        instead of the expected Tuple!(int, string)(6, \"foobar\")");
+                           `    source/unit_threaded/mock.d:123 - foo was called with unexpected Tuple!(int, string)(5, "foobar")` ~ "\n" ~
+                           `    source/unit_threaded/mock.d:123 -        instead of the expected Tuple!(int, string)(6, "foobar")`);
     }
 
     {
@@ -229,14 +262,16 @@ auto mock(T, string module_ = __MODULE__)() {
         m.expect!"foo"(5, "quux");
         fun(m);
         assertExceptionMsg(m.verify,
-                           "    source/unit_threaded/mock.d:123 - foo was called with unexpected Tuple!(int, string)(5, \"foobar\")\n" ~
-                           "    source/unit_threaded/mock.d:123 -        instead of the expected Tuple!(int, string)(5, \"quux\")");
+                           `    source/unit_threaded/mock.d:123 - foo was called with unexpected Tuple!(int, string)(5, "foobar")` ~ "\n" ~
+                           `    source/unit_threaded/mock.d:123 -        instead of the expected Tuple!(int, string)(5, "quux")`);
     }
 }
 
 
 @("mock interface negative test")
 @safe pure unittest {
+    import unit_threaded.should;
+
     interface Foo {
         int foo(int, string) @safe pure;
     }
@@ -306,6 +341,8 @@ private class Class {
 
 @("interface return value")
 @safe pure unittest {
+    import unit_threaded.should;
+
     interface Foo {
         int timesN(int i) @safe pure;
     }
@@ -322,6 +359,8 @@ private class Class {
 
 @("interface return values")
 @safe pure unittest {
+    import unit_threaded.should;
+
     interface Foo {
         int timesN(int i) @safe pure;
     }
@@ -337,12 +376,34 @@ private class Class {
     fun(m).shouldEqual(0);
 }
 
+struct ReturnValues(string function_, T...) if(allSatisfy!(isValue, T)) {
+    alias funcName = function_;
+    alias Values = T;
 
-auto mockStruct(T...)(T returns) {
+    static auto values() {
+        typeof(T[0])[] ret;
+        foreach(val; T) {
+            ret ~= val;
+        }
+        return ret;
+    }
+}
+
+enum isReturnValue(alias T) = is(T: ReturnValues!U, U...);
+enum isValue(alias T) = is(typeof(T));
+
+
+/**
+   Version of mockStruct that accepts 0 or more values of the same
+   type. Whatever function is called on it, these values will
+   be returned one by one. The limitation is that if more than one
+   function is called on the mock, they all return the same type
+ */
+auto mockStruct(T...)(auto ref T returns) {
 
     struct Mock {
 
-        private MockImpl* _impl;
+        MockImpl* _impl;
         alias _impl this;
 
         static struct MockImpl {
@@ -354,15 +415,19 @@ auto mockStruct(T...)(T returns) {
 
             mixin MockImplCommon;
 
-            auto opDispatch(string funcName, V...)(V values) {
+            auto opDispatch(string funcName, V...)(auto ref V values) {
+
                 import std.conv: to;
                 import std.typecons: tuple;
+
                 calledFuncs ~= funcName;
                 calledValues ~= tuple(values).to!string;
+
                 static if(T.length > 0) {
+
                     if(_returnValues.length == 0) return typeof(_returnValues[0]).init;
                     auto ret = _returnValues[0];
-                     _returnValues = _returnValues[1..$];
+                    _returnValues = _returnValues[1..$];
                     return ret;
                 }
             }
@@ -371,10 +436,55 @@ auto mockStruct(T...)(T returns) {
 
     Mock m;
     m._impl = new Mock.MockImpl;
-    static if(T.length > 0)
+    static if(T.length > 0) {
         foreach(r; returns)
             m._impl._returnValues ~= r;
+    }
+
     return m;
+}
+
+/**
+   Version of mockStruct that accepts a compile-time mapping
+   of function name to return values. Each template parameter
+   must be a value of type `ReturnValues`
+ */
+
+auto mockStruct(T...)() if(T.length > 0 && allSatisfy!(isReturnValue, T)) {
+
+    struct Mock {
+        mixin MockImplCommon;
+
+        int[string] _retIndices;
+
+        auto opDispatch(string funcName, V...)(auto ref V values) {
+
+            import std.conv: to;
+            import std.typecons: tuple;
+
+            calledFuncs ~= funcName;
+            calledValues ~= tuple(values).to!string;
+
+            foreach(retVal; T) {
+                static if(retVal.funcName == funcName) {
+                    return retVal.values[_retIndices[funcName]++];
+                }
+            }
+        }
+
+        auto lefoofoo() {
+            return T[0].values[_retIndices["greet"]++];
+        }
+
+    }
+
+    Mock mock;
+
+    foreach(retVal; T) {
+        mock._retIndices[retVal.funcName] = 0;
+    }
+
+    return mock;
 }
 
 
@@ -391,6 +501,8 @@ auto mockStruct(T...)(T returns) {
 
 @("mock struct negative")
 @safe pure unittest {
+    import unit_threaded.asserts;
+
     auto m = mockStruct;
     m.expect!"foobar";
     assertExceptionMsg(m.verify,
@@ -413,6 +525,8 @@ auto mockStruct(T...)(T returns) {
 
 @("mock struct values negative")
 @safe pure unittest {
+    import unit_threaded.asserts;
+
     void fun(T)(T t) {
         t.foobar(2, "quux");
     }
@@ -428,6 +542,8 @@ auto mockStruct(T...)(T returns) {
 
 @("struct return value")
 @safe pure unittest {
+    import unit_threaded.should;
+
     int fun(T)(T f) {
         return f.timesN(3) * 2;
     }
@@ -450,6 +566,33 @@ auto mockStruct(T...)(T returns) {
     m.expectCalled!"foobar"(2, "quux");
 }
 
+@("mockStruct different return types for different functions")
+@safe pure unittest {
+    import unit_threaded.should: shouldEqual;
+    auto m = mockStruct!(ReturnValues!("length", 5),
+                         ReturnValues!("greet", "hello"));
+    m.length.shouldEqual(5);
+    m.greet("bar").shouldEqual("hello");
+    m.expectCalled!"length";
+    m.expectCalled!"greet"("bar");
+}
+
+@("mockStruct different return types for different functions and multiple return values")
+@safe pure unittest {
+    import unit_threaded.should: shouldEqual;
+    auto m = mockStruct!(ReturnValues!("length", 5, 3),
+                         ReturnValues!("greet", "hello", "g'day"));
+    m.length.shouldEqual(5);
+    m.expectCalled!"length";
+    m.length.shouldEqual(3);
+    m.expectCalled!"length";
+
+    m.greet("bar").shouldEqual("hello");
+    m.expectCalled!"greet"("bar");
+    m.greet("quux").shouldEqual("g'day");
+    m.expectCalled!"greet"("quux");
+}
+
 
 @("const(ubyte)[] return type]")
 @safe pure unittest {
@@ -466,4 +609,72 @@ auto mockStruct(T...)(T returns) {
         int twice(int i) @safe pure nothrow /*@nogc*/;
     }
     auto m = mock!Interface;
+}
+
+@("issue 63")
+@safe pure unittest {
+    import unit_threaded.should;
+
+    interface InterfaceWithOverloads {
+        int func(int) @safe pure;
+        int func(string) @safe pure;
+    }
+    alias ov = Identity!(__traits(allMembers, InterfaceWithOverloads)[0]);
+    auto m = mock!InterfaceWithOverloads;
+    m.returnValue!(0, "func")(3); // int overload
+    m.returnValue!(1, "func")(7); // string overload
+    m.expect!"func"("foo");
+    m.func("foo").shouldEqual(7);
+    m.verify;
+}
+
+
+auto throwStruct(E = UnitTestException, R = void)() {
+
+    struct Mock {
+
+        R opDispatch(string funcName, string file = __FILE__, size_t line = __LINE__, V...)
+                    (auto ref V values) {
+            throw new E(funcName ~ " was called", file, line);
+        }
+    }
+
+    return Mock();
+}
+
+@("throwStruct default")
+@safe pure unittest {
+    import unit_threaded.should: shouldThrow;
+    auto m = throwStruct;
+    m.foo.shouldThrow!UnitTestException;
+    m.bar(1, "foo").shouldThrow!UnitTestException;
+}
+
+version(testing_unit_threaded) {
+    class FooException: Exception {
+        import std.exception: basicExceptionCtors;
+        mixin basicExceptionCtors;
+    }
+
+
+    @("throwStruct custom")
+        @safe pure unittest {
+        import unit_threaded.should: shouldThrow;
+
+        auto m = throwStruct!FooException;
+        m.foo.shouldThrow!FooException;
+        m.bar(1, "foo").shouldThrow!FooException;
+    }
+}
+
+
+@("throwStruct return value type")
+@safe pure unittest {
+    import unit_threaded.asserts;
+    auto m = throwStruct!(UnitTestException, int);
+    int i;
+    assertExceptionMsg(i = m.foo,
+                       "    source/unit_threaded/mock.d:123 - foo was called");
+    assertExceptionMsg(i = m.bar,
+                       "    source/unit_threaded/mock.d:123 - bar was called");
 }

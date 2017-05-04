@@ -1,6 +1,7 @@
 module unit_threaded.attrs;
 
-import std.range;
+import std.range.primitives : isInputRange, ElementType;
+
 
 enum UnitTest; //opt-in to registration
 enum DontTest; //opt-out of registration
@@ -15,6 +16,12 @@ struct HiddenTest {
 
 /// The suite fails if the test passes.
 struct ShouldFail {
+    string reason;
+}
+
+/// The suite fails unless the test throws T
+struct ShouldFailWith(T: Throwable) {
+    alias Type = T;
     string reason;
 }
 
@@ -73,7 +80,7 @@ auto Values(T)(T[] values...) {
 }
 
 auto Values(R)(R values) if(isInputRange!R) {
-    import std.array;
+    import std.array: array;
     return ValuesImpl!(ElementType!R)(values.array);
 }
 
