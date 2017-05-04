@@ -2,127 +2,125 @@
 @prefix coin="http://boscoin.io/ontology/CoinOntology#"
 @prefix rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 @prefix owl="http://www.w3.org/2002/07/owl#"
-@prefix xml="http://www.w3.org/xml/1998/namespace"
 @prefix xsd="http://www.w3.org/2001/xmlschema#"
 @prefix rdfs="http://www.w3.org/2000/01/rdf-schema#"
 
-rdf:rdf {
-     owl:ontology rdf:about="http://boscoin.io/ontology/CoinOntology"
+owl:Ontology {
 
-     owl:objectproperty rdf:about="#drawing"{
-         rdfs:subpropertyof rdf:resource="#financeoperation"}
+     owl:objectproperty "#drawing"{
+         rdfs:subpropertyof "#Operation"}
 
-     owl:objectproperty rdf:about="#financeoperation"{
-         rdfs:subpropertyof rdf:resource="#transaction"}
+     owl:objectproperty "#Operation"{
+         rdfs:subpropertyof "#transaction"}
 
-     owl:objectproperty rdf:about="#hascomponent"{
-         owl:inverseof rdf:resource="#iscomponentof"
-         rdfs:domain rdf:resource="#cryptocurrencysystem"
-         rdfs:range rdf:resource="#account"
-         rdfs:range rdf:resource="#coin"
-         rdfs:range rdf:resource="#contract"}
+     owl:objectproperty "#hascomponent"{
+         owl:inverseof "#iscomponentof"
+         rdfs:domain "#cryptocurrencysystem"
+         rdfs:range "#account"
+         rdfs:range "#coin"
+         rdfs:range "#contract"}
 
-     owl:objectproperty rdf:about="#haspolicy"{
-         rdfs:domain rdf:resource="#coin"
-         rdfs:range rdf:resource="#coinpolicy"}
+     owl:objectproperty "#haspolicy"{
+         rdfs:domain "#coin"
+         rdfs:range "#coinpolicy"}
 
-     owl:objectproperty rdf:about="#iscomponentof"{
-         rdfs:domain rdf:resource="#account"
-         rdfs:domain rdf:resource="#coin"
-         rdfs:domain rdf:resource="#Contract"
-         rdfs:range rdf:resource="#CryptoCurrencySystem"}
+     owl:objectproperty "#iscomponentof"{
+         rdfs:domain "#account"
+         rdfs:domain "#coin"
+         rdfs:domain "#Contract"
+         rdfs:range "#CryptoCurrencySystem"}
 
-     owl:ObjectProperty rdf:about="#isCreatedBy"    
+     owl:ObjectProperty "#isCreatedBy"    
 
-     owl:ObjectProperty rdf:about="#remittance"{
-         rdfs:subPropertyOf rdf:resource="#financeOperation"}
+     owl:ObjectProperty "#remittance"{
+         rdfs:subPropertyOf "#Operation"}
 
-     owl:ObjectProperty rdf:about="#saving"{
-         rdfs:subPropertyOf rdf:resource="#financeOperation"}
+     owl:ObjectProperty "#saving"{
+         rdfs:subPropertyOf "#Operation"}
 
-     owl:ObjectProperty rdf:about="#transaction"
+     owl:ObjectProperty "#transaction"
 
-     owl:ObjectProperty rdf:about="#transfer"{
-         rdfs:subPropertyOf rdf:resource="#financeOperation"}
+     owl:ObjectProperty "#transfer"{
+         rdfs:subPropertyOf "#Operation"}
 
-     owl:DatatypeProperty rdf:about="#accountDataProperty"
+     owl:DatatypeProperty "#accountDataProperty"
     
-     owl:DatatypeProperty rdf:about="#address"{
-         rdfs:subPropertyOf rdf:resource="#accountDataProperty"
-         rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"
-         rdfs:domain rdf:resource="#Account"
-	 rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"}
+     owl:DatatypeProperty "#address"{
+         rdfs:subPropertyOf "#accountDataProperty"
+         rdf:type owl:FunctionalProperty
+         rdfs:domain "#Account"
+	 rdfs:range xsd:string}
 
-     owl:DatatypeProperty rdf:about="#amount"{
-         rdfs:domain rdf:resource="#Account"}
+     owl:DatatypeProperty "#amount"{
+         rdfs:domain "#Account"}
 
-     owl:DatatypeProperty rdf:about="#balance"{
-         rdfs:domain rdf:resource="#Account"}
+     owl:DatatypeProperty "#balance"{
+         rdfs:domain "#Account"}
 
-     owl:DatatypeProperty rdf:about="#coinDataProperty"{
-         rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"
-         rdfs:domain rdf:resource="#Coin"}
+     owl:DatatypeProperty "#coinDataProperty"{
+         rdfs:subPropertyOf owl:topDataProperty
+         rdfs:domain "#Coin"}
 
-     owl:DatatypeProperty rdf:about="#name"{
-         rdfs:subPropertyOf rdf:resource="#coinDataProperty"
-         rdfs:domain rdf:resource="#CoinPolicy"}
+     owl:DatatypeProperty "#name"{
+         rdfs:subPropertyOf "#coinDataProperty"
+         rdfs:domain "#CoinPolicy"}
 
-     owl:DatatypeProperty rdf:about="#symbol"{
-         rdfs:subPropertyOf rdf:resource="#coinDataProperty"
-         rdfs:domain rdf:resource="#CoinPolicy"}
+     owl:DatatypeProperty "#symbol"{
+         rdfs:subPropertyOf "#coinDataProperty"
+         rdfs:domain "#CoinPolicy"}
 
-     owl:DatatypeProperty rdf:about="#totalSupply"{
-         rdfs:subPropertyOf rdf:resource="#coinDataProperty"
-         rdfs:domain rdf:resource="#CoinPolicy"}
+     owl:DatatypeProperty "#totalSupply"{
+         rdfs:subPropertyOf "#coinDataProperty"
+         rdfs:domain "#CoinPolicy"}
 
-     owl:Class rdf:about="#Account"    
+     owl:Class "#Account"    
 
-     owl:Class rdf:about="#Coin"
+     owl:Class "#Coin"
 
-     owl:Class rdf:about="#CoinContract"{
-         rdfs:subClassOf rdf:resource="#Contract"}
+     owl:Class "#CoinContract"{
+         rdfs:subClassOf "#Contract"}
 
-     owl:Class rdf:about="#CoinPolicy"
+     owl:Class "#CoinPolicy"
     
-     owl:Class rdf:about="#Contract"
+     owl:Class "#Contract"
     
-     owl:Class rdf:about="#ContractAccount"{
-         rdfs:subClassOf rdf:resource="#Account"}
+     owl:Class "#ContractAccount"{
+         rdfs:subClassOf "#Account"}
 
-     owl:Class rdf:about="#CryptoCurrencySystem"
+     owl:Class "#CryptoCurrencySystem"
     
-     owl:Class rdf:about="#Deposit"{
-         rdfs:subClassOf rdf:resource="#Operation"}
+     owl:Class "#Deposit"{
+         rdfs:subClassOf "#Operation"}
     
-     owl:Class rdf:about="#InsuranceContract"{
-         rdfs:subClassOf rdf:resource="#Contract"}
+     owl:Class "#InsuranceContract"{
+         rdfs:subClassOf "#Contract"}
 
-     owl:Class rdf:about="#LoanContract"{
-         rdfs:subClassOf rdf:resource="#Contract"}
+     owl:Class "#LoanContract"{
+         rdfs:subClassOf "#Contract"}
 
-     owl:Class rdf:about="#NormalAccount"{
-         rdfs:subClassOf rdf:resource="#Account"}
+     owl:Class "#NormalAccount"{
+         rdfs:subClassOf "#Account"}
 
-     owl:Class rdf:about="#Operation"    
+     owl:Class "#Operation"    
 
-     owl:Class rdf:about="#RealEstateContract"{
-         rdfs:subClassOf rdf:resource="#Contract"}
+     owl:Class "#RealEstateContract"{
+         rdfs:subClassOf "#Contract"}
 
-     owl:Class rdf:about="#accountGenerating"{
-         rdfs:subClassOf rdf:resource="#Operation"}
+     owl:Class "#accountGenerating"{
+         rdfs:subClassOf "#Operation"}
 
-     owl:Class rdf:about="#drawing"{
-         rdfs:subClassOf rdf:resource="#Operation"}
+     owl:Class "#drawing"{
+         rdfs:subClassOf "#Operation"}
 
-     owl:Class rdf:about="#remmittence"{
-         owl:equivalentClass rdf:resource="#transfer"
-         rdfs:subClassOf rdf:resource="#Operation"}
+     owl:Class "#remmittence"{
+         owl:equivalentClass "#transfer"
+         rdfs:subClassOf "#Operation"}
 
-     owl:Class rdf:about="#saving"{
-         rdfs:subClassOf rdf:resource="#Operation"}
+     owl:Class "#saving"{
+         rdfs:subClassOf "#Operation"}
 
-     owl:Class rdf:about="#transfer"{
-         rdfs:subClassOf rdf:resource="#Operation"}
+     owl:Class "#transfer"{
+         rdfs:subClassOf "#Operation"}
 }
 
 

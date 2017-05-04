@@ -5,8 +5,9 @@
 owl:Ontology{
 	owl:imports "http://boscoin.io/ontology/CoinOntology"
 	rdfs:subClassOf "http://boscoin.io/ontology/CoinOntology#Coin"
+	
 	coin:name "HelloWorldCoin"
 	coin:minimumValue 0.0001
 	coin:symbol "HWC"
-	coin:totalSupply 1000000
+	coin:totalSupply 10000000000
 }

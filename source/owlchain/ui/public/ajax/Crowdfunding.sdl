@@ -1,63 +1,58 @@
-@base "http://www.boscoin.io/ontology/example/CrowdFunding#"
-@prefix rdfs "http://www.w3.org/2000/01/rdf-schema#" 
-@prefix owlchain "http://www.owlchain.org/tal/core#"
-@prefix crowdfunding "http://www.boscoin.io/ontologies/2017/2/CrowdFunding#"
-@prefix xsd "http://www.w3.org/2001/XMLSchema#"
-@prefix fibo-fnd-acc-cur "http://www.omg.org/spec/EDMC-FIBO/FND/Accounting/CurrencyAmount/"
-@prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-@prefix owl "http://www.w3.org/2002/07/owl#"
-@prefix skos "http://www.w3.org/2004/02/skos/core#"
+@base "http://www.boscoin.io/ontology/CrowdFunding/"
+@prefix rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+@prefix crowdfunding="http://www.boscoin.io/ontology/CrowdFunding/"
+@prefix xsd="http://www.w3.org/2001/XMLSchema#"
+@prefix rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+@prefix owl="http://www.w3.org/2002/07/owl#"
 
-rdf:RDF {
+owl:Ontology{
 
-	owl:Ontology rdf:about="http://www.boscoin.io/ontology/example/CrowdFunding#"
+	owl:ObjectProperty "#contribute" {
+		rdfs:domain "#Funder"
+		rdfs:range "#Fund"}
 
-	owl:ObjectProperty rdf:about="crowdfunding:contribute" {
-		rdfs:domain rdf:resource="crowdfunding:Funder"
-		rdfs:range rdf:resource="crowdfunding:Fund"}
+	owl:ObjectProperty "#funders" {
+		rdfs:subPropertyOf owl:topObjectProperty
+		rdfs:domain "#Fund"}
 
-	owl:ObjectProperty rdf:about="crowdfunding:funders" {
-		rdfs:subPropertyOf rdf:resource="owl:topObjectProperty"
-		rdfs:domain rdf:resource="crowdfunding:Fund"}
+	owl:ObjectProperty "#generate" {
+		rdf:type "owl:FunctionalProperty"
+		rdfs:domain "#Beneficiary"
+		rdfs:range "#Fund"}
 
-	owl:ObjectProperty rdf:about="crowdfunding:generate" {
-		rdf:type rdf:resource="owl:FunctionalProperty"
-		rdfs:domain rdf:resource="crowdfunding:Beneficiary"
-		rdfs:range rdf:resource="crowdfunding:Fund"}
+	owl:DatatypeProperty "#address" {
+		rdfs:subPropertyOf owl:topDataProperty
+		rdfs:domain "#Beneficiary"
+		rdfs:range rdfs:Literal}
 
-	owl:DatatypeProperty rdf:about="crowdfunding:address" {
-		rdfs:subPropertyOf rdf:resource="owl:topDataProperty"
-		rdfs:domain rdf:resource="crowdfunding:Beneficiary"
-		rdfs:range rdf:resource="rdfs:Literal"}
+	owl:DatatypeProperty "#amount" {
+		rdfs:subPropertyOf owl:topDataProperty
+		rdfs:domain "#Funder"
+		rdfs:range xsd:integer}
 
-	owl:DatatypeProperty rdf:about="crowdfunding:amount" {
-		rdfs:subPropertyOf rdf:resource="owl:topDataProperty"
-		rdfs:domain rdf:resource="crowdfunding:Funder"
-		rdfs:range rdf:resource="xsd:integer"}
+	owl:DatatypeProperty "#condition" {
+		rdfs:domain "Participant"}
 
-	owl:DatatypeProperty rdf:about="crowdfunding:condition" {
-		rdfs:domain rdf:resource="crowdfunding:Participant"}
-
-	owl:DatatypeProperty rdf:about="crowdfunding:name" {
+	owl:DatatypeProperty "#name" {
 		rdfs:label "Operator name"}
 
-	owl:DatatypeProperty rdf:about="crowdfunding:title" {
-		rdfs:subPropertyOf rdf:resource="owl:topDataProperty"
-		rdfs:domain rdf:resource="crowdfunding:Fund"}
+	owl:DatatypeProperty "#title" {
+		rdfs:subPropertyOf owl:topDataProperty
+		rdfs:domain "Fund"}
 
-	owl:Class rdf:about="crowdfunding:Beneficiary" {
-		rdfs:subClassOf rdf:resource="crowdfunding:Participant"
-		owl:disjointWith rdf:resource="crowdfunding:Funder"
-		rdfs:label "crowdfunding:Beneficiary"}
+	owl:Class "#Beneficiary" {
+		rdfs:subClassOf "#Participant"
+		owl:disjointWith "#Funder"
+		rdfs:label "Beneficiary"}
 
-	owl:Class rdf:about="crowdfunding:Fund" {
-		rdfs:label "Fund"}
+	owl:Class "#Fund" {
+		rdfs:label "#Fund"}
 
-	owl:Class rdf:about="crowdfunding:Funder" {
-		rdfs:subClassOf rdf:resource="Participant"
+	owl:Class "Funder" {
+		rdfs:subClassOf "#Participant"
 		rdfs:label "Funder"}
 
-	owl:Class rdf:about="crowdfunding:Participant" {
-		rdfs:label "Participant"}
+	owl:Class "#Participant" {
+		rdfs:label "#Participant"}
 }
 

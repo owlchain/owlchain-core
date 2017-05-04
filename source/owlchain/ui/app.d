@@ -338,7 +338,7 @@ class BlockchainRESTImpl : IBlockchainREST
 		auto c = ConfirmedTrustContract();
 		c.code = "00";
 		c.status = "Confirm OK";
-		c.message = "Created new trust contract address";
+		c.message = "New trust contract address has been created.";
 		c.title = _title;
 		c.address = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
 		while (confirmAddress(c.address) != -1)
@@ -392,12 +392,22 @@ class BlockchainRESTImpl : IBlockchainREST
 
 			tcwallet.address = c.accountAddress;
 			tcwallet.totalBalance = c.balance;
+			tcwallet.isTransfered = false;
 
 			json = serializeToJson(c);
 		}
 		else if (getOperation(_contents) == "Remittance")
 		{
-			if (getRemittanceAmount(_contents) > tcwallet.totalBalance)
+			if (tcwallet.isTransfered)
+			{
+				auto e = ErrorState();
+				e.code = "99";
+				e.status = "Error(95)";
+				e.message = "Deposit has been already sent.";
+				
+				json = serializeToJson(e);
+			}
+			else if (getRemittanceAmount(_contents) > tcwallet.totalBalance)
 			{
 				auto e = ErrorState();
 				e.code = "99";
@@ -411,17 +421,19 @@ class BlockchainRESTImpl : IBlockchainREST
 				auto e = ErrorState();
 				e.code = "99";
 				e.status = "Error(97)";
-				e.message = "Exceeded amount has been sent.";
+				e.message = "Exceeded amount has been requested.";
 				
 				json = serializeToJson(e);
 			}
 			else
 			{
+				tcwallet.totalBalance -= getRemittanceAmount(_contents);
+				tcwallet.isTransfered = true;
+
 				auto s = SendCoin();
 				s.code = "00";
 				s.status = "Transaction Success";
-				s.txID = _contractAddress;
-				tcwallet.totalBalance -= getRemittanceAmount(_contents);
+				s.txID = encodeWithPrefix("TRX", uniform(0L, 1000000000000000000L));
 				s.balance = tcwallet.totalBalance;
 			
 				json = serializeToJson(s);
