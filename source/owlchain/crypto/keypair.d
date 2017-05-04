@@ -18,6 +18,7 @@ bool keypairWithSeed(out KeyPair kp, scope SeedBytes seed)
     return crypto_box_seed_keypair(kp.publicKey, kp.secretKey, seed);
 }
 
+@("keypair")
 @system 
 unittest
 {

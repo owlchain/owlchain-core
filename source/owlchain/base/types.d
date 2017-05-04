@@ -7,8 +7,6 @@ public import gfm.integers.wideint:
     int256,
     uint256;
 
-//enum UINT256_BYTE_LENGTH=int256.sizeof;
-
 string toHexUpper(T)(T val)
 {
     return format("%X", val);
@@ -21,6 +19,7 @@ string toHexLower(T)(T val)
 
 alias toHex = toHexUpper;
 
+@("int256")
 @system
 unittest {
     import std.stdio: writefln;

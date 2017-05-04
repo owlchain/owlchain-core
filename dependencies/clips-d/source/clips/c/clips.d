@@ -3036,6 +3036,8 @@ void*   ValueToPointer(void * target) { return target; }
 //C     #define ValueToExternalAddress(target) ((void *) ((struct externalAddressHashNode *) (target))->externalAddress)
 void*   ValueToExternalAddress(void * target) { return (cast(externalAddressHashNode *)target).externalAddress; }
 //C     #define EnvValueToString(theEnv,target) (((struct symbolHashNode *) (target))->contents)
+void*   EnvValueToString(void* theEnv, void* target) { return (cast(symbolHashNode *)target).contents; }
+
 //C     #define EnvValueToDouble(theEnv,target) (((struct floatHashNode *) (target))->contents)
 //C     #define EnvValueToLong(theEnv,target) (((struct integerHashNode *) (target))->contents)
 //C     #define EnvValueToInteger(theEnv,target) ((int) (((struct integerHashNode *) (target))->contents))

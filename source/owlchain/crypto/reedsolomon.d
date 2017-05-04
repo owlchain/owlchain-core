@@ -212,6 +212,9 @@ private static bool is_codeword_valid(int[] codeword)
     }
     return sum == 0;
 }
+
+
+@("reedsolomon")
 @system
 unittest
 {
@@ -336,6 +339,7 @@ string encodeWithPrefix(string prefix, long plain)
     return prefix ~ "-" ~ encode(plain);
 }
 
+@("prefix")
 @system
 unittest
 {

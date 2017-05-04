@@ -1,4 +1,4 @@
-module owlchain.cryto.hex;
+module owlchain.crypto.hex;
 
 import std.exception:enforce;
 import owlchain.base.types:uint256;
@@ -32,7 +32,7 @@ ubyte[] hexToBin(in string hex,string ignore=null)
 }
 alias toBin = hexToBin;
 
-
+@("hex")
 @system
 unittest{
 

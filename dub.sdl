@@ -37,6 +37,16 @@ targetType "executable"
 mainSourceFile "source/owlchain/appmain.d"
 sourcePaths "source"
 
+configuration "executable" {
+}
+
+configuration "unittest" {
+    dependency "unit-threaded" version="~>0.7.11"
+    mainSourceFile "bin/ut.d"
+    excludedSourceFiles "source/owlchain/appmain.d"
+    preBuildCommands "dub run unit-threaded -c gen_ut_main -- -f bin/ut.d"
+}
+
 // binary working directory
 workingDirectory "bin"
 targetPath "bin"

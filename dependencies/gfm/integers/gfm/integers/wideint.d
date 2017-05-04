@@ -769,7 +769,6 @@ unittest
         }
     }
     import std.stdio:writefln;
-    writefln("gfm:integers test don.");
 }
 
 unittest
