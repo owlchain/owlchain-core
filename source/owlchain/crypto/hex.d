@@ -4,6 +4,7 @@ import std.exception:enforce;
 import owlchain.base.types:uint256;
 import wrapper.sodium.utils:sodium_hex2bin,sodium_bin2hex;
 import std.stdio:writefln;
+import std.string : representation;
 
 string binToHex(in ubyte[] bin)
 {
@@ -32,6 +33,12 @@ ubyte[] hexToBin(in string hex,string ignore=null)
 }
 alias toBin = hexToBin;
 
+ubyte[32] hexToBin256(in ubyte[64] hex){
+    auto bin = hexToBin(cast(string)hex);
+    enforce(bin.length == 32);
+    return bin[0 .. 32];
+}
+
 @("hex")
 @system
 unittest{
@@ -54,6 +61,9 @@ unittest{
 
     assert(toHex(cast(ubyte[])x"12 34") == "1234");
     assert(toBin("12:34:56", ":") == x"12 34 56");
+
+    auto b256 = hexToBin256(cast(ubyte[64])"1234567890123456789012345678901234567890123456789012345678901234");
+    writefln("b256 %s", b256);
 
     writefln("hexToBin(binToHex((bin)) is done");
 }

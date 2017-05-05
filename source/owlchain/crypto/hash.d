@@ -179,3 +179,28 @@ unittest {
 
     assert(mac2 == mac3);
 }
+
+HmacSha256Key hkdfExtract(in ubyte[] bin) {
+    HmacSha256Key zerosalt;
+    auto mac = hmacSha256_sodium(zerosalt, bin);
+    return cast(HmacSha256Key)mac;
+}
+
+HmacSha256Key hkdfExpand(HmacSha256Key key,in ubyte[] bin){
+    auto buf = bin.dup;
+    buf ~= cast(ubyte)1;
+    auto mac = hmacSha256_sodium(key,buf);
+    return cast(HmacSha256Key)mac;
+}
+
+@("HKDF")
+@system
+unittest{
+    import owlchain.crypto.hex: hexToBin, hexToBin256;
+    auto ikm = hexToBin("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
+    HmacSha256Key prk = hexToBin256(cast(ubyte[64])"19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04");
+    HmacSha256Key okm = hexToBin256(cast(ubyte[64])"8da4e775a563c18f715f802a063c5a31b8a11f5c5ee1879ec3454e5f3c738d2d");
+    assert(hkdfExtract(ikm) == prk);
+    ubyte[] empty;
+    assert(hkdfExpand(prk, empty) == okm);
+}
