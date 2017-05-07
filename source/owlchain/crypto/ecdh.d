@@ -29,16 +29,13 @@ HmacSha256Key ecdhDeriveSharedKey(Curve25519Secret localSecret, Curve25519Public
     auto publicA = localFirst ? localPublic : remotePublic;
     auto publicB = localFirst ? remotePublic : localPublic;
 
-    ubyte q[crypto_scalarmult_BYTES];
+    ubyte[crypto_scalarmult_BYTES] q;
     enforce( crypto_scalarmult(q, localSecret, remotePublic) );
     ubyte[] buf;
     buf ~= q;
     buf ~= publicA;
     buf ~= publicB;
-
-    // std::vector<uint8_t> buf(q, q + crypto_scalarmult_BYTES);
-    // buf.insert(buf.end(), publicA.key.begin(), publicA.key.end());
-    // buf.insert(buf.end(), publicB.key.begin(), publicB.key.end());
+    
     return hkdfExtract(buf);
 }
 
