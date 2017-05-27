@@ -52,4 +52,4 @@ workingDirectory "bin"
 targetPath "bin"
 
 // To copy web ui resource file
-copyFiles "source/owlchain/ui/public" "docs/owlchain-config.sdl"
+copyFiles "source/owlchain/ui/public" "docs/owlchain-core.sdl"
