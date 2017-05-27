@@ -3,6 +3,10 @@ module owlchain.utils.config;
 import sdlang;
 import vibe.core.file:readFile,writeFile;
 
+
+enum DEFAULT_CONFIG_PATH = "owlchain-core.sdl";
+enum DEFAULT_LOG_PATH = "owlchain-core.log";
+
 class Config {
 
     private string filePath;
@@ -12,7 +16,7 @@ class Config {
         _root = new Tag;
     }
 
-    this(string path){
+    this(string path) {
         loadFile(path);
     }
 
@@ -20,20 +24,20 @@ class Config {
         return _root;
     }
 
-    void loadFile(string path){
+    void loadFile(string path) {
         filePath = path;
         _root = parseFile(filePath);
     }
 
-    void loadString(string contents){
+    void loadString(string contents) {
          _root = parseSource(contents,filePath);
     }
 
-    void loadString(ubyte[] contents){
+    void loadString(ubyte[] contents) {
          loadString(cast(string)contents);
     }
 
-    void saveFile(string path){
+    void saveFile(string path) {
         writeFile(path, cast(ubyte[])_root.toSDLDocument());
     }
 
@@ -48,10 +52,25 @@ class Config {
     ushort port() {
         return cast(ushort)_root.getTagValue!int("port", 80);
     }
+
+    string logFile() {
+        return DEFAULT_LOG_PATH;
+    }
+}
+
+private static Config _config;
+Config config() {
+    if(_config is null){
+        _config = new Config(DEFAULT_CONFIG_PATH);
+    } 
+    return _config;
 }
 
 // more detail info refer to
 // https://github.com/Abscissa/SDLang-D/blob/master/HOWTO.md
+
+@("Config")
+@system
 unittest
 {
     import std.algorithm;
@@ -74,26 +93,8 @@ unittest
     assert(cfg.ipv4() == "8.8.8.8");
     assert(cfg.ipv6() == "::1");
     assert(cfg.port() == 1111);
+    assert(cfg.logFile() == DEFAULT_LOG_PATH);
+
+    assert( config() !is null);
 }
-
-private static Config _config;
-private static bool loaded=false;
-
-enum DEFAULT_CONFIG_PATH = "owlchain-config.sdl";
-
-Config config(string path=DEFAULT_CONFIG_PATH){
-    if(!loaded){
-        _config = new Config(path);
-        loaded = true;
-    }
-    return _config;
-}
-
-unittest {
-    auto cfg = config();
-    assert(cfg.ipv4() == "127.0.0.1");
-    assert(cfg.ipv6() == "::1");
-    assert(cfg.port() == 8080);
-}
-
 
