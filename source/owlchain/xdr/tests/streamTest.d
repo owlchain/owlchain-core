@@ -53,6 +53,7 @@ public :
             v2 = inputStream.readInt32();
             require(v1 == v2);
         }
+
         section("uint32");
         {
             uint32 v1, v2;
@@ -65,6 +66,7 @@ public :
             v2 = inputStream.readUint32();
             require(v1 == v2);
         }
+
         section("int64");
         {
             int64 v1, v2;
@@ -77,6 +79,7 @@ public :
             v2 = inputStream.readInt64();
             require(v1 == v2);
         }
+
         section("uint64");
         {
             uint64 v1, v2;
@@ -89,6 +92,7 @@ public :
             v2 = inputStream.readUint64();
             require(v1 == v2);
         }
+
         section("uint256");
         {
             uint256 v1, v2;

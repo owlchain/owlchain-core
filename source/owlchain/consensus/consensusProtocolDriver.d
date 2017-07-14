@@ -1,5 +1,7 @@
 module owlchain.consensus.consensusProtocolDriver;
 
+import std.typecons;
+
 import owlchain.xdr.type;
 import owlchain.xdr.envelope;
 import owlchain.xdr.value;
@@ -12,6 +14,9 @@ import owlchain.xdr.publicKey;
 import owlchain.crypto.keyUtils;
 
 import owlchain.consensus.consensusProtocol;
+
+//alias QuorumSetPtr = QuorumSet*;
+alias QuorumSetPtr = RefCounted!(QuorumSet, RefCountedAutoInitialize.no);
 
 class ConsensusProtocolDriver
 {
@@ -33,9 +38,11 @@ class ConsensusProtocolDriver
 
     // Delegates the retrieval of the quorum set designated by qSetHash to
     // the user of .
-    QuorumSet getQSet(ref const Hash qSetHash)
+    QuorumSetPtr getQSet(ref const Hash qSetHash)
     {
-        return QuorumSet();
+        RefCounted!(QuorumSet, RefCountedAutoInitialize.no) qSet;
+
+        return qSet;
     }
 
     // Users of the  library should inherit from Driver and implement the

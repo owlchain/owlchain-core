@@ -51,7 +51,6 @@ class XdrDataInputStream : InputStream
 
 	const(ubyte)[] peek() 
     {
-
         return data;
     }
 

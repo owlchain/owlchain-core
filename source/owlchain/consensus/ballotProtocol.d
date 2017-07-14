@@ -3,7 +3,7 @@ module owlchain.consensus.ballotProtocol;
 import std.container;
 import std.conv;
 import std.json;
-import std.algorithm: find;
+import std.algorithm : find;
 
 import owlchain.xdr.type;
 import owlchain.xdr.statement;
@@ -20,7 +20,7 @@ import owlchain.consensus.consensusProtocolDriver;
 import owlchain.consensus.slot;
 import owlchain.consensus.localNode;
 
-alias StatementPredicate = bool function(Statement st);
+alias StatementPredicate = bool delegate(ref const Statement st);
 
 class BallotProtocol
 {
@@ -46,7 +46,7 @@ private :
     Ballot*[] _highBallot;         // h
     Ballot*[] _commit;             // c
     Envelope[NodeID] _latestEnvelopes; // M
-    CPPhase _Phase;                                // Phi
+    CPPhase   _phase;                                // Phi
 
     int _currentMessageLevel; // number of messages triggered in one run
 
@@ -59,7 +59,7 @@ public :
     {
         _slot = value;
         _heardFromQuorum = true;
-        _Phase = CPPhase.CP_PHASE_PREPARE;
+        _phase = CPPhase.CP_PHASE_PREPARE;
         _currentMessageLevel = 0;
     }
 
@@ -76,8 +76,8 @@ public :
     void ballotProtocolTimerExpired()
     {
         // imcomplete
-
     }
+
     // abandon's current ballot, move to a new ballot
     // at counter `n` (or, if n == 0, increment current counter)
     bool abandonBallot(uint32 n)
@@ -96,6 +96,7 @@ public :
         // imcomplete
         return false;
     }
+
     // flavor that takes the actual desired counter value
     bool bumpState(ref const Value value, uint32 n)
     {
@@ -110,7 +111,6 @@ public :
     void dumpInfo(ref JSONValue ret)
     {
         // imcomplete
-
     }
 
     // returns information about the quorum for a given node
@@ -158,7 +158,6 @@ public :
     void setStateFromEnvelope(ref const Envelope e)
     {
         // imcomplete
-
     }
 
     const Envelope[] getCurrentState() 
@@ -174,6 +173,7 @@ public :
         Envelope[] res;
         return res;
     }
+
 private:
     // attempts to make progress using the latest statement as a hint
     // calls into the various attempt* methods, emits message
@@ -194,7 +194,6 @@ private:
     void sendLatestEnvelope()
     {
         // imcomplete
-
     }
 
     // `attempt*` methods are called by `advanceSlot` internally call the
@@ -281,7 +280,6 @@ private:
         return res;
     }
 
-
     // helper to perform step (8) from the paper
     void updateCurrentIfNeeded()
     {
@@ -320,7 +318,7 @@ private:
     // returns true if the statement commits the ballot in the range 'check'
     //static bool commitPredicate(ref const Ballot ballot, Interval const& check, ref const Statement st)
     //{
-
+    // imcomplete
     //}
 
     // attempts to update p to ballot (updating p' if needed)
@@ -413,14 +411,12 @@ private:
     void emitCurrentStateStatement()
     {
         // imcomplete
-
     }
 
     // verifies that the internal state is consistent
     void checkInvariants()
     {
         // imcomplete
-
     }
 
     // create a statement of the given type using the local state

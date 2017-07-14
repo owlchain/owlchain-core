@@ -215,6 +215,8 @@ public :
     this(Slot slot)
     {
         _slot = slot;
+        _roundNumber = 0;
+        _nominationStarted = false;
     }
 
     ConsensusProtocol.EnvelopeState processEnvelope(ref const Envelope envelope)

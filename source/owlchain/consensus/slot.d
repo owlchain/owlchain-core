@@ -2,6 +2,9 @@ module owlchain.consensus.slot;
 
 import std.stdio;
 import std.conv;
+import std.json;
+import std.digest.sha;
+import std.algorithm : canFind;
 
 import owlchain.xdr.type;
 import owlchain.xdr.hash;
@@ -13,6 +16,7 @@ import owlchain.xdr.ballot;
 import owlchain.xdr.statement;
 import owlchain.xdr.statementType;
 
+import std.typecons;
 import owlchain.consensus.consensusProtocol;
 import owlchain.consensus.consensusProtocolDriver;
 import owlchain.consensus.localNode;
@@ -21,7 +25,7 @@ import owlchain.consensus.nominationProtocol;
 
 import owlchain.xdr.statement;
 
-import std.json;
+alias StatementsValididated = Tuple!(Statement, "statement", bool, "fullyValidated");
 
 // The Slot object is in charge of maintaining the state of the Consensus Protocol
 // for a given slot index.
@@ -37,7 +41,7 @@ private:
     // keeps track of all statements seen so far for this slot.
     // it is used for debugging purpose
     // second: if the slot was fully validated at the time
-    bool [Statement] _statementsHistory;
+    StatementsValididated [] _statementsHistory;
 
     // true if the Slot was fully validated
     bool _fullyValidated;
@@ -74,12 +78,9 @@ public:
         return _ballotProtocol;
     }
 
-    Value getLatestCompositeCandidate()
+    ref Value getLatestCompositeCandidate()
     {
-        //return _nominationProtocol.getLatestCompositeCandidate();
-
-        Value v;
-        return v;
+        return _nominationProtocol.getLatestCompositeCandidate();
     }
 
     // returns the latest messages the slot emitted
@@ -143,7 +144,10 @@ public:
     // records the statement in the historical record for this slot
     void recordStatement(ref const Statement st)
     {
-        _statementsHistory[cast(Statement)st] = _fullyValidated;
+        StatementsValididated value;
+        value.statement = cast(Statement)st;
+        value.fullyValidated = _fullyValidated;
+        _statementsHistory ~= value;
     }
 
     // Process a newly received envelope for this slot and update the state of the slot accordingly.
@@ -160,11 +164,11 @@ public:
         {
             if (envelope.statement.pledges.type.val == StatementType.CP_ST_NOMINATE)
             {
-                //res = _nominationProtocol.processEnvelope(envelope);
+                res = _nominationProtocol.processEnvelope(envelope);
             }
             else
             {
-                //res = _ballotProtocol.processEnvelope(envelope, self);
+                res = _ballotProtocol.processEnvelope(envelope, self);
             }
         }
         catch (Exception e)
@@ -222,12 +226,31 @@ public:
         Statement*[][NodeID] m;
         // this may be reduced to the pair (at most) of the latest
         // statements for each protocol
-        //foreach (Statement e; _statementsHistory)
-        //{
-        //    ref auto n = m[e.nodeID];
-        //    n ~= (&e);
-        //}
-        return ConsensusProtocol.TriBool.TB_TRUE;
+        for (int i = 0; i < _statementsHistory.length; i++)
+        {
+            auto e = _statementsHistory[i];
+            auto n = m[e.statement.nodeID];
+            if (!m.keys.canFind(e.statement.nodeID)) 
+            {
+                Statement*[] v;
+                v ~= &e.statement;
+                m[e.statement.nodeID] = v;
+            } 
+            else
+            {
+                m[e.statement.nodeID] ~= &e.statement;
+            }
+        }
+
+        return _consensusProtocol.localNode.isNodeInQuorum(
+            node, 
+            (ref const Statement st) {
+                // uses the companion set here as we want to consider
+                // nodes that were used up to EXTERNALIZE
+                Hash h = getCompanionQuorumSetHashFromStatement(st);
+                return driver.getQSet(h);
+            },
+            m);
     }
 
     // status methods
@@ -240,16 +263,43 @@ public:
     // including historical statements if available
     void dumpInfo(ref JSONValue ret)
     {
-        // incomplete
+        auto slots = ret["slots"];
 
+        JSONValue slotValue = slots[to!string(_slotIndex)];
+        QuorumSetPtr[Hash] qSetsUsed;
+        int count = 0;
+        for (int i = 0; i < _statementsHistory.length; i++)
+        {
+            auto item = _statementsHistory[i];
+            auto v = slotValue["statements"][count++];
+            v ~= consensusProtocol.envToStr(item.statement);
+            v ~= to!string(item.fullyValidated);
+
+            Hash qSetHash = getCompanionQuorumSetHashFromStatement(item.statement);
+            auto qSet = driver.getQSet(qSetHash);
+            if (qSet.refCountedStore.isInitialized)
+            {
+                qSetsUsed[qSetHash] = qSet;
+            }
+        }
+
+        auto qSets = slotValue["quorum_sets"];
+        foreach (Hash h, const QuorumSetPtr q; qSetsUsed)
+        {
+            auto qs = qSets[toHexString(h.hash)];
+            getLocalNode().toJson(q, qs);
+        }
+
+        slotValue["validated"] = _fullyValidated;
+        _nominationProtocol.dumpInfo(slotValue);
+        _ballotProtocol.dumpInfo(slotValue);
     }
 
     // returns information about the quorum for a given node
     void dumpQuorumInfo(ref JSONValue ret, ref const NodeID id, bool summary)
     {
-        // incomplete
         string i = to!string(cast(uint32)(_slotIndex), 10);
-        //_ballotProtocol.dumpQuorumInfo(ret[i], id, summary);
+        _ballotProtocol.dumpQuorumInfo(ret[i], id, summary);
     }
 
     // returns the hash of the QuorumSet that should be downloaded
@@ -258,24 +308,75 @@ public:
     // not match the hash of the QSet, but the hash of commitQuorumSetHash
     static Hash getCompanionQuorumSetHashFromStatement(ref const Statement st)
     {
-        // incomplete
-        return Hash();
+        Hash h;
+        switch (st.pledges.type.val)
+        {
+            case StatementType.CP_ST_PREPARE:
+                h = cast(Hash)(st.pledges.prepare.quorumSetHash);
+                break;
+            case StatementType.CP_ST_CONFIRM:
+                h = cast(Hash)(st.pledges.confirm.quorumSetHash);
+                break;
+            case StatementType.CP_ST_EXTERNALIZE:
+                h = cast(Hash)(st.pledges.externalize.commitQuorumSetHash);
+                break;
+            case StatementType.CP_ST_NOMINATE:
+                h = cast(Hash)(st.pledges.nominate.quorumSetHash);
+                break;
+            default:
+                //abort();
+        }
+        return h;
     }
 
     // returns the values associated with the statement
     static Value[] getStatementValues(ref const Statement st)
     {
-        // incomplete
         Value[] res;
+        if (st.pledges.type.val == StatementType.CP_ST_NOMINATE)
+        {
+            res = NominationProtocol.getStatementValues(st);
+        }
+        else
+        {
+            res ~= (BallotProtocol.getWorkingBallot(st).value);
+        }
         return res;
     }
 
     // returns the QuorumSet that should be used for a node given the
     // statement (singleton for externalize)
-    QuorumSet getQuorumSetFromStatement(ref const Statement st)
+    QuorumSetPtr getQuorumSetFromStatement(ref const Statement st)
     {
-        // incomplete
-        return QuorumSet();
+        QuorumSetPtr res;
+        StatementType t = st.pledges.type;
+
+        if (t.val == StatementType.CP_ST_EXTERNALIZE)
+        {
+            res = LocalNode.getSingletonQSet(st.nodeID);
+        }
+        else
+        {
+            Hash h;
+            if (t.val == StatementType.CP_ST_PREPARE)
+            {
+                h = cast(Hash)(st.pledges.prepare.quorumSetHash);
+            }
+            else if (t.val == StatementType.CP_ST_CONFIRM)
+            {
+                h = cast(Hash)(st.pledges.confirm.quorumSetHash);
+            }
+            else if (t.val == StatementType.CP_ST_NOMINATE)
+            {
+                h = cast(Hash)(st.pledges.nominate.quorumSetHash);
+            }
+            else
+            {
+                //abort();
+            }
+            res = driver.getQSet(h);
+        }
+        return res;
     }
 
     // wraps a statement in an envelope (sign it, etc)
@@ -299,7 +400,31 @@ public:
     // should be accepted
     bool federatedAccept(ref const StatementPredicate voted, ref const StatementPredicate accepted, ref const Envelope [NodeID] envs)
     {
-        // incomplete
+        // Checks if the nodes that claimed to accept the statement form a
+        // v-blocking set
+        if (getLocalNode().isVBlocking(getLocalNode().getQuorumSet(), envs, accepted))
+        {
+            return true;
+        }
+
+        // Checks if the set of nodes that accepted or voted for it form a quorum
+        auto ratifyFilter = (ref const Statement st) {
+            bool res;
+            res = accepted(st) || voted(st);
+            return res;
+        };
+
+        if (LocalNode.isQuorum(
+                getLocalNode().getQuorumSet(), 
+                envs,
+                (ref const Statement st) {
+                    return getQuorumSetFromStatement(st);
+                },
+                ratifyFilter)
+        )
+        {
+            return true;
+        }
         return false;
     }
 
@@ -307,14 +432,18 @@ public:
     // is ratified
     bool federatedRatify(ref const StatementPredicate voted, ref const Envelope [NodeID] envs)
     {
-        // incomplete
-        return false;
+        return LocalNode.isQuorum(
+                getLocalNode().getQuorumSet(), 
+                envs,
+                (ref const Statement st) {
+                    return getQuorumSetFromStatement(st);
+                },
+                voted);
     }
 
     LocalNode getLocalNode()
     {
-        // incomplete
-        return null;
+        return consensusProtocol.localNode;
     }
 
     enum timerIDs

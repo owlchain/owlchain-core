@@ -26,14 +26,14 @@ private :
     {
         if (!condition)
         {
-            writefln("REQUIRE Does not match.");
+            writefln("REQUIRE : Does not match.");
         }
     }
 
     void section(string value)
     {
         _section = value;
-        writefln("SECTION %s", _section);
+        writefln("SECTION : %s", _section);
     }
 
     PublicKey makePublicKey(int i)
@@ -91,7 +91,6 @@ public :
 
     void test()
     {
-
         section("{ t: 0 }");
         {
             QuorumSet qSet;
@@ -273,7 +272,7 @@ public :
 
             check(qSet, false, qSet);
         }
-
+/*
         section("map");
         {
             int[QuorumSet] v1;
@@ -304,7 +303,8 @@ public :
             }
             writefln("qSet3 = %d", v1[qSet3]);
         }
-        section("vector");
+
+        section("array");
         {
             QuorumSet[] v1;
 
@@ -319,7 +319,7 @@ public :
             writefln("qSet1.threshold = %d", qSet1.threshold);
         }
 
-        section("find");
+        section("find in array");
         {
             NodeID[] nodeSet;
 
@@ -339,6 +339,7 @@ public :
 
             require(nodeSet.canFind(validator));
         }
+
         section("test of multiset");
         {
             import std.algorithm : sort;
@@ -384,6 +385,7 @@ public :
             {
                 writefln("%d length = %d", i, nodeMultiSet[i].length);
             }
+
             alias myComp = (x, y) => x.length < y.length;
             nodeMultiSet.sort!(myComp).release;
 
@@ -391,7 +393,6 @@ public :
             {
                 writefln("%d length = %d", i, nodeMultiSet[i].length);
             }
-
         }
 
         section("test of multiset 2");
@@ -419,7 +420,6 @@ public :
                 writefln("%d %s", i, toHexString(nodeSet1[i].publicKey.ed25519));
             }
         }
-
-
+        */
     }
 }

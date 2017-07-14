@@ -3,7 +3,7 @@ import std.stdio;
 import std.json;
 import std.format;
 import std.digest.sha;
-import std.algorithm: canFind;
+import std.algorithm : canFind;
 import std.outbuffer;
 
 import owlchain.xdr.type;
