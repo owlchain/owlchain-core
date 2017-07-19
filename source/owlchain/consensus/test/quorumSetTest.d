@@ -19,6 +19,7 @@ class QuorumSetTest
 {
 
 private :
+
     PublicKey [] _keys;
     string _section;
 
@@ -72,10 +73,10 @@ private :
 
         require(expected == selfIsSane);
         require(expectedSelfQSet == normalizedQSet);
-        //require(isEqualQuorumSet(expectedSelfQSet, normalizedQSet));
     }
 
 public :
+
     this()
     {
 
@@ -145,14 +146,14 @@ public :
 
             qSet.innerSets ~= QuorumSet();
             qSet.innerSets[0].threshold = 2;
-            qSet.innerSets[0].validators ~= _keys[1];
+            qSet.innerSets[0].validators ~= _keys[2];
 
             auto qSelfSet = qSet;
-            qSelfSet.validators ~= _keys[2];
+            qSelfSet.validators ~= _keys[1];
 
             qSet.innerSets ~= QuorumSet();
             qSet.innerSets[qSet.innerSets.length-1].threshold = 1;
-            qSet.innerSets[qSet.innerSets.length-1].validators ~= _keys[2];
+            qSet.innerSets[qSet.innerSets.length-1].validators ~= _keys[1];
 
             check(qSet, false, qSelfSet);
         }
@@ -272,154 +273,6 @@ public :
 
             check(qSet, false, qSet);
         }
-/*
-        section("map");
-        {
-            int[QuorumSet] v1;
 
-            QuorumSet qSet1;
-            qSet1.threshold = 1;
-            qSet1.validators ~= (_keys[0]);
-
-            QuorumSet qSet2;
-            qSet2.threshold = 1;
-            qSet2.validators ~= (_keys[0]);
-
-            QuorumSet qSet3;
-            qSet3.threshold = 1;
-            qSet3.validators ~= (_keys[1]);
-
-            v1[qSet1] = 1;
-            v1[qSet2] = 2;
-            v1[qSet3] = 3;
-
-            if (v1[qSet1] != 2)
-            {
-                writefln("Does not match %d", v1[qSet1]);
-            } 
-            else
-            {
-                writefln("Match %d", v1[qSet1]);
-            }
-            writefln("qSet3 = %d", v1[qSet3]);
-        }
-
-        section("array");
-        {
-            QuorumSet[] v1;
-
-            QuorumSet qSet1;
-            qSet1.threshold = 1;
-            qSet1.validators ~= (_keys[0]);
-
-            v1 ~= qSet1;
-            qSet1.threshold = 2;
-
-            writefln("v1[0].threshold = %d", v1[0].threshold);
-            writefln("qSet1.threshold = %d", qSet1.threshold);
-        }
-
-        section("find in array");
-        {
-            NodeID[] nodeSet;
-
-            NodeID validator = NodeID(_keys[3]);
-
-            nodeSet ~= NodeID(_keys[0]);
-
-            nodeSet ~= NodeID(_keys[1]);
-
-            nodeSet ~= NodeID(_keys[2]);
-
-            nodeSet ~= NodeID(_keys[3]);
-
-            nodeSet ~= NodeID(_keys[4]);
-
-            nodeSet ~= NodeID(_keys[5]);
-
-            require(nodeSet.canFind(validator));
-        }
-
-        section("test of multiset");
-        {
-            import std.algorithm : sort;
-            NodeID[][] nodeMultiSet;
-            NodeID[] nodeSet;
-
-            nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
-            nodeSet ~= NodeID(_keys[2]);
-            nodeSet ~= NodeID(_keys[3]);
-            nodeSet ~= NodeID(_keys[4]);
-            if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
-
-            nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
-            nodeSet ~= NodeID(_keys[2]);
-            nodeSet ~= NodeID(_keys[3]);
-            if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
-
-            nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
-            nodeSet ~= NodeID(_keys[2]);
-            if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
-
-            nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
-            if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
-
-            nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
-            if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
-
-            nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
-            if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
-
-            for (int i = 0; i < nodeMultiSet.length; i++)
-            {
-                writefln("%d length = %d", i, nodeMultiSet[i].length);
-            }
-
-            alias myComp = (x, y) => x.length < y.length;
-            nodeMultiSet.sort!(myComp).release;
-
-            for (int i = 0; i < nodeMultiSet.length; i++)
-            {
-                writefln("%d length = %d", i, nodeMultiSet[i].length);
-            }
-        }
-
-        section("test of multiset 2");
-        {
-            NodeID[] nodeSet1;
-            NodeID[] nodeSet2;
-
-            nodeSet1.length = 0;
-            nodeSet1 ~= NodeID(_keys[0]);
-            nodeSet1 ~= NodeID(_keys[1]);
-            nodeSet1 ~= NodeID(_keys[2]);
-            nodeSet1 ~= NodeID(_keys[3]);
-            nodeSet1 ~= NodeID(_keys[4]);
-
-            nodeSet2.length = 0;
-            nodeSet2 ~= NodeID(_keys[0]);
-            nodeSet2 ~= NodeID(_keys[1]);
-            nodeSet2 ~= NodeID(_keys[2]);
-            nodeSet2 ~= NodeID(_keys[3]);
-
-            nodeSet1 ~= nodeSet2;
-
-            for (int i = 0; i < nodeSet1.length; i++)
-            {
-                writefln("%d %s", i, toHexString(nodeSet1[i].publicKey.ed25519));
-            }
-        }
-        */
     }
 }

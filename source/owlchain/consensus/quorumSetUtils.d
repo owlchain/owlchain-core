@@ -97,22 +97,22 @@ bool isQuorumSetSane(ref const QuorumSet qSet, bool extraChecks)
 
 void normalizeQSet(ref QuorumSet qSet)
 {
-    auto v = qSet.validators;
-    auto i = qSet.innerSets;
+    auto v = &qSet.validators;
+    auto i = &qSet.innerSets;
 
     int idx = 0;
-    while (idx < i.length)
+    while (idx < (*i).length)
     {
-        normalizeQSet(i[idx]);
+        normalizeQSet((*i)[idx]);
         // merge singleton inner sets into validator list
         if  (
-                (i[idx].threshold == 1) &&
-                (i[idx].validators.length == 1) &&
-                (i[idx].innerSets.length == 0)
+                ((*i)[idx].threshold == 1) &&
+                ((*i)[idx].validators.length == 1) &&
+                ((*i)[idx].innerSets.length == 0)
             )
         {
-            v ~= i[idx].validators[0];
-            i = i[0..idx] ~ i[idx+1..$];
+            (*v) ~= (*i)[idx].validators[0];
+            (*i) = (*i)[0..idx] ~ (*i)[idx+1..$];
         }
         else
         {
@@ -120,8 +120,8 @@ void normalizeQSet(ref QuorumSet qSet)
         }
     }
 
-    qSet.validators = v;
-    qSet.innerSets = i;
+    //qSet.validators = v;
+    //qSet.innerSets = i;
 
     // simplify quorum set if needed
     if  (

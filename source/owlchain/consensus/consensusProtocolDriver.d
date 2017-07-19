@@ -15,7 +15,6 @@ import owlchain.crypto.keyUtils;
 
 import owlchain.consensus.consensusProtocol;
 
-//alias QuorumSetPtr = QuorumSet*;
 alias QuorumSetPtr = RefCounted!(QuorumSet, RefCountedAutoInitialize.no);
 
 class ConsensusProtocolDriver
@@ -119,7 +118,7 @@ class ConsensusProtocolDriver
 
     // combineCandidates computes the composite value based off a list
     // of candidate values.
-    Value combineCandidates(uint64 slotIndex, ref const Value [] candidates)
+    Value combineCandidates(uint64 slotIndex, ref const ValueSet candidates)
     {
         return Value();
     }

@@ -69,20 +69,20 @@ public :
     // trigger more potential state changes
     ConsensusProtocol.EnvelopeState processEnvelope(ref const Envelope envelope, bool self)
     {
-        // imcomplete
+        // incomplete
         return ConsensusProtocol.EnvelopeState.INVALID;
     }
 
     void ballotProtocolTimerExpired()
     {
-        // imcomplete
+        // incomplete
     }
 
     // abandon's current ballot, move to a new ballot
     // at counter `n` (or, if n == 0, increment current counter)
     bool abandonBallot(uint32 n)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
@@ -93,14 +93,14 @@ public :
     // the state if no value was prepared
     bool bumpState(ref const Value value, bool force)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // flavor that takes the actual desired counter value
     bool bumpState(ref const Value value, uint32 n)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
@@ -110,13 +110,13 @@ public :
     // including historical statements if available
     void dumpInfo(ref JSONValue ret)
     {
-        // imcomplete
+        // incomplete
     }
 
     // returns information about the quorum for a given node
     void dumpQuorumInfo(ref const JSONValue ret, ref const NodeID id, bool summary)
     {
-        // imcomplete
+        // incomplete
 
     }
 
@@ -126,7 +126,7 @@ public :
     // not match the hash of the QSet, but the hash of commitQuorumSetHash
     static Hash getCompanionQuorumSetHashFromStatement(ref const Statement st)
     {
-        // imcomplete
+        // incomplete
         Hash res;
         return res;
     }
@@ -135,7 +135,7 @@ public :
     // c for EXTERNALIZE messages
     static Ballot getWorkingBallot(ref const Statement st)
     {
-        // imcomplete
+        // incomplete
         Ballot res;
         return res;
     }
@@ -157,19 +157,19 @@ public :
 
     void setStateFromEnvelope(ref const Envelope e)
     {
-        // imcomplete
+        // incomplete
     }
 
     const Envelope[] getCurrentState() 
     {
-        // imcomplete
+        // incomplete
         Envelope[] res;
         return res;
     }
 
     const Envelope[] getExternalizingState() 
     {
-        // imcomplete
+        // incomplete
         Envelope[] res;
         return res;
     }
@@ -186,14 +186,14 @@ private:
     // returns true if all values in statement are valid
     ConsensusProtocolDriver.ValidationLevel validateValues(ref const Statement st)
     {
-        // imcomplete
+        // incomplete
         return ConsensusProtocolDriver.ValidationLevel.kInvalidValue;
     }
 
     // send latest envelope if needed
     void sendLatestEnvelope()
     {
-        // imcomplete
+        // incomplete
     }
 
     // `attempt*` methods are called by `advanceSlot` internally call the
@@ -212,14 +212,14 @@ private:
     // step 1 and 5 from the SCP paper
     bool attemptPreparedAccept(ref const Statement hint)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // prepared: ballot that should be prepared
     bool setPreparedAccept(ref const Ballot prepared)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
@@ -227,63 +227,63 @@ private:
     // ballot is the candidate to record as 'confirmed prepared'
     bool attemptPreparedConfirmed(Statement hint)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // newC, newH : low/high bounds prepared confirmed
     bool setPreparedConfirmed(ref const Ballot newC, ref const Ballot newH)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // step (4 and 6)+8 from the SCP paper
     bool attemptAcceptCommit(ref const Statement hint)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // new values for c and h
     bool setAcceptCommit(ref const Ballot c, ref const Ballot h)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // step 7+8 from the SCP paper
     bool attemptConfirmCommit(ref const Statement hint)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     bool setConfirmCommit(ref const Ballot acceptCommitLow, ref const Ballot acceptCommitHigh)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // step 9 from the SCP paper
     bool attemptBump()
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // computes a list of candidate values that may have been prepared
-    Ballot[] getPrepareCandidates(ref const Statement hint)
+    BallotSet getPrepareCandidates(ref const Statement hint)
     {
-        // imcomplete
-        Ballot[] res;
+        // incomplete
+        BallotSet res = new BallotSet;
         return res;
     }
 
     // helper to perform step (8) from the paper
     void updateCurrentIfNeeded()
     {
-        // imcomplete
+        // incomplete
     }
 
     // An interval is [low,high] represented as a pair
@@ -300,7 +300,7 @@ private:
     // commit ballots compatible with the ballot
     uint32[] getCommitBoundariesFromStatements(ref const Ballot ballot)
     {
-        // imcomplete
+        // incomplete
         uint32[] res;
         return res;
     }
@@ -311,20 +311,20 @@ private:
     // is ballot prepared by st
     static bool hasPreparedBallot(ref const Ballot ballot, ref const Statement st)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // returns true if the statement commits the ballot in the range 'check'
     //static bool commitPredicate(ref const Ballot ballot, Interval const& check, ref const Statement st)
     //{
-    // imcomplete
+    // incomplete
     //}
 
     // attempts to update p to ballot (updating p' if needed)
     bool setPrepared(ref const Ballot ballot)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
@@ -338,21 +338,21 @@ private:
     // b1 ~ b2
     static bool areBallotsCompatible(ref const Ballot b1, ref const Ballot b2)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // b1 <= b2 && b1 !~ b2
     static bool areBallotsLessAndIncompatible(ref const Ballot b1, ref const Ballot b2)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // b1 <= b2 && b1 ~ b2
     static bool areBallotsLessAndCompatible(ref const Ballot b1, ref const Ballot b2)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
@@ -362,28 +362,28 @@ private:
     // for a given node.
     bool isNewerStatement(ref const NodeID nodeID, ref const Statement st)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // returns true if st is newer than oldst
     static bool isNewerStatement(ref const Statement oldst, ref const Statement st)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // basic sanity check on statement
     static bool isStatementSane(ref const Statement st, bool self)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     // records the statement in the state machine
     void recordEnvelope(ref const Envelope env)
     {
-        // imcomplete
+        // incomplete
     }
 
     // ** State related methods
@@ -394,7 +394,7 @@ private:
     // check: verifies that ballot is greater than old one
     void bumpToBallot(ref const Ballot ballot, bool check)
     {
-        // imcomplete
+        // incomplete
     }
 
     // switch the local node to the given ballot's value
@@ -402,7 +402,7 @@ private:
     // we have.
     bool updateCurrentValue(ref const Ballot ballot)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
@@ -410,19 +410,19 @@ private:
     // and attempts to make progress
     void emitCurrentStateStatement()
     {
-        // imcomplete
+        // incomplete
     }
 
     // verifies that the internal state is consistent
     void checkInvariants()
     {
-        // imcomplete
+        // incomplete
     }
 
     // create a statement of the given type using the local state
     Statement createStatement(ref const StatementType type)
     {
-        // imcomplete
+        // incomplete
         Statement res;
         return res;
     }
@@ -431,32 +431,32 @@ private:
     // used for log lines
     string getLocalState() 
     {
-        // imcomplete
+        // incomplete
         return "";
     }
 
     LocalNode getLocalNode()
     {
-        // imcomplete
+        // incomplete
         LocalNode res;
         return res;
     }
 
     bool federatedAccept(StatementPredicate voted, StatementPredicate accepted)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     bool federatedRatify(StatementPredicate voted)
     {
-        // imcomplete
+        // incomplete
         return false;
     }
 
     void startBallotProtocolTimer()
     {
-        // imcomplete
+        // incomplete
     }
 
 }

@@ -22,6 +22,8 @@ import owlchain.consensus.localNode;
 import owlchain.consensus.consensusProtocolDriver;
 import owlchain.consensus.slot;
 
+import owlchain.util.globalChecks;
+
 class ConsensusProtocol
 {
 private:
@@ -52,37 +54,31 @@ public:
 	}
 
     // ConsensusProtocolDriver getter
-    @property ConsensusProtocolDriver driver()
+    ref ConsensusProtocolDriver getCPDriver()
     {
         return _driver;
     }
 
-    // ConsensusProtocolDriver setter
-    @property void driver(ConsensusProtocolDriver value)
-    {
-        _driver = value;
-    }
-
     // Local node getter
-    @property ref LocalNode localNode()
+    ref LocalNode getLocalNode()
     {
         return _localNode;
     }
 
     // Local nodeID getter
-    @property const NodeID localNodeID()
+    ref const(NodeID) getLocalNodeID()
     {
         return _localNode.getNodeID();
     }
 
     // Local QuorumSet getter
-    @property ref QuorumSet localQuorumSet()
+    ref const(QuorumSet) getLocalQuorumSet()
     {
         return _localNode.getQuorumSet();
     }
 
     // Retrieves the local secret key as specified at construction
-    @property ref SecretKey secretKey()
+    ref const(SecretKey) getSecretKey()
     {
         return _localNode.getSecretKey();
     }
@@ -135,6 +131,7 @@ public:
     // previousValue is the value from slotIndex-1
     bool nominate(uint64 slotIndex, ref const Value value, ref const Value previousValue)
     {
+        dbgAssert(isValidator());
         return getSlot(slotIndex, true).nominate(value, previousValue, false);
     }
 
@@ -332,7 +329,7 @@ public:
         OutBuffer oBuffer = new OutBuffer(); 
         Hash qSetHash = Slot.getCompanionQuorumSetHashFromStatement(st);
 
-        oBuffer.writef("{ENV@%s | i: %d", driver.toShortString(st.nodeID.publicKey), st.slotIndex);
+        oBuffer.writef("{ENV@%s | i: %d", getCPDriver().toShortString(st.nodeID.publicKey), st.slotIndex);
 
         switch (st.pledges.type.val)
         {

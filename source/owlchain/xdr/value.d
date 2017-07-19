@@ -3,6 +3,10 @@ module owlchain.xdr.value;
 import owlchain.xdr.xdrDataInputStream;
 import owlchain.xdr.xdrDataOutputStream;
 
+import std.container.rbtree;
+
+alias RedBlackTree !(Value, "(a.value < b.value)") ValueSet;
+
 struct Value
 {
     ubyte[] value;

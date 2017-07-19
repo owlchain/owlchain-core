@@ -24,8 +24,9 @@ import owlchain.consensus.ballotProtocol;
 import owlchain.consensus.nominationProtocol;
 
 import owlchain.xdr.statement;
+import owlchain.util.globalChecks;
 
-alias StatementsValididated = Tuple!(Statement, "statement", bool, "fullyValidated");
+alias StatementsValidated = Tuple!(Statement, "statement", bool, "fullyValidated");
 
 // The Slot object is in charge of maintaining the state of the Consensus Protocol
 // for a given slot index.
@@ -41,12 +42,13 @@ private:
     // keeps track of all statements seen so far for this slot.
     // it is used for debugging purpose
     // second: if the slot was fully validated at the time
-    StatementsValididated [] _statementsHistory;
+    StatementsValidated [] _statementsHistory;
 
     // true if the Slot was fully validated
     bool _fullyValidated;
 
 public:
+
     this(uint64 slotIndex, ConsensusProtocol cp)
     {
         _slotIndex = slotIndex;
@@ -55,30 +57,30 @@ public:
         _ballotProtocol = new BallotProtocol(this);
         _nominationProtocol = new NominationProtocol(this);
 
-        _fullyValidated = _consensusProtocol.localNode.isValidator;
+        _fullyValidated = _consensusProtocol.getLocalNode().isValidator;
     }
 
-    @property uint64 slotIndex()
+    uint64 getSlotIndex()
     {
         return _slotIndex;
     }
 
-    @property ConsensusProtocol consensusProtocol()
+    ref ConsensusProtocol getCP()
     {
         return _consensusProtocol;
     }
 
-    @property ConsensusProtocolDriver driver()
+    ref ConsensusProtocolDriver getCPDriver()
     {
-        return _consensusProtocol.driver;
+        return _consensusProtocol.getCPDriver();
     }
 
-    @property BallotProtocol ballotProtocol()
+    ref BallotProtocol getBallotProtocol()
     {
         return _ballotProtocol;
     }
 
-    ref Value getLatestCompositeCandidate()
+    ref const(Value) getLatestCompositeCandidate()
     {
         return _nominationProtocol.getLatestCompositeCandidate();
     }
@@ -109,7 +111,7 @@ public:
     // this is used when rebuilding the state after a crash for example
     void setStateFromEnvelope(ref const Envelope e)
     {
-        if (e.statement.nodeID == _consensusProtocol.localNodeID && e.statement.slotIndex == _slotIndex)
+        if (e.statement.nodeID == _consensusProtocol.getLocalNodeID() && e.statement.slotIndex == _slotIndex)
         {
             if (e.statement.pledges.type.val == StatementType.CP_ST_NOMINATE)
             {
@@ -144,7 +146,7 @@ public:
     // records the statement in the historical record for this slot
     void recordStatement(ref const Statement st)
     {
-        StatementsValididated value;
+        StatementsValidated value;
         value.statement = cast(Statement)st;
         value.fullyValidated = _fullyValidated;
         _statementsHistory ~= value;
@@ -155,7 +157,7 @@ public:
     ConsensusProtocol.EnvelopeState 
     processEnvelope(ref const Envelope envelope, bool self)
     {
-        assert(envelope.statement.slotIndex == _slotIndex);
+        dbgAssert(envelope.statement.slotIndex == _slotIndex);
 
         writefln("[%s], %s, %s %d %s", "DEBUG", "ConsensusProtocol", "Slot.processEnvelope", _slotIndex, _consensusProtocol.envToStr(envelope));
 
@@ -177,7 +179,7 @@ public:
             dumpInfo(info);
             writefln("[%s], %s, %s", "DEBUG", "ConsensusProtocol", "Exception in processEnvelope");
 
-            //throw;
+            throw new Exception("Exception in processEnvelope");
         }
         return res;
     }
@@ -229,26 +231,25 @@ public:
         for (int i = 0; i < _statementsHistory.length; i++)
         {
             auto e = _statementsHistory[i];
-            auto n = m[e.statement.nodeID];
             if (!m.keys.canFind(e.statement.nodeID)) 
             {
                 Statement*[] v;
-                v ~= &e.statement;
+                v ~= &(e.statement);
                 m[e.statement.nodeID] = v;
             } 
             else
             {
-                m[e.statement.nodeID] ~= &e.statement;
+                m[e.statement.nodeID] ~= &(e.statement);
             }
         }
 
-        return _consensusProtocol.localNode.isNodeInQuorum(
+        return _consensusProtocol.getLocalNode().isNodeInQuorum(
             node, 
             (ref const Statement st) {
                 // uses the companion set here as we want to consider
                 // nodes that were used up to EXTERNALIZE
                 Hash h = getCompanionQuorumSetHashFromStatement(st);
-                return driver.getQSet(h);
+                return getCPDriver().getQSet(h);
             },
             m);
     }
@@ -272,11 +273,11 @@ public:
         {
             auto item = _statementsHistory[i];
             auto v = slotValue["statements"][count++];
-            v ~= consensusProtocol.envToStr(item.statement);
+            v ~= getCP().envToStr(item.statement);
             v ~= to!string(item.fullyValidated);
 
             Hash qSetHash = getCompanionQuorumSetHashFromStatement(item.statement);
-            auto qSet = driver.getQSet(qSetHash);
+            auto qSet = getCPDriver().getQSet(qSetHash);
             if (qSet.refCountedStore.isInitialized)
             {
                 qSetsUsed[qSetHash] = qSet;
@@ -324,7 +325,7 @@ public:
                 h = cast(Hash)(st.pledges.nominate.quorumSetHash);
                 break;
             default:
-                //abort();
+                dbgAbort();
         }
         return h;
     }
@@ -372,9 +373,9 @@ public:
             }
             else
             {
-                //abort();
+                dbgAbort();
             }
-            res = driver.getQSet(h);
+            res = getCPDriver().getQSet(h);
         }
         return res;
     }
@@ -386,10 +387,10 @@ public:
 
         envelope.statement = cast(Statement)statement;
         auto mySt = envelope.statement;
-        mySt.nodeID = consensusProtocol.localNodeID;
-        mySt.slotIndex = slotIndex;
+        mySt.nodeID = getCP().getLocalNodeID();
+        mySt.slotIndex = _slotIndex;
 
-        consensusProtocol.driver.signEnvelope(envelope);
+        getCPDriver().signEnvelope(envelope);
 
         return envelope;
     }
@@ -398,7 +399,7 @@ public:
 
     // returns true if the statement defined by voted and accepted
     // should be accepted
-    bool federatedAccept(ref const StatementPredicate voted, ref const StatementPredicate accepted, ref const Envelope [NodeID] envs)
+    bool federatedAccept(StatementPredicate voted, StatementPredicate accepted, ref const Envelope [NodeID] envs)
     {
         // Checks if the nodes that claimed to accept the statement form a
         // v-blocking set
@@ -430,7 +431,7 @@ public:
 
     // returns true if the statement defined by voted
     // is ratified
-    bool federatedRatify(ref const StatementPredicate voted, ref const Envelope [NodeID] envs)
+    bool federatedRatify(StatementPredicate voted, ref const Envelope [NodeID] envs)
     {
         return LocalNode.isQuorum(
                 getLocalNode().getQuorumSet(), 
@@ -441,9 +442,9 @@ public:
                 voted);
     }
 
-    LocalNode getLocalNode()
+    ref LocalNode getLocalNode()
     {
-        return consensusProtocol.localNode;
+        return getCP().getLocalNode();
     }
 
     enum timerIDs

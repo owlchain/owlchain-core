@@ -10,6 +10,7 @@ import owlchain.xdr.xdrDataOutputStream;
 
 import owlchain.xdr.nodeID;
 import owlchain.xdr.quorumSet;
+
 class StreamTest
 {
 
@@ -31,12 +32,15 @@ private :
     }
 
 public :
+
     this()
     {
+    
     }
 
     void prepare()
     {
+
     }
 
     void test()

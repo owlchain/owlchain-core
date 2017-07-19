@@ -1,0 +1,1031 @@
+<DProject>
+ <ProjectGuid>{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}</ProjectGuid>
+ <Config name="Debug DMD" platform="Win32">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>0</lib>
+  <subsystem>0</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>1</symdebug>
+  <optimize>0</optimize>
+  <cpu>0</cpu>
+  <isX86_64>0</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <noboundscheck>0</noboundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>0</useInline>
+  <release>0</release>
+  <preservePaths>0</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <Dversion>2</Dversion>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <compiler>0</compiler>
+  <otherDMD>0</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>1</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbPre2043>0</cv2pdbPre2043>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <objfiles />
+  <linkswitches />
+  <libfiles />
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <useStdLibPath>1</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep</filesToClean>
+ </Config>
+ <Config name="Release DMD" platform="Win32">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>0</lib>
+  <subsystem>0</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>0</symdebug>
+  <optimize>1</optimize>
+  <cpu>0</cpu>
+  <isX86_64>0</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <noboundscheck>0</noboundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>1</useInline>
+  <release>1</release>
+  <preservePaths>0</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <Dversion>2</Dversion>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <compiler>0</compiler>
+  <otherDMD>0</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>0</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbPre2043>0</cv2pdbPre2043>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <objfiles />
+  <linkswitches />
+  <libfiles />
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <useStdLibPath>1</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep</filesToClean>
+ </Config>
+ <Config name="Debug DMD" platform="x64">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>0</lib>
+  <subsystem>0</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>1</symdebug>
+  <optimize>0</optimize>
+  <cpu>0</cpu>
+  <isX86_64>1</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <noboundscheck>0</noboundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>0</useInline>
+  <release>0</release>
+  <preservePaths>0</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <Dversion>2</Dversion>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <compiler>0</compiler>
+  <otherDMD>0</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>1</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbPre2043>0</cv2pdbPre2043>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <objfiles />
+  <linkswitches />
+  <libfiles />
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <useStdLibPath>1</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep</filesToClean>
+ </Config>
+ <Config name="Release DMD" platform="x64">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>0</lib>
+  <subsystem>0</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>0</symdebug>
+  <optimize>1</optimize>
+  <cpu>0</cpu>
+  <isX86_64>1</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <noboundscheck>0</noboundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>1</useInline>
+  <release>1</release>
+  <preservePaths>0</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <Dversion>2</Dversion>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <compiler>0</compiler>
+  <otherDMD>0</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>0</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbPre2043>0</cv2pdbPre2043>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <objfiles />
+  <linkswitches />
+  <libfiles />
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <useStdLibPath>1</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep</filesToClean>
+ </Config>
+ <Config name="Debug GDC" platform="Win32">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>0</lib>
+  <subsystem>0</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>1</symdebug>
+  <optimize>0</optimize>
+  <cpu>0</cpu>
+  <isX86_64>0</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <noboundscheck>0</noboundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>0</useInline>
+  <release>0</release>
+  <preservePaths>0</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <Dversion>2</Dversion>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <compiler>1</compiler>
+  <otherDMD>0</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>1</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbPre2043>0</cv2pdbPre2043>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <objfiles />
+  <linkswitches />
+  <libfiles />
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <useStdLibPath>1</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep</filesToClean>
+ </Config>
+ <Config name="Release GDC" platform="Win32">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>0</lib>
+  <subsystem>0</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>0</symdebug>
+  <optimize>1</optimize>
+  <cpu>0</cpu>
+  <isX86_64>0</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <noboundscheck>0</noboundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>1</useInline>
+  <release>1</release>
+  <preservePaths>0</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <Dversion>2</Dversion>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <compiler>1</compiler>
+  <otherDMD>0</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>0</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbPre2043>0</cv2pdbPre2043>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <objfiles />
+  <linkswitches />
+  <libfiles />
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <useStdLibPath>1</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep</filesToClean>
+ </Config>
+ <Config name="Debug GDC" platform="x64">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>0</lib>
+  <subsystem>0</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>1</symdebug>
+  <optimize>0</optimize>
+  <cpu>0</cpu>
+  <isX86_64>1</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <noboundscheck>0</noboundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>0</useInline>
+  <release>0</release>
+  <preservePaths>0</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <Dversion>2</Dversion>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <compiler>1</compiler>
+  <otherDMD>0</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>1</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbPre2043>0</cv2pdbPre2043>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <objfiles />
+  <linkswitches />
+  <libfiles />
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <useStdLibPath>1</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep</filesToClean>
+ </Config>
+ <Config name="Release GDC" platform="x64">
+  <obj>0</obj>
+  <link>0</link>
+  <lib>0</lib>
+  <subsystem>0</subsystem>
+  <multiobj>0</multiobj>
+  <singleFileCompilation>0</singleFileCompilation>
+  <oneobj>0</oneobj>
+  <mscoff>0</mscoff>
+  <trace>0</trace>
+  <quiet>0</quiet>
+  <verbose>0</verbose>
+  <vtls>0</vtls>
+  <vgc>0</vgc>
+  <symdebug>0</symdebug>
+  <optimize>1</optimize>
+  <cpu>0</cpu>
+  <isX86_64>1</isX86_64>
+  <isLinux>0</isLinux>
+  <isOSX>0</isOSX>
+  <isWindows>0</isWindows>
+  <isFreeBSD>0</isFreeBSD>
+  <isSolaris>0</isSolaris>
+  <scheduler>0</scheduler>
+  <useDeprecated>0</useDeprecated>
+  <errDeprecated>0</errDeprecated>
+  <useAssert>0</useAssert>
+  <useInvariants>0</useInvariants>
+  <useIn>0</useIn>
+  <useOut>0</useOut>
+  <useArrayBounds>0</useArrayBounds>
+  <noboundscheck>0</noboundscheck>
+  <useSwitchError>0</useSwitchError>
+  <useUnitTests>0</useUnitTests>
+  <useInline>1</useInline>
+  <release>1</release>
+  <preservePaths>0</preservePaths>
+  <warnings>0</warnings>
+  <infowarnings>0</infowarnings>
+  <checkProperty>0</checkProperty>
+  <genStackFrame>0</genStackFrame>
+  <pic>0</pic>
+  <cov>0</cov>
+  <nofloat>0</nofloat>
+  <Dversion>2</Dversion>
+  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+  <allinst>0</allinst>
+  <stackStomp>0</stackStomp>
+  <compiler>1</compiler>
+  <otherDMD>0</otherDMD>
+  <cccmd>$(CC) -c</cccmd>
+  <ccTransOpt>1</ccTransOpt>
+  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+  <imppath />
+  <fileImppath />
+  <outdir>$(PlatformName)\$(ConfigurationName)</outdir>
+  <objdir>$(OutDir)</objdir>
+  <objname />
+  <libname />
+  <doDocComments>0</doDocComments>
+  <docdir />
+  <docname />
+  <modules_ddoc />
+  <ddocfiles />
+  <doHdrGeneration>0</doHdrGeneration>
+  <hdrdir />
+  <hdrname />
+  <doXGeneration>1</doXGeneration>
+  <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+  <debuglevel>0</debuglevel>
+  <debugids />
+  <versionlevel>0</versionlevel>
+  <versionids />
+  <dump_source>0</dump_source>
+  <mapverbosity>0</mapverbosity>
+  <createImplib>0</createImplib>
+  <defaultlibname />
+  <debuglibname />
+  <moduleDepsFile />
+  <run>0</run>
+  <runargs />
+  <runCv2pdb>0</runCv2pdb>
+  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+  <cv2pdbPre2043>0</cv2pdbPre2043>
+  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+  <cv2pdbEnumType>0</cv2pdbEnumType>
+  <cv2pdbOptions />
+  <objfiles />
+  <linkswitches />
+  <libfiles />
+  <libpaths />
+  <deffile />
+  <resfile />
+  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <useStdLibPath>1</useStdLibPath>
+  <cRuntime>2</cRuntime>
+  <privatePhobos>0</privatePhobos>
+  <additionalOptions />
+  <preBuildCommand />
+  <postBuildCommand />
+  <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep</filesToClean>
+ </Config>
+ <Folder name="consensus">
+  <Folder name="dependencies">
+   <Folder name="gfm">
+    <Folder name="integers">
+     <Folder name="gfm">
+      <Folder name="integers">
+       <File path="..\..\dependencies\gfm\integers\gfm\integers\fixedpoint.d" />
+       <File path="..\..\dependencies\gfm\integers\gfm\integers\half.d" />
+       <File path="..\..\dependencies\gfm\integers\gfm\integers\package.d" />
+       <File path="..\..\dependencies\gfm\integers\gfm\integers\wideint.d" />
+      </Folder>
+     </Folder>
+    </Folder>
+   </Folder>
+   <Folder name="sodium">
+    <Folder name="deimos">
+     <Folder name="deimos">
+      <Folder name="sodium">
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\core.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_aead_aes256gcm.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_aead_chacha20poly1305.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_aead_xchacha20poly1305.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_auth.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_auth_hmacsha256.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_auth_hmacsha512.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_auth_hmacsha512256.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_box.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_box_curve25519xchacha20poly1305.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_box_curve25519xsalsa20poly1305.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_core_hchacha20.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_core_hsalsa20.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_core_salsa20.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_core_salsa2012.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_core_salsa208.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_generichash.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_generichash_blake2b.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_hash.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_hash_sha256.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_hash_sha512.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_kdf.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_kdf_blake2b.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_kx.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_onetimeauth.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_onetimeauth_poly1305.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_pwhash.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_pwhash_argon2i.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_pwhash_scryptsalsa208sha256.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_scalarmult.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_scalarmult_curve25519.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_secretbox.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_secretbox_xchacha20poly1305.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_secretbox_xsalsa20poly1305.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_shorthash.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_shorthash_siphash24.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_sign.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_sign_ed25519.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_sign_edwards25519sha512batch.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_stream.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_stream_aes128ctr.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_stream_chacha20.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_stream_salsa20.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_stream_salsa2012.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_stream_salsa208.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_stream_xchacha20.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_stream_xsalsa20.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_verify_16.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_verify_32.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\crypto_verify_64.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\package.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\randombytes.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\randombytes_nativeclient.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\randombytes_salsa20_random.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\randombytes_sysrandom.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\runtime.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\utils.d" />
+       <File path="..\..\dependencies\sodium\deimos\deimos\sodium\version_.d" />
+      </Folder>
+     </Folder>
+     <File path="..\..\dependencies\sodium\deimos\dub.json" />
+    </Folder>
+    <Folder name="lib">
+     <Folder name="windows-x86_64">
+      <File path="..\..\dependencies\sodium\lib\windows-x86_64\libsodium.lib" />
+      <File path="..\..\dependencies\sodium\lib\windows-x86_64\README" />
+     </Folder>
+    </Folder>
+    <Folder name="wrapper">
+     <Folder name="wrapper">
+      <Folder name="sodium">
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\core.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_aead_aes256gcm.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_aead_chacha20poly1305.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_aead_xchacha20poly1305.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_auth.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_auth_hmacsha256.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_auth_hmacsha512.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_auth_hmacsha512256.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_box.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_box_curve25519xchacha20poly1305.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_box_curve25519xsalsa20poly1305.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_core_hchacha20.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_core_hsalsa20.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_core_salsa20.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_core_salsa2012.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_core_salsa208.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_generichash.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_generichash_blake2b.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_hash.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_hash_sha256.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_hash_sha512.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_kdf.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_kdf_blake2b.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_kx.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_onetimeauth.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_onetimeauth_poly1305.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_pwhash.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_pwhash_argon2i.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_pwhash_scryptsalsa208sha256.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_scalarmult.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_scalarmult_curve25519.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_secretbox.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_secretbox_xchacha20poly1305.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_secretbox_xsalsa20poly1305.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_shorthash.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_shorthash_siphash24.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_sign.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_sign_ed25519.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_sign_edwards25519sha512batch.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_stream.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_stream_aes128ctr.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_stream_chacha20.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_stream_salsa20.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_stream_salsa2012.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_stream_salsa208.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_stream_xchacha20.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_stream_xsalsa20.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_verify_16.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_verify_32.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\crypto_verify_64.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\package.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\randombytes.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\randombytes_nativeclient.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\randombytes_salsa20_random.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\randombytes_sysrandom.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\runtime.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\utils.d" />
+       <File path="..\..\dependencies\sodium\wrapper\wrapper\sodium\version_.d" />
+      </Folder>
+     </Folder>
+     <File path="..\..\dependencies\sodium\wrapper\dub.json" />
+    </Folder>
+    <File path="..\..\dependencies\sodium\dub.json" />
+    <File path="..\..\dependencies\sodium\README.md" />
+   </Folder>
+  </Folder>
+  <Folder name="source">
+   <Folder name="owlchain">
+    <Folder name="consensus">
+     <Folder name="test">
+      <File path="..\..\source\owlchain\consensus\test\arrayTest.d" />
+      <File path="..\..\source\owlchain\consensus\test\cpUnitTests.d" />
+      <File path="..\..\source\owlchain\consensus\test\quorumSetTest.d" />
+     </Folder>
+     <File path="..\..\source\owlchain\consensus\ballotProtocol.d" />
+     <File path="..\..\source\owlchain\consensus\consensusProtocol.d" />
+     <File path="..\..\source\owlchain\consensus\consensusProtocolDriver.d" />
+     <File path="..\..\source\owlchain\consensus\localNode.d" />
+     <File path="..\..\source\owlchain\consensus\nominationProtocol.d" />
+     <File path="..\..\source\owlchain\consensus\quorumSetUtils.d" />
+     <File path="..\..\source\owlchain\consensus\readme.md" />
+     <File path="..\..\source\owlchain\consensus\slot.d" />
+    </Folder>
+    <Folder name="core">
+     <File path="..\..\source\owlchain\core\stream.d" />
+    </Folder>
+    <Folder name="crypto">
+     <File path="..\..\source\owlchain\crypto\keyUtils.d" />
+    </Folder>
+    <Folder name="utils">
+     <File path="..\..\source\owlchain\utils\globalChecks.d" />
+     <File path="..\..\source\owlchain\utils\types.d" />
+    </Folder>
+    <Folder name="xdr">
+     <Folder name="tests">
+      <File path="..\..\source\owlchain\xdr\tests\streamTest.d" />
+     </Folder>
+     <File path="..\..\source\owlchain\xdr\ballot.d" />
+     <File path="..\..\source\owlchain\xdr\envelope.d" />
+     <File path="..\..\source\owlchain\xdr\hash.d" />
+     <File path="..\..\source\owlchain\xdr\historyEntry.d" />
+     <File path="..\..\source\owlchain\xdr\historyEntryV0.d" />
+     <File path="..\..\source\owlchain\xdr\ledgerMessages.d" />
+     <File path="..\..\source\owlchain\xdr\nodeID.d" />
+     <File path="..\..\source\owlchain\xdr\nomination.d" />
+     <File path="..\..\source\owlchain\xdr\publicKey.d" />
+     <File path="..\..\source\owlchain\xdr\publicKeyType.d" />
+     <File path="..\..\source\owlchain\xdr\quorumSet.d" />
+     <File path="..\..\source\owlchain\xdr\signature.d" />
+     <File path="..\..\source\owlchain\xdr\signer.d" />
+     <File path="..\..\source\owlchain\xdr\signerKey.d" />
+     <File path="..\..\source\owlchain\xdr\signerKeyType.d" />
+     <File path="..\..\source\owlchain\xdr\statement.d" />
+     <File path="..\..\source\owlchain\xdr\statementType.d" />
+     <File path="..\..\source\owlchain\xdr\type.d" />
+     <File path="..\..\source\owlchain\xdr\value.d" />
+     <File path="..\..\source\owlchain\xdr\xdrDataInputStream.d" />
+     <File path="..\..\source\owlchain\xdr\xdrDataOutputStream.d" />
+    </Folder>
+    <File path="..\..\source\owlchain\test.d" />
+   </Folder>
+  </Folder>
+ </Folder>
+</DProject>
