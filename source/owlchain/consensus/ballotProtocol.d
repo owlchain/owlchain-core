@@ -114,7 +114,7 @@ public :
     }
 
     // returns information about the quorum for a given node
-    void dumpQuorumInfo(ref const JSONValue ret, ref const NodeID id, bool summary)
+    void dumpQuorumInfo(ref JSONValue ret, ref const NodeID id, bool summary)
     {
         // incomplete
 

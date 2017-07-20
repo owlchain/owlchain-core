@@ -2,6 +2,8 @@ module owlchain.consensus.tests.quorumSetTest;
 
 import std.stdio;
 import std.conv;
+import std.json;
+import std.string;
 import std.digest.sha;
 import std.algorithm.comparison : equal;
 import std.algorithm: canFind;
@@ -274,5 +276,37 @@ public :
             check(qSet, false, qSet);
         }
 
+        section("JSON");
+        {
+            JSONValue[string] jObject;
+            JSONValue value = jObject;
+
+            toJson(validMultipleNodesNormalized, value);
+
+            string j = value.toPrettyString;
+            writeln(j);
+        }
+    }
+
+    void toJson(ref const QuorumSet qSet, ref JSONValue value)
+    {
+        import std.utf;
+        JSONValue[] jArray;
+        value.object["t"] = JSONValue(qSet.threshold);
+        value.object["v"] = jArray;
+
+        foreach (int i, const PublicKey pk; qSet.validators)
+        {
+            string pkStr = toHexString(pk.ed25519);
+            value["v"].array ~= JSONValue(toUTF8(pkStr)[0..5]);
+        }
+
+        foreach (int i, const QuorumSet s; qSet.innerSets)
+        {
+            JSONValue[string] jObject;
+            JSONValue iV = jObject;
+            toJson(s, iV);
+            value["v"].array ~= iV;
+        }
     }
 }

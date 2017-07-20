@@ -36,7 +36,7 @@ class LocalNode
     protected:
         const NodeID    _nodeID;
         const bool      _isValidator;
-        SecretKey       _secretKey;
+        const SecretKey _secretKey;
         QuorumSet       _qSet;
         Hash            _qSetHash;
 
@@ -47,7 +47,7 @@ class LocalNode
         ConsensusProtocol _consensusProtocol;
 
     public :
-        this(SecretKey secretKey, bool isValidator, ref const QuorumSet qSet, ConsensusProtocol cp)
+        this(ref const SecretKey secretKey, bool isValidator, ref const QuorumSet qSet, ConsensusProtocol cp)
         {
             _nodeID.publicKey = secretKey.getPublicKey();
             _secretKey = secretKey;
@@ -424,27 +424,31 @@ class LocalNode
 
         void toJson(ref const QuorumSet qSet, ref JSONValue value)
         {
-            value["t"] = qSet.threshold;
-            auto entries = value["v"];
+            import std.utf;
+            JSONValue[] entries;
+            value.object["t"] = JSONValue(qSet.threshold);
+            value.object["v"] = entries;
 
             foreach (int i, const PublicKey pk; qSet.validators)
             {
-                entries ~= _consensusProtocol.getCPDriver().toShortString(pk);
+                value["v"].array ~= JSONValue(toUTF8(_consensusProtocol.getCPDriver().toShortString(pk)));
             }
 
             foreach (int i, const QuorumSet s; qSet.innerSets)
             {
-                JSONValue iV;
+                JSONValue[string] jsonObject;
+                JSONValue iV = jsonObject;
                 toJson(s, iV);
-                entries ~= iV;
+                value["v"].array ~= iV;
             }
         }
 
         string to_string(ref const QuorumSet qSet) 
         {
-            JSONValue v;
+            JSONValue[string] jsonObject;
+            JSONValue v = jsonObject;
             toJson(qSet, v);
-            return v.toPrettyString();
+            return v.toString();
         }
 
 

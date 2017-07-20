@@ -111,10 +111,11 @@ public :
             require(v1 == v2);
         }
 
-/*
+        /*
         QuorumSet qSet = new QuorumSet();
         qSet.threshold = 1;
         qSet.validators ~= nodeID.publicKey;
         */
+
     }
 }

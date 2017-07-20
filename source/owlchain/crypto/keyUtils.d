@@ -48,7 +48,7 @@ class SecretKey
         _seed = value;
     }
 
-    PublicKey getPublicKey()
+    const PublicKey getPublicKey()
     {
         PublicKey pk;
 

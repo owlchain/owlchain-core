@@ -175,7 +175,8 @@ public:
         }
         catch (Exception e)
         {
-            JSONValue info;
+            JSONValue[string] jsonObject;
+            JSONValue info = jsonObject;
             dumpInfo(info);
             writefln("[%s], %s, %s", "DEBUG", "ConsensusProtocol", "Exception in processEnvelope");
 
@@ -264,17 +265,25 @@ public:
     // including historical statements if available
     void dumpInfo(ref JSONValue ret)
     {
-        auto slots = ret["slots"];
+        import std.utf;
 
-        JSONValue slotValue = slots[to!string(_slotIndex)];
+        JSONValue[string] slotValueObject;
+        JSONValue slotValue = slotValueObject;
+        JSONValue[] statements;
+        slotValue.object["statements"] = statements;
+
         QuorumSetPtr[Hash] qSetsUsed;
         int count = 0;
         for (int i = 0; i < _statementsHistory.length; i++)
         {
             auto item = _statementsHistory[i];
-            auto v = slotValue["statements"][count++];
-            v ~= getCP().envToStr(item.statement);
-            v ~= to!string(item.fullyValidated);
+
+            slotValue["statements"].array ~= 
+                JSONValue(
+                          toUTF8(
+                                 getCP().envToStr(item.statement) ~ to!string(item.fullyValidated)
+                                 )
+                          );
 
             Hash qSetHash = getCompanionQuorumSetHashFromStatement(item.statement);
             auto qSet = getCPDriver().getQSet(qSetHash);
@@ -284,23 +293,39 @@ public:
             }
         }
 
-        auto qSets = slotValue["quorum_sets"];
+        JSONValue[string] qSetsObject;
+        JSONValue qSets = qSetsObject;
         foreach (Hash h, const QuorumSetPtr q; qSetsUsed)
         {
-            auto qs = qSets[toHexString(h.hash)];
+            JSONValue[string] qsObject;
+            JSONValue qs = qsObject;
             getLocalNode().toJson(q, qs);
+            qSets.object[toHexString(h.hash)] = qs;
         }
+        slotValue.object["quorum_sets"] = qSets;
 
-        slotValue["validated"] = _fullyValidated;
+        slotValue.object["validated"] = JSONValue(_fullyValidated);
+
         _nominationProtocol.dumpInfo(slotValue);
         _ballotProtocol.dumpInfo(slotValue);
+
+        JSONValue[string] slotsObject;
+        JSONValue slots = slotsObject;
+        string slotKey = to!string(_slotIndex);
+        slots.object[slotKey] = slotValue;
+        ret.object["slots"] = slots;
     }
 
     // returns information about the quorum for a given node
     void dumpQuorumInfo(ref JSONValue ret, ref const NodeID id, bool summary)
     {
-        string i = to!string(cast(uint32)(_slotIndex), 10);
-        _ballotProtocol.dumpQuorumInfo(ret[i], id, summary);
+        JSONValue[string] quorumInfoObject;
+        JSONValue quorumInfo = quorumInfoObject;
+
+        _ballotProtocol.dumpQuorumInfo(quorumInfo, id, summary);
+
+        string key = to!string(_slotIndex);
+        ret.object[key] = quorumInfo;
     }
 
     // returns the hash of the QuorumSet that should be downloaded

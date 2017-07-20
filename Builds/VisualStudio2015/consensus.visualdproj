@@ -985,7 +985,6 @@
      <File path="..\..\source\owlchain\consensus\localNode.d" />
      <File path="..\..\source\owlchain\consensus\nominationProtocol.d" />
      <File path="..\..\source\owlchain\consensus\quorumSetUtils.d" />
-     <File path="..\..\source\owlchain\consensus\readme.md" />
      <File path="..\..\source\owlchain\consensus\slot.d" />
     </Folder>
     <Folder name="core">

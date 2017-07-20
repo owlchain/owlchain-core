@@ -214,30 +214,34 @@ public :
 
     void dumpInfo(ref JSONValue ret)
     {
-        JSONValue nomState = ret["nomination"];
-        nomState["roundnumber"] = _roundNumber;
-        nomState["started"] = _nominationStarted;
+        import std.utf;
 
-        int counter = 0;
+        JSONValue[string] nomStateObject;
+        JSONValue nomState = nomStateObject;
+        nomState.object["roundnumber"] = JSONValue(_roundNumber);
+        nomState.object["started"] = JSONValue(_nominationStarted);
+
+        JSONValue[] state_X;
+        nomState.object["X"] = state_X;
         foreach (ref const Value v; _votes)
         {
-            nomState["X"][counter] = _slot.getCP().getValueString(v);
-            counter++;
+            nomState["X"] ~= JSONValue(toUTF8(_slot.getCP().getValueString(v)));
         }
 
-        counter = 0;
+        JSONValue[] state_Y;
+        nomState.object["Y"] = state_Y;
         foreach (ref const Value v; _accepted)
         {
-            nomState["Y"][counter] = _slot.getCP().getValueString(v);
-            counter++;
+            nomState["Y"] ~= JSONValue(toUTF8(_slot.getCP().getValueString(v)));
         }
 
-        counter = 0;
+        JSONValue[] state_Z;
+        nomState.object["Z"] = state_Z;
         foreach (ref const Value v; _candidates)
         {
-            nomState["Z"][counter] = _slot.getCP().getValueString(v);
-            counter++;
+            nomState["Z"] ~= JSONValue(toUTF8(_slot.getCP().getValueString(v)));
         }
+        ret.object["nomination"] = nomState;
     }
 
     Envelope * getLastMessageSend()

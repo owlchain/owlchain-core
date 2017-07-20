@@ -1,9 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{002A2DE9-8BB6-484D-9802-7E4AD4084715}") = "consensus", "consensus.visualdproj", "{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}"
+EndProject
+Project("{002A2DE9-8BB6-484D-9802-7E4AD4084715}") = "test", "..\..\..\test\test.visualdproj", "{C4CE20B2-7FC6-4A74-A130-CFC8B40A4D9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -273,7 +273,6 @@ public:
             Envelope[] res;
             return res;
         }
-
     }
 
     // returns if a node is in the (transitive) quorum originating at
