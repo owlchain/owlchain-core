@@ -13,6 +13,7 @@ import owlchain.xdr.publicKey;
 import owlchain.xdr.publicKeyType;
 import owlchain.xdr.nodeID;
 import owlchain.xdr.quorumSet;
+import owlchain.xdr.ballot;
 
 class ArrayTest
 {
@@ -318,5 +319,38 @@ public :
             }
         }
 
+        section("Unique");
+        {
+            import std.typecons;
+
+            Unique!NodeID uN1, uN2;
+
+            assert(uN1.isEmpty);
+            NodeID n = NodeID(_keys[0]);
+            uN1 = cast(Unique!NodeID)(&n);
+            writeln(toHexString(uN1.publicKey.ed25519));
+
+            uN2 = cast(Unique!NodeID)(&n);
+            //writeln(toHexString(uN1.publicKey.ed25519));
+            //writeln(toHexString(uN2.publicKey.ed25519));
+
+            NodeID *n2 = cast(NodeID *)uN2;
+            writeln(toHexString(uN2.publicKey.ed25519));
+            writeln(toHexString((*n2).publicKey.ed25519));
+
+
+            uN2 = test2();
+            writeln(toHexString(uN2.publicKey.ed25519));
+        }
+
+    }
+
+    import std.typecons;
+    Unique!NodeID test2() {
+        NodeID n = NodeID(_keys[3]);
+        Unique!NodeID uN;
+        uN = cast(Unique!NodeID)(&n);
+
+        return uN;
     }
 }

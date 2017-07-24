@@ -6,7 +6,7 @@ import std.json;
 import std.algorithm: canFind;
 import std.algorithm: find;
 import std.algorithm: isSorted;
-import std.typecons : Unique;
+import std.typecons;
 
 import owlchain.xdr.type;
 import owlchain.xdr.hash;
@@ -179,7 +179,7 @@ public :
             }
             else
             {
-                writeln("[DEBUG], SCP NominationProtocol: message didn't pass sanity check");
+                writeln("[DEBUG], CP NominationProtocol: message didn't pass sanity check");
             }
         }
         return ConsensusProtocol.EnvelopeState.INVALID;
@@ -195,10 +195,72 @@ public :
     // attempts to nominate a value for consensus
     bool nominate(ref const Value value, ref const Value previousValue, bool timedout)
     {
-        //---------------------------------- 
-        // incomplete
-        //---------------------------------- 
-        return false;
+        writefln("[DEBUG], ConsensusProtocol NominationProtocol.nominate %s", _slot.getCP().getValueString(value));
+
+        bool updated = false;
+
+        if (timedout && !_nominationStarted)
+        {
+            writefln("[DEBUG], ConsensusProtocol NominationProtocol.nominate (TIMED OUT)");
+            return false;
+        }
+
+        _nominationStarted = true;
+
+        _previousValue = cast(Value)previousValue;
+
+        _roundNumber++;
+        updateRoundLeaders();
+
+        Value nominatingValue;
+
+        if (!find(_roundLeaders[], _slot.getLocalNode().getNodeID()).empty)
+        {
+            if (_votes.insert(cast(Value)value))
+            {
+                updated = true;
+            }
+            nominatingValue = cast(Value)value;
+        }
+        else
+        {
+            foreach (ref const NodeID leader; _roundLeaders)
+            {
+                if (_latestNominations.keys.canFind(leader))
+                {
+                    nominatingValue = getNewValueFromNomination(_latestNominations[leader].statement.pledges.nominate);
+                    if (nominatingValue.value.length != 0)
+                    {
+                        _votes.insert(nominatingValue);
+                        updated = true;
+                    }
+                }
+            }
+        }
+
+        long timeout = _slot.getCPDriver().computeTimeout(_roundNumber);
+
+        _slot.getCPDriver().nominatingValue(_slot.getSlotIndex(), nominatingValue);
+
+        Slot * slot = &_slot;
+        _slot.getCPDriver().setupTimer(_slot.getSlotIndex(), 
+                                       Slot.NOMINATION_TIMER, 
+                                       timeout,
+                                       () {
+                                            slot.nominate(value, previousValue, true);
+                                        }
+                                       );
+
+        if (updated)
+        {
+            emitNomination();
+        }
+        else
+        {
+            writefln("[DEBUG], ConsensusProtocol NominationProtocol.nominate (SKIPPED)");
+        }
+
+        return updated;
     }
 
     // stops the nomination protocol
@@ -265,7 +327,7 @@ public :
         }
         for (i = 0; i < e.statement.pledges.nominate.votes.length; i++)
         {
-            _votes.insert(cast(Value)e.statement.pledges.nominate.accepted[i]);
+            _votes.insert(cast(Value)e.statement.pledges.nominate.votes[i]);
         }
 
         _lastEnvelope = cast(Envelope)e;
@@ -420,7 +482,7 @@ private :
 
         if (_slot.processEnvelope(envelope, true) == ConsensusProtocol.EnvelopeState.VALID)
         {
-            if (_enabledLastEnvelope || isNewerStatement(_lastEnvelope.statement.pledges.nominate, st.pledges.nominate))
+            if (!_enabledLastEnvelope || isNewerStatement(_lastEnvelope.statement.pledges.nominate, st.pledges.nominate))
             {
                 _enabledLastEnvelope = true;
                 _lastEnvelope = envelope;
@@ -480,19 +542,19 @@ private :
             }
         });
 
-        writefln("[DEBUG], SCP updateRoundLeaders: %d", _roundLeaders.length);
+        writefln("[DEBUG], ConsensusProtocol updateRoundLeaders: %d", _roundLeaders.length);
         foreach (ref const NodeID n; _roundLeaders)
         {
-            writefln("[DEBUG], SCP leader: %s", _slot.getCPDriver().toShortString(n.publicKey));
+            writefln("[DEBUG], ConsensusProtocol leader: %s", _slot.getCPDriver().toShortString(n.publicKey));
         }
 
         /*
-        CLOG(DEBUG, "SCP") << "updateRoundLeaders: " << mRoundLeaders.size();
-        if (Logging::logDebug("SCP"))
+        CLOG(DEBUG, "CP") << "updateRoundLeaders: " << mRoundLeaders.size();
+        if (Logging::logDebug("CP"))
             for (auto const& rl : mRoundLeaders)
             {
-                CLOG(DEBUG, "SCP") << "    leader "
-                    << mSlot.getSCPDriver().toShortString(rl);
+                CLOG(DEBUG, "CP") << "    leader "
+                    << mSlot.getCPDriver().toShortString(rl);
             }
         */
     }

@@ -124,7 +124,7 @@ class ConsensusProtocolDriver
     }
 
     // setupTimer: requests to trigger 'cb' after timeout
-    void setupTimer(uint64 slotIndex, int timerID, long timeout, void function() cb)
+    void setupTimer(uint64 slotIndex, int timerID, long timeout, void delegate() cb)
     {
 
     }
@@ -148,7 +148,7 @@ class ConsensusProtocolDriver
         {
             timeoutInSeconds = cast(int)roundNumber;
         }
-        return timeoutInSeconds;
+        return timeoutInSeconds * 1000;
     }
 
     // Inform about events happening within the consensus algorithm.
@@ -205,7 +205,7 @@ class ConsensusProtocolDriver
     // ballotDidHearFromQuorum is called when we received messages related to
     // the current mBallot from a set of node that is a transitive quorum for
     // the local node.
-    void ballotDidHearFromQuorum(uint64 slotIndex, ref const Ballot ballot)
+    void ballotDidHearFromQuorum(uint64 slotIndex, ref const Unique!Ballot ballot)
     {
 
     }

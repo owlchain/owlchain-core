@@ -12,11 +12,6 @@ struct NodeID
 {
     PublicKey publicKey;
 
-    static NodeID opCall()
-    {
-        NodeID nodeID;
-        return nodeID;
-    }
     int opCmp(ref NodeID other)
     {
         if (publicKey.ed25519 < other.publicKey.ed25519)

@@ -61,7 +61,7 @@ class LocalNode
 
             _consensusProtocol = cp;
 
-            writefln("[INFO], SCP LocalNode.LocalNode @%s qSet: %s", toHexString(_nodeID.publicKey.ed25519), toHexString(_qSetHash.hash));
+            writefln("[INFO], ConsensusProtocol LocalNode.LocalNode @%s qSet: %s", toHexString(_nodeID.publicKey.ed25519), toHexString(_qSetHash.hash));
 
             _singleQSet = buildSingletonQSet(_nodeID);
             XdrDataOutputStream stream2 = new XdrDataOutputStream();

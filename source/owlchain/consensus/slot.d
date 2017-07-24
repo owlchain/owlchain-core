@@ -65,17 +65,17 @@ public:
         return _slotIndex;
     }
 
-    ref ConsensusProtocol getCP()
+    ConsensusProtocol getCP()
     {
         return _consensusProtocol;
     }
 
-    ref ConsensusProtocolDriver getCPDriver()
+    ConsensusProtocolDriver getCPDriver()
     {
         return _consensusProtocol.getCPDriver();
     }
 
-    ref BallotProtocol getBallotProtocol()
+    BallotProtocol getBallotProtocol()
     {
         return _ballotProtocol;
     }
@@ -98,10 +98,11 @@ public:
                 res ~= *e;
             }
 
-            e = _ballotProtocol.getLastMessageSend();
-            if (e)
+            EnvelopePtr e1;
+            e1 = _ballotProtocol.getLastMessageSend();
+            if (e1.refCountedStore.isInitialized)
             {
-                res ~= *e;
+                res ~= e1;
             }
         }
         return res;
@@ -472,11 +473,8 @@ public:
         return getCP().getLocalNode();
     }
 
-    enum timerIDs
-    {
-        NOMINATION_TIMER = 0,
-        BALLOT_PROTOCOL_TIMER = 1
-    };
+    enum int NOMINATION_TIMER = 0;
+    enum int BALLOT_PROTOCOL_TIMER = 1;
 
 protected :
     Envelope [] getEntireCurrentState()
