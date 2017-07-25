@@ -343,6 +343,17 @@ public :
             writeln(toHexString(uN2.publicKey.ed25519));
         }
 
+        section("Unique2");
+        {
+            import std.typecons;
+            NodeID * n1 = new NodeID(_keys[0]);
+            NodeID * n2 = new NodeID(_keys[1]);
+            Unique!NodeID N1;
+            N1 = cast(Unique!NodeID)n1;
+            writeln(toHexString(N1.publicKey.ed25519));
+            N1 = cast(Unique!NodeID)n2;
+            writeln(toHexString(N1.publicKey.ed25519));
+        }
     }
 
     import std.typecons;

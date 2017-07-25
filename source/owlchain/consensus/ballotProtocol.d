@@ -75,6 +75,14 @@ public :
         _phaseNames = ["PREPARE", "FINISH", "EXTERNALIZE"];
     }
 
+    ~this()
+    {
+        if (!_currentBallot.isEmpty) _currentBallot.release();
+        if (!_prepared.isEmpty) _prepared.release();
+        if (!_preparedPrime.isEmpty) _preparedPrime.release();
+        if (!_highBallot.isEmpty) _highBallot.release();
+        if (!_commit.isEmpty) _commit.release();
+    }
     // Process a newly received envelope for this slot and update the state of
     // the slot accordingly.
     // self: set to true when node feeds its own statements in order to
@@ -250,7 +258,7 @@ public :
             newb.value = cast(Value)value;
         }
 
-        writefln("[DEBUG], ConsensusProtocol BallotProtocol::bumpState i: %d v: %s",
+        writefln("[DEBUG], ConsensusProtocol BallotProtocol.bumpState i: %d v: %s",
             _slot.getSlotIndex(),
             _slot.getCP().ballotToStr(newb));
 
@@ -277,8 +285,7 @@ public :
         JSONValue state = stateObject;
 
         state.object["heard" ] = JSONValue(_heardFromQuorum);
-        Ballot * b = cast(Ballot *)_currentBallot;
-        state.object["ballot"] = JSONValue(toUTF8(_slot.getCP().ballotToStr(b)));
+        state.object["ballot"] = JSONValue(toUTF8(_slot.getCP().ballotToStr(*_currentBallot)));
         state.object["phase" ] = JSONValue(toUTF8(_phaseNames[_phase]));
         state.object["state" ] = JSONValue(toUTF8(getLocalState()));
 
@@ -498,21 +505,19 @@ public :
                     bumpToBallot(*b, true);
                     if (prep.prepared.counter > 0)
                     {
-                        _prepared = cast(Unique!Ballot)(cast(Ballot*)(&prep.prepared));
+                        _prepared = cast(Unique!Ballot)(new Ballot(prep.prepared.counter, cast(Value)prep.prepared.value));
                     }
                     if (prep.preparedPrime.counter > 0)
                     {
-                        _preparedPrime = cast(Unique!Ballot)(cast(Ballot*)(&prep.preparedPrime));
+                        _preparedPrime = cast(Unique!Ballot)(new Ballot(prep.preparedPrime.counter, cast(Value)prep.preparedPrime.value));
                     }
                     if (prep.nH > 0)
                     {
-                        ballot = Ballot(cast(uint32)prep.nH, cast(Value)b.value);
-                        _highBallot = cast(Unique!Ballot)(&ballot);
+                        _highBallot = cast(Unique!Ballot)(new Ballot(prep.nH, cast(Value)b.value));
                     }
                     if (prep.nC > 0)
                     {
-                        ballot = Ballot(cast(uint32)prep.nC, cast(Value)b.value);
-                        _commit = cast(Unique!Ballot)(&ballot);
+                        _commit = cast(Unique!Ballot)(new Ballot(prep.nC, cast(Value)b.value));
                     }
                     _phase = CPPhase.CP_PHASE_PREPARE;
                 }
@@ -524,15 +529,9 @@ public :
 
                     bumpToBallot(c.ballot, true);
 
-                    ballot = Ballot(cast(uint32)c.nPrepared, cast(Value)c.ballot.value);
-                    _prepared = cast(Unique!Ballot)(&ballot);
-
-                    ballot = Ballot(cast(uint32)c.nH, cast(Value)c.ballot.value);
-                    _highBallot = cast(Unique!Ballot)(&ballot);
-
-                    ballot = Ballot(cast(uint32)c.nCommit, cast(Value)c.ballot.value);
-                    _commit = cast(Unique!Ballot)(&ballot);
-
+                    _prepared = cast(Unique!Ballot)(new Ballot(c.nPrepared, cast(Value)c.ballot.value));
+                    _highBallot = cast(Unique!Ballot)(new Ballot(c.nH, cast(Value)c.ballot.value));
+                    _commit = cast(Unique!Ballot)(new Ballot(c.nCommit, cast(Value)c.ballot.value));
                     _phase = CPPhase.CP_PHASE_CONFIRM;
                 }
                 break;
@@ -540,16 +539,12 @@ public :
                 {
                     auto const ext = &pl.externalize;
                     auto const v = &ext.commit.value;
-                    ballot = Ballot(cast(uint32)UINT32_MAX, cast(Value)ext.commit.value);
+                    ballot = Ballot(UINT32_MAX, cast(Value)ext.commit.value);
                     bumpToBallot(ballot, true);
 
-                    ballot = Ballot(cast(uint32)UINT32_MAX, cast(Value)ext.commit.value);
-                    _prepared = cast(Unique!Ballot)(&ballot);
-
-                    ballot = Ballot(cast(uint32)ext.nH, cast(Value)ext.commit.value);
-                    _highBallot = cast(Unique!Ballot)(&ballot);
-
-                    _commit = cast(Unique!Ballot)(cast(Ballot*)(&ext.commit));
+                    _prepared = cast(Unique!Ballot)(new Ballot(UINT32_MAX, cast(Value)ext.commit.value));
+                    _highBallot = cast(Unique!Ballot)(new Ballot(ext.nH, cast(Value)ext.commit.value));
+                    _commit = cast(Unique!Ballot)(new Ballot(ext.commit.counter, cast(Value)ext.commit.value));
                     _phase = CPPhase.CP_PHASE_EXTERNALIZE;
                 }
                 break;
@@ -659,7 +654,7 @@ private:
 
         didWork = attemptAcceptCommit(hint) || didWork;
 
-        didWork = attemptConfirmCommit(hint) || didWork;
+        didWork = attemptConfir_commit(hint) || didWork;
 
         // only bump after we're done with everything else
         if (_currentMessageLevel == 1)
@@ -849,11 +844,10 @@ private:
     }
 
     // prepared: ballot that should be prepared
-    bool setPreparedAccept(ref const Ballot prepared)
+    bool setPreparedAccept(ref const Ballot ballot)
     {
-       /*
         //if (Logging::logDebug("SCP"))
-        writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedAccept i: %d  b : %s ", _slot.getSlotIndex(), _slot.getCP().ballotToStr(ballot));
+       writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedAccept i: %d  b : %s ", _slot.getSlotIndex(), _slot.getCP().ballotToStr(ballot));
 
         // update our state
         bool didWork = setPrepared(ballot);
@@ -864,76 +858,600 @@ private:
             if ((!_prepared.isEmpty && areBallotsLessAndIncompatible(*_highBallot, *_prepared)) ||
                 (!_preparedPrime.isEmpty && areBallotsLessAndIncompatible(*_highBallot, *_preparedPrime)))
             {
-                dbgAssert(mPhase == SCP_PHASE_PREPARE);
-                mCommit.reset();
+                dbgAssert(_phase == CPPhase.CP_PHASE_PREPARE);
+                _commit.release();
                 didWork = true;
             }
         }
 
         if (didWork)
         {
-            mSlot.getSCPDriver().acceptedBallotPrepared(mSlot.getSlotIndex(),
-                                                        ballot);
+            _slot.getCPDriver().acceptedBallotPrepared(_slot.getSlotIndex(), ballot);
             emitCurrentStateStatement();
         }
 
         return didWork;
-        */
-        return false;
     }
 
     // step 2+3+8 from the CP paper
     // ballot is the candidate to record as 'confirmed prepared'
     bool attemptPreparedConfirmed(ref const Statement hint)
     {
-        // incomplete
-        return false;
+        if (_phase != CPPhase.CP_PHASE_PREPARE)
+        {
+            return false;
+        }
+
+        // check if we could accept this ballot as prepared
+        if (_prepared.isEmpty)
+        {
+            return false;
+        }
+
+        BallotSet candidates1 = getPrepareCandidates(hint);
+        Ballot[] candidates;
+        foreach_reverse (ref Ballot ballot; candidates)
+        {
+            candidates ~= ballot;
+        }
+
+        // see if we can accept any of the candidates, starting with the highest
+        Ballot newH;
+        bool newHfound = false;
+        int idx;
+        for (idx = 0; idx <  candidates.length; idx++)
+        {
+            Ballot * ballot = &candidates[idx];
+            // only consider it if we can potentially raise h
+            if (!_highBallot.isEmpty && compareBallots(*_highBallot, *ballot) >= 0)
+            {
+                break;
+            }
+
+            bool ratified = federatedRatify((ref const Statement st){ return BallotProtocol.hasPreparedBallot(*ballot, st);});
+            if (ratified)
+            {
+                newH = *ballot;
+                newHfound = true;
+                break;
+            }
+        }
+
+        bool res = false;
+
+        if (newHfound)
+        {
+            Ballot newC;
+            // now, look for newC (left as 0 if no update)
+            // step (3) from the paper
+            Ballot b = !_currentBallot.isEmpty ? *_currentBallot : Ballot();
+            if (
+                    (_commit.isEmpty) &&
+                    (_prepared.isEmpty || !areBallotsLessAndIncompatible(newH, *_prepared)) &&
+                    (_preparedPrime.isEmpty || !areBallotsLessAndIncompatible(newH, *_preparedPrime))
+               )
+            {
+                // continue where we left off (cur is at newH at this point)
+                // incomplete
+                //for (; cur != candidates.rend(); cur++)
+                for (; idx <  candidates.length; idx++)
+                {
+                    Ballot * ballot = &candidates[idx];
+
+                    if (compareBallots(*ballot, b) < 0)
+                    {
+                        break;
+                    }
+                    bool ratified = federatedRatify((ref const Statement st){ return BallotProtocol.hasPreparedBallot(*ballot, st);});
+                    if (ratified)
+                    {
+                        newC = *ballot;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            res = setPreparedConfirmed(newC, newH);
+        }
+        return res;
     }
 
     // newC, newH : low/high bounds prepared confirmed
     bool setPreparedConfirmed(ref const Ballot newC, ref const Ballot newH)
     {
-        // incomplete
-        return false;
+        //if (Logging::logDebug("SCP"))
+        writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedConfirmed i: %d  h : %s ", _slot.getSlotIndex(), _slot.getCP().ballotToStr(newH));
+
+        bool didWork = false;
+
+        if (!_highBallot || compareBallots(newH, *_highBallot) > 0)
+        {
+            didWork = true;
+            _highBallot = cast(Unique!Ballot)(new Ballot(newH.counter, cast(Value)newH.value));
+        }
+
+        if (newC.counter != 0)
+        {
+            dbgAssert(_commit.isEmpty);
+            _commit = cast(Unique!Ballot)(new Ballot(newC.counter, cast(Value)newC.value));
+            didWork = true;
+        }
+
+        if (didWork)
+        {
+            updateCurrentIfNeeded();
+
+            _slot.getCPDriver().confirmedBallotPrepared(_slot.getSlotIndex(), newH);
+            emitCurrentStateStatement();
+        }
+        return didWork;
     }
 
     // step (4 and 6)+8 from the CP paper
     bool attemptAcceptCommit(ref const Statement hint)
     {
-        // incomplete
+        if (_phase != CPPhase.CP_PHASE_PREPARE && _phase != CPPhase.CP_PHASE_CONFIRM)
+        {
+            return false;
+        }
+
+        // extracts value from hint
+        // note: ballot.counter is only used for logging purpose as we're looking at
+        // possible value to commit
+        Ballot ballot;
+        switch (hint.pledges.type.val)
+        {
+            case StatementType.CP_ST_PREPARE:
+                {
+                    auto const prep = &hint.pledges.prepare;
+                    if (prep.nC != 0)
+                    {
+                        ballot = Ballot(prep.nH, cast(Value)prep.ballot.value);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                break;
+            case StatementType.CP_ST_CONFIRM:
+                {
+                    auto const con = &hint.pledges.confirm;
+                    ballot = Ballot(con.nH, cast(Value)con.ballot.value);
+                }
+                break;
+            case StatementType.CP_ST_EXTERNALIZE:
+                {
+                    auto const ext = &hint.pledges.externalize;
+                    ballot = Ballot(ext.nH, cast(Value)ext.commit.value);
+                    break;
+                }
+            default:
+                dbgAbort();
+        };
+
+        if (_phase == CPPhase.CP_PHASE_CONFIRM)
+        {
+            if (!areBallotsCompatible(ballot, *_highBallot))
+            {
+                return false;
+            }
+        }
+        /*
+        auto pred = [&ballot, this](Interval const& cur) -> bool {
+            return federatedAccept(
+                                   [&](Statement const& st) -> bool {
+                                       bool res = false;
+                                       auto const& pl = st.pledges;
+                                       switch (pl.type())
+                                       {
+                                           case SCP_ST_PREPARE:
+                                               {
+                                                   auto const& p = pl.prepare();
+                                                   if (areBallotsCompatible(ballot, p.ballot))
+                                                   {
+                                                       if (p.nC != 0)
+                                                       {
+                                                           res = p.nC <= cur.first && cur.second <= p.nH;
+                                                       }
+                                                   }
+                                               }
+                                               break;
+                                           case SCP_ST_CONFIRM:
+                                               {
+                                                   auto const& c = pl.confirm();
+                                                   if (areBallotsCompatible(ballot, c.ballot))
+                                                   {
+                                                       res = c.nCommit <= cur.first;
+                                                   }
+                                               }
+                                               break;
+                                           case SCP_ST_EXTERNALIZE:
+                                               {
+                                                   auto const& e = pl.externalize();
+                                                   if (areBallotsCompatible(ballot, e.commit))
+                                                   {
+                                                       res = e.commit.counter <= cur.first;
+                                                   }
+                                               }
+                                               break;
+                                           default:
+                                               dbgAbort();
+                                       }
+                                       return res;
+                                   },
+                                   std::bind(&BallotProtocol.commitPredicate, ballot, cur, _1));
+        };
+
+        // build the boundaries to scan
+        std::set<uint32> boundaries = getCommitBoundariesFromStatements(ballot);
+
+        if (boundaries.empty())
+        {
+            return false;
+        }
+
+        // now, look for the high interval
+        Interval candidate;
+
+        findExtendedInterval(candidate, boundaries, pred);
+
+        bool res = false;
+
+        if (candidate.first != 0)
+        {
+            if (_phase != CPPhase.CP_PHASE_CONFIRM ||
+                candidate.second > _highBallot->counter)
+            {
+                Ballot c = Ballot(candidate.first, ballot.value);
+                Ballot h = Ballot(candidate.second, ballot.value);
+                res = setAcceptCommit(c, h);
+            }
+        }
+        return res;
+        */
         return false;
     }
 
     // new values for c and h
     bool setAcceptCommit(ref const Ballot c, ref const Ballot h)
     {
-        // incomplete
+        /*
+        if (Logging::logDebug("SCP"))
+            CLOG(DEBUG, "SCP") << "BallotProtocol.setAcceptCommit"
+            << " i: " << _slot.getSlotIndex()
+            << " new c: " << _slot.getCP().ballotToStr(c)
+            << " new h: " << _slot.getCP().ballotToStr(h);
+
+        bool didWork = false;
+
+        if (!_highBallot || !_commit || compareBallots(*_highBallot, h) != 0 ||
+            compareBallots(*_commit, c) != 0)
+        {
+            _commit = make_unique<Ballot>(c);
+            _highBallot = make_unique<Ballot>(h);
+
+            didWork = true;
+        }
+
+        if (_phase == CPPhase.CP_PHASE_PREPARE)
+        {
+            _phase = CPPhase.CP_PHASE_CONFIRM;
+            if (_currentBallot && !areBallotsLessAndCompatible(h, *_currentBallot))
+            {
+                bumpToBallot(h, false);
+            }
+            _preparedPrime.reset();
+
+            didWork = true;
+        }
+
+        if (didWork)
+        {
+            updateCurrentIfNeeded();
+
+            _slot.getCPDriver().acceptedCommit(_slot.getSlotIndex(), h);
+            emitCurrentStateStatement();
+        }
+        return didWork;
+        */
         return false;
     }
 
     // step 7+8 from the CP paper
-    bool attemptConfirmCommit(ref const Statement hint)
+    bool attemptConfir_commit(ref const Statement hint)
     {
-        // incomplete
+        /*
+        if (_phase != CPPhase.CP_PHASE_CONFIRM)
+        {
+            return false;
+        }
+
+        if (!_highBallot || !_commit)
+        {
+            return false;
+        }
+
+        // extracts value from hint
+        // note: ballot.counter is only used for logging purpose
+        Ballot ballot;
+        switch (hint.pledges.type())
+        {
+            case StatementType.CP_ST_PREPARE:
+                {
+                    return false;
+                }
+                break;
+            case StatementType.CP_ST_CONFIRM:
+                {
+                    auto const& con = hint.pledges.confirm();
+                    ballot = Ballot(con.nH, con.ballot.value);
+                }
+                break;
+            case StatementType.CP_ST_EXTERNALIZE:
+                {
+                    auto const& ext = hint.pledges.externalize();
+                    ballot = Ballot(ext.nH, ext.commit.value);
+                    break;
+                }
+            default:
+                abort();
+        };
+
+        if (!areBallotsCompatible(ballot, *_commit))
+        {
+            return false;
+        }
+
+        std::set<uint32> boundaries = getCommitBoundariesFromStatements(ballot);
+        Interval candidate;
+
+        auto pred = [&ballot, this](Interval const& cur) -> bool {
+            return federatedRatify(
+                                   std::bind(&BallotProtocol.commitPredicate, ballot, cur, _1));
+        };
+
+        findExtendedInterval(candidate, boundaries, pred);
+
+        bool res = candidate.first != 0;
+        if (res)
+        {
+            Ballot c = Ballot(candidate.first, ballot.value);
+            Ballot h = Ballot(candidate.second, ballot.value);
+            return setConfir_commit(c, h);
+        }
+        return res;
+        */
         return false;
     }
 
-    bool setConfirmCommit(ref const Ballot acceptCommitLow, ref const Ballot acceptCommitHigh)
+    bool setConfir_commit(ref const Ballot acceptCommitLow, ref const Ballot acceptCommitHigh)
     {
-        // incomplete
-        return false;
+        /*
+        //if (Logging::logDebug("SCP"))
+            CLOG(DEBUG, "SCP") << "BallotProtocol.setConfir_commit"
+            << " i: " << _slot.getSlotIndex()
+            << " new c: " << _slot.getCP().ballotToStr(c)
+            << " new h: " << _slot.getCP().ballotToStr(h);
+
+        _commit = make_unique<Ballot>(c);
+        _highBallot = make_unique<Ballot>(h);
+        updateCurrentIfNeeded();
+
+        _phase = CPPhase.CP_PHASE_EXTERNALIZE;
+
+        emitCurrentStateStatement();
+
+        _slot.stopNomination();
+
+        _slot.getCPDriver().valueExternalized(_slot.getSlotIndex(),
+                                               _commit->value);
+
+        */
+        return true;
     }
 
     // step 9 from the CP paper
     bool attemptBump()
     {
-        // incomplete
+        /*
+        if (_phase == CPPhase.CP_PHASE_PREPARE || _phase == CPPhase.CP_PHASE_CONFIRM)
+        {
+            // find all counters
+            std::set<uint32> allCounters;
+            for (auto const& e : _latestEnvelopes)
+            {
+                auto const& st = e.second.statement;
+                switch (st.pledges.type())
+                {
+                    case StatementType.CP_ST_PREPARE:
+                        {
+                            auto const& p = st.pledges.prepare();
+                            allCounters.insert(p.ballot.counter);
+                        }
+                        break;
+                    case StatementType.CP_ST_CONFIRM:
+                        {
+                            auto const& c = st.pledges.confirm();
+                            allCounters.insert(c.ballot.counter);
+                        }
+                        break;
+                    case StatementType.CP_ST_EXTERNALIZE:
+                        {
+                            allCounters.insert(UINT32_MAX);
+                        }
+                        break;
+                    default:
+                        abort();
+                };
+            }
+            uint32 targetCounter = _currentBallot ? _currentBallot->counter : 0;
+
+            // uses 0 as a way to track if a v-blocking set is at a higher counter
+            // if so, we move to that smallest counter
+            allCounters.insert(targetCounter);
+
+            // go through the counters, find the smallest not v-blocking
+            for (auto it = allCounters.begin(); it != allCounters.end(); it++)
+            {
+                uint32 n = *it;
+                if (n < targetCounter)
+                {
+                    break;
+                }
+
+                bool vBlocking = LocalNode.isVBlocking(
+                                                        getLocalNode()->getQuorumSet(), _latestEnvelopes,
+                                                        [&](Statement const& st) {
+                                                            bool res;
+                                                            auto const& pl = st.pledges;
+                                                            if (pl.type() == SCP_ST_PREPARE)
+                                                            {
+                                                                auto const& p = pl.prepare();
+                                                                res = n < p.ballot.counter;
+                                                            }
+                                                            else
+                                                            {
+                                                                if (pl.type() == SCP_ST_CONFIRM)
+                                                                {
+                                                                    res = n < pl.confirm().ballot.counter;
+                                                                }
+                                                                else
+                                                                {
+                                                                    res = n != UINT32_MAX;
+                                                                }
+                                                            }
+                                                            return res;
+                                                        });
+
+                if (n == targetCounter)
+                {
+                    // if current counter is not behind, don't do anything
+                    if (!vBlocking)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    if (!vBlocking)
+                    {
+                        // move to n
+                        return abandonBallot(n);
+                    }
+                }
+            }
+        }
+        */
         return false;
     }
 
     // computes a list of candidate values that may have been prepared
     BallotSet getPrepareCandidates(ref const Statement hint)
     {
+        /*
+        std::set<Ballot> hintBallots;
+
+        switch (hint.pledges.type())
+        {
+            case SCP_ST_PREPARE:
+                {
+                    auto const& prep = hint.pledges.prepare();
+                    hintBallots.insert(prep.ballot);
+                    if (prep.prepared)
+                    {
+                        hintBallots.insert(*prep.prepared);
+                    }
+                    if (prep.preparedPrime)
+                    {
+                        hintBallots.insert(*prep.preparedPrime);
+                    }
+                }
+                break;
+            case SCP_ST_CONFIRM:
+                {
+                    auto const& con = hint.pledges.confirm();
+                    hintBallots.insert(Ballot(con.nPrepared, con.ballot.value));
+                    hintBallots.insert(Ballot(UINT32_MAX, con.ballot.value));
+                }
+                break;
+            case SCP_ST_EXTERNALIZE:
+                {
+                    auto const& ext = hint.pledges.externalize();
+                    hintBallots.insert(Ballot(UINT32_MAX, ext.commit.value));
+                }
+                break;
+            default:
+                abort();
+        };
+
+        std::set<Ballot> candidates;
+
+        while (!hintBallots.empty())
+        {
+            auto last = --hintBallots.end();
+            Ballot topVote = *last;
+            hintBallots.erase(last);
+
+            auto const& val = topVote.value;
+
+            // find candidates that may have been prepared
+            for (auto const& e : _latestEnvelopes)
+            {
+                Statement const& st = e.second.statement;
+                switch (st.pledges.type())
+                {
+                    case SCP_ST_PREPARE:
+                        {
+                            auto const& prep = st.pledges.prepare();
+                            if (areBallotsLessAndCompatible(prep.ballot, topVote))
+                            {
+                                candidates.insert(prep.ballot);
+                            }
+                            if (prep.prepared &&
+                                areBallotsLessAndCompatible(*prep.prepared, topVote))
+                            {
+                                candidates.insert(*prep.prepared);
+                            }
+                            if (prep.preparedPrime &&
+                                areBallotsLessAndCompatible(*prep.preparedPrime, topVote))
+                            {
+                                candidates.insert(*prep.preparedPrime);
+                            }
+                        }
+                        break;
+                    case SCP_ST_CONFIRM:
+                        {
+                            auto const& con = st.pledges.confirm();
+                            if (areBallotsCompatible(topVote, con.ballot))
+                            {
+                                candidates.insert(topVote);
+                                if (con.nPrepared < topVote.counter)
+                                {
+                                    candidates.insert(Ballot(con.nPrepared, val));
+                                }
+                            }
+                        }
+                        break;
+                    case SCP_ST_EXTERNALIZE:
+                        {
+                            auto const& ext = st.pledges.externalize();
+                            if (areBallotsCompatible(topVote, ext.commit))
+                            {
+                                candidates.insert(topVote);
+                            }
+                        }
+                        break;
+                    default:
+                        abort();
+                }
+            }
+        }
+
+        return candidates;
+        */
         // incomplete
         BallotSet res = new BallotSet;
         return res;
@@ -942,6 +1460,12 @@ private:
     // helper to perform step (8) from the paper
     void updateCurrentIfNeeded()
     {
+        /*
+        if (!_currentBallot || compareBallots(*_currentBallot, *_highBallot) < 0)
+        {
+        bumpToBallot(*_highBallot, true);
+        }
+        */
         // incomplete
     }
 
@@ -959,6 +1483,53 @@ private:
     // commit ballots compatible with the ballot
     uint32[] getCommitBoundariesFromStatements(ref const Ballot ballot)
     {
+        /*
+        std::set<uint32> res;
+        for (auto const& env : _latestEnvelopes)
+        {
+        auto const& pl = env.second.statement.pledges;
+        switch (pl.type())
+        {
+        case SCP_ST_PREPARE:
+        {
+        auto const& p = pl.prepare();
+        if (areBallotsCompatible(ballot, p.ballot))
+        {
+        if (p.nC)
+        {
+        res.emplace(p.nC);
+        res.emplace(p.nH);
+        }
+        }
+        }
+        break;
+        case SCP_ST_CONFIRM:
+        {
+        auto const& c = pl.confirm();
+        if (areBallotsCompatible(ballot, c.ballot))
+        {
+        res.emplace(c.nCommit);
+        res.emplace(c.nH);
+        }
+        }
+        break;
+        case SCP_ST_EXTERNALIZE:
+        {
+        auto const& e = pl.externalize();
+        if (areBallotsCompatible(ballot, e.commit))
+        {
+        res.emplace(e.commit.counter);
+        res.emplace(e.nH);
+        res.emplace(UINT32_MAX);
+        }
+        }
+        break;
+        default:
+        dbgAbort();
+        }
+        }
+        return res;
+        */
         // incomplete
         uint32[] res;
         return res;
@@ -970,6 +1541,40 @@ private:
     // is ballot prepared by st
     static bool hasPreparedBallot(ref const Ballot ballot, ref const Statement st)
     {
+        /*
+        bool res;
+
+        switch (st.pledges.type())
+        {
+            case SCP_ST_PREPARE:
+                {
+                    auto const& p = st.pledges.prepare();
+                    res =
+                        (p.prepared && areBallotsLessAndCompatible(ballot, *p.prepared)) ||
+                        (p.preparedPrime &&
+                         areBallotsLessAndCompatible(ballot, *p.preparedPrime));
+                }
+                break;
+            case SCP_ST_CONFIRM:
+                {
+                    auto const& c = st.pledges.confirm();
+                    Ballot prepared(c.nPrepared, c.ballot.value);
+                    res = areBallotsLessAndCompatible(ballot, prepared);
+                }
+                break;
+            case SCP_ST_EXTERNALIZE:
+                {
+                    auto const& e = st.pledges.externalize();
+                    res = areBallotsCompatible(ballot, e.commit);
+                }
+                break;
+            default:
+                res = false;
+                dbgAbort();
+        }
+
+        return res;
+        */
         // incomplete
         return false;
     }
@@ -983,6 +1588,38 @@ private:
     // attempts to update p to ballot (updating p' if needed)
     bool setPrepared(ref const Ballot ballot)
     {
+        /*
+        bool didWork = false;
+
+        if (_prepared)
+        {
+            int comp = compareBallots(*_prepared, ballot);
+            if (comp < 0)
+            {
+                if (!areBallotsCompatible(*_prepared, ballot))
+                {
+                    _preparedPrime = make_unique<Ballot>(*_prepared);
+                }
+                _prepared = make_unique<Ballot>(ballot);
+                didWork = true;
+            }
+            else if (comp > 0)
+            {
+                // check if we should update only p'
+                if (!_preparedPrime || compareBallots(*_preparedPrime, ballot) < 0)
+                {
+                    _preparedPrime = make_unique<Ballot>(ballot);
+                    didWork = true;
+                }
+            }
+        }
+        else
+        {
+            _prepared = make_unique<Ballot>(ballot);
+            didWork = true;
+        }
+        return didWork;
+        */
         // incomplete
         return false;
     }
@@ -992,24 +1629,68 @@ private:
     // ballot comparison (ordering)
     static int compareBallots(ref const Unique!Ballot b1, ref const Unique!Ballot b2)
     {
+        /*
+        int res;
+        if (b1 && b2)
+        {
+            res = compareBallots(*b1, *b2);
+        }
+        else if (b1 && !b2)
+        {
+            res = 1;
+        }
+        else if (!b1 && b2)
+        {
+            res = -1;
+        }
+        else
+        {
+            res = 0;
+        }
+        return res;
+        */
         return 0;
     }
 
     static int compareBallots(ref const Ballot b1, ref const Ballot b2)
     {
+        /*
+        if (b1.counter < b2.counter)
+        {
+            return -1;
+        }
+        else if (b2.counter < b1.counter)
+        {
+            return 1;
+        }
+        // ballots are also strictly ordered by value
+        if (b1.value < b2.value)
+        {
+            return -1;
+        }
+        else if (b2.value < b1.value)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+        */
         return 0;
     }
 
     // b1 ~ b2
     static bool areBallotsCompatible(const Ballot b1, const Ballot b2)
     {
-        // incomplete
-        return false;
+        return b1.value == b2.value;
     }
 
     // b1 <= b2 && b1 !~ b2
     static bool areBallotsLessAndIncompatible(ref const Ballot b1, ref const Ballot b2)
     {
+        //
+        //return (compareBallots(b1, b2) <= 0) && !areBallotsCompatible(b1, b2);
         // incomplete
         return false;
     }
@@ -1017,6 +1698,9 @@ private:
     // b1 <= b2 && b1 ~ b2
     static bool areBallotsLessAndCompatible(ref const Ballot b1, ref const Ballot b2)
     {
+        /*
+        return (compareBallots(b1, b2) <= 0) && areBallotsCompatible(b1, b2);
+        */
         // incomplete
         return false;
     }
@@ -1027,13 +1711,103 @@ private:
     // for a given node.
     bool isNewerStatement(ref const NodeID nodeID, ref const Statement st)
     {
-        // incomplete
+        /*
+        auto oldp = _latestEnvelopes.find(nodeID);
+        bool res = false;
+
+        if (oldp == _latestEnvelopes.end())
+        {
+            res = true;
+        }
+        else
+        {
+            res = isNewerStatement(oldp->second.statement, st);
+        }
+        return res;
+        */
         return false;
     }
 
     // returns true if st is newer than oldst
     static bool isNewerStatement(ref const Statement oldst, ref const Statement st)
     {
+        bool res = false;
+/*
+        // total ordering described in SCP paper.
+        auto t = st.pledges.type();
+
+        // statement type (PREPARE < CONFIRM < EXTERNALIZE)
+        if (oldst.pledges.type() != t)
+        {
+            res = (oldst.pledges.type() < t);
+        }
+        else
+        {
+            // can't have duplicate EXTERNALIZE statements
+            if (t == StatementType.CP_ST_EXTERNALIZE)
+            {
+                res = false;
+            }
+            else if (t == StatementType.CP_ST_CONFIRM)
+            {
+                // sorted by (b, p, p', h) (p' = 0 implicitely)
+                auto const& oldC = oldst.pledges.confirm();
+                auto const& c = st.pledges.confirm();
+                int compBallot = compareBallots(oldC.ballot, c.ballot);
+                if (compBallot < 0)
+                {
+                    res = true;
+                }
+                else if (compBallot == 0)
+                {
+                    if (oldC.nPrepared == c.nPrepared)
+                    {
+                        res = (oldC.nH < c.nH);
+                    }
+                    else
+                    {
+                        res = (oldC.nPrepared < c.nPrepared);
+                    }
+                }
+            }
+            else
+            {
+                // Lexicographical order between PREPARE statements:
+                // (b, p, p', h)
+                auto const& oldPrep = oldst.pledges.prepare();
+                auto const& prep = st.pledges.prepare();
+
+                int compBallot = compareBallots(oldPrep.ballot, prep.ballot);
+                if (compBallot < 0)
+                {
+                    res = true;
+                }
+                else if (compBallot == 0)
+                {
+                    compBallot = compareBallots(oldPrep.prepared, prep.prepared);
+                    if (compBallot < 0)
+                    {
+                        res = true;
+                    }
+                    else if (compBallot == 0)
+                    {
+                        compBallot = compareBallots(oldPrep.preparedPrime,
+                                                    prep.preparedPrime);
+                        if (compBallot < 0)
+                        {
+                            res = true;
+                        }
+                        else if (compBallot == 0)
+                        {
+                            res = (oldPrep.nH < prep.nH);
+                        }
+                    }
+                }
+            }
+        }
+
+        return res;
+        */
         // incomplete
         return false;
     }
@@ -1041,6 +1815,68 @@ private:
     // basic sanity check on statement
     static bool isStatementSane(ref const Statement st, bool self)
     {
+        /*
+
+        auto res = true;
+
+        switch (st.pledges.type())
+        {
+        case StatementType.CP_ST_PREPARE:
+        {
+        auto const& p = st.pledges.prepare();
+        // self is allowed to have b = 0 (as long as it never gets emitted)
+        bool isOK = self || p.ballot.counter > 0;
+
+        isOK = isOK &&
+        ((!p.preparedPrime || !p.prepared) ||
+        (areBallotsLessAndIncompatible(*p.preparedPrime, *p.prepared)));
+
+        isOK =
+        isOK && (p.nH == 0 || (p.prepared && p.nH <= p.prepared->counter));
+
+        // c != 0 -> c <= h <= b
+        isOK = isOK && (p.nC == 0 || (p.nH != 0 && p.ballot.counter >= p.nH &&
+        p.nH >= p.nC));
+
+        if (!isOK)
+        {
+        CLOG(DEBUG, "SCP") << "Malformed PREPARE message";
+        res = false;
+        }
+        }
+        break;
+        case StatementType.CP_ST_CONFIRM:
+        {
+        auto const& c = st.pledges.confirm();
+        // c <= h <= b
+        res = c.ballot.counter > 0;
+        res = res && (c.nH <= c.ballot.counter);
+        res = res && (c.nCommit <= c.nH);
+        if (!res)
+        {
+        CLOG(DEBUG, "SCP") << "Malformed CONFIRM message";
+        }
+        }
+        break;
+        case StatementType.CP_ST_EXTERNALIZE:
+        {
+        auto const& e = st.pledges.externalize();
+
+        res = e.commit.counter > 0;
+        res = res && e.nH >= e.commit.counter;
+
+        if (!res)
+        {
+        CLOG(DEBUG, "SCP") << "Malformed EXTERNALIZE message";
+        }
+        }
+        break;
+        default:
+        dbgAbort();
+        }
+
+        return res;
+        */
         // incomplete
         return false;
     }
@@ -1048,6 +1884,19 @@ private:
     // records the statement in the state machine
     void recordEnvelope(ref const Envelope env)
     {
+        /*
+        auto const& st = env.statement;
+        auto oldp = _latestEnvelopes.find(st.nodeID);
+        if (oldp == _latestEnvelopes.end())
+        {
+            _latestEnvelopes.insert(std::make_pair(st.nodeID, env));
+        }
+        else
+        {
+            oldp->second = env;
+        }
+        _slot.recordStatement(env.statement);
+        */
         // incomplete
     }
 
@@ -1059,20 +1908,95 @@ private:
     // check: verifies that ballot is greater than old one
     void bumpToBallot(ref const Ballot ballot, bool check)
     {
+        /*
+
+        if (Logging::logDebug("SCP"))
+        CLOG(DEBUG, "SCP") << "BallotProtocol.bumpToBallot"
+        << " i: " << _slot.getSlotIndex()
+        << " b: " << _slot.getCP().ballotToStr(ballot);
+
+        // `bumpToBallot` should be never called once we committed.
+        dbgAssert(_phase != CPPhase.CP_PHASE_EXTERNALIZE);
+
+        if (check)
+        {
+        // We should move _currentBallot monotonically only
+        dbgAssert(!_currentBallot ||
+        compareBallots(ballot, *_currentBallot) >= 0);
+        }
+
+        bool gotBumped = !_currentBallot || !(*_currentBallot == ballot);
+
+        _currentBallot = make_unique<Ballot>(ballot);
+
+        _heardFromQuorum = false;
+
+        if (gotBumped)
+        startBallotProtocolTimer();
+        */
         // incomplete
     }
 
-    void bumpToBallot(const Ballot ballot, bool check)
-    {
-        // incomplete
-    }
 
     // switch the local node to the given ballot's value
     // with the assumption that the ballot is more recent than the one
     // we have.
     bool updateCurrentValue(ref const Ballot ballot)
-    {
-        // incomplete
+    {/*
+
+        if (_phase != CPPhase.CP_PHASE_PREPARE && _phase != CPPhase.CP_PHASE_CONFIRM)
+        {
+        return false;
+        }
+
+        bool updated = false;
+        if (!_currentBallot)
+        {
+        bumpToBallot(ballot, true);
+        updated = true;
+        }
+        else
+        {
+        dbgAssert(compareBallots(*_currentBallot, ballot) <= 0);
+
+        if (_commit && !areBallotsCompatible(*_commit, ballot))
+        {
+        return false;
+        }
+
+        int comp = compareBallots(*_currentBallot, ballot);
+        if (comp < 0)
+        {
+        bumpToBallot(ballot, true);
+        updated = true;
+        }
+        else if (comp > 0)
+        {
+        // this code probably changes with the final version
+        // of the conciliator
+
+        // this case may happen if the other nodes are not
+        // following the protocol (and we end up with a smaller value)
+        // not sure what is the best way to deal
+        // with this situation
+        CLOG(ERROR, "SCP")
+        << "BallotProtocol.updateCurrentValue attempt to bump to "
+        "a smaller value";
+        // can't just bump to the value as we may already have
+        // statements at counter+1
+        return false;
+        }
+        }
+
+        if (updated)
+        {
+        CLOG(TRACE, "SCP") << "BallotProtocol.updateCurrentValue updated";
+        }
+
+        checkInvariants();
+
+        return updated;
+        */
         return false;
     }
 
@@ -1080,18 +2004,158 @@ private:
     // and attempts to make progress
     void emitCurrentStateStatement()
     {
-        // incomplete
+        /*
+        StatementType t;
+
+        switch (_phase)
+        {
+            case CPPhase.CP_PHASE_PREPARE:
+                t = SCP_ST_PREPARE;
+                break;
+            case CPPhase.CP_PHASE_CONFIRM:
+                t = SCP_ST_CONFIRM;
+                break;
+            case CPPhase.CP_PHASE_EXTERNALIZE:
+                t = SCP_ST_EXTERNALIZE;
+                break;
+            default:
+                dbgAbort();
+        }
+
+        Statement statement = createStatement(t);
+        SCPEnvelope envelope = _slot.createEnvelope(statement);
+
+        bool canEmit = (_currentBallot != nullptr);
+
+        // if we generate the same envelope, don't process it again
+        // this can occur when updating h in PREPARE phase
+        // as statements only keep track of h.n (but h.x could be different)
+        auto lastEnv = _latestEnvelopes.find(_slot.getCP().getLocalNodeID());
+
+        if (lastEnv == _latestEnvelopes.end() || !(lastEnv->second == envelope))
+        {
+            if (_slot.processEnvelope(envelope, true) == SCP::EnvelopeState::VALID)
+            {
+                if (canEmit &&
+                    (!mLastEnvelope || isNewerStatement(mLastEnvelope->statement,
+                                                        envelope.statement)))
+                {
+                    mLastEnvelope = std::make_shared<SCPEnvelope>(envelope);
+                    // this will no-op if invoked from advanceSlot
+                    // as advanceSlot consolidates all messages sent
+                    sendLatestEnvelope();
+                }
+            }
+            else
+            {
+                // there is a bug in the application if it queued up
+                // a statement for itself that it considers invalid
+                throw std::runtime_error("moved to a bad state (ballot protocol)");
+            }
+        }
+        */
     }
 
     // verifies that the internal state is consistent
     void checkInvariants()
     {
+        /*
+        if (_currentBallot)
+        {
+            dbgAssert(_currentBallot->counter != 0);
+        }
+        if (_prepared && _preparedPrime)
+        {
+            dbgAssert(areBallotsLessAndIncompatible(*_preparedPrime, *_prepared));
+        }
+        if (_commit)
+        {
+            dbgAssert(_currentBallot);
+            dbgAssert(areBallotsLessAndCompatible(*_commit, *_highBallot));
+            dbgAssert(areBallotsLessAndCompatible(*_highBallot, *_currentBallot));
+        }
+
+        switch (_phase)
+        {
+            case CPPhase.CP_PHASE_PREPARE:
+                break;
+            case CPPhase.CP_PHASE_CONFIRM:
+                dbgAssert(_commit);
+                break;
+            case CPPhase.CP_PHASE_EXTERNALIZE:
+                dbgAssert(_commit);
+                dbgAssert(_highBallot);
+                break;
+            default:
+                dbgAbort();
+        }
+        */
         // incomplete
     }
 
     // create a statement of the given type using the local state
     Statement createStatement(ref const StatementType type)
     {
+/*
+        Statement statement;
+
+        checkInvariants();
+
+        statement.pledges.type(type);
+        switch (type)
+        {
+            case StatementType.CP_ST_PREPARE:
+                {
+                    auto& p = statement.pledges.prepare();
+                    p.quorumSetHash = getLocalNode()->getQuorumSetHash();
+                    if (_currentBallot)
+                    {
+                        p.ballot = *_currentBallot;
+                    }
+                    if (_commit)
+                    {
+                        p.nC = _commit->counter;
+                    }
+                    if (_prepared)
+                    {
+                        p.prepared.activate() = *_prepared;
+                    }
+                    if (_preparedPrime)
+                    {
+                        p.preparedPrime.activate() = *_preparedPrime;
+                    }
+                    if (_highBallot)
+                    {
+                        p.nH = _highBallot->counter;
+                    }
+                }
+                break;
+            case StatementType.CP_ST_CONFIRM:
+                {
+                    auto& c = statement.pledges.confirm();
+                    c.quorumSetHash = getLocalNode()->getQuorumSetHash();
+                    dbgAssert(areBallotsLessAndCompatible(*_commit, *_highBallot));
+                    c.ballot = *_currentBallot;
+                    c.nPrepared = _prepared->counter;
+                    c.nCommit = _commit->counter;
+                    c.nH = _highBallot->counter;
+                }
+                break;
+            case StatementType.CP_ST_EXTERNALIZE:
+                {
+                    dbgAssert(areBallotsLessAndCompatible(*_commit, *_highBallot));
+                    auto& e = statement.pledges.externalize();
+                    e.commit = *_commit;
+                    e.nH = _highBallot->counter;
+                    e.commitQuorumSetHash = getLocalNode()->getQuorumSetHash();
+                }
+                break;
+            default:
+                dbgAbort();
+        }
+
+        return statement;
+*/
         // incomplete
         Statement res;
         return res;
@@ -1101,6 +2165,18 @@ private:
     // used for log lines
     string getLocalState() 
     {
+        /*
+        std::ostringstream oss;
+
+        oss << "i: " << _slot.getSlotIndex() << " | " << phaseNames[_phase]
+        << " | b: " << _slot.getCP().ballotToStr(_currentBallot)
+        << " | p: " << _slot.getCP().ballotToStr(_prepared)
+        << " | p': " << _slot.getCP().ballotToStr(_preparedPrime)
+        << " | h: " << _slot.getCP().ballotToStr(_highBallot)
+        << " | c: " << _slot.getCP().ballotToStr(_commit)
+        << " | M: " << _latestEnvelopes.size();
+        return oss.str();
+        */
         // incomplete
         return "";
     }
