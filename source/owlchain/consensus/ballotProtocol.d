@@ -31,6 +31,8 @@ alias StatementPredicate = bool delegate(ref const Statement st);
 
 alias EnvelopePtr = RefCounted!(Envelope, RefCountedAutoInitialize.no);
 
+alias Interval = Tuple!(uint32, "first", uint32, "second");
+
 static const int MAX_ADVANCE_SLOT_RECURSION = 50;
 
 class BallotProtocol
