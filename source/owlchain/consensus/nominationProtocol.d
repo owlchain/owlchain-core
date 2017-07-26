@@ -59,9 +59,21 @@ public :
         _accepted = new ValueSet;
         _candidates = new ValueSet;
 
+        _roundLeaders = new NodeIDSet;
+
         _slot = slot;
         _roundNumber = 0;
         _nominationStarted = false;
+        _enabledLastEnvelope = false;
+    }
+
+    ~this()
+    {
+        _votes = null;
+        _accepted = null;
+        _candidates = null;
+        _roundLeaders = null;
+        _slot = null;
         _enabledLastEnvelope = false;
     }
 

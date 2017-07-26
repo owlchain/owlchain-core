@@ -10,9 +10,7 @@ import owlchain.xdr.hash;
 import owlchain.xdr.nodeID;
 import owlchain.xdr.ballot;
 import owlchain.xdr.publicKey;
-
 import owlchain.crypto.keyUtils;
-
 import owlchain.consensus.consensusProtocol;
 
 alias QuorumSetPtr = RefCounted!(QuorumSet, RefCountedAutoInitialize.no);
