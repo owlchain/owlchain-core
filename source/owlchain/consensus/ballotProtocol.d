@@ -1032,7 +1032,7 @@ private:
                 }
             default:
                 dbgAbort();
-        };
+        }
 
         if (_phase == CPPhase.CP_PHASE_CONFIRM)
         {
@@ -1192,7 +1192,7 @@ private:
                 }
             default:
                 dbgAbort();
-        };
+        }
 
         if (!areBallotsCompatible(ballot, *_commit))
         {
@@ -1273,7 +1273,7 @@ private:
                         break;
                     default:
                         dbgAbort();
-                };
+                }
             }
             uint32 targetCounter = !_currentBallot.isEmpty() ? _currentBallot.counter : 0;
 
@@ -1371,7 +1371,7 @@ private:
                 break;
             default:
                 dbgAbort();
-        };
+        }
 
         Ballot[] hintBallots;
         foreach (ref Ballot ballot; hintBallots_)

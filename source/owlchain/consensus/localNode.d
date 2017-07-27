@@ -380,7 +380,7 @@ class LocalNode
                 {
                     return v1.length < v2.length;
                 }
-            };
+            }
 
             //std::multiset<std::vector<NodeID>, orderBySize> resInternals;
 
