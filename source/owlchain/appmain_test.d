@@ -3,7 +3,7 @@ import owlchain.consensus.tests.quorumSetTest;
 import owlchain.consensus.tests.cpUnitTests;
 import owlchain.consensus.tests.arrayTest;
 import owlchain.xdr.tests.streamTest;
-/*
+
 void main()
 {
     QuorumSetTest quorumSetTest;
@@ -28,4 +28,3 @@ void main()
 //    streamTest.test();
 
 }
-*/

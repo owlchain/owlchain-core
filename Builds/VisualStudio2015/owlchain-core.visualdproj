@@ -1024,7 +1024,7 @@
      <File path="..\..\source\owlchain\xdr\xdrDataInputStream.d" />
      <File path="..\..\source\owlchain\xdr\xdrDataOutputStream.d" />
     </Folder>
-    <File path="..\..\source\owlchain\test.d" />
+    <File path="..\..\source\owlchain\appmain_test.d" />
    </Folder>
   </Folder>
  </Folder>
