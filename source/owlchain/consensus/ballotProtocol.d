@@ -1177,7 +1177,7 @@ private:
                 {
                     return false;
                 }
-                break;
+                //break;
             case StatementType.CP_ST_CONFIRM:
                 {
                     auto con = &hint.pledges.confirm;

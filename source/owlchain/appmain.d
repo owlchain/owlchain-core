@@ -6,6 +6,11 @@ import vibe.core.concurrency;
 import vibe.core.log;
 import vibe.utils.array;
 
+import owlchain.consensus.tests.quorumSetTest;
+import owlchain.consensus.tests.cpUnitTests;
+import owlchain.consensus.tests.arrayTest;
+import owlchain.xdr.tests.streamTest;
+
 int runApplication(string[]* args_out = null)
 {
 	try if (!finalizeCommandLineOptions()) return 0;
@@ -34,12 +39,32 @@ int runApplication(string[]* args_out = null)
 	return status;
 }
 
+int runTest(string[]* args_out = null)
+{
+
+    QuorumSetTest quorumSetTest;
+    quorumSetTest = new QuorumSetTest();
+    quorumSetTest.prepare();
+	quorumSetTest.test();
+
+    ArrayTest arrayTest;
+    arrayTest = new ArrayTest();
+    arrayTest.prepare();
+	arrayTest.test();
+
+    CPUnitTest cpUnitTest;
+    cpUnitTest = new CPUnitTest();
+    cpUnitTest.prepare();
+	cpUnitTest.test();
+
+    return 0;
+}
 
 int main()
 {
-	version (unittest) {
-		return 0;
-	} else {
-		return runApplication();
-	}
+    version (unittest) {
+        return 0;
+    } else {
+        return runApplication();
+    }
 }

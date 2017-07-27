@@ -9,7 +9,7 @@ void assertThreadIsMain()
 
 void dbgAbort()
 {
-    if ((os == OS.win32) || (os == OS.win64))
+    static if ((os == OS.win32) || (os == OS.win64))
     {
         import core.sys.windows.winbase;
         DebugBreak();
