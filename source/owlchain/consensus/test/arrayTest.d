@@ -14,6 +14,7 @@ import owlchain.xdr.publicKeyType;
 import owlchain.xdr.nodeID;
 import owlchain.xdr.quorumSet;
 import owlchain.xdr.ballot;
+import owlchain.util.uniqueStruct;
 
 class ArrayTest
 {
@@ -231,7 +232,7 @@ public :
             }
         }
 
-        section("set of NodeID");
+        section("set of NodeID - RedBlackTree !(NodeID, \"a.publicKey.ed25519 < b.publicKey.ed25519\")");
         {
             import std.container.rbtree;
             ulong n;
@@ -266,7 +267,7 @@ public :
             require(n == 1);
         }
 
-        section("list of NodeID");
+        section("DList!NodeID");
         {
             import std.container;
             import std.range;
@@ -281,8 +282,6 @@ public :
 
             backlog.insertBack(NodeID(_keys[2]));
             assert(walkLength(backlog[]) == 3);
-
-            //assert(backlog[2] == NodeID(_keys[2]));
 
             backlog.removeFront();
             assert(walkLength(backlog[]) == 2);
@@ -300,7 +299,7 @@ public :
             writeln([0, 2, 1, 5, 0, 3].takeExactly(3)); // [5, 0, 3]
         }
 
-        section("order of map");
+        section("sequence of map");
         {
             import std.algorithm : sort;
             int[string] set;
@@ -319,48 +318,42 @@ public :
             }
         }
 
-        section("Unique");
+        struct SampleData
         {
-            import std.typecons;
+            int counter;
 
-            Unique!NodeID uN1, uN2;
-
-            assert(uN1.isEmpty);
-            NodeID n = NodeID(_keys[0]);
-            uN1 = cast(Unique!NodeID)(&n);
-            writeln(toHexString(uN1.publicKey.ed25519));
-
-            uN2 = cast(Unique!NodeID)(&n);
-            //writeln(toHexString(uN1.publicKey.ed25519));
-            //writeln(toHexString(uN2.publicKey.ed25519));
-
-            NodeID *n2 = cast(NodeID *)uN2;
-            writeln(toHexString(uN2.publicKey.ed25519));
-            writeln(toHexString((*n2).publicKey.ed25519));
-
-            uN2 = test2();
-            writeln(toHexString(uN2.publicKey.ed25519));
+            ~this()
+            {
+                writeln("Free SampleData");
+            }
         }
 
-        section("Unique2");
+        section("Unique!SampleData");
         {
             import std.typecons;
-            NodeID * n1 = new NodeID(_keys[0]);
-            NodeID * n2 = new NodeID(_keys[1]);
-            Unique!NodeID N1;
-            N1 = cast(Unique!NodeID)n1;
-            writeln(toHexString(N1.publicKey.ed25519));
-            N1 = cast(Unique!NodeID)n2;
-            writeln(toHexString(N1.publicKey.ed25519));
+            Unique!SampleData u1;
+
+            assert(u1.isEmpty);
+            u1 = cast(Unique!SampleData)(new SampleData(1));
+            assert(u1.counter == 1);
+
+            u1 = cast(Unique!SampleData)(new SampleData(2));
+            assert(u1.counter == 2);
+
+        }
+        section("UniqueStruct!SampleData");
+        {
+            import std.typecons;
+            UniqueStruct!SampleData u1;
+
+            assert(u1.isEmpty);
+            u1 = cast(UniqueStruct!SampleData)(new SampleData(1));
+            assert(u1.counter == 1);
+
+            u1 = cast(UniqueStruct!SampleData)(new SampleData(2));
+            assert(u1.counter == 2);
+
         }
     }
 
-    import std.typecons;
-    Unique!NodeID test2() {
-        NodeID n = NodeID(_keys[3]);
-        Unique!NodeID uN;
-        uN = cast(Unique!NodeID)(&n);
-
-        return uN;
-    }
 }

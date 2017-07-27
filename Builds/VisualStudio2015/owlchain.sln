@@ -2,9 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{002A2DE9-8BB6-484D-9802-7E4AD4084715}") = "consensus", "consensus.visualdproj", "{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}"
-EndProject
 Project("{002A2DE9-8BB6-484D-9802-7E4AD4084715}") = "test", "..\..\..\test\test.visualdproj", "{C4CE20B2-7FC6-4A74-A130-CFC8B40A4D9C}"
+EndProject
+Project("{002A2DE9-8BB6-484D-9802-7E4AD4084715}") = "owlchain-core", "owlchain-core.visualdproj", "{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,22 +18,6 @@ Global
 		Release GDC|x86 = Release GDC|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug DMD|x64.ActiveCfg = Debug DMD|x64
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug DMD|x64.Build.0 = Debug DMD|x64
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug DMD|x86.ActiveCfg = Debug DMD|Win32
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug DMD|x86.Build.0 = Debug DMD|Win32
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug GDC|x64.ActiveCfg = Debug GDC|x64
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug GDC|x64.Build.0 = Debug GDC|x64
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug GDC|x86.ActiveCfg = Debug GDC|Win32
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug GDC|x86.Build.0 = Debug GDC|Win32
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release DMD|x64.ActiveCfg = Release DMD|x64
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release DMD|x64.Build.0 = Release DMD|x64
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release DMD|x86.ActiveCfg = Release DMD|Win32
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release DMD|x86.Build.0 = Release DMD|Win32
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release GDC|x64.ActiveCfg = Release GDC|x64
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release GDC|x64.Build.0 = Release GDC|x64
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release GDC|x86.ActiveCfg = Release GDC|Win32
-		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release GDC|x86.Build.0 = Release GDC|Win32
 		{C4CE20B2-7FC6-4A74-A130-CFC8B40A4D9C}.Debug DMD|x64.ActiveCfg = Debug DMD|x64
 		{C4CE20B2-7FC6-4A74-A130-CFC8B40A4D9C}.Debug DMD|x64.Build.0 = Debug DMD|x64
 		{C4CE20B2-7FC6-4A74-A130-CFC8B40A4D9C}.Debug DMD|x86.ActiveCfg = Debug DMD|Win32
@@ -50,6 +34,22 @@ Global
 		{C4CE20B2-7FC6-4A74-A130-CFC8B40A4D9C}.Release GDC|x64.Build.0 = Release GDC|x64
 		{C4CE20B2-7FC6-4A74-A130-CFC8B40A4D9C}.Release GDC|x86.ActiveCfg = Release GDC|Win32
 		{C4CE20B2-7FC6-4A74-A130-CFC8B40A4D9C}.Release GDC|x86.Build.0 = Release GDC|Win32
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug DMD|x64.ActiveCfg = Debug DMD|x64
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug DMD|x64.Build.0 = Debug DMD|x64
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug DMD|x86.ActiveCfg = Debug DMD|Win32
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug DMD|x86.Build.0 = Debug DMD|Win32
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug GDC|x64.ActiveCfg = Debug GDC|x64
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug GDC|x64.Build.0 = Debug GDC|x64
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug GDC|x86.ActiveCfg = Debug GDC|Win32
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Debug GDC|x86.Build.0 = Debug GDC|Win32
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release DMD|x64.ActiveCfg = Release DMD|x64
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release DMD|x64.Build.0 = Release DMD|x64
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release DMD|x86.ActiveCfg = Release DMD|Win32
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release DMD|x86.Build.0 = Release DMD|Win32
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release GDC|x64.ActiveCfg = Release GDC|x64
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release GDC|x64.Build.0 = Release GDC|x64
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release GDC|x86.ActiveCfg = Release GDC|Win32
+		{FEDAD8E9-13D5-4495-9119-3B9DB288EF86}.Release GDC|x86.Build.0 = Release GDC|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,6 +12,7 @@ import owlchain.xdr.ballot;
 import owlchain.xdr.publicKey;
 import owlchain.crypto.keyUtils;
 import owlchain.consensus.consensusProtocol;
+import owlchain.util.uniqueStruct;
 
 alias QuorumSetPtr = RefCounted!(QuorumSet, RefCountedAutoInitialize.no);
 
@@ -203,7 +204,7 @@ class ConsensusProtocolDriver
     // ballotDidHearFromQuorum is called when we received messages related to
     // the current mBallot from a set of node that is a transitive quorum for
     // the local node.
-    void ballotDidHearFromQuorum(uint64 slotIndex, ref const Unique!Ballot ballot)
+    void ballotDidHearFromQuorum(uint64 slotIndex, ref const UniqueStruct!Ballot ballot)
     {
 
     }

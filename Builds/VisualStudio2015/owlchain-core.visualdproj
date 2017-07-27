@@ -816,7 +816,7 @@
   <postBuildCommand />
   <filesToClean>*.obj;*.cmd;*.build;*.json;*.dep</filesToClean>
  </Config>
- <Folder name="consensus">
+ <Folder name="owlchain-core">
   <Folder name="dependencies">
    <Folder name="gfm">
     <Folder name="integers">
@@ -996,6 +996,7 @@
     <Folder name="utils">
      <File path="..\..\source\owlchain\utils\globalChecks.d" />
      <File path="..\..\source\owlchain\utils\types.d" />
+     <File path="uniqueStruct.d" />
     </Folder>
     <Folder name="xdr">
      <Folder name="tests">

@@ -26,6 +26,7 @@ import owlchain.consensus.slot;
 import owlchain.consensus.localNode;
 
 import owlchain.util.globalChecks;
+import owlchain.util.uniqueStruct;
 
 alias Interval = Tuple!(uint32, "low", uint32, "high");
 alias RedBlackTree !(uint32, "a < b") UInt32Set;
@@ -55,11 +56,11 @@ private :
     // human readable names matching CPPhase
     string[CPPhase.CP_PHASE_NUM] _phaseNames;
 
-    Unique!Ballot _currentBallot;       // b
-    Unique!Ballot _prepared;            // p    
-    Unique!Ballot _preparedPrime;       // p'
-    Unique!Ballot _highBallot;          // h
-    Unique!Ballot _commit;              // c
+    UniqueStruct!Ballot _currentBallot;       // b
+    UniqueStruct!Ballot _prepared;            // p    
+    UniqueStruct!Ballot _preparedPrime;       // p'
+    UniqueStruct!Ballot _highBallot;          // h
+    UniqueStruct!Ballot _commit;              // c
     Envelope[NodeID] _latestEnvelopes;  // M
     CPPhase   _phase;                   // Phi
     int _currentMessageLevel;           // number of messages triggered in one run
@@ -506,19 +507,19 @@ public :
                     bumpToBallot(*b, true);
                     if (prep.prepared.counter > 0)
                     {
-                        _prepared = cast(Unique!Ballot)(new Ballot(prep.prepared.counter, cast(Value)prep.prepared.value));
+                        _prepared = cast(UniqueStruct!Ballot)(new Ballot(prep.prepared.counter, cast(Value)prep.prepared.value));
                     }
                     if (prep.preparedPrime.counter > 0)
                     {
-                        _preparedPrime = cast(Unique!Ballot)(new Ballot(prep.preparedPrime.counter, cast(Value)prep.preparedPrime.value));
+                        _preparedPrime = cast(UniqueStruct!Ballot)(new Ballot(prep.preparedPrime.counter, cast(Value)prep.preparedPrime.value));
                     }
                     if (prep.nH > 0)
                     {
-                        _highBallot = cast(Unique!Ballot)(new Ballot(prep.nH, cast(Value)b.value));
+                        _highBallot = cast(UniqueStruct!Ballot)(new Ballot(prep.nH, cast(Value)b.value));
                     }
                     if (prep.nC > 0)
                     {
-                        _commit = cast(Unique!Ballot)(new Ballot(prep.nC, cast(Value)b.value));
+                        _commit = cast(UniqueStruct!Ballot)(new Ballot(prep.nC, cast(Value)b.value));
                     }
                     _phase = CPPhase.CP_PHASE_PREPARE;
                 }
@@ -530,9 +531,9 @@ public :
 
                     bumpToBallot(c.ballot, true);
 
-                    _prepared = cast(Unique!Ballot)(new Ballot(c.nPrepared, cast(Value)c.ballot.value));
-                    _highBallot = cast(Unique!Ballot)(new Ballot(c.nH, cast(Value)c.ballot.value));
-                    _commit = cast(Unique!Ballot)(new Ballot(c.nCommit, cast(Value)c.ballot.value));
+                    _prepared = cast(UniqueStruct!Ballot)(new Ballot(c.nPrepared, cast(Value)c.ballot.value));
+                    _highBallot = cast(UniqueStruct!Ballot)(new Ballot(c.nH, cast(Value)c.ballot.value));
+                    _commit = cast(UniqueStruct!Ballot)(new Ballot(c.nCommit, cast(Value)c.ballot.value));
                     _phase = CPPhase.CP_PHASE_CONFIRM;
                 }
                 break;
@@ -543,9 +544,9 @@ public :
                     ballot = Ballot(UINT32_MAX, cast(Value)ext.commit.value);
                     bumpToBallot(ballot, true);
 
-                    _prepared = cast(Unique!Ballot)(new Ballot(UINT32_MAX, cast(Value)ext.commit.value));
-                    _highBallot = cast(Unique!Ballot)(new Ballot(ext.nH, cast(Value)ext.commit.value));
-                    _commit = cast(Unique!Ballot)(new Ballot(ext.commit.counter, cast(Value)ext.commit.value));
+                    _prepared = cast(UniqueStruct!Ballot)(new Ballot(UINT32_MAX, cast(Value)ext.commit.value));
+                    _highBallot = cast(UniqueStruct!Ballot)(new Ballot(ext.nH, cast(Value)ext.commit.value));
+                    _commit = cast(UniqueStruct!Ballot)(new Ballot(ext.commit.counter, cast(Value)ext.commit.value));
                     _phase = CPPhase.CP_PHASE_EXTERNALIZE;
                 }
                 break;
@@ -970,13 +971,13 @@ private:
         if (!_highBallot || compareBallots(newH, *_highBallot) > 0)
         {
             didWork = true;
-            _highBallot = cast(Unique!Ballot)(new Ballot(newH.counter, cast(Value)newH.value));
+            _highBallot = cast(UniqueStruct!Ballot)(new Ballot(newH.counter, cast(Value)newH.value));
         }
 
         if (newC.counter != 0)
         {
             dbgAssert(_commit.isEmpty);
-            _commit = cast(Unique!Ballot)(new Ballot(newC.counter, cast(Value)newC.value));
+            _commit = cast(UniqueStruct!Ballot)(new Ballot(newC.counter, cast(Value)newC.value));
             didWork = true;
         }
 
@@ -1126,8 +1127,8 @@ private:
 
         if (_highBallot.isEmpty() || _commit.isEmpty() || compareBallots(*_highBallot, h) != 0 || compareBallots(*_commit, c) != 0)
         {
-            _commit = cast(Unique!Ballot)(new Ballot(c.counter, cast(Value)c.value));
-            _highBallot = cast(Unique!Ballot)(new Ballot(h.counter, cast(Value)h.value));
+            _commit = cast(UniqueStruct!Ballot)(new Ballot(c.counter, cast(Value)c.value));
+            _highBallot = cast(UniqueStruct!Ballot)(new Ballot(h.counter, cast(Value)h.value));
 
             didWork = true;
         }
@@ -1226,8 +1227,8 @@ private:
         writefln("[DEBUG], ConsensusProtocol BallotProtocol.setConfirmCommit i: %d  new c: %s new h: %s",
                  _slot.getSlotIndex(), _slot.getCP().ballotToStr(acceptCommitLow), _slot.getCP().ballotToStr(acceptCommitHigh));
 
-        _commit = cast(Unique!Ballot)(new Ballot(acceptCommitLow.counter, cast(Value)acceptCommitLow.value));
-        _highBallot = cast(Unique!Ballot)(new Ballot(acceptCommitHigh.counter, cast(Value)acceptCommitHigh.value));
+        _commit = cast(UniqueStruct!Ballot)(new Ballot(acceptCommitLow.counter, cast(Value)acceptCommitLow.value));
+        _highBallot = cast(UniqueStruct!Ballot)(new Ballot(acceptCommitHigh.counter, cast(Value)acceptCommitHigh.value));
         updateCurrentIfNeeded();
 
         _phase = CPPhase.CP_PHASE_EXTERNALIZE;
@@ -1623,9 +1624,9 @@ private:
             {
                 if (!areBallotsCompatible(*_prepared, ballot))
                 {
-                    _preparedPrime = cast(Unique!Ballot)(new Ballot(_prepared.counter, cast(Value)_prepared.value));
+                    _preparedPrime = cast(UniqueStruct!Ballot)(new Ballot(_prepared.counter, cast(Value)_prepared.value));
                 }
-                _prepared = cast(Unique!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
+                _prepared = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
                 didWork = true;
             }
             else if (comp > 0)
@@ -1633,14 +1634,14 @@ private:
                 // check if we should update only p'
                 if (_preparedPrime.counter == 0 || compareBallots(*_preparedPrime, ballot) < 0)
                 {
-                    _preparedPrime = cast(Unique!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
+                    _preparedPrime = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
                     didWork = true;
                 }
             }
         }
         else
         {
-            _prepared = cast(Unique!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
+            _prepared = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
             didWork = true;
         }
         return didWork;
@@ -1648,7 +1649,7 @@ private:
     // ** Helper methods to compare two ballots
 
     // ballot comparison (ordering)
-    static int compareBallots(ref const Unique!Ballot b1, ref const Unique!Ballot b2)
+    static int compareBallots(ref const UniqueStruct!Ballot b1, ref const UniqueStruct!Ballot b2)
     {
         int res;
         if (b1 && b2)
@@ -1909,7 +1910,7 @@ private:
 
         bool gotBumped = _currentBallot.isEmpty || !(*_currentBallot == ballot);
 
-        _currentBallot = cast(Unique!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
+        _currentBallot = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
 
         _heardFromQuorum = false;
 

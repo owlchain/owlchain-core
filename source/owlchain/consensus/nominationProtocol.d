@@ -18,6 +18,7 @@ import owlchain.xdr.ballot;
 import owlchain.xdr.nomination;
 import owlchain.xdr.statement;
 import owlchain.xdr.statementType;
+import owlchain.xdr.signature;
 
 import owlchain.consensus.localNode;
 import owlchain.consensus.slot;
@@ -25,6 +26,7 @@ import owlchain.consensus.consensusProtocol;
 import owlchain.consensus.consensusProtocolDriver;
 
 import owlchain.util.globalChecks;
+import owlchain.util.uniqueStruct;
 
 class NominationProtocol
 {
@@ -37,8 +39,7 @@ private :
     Envelope[NodeID] _latestNominations;       // N
 
     // last envelope emitted by this node
-    Envelope _lastEnvelope; 
-    bool _enabledLastEnvelope; 
+    UniqueStruct!Envelope _lastEnvelope; 
 
     // nodes from quorum set that have the highest priority this round
     NodeIDSet _roundLeaders;
@@ -64,7 +65,6 @@ public :
         _slot = slot;
         _roundNumber = 0;
         _nominationStarted = false;
-        _enabledLastEnvelope = false;
     }
 
     ~this()
@@ -74,7 +74,6 @@ public :
         _candidates = null;
         _roundLeaders = null;
         _slot = null;
-        _enabledLastEnvelope = false;
     }
 
     ConsensusProtocol.EnvelopeState processEnvelope(ref const Envelope envelope)
@@ -320,7 +319,7 @@ public :
 
     Envelope * getLastMessageSend()
     {
-        if (_enabledLastEnvelope) return &_lastEnvelope;
+        if (!_lastEnvelope.isEmpty) return cast(Envelope *)_lastEnvelope;
         else return null;
     }
 
@@ -342,8 +341,7 @@ public :
             _votes.insert(cast(Value)e.statement.pledges.nominate.votes[i]);
         }
 
-        _lastEnvelope = cast(Envelope)e;
-        _enabledLastEnvelope = true;
+        _lastEnvelope = cast(UniqueStruct!Envelope)(new Envelope(cast(Statement)e.statement, cast(Signature)e.signature));
     }
 
     Envelope[] getCurrentState()
@@ -494,10 +492,9 @@ private :
 
         if (_slot.processEnvelope(envelope, true) == ConsensusProtocol.EnvelopeState.VALID)
         {
-            if (!_enabledLastEnvelope || isNewerStatement(_lastEnvelope.statement.pledges.nominate, st.pledges.nominate))
+            if (_lastEnvelope.isEmpty || isNewerStatement(_lastEnvelope.statement.pledges.nominate, st.pledges.nominate))
             {
-                _enabledLastEnvelope = true;
-                _lastEnvelope = envelope;
+                _lastEnvelope = cast(UniqueStruct!Envelope)(new Envelope(cast(Statement)envelope.statement, cast(Signature)envelope.signature));
                 if (_slot.isFullyValidated())
                 {
                     _slot.getCPDriver().emitEnvelope(envelope);
