@@ -338,7 +338,6 @@ public :
             writeln(toHexString(uN2.publicKey.ed25519));
             writeln(toHexString((*n2).publicKey.ed25519));
 
-
             uN2 = test2();
             writeln(toHexString(uN2.publicKey.ed25519));
         }

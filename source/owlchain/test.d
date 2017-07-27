@@ -6,7 +6,6 @@ import owlchain.xdr.tests.streamTest;
 
 void main()
 {
-   
     QuorumSetTest quorumSetTest;
     quorumSetTest = new QuorumSetTest();
     quorumSetTest.prepare();
