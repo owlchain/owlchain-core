@@ -14,7 +14,7 @@ import owlchain.xdr.publicKeyType;
 import owlchain.xdr.nodeID;
 import owlchain.xdr.quorumSet;
 import owlchain.xdr.ballot;
-import owlchain.util.uniqueStruct;
+import owlchain.utils.uniqueStruct;
 
 class ArrayTest
 {

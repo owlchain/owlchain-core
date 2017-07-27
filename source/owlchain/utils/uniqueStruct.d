@@ -1,4 +1,4 @@
-module owlchain.util.uniqueStruct;
+module owlchain.utils.uniqueStruct;
 
 import std.typecons;
 

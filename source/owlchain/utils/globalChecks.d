@@ -1,4 +1,4 @@
-module owlchain.util.globalChecks;
+module owlchain.utils.globalChecks;
 
 import std.system;
 

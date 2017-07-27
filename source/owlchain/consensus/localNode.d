@@ -183,7 +183,7 @@ class LocalNode
         static uint64 getNodeWeight(ref const NodeID nodeID, ref const QuorumSet qset)
         {
             import core.stdc.stdint;
-            import owlchain.util.types;
+            import owlchain.utils.types;
 
             uint64 n = qset.threshold;
             uint64 d = qset.innerSets.length + qset.validators.length;

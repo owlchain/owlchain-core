@@ -996,7 +996,7 @@
     <Folder name="utils">
      <File path="..\..\source\owlchain\utils\globalChecks.d" />
      <File path="..\..\source\owlchain\utils\types.d" />
-     <File path="uniqueStruct.d" />
+     <File path="..\..\source\owlchain\utils\uniqueStruct.d" />
     </Folder>
     <Folder name="xdr">
      <Folder name="tests">

@@ -25,8 +25,8 @@ import owlchain.consensus.slot;
 import owlchain.consensus.consensusProtocol;
 import owlchain.consensus.consensusProtocolDriver;
 
-import owlchain.util.globalChecks;
-import owlchain.util.uniqueStruct;
+import owlchain.utils.globalChecks;
+import owlchain.utils.uniqueStruct;
 
 class NominationProtocol
 {

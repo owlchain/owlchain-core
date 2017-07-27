@@ -24,7 +24,7 @@ import owlchain.consensus.ballotProtocol;
 import owlchain.consensus.nominationProtocol;
 
 import owlchain.xdr.statement;
-import owlchain.util.globalChecks;
+import owlchain.utils.globalChecks;
 
 alias StatementsValidated = Tuple!(Statement, "statement", bool, "fullyValidated");
 

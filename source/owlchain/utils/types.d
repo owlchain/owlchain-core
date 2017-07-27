@@ -1,4 +1,4 @@
-module owlchain.util.types;
+module owlchain.utils.types;
 
 import core.stdc.stdint;
 import gfm.integers.wideint ;

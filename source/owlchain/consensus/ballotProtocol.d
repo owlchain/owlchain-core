@@ -25,8 +25,8 @@ import owlchain.consensus.consensusProtocolDriver;
 import owlchain.consensus.slot;
 import owlchain.consensus.localNode;
 
-import owlchain.util.globalChecks;
-import owlchain.util.uniqueStruct;
+import owlchain.utils.globalChecks;
+import owlchain.utils.uniqueStruct;
 
 alias Interval = Tuple!(uint32, "low", uint32, "high");
 alias RedBlackTree !(uint32, "a < b") UInt32Set;

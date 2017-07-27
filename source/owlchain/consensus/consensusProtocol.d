@@ -22,7 +22,7 @@ import owlchain.consensus.localNode;
 import owlchain.consensus.consensusProtocolDriver;
 import owlchain.consensus.slot;
 
-import owlchain.util.globalChecks;
+import owlchain.utils.globalChecks;
 
 class ConsensusProtocol
 {
