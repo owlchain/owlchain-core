@@ -637,7 +637,7 @@ private:
                                     }))
             {
                 _heardFromQuorum = true;
-                _slot.getCPDriver().ballotDidHearFromQuorum(_slot.getSlotIndex(), _currentBallot);
+                _slot.getCPDriver().ballotDidHearFromQuorum(_slot.getSlotIndex(), *_currentBallot);
             }
         }
 
