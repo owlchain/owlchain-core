@@ -7,6 +7,7 @@ import std.digest.ripemd;
 import owlchain.xdr.type;
 import owlchain.xdr.publicKey;
 import owlchain.xdr.publicKeyType;
+import owlchain.xdr.signature;
 import deimos.sodium.crypto_sign;
 import deimos.sodium.crypto_sign_ed25519;
 
@@ -89,6 +90,19 @@ class SecretKey
             writeln("error generating secret key from seed");
         }
         return sk;
+    }
+
+    Signature sign(ref const ubyte [] bin) const
+    {
+        assert(_keyType.val == PublicKeyType.PUBLIC_KEY_TYPE_ED25519);
+
+        Signature S;
+        S.signature.length = crypto_sign_BYTES;
+        if (crypto_sign_detached(S.signature.ptr, null, bin.ptr, bin.length, _secretKey.ptr) != 0)
+        {
+            throw new Exception("error while signing");
+        }
+        return S;
     }
 }
 
