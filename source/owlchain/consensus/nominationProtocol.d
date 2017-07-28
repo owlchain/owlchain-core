@@ -552,20 +552,11 @@ private :
         });
 
         writefln("[DEBUG], ConsensusProtocol updateRoundLeaders: %d", _roundLeaders.length);
+        //if (Logging::logDebug("CP"))
         foreach (ref const NodeID n; _roundLeaders)
         {
             writefln("[DEBUG], ConsensusProtocol leader: %s", _slot.getCPDriver().toShortString(n.publicKey));
         }
-
-        /*
-        CLOG(DEBUG, "CP") << "updateRoundLeaders: " << mRoundLeaders.size();
-        if (Logging::logDebug("CP"))
-            for (auto const& rl : mRoundLeaders)
-            {
-                CLOG(DEBUG, "CP") << "    leader "
-                    << mSlot.getCPDriver().toShortString(rl);
-            }
-        */
     }
 
     // computes Gi(isPriority?P:N, prevValue, mRoundNumber, nodeID)

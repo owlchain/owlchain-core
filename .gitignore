@@ -19,5 +19,3 @@ dependencies/clips-d/demo/clips-cli/clips-cli
 .idea
 *.a
 Debug DMD
-appmain_test.d
-source/owlchain/appmain_test.d
