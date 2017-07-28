@@ -476,7 +476,6 @@ public:
     enum int NOMINATION_TIMER = 0;
     enum int BALLOT_PROTOCOL_TIMER = 1;
 
-protected :
     Envelope [] getEntireCurrentState()
     {
         bool old = _fullyValidated;
