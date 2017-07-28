@@ -976,6 +976,7 @@
     <Folder name="consensus">
      <Folder name="test">
       <File path="..\..\source\owlchain\consensus\test\arrayTest.d" />
+      <File path="..\..\source\owlchain\consensus\test\cpTests.d" />
       <File path="..\..\source\owlchain\consensus\test\cpUnitTests.d" />
       <File path="..\..\source\owlchain\consensus\test\quorumSetTest.d" />
      </Folder>
