@@ -5,7 +5,7 @@ import owlchain.xdr.xdrDataOutputStream;
 
 struct Signature
 {
-    byte[] signature;
+    ubyte[] signature;
     
     static void encode(XdrDataOutputStream stream, ref const Signature encodedSignature)
     {
