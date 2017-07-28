@@ -217,13 +217,13 @@ class LocalNode
         // Tests this node against nodeSet for the specified qSethash.
         static bool isQuorumSlice(ref const QuorumSet qSet, ref const NodeID [] nodeSet)
         {
-            writefln("[TRACE], ConsensusProtocol, LocalNode.isQuorumSlice nodeSet.size: %d", nodeSet.length);
+            //writefln("[TRACE], ConsensusProtocol, LocalNode.isQuorumSlice nodeSet.size: %d", nodeSet.length);
             return isQuorumSliceInternal(qSet, nodeSet);
         }
 
         static bool isVBlocking(ref const QuorumSet qSet, ref const NodeID [] nodeSet)
         {
-            writefln("[TRACE], ConsensusProtocol, LocalNode.isVBlocking nodeSet.size: %d", nodeSet.length);
+            //writefln("[TRACE], ConsensusProtocol, LocalNode.isVBlocking nodeSet.size: %d", nodeSet.length);
             return isVBlockingInternal(qSet, nodeSet);
         }
 
@@ -514,6 +514,11 @@ class LocalNode
             {
                 return false;
             }
+
+            //  if v is 4 and inserSet is 0 and threshold is 3 then leftTillBlock is 2;
+            //  V: 4 T:3 => 2
+            //  V: 7 T:5 => 3
+            //  V:10 T:7 => 4
 
             int leftTillBlock = cast(int)((1 + qset.validators.length + qset.innerSets.length) - qset.threshold);
 

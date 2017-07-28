@@ -57,7 +57,7 @@ class SecretKey
 
         if (crypto_sign_ed25519_sk_to_pk(pk.ed25519.ptr, _secretKey.ptr) != 0)
         {
-            writeln ("error extracting public key from secret key");
+            throw new Exception("error extracting public key from secret key");
         }
         return pk;
     }
@@ -80,14 +80,14 @@ class SecretKey
 
         if (seed.length != crypto_sign_SEEDBYTES)
         {
-            writeln("seed does not match byte size");
+            throw new Exception("seed does not match byte size");
         }
 
         sk.seed = seed;
 
         if (crypto_sign_seed_keypair(pk.ed25519.ptr, sk.secretKey.ptr, sk.seed.ptr) != 0)
         {
-            writeln("error generating secret key from seed");
+            throw new Exception("error generating secret key from seed");
         }
         return sk;
     }

@@ -1,6 +1,7 @@
-module cpTests;
+module owlchain.consensus.tests.cpTests;
 
 import std.stdio;
+import std.conv;
 import std.typecons;
 import std.digest.sha;
 import std.algorithm : canFind;
@@ -9,8 +10,9 @@ import owlchain.xdr.type;
 import owlchain.xdr.hash;
 import owlchain.xdr.envelope;
 import owlchain.xdr.value;
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.publicKey;
 import owlchain.xdr.nodeID;
+import owlchain.xdr.quorumSet;
 import owlchain.xdr.ballot;
 import owlchain.xdr.statement;
 import owlchain.xdr.statementType;
@@ -33,7 +35,19 @@ void REQUIRE(bool condition)
     {
         writefln("REQUIRE Does not match.");
     }
+
 }
+
+void SECTION(string title)
+{
+    writefln("SECTION : %s", title);
+}
+
+void TEST_CASE(string title, string subtitle)
+{
+    writefln("TEST_CASE : %s %s", title, subtitle);
+}
+
 class TestCP : ConsensusProtocolDriver
 {
 public:
@@ -310,8 +324,9 @@ makeNominate(ref const SecretKey secretKey, ref const Hash qSetHash, uint64 slot
 {
     import std.algorithm;
 
-    //votes.sort("a.value < b.value");
-    //accepted.sort("a.value < b.value");
+    alias comp = (x, y) => x.value < y.value;
+    votes.sort!(comp).release;
+    accepted.sort!(comp).release;
 
     Statement st;
     st.pledges.type.val = StatementType.CP_ST_NOMINATE;
@@ -369,40 +384,100 @@ verifyNominate(ref const Envelope actual, ref const SecretKey secretKey,
     REQUIRE(exp.statement == actual.statement);
 }
 
-/*
-TEST_CASE("vblocking and quorum", "[scp]")
+class ConsensusProtocolTest
 {
-    SIMULATION_CREATE_NODE(0);
-    SIMULATION_CREATE_NODE(1);
-    SIMULATION_CREATE_NODE(2);
-    SIMULATION_CREATE_NODE(3);
+private:
 
-    SCPQuorumSet qSet;
-    qSet.threshold = 3;
-    qSet.validators.push_back(v0NodeID);
-    qSet.validators.push_back(v1NodeID);
-    qSet.validators.push_back(v2NodeID);
-    qSet.validators.push_back(v3NodeID);
+    Hash [int] valueHash;
+    Value [int] value;
 
-std::vector<NodeID> nodeSet;
-    nodeSet.push_back(v0NodeID);
+    Hash [int] hash;
+    SecretKey [int] secretKey;
+    PublicKey [int] key;
+    NodeID [int] nodeID;
 
-    REQUIRE(LocalNode::isQuorumSlice(qSet, nodeSet) == false);
-    REQUIRE(LocalNode::isVBlocking(qSet, nodeSet) == false);
+    void CREATE_VALUE(int i)
+    {
+        Hash h;
+        h.hash = sha256Of("SEED_VALUE_HASH_" ~  to!string(i, 10));
+        valueHash[i] = h;
 
-    nodeSet.push_back(v2NodeID);
+        Value v;
+        XdrDataOutputStream stream = new XdrDataOutputStream();
+        Hash.encode(stream, cast(Hash)h);
+        v.value = stream.data;
+        value[i] = v;
+    }
 
-    REQUIRE(LocalNode::isQuorumSlice(qSet, nodeSet) == false);
-    REQUIRE(LocalNode::isVBlocking(qSet, nodeSet) == true);
+    void SIMULATION_CREATE_NODE(int i)
+    {
+        uint256 seed = sha256Of("NODE_SEED_" ~  to!string(i, 10));
+        secretKey[i] = SecretKey.fromSeed(seed);
+        key[i] = secretKey[i].getPublicKey();
+        nodeID[i] = NodeID(key[i]);
+    }
 
-    nodeSet.push_back(v3NodeID);
-    REQUIRE(LocalNode::isQuorumSlice(qSet, nodeSet) == true);
-    REQUIRE(LocalNode::isVBlocking(qSet, nodeSet) == true);
+public :
+    this()
+    {
 
-    nodeSet.push_back(v1NodeID);
-    REQUIRE(LocalNode::isQuorumSlice(qSet, nodeSet) == true);
-    REQUIRE(LocalNode::isVBlocking(qSet, nodeSet) == true);
+    }
+
+    void prepare()
+    {
+        for (int i = 0; i <= 3; i++)
+        {
+            CREATE_VALUE(i);
+        }
+    }
+
+    void test()
+    {
+        TEST_CASE("vblocking and quorum", "[scp]");
+        {
+            SIMULATION_CREATE_NODE(0);
+            SIMULATION_CREATE_NODE(1);
+            SIMULATION_CREATE_NODE(2);
+            SIMULATION_CREATE_NODE(3);
+
+            //  number of validator is 4
+            //  threshold is 3
+            QuorumSet qSet;
+            qSet.threshold = 3;
+            qSet.validators ~= nodeID[0].publicKey;
+            qSet.validators ~= nodeID[1].publicKey;
+            qSet.validators ~= nodeID[2].publicKey;
+            qSet.validators ~= nodeID[3].publicKey;
+
+            NodeID[] nodeSet;
+            nodeSet ~= (nodeID[0]);
+
+            //  nodeSet size is 1
+            REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == false);
+            REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == false);
+
+            nodeSet ~= (nodeID[2]);
+
+            //  nodeSet size is 2
+            REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == false);
+            REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == true);
+
+            nodeSet ~= (nodeID[3]);
+
+            //  nodeSet size is 3
+            REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == true);
+            REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == true);
+
+            nodeSet ~= (nodeID[1]);
+
+            //  nodeSet size is 4
+            REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == true);
+            REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == true);
+        }
+
+    }
 }
+/*
 
 TEST_CASE("v-blocking distance", "[scp]")
 {
@@ -415,13 +490,13 @@ TEST_CASE("v-blocking distance", "[scp]")
     SIMULATION_CREATE_NODE(6);
     SIMULATION_CREATE_NODE(7);
 
-    SCPQuorumSet qSet;
+    QuorumSet qSet;
     qSet.threshold = 2;
     qSet.validators.push_back(v0NodeID);
     qSet.validators.push_back(v1NodeID);
     qSet.validators.push_back(v2NodeID);
 
-    auto check = [&](SCPQuorumSet ref const qSetCheck, std::set<NodeID> ref const s,
+    auto check = [&](QuorumSet ref const qSetCheck, std::set<NodeID> ref const s,
                      int expected) {
                          auto r = LocalNode::findClosestVBlocking(qSetCheck, s, nullptr);
                          REQUIRE(expected == r.size());
@@ -441,7 +516,7 @@ TEST_CASE("v-blocking distance", "[scp]")
                      // any 2 of v0..v2
                      check(qSet, good, 2);
 
-                     SCPQuorumSet qSubSet1;
+                     QuorumSet qSubSet1;
                      qSubSet1.threshold = 1;
                      qSubSet1.validators.push_back(v3NodeID);
                      qSubSet1.validators.push_back(v4NodeID);
@@ -464,7 +539,7 @@ TEST_CASE("v-blocking distance", "[scp]")
                      // v0..v5
                      check(qSet, good, 6);
 
-                     SCPQuorumSet qSubSet2;
+                     QuorumSet qSubSet2;
                      qSubSet2.threshold = 2;
                      qSubSet2.validators.push_back(v6NodeID);
                      qSubSet2.validators.push_back(v7NodeID);
@@ -534,7 +609,7 @@ TEST_CASE("ballot protocol core5", "[scp][ballotprotocol]")
     // we need 5 nodes to avoid sharing various thresholds:
     // v-blocking set size: 2
     // threshold: 4 = 3 + self or 4 others
-    SCPQuorumSet qSet;
+    QuorumSet qSet;
     qSet.threshold = 4;
     qSet.validators.push_back(v0NodeID);
     qSet.validators.push_back(v1NodeID);
@@ -546,7 +621,7 @@ TEST_CASE("ballot protocol core5", "[scp][ballotprotocol]")
 
     TestSCP scp(v0SecretKey, qSet);
 
-    scp.storeQuorumSet(std::make_shared<SCPQuorumSet>(qSet));
+    scp.storeQuorumSet(std::make_shared<QuorumSet>(qSet));
     uint256 qSetHash0 = scp.mSCP.getLocalNode()->getQuorumSetHash();
 
     REQUIRE(xValue < yValue);
@@ -1946,7 +2021,7 @@ TEST_CASE("ballot protocol core5", "[scp][ballotprotocol]")
                                 {
                                     SIMULATION_CREATE_NODE(NV);
                                     TestSCP scpNV(vNVSecretKey, qSet, false);
-                                    scpNV.storeQuorumSet(std::make_shared<SCPQuorumSet>(qSet));
+                                    scpNV.storeQuorumSet(std::make_shared<QuorumSet>(qSet));
                                     uint256 qSetHashNV = scpNV.mSCP.getLocalNode()->getQuorumSetHash();
 
                                     Ballot b(1, xValue);
@@ -1975,7 +2050,7 @@ TEST_CASE("ballot protocol core5", "[scp][ballotprotocol]")
                                 SECTION("restore ballot protocol")
                                 {
                                     TestSCP scp2(v0SecretKey, qSet);
-                                    scp2.storeQuorumSet(std::make_shared<SCPQuorumSet>(qSet));
+                                    scp2.storeQuorumSet(std::make_shared<QuorumSet>(qSet));
                                     Ballot b(2, xValue);
                                     SECTION("prepare")
                                     {
@@ -2006,7 +2081,7 @@ TEST_CASE("nomination tests core5", "[scp][nominationprotocol]")
     // we need 5 nodes to avoid sharing various thresholds:
     // v-blocking set size: 2
     // threshold: 4 = 3 + self or 4 others
-    SCPQuorumSet qSet;
+    QuorumSet qSet;
     qSet.threshold = 4;
     qSet.validators.push_back(v0NodeID);
     qSet.validators.push_back(v1NodeID);
@@ -2022,7 +2097,7 @@ TEST_CASE("nomination tests core5", "[scp][nominationprotocol]")
     {
         TestSCP scp(v0SecretKey, qSet);
         uint256 qSetHash0 = scp.mSCP.getLocalNode()->getQuorumSetHash();
-        scp.storeQuorumSet(std::make_shared<SCPQuorumSet>(qSet));
+        scp.storeQuorumSet(std::make_shared<QuorumSet>(qSet));
 
         SECTION("others nominate what v0 says (x) -> prepare x")
         {
@@ -2128,7 +2203,7 @@ TEST_CASE("nomination tests core5", "[scp][nominationprotocol]")
             SECTION("nomination - restored state")
             {
                 TestSCP scp2(v0SecretKey, qSet);
-                scp2.storeQuorumSet(std::make_shared<SCPQuorumSet>(qSet));
+                scp2.storeQuorumSet(std::make_shared<QuorumSet>(qSet));
 
                 // at this point
                 // votes = { x }
@@ -2275,7 +2350,7 @@ TEST_CASE("nomination tests core5", "[scp][nominationprotocol]")
     {
         TestSCP scp(v0SecretKey, qSet);
         uint256 qSetHash0 = scp.mSCP.getLocalNode()->getQuorumSetHash();
-        scp.storeQuorumSet(std::make_shared<SCPQuorumSet>(qSet));
+        scp.storeQuorumSet(std::make_shared<QuorumSet>(qSet));
 
         scp.mPriorityLookup = [&](NodeID ref const n) {
             return (n == v1NodeID) ? 1000 : 1;
