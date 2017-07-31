@@ -17,27 +17,14 @@ import owlchain.xdr.quorumSet;
 
 import owlchain.consensus.quorumSetUtils;
 
+import owlchain.utils.globalChecks;
+
 class QuorumSetTest
 {
 
 private :
 
     PublicKey [] _keys;
-    string _section;
-
-    void require(bool condition)
-    {
-        if (!condition)
-        {
-            writefln("REQUIRE : Does not match.");
-        }
-    }
-
-    void section(string value)
-    {
-        _section = value;
-        writefln("SECTION : %s", _section);
-    }
 
     PublicKey makePublicKey(int i)
     {
@@ -65,7 +52,7 @@ private :
     void check(ref QuorumSet qSetCheck, bool expected, ref const QuorumSet expectedSelfQSet)
     {
         // first, without normalization
-        require(expected == isQuorumSetSane(qSetCheck, false));
+        REQUIRE(expected == isQuorumSetSane(qSetCheck, false));
 
         // secondary test: attempts to build local node with the set
         // (this normalizes the set)
@@ -73,8 +60,8 @@ private :
         normalizeQSet(normalizedQSet);
         auto selfIsSane = isQuorumSetSane(qSetCheck, false);
 
-        require(expected == selfIsSane);
-        require(expectedSelfQSet == normalizedQSet);
+        REQUIRE(expected == selfIsSane);
+        REQUIRE(expectedSelfQSet == normalizedQSet);
     }
 
 public :
@@ -94,7 +81,7 @@ public :
 
     void test()
     {
-        section("{ t: 0 }");
+        SECTION("{ t: 0 }");
         {
             QuorumSet qSet;
             qSet.threshold = 0L;
@@ -103,28 +90,28 @@ public :
 
         QuorumSet validOneNode = makeSingleton(_keys[0]);
 
-        section("{ t: 0, v0 }");
+        SECTION("{ t: 0, v0 }");
         {
             QuorumSet qSet = validOneNode;
             qSet.threshold = 0L;
             check(qSet, false, qSet);
         }
 
-        section("{ t: 2, v0 }");
+        SECTION("{ t: 2, v0 }");
         {
             QuorumSet qSet = validOneNode;
             qSet.threshold = 2;
             check(qSet, false, qSet);
         }
 
-        section("{ t: 1, v0 }");
+        SECTION("{ t: 1, v0 }");
         {
             QuorumSet qSet = validOneNode;
             qSet.threshold = 1;
             check(qSet, true, qSet);
         }
 
-        section("{ t: 1, v0, { t: 1, v1 } -> { t:1, v0, v1 }");
+        SECTION("{ t: 1, v0, { t: 1, v1 } -> { t:1, v0, v1 }");
         {
             QuorumSet qSet;
             qSet.threshold = 1;
@@ -140,7 +127,7 @@ public :
             check(qSet, true, qSelfSet);
         }
 
-        section("{ t: 1, v0, { t: 1, v1 }, { t: 2, v2 } } -> { t:1, v0, v1, { t:2, v2 } }");
+        SECTION("{ t: 1, v0, { t: 1, v1 }, { t: 2, v2 } } -> { t:1, v0, v1, { t:2, v2 } }");
         {
             QuorumSet qSet;
             qSet.threshold = 1;
@@ -180,13 +167,13 @@ public :
         validMultipleNodesNormalized.innerSets[0].validators ~= _keys[2];
         validMultipleNodesNormalized.innerSets[0].validators ~= _keys[3];
 
-        section("{ t: 1, v0, { t: 1, v1 }, { t: 1, v2, v3 } } -> { t:1, v0, v1, { t: 1, v2, v3 } }");
+        SECTION("{ t: 1, v0, { t: 1, v1 }, { t: 1, v2, v3 } } -> { t:1, v0, v1, { t: 1, v2, v3 } }");
         {
             QuorumSet temp = validMultipleNodes;
             check(temp, true, validMultipleNodesNormalized);
         }
 
-        section("{ t: 1, { t: 1, v0, { t: 1, v1 }, { t: 1, v2, v3 } } } -> { t:1, v0, v1, { t: 1, v2, v3 } }");
+        SECTION("{ t: 1, { t: 1, v0, { t: 1, v1 }, { t: 1, v2, v3 } } } -> { t:1, v0, v1, { t: 1, v2, v3 } }");
         {
             QuorumSet containingSet;
             containingSet.threshold = 1;
@@ -195,7 +182,7 @@ public :
             check(containingSet, true, validMultipleNodesNormalized);
         }
 
-        section("{ t: 1, v0, { t: 1, v1, { t: 1, v2 } } } -> { t: 1, v0, { t: 1, v1, v2 } }");
+        SECTION("{ t: 1, v0, { t: 1, v1, { t: 1, v2 } } } -> { t: 1, v0, { t: 1, v1, v2 } }");
         {
             auto qSet = makeSingleton(_keys[0]);
             auto qSet1 = makeSingleton(_keys[1]);
@@ -214,7 +201,7 @@ public :
             check(qSet, true, qSelfSet);
         }
 
-        section("{ t: 1, v0, { t: 1, v1, { t: 1, v2, { t: 1, v3 } } } } -> too deep");
+        SECTION("{ t: 1, v0, { t: 1, v1, { t: 1, v2, { t: 1, v3 } } } } -> too deep");
         {
             auto qSet = makeSingleton(_keys[0]);
             auto qSet1 = makeSingleton(_keys[1]);
@@ -240,7 +227,7 @@ public :
             check(qSet, false, qSelfSet);
         }
 
-        section("{ t: 1, v0..v999 } -> { t: 1, v0..v999 }");
+        SECTION("{ t: 1, v0..v999 } -> { t: 1, v0..v999 }");
         {
             QuorumSet qSet;
             qSet.threshold = 1;
@@ -250,7 +237,7 @@ public :
             check(qSet, true, qSet);
         }
 
-        section("{ t: 1, v0..v1000 } -> too big");
+        SECTION("{ t: 1, v0..v1000 } -> too big");
         {
             QuorumSet qSet;
             qSet.threshold = 1;
@@ -260,7 +247,7 @@ public :
             check(qSet, true, qSet);
         }
 
-        section("{ t: 1, v0, { t: 1, v1..v100 }, { t: 1, v101..v200} ... { t: 1, v901..v1000} -> too big");
+        SECTION("{ t: 1, v0, { t: 1, v1..v100 }, { t: 1, v101..v200} ... { t: 1, v901..v1000} -> too big");
         {
             QuorumSet qSet;
             qSet.threshold = 1;
@@ -276,7 +263,7 @@ public :
             check(qSet, false, qSet);
         }
 
-        section("JSON");
+        SECTION("JSON");
         {
             JSONValue[string] jObject;
             JSONValue value = jObject;

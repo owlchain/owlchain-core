@@ -1,5 +1,6 @@
 module owlchain.utils.globalChecks;
 
+import std.stdio;
 import std.system;
 
 void assertThreadIsMain()
@@ -33,4 +34,23 @@ debug(1)
 else
 {
     void dbgAssert(bool expression) { }
+}
+
+void REQUIRE(bool condition)
+{
+    if (!condition)
+    {
+        writefln("REQUIRE Does not match.");
+    }
+
+}
+
+void SECTION(string title)
+{
+    writefln("SECTION : %s", title);
+}
+
+void TEST_CASE(string title, string subtitle)
+{
+    writefln("TEST_CASE : %s %s", title, subtitle);
 }

@@ -16,26 +16,13 @@ import owlchain.xdr.quorumSet;
 import owlchain.xdr.ballot;
 import owlchain.utils.uniqueStruct;
 
+import owlchain.utils.globalChecks;
+
 class ArrayTest
 {
 private:
 
     PublicKey [] _keys;
-    string _section;
-
-    void require(bool condition)
-    {
-        if (!condition)
-        {
-            writefln("REQUIRE : Does not match.");
-        }
-    }
-
-    void section(string value)
-    {
-        _section = value;
-        writefln("SECTION : %s", _section);
-    }
 
     PublicKey makePublicKey(int i)
     {
@@ -77,7 +64,7 @@ public :
 
     void test()
     {
-        section("envelope");
+        SECTION("envelope");
         {
             import owlchain.xdr.envelope;
             import owlchain.xdr.ballot;
@@ -95,7 +82,7 @@ public :
 
         }
 
-        section("instance of array");
+        SECTION("instance of array");
         {
             QuorumSet[] v1;
 
@@ -110,7 +97,7 @@ public :
             writefln("qSet1.threshold = %d", qSet1.threshold);
         }
 
-        section("find in array");
+        SECTION("find in array");
         {
             NodeID[] nodeSet;
 
@@ -123,10 +110,10 @@ public :
             nodeSet ~= NodeID(_keys[4]);
             nodeSet ~= NodeID(_keys[5]);
 
-            require(nodeSet.canFind(validator));
+            REQUIRE(nodeSet.canFind(validator));
         }
 
-        section("merge of array");
+        SECTION("merge of array");
         {
             NodeID[] nodeSet1;
             NodeID[] nodeSet2;
@@ -158,10 +145,10 @@ public :
             nodeSet3 ~= NodeID(_keys[2]);
             nodeSet3 ~= NodeID(_keys[3]);
 
-            require(equal(nodeSet1, nodeSet3));
+            REQUIRE(equal(nodeSet1, nodeSet3));
         }
 
-        section("array in map");
+        SECTION("array in map");
         {
             import std.algorithm : sort;
             NodeID[][] nodeMultiSet;
@@ -199,7 +186,7 @@ public :
 
             for (int i = 0; i < nodeMultiSet.length; i++)
             {
-                require(nodeMultiSet[i].length == 5 - i);
+                REQUIRE(nodeMultiSet[i].length == 5 - i);
             }
 
             alias myComp = (x, y) => x.length < y.length;
@@ -207,11 +194,11 @@ public :
 
             for (int i = 0; i < nodeMultiSet.length; i++)
             {
-                require(nodeMultiSet[i].length == i+1);
+                REQUIRE(nodeMultiSet[i].length == i+1);
             }
         }
 
-        section("sort of array");
+        SECTION("sort of array");
         {
             import std.algorithm;
 
@@ -228,11 +215,11 @@ public :
 
             for (int i = 0; i < nodeSet.length-1; i++)
             {
-                require(nodeSet[i].publicKey.ed25519 > nodeSet[i+1].publicKey.ed25519);
+                REQUIRE(nodeSet[i].publicKey.ed25519 > nodeSet[i+1].publicKey.ed25519);
             }
         }
 
-        section("set of NodeID - RedBlackTree !(NodeID, \"a.publicKey.ed25519 < b.publicKey.ed25519\")");
+        SECTION("set of NodeID - RedBlackTree !(NodeID, \"a.publicKey.ed25519 < b.publicKey.ed25519\")");
         {
             import std.container.rbtree;
             ulong n;
@@ -240,34 +227,34 @@ public :
             NodeIDSet nodeSet = new NodeIDSet;
 
             n = nodeSet.insert(NodeID(_keys[0]));
-            require(n == 1);
+            REQUIRE(n == 1);
 
             n = nodeSet.insert(NodeID(_keys[1]));
-            require(n == 1);
+            REQUIRE(n == 1);
 
             n = nodeSet.insert(NodeID(_keys[2]));
-            require(n == 1);
+            REQUIRE(n == 1);
 
             n = nodeSet.insert(NodeID(_keys[3]));
-            require(n == 1);
+            REQUIRE(n == 1);
 
             n = nodeSet.insert(NodeID(_keys[4]));
-            require(n == 1);
+            REQUIRE(n == 1);
 
             n = nodeSet.insert(NodeID(_keys[0]));
-            require(n == 0);
+            REQUIRE(n == 0);
 
             n = nodeSet.insert(NodeID(_keys[1]));
-            require(n == 0);
+            REQUIRE(n == 0);
 
             n = nodeSet.insert(NodeID(_keys[2]));
-            require(n == 0);
+            REQUIRE(n == 0);
 
             n = nodeSet.insert(NodeID(_keys[5]));
-            require(n == 1);
+            REQUIRE(n == 1);
         }
 
-        section("DList!NodeID");
+        SECTION("DList!NodeID");
         {
             import std.container;
             import std.range;
@@ -293,13 +280,13 @@ public :
 
         }
 
-        section("drop");
+        SECTION("drop");
         {
             import std.range;
             writeln([0, 2, 1, 5, 0, 3].takeExactly(3)); // [5, 0, 3]
         }
 
-        section("sequence of map");
+        SECTION("sequence of map");
         {
             import std.algorithm : sort;
             int[string] set;
@@ -328,7 +315,7 @@ public :
             }
         }
 
-        section("Unique!SampleData");
+        SECTION("Unique!SampleData");
         {
             import std.typecons;
             Unique!SampleData u1;
@@ -341,7 +328,7 @@ public :
             assert(u1.counter == 2);
 
         }
-        section("UniqueStruct!SampleData");
+        SECTION("UniqueStruct!SampleData");
         {
             import std.typecons;
             UniqueStruct!SampleData u1;

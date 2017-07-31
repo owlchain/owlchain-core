@@ -17,6 +17,8 @@ import owlchain.crypto.keyUtils;
 
 import owlchain.consensus.localNode;
 
+import owlchain.utils.globalChecks;
+
 class CPUnitTest
 {
 private:
@@ -24,19 +26,6 @@ private:
     SecretKey [] secretKey;
     PublicKey [] keys;
     NodeID [] nodeID;
-
-    void require(bool condition)
-    {
-        if (!condition)
-        {
-            writefln("REQUIRE Does not match.");
-        }
-    }
-
-    void section(string value)
-    {
-        writefln("SECTION %s", value);
-    }
 
     bool isNear(uint64 r, double target)
     {
@@ -67,7 +56,7 @@ public :
 
     void test()
     {
-        section("nomination weight");
+        SECTION("nomination weight");
         {
             QuorumSet qSet;
             qSet.threshold = 3;
@@ -80,10 +69,10 @@ public :
 
             double v = cast(double)result/cast(double)UINT64_MAX;
             writefln("%.5f", v);
-            require(isNear(result, .75));
+            REQUIRE(isNear(result, .75));
 
             result = LocalNode.getNodeWeight(nodeID[4], qSet);
-            require(result == 0);
+            REQUIRE(result == 0);
 
             QuorumSet iQSet;
             iQSet.threshold = 1;
@@ -95,7 +84,7 @@ public :
 
             v = cast(double)result/cast(double)UINT64_MAX;
             writefln("%.5f", v);
-            require(isNear(result, .6 * .5));
+            REQUIRE(isNear(result, .6 * .5));
         }
     }
 }
