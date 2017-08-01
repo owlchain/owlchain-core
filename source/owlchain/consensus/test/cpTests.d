@@ -414,7 +414,7 @@ public :
         }
     }
 
-    void test()
+    void test1()
     {
         TEST_CASE("vblocking and quorum", "[scp]");
         {
@@ -548,14 +548,101 @@ public :
             check(qSet, good, 4);
         }
     }
+    
     alias genEnvelope = Envelope delegate (ref const SecretKey sk);
-/*
+
     static genEnvelope
         makePrepareGen(ref const Hash qSetHash, ref const Ballot ballot,
                        Ballot* prepared = null, uint32 nC = 0, uint32 nH = 0,
-                       Ballot* preparedPrime = nullptr)
+                       Ballot* preparedPrime = null)
     {
-        makePrepare(secretKey, qSetHash, 0, ballot, prepared, nC, nH, preparedPrime);
+        return delegate(ref const SecretKey sk) {
+            return makePrepare(sk, qSetHash, 0, ballot, prepared, nC, nH, preparedPrime);
+        };
     }
-*/
+
+    static genEnvelope
+        makeConfirmGen(ref const Hash qSetHash, uint32 prepareCounter, ref const Ballot b, uint32 nC, uint32 nH)
+    {
+        return delegate(ref const SecretKey sk) {
+            return makeConfirm(sk, qSetHash, 0, prepareCounter, b, nC, nH);
+        };
+    }
+
+    static genEnvelope
+        makeExternalizeGen(ref const Hash qSetHash, ref const Ballot commitBallot, uint32 nH)
+    {
+        return delegate(ref const SecretKey sk) {
+            return makeExternalize(sk, qSetHash, 0, commitBallot, nH);
+        };
+    }
+
+    void test2()
+    {
+        TEST_CASE("ballot protocol core5", "[scp][ballotprotocol]");
+        {
+            SIMULATION_CREATE_NODE(0);
+            SIMULATION_CREATE_NODE(1);
+            SIMULATION_CREATE_NODE(2);
+            SIMULATION_CREATE_NODE(3);
+            SIMULATION_CREATE_NODE(4);
+
+            // we need 5 nodes to avoid sharing various thresholds:
+            // v-blocking set size: 2 = 1 + 5 - 4 = 2;  
+            // threshold: 4 = 3 + self or 4 others ; 1 + 5 - 2 = 4
+            QuorumSet qSet;
+            qSet.threshold = 4;
+            qSet.validators ~= (nodeID[0].publicKey);
+            qSet.validators ~= (nodeID[1].publicKey);
+            qSet.validators ~= (nodeID[2].publicKey);
+            qSet.validators ~= (nodeID[3].publicKey);
+            qSet.validators ~= (nodeID[4].publicKey);
+
+            uint256 qSetHash = sha256Of(xdr!QuorumSet.serialize(qSet));
+            TestCP cp = new TestCP(secretKey[0], qSet);
+            cp.storeQuorumSet(refCounted(qSet));
+            uint256 qSetHash0 = cp._CP.getLocalNode().getQuorumSetHash().hash;
+
+            REQUIRE(value[0].value < value[1].value);
+
+            writefln("[INFO], ConsensusProtocol");
+            writefln("[INFO], ConsensusProtocol BEGIN TEST");
+
+            auto recvVBlockingChecks = (genEnvelope gen, bool withChecks) 
+            {
+                Envelope e1 = gen(secretKey[0]);
+                Envelope e2 = gen(secretKey[1]);
+
+                // nothing should happen with first message
+                size_t i = cp._envs.length;
+                cp.receiveEnvelope(e1);
+                if (withChecks)
+                {
+                    REQUIRE(cp._envs.length == i);
+                }
+                i++;
+                cp.receiveEnvelope(e2);
+                if (withChecks)
+                {
+                    REQUIRE(cp._envs.length == i);
+                }
+            };
+
+            auto recvVBlocking = (genEnvelope gen)
+            {
+                recvVBlockingChecks(gen, true);
+            };
+
+            auto recvQuorumChecks = (genEnvelope gen, bool withChecks, bool delayedQuorum) 
+            {
+
+            };
+        }
+    }
+
+    void test()
+    {
+        test1();
+        test2();
+    }
 }
