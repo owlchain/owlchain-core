@@ -14,22 +14,7 @@ struct Ballot
 {
     uint32 counter;
     Value value;
-/*
-    static Ballot opCall(const uint32 c, const Value v)
-    {
-        Ballot ballot;
-        ballot.counter = c;
-        ballot.value = cast(Value)v;
-        return ballot;
-    }
-    static Ballot opCall(uint32 c, Value v)
-    {
-        Ballot ballot;
-        ballot.counter = c;
-        ballot.value = v;
-        return ballot;
-    }
-    */
+
     int opCmp(ref Ballot other)
     {
         if (counter < other.counter)

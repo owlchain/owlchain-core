@@ -160,7 +160,7 @@ public:
     {
         dbgAssert(envelope.statement.slotIndex == mSlotIndex);
 
-        writefln("[%s], %s, %s %d %s", "DEBUG", "ConsensusProtocol", "Slot.processEnvelope", mSlotIndex, mConsensusProtocol.envToStr(envelope));
+        writefln("[DEBUG], ConsensusProtocol Slot.processEnvelope %d %s", mSlotIndex, mConsensusProtocol.envToStr(envelope));
 
         ConsensusProtocol.EnvelopeState res;
         try

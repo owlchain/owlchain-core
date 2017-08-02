@@ -54,20 +54,14 @@ class LocalNode
             mIsValidator = isValidator;
 
             mQSet = cast(QuorumSet)qSet;
-            XdrDataOutputStream stream1 = new XdrDataOutputStream();
-            QuorumSet.encode(stream1, mQSet);
-
-            mQSetHash.hash = sha256Of(stream1.toBytes());
+            mQSetHash.hash = sha256Of(xdr!QuorumSet.serialize(mQSet));
 
             mConsensusProtocol = cp;
 
             writefln("[INFO], ConsensusProtocol LocalNode.LocalNode @%s qSet: %s", toHexString(mNodeID.publicKey.ed25519), toHexString(mQSetHash.hash));
 
             mSingleQSet = buildSingletonQSet(mNodeID);
-            XdrDataOutputStream stream2 = new XdrDataOutputStream();
-            QuorumSet.encode(stream2, mSingleQSet);
-
-            mSingleQSetHash.hash = sha256Of(stream2.toBytes());
+            mSingleQSetHash.hash = sha256Of(xdr!QuorumSet.serialize(mSingleQSet));
         }
 
         ref const(NodeID) getNodeID()
@@ -78,9 +72,7 @@ class LocalNode
         void updateQuorumSet(ref const QuorumSet qSet)
         {
             mQSet = cast(QuorumSet)qSet;
-            XdrDataOutputStream stream = new XdrDataOutputStream();
-            QuorumSet.encode(stream, mQSet);
-            mQSetHash.hash = sha256Of(stream.data);
+            mQSetHash.hash = sha256Of(xdr!QuorumSet.serialize(mQSet));
         }
 
         ref const(QuorumSet) getQuorumSet()

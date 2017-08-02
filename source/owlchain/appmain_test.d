@@ -12,12 +12,12 @@ static if ((os == OS.win32) || (os == OS.win64))
 
 void main()
 {
+    /*
     QuorumSetTest quorumSetTest;
     quorumSetTest = new QuorumSetTest();
     quorumSetTest.prepare();
 	quorumSetTest.test();
 
-/*
     ArrayTest arrayTest;
     arrayTest = new ArrayTest();
     arrayTest.prepare();
@@ -27,7 +27,12 @@ void main()
     cpUnitTest = new CPUnitTest();
     cpUnitTest.prepare();
 	cpUnitTest.test();
-*/
+    */
+    ArrayTest arrayTest;
+    arrayTest = new ArrayTest();
+    arrayTest.prepare();
+	arrayTest.test();
+
     ConsensusProtocolTest cpTest;
     cpTest = new ConsensusProtocolTest();
     cpTest.prepare();

@@ -1929,7 +1929,7 @@ private:
         {
             dbgAssert(compareBallots(*mCurrentBallot, ballot) <= 0);
 
-            if (mCommit.counter != 0 && !areBallotsCompatible(*mCommit, ballot))
+            if (mCommit && !areBallotsCompatible(*mCommit, ballot))
             {
                 return false;
             }

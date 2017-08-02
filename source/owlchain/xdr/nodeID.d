@@ -28,13 +28,6 @@ struct NodeID
         }
     }
 
-    static NodeID opCall(PublicKey value)
-    {
-        NodeID nodeID;
-        nodeID.publicKey = value;
-        return nodeID;
-    }
-
     static void encode(XdrDataOutputStream stream, ref const NodeID encodedNodeID)
     {
         PublicKey.encode(stream, encodedNodeID.publicKey);

@@ -28,6 +28,8 @@ import owlchain.xdr.xdrDataOutputStream;
 
 import owlchain.utils.globalChecks;
 
+import core.stdc.stdint;
+
 alias PriorityLookupDelegate = uint64 delegate(ref const NodeID);
 alias HashCalculatorDelegate = uint64 delegate(ref const Value);
 
@@ -79,10 +81,7 @@ public:
     void
     storeQuorumSet(QuorumSetPtr qSet)
     {
-        XdrDataOutputStream stream = new XdrDataOutputStream();
-        QuorumSet.encode(stream, cast(QuorumSet)qSet);
-        Hash qSetHash;
-        qSetHash.hash = sha256Of(stream.data);
+        Hash qSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(qSet)));
         mQuorumSets[qSetHash] = qSet;
     }
 
@@ -714,7 +713,7 @@ public :
                 cp.receiveEnvelope(prepared1);
                 REQUIRE(cp.mEnvs.length == 3);
             };
-
+/*
             SECTION("bumpState x");
             {
                 REQUIRE(cp.bumpState(0, mValue[0]));
@@ -724,7 +723,46 @@ public :
 
                 verifyPrepare(cp.mEnvs[0], mSecretKey[0], qSetHash0, 0, expectedBallot);
             }
+*/
+            SECTION("start <1,x>");
+            {
+                Value aValue = mValue[0];
+                Value bValue = mValue[1];
 
+                Ballot A1 = Ballot(1, aValue);
+                Ballot B1 = Ballot(1, bValue);
+
+                Ballot A2 = A1;
+                A2.counter++;
+
+                Ballot A3 = A2;
+                A3.counter++;
+
+                Ballot A4 = A3;
+                A4.counter++;
+
+                Ballot A5 = A4;
+                A5.counter++;
+
+                Ballot AInf = Ballot(UINT32_MAX, aValue), BInf = Ballot(UINT32_MAX, bValue);
+
+                Ballot B2 = B1;
+                B2.counter++;
+
+                Ballot B3 = B2;
+                B3.counter++;
+
+                REQUIRE(cp.bumpState(0, aValue));
+                REQUIRE(cp.mEnvs.length == 1);
+
+                SECTION("prepared A1");
+                {
+                    recvQuorum(makePrepareGen(qSetHash, A1));
+                    REQUIRE(cp.mEnvs.length == 2);
+                    verifyPrepare(cp.mEnvs[1], mSecretKey[0], qSetHash0, 0, A1, &A1);
+
+                }
+            }
         }
     }
 
