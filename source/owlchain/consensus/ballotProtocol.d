@@ -310,7 +310,7 @@ public :
         {
             const auto st = &(mLatestEnvelopes[id].statement);
 
-            switch (st.pledges.type.val)
+            switch (st.pledges.type)
             {
                 case StatementType.CP_ST_PREPARE:
                     ret.object["phase"] = JSONValue("PREPARE");
@@ -425,7 +425,7 @@ public :
     static Hash getCompanionQuorumSetHashFromStatement(ref const Statement st)
     {
         Hash h;
-        switch (st.pledges.type.val)
+        switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 h = cast(Hash)st.pledges.prepare.quorumSetHash;
@@ -447,7 +447,7 @@ public :
     static Ballot getWorkingBallot(ref const Statement st)
     {
         Ballot res;
-        switch (st.pledges.type.val)
+        switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 res = cast(Ballot)st.pledges.prepare.ballot;
@@ -488,7 +488,7 @@ public :
         Ballot ballot;
         const auto pl = &e.statement.pledges;
 
-        switch (pl.type.val)
+        switch (pl.type)
         {
             case StatementType.CP_ST_PREPARE:
                 {
@@ -616,7 +616,7 @@ private:
                                     },
                                     (ref const Statement st) {
                                         bool res;
-                                        if (st.pledges.type.val == StatementType.CP_ST_PREPARE)
+                                        if (st.pledges.type == StatementType.CP_ST_PREPARE)
                                         {
                                             res = mCurrentBallot.counter <= st.pledges.prepare.ballot.counter;
                                         }
@@ -675,7 +675,7 @@ private:
     ConsensusProtocolDriver.ValidationLevel validateValues(ref const Statement st)
     {
         ValueSet values = new ValueSet;
-        switch (st.pledges.type.val)
+        switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 {
@@ -796,7 +796,7 @@ private:
                 (ref const Statement st) {
                     bool res;
 
-                    switch (st.pledges.type.val)
+                    switch (st.pledges.type)
                     {
                         case StatementType.CP_ST_PREPARE:
                             {
@@ -994,7 +994,7 @@ private:
         // note: ballot.counter is only used for logging purpose as we're looking at
         // possible value to commit
         Ballot ballot;
-        switch (hint.pledges.type.val)
+        switch (hint.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 {
@@ -1038,7 +1038,7 @@ private:
             (ref const Statement st) {
                 bool res = false;
                 const auto pl = &st.pledges;
-                switch (pl.type.val)
+                switch (pl.type)
                 {
                     case StatementType.CP_ST_PREPARE:
                         {
@@ -1162,7 +1162,7 @@ private:
         // extracts value from hint
         // note: ballot.counter is only used for logging purpose
         Ballot ballot;
-        switch (hint.pledges.type.val)
+        switch (hint.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 {
@@ -1243,7 +1243,7 @@ private:
             foreach (const NodeID n, const Envelope e; mLatestEnvelopes)
             {
                 const auto st = &e.statement;
-                switch (st.pledges.type.val)
+                switch (st.pledges.type)
                 {
                     case StatementType.CP_ST_PREPARE:
                         {
@@ -1286,14 +1286,14 @@ private:
                     (ref const Statement st) {
                         bool res;
                         const auto pl = &st.pledges;
-                        if (pl.type.val == StatementType.CP_ST_PREPARE)
+                        if (pl.type == StatementType.CP_ST_PREPARE)
                         {
                             const auto p = &pl.prepare;
                             res = n < p.ballot.counter;
                         }
                         else
                         {
-                            if (pl.type.val == StatementType.CP_ST_CONFIRM)
+                            if (pl.type == StatementType.CP_ST_CONFIRM)
                             {
                                 res = n < pl.confirm.ballot.counter;
                             }
@@ -1331,7 +1331,7 @@ private:
     {
         BallotSet hintBallots_ = new BallotSet;
 
-        switch (hint.pledges.type.val)
+        switch (hint.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 {
@@ -1383,7 +1383,7 @@ private:
             foreach (const NodeID n, const Envelope e; mLatestEnvelopes)
             {
                 const auto st = &e.statement;
-                switch (st.pledges.type.val)
+                switch (st.pledges.type)
                 {
                     case StatementType.CP_ST_PREPARE:
                         {
@@ -1488,7 +1488,7 @@ private:
         foreach (const NodeID n, const Envelope env; mLatestEnvelopes)
         {
             const auto pl = &env.statement.pledges;
-            switch (pl.type.val)
+            switch (pl.type)
             {
             case StatementType.CP_ST_PREPARE:
             {
@@ -1539,7 +1539,7 @@ private:
     {
         bool res;
 
-        switch (st.pledges.type.val)
+        switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 {
@@ -1575,7 +1575,7 @@ private:
     {
         bool res = false;
         const auto pl = &st.pledges;
-        switch (pl.type.val)
+        switch (pl.type)
         {
             case StatementType.CP_ST_PREPARE:
                 break;
@@ -1729,12 +1729,12 @@ private:
         bool res = false;
 
         // total ordering described in SCP paper.
-        auto t = st.pledges.type.val;
+        auto t = st.pledges.type;
 
         // statement type (PREPARE < CONFIRM < EXTERNALIZE)
-        if (oldst.pledges.type.val != t)
+        if (oldst.pledges.type != t)
         {
-            res = (oldst.pledges.type.val < t);
+            res = (oldst.pledges.type < t);
         }
         else
         {
@@ -1808,7 +1808,7 @@ private:
     {
         auto res = true;
 
-        switch (st.pledges.type.val)
+        switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
             {
@@ -1975,13 +1975,13 @@ private:
         switch (mPhase)
         {
             case CPPhase.CP_PHASE_PREPARE:
-                t.val = StatementType.CP_ST_PREPARE;
+                t = StatementType.CP_ST_PREPARE;
                 break;
             case CPPhase.CP_PHASE_CONFIRM:
-                t.val = StatementType.CP_ST_CONFIRM;
+                t = StatementType.CP_ST_CONFIRM;
                 break;
             case CPPhase.CP_PHASE_EXTERNALIZE:
-                t.val = StatementType.CP_ST_EXTERNALIZE;
+                t = StatementType.CP_ST_EXTERNALIZE;
                 break;
             default:
                 dbgAbort();
@@ -2060,8 +2060,8 @@ private:
 
         checkInvariants();
 
-        statement.pledges.type.val = type.val;
-        switch (type.val)
+        statement.pledges.type = type;
+        switch (type)
         {
             case StatementType.CP_ST_PREPARE:
                 {

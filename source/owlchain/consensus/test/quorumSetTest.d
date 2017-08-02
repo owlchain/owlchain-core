@@ -23,7 +23,6 @@ class QuorumSetTest
 {
 
 private :
-
     PublicKey [] mKeys;
 
     PublicKey makePublicKey(int i)

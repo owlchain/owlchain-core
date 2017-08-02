@@ -17,7 +17,7 @@ void main()
     quorumSetTest.prepare();
 	quorumSetTest.test();
 
-    /*
+/*
     ArrayTest arrayTest;
     arrayTest = new ArrayTest();
     arrayTest.prepare();
@@ -32,7 +32,6 @@ void main()
     cpTest = new ConsensusProtocolTest();
     cpTest.prepare();
 	cpTest.test();
-
 
 //    StreamTest streamTest;
 //    streamTest = new StreamTest();

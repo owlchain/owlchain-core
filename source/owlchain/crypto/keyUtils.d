@@ -22,7 +22,7 @@ class SecretKey
 
     this()
     {
-        _keyType.val = PublicKeyType.PUBLIC_KEY_TYPE_ED25519;
+        _keyType = PublicKeyType.PUBLIC_KEY_TYPE_ED25519;
         assert(crypto_sign_PUBLICKEYBYTES == uint256.sizeof, "Unexpected public key length");
         assert(crypto_sign_SEEDBYTES == uint256.sizeof, "Unexpected seed length");
         assert(crypto_sign_SECRETKEYBYTES == uint512.sizeof, "Unexpected secret key length");
@@ -53,7 +53,7 @@ class SecretKey
     {
         PublicKey pk;
 
-        assert(_keyType.val == PublicKeyType.PUBLIC_KEY_TYPE_ED25519);
+        assert(_keyType == PublicKeyType.PUBLIC_KEY_TYPE_ED25519);
 
         if (crypto_sign_ed25519_sk_to_pk(pk.ed25519.ptr, mSecretKey.ptr) != 0)
         {
@@ -76,7 +76,7 @@ class SecretKey
     {
         PublicKey pk;
         SecretKey sk = new SecretKey();
-        assert(sk.keyType.val == PublicKeyType.PUBLIC_KEY_TYPE_ED25519);
+        assert(sk.keyType == PublicKeyType.PUBLIC_KEY_TYPE_ED25519);
 
         if (seed.length != crypto_sign_SEEDBYTES)
         {
@@ -94,7 +94,7 @@ class SecretKey
 
     Signature sign(ref const ubyte [] bin) const
     {
-        assert(_keyType.val == PublicKeyType.PUBLIC_KEY_TYPE_ED25519);
+        assert(_keyType == PublicKeyType.PUBLIC_KEY_TYPE_ED25519);
 
         Signature S;
         S.signature.length = crypto_sign_BYTES;

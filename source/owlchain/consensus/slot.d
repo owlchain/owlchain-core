@@ -114,7 +114,7 @@ public:
     {
         if (e.statement.nodeID == mConsensusProtocol.getLocalNodeID() && e.statement.slotIndex == mSlotIndex)
         {
-            if (e.statement.pledges.type.val == StatementType.CP_ST_NOMINATE)
+            if (e.statement.pledges.type == StatementType.CP_ST_NOMINATE)
             {
                 mNominationProtocol.setStateFromEnvelope(e);
             }
@@ -165,7 +165,7 @@ public:
         ConsensusProtocol.EnvelopeState res;
         try
         {
-            if (envelope.statement.pledges.type.val == StatementType.CP_ST_NOMINATE)
+            if (envelope.statement.pledges.type == StatementType.CP_ST_NOMINATE)
             {
                 res = mNominationProtocol.processEnvelope(envelope);
             }
@@ -336,7 +336,7 @@ public:
     static Hash getCompanionQuorumSetHashFromStatement(ref const Statement st)
     {
         Hash h;
-        switch (st.pledges.type.val)
+        switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 h = cast(Hash)(st.pledges.prepare.quorumSetHash);
@@ -360,7 +360,7 @@ public:
     static Value[] getStatementValues(ref const Statement st)
     {
         Value[] res;
-        if (st.pledges.type.val == StatementType.CP_ST_NOMINATE)
+        if (st.pledges.type == StatementType.CP_ST_NOMINATE)
         {
             res = NominationProtocol.getStatementValues(st);
         }
@@ -378,22 +378,22 @@ public:
         QuorumSetPtr res;
         StatementType t = st.pledges.type;
 
-        if (t.val == StatementType.CP_ST_EXTERNALIZE)
+        if (t == StatementType.CP_ST_EXTERNALIZE)
         {
             res = LocalNode.getSingletonQSet(st.nodeID);
         }
         else
         {
             Hash h;
-            if (t.val == StatementType.CP_ST_PREPARE)
+            if (t == StatementType.CP_ST_PREPARE)
             {
                 h = cast(Hash)(st.pledges.prepare.quorumSetHash);
             }
-            else if (t.val == StatementType.CP_ST_CONFIRM)
+            else if (t == StatementType.CP_ST_CONFIRM)
             {
                 h = cast(Hash)(st.pledges.confirm.quorumSetHash);
             }
-            else if (t.val == StatementType.CP_ST_NOMINATE)
+            else if (t == StatementType.CP_ST_NOMINATE)
             {
                 h = cast(Hash)(st.pledges.nominate.quorumSetHash);
             }

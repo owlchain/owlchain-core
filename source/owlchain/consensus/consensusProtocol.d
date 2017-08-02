@@ -330,7 +330,7 @@ public:
 
         oBuffer.writef("{ENV@%s | i: %d", getCPDriver().toShortString(st.nodeID.publicKey), st.slotIndex);
 
-        switch (st.pledges.type.val)
+        switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 {

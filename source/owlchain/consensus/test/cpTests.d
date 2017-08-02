@@ -250,7 +250,7 @@ makeExternalize(ref const SecretKey secretKey, ref const Hash qSetHash,
                 uint64 slotIndex, ref const Ballot commitBallot, uint32 nH)
 {
     Statement st;
-    st.pledges.type.val = StatementType.CP_ST_EXTERNALIZE;
+    st.pledges.type = StatementType.CP_ST_EXTERNALIZE;
     auto ext = &st.pledges.externalize;
     ext.commit = cast(Ballot)commitBallot;
     ext.nH = nH;
@@ -264,7 +264,7 @@ makeConfirm(ref const SecretKey secretKey, ref const Hash qSetHash, uint64 slotI
             uint32 prepareCounter, ref const Ballot b, uint32 nC, uint32 nH)
 {
     Statement st;
-    st.pledges.type.val = StatementType.CP_ST_CONFIRM;
+    st.pledges.type = StatementType.CP_ST_CONFIRM;
     auto con = &st.pledges.confirm;
     con.ballot = cast(Ballot)b;
     con.nPrepared = prepareCounter;
@@ -281,7 +281,7 @@ makePrepare(ref const SecretKey secretKey, ref const Hash qSetHash, uint64 slotI
             uint32 nC = 0, uint32 nH = 0, Ballot* preparedPrime = null)
 {
     Statement st;
-    st.pledges.type.val = StatementType.CP_ST_PREPARE;
+    st.pledges.type = StatementType.CP_ST_PREPARE;
     auto p = &st.pledges.prepare;
     p.ballot = cast(Ballot)ballot;
     p.quorumSetHash = cast(Hash)qSetHash;
@@ -312,7 +312,7 @@ makeNominate(ref const SecretKey secretKey, ref const Hash qSetHash, uint64 slot
     accepted.sort!(comp).release;
 
     Statement st;
-    st.pledges.type.val = StatementType.CP_ST_NOMINATE;
+    st.pledges.type = StatementType.CP_ST_NOMINATE;
     auto nom = &st.pledges.nominate;
     nom.quorumSetHash =cast(Hash) qSetHash;
 

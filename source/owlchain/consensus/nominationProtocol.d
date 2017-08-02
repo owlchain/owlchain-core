@@ -473,7 +473,7 @@ private :
     {
         Statement st;
         st.nodeID = mSlot.getLocalNode().getNodeID();
-        st.pledges.type.val = StatementType.CP_ST_NOMINATE;
+        st.pledges.type = StatementType.CP_ST_NOMINATE;
 
         st.pledges.nominate.quorumSetHash = cast(Hash)mSlot.getLocalNode().getQuorumSetHash();
 

@@ -14,8 +14,8 @@ struct SignerKey
 
     static void encode(XdrDataOutputStream stream, ref const SignerKey encodedSignerKey)
     {
-        SignerKeyType.encode(stream, encodedSignerKey.type);
-        switch (encodedSignerKey.type.val) {
+        stream.writeInt32(encodedSignerKey.type);
+        switch (encodedSignerKey.type) {
             case SignerKeyType.SIGNER_KEY_TYPE_ED25519:
                 stream.writeUint256(encodedSignerKey.ed25519);
                 break;
@@ -32,8 +32,22 @@ struct SignerKey
     static SignerKey decode(XdrDataInputStream stream)
     {
         SignerKey decodedSignerKey;
-        decodedSignerKey.type = SignerKeyType.decode(stream);
-        switch (decodedSignerKey.type.val) {
+
+        int32 value = stream.readInt32();
+        switch (value) {
+            case 0: 
+                decodedSignerKey.type = SignerKeyType.SIGNER_KEY_TYPE_ED25519;
+                break;
+            case 1: 
+                decodedSignerKey.type = SignerKeyType.SIGNER_KEY_TYPE_PRE_AUTH_TX;
+                break;
+            case 2: 
+                decodedSignerKey.type = SignerKeyType.SIGNER_KEY_TYPE_HASH_X;
+                break;
+            default:
+                throw new Exception("Unknown enum value");
+        }
+        switch (decodedSignerKey.type) {
             case SignerKeyType.SIGNER_KEY_TYPE_ED25519:
                 decodedSignerKey.ed25519 = stream.readUint256();
                 break;

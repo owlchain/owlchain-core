@@ -42,8 +42,9 @@ struct StatementPledges
 
     static void encode(XdrDataOutputStream stream, ref const StatementPledges encodedStatementPledges)
     {
-        StatementType.encode(stream, encodedStatementPledges.type);
-        switch (encodedStatementPledges.type.val)
+        stream.writeInt32(encodedStatementPledges.type);
+
+        switch (encodedStatementPledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 StatementPrepare.encode(stream, encodedStatementPledges.prepare);
@@ -64,8 +65,26 @@ struct StatementPledges
     static StatementPledges decode(XdrDataInputStream stream)
     {
         StatementPledges decodedStatementPledges;
-        decodedStatementPledges.type = StatementType.decode(stream);
-        switch (decodedStatementPledges.type.val)
+
+        int32 value = stream.readInt32();
+        switch (value) {
+            case 0: 
+                decodedStatementPledges.type = StatementType.CP_ST_PREPARE;
+                break;
+            case 1: 
+                decodedStatementPledges.type = StatementType.CP_ST_CONFIRM;
+                break;
+            case 2: 
+                decodedStatementPledges.type = StatementType.CP_ST_EXTERNALIZE;
+                break;
+            case 3: 
+                decodedStatementPledges.type = StatementType.CP_ST_NOMINATE;
+                break;
+            default:
+                throw new Exception("Unknown enum value");
+        }
+
+        switch (decodedStatementPledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 decodedStatementPledges.prepare = StatementPrepare.decode(stream);
