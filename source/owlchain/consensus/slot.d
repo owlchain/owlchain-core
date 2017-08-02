@@ -33,73 +33,73 @@ alias StatementsValidated = Tuple!(Statement, "statement", bool, "fullyValidated
 class Slot 
 {
 private:
-    uint64 _slotIndex;
+    uint64 mSlotIndex;
 
-    ConsensusProtocol _consensusProtocol;
-    BallotProtocol _ballotProtocol;
-    NominationProtocol _nominationProtocol;
+    ConsensusProtocol mConsensusProtocol;
+    BallotProtocol mBallotProtocol;
+    NominationProtocol mNominationProtocol;
 
     // keeps track of all statements seen so far for this slot.
     // it is used for debugging purpose
     // second: if the slot was fully validated at the time
-    StatementsValidated [] _statementsHistory;
+    StatementsValidated [] mStatementsHistory;
 
     // true if the Slot was fully validated
-    bool _fullyValidated;
+    bool mFullyValidated;
 
 public:
 
     this(uint64 slotIndex, ConsensusProtocol cp)
     {
-        _slotIndex = slotIndex;
-        _consensusProtocol = cp;
+        mSlotIndex = slotIndex;
+        mConsensusProtocol = cp;
 
-        _ballotProtocol = new BallotProtocol(this);
-        _nominationProtocol = new NominationProtocol(this);
+        mBallotProtocol = new BallotProtocol(this);
+        mNominationProtocol = new NominationProtocol(this);
 
-        _fullyValidated = _consensusProtocol.getLocalNode().isValidator;
+        mFullyValidated = mConsensusProtocol.getLocalNode().isValidator;
     }
 
     uint64 getSlotIndex()
     {
-        return _slotIndex;
+        return mSlotIndex;
     }
 
     ConsensusProtocol getCP()
     {
-        return _consensusProtocol;
+        return mConsensusProtocol;
     }
 
     ConsensusProtocolDriver getCPDriver()
     {
-        return _consensusProtocol.getCPDriver();
+        return mConsensusProtocol.getCPDriver();
     }
 
     BallotProtocol getBallotProtocol()
     {
-        return _ballotProtocol;
+        return mBallotProtocol;
     }
 
     ref const(Value) getLatestCompositeCandidate()
     {
-        return _nominationProtocol.getLatestCompositeCandidate();
+        return mNominationProtocol.getLatestCompositeCandidate();
     }
 
     // returns the latest messages the slot emitted
     Envelope [] getLatestMessagesSend()
     {
         Envelope [] res;
-        if (_fullyValidated)
+        if (mFullyValidated)
         {
             Envelope * e;
-            e = _nominationProtocol.getLastMessageSend();
+            e = mNominationProtocol.getLastMessageSend();
             if (e)
             {
                 res ~= *e;
             }
 
             EnvelopePtr e1;
-            e1 = _ballotProtocol.getLastMessageSend();
+            e1 = mBallotProtocol.getLastMessageSend();
             if (e1.refCountedStore.isInitialized)
             {
                 res ~= e1;
@@ -112,15 +112,15 @@ public:
     // this is used when rebuilding the state after a crash for example
     void setStateFromEnvelope(ref const Envelope e)
     {
-        if (e.statement.nodeID == _consensusProtocol.getLocalNodeID() && e.statement.slotIndex == _slotIndex)
+        if (e.statement.nodeID == mConsensusProtocol.getLocalNodeID() && e.statement.slotIndex == mSlotIndex)
         {
             if (e.statement.pledges.type.val == StatementType.CP_ST_NOMINATE)
             {
-                _nominationProtocol.setStateFromEnvelope(e);
+                mNominationProtocol.setStateFromEnvelope(e);
             }
             else
             {
-                _ballotProtocol.setStateFromEnvelope(e);
+                mBallotProtocol.setStateFromEnvelope(e);
             }
         }
         else
@@ -133,15 +133,15 @@ public:
     Envelope[] getCurrentState()
     {
         Envelope[] res;
-        res = _nominationProtocol.getCurrentState();
-        res ~= _ballotProtocol.getCurrentState();
+        res = mNominationProtocol.getCurrentState();
+        res ~= mBallotProtocol.getCurrentState();
         return res;
     }
 
     // returns messages that helped this slot externalize
     Envelope[] getExternalizingState()
     {
-        return _ballotProtocol.getExternalizingState();
+        return mBallotProtocol.getExternalizingState();
     }
 
     // records the statement in the historical record for this slot
@@ -149,8 +149,8 @@ public:
     {
         StatementsValidated value;
         value.statement = cast(Statement)st;
-        value.fullyValidated = _fullyValidated;
-        _statementsHistory ~= value;
+        value.fullyValidated = mFullyValidated;
+        mStatementsHistory ~= value;
     }
 
     // Process a newly received envelope for this slot and update the state of the slot accordingly.
@@ -158,20 +158,20 @@ public:
     ConsensusProtocol.EnvelopeState 
     processEnvelope(ref const Envelope envelope, bool self)
     {
-        dbgAssert(envelope.statement.slotIndex == _slotIndex);
+        dbgAssert(envelope.statement.slotIndex == mSlotIndex);
 
-        writefln("[%s], %s, %s %d %s", "DEBUG", "ConsensusProtocol", "Slot.processEnvelope", _slotIndex, _consensusProtocol.envToStr(envelope));
+        writefln("[%s], %s, %s %d %s", "DEBUG", "ConsensusProtocol", "Slot.processEnvelope", mSlotIndex, mConsensusProtocol.envToStr(envelope));
 
         ConsensusProtocol.EnvelopeState res;
         try
         {
             if (envelope.statement.pledges.type.val == StatementType.CP_ST_NOMINATE)
             {
-                res = _nominationProtocol.processEnvelope(envelope);
+                res = mNominationProtocol.processEnvelope(envelope);
             }
             else
             {
-                res = _ballotProtocol.processEnvelope(envelope, self);
+                res = mBallotProtocol.processEnvelope(envelope, self);
             }
         }
         catch (Exception e)
@@ -189,7 +189,7 @@ public:
     // abandon's current ballot, move to a new ballot
     bool abandonBallot()
     {
-        return _ballotProtocol.abandonBallot(0);
+        return mBallotProtocol.abandonBallot(0);
     }
 
     // bumps the ballot based on the local state and the value passed in:
@@ -199,28 +199,28 @@ public:
     // the state if no value was prepared
     bool bumpState(ref const Value value, bool force)
     {
-        return _ballotProtocol.bumpState(value, force);
+        return mBallotProtocol.bumpState(value, force);
     }
 
     // attempts to nominate a value for consensus
     bool nominate(ref const Value value, ref const Value previousValue, bool timedout)
     {
-        return _nominationProtocol.nominate(value, previousValue, timedout);
+        return mNominationProtocol.nominate(value, previousValue, timedout);
     }
 
     void stopNomination()
     {
-        _nominationProtocol.stopNomination();
+        mNominationProtocol.stopNomination();
     }
 
     bool isFullyValidated()
     {
-        return _fullyValidated;
+        return mFullyValidated;
     }
 
     void setFullyValidated(bool fullyValidated)
     {
-        _fullyValidated = fullyValidated;
+        mFullyValidated = fullyValidated;
     }
 
     // returns if a node is in the quorum originating at the local node
@@ -230,9 +230,9 @@ public:
         Statement*[][NodeID] m;
         // this may be reduced to the pair (at most) of the latest
         // statements for each protocol
-        for (int i = 0; i < _statementsHistory.length; i++)
+        for (int i = 0; i < mStatementsHistory.length; i++)
         {
-            auto e = _statementsHistory[i];
+            auto e = mStatementsHistory[i];
             if (!m.keys.canFind(e.statement.nodeID)) 
             {
                 Statement*[] v;
@@ -245,7 +245,7 @@ public:
             }
         }
 
-        return _consensusProtocol.getLocalNode().isNodeInQuorum(
+        return mConsensusProtocol.getLocalNode().isNodeInQuorum(
             node, 
             (ref const Statement st) {
                 // uses the companion set here as we want to consider
@@ -259,7 +259,7 @@ public:
     // status methods
     size_t getStatementCount()
     {
-        return _statementsHistory.length;
+        return mStatementsHistory.length;
     }
 
     // returns information about the local state in JSON format
@@ -275,9 +275,9 @@ public:
 
         QuorumSetPtr[Hash] qSetsUsed;
         int count = 0;
-        for (int i = 0; i < _statementsHistory.length; i++)
+        for (int i = 0; i < mStatementsHistory.length; i++)
         {
-            auto item = _statementsHistory[i];
+            auto item = mStatementsHistory[i];
 
             slotValue["statements"].array ~= 
                 JSONValue(
@@ -305,14 +305,14 @@ public:
         }
         slotValue.object["quorum_sets"] = qSets;
 
-        slotValue.object["validated"] = JSONValue(_fullyValidated);
+        slotValue.object["validated"] = JSONValue(mFullyValidated);
 
-        _nominationProtocol.dumpInfo(slotValue);
-        _ballotProtocol.dumpInfo(slotValue);
+        mNominationProtocol.dumpInfo(slotValue);
+        mBallotProtocol.dumpInfo(slotValue);
 
         JSONValue[string] slotsObject;
         JSONValue slots = slotsObject;
-        string slotKey = to!string(_slotIndex);
+        string slotKey = to!string(mSlotIndex);
         slots.object[slotKey] = slotValue;
         ret.object["slots"] = slots;
     }
@@ -323,9 +323,9 @@ public:
         JSONValue[string] quorumInfoObject;
         JSONValue quorumInfo = quorumInfoObject;
 
-        _ballotProtocol.dumpQuorumInfo(quorumInfo, id, summary);
+        mBallotProtocol.dumpQuorumInfo(quorumInfo, id, summary);
 
-        string key = to!string(_slotIndex);
+        string key = to!string(mSlotIndex);
         ret.object[key] = quorumInfo;
     }
 
@@ -412,9 +412,9 @@ public:
         Envelope envelope;
 
         envelope.statement = cast(Statement)statement;
-        auto mySt = envelope.statement;
+        auto mySt = &envelope.statement;
         mySt.nodeID = getCP().getLocalNodeID();
-        mySt.slotIndex = _slotIndex;
+        mySt.slotIndex = mSlotIndex;
 
         getCPDriver().signEnvelope(envelope);
 
@@ -478,11 +478,11 @@ public:
 
     Envelope [] getEntireCurrentState()
     {
-        bool old = _fullyValidated;
+        bool old = mFullyValidated;
         // fake fully validated to force returning all envelopes
-        _fullyValidated = true;
+        mFullyValidated = true;
         auto r = getCurrentState();
-        _fullyValidated = old;
+        mFullyValidated = old;
         return r;
     }
 }

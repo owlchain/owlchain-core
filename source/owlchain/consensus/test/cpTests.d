@@ -34,33 +34,33 @@ alias HashCalculatorDelegate = uint64 delegate(ref const Value);
 class TestCP : ConsensusProtocolDriver
 {
 public:
-    ConsensusProtocol _CP;
+    ConsensusProtocol mConsensusProtocol;
 
-    PriorityLookupDelegate _priorityLookup;
-    HashCalculatorDelegate _hashValueCalculator;
+    PriorityLookupDelegate mPriorityLookup;
+    HashCalculatorDelegate mHashValueCalculator;
 
-    QuorumSetPtr[Hash] _quorumSets;
-    Envelope[] _envs;
-    Value[uint64] _externalizedValues;
-    Ballot[][uint64] _heardFromQuorums;
+    QuorumSetPtr[Hash] mQuorumSets;
+    Envelope[] mEnvs;
+    Value[uint64] mExternalizedValues;
+    Ballot[][uint64] mHeardFromQuorums;
 
-    ValueSet _expectedCandidates;
-    Value _compositeValue;
+    ValueSet mExpectedCandidates;
+    Value mCompositeValue;
 
     this(SecretKey secretKey, ref QuorumSet qSetLocal, bool isValidator = true)
     {
-        _CP = new ConsensusProtocol(this, secretKey, isValidator, qSetLocal);
+        mConsensusProtocol = new ConsensusProtocol(this, secretKey, isValidator, qSetLocal);
 
-        _priorityLookup = (ref const NodeID n) {
+        mPriorityLookup = (ref const NodeID n) {
             return (n.publicKey == secretKey.getPublicKey()) ? 1000 : 1;
         };
 
-        _hashValueCalculator = (ref const Value v)
+        mHashValueCalculator = (ref const Value v)
         {
             return 0;
         };
 
-        auto localQSet = refCounted(cast(QuorumSet)_CP.getLocalQuorumSet());
+        auto localQSet = refCounted(cast(QuorumSet)mConsensusProtocol.getLocalQuorumSet());
         storeQuorumSet(localQSet);
     }
 
@@ -83,7 +83,7 @@ public:
         QuorumSet.encode(stream, cast(QuorumSet)qSet);
         Hash qSetHash;
         qSetHash.hash = sha256Of(stream.data);
-        _quorumSets[qSetHash] = qSet;
+        mQuorumSets[qSetHash] = qSet;
     }
 
     override ConsensusProtocolDriver.ValidationLevel
@@ -95,33 +95,33 @@ public:
     override void
     ballotDidHearFromQuorum(uint64 slotIndex, ref const Ballot ballot) 
     {
-        if (!_heardFromQuorums.keys.canFind(slotIndex))
+        if (!mHeardFromQuorums.keys.canFind(slotIndex))
         {
             Ballot[] v;
             v ~= cast(Ballot)(ballot);
-            _heardFromQuorums[slotIndex] = v;
+            mHeardFromQuorums[slotIndex] = v;
         } else
         {
-            _heardFromQuorums[slotIndex] ~= cast(Ballot)(ballot);
+            mHeardFromQuorums[slotIndex] ~= cast(Ballot)(ballot);
         }
     }
 
     override void
     valueExternalized(uint64 slotIndex, ref const Value value) 
     {
-        if (_externalizedValues.keys.canFind(slotIndex))
+        if (mExternalizedValues.keys.canFind(slotIndex))
         {
             throw new Exception("Value already externalized");
         }
-        _externalizedValues[slotIndex] = cast(Value)value;
+        mExternalizedValues[slotIndex] = cast(Value)value;
     }
 
     override QuorumSetPtr
     getQSet(ref const Hash qSetHash) 
     {
-        if (_quorumSets.keys.canFind(qSetHash))
+        if (mQuorumSets.keys.canFind(qSetHash))
         {
-            return _quorumSets[cast(Hash)qSetHash];
+            return mQuorumSets[cast(Hash)qSetHash];
         }
         RefCounted!(QuorumSet, RefCountedAutoInitialize.no) qSet; 
         return qSet;
@@ -130,36 +130,36 @@ public:
     override void
     emitEnvelope(ref const Envelope envelope) 
     {
-        _envs ~= cast(Envelope)envelope;
+        mEnvs ~= cast(Envelope)envelope;
     }
 
     // used to test BallotProtocol and bypass nomination
     bool
     bumpState(uint64 slotIndex, ref const Value v)
     {
-        return _CP.getSlot(slotIndex, true).bumpState(v, true);
+        return mConsensusProtocol.getSlot(slotIndex, true).bumpState(v, true);
     }
 
     bool
     nominate(uint64 slotIndex, ref const Value value, bool timedout)
     {
-        return _CP.getSlot(slotIndex, true).nominate(value, value, timedout);
+        return mConsensusProtocol.getSlot(slotIndex, true).nominate(value, value, timedout);
     }
 
     // only used by nomination protocol
     override Value
     combineCandidates(uint64 slotIndex, ref const ValueSet candidates) 
     {
-        if (!(candidates == _expectedCandidates)) 
+        if (!(candidates == mExpectedCandidates)) 
         {
-            writefln("REQUIRE : candidates != _expectedCandidates");
+            writefln("REQUIRE : candidates != mExpectedCandidates");
         }
-        if (!(_compositeValue.value.length != 0))
+        if (!(mCompositeValue.value.length != 0))
         {
-            writefln("REQUIRE : _compositeValue empty");
+            writefln("REQUIRE : mCompositeValue empty");
         }
 
-        return _compositeValue;
+        return mCompositeValue;
     }
 
     // override the internal hashing scheme in order to make tests
@@ -170,7 +170,7 @@ public:
         uint64 res;
         if (isPriority)
         {
-            res = _priorityLookup(nodeID);
+            res = mPriorityLookup(nodeID);
         }
         else
         {
@@ -183,7 +183,7 @@ public:
     override uint64
     computeValueHash(uint64 slotIndex, ref const Value prev, int roundNumber, ref const Value value)
     {
-        return _hashValueCalculator(value);
+        return mHashValueCalculator(value);
     }
 
     override void
@@ -194,25 +194,25 @@ public:
     ref const(Value) 
     getLatestCompositeCandidate(uint64 slotIndex)
     {
-        return _CP.getSlot(slotIndex, true).getLatestCompositeCandidate();
+        return mConsensusProtocol.getSlot(slotIndex, true).getLatestCompositeCandidate();
     }
 
     void
     receiveEnvelope(ref const Envelope envelope)
     {
-        _CP.receiveEnvelope(envelope);
+        mConsensusProtocol.receiveEnvelope(envelope);
     }
 
     Slot
     getSlot(uint64 index)
     {
-        return _CP.getSlot(index, false);
+        return mConsensusProtocol.getSlot(index, false);
     }
 
     Envelope []
     getEntireState(uint64 index)
     {
-        auto v = _CP.getSlot(index, false).getEntireCurrentState();
+        auto v = mConsensusProtocol.getSlot(index, false).getEntireCurrentState();
         return v;
     }
 
@@ -371,33 +371,31 @@ class ConsensusProtocolTest
 {
 private:
 
-    Hash [int] valueHash;
-    Value [int] value;
+    Hash [int] mValueHash;
+    Value [int] mValue;
 
-    Hash [int] hash;
-    SecretKey [int] secretKey;
-    PublicKey [int] key;
-    NodeID [int] nodeID;
+    Hash [int] mHash;
+    SecretKey [int] mSecretKey;
+    PublicKey [int] mKey;
+    NodeID [int] mNodeID;
 
     void CREATE_VALUE(int i)
     {
         Hash h;
         h.hash = sha256Of("SEED_VALUE_HASH_" ~  to!string(i, 10));
-        valueHash[i] = h;
+        mValueHash[i] = h;
 
         Value v;
-        XdrDataOutputStream stream = new XdrDataOutputStream();
-        Hash.encode(stream, cast(Hash)h);
-        v.value = stream.data;
-        value[i] = v;
+        v.value = xdr!Hash.serialize(h);
+        mValue[i] = v;
     }
 
     void SIMULATION_CREATE_NODE(int i)
     {
         uint256 seed = sha256Of("NODE_SEED_" ~  to!string(i, 10));
-        secretKey[i] = SecretKey.fromSeed(seed);
-        key[i] = secretKey[i].getPublicKey();
-        nodeID[i] = NodeID(key[i]);
+        mSecretKey[i] = SecretKey.fromSeed(seed);
+        mKey[i] = mSecretKey[i].getPublicKey();
+        mNodeID[i] = NodeID(mKey[i]);
     }
 
 public :
@@ -427,31 +425,31 @@ public :
             //  threshold is 3
             QuorumSet qSet;
             qSet.threshold = 3;
-            qSet.validators ~= nodeID[0].publicKey;
-            qSet.validators ~= nodeID[1].publicKey;
-            qSet.validators ~= nodeID[2].publicKey;
-            qSet.validators ~= nodeID[3].publicKey;
+            qSet.validators ~= mNodeID[0].publicKey;
+            qSet.validators ~= mNodeID[1].publicKey;
+            qSet.validators ~= mNodeID[2].publicKey;
+            qSet.validators ~= mNodeID[3].publicKey;
 
             NodeID[] nodeSet;
-            nodeSet ~= (nodeID[0]);
+            nodeSet ~= (mNodeID[0]);
 
             //  nodeSet size is 1
             REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == false);
             REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == false);
 
-            nodeSet ~= (nodeID[2]);
+            nodeSet ~= (mNodeID[2]);
 
             //  nodeSet size is 2
             REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == false);
             REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == true);
 
-            nodeSet ~= (nodeID[3]);
+            nodeSet ~= (mNodeID[3]);
 
             //  nodeSet size is 3
             REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == true);
             REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == true);
 
-            nodeSet ~= (nodeID[1]);
+            nodeSet ~= (mNodeID[1]);
 
             //  nodeSet size is 4
             REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == true);
@@ -471,9 +469,9 @@ public :
 
             QuorumSet qSet;
             qSet.threshold = 2;
-            qSet.validators ~= (nodeID[0].publicKey);
-            qSet.validators ~= (nodeID[1].publicKey);
-            qSet.validators ~= (nodeID[2].publicKey);
+            qSet.validators ~= (mNodeID[0].publicKey);
+            qSet.validators ~= (mNodeID[1].publicKey);
+            qSet.validators ~= (mNodeID[2].publicKey);
 
             auto check = (ref const QuorumSet qSetCheck, ref const NodeIDSet s, int expected) 
             {
@@ -483,30 +481,30 @@ public :
 
             NodeIDSet good = new NodeIDSet;
 
-            good.insert(nodeID[0]); //1 + V - T = 4 - 2 = 2;
+            good.insert(mNodeID[0]); //1 + V - T = 4 - 2 = 2;
             // already v-blocking
             check(qSet, good, 0);
 
-            good.insert(nodeID[1]);
+            good.insert(mNodeID[1]);
             // either v0 or v1
             check(qSet, good, 1);
 
-            good.insert(nodeID[2]);
+            good.insert(mNodeID[2]);
             // any 2 of v0..v2
             check(qSet, good, 2);
 
             QuorumSet qSubSet1;
             qSubSet1.threshold = 1;
-            qSubSet1.validators ~= (nodeID[3].publicKey);
-            qSubSet1.validators ~= (nodeID[4].publicKey);
-            qSubSet1.validators ~= (nodeID[5].publicKey);
+            qSubSet1.validators ~= (mNodeID[3].publicKey);
+            qSubSet1.validators ~= (mNodeID[4].publicKey);
+            qSubSet1.validators ~= (mNodeID[5].publicKey);
             qSet.innerSets ~= (qSubSet1);
 
-            good.insert(nodeID[3]);
+            good.insert(mNodeID[3]);
             // any 3 of v0..v3
             check(qSet, good, 3);
 
-            good.insert(nodeID[4]);
+            good.insert(mNodeID[4]);
             // v0..v2
             check(qSet, good, 3);
 
@@ -514,24 +512,24 @@ public :
             // v0..v4
             check(qSet, good, 5);
 
-            good.insert(nodeID[5]);
+            good.insert(mNodeID[5]);
             // v0..v5
             check(qSet, good, 6);
 
             QuorumSet qSubSet2;
             qSubSet2.threshold = 2;
-            qSubSet2.validators ~= (nodeID[6].publicKey);
-            qSubSet2.validators ~= (nodeID[7].publicKey);
+            qSubSet2.validators ~= (mNodeID[6].publicKey);
+            qSubSet2.validators ~= (mNodeID[7].publicKey);
 
             qSet.innerSets ~= (qSubSet2);
             // v0..v5
             check(qSet, good, 6);
 
-            good.insert(nodeID[6]);
+            good.insert(mNodeID[6]);
             // v0..v5
             check(qSet, good, 6);
 
-            good.insert(nodeID[7]);
+            good.insert(mNodeID[7]);
             // v0..v5 and one of 6,7
             check(qSet, good, 7);
 
@@ -592,39 +590,42 @@ public :
             // threshold: 4 = 3 + self or 4 others ; 1 + 5 - 2 = 4
             QuorumSet qSet;
             qSet.threshold = 4;
-            qSet.validators ~= (nodeID[0].publicKey);
-            qSet.validators ~= (nodeID[1].publicKey);
-            qSet.validators ~= (nodeID[2].publicKey);
-            qSet.validators ~= (nodeID[3].publicKey);
-            qSet.validators ~= (nodeID[4].publicKey);
+            qSet.validators ~= (mNodeID[0].publicKey);
+            qSet.validators ~= (mNodeID[1].publicKey);
+            qSet.validators ~= (mNodeID[2].publicKey);
+            qSet.validators ~= (mNodeID[3].publicKey);
+            qSet.validators ~= (mNodeID[4].publicKey);
 
-            uint256 qSetHash = sha256Of(xdr!QuorumSet.serialize(qSet));
-            TestCP cp = new TestCP(secretKey[0], qSet);
+            Hash qSetHash;
+            qSetHash.hash = sha256Of(xdr!QuorumSet.serialize(qSet));
+            TestCP cp = new TestCP(mSecretKey[0], qSet);
             cp.storeQuorumSet(refCounted(qSet));
-            uint256 qSetHash0 = cp._CP.getLocalNode().getQuorumSetHash().hash;
 
-            REQUIRE(value[0].value < value[1].value);
+            Hash qSetHash0;
+            qSetHash0 = cast(Hash)cp.mConsensusProtocol.getLocalNode().getQuorumSetHash();
+
+            REQUIRE(mValue[0].value < mValue[1].value);
 
             writefln("[INFO], ConsensusProtocol");
             writefln("[INFO], ConsensusProtocol BEGIN TEST");
 
             auto recvVBlockingChecks = (genEnvelope gen, bool withChecks) 
             {
-                Envelope e1 = gen(secretKey[0]);
-                Envelope e2 = gen(secretKey[1]);
+                Envelope e1 = gen(mSecretKey[0]);
+                Envelope e2 = gen(mSecretKey[1]);
 
                 // nothing should happen with first message
-                size_t i = cp._envs.length;
+                size_t i = cp.mEnvs.length;
                 cp.receiveEnvelope(e1);
                 if (withChecks)
                 {
-                    REQUIRE(cp._envs.length == i);
+                    REQUIRE(cp.mEnvs.length == i);
                 }
                 i++;
                 cp.receiveEnvelope(e2);
                 if (withChecks)
                 {
-                    REQUIRE(cp._envs.length == i);
+                    REQUIRE(cp.mEnvs.length == i);
                 }
             };
 
@@ -635,8 +636,95 @@ public :
 
             auto recvQuorumChecks = (genEnvelope gen, bool withChecks, bool delayedQuorum) 
             {
+                Envelope e1 = gen(mSecretKey[1]);
+                Envelope e2 = gen(mSecretKey[2]);
+                Envelope e3 = gen(mSecretKey[3]);
+                Envelope e4 = gen(mSecretKey[4]);
+
+                cp.receiveEnvelope(e1);
+                cp.receiveEnvelope(e2);
+                size_t i = cp.mEnvs.length + 1;
+                cp.receiveEnvelope(e3);
+                if (withChecks && !delayedQuorum)
+                {
+                    REQUIRE(cp.mEnvs.length == i);
+                }
+                // nothing happens with an extra vote (unless we're in delayedQuorum)
+                cp.receiveEnvelope(e4);
+                if (withChecks && delayedQuorum)
+                {
+                    REQUIRE(cp.mEnvs.length == i);
+                }
 
             };
+
+            auto recvQuorum = (genEnvelope gen)
+            {
+                recvQuorumChecks(gen, true, false);
+            };
+
+            auto nodesAllPledgeToCommit = () 
+            {
+                Ballot b = Ballot(1, mValue[0]);
+                Envelope prepare1 = makePrepare(mSecretKey[1], qSetHash, 0, b);
+                Envelope prepare2 = makePrepare(mSecretKey[2], qSetHash, 0, b);
+                Envelope prepare3 = makePrepare(mSecretKey[3], qSetHash, 0, b);
+                Envelope prepare4 = makePrepare(mSecretKey[4], qSetHash, 0, b);
+
+                REQUIRE(cp.bumpState(0, mValue[0]));
+                REQUIRE(cp.mEnvs.length == 1);
+
+                verifyPrepare(cp.mEnvs[0], mSecretKey[0], qSetHash0, 0, b);
+
+                cp.receiveEnvelope(prepare1);
+                REQUIRE(cp.mEnvs.length == 1);
+                REQUIRE(cp.mHeardFromQuorums[0].length == 0);
+
+                cp.receiveEnvelope(prepare2);
+                REQUIRE(cp.mEnvs.length == 1);
+                REQUIRE(cp.mHeardFromQuorums[0].length == 0);
+
+                cp.receiveEnvelope(prepare3);
+                REQUIRE(cp.mEnvs.length == 2);
+                REQUIRE(cp.mHeardFromQuorums[0].length == 1);
+                REQUIRE(cp.mHeardFromQuorums[0][0] == b);
+
+                // We have a quorum including us
+                verifyPrepare(cp.mEnvs[1], mSecretKey[0], qSetHash0, 0, b, &b);
+
+                cp.receiveEnvelope(prepare4);
+                REQUIRE(cp.mEnvs.length == 2);
+
+                Envelope prepared1 = makePrepare(mSecretKey[1], qSetHash, 0, b, &b);
+                Envelope prepared2 = makePrepare(mSecretKey[2], qSetHash, 0, b, &b);
+                Envelope prepared3 = makePrepare(mSecretKey[3], qSetHash, 0, b, &b);
+                Envelope prepared4 = makePrepare(mSecretKey[4], qSetHash, 0, b, &b);
+
+                cp.receiveEnvelope(prepared4);
+                cp.receiveEnvelope(prepared3);
+                REQUIRE(cp.mEnvs.length == 2);
+
+                cp.receiveEnvelope(prepared2);
+                REQUIRE(cp.mEnvs.length == 3);
+
+                // confirms prepared
+                verifyPrepare(cp.mEnvs[2], mSecretKey[0], qSetHash0, 0, b, &b, b.counter, b.counter);
+
+                // extra statement doesn't do anything
+                cp.receiveEnvelope(prepared1);
+                REQUIRE(cp.mEnvs.length == 3);
+            };
+
+            SECTION("bumpState x");
+            {
+                REQUIRE(cp.bumpState(0, mValue[0]));
+                REQUIRE(cp.mEnvs.length == 1);
+
+                Ballot expectedBallot = Ballot(1, mValue[0]);
+
+                verifyPrepare(cp.mEnvs[0], mSecretKey[0], qSetHash0, 0, expectedBallot);
+            }
+
         }
     }
 

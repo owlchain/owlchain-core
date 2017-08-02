@@ -16,7 +16,7 @@ class SecretKey
     private 
     {
         PublicKeyType _keyType;
-        uint512 _secretKey;
+        uint512 mSecretKey;
         uint256 _seed;
     }
 
@@ -36,7 +36,7 @@ class SecretKey
 
     @property ref uint512 secretKey()
     {
-        return _secretKey;
+        return mSecretKey;
     }
 
     @property ref uint256 seed()
@@ -55,7 +55,7 @@ class SecretKey
 
         assert(_keyType.val == PublicKeyType.PUBLIC_KEY_TYPE_ED25519);
 
-        if (crypto_sign_ed25519_sk_to_pk(pk.ed25519.ptr, _secretKey.ptr) != 0)
+        if (crypto_sign_ed25519_sk_to_pk(pk.ed25519.ptr, mSecretKey.ptr) != 0)
         {
             throw new Exception("error extracting public key from secret key");
         }
@@ -98,7 +98,7 @@ class SecretKey
 
         Signature S;
         S.signature.length = crypto_sign_BYTES;
-        if (crypto_sign_detached(S.signature.ptr, null, bin.ptr, bin.length, _secretKey.ptr) != 0)
+        if (crypto_sign_detached(S.signature.ptr, null, bin.ptr, bin.length, mSecretKey.ptr) != 0)
         {
             throw new Exception("error while signing");
         }

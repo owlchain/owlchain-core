@@ -12,10 +12,10 @@ class QuorumSetSanityChecker
 
 private :
 
-    bool _extraChecks;
-    int [PublicKey] _knownNodes;
-    bool _isSane;
-    int _count;
+    bool mExtraChecks;
+    int [PublicKey] mKnownNodes;
+    bool mIsSane;
+    int mCount;
 
     bool checkSanity(ref const QuorumSet qSet, int depth)
     {
@@ -30,13 +30,13 @@ private :
 
         size_t totEntries = v.length + i.length;
         size_t vBlockingSize = totEntries - qSet.threshold + 1;
-        _count += v.length;
+        mCount += v.length;
 
         if (qSet.threshold > totEntries)
             return false;
 
         // threshold is within the proper range
-        if (_extraChecks && (qSet.threshold < vBlockingSize))
+        if (mExtraChecks && (qSet.threshold < vBlockingSize))
             return false;
 
         int idx;
@@ -44,14 +44,14 @@ private :
         {
             PublicKey n = v[idx];
 
-            if (_knownNodes.keys.canFind(n))
+            if (mKnownNodes.keys.canFind(n))
             {
                 // n was already present
                 return false;
             }
             else
             {
-                _knownNodes[n] = 1;
+                mKnownNodes[n] = 1;
             }
         }
 
@@ -70,14 +70,14 @@ public :
 
     this(ref const QuorumSet qSet, bool extraChecks)
     {
-        _count = 0;
-        _extraChecks = extraChecks;
-        _isSane = checkSanity(qSet, 0) && (_count >= 1) && (_count <= 1000);
+        mCount = 0;
+        mExtraChecks = extraChecks;
+        mIsSane = checkSanity(qSet, 0) && (mCount >= 1) && (mCount <= 1000);
     }
 
     bool isSane()
     {
-        return _isSane;
+        return mIsSane;
     }
 }
 

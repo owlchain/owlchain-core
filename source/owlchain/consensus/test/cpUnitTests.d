@@ -22,10 +22,10 @@ import owlchain.utils.globalChecks;
 class CPUnitTest
 {
 private:
-    Hash [] hash;
-    SecretKey [] secretKey;
-    PublicKey [] keys;
-    NodeID [] nodeID;
+    Hash [] mHash;
+    SecretKey [] mSecretKey;
+    PublicKey [] mKeys;
+    NodeID [] mNodeID;
 
     bool isNear(uint64 r, double target)
     {
@@ -36,9 +36,9 @@ private:
     void makeNodeID(int i)
     {
         uint256 seed = sha256Of("NODE_SEED_" ~  to!string(i, 10));
-        secretKey ~= SecretKey.fromSeed(seed);
-        keys ~= secretKey[secretKey.length-1].getPublicKey();
-        nodeID ~= NodeID(keys[keys.length-1]);
+        mSecretKey ~= SecretKey.fromSeed(seed);
+        mKeys ~= mSecretKey[$-1].getPublicKey();
+        mNodeID ~= NodeID(mKeys[$-1]);
     }
 
 public :
@@ -60,27 +60,27 @@ public :
         {
             QuorumSet qSet;
             qSet.threshold = 3;
-            qSet.validators ~= (keys[0]);
-            qSet.validators ~= (keys[1]);
-            qSet.validators ~= (keys[2]);
-            qSet.validators ~= (keys[3]);
+            qSet.validators ~= (mKeys[0]);
+            qSet.validators ~= (mKeys[1]);
+            qSet.validators ~= (mKeys[2]);
+            qSet.validators ~= (mKeys[3]);
 
-            uint64 result = LocalNode.getNodeWeight(nodeID[2], qSet);
+            uint64 result = LocalNode.getNodeWeight(mNodeID[2], qSet);
 
             double v = cast(double)result/cast(double)UINT64_MAX;
             writefln("%.5f", v);
             REQUIRE(isNear(result, .75));
 
-            result = LocalNode.getNodeWeight(nodeID[4], qSet);
+            result = LocalNode.getNodeWeight(mNodeID[4], qSet);
             REQUIRE(result == 0);
 
             QuorumSet iQSet;
             iQSet.threshold = 1;
-            iQSet.validators ~= (keys[4]);
-            iQSet.validators ~= (keys[5]);
+            iQSet.validators ~= (mKeys[4]);
+            iQSet.validators ~= (mKeys[5]);
             qSet.innerSets ~= iQSet;
 
-            result = LocalNode.getNodeWeight(nodeID[4], qSet);
+            result = LocalNode.getNodeWeight(mNodeID[4], qSet);
 
             v = cast(double)result/cast(double)UINT64_MAX;
             writefln("%.5f", v);

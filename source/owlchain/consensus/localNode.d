@@ -34,73 +34,73 @@ import owlchain.consensus.consensusProtocolDriver;
 class LocalNode 
 {
     protected:
-        const NodeID    _nodeID;
-        const bool      _isValidator;
-        const SecretKey _secretKey;
-        QuorumSet       _qSet;
-        Hash            _qSetHash;
+        const NodeID    mNodeID;
+        const bool      mIsValidator;
+        const SecretKey mSecretKey;
+        QuorumSet       mQSet;
+        Hash            mQSetHash;
 
-        // alternative qset used during externalize {{_nodeID}}
-        Hash            _singleQSetHash;    // hash of the singleton qset
-        QuorumSet       _singleQSet;        // {{_nodeID}}
+        // alternative qset used during externalize {{mNodeID}}
+        Hash            mSingleQSetHash;    // hash of the singleton qset
+        QuorumSet       mSingleQSet;        // {{mNodeID}}
 
-        ConsensusProtocol _consensusProtocol;
+        ConsensusProtocol mConsensusProtocol;
 
     public :
         this(ref const SecretKey secretKey, bool isValidator, ref const QuorumSet qSet, ConsensusProtocol cp)
         {
-            _nodeID.publicKey = secretKey.getPublicKey();
-            _secretKey = secretKey;
-            _isValidator = isValidator;
+            mNodeID.publicKey = secretKey.getPublicKey();
+            mSecretKey = secretKey;
+            mIsValidator = isValidator;
 
-            _qSet = cast(QuorumSet)qSet;
+            mQSet = cast(QuorumSet)qSet;
             XdrDataOutputStream stream1 = new XdrDataOutputStream();
-            QuorumSet.encode(stream1, _qSet);
+            QuorumSet.encode(stream1, mQSet);
 
-            _qSetHash.hash = sha256Of(stream1.toBytes());
+            mQSetHash.hash = sha256Of(stream1.toBytes());
 
-            _consensusProtocol = cp;
+            mConsensusProtocol = cp;
 
-            writefln("[INFO], ConsensusProtocol LocalNode.LocalNode @%s qSet: %s", toHexString(_nodeID.publicKey.ed25519), toHexString(_qSetHash.hash));
+            writefln("[INFO], ConsensusProtocol LocalNode.LocalNode @%s qSet: %s", toHexString(mNodeID.publicKey.ed25519), toHexString(mQSetHash.hash));
 
-            _singleQSet = buildSingletonQSet(_nodeID);
+            mSingleQSet = buildSingletonQSet(mNodeID);
             XdrDataOutputStream stream2 = new XdrDataOutputStream();
-            QuorumSet.encode(stream2, _singleQSet);
+            QuorumSet.encode(stream2, mSingleQSet);
 
-            _singleQSetHash.hash = sha256Of(stream2.toBytes());
+            mSingleQSetHash.hash = sha256Of(stream2.toBytes());
         }
 
         ref const(NodeID) getNodeID()
         {
-            return _nodeID;
+            return mNodeID;
         }
 
         void updateQuorumSet(ref const QuorumSet qSet)
         {
-            _qSet = cast(QuorumSet)qSet;
+            mQSet = cast(QuorumSet)qSet;
             XdrDataOutputStream stream = new XdrDataOutputStream();
-            QuorumSet.encode(stream, _qSet);
-            _qSetHash.hash = sha256Of(stream.data);
+            QuorumSet.encode(stream, mQSet);
+            mQSetHash.hash = sha256Of(stream.data);
         }
 
         ref const(QuorumSet) getQuorumSet()
         {
-            return _qSet;
+            return mQSet;
         }
 
         ref const(Hash) getQuorumSetHash()
         {
-            return _qSetHash;
+            return mQSetHash;
         }
 
         ref const(SecretKey) getSecretKey()
         {
-            return _secretKey;
+            return mSecretKey;
         }
 
         bool isValidator()
         {
-            return _isValidator;
+            return mIsValidator;
         }
 
         ConsensusProtocol.TriBool 
@@ -114,7 +114,7 @@ class LocalNode
 
             ConsensusProtocol.TriBool res = ConsensusProtocol.TriBool.TB_FALSE;
 
-            backlog ~= _nodeID;
+            backlog ~= mNodeID;
 
             while (backlog.length != 0)
             {
@@ -431,7 +431,7 @@ class LocalNode
 
             foreach (int i, const PublicKey pk; qSet.validators)
             {
-                value["v"].array ~= JSONValue(toUTF8(_consensusProtocol.getCPDriver().toShortString(pk)));
+                value["v"].array ~= JSONValue(toUTF8(mConsensusProtocol.getCPDriver().toShortString(pk)));
             }
 
             foreach (int i, const QuorumSet s; qSet.innerSets)

@@ -22,7 +22,7 @@ class ArrayTest
 {
 private:
 
-    PublicKey [] _keys;
+    PublicKey [] mKeys;
 
     PublicKey makePublicKey(int i)
     {
@@ -58,7 +58,7 @@ public :
     {
         for (int i = 0; i < 1001; i++)
         {
-            _keys ~= makePublicKey(i);
+            mKeys ~= makePublicKey(i);
         }
     }
 
@@ -88,7 +88,7 @@ public :
 
             QuorumSet qSet1;
             qSet1.threshold = 1;
-            qSet1.validators ~= (_keys[0]);
+            qSet1.validators ~= (mKeys[0]);
 
             v1 ~= qSet1;
             qSet1.threshold = 2;
@@ -101,14 +101,14 @@ public :
         {
             NodeID[] nodeSet;
 
-            NodeID validator = NodeID(_keys[3]);
+            NodeID validator = NodeID(mKeys[3]);
 
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
-            nodeSet ~= NodeID(_keys[2]);
-            nodeSet ~= NodeID(_keys[3]);
-            nodeSet ~= NodeID(_keys[4]);
-            nodeSet ~= NodeID(_keys[5]);
+            nodeSet ~= NodeID(mKeys[0]);
+            nodeSet ~= NodeID(mKeys[1]);
+            nodeSet ~= NodeID(mKeys[2]);
+            nodeSet ~= NodeID(mKeys[3]);
+            nodeSet ~= NodeID(mKeys[4]);
+            nodeSet ~= NodeID(mKeys[5]);
 
             REQUIRE(nodeSet.canFind(validator));
         }
@@ -120,30 +120,30 @@ public :
             NodeID[] nodeSet3;
 
             nodeSet1.length = 0;
-            nodeSet1 ~= NodeID(_keys[0]);
-            nodeSet1 ~= NodeID(_keys[1]);
-            nodeSet1 ~= NodeID(_keys[2]);
-            nodeSet1 ~= NodeID(_keys[3]);
-            nodeSet1 ~= NodeID(_keys[4]);
+            nodeSet1 ~= NodeID(mKeys[0]);
+            nodeSet1 ~= NodeID(mKeys[1]);
+            nodeSet1 ~= NodeID(mKeys[2]);
+            nodeSet1 ~= NodeID(mKeys[3]);
+            nodeSet1 ~= NodeID(mKeys[4]);
 
             nodeSet2.length = 0;
-            nodeSet2 ~= NodeID(_keys[0]);
-            nodeSet2 ~= NodeID(_keys[1]);
-            nodeSet2 ~= NodeID(_keys[2]);
-            nodeSet2 ~= NodeID(_keys[3]);
+            nodeSet2 ~= NodeID(mKeys[0]);
+            nodeSet2 ~= NodeID(mKeys[1]);
+            nodeSet2 ~= NodeID(mKeys[2]);
+            nodeSet2 ~= NodeID(mKeys[3]);
 
             nodeSet1 ~= nodeSet2;
 
             nodeSet3.length = 0;
-            nodeSet3 ~= NodeID(_keys[0]);
-            nodeSet3 ~= NodeID(_keys[1]);
-            nodeSet3 ~= NodeID(_keys[2]);
-            nodeSet3 ~= NodeID(_keys[3]);
-            nodeSet3 ~= NodeID(_keys[4]);
-            nodeSet3 ~= NodeID(_keys[0]);
-            nodeSet3 ~= NodeID(_keys[1]);
-            nodeSet3 ~= NodeID(_keys[2]);
-            nodeSet3 ~= NodeID(_keys[3]);
+            nodeSet3 ~= NodeID(mKeys[0]);
+            nodeSet3 ~= NodeID(mKeys[1]);
+            nodeSet3 ~= NodeID(mKeys[2]);
+            nodeSet3 ~= NodeID(mKeys[3]);
+            nodeSet3 ~= NodeID(mKeys[4]);
+            nodeSet3 ~= NodeID(mKeys[0]);
+            nodeSet3 ~= NodeID(mKeys[1]);
+            nodeSet3 ~= NodeID(mKeys[2]);
+            nodeSet3 ~= NodeID(mKeys[3]);
 
             REQUIRE(equal(nodeSet1, nodeSet3));
         }
@@ -155,33 +155,33 @@ public :
             NodeID[] nodeSet;
 
             nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
-            nodeSet ~= NodeID(_keys[2]);
-            nodeSet ~= NodeID(_keys[3]);
-            nodeSet ~= NodeID(_keys[4]);
+            nodeSet ~= NodeID(mKeys[0]);
+            nodeSet ~= NodeID(mKeys[1]);
+            nodeSet ~= NodeID(mKeys[2]);
+            nodeSet ~= NodeID(mKeys[3]);
+            nodeSet ~= NodeID(mKeys[4]);
             if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
 
             nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
-            nodeSet ~= NodeID(_keys[2]);
-            nodeSet ~= NodeID(_keys[3]);
+            nodeSet ~= NodeID(mKeys[0]);
+            nodeSet ~= NodeID(mKeys[1]);
+            nodeSet ~= NodeID(mKeys[2]);
+            nodeSet ~= NodeID(mKeys[3]);
             if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
 
             nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
-            nodeSet ~= NodeID(_keys[2]);
+            nodeSet ~= NodeID(mKeys[0]);
+            nodeSet ~= NodeID(mKeys[1]);
+            nodeSet ~= NodeID(mKeys[2]);
             if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
 
             nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
+            nodeSet ~= NodeID(mKeys[0]);
+            nodeSet ~= NodeID(mKeys[1]);
             if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
 
             nodeSet.length = 0;
-            nodeSet ~= NodeID(_keys[0]);
+            nodeSet ~= NodeID(mKeys[0]);
             if (!nodeMultiSet.canFind(nodeSet)) nodeMultiSet ~= nodeSet;
 
             for (int i = 0; i < nodeMultiSet.length; i++)
@@ -204,12 +204,12 @@ public :
 
             NodeID[] nodeSet;
 
-            nodeSet ~= NodeID(_keys[0]);
-            nodeSet ~= NodeID(_keys[1]);
-            nodeSet ~= NodeID(_keys[2]);
-            nodeSet ~= NodeID(_keys[3]);
-            nodeSet ~= NodeID(_keys[4]);
-            nodeSet ~= NodeID(_keys[5]);
+            nodeSet ~= NodeID(mKeys[0]);
+            nodeSet ~= NodeID(mKeys[1]);
+            nodeSet ~= NodeID(mKeys[2]);
+            nodeSet ~= NodeID(mKeys[3]);
+            nodeSet ~= NodeID(mKeys[4]);
+            nodeSet ~= NodeID(mKeys[5]);
 
             nodeSet.sort!("a > b");
 
@@ -226,31 +226,31 @@ public :
 
             NodeIDSet nodeSet = new NodeIDSet;
 
-            n = nodeSet.insert(NodeID(_keys[0]));
+            n = nodeSet.insert(NodeID(mKeys[0]));
             REQUIRE(n == 1);
 
-            n = nodeSet.insert(NodeID(_keys[1]));
+            n = nodeSet.insert(NodeID(mKeys[1]));
             REQUIRE(n == 1);
 
-            n = nodeSet.insert(NodeID(_keys[2]));
+            n = nodeSet.insert(NodeID(mKeys[2]));
             REQUIRE(n == 1);
 
-            n = nodeSet.insert(NodeID(_keys[3]));
+            n = nodeSet.insert(NodeID(mKeys[3]));
             REQUIRE(n == 1);
 
-            n = nodeSet.insert(NodeID(_keys[4]));
+            n = nodeSet.insert(NodeID(mKeys[4]));
             REQUIRE(n == 1);
 
-            n = nodeSet.insert(NodeID(_keys[0]));
+            n = nodeSet.insert(NodeID(mKeys[0]));
             REQUIRE(n == 0);
 
-            n = nodeSet.insert(NodeID(_keys[1]));
+            n = nodeSet.insert(NodeID(mKeys[1]));
             REQUIRE(n == 0);
 
-            n = nodeSet.insert(NodeID(_keys[2]));
+            n = nodeSet.insert(NodeID(mKeys[2]));
             REQUIRE(n == 0);
 
-            n = nodeSet.insert(NodeID(_keys[5]));
+            n = nodeSet.insert(NodeID(mKeys[5]));
             REQUIRE(n == 1);
         }
 
@@ -261,13 +261,13 @@ public :
 
             DList!NodeID backlog;
 
-            backlog.insertBack(NodeID(_keys[0]));
+            backlog.insertBack(NodeID(mKeys[0]));
             assert(walkLength(backlog[]) == 1);
 
-            backlog.insertBack(NodeID(_keys[1]));
+            backlog.insertBack(NodeID(mKeys[1]));
             assert(walkLength(backlog[]) == 2);
 
-            backlog.insertBack(NodeID(_keys[2]));
+            backlog.insertBack(NodeID(mKeys[2]));
             assert(walkLength(backlog[]) == 3);
 
             backlog.removeFront();

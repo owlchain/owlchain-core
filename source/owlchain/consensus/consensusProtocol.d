@@ -27,11 +27,11 @@ import owlchain.utils.globalChecks;
 class ConsensusProtocol
 {
 private:
-    private ConsensusProtocolDriver _driver;
+    private ConsensusProtocolDriver mDriver;
 
 protected:
-    LocalNode _localNode;
-    Slot [uint64] _knownSlots;
+    LocalNode mLocalNode;
+    Slot [uint64] mKnownSlots;
 
 public:
     enum EnvelopeState
@@ -49,44 +49,44 @@ public:
 
 	this(ConsensusProtocolDriver driver, SecretKey secretKey, bool isValidator, ref QuorumSet qSetLocal)
 	{
-        _driver = driver;
-        _localNode = new LocalNode(secretKey, isValidator, qSetLocal, this);
+        mDriver = driver;
+        mLocalNode = new LocalNode(secretKey, isValidator, qSetLocal, this);
 	}
 
     // ConsensusProtocolDriver getter
     ref ConsensusProtocolDriver getCPDriver()
     {
-        return _driver;
+        return mDriver;
     }
 
     // Local node getter
     ref LocalNode getLocalNode()
     {
-        return _localNode;
+        return mLocalNode;
     }
 
     // Local nodeID getter
     ref const(NodeID) getLocalNodeID()
     {
-        return _localNode.getNodeID();
+        return mLocalNode.getNodeID();
     }
 
     // Local QuorumSet getter
     ref const(QuorumSet) getLocalQuorumSet()
     {
-        return _localNode.getQuorumSet();
+        return mLocalNode.getQuorumSet();
     }
 
     // Retrieves the local secret key as specified at construction
     ref const(SecretKey) getSecretKey()
     {
-        return _localNode.getSecretKey();
+        return mLocalNode.getSecretKey();
     }
 
     // Returns whether the local node is a validator.
     @property bool isValidator()
     {
-        return _localNode.isValidator();
+        return mLocalNode.isValidator();
     }
 
     // Slot getter
@@ -94,15 +94,15 @@ public:
     {
         Slot slot;
 
-        if (_knownSlots.keys.canFind(slotIndex))
+        if (mKnownSlots.keys.canFind(slotIndex))
         {
-            slot = _knownSlots[slotIndex];
+            slot = mKnownSlots[slotIndex];
         } else
         {
             if (create)
             {
                 slot = new Slot(slotIndex, this);
-                _knownSlots[slotIndex] = slot;
+                mKnownSlots[slotIndex] = slot;
             }
             else
             {
@@ -118,7 +118,7 @@ public:
     EnvelopeState receiveEnvelope(ref const Envelope envelope)
     {
         // If the envelope is not correctly signed, we ignore it.
-        if (!_driver.verifyEnvelope(envelope))
+        if (!mDriver.verifyEnvelope(envelope))
         {
             writefln("[%s], %s", "DEBUG", "ConsensusProtocol", "ConsensusProtocol.receiveEnvelope invalid");
             return EnvelopeState.INVALID;
@@ -148,17 +148,17 @@ public:
     // Local QuorumSet interface (can be dynamically updated)
     void updateLocalQuorumSet(ref const QuorumSet qSet)
     {
-        _localNode.updateQuorumSet(qSet);
+        mLocalNode.updateQuorumSet(qSet);
     }
 
     void dumpInfo(ref JSONValue ret, size_t limit)
     {
         uint64 slotIndex;
-        size_t i = _knownSlots.keys.length-1;
+        size_t i = mKnownSlots.keys.length-1;
         while ((i >= 0) && (limit-- != 0))
         {
-            slotIndex = _knownSlots.keys[i];
-            _knownSlots[slotIndex].dumpInfo(ret);
+            slotIndex = mKnownSlots.keys[i];
+            mKnownSlots[slotIndex].dumpInfo(ret);
         }
     }
 
@@ -168,7 +168,7 @@ public:
     {
         if (index == 0)
         {
-            foreach (uint64 slotIndex, Slot slot; _knownSlots)
+            foreach (uint64 slotIndex, Slot slot; mKnownSlots)
             {
                 slot.dumpQuorumInfo(ret, id, summary);
             }
@@ -189,13 +189,13 @@ public:
     void purgeSlots(uint64 maxSlotIndex)
     {
         uint64 slotIndex;
-        uint64 [] k = _knownSlots.keys;
+        uint64 [] k = mKnownSlots.keys;
         for (size_t i = 0; i < k.length; i++)
         {
             slotIndex = k[i];
             if (slotIndex < maxSlotIndex)
             {
-                _knownSlots.remove(slotIndex);
+                mKnownSlots.remove(slotIndex);
             }
         }
     }
@@ -204,14 +204,14 @@ public:
     // protocol to system metric reporters.
     size_t getKnownSlotsCount()
     {
-        return _knownSlots.length;
+        return mKnownSlots.length;
     }
 
     size_t getCumulativeStatemtCount()
     {
         size_t count = 0;
 
-        foreach (uint64 slotIndex, Slot slot; _knownSlots)
+        foreach (uint64 slotIndex, Slot slot; mKnownSlots)
         {
             count += slot.getStatementCount();
         }
@@ -237,7 +237,7 @@ public:
     // this is used when rebuilding the state after a crash for example
     void setStateFromEnvelope(uint64 slotIndex, ref const Envelope e)
     {
-        if (_driver.verifyEnvelope(e))
+        if (mDriver.verifyEnvelope(e))
         {
             auto slot = getSlot(slotIndex, true);
             slot.setStateFromEnvelope(e);
@@ -283,7 +283,7 @@ public:
     TriBool isNodeInQuorum(ref const NodeID node)
     {
         TriBool res = TriBool.TB_MAYBE;
-        foreach (uint64 slotIndex, Slot slot; _knownSlots)
+        foreach (uint64 slotIndex, Slot slot; mKnownSlots)
         {
             res = slot.isNodeInQuorum(node);
             if (res == TriBool.TB_TRUE || res == TriBool.TB_FALSE)
@@ -297,7 +297,7 @@ public:
     // ** helper methods to stringify ballot for logging
     string getValueString(ref const Value v)
     {
-        return _driver.getValueString(v);
+        return mDriver.getValueString(v);
     }
 
     string ballotToStr(ref const Ballot ballot)
