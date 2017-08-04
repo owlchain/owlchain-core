@@ -142,7 +142,7 @@ class XdrDataOutputStream : OutputStream
 
 template xdr(T)
 {
-    ubyte [] serialize(ref T from)
+    ubyte [] serialize(ref const T from)
     {
         XdrDataOutputStream stream = new XdrDataOutputStream();
         T.encode(stream, from);

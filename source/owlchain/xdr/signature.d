@@ -6,7 +6,19 @@ import owlchain.xdr.xdrDataOutputStream;
 struct Signature
 {
     ubyte[] signature;
-    
+
+    ref Signature opAssign(const Signature s)
+    {
+        signature = s.signature.dup;
+        return this;
+    }
+
+    ref Signature opAssign(ref const(Signature) s)
+    {
+        signature = s.signature.dup;
+        return this;
+    }
+
     static void encode(XdrDataOutputStream stream, ref const Signature encodedSignature)
     {
         int Signaturesize = cast(int)(encodedSignature.signature.length);

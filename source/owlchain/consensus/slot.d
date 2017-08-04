@@ -125,7 +125,7 @@ public:
         }
         else
         {
-            writefln("[%s], %s", "DEBUG", "ConsensusProtocol", "Slot.setStateFromEnvelope invalid envelope");
+            writefln("[DEBUG], ConsensusProtocol Slot.setStateFromEnvelope invalid envelope");
         }
     }
 
@@ -160,7 +160,8 @@ public:
     {
         dbgAssert(envelope.statement.slotIndex == mSlotIndex);
 
-        writefln("[DEBUG], ConsensusProtocol Slot.processEnvelope %d %s", mSlotIndex, mConsensusProtocol.envToStr(envelope));
+        //if (Logging::logDebug("ConsensusProtocol"))
+        //writefln("[DEBUG], ConsensusProtocol Slot.processEnvelope %d %s", mSlotIndex, mConsensusProtocol.envToStr(envelope));
 
         ConsensusProtocol.EnvelopeState res;
         try
@@ -179,7 +180,8 @@ public:
             JSONValue[string] jsonObject;
             JSONValue info = jsonObject;
             dumpInfo(info);
-            writefln("[%s], %s, %s", "DEBUG", "ConsensusProtocol", "Exception in processEnvelope");
+            writefln("[ERROR], ConsensusProtocol %s state: %s  processing envelope: %s", "Exception in processEnvelope", 
+                     info.toString(), mConsensusProtocol.envToStr(envelope));
 
             throw new Exception("Exception in processEnvelope");
         }
@@ -273,7 +275,7 @@ public:
         JSONValue[] statements;
         slotValue.object["statements"] = statements;
 
-        QuorumSetPtr[Hash] qSetsUsed;
+        QuorumSet[Hash] qSetsUsed;
         int count = 0;
         for (int i = 0; i < mStatementsHistory.length; i++)
         {
@@ -288,15 +290,15 @@ public:
 
             Hash qSetHash = getCompanionQuorumSetHashFromStatement(item.statement);
             auto qSet = getCPDriver().getQSet(qSetHash);
-            if (qSet.refCountedStore.isInitialized)
+            if (qSet)
             {
-                qSetsUsed[qSetHash] = qSet;
+                qSetsUsed[qSetHash] = *qSet;
             }
         }
 
         JSONValue[string] qSetsObject;
         JSONValue qSets = qSetsObject;
-        foreach (Hash h, const QuorumSetPtr q; qSetsUsed)
+        foreach (Hash h, const QuorumSet q; qSetsUsed)
         {
             JSONValue[string] qsObject;
             JSONValue qs = qsObject;
@@ -373,9 +375,9 @@ public:
 
     // returns the QuorumSet that should be used for a node given the
     // statement (singleton for externalize)
-    QuorumSetPtr getQuorumSetFromStatement(ref const Statement st)
+    QuorumSet getQuorumSetFromStatement(ref const Statement st)
     {
-        QuorumSetPtr res;
+        QuorumSet res;
         StatementType t = st.pledges.type;
 
         if (t == StatementType.CP_ST_EXTERNALIZE)
@@ -401,7 +403,8 @@ public:
             {
                 dbgAbort();
             }
-            res = getCPDriver().getQSet(h);
+            QuorumSet * p = getCPDriver().getQSet(h);
+            if (p) res = *p;
         }
         return res;
     }
@@ -410,11 +413,9 @@ public:
     Envelope createEnvelope(ref const Statement statement)
     {
         Envelope envelope;
-
         envelope.statement = cast(Statement)statement;
-        auto mySt = &envelope.statement;
-        mySt.nodeID = getCP().getLocalNodeID();
-        mySt.slotIndex = mSlotIndex;
+        envelope.statement.nodeID.publicKey = getCP().getLocalNodeID().publicKey;
+        envelope.statement.slotIndex = mSlotIndex;
 
         getCPDriver().signEnvelope(envelope);
 

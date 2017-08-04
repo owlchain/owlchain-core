@@ -28,11 +28,6 @@ void main()
     cpUnitTest.prepare();
 	cpUnitTest.test();
     */
-    ArrayTest arrayTest;
-    arrayTest = new ArrayTest();
-    arrayTest.prepare();
-	arrayTest.test();
-
     ConsensusProtocolTest cpTest;
     cpTest = new ConsensusProtocolTest();
     cpTest.prepare();

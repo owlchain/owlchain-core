@@ -94,7 +94,9 @@ public:
     {
         Slot slot;
 
-        if (mKnownSlots.keys.canFind(slotIndex))
+        auto p = slotIndex in mKnownSlots;
+
+        if (p !is null)
         {
             slot = mKnownSlots[slotIndex];
         } else

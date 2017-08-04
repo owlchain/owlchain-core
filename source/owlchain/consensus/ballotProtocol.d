@@ -83,6 +83,7 @@ public :
     // trigger more potential state changes
     ConsensusProtocol.EnvelopeState processEnvelope(ref const Envelope envelope, bool self)
     {
+
         ConsensusProtocol.EnvelopeState res = ConsensusProtocol.EnvelopeState.INVALID;
         dbgAssert(envelope.statement.slotIndex == mSlot.getSlotIndex());
 
@@ -248,12 +249,11 @@ public :
         }
         else
         {
-            newb.value = cast(Value)value;
+            newb.value = value;
         }
 
-        writefln("[DEBUG], ConsensusProtocol BallotProtocol.bumpState i: %d v: %s",
-            mSlot.getSlotIndex(),
-            mSlot.getCP().ballotToStr(newb));
+        //if (Logging::logDebug("ConsensusProtocol"))
+        //writefln("[DEBUG], ConsensusProtocol BallotProtocol.bumpState i: %d v: %s", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(newb));
 
         bool updated = updateCurrentValue(newb);
 
@@ -336,7 +336,7 @@ public :
 
         int agree = 0;
         auto qSet = mSlot.getCPDriver().getQSet(qSetHash);
-        if (!qSet.refCountedStore.isInitialized)
+        if (qSet != null)
         {
             ret.object["phase"] = JSONValue("expired");
             return;
@@ -360,7 +360,7 @@ public :
             ret.object["missing" ] = missingArray;
         }
 
-        LocalNode.forAllNodes(qSet, (ref const NodeID n) {
+        LocalNode.forAllNodes(*qSet, (ref const NodeID n) {
             if (!mLatestEnvelopes.keys.canFind(n))
             {
                 if (!summary)
@@ -389,7 +389,7 @@ public :
             ret["disagree"] = JSONValue(n_disagree);
         }
 
-        NodeID[] f = LocalNode.findClosestVBlocking(qSet, mLatestEnvelopes, 
+        NodeID[] f = LocalNode.findClosestVBlocking(*qSet, mLatestEnvelopes, 
             (ref const Statement st) {
                 return areBallotsCompatible(getWorkingBallot(st), *b);
             }, &id);
@@ -409,7 +409,7 @@ public :
             JSONValue[string] valueObject;
             JSONValue value = valueObject;
 
-            getLocalNode().toJson(qSet, value);
+            getLocalNode().toJson(*qSet, value);
 
             ret.object["value"] = value;
         }
@@ -456,7 +456,7 @@ public :
                 {
                     const con = &st.pledges.confirm;
                     res.counter = con.nCommit;
-                    res.value = cast(Value)con.ballot.value;
+                    res.value = con.ballot.value;
                 }
                 break;
             case StatementType.CP_ST_EXTERNALIZE:
@@ -595,7 +595,8 @@ private:
     {
         mCurrentMessageLevel++;
 
-        writefln("[DEBUG], ConsensusProtocol BallotProtocol.advanceSlot %d %s ", mCurrentMessageLevel, getLocalState());
+        //if (Logging::logDebug("ConsensusProtocol"))
+        //writefln("[DEBUG], ConsensusProtocol BallotProtocol.advanceSlot %d %s ", mCurrentMessageLevel, getLocalState());
         
         if (mCurrentMessageLevel >= MAX_ADVANCEmSlot_RECURSION)
         {
@@ -609,23 +610,23 @@ private:
         if (!mHeardFromQuorum && mCurrentBallot)
         {
             if (LocalNode.isQuorum(
-                                    getLocalNode().getQuorumSet(), 
-                                    mLatestEnvelopes,
-                                    (ref const Statement st) {
-                                        return mSlot.getQuorumSetFromStatement(st);
-                                    },
-                                    (ref const Statement st) {
-                                        bool res;
-                                        if (st.pledges.type == StatementType.CP_ST_PREPARE)
-                                        {
-                                            res = mCurrentBallot.counter <= st.pledges.prepare.ballot.counter;
-                                        }
-                                        else
-                                        {
-                                            res = true;
-                                        }
-                                        return res;
-                                    }))
+                getLocalNode().getQuorumSet(), 
+                mLatestEnvelopes,
+                (ref const Statement st) {
+                    return mSlot.getQuorumSetFromStatement(st);
+                },
+                (ref const Statement st) {
+                    bool res;
+                    if (st.pledges.type == StatementType.CP_ST_PREPARE)
+                    {
+                        res = mCurrentBallot.counter <= st.pledges.prepare.ballot.counter;
+                    }
+                    else
+                    {
+                        res = true;
+                    }
+                    return res;
+                }))
             {
                 mHeardFromQuorum = true;
                 mSlot.getCPDriver().ballotDidHearFromQuorum(mSlot.getSlotIndex(), *mCurrentBallot);
@@ -661,7 +662,8 @@ private:
             } while (didBump);
         }
 
-        writefln("[DEBUG], ConsensusProtocol BallotProtocol.advanceSlot %d - exiting %s ", mCurrentMessageLevel, getLocalState());
+        //if (Logging::logDebug("ConsensusProtocol"))
+        //writefln("[DEBUG], ConsensusProtocol BallotProtocol.advanceSlot %d - exiting %s ", mCurrentMessageLevel, getLocalState());
 
         --mCurrentMessageLevel;
 
@@ -691,12 +693,15 @@ private:
                     }
                 }
                 break;
+
             case StatementType.CP_ST_CONFIRM:
                 values.insert(cast(Value)st.pledges.confirm.ballot.value);
                 break;
+
             case StatementType.CP_ST_EXTERNALIZE:
                 values.insert(cast(Value)st.pledges.externalize.commit.value);
                 break;
+
             default:
                 // This shouldn't happen
                 return ConsensusProtocolDriver.ValidationLevel.kInvalidValue;
@@ -840,7 +845,7 @@ private:
     bool setPreparedAccept(ref const Ballot ballot)
     {
         //if (Logging::logDebug("SCP"))
-       writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedAccept i: %d  b : %s ", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(ballot));
+        //writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedAccept i: %d  b : %s ", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(ballot));
 
         // update our state
         bool didWork = setPrepared(ballot);
@@ -955,7 +960,7 @@ private:
     bool setPreparedConfirmed(ref const Ballot newC, ref const Ballot newH)
     {
         //if (Logging::logDebug("SCP"))
-        writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedConfirmed i: %d  h : %s ", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(newH));
+        //writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedConfirmed i: %d  h : %s ", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(newH));
 
         bool didWork = false;
 
@@ -1110,9 +1115,9 @@ private:
     // new values for c and h
     bool setAcceptCommit(ref const Ballot c, ref const Ballot h)
     {
-        //if (Logging::logDebug("SCP"))
-        writefln("[DEBUG], ConsensusProtocol BallotProtocol.setAcceptCommit i: %d  new c: %s new h: %s",
-                 mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(c), mSlot.getCP().ballotToStr(h));
+        //if (Logging::logDebug("ConsensusProtocol"))
+        //writefln("[DEBUG], ConsensusProtocol BallotProtocol.setAcceptCommit i: %d  new c: %s new h: %s",
+        //         mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(c), mSlot.getCP().ballotToStr(h));
 
         bool didWork = false;
 
@@ -1214,9 +1219,9 @@ private:
 
     bool setConfirmCommit(ref const Ballot acceptCommitLow, ref const Ballot acceptCommitHigh)
     {
-        //if (Logging::logDebug("SCP"))
-        writefln("[DEBUG], ConsensusProtocol BallotProtocol.setConfirmCommit i: %d  new c: %s new h: %s",
-                 mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(acceptCommitLow), mSlot.getCP().ballotToStr(acceptCommitHigh));
+        //if (Logging::logDebug("ConsensusProtocol"))
+        //writefln("[DEBUG], ConsensusProtocol BallotProtocol.setConfirmCommit i: %d  new c: %s new h: %s",
+        //         mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(acceptCommitLow), mSlot.getCP().ballotToStr(acceptCommitHigh));
 
         mCommit = cast(UniqueStruct!Ballot)(new Ballot(acceptCommitLow.counter, cast(Value)acceptCommitLow.value));
         mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(acceptCommitHigh.counter, cast(Value)acceptCommitHigh.value));
@@ -1868,27 +1873,25 @@ private:
     void recordEnvelope(ref const Envelope env)
     {
         const auto st = &env.statement;
-        if (!mLatestEnvelopes.keys.canFind(st.nodeID))
+        Envelope envelop = cast(Envelope)env;
+        auto p = (cast(NodeID)(st.nodeID) in mLatestEnvelopes);
+        if (p is null)
         {
-            mLatestEnvelopes[st.nodeID] = cast(Envelope)env;
+            mLatestEnvelopes[st.nodeID] = envelop;
         }
-        else
-        {
-            mLatestEnvelopes[st.nodeID] = cast(Envelope)env;
-        }
+
         mSlot.recordStatement(env.statement);
     }
 
     // ** State related methods
-
     // helper function that updates the current ballot
     // this is the lowest level method to update the current ballot and as
     // such doesn't do any validation
     // check: verifies that ballot is greater than old one
     void bumpToBallot(ref const Ballot ballot, bool check)
     {
-        //if (Logging::logDebug("SCP"))
-        writefln("[DEBUG], ConsensusProtocol BallotProtocol.bumpToBallot i: %d b: %s", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(ballot));
+        //if (Logging::logDebug("ConsensusProtocol"))
+        //writefln("[DEBUG], ConsensusProtocol BallotProtocol.bumpToBallot i: %d b: %s", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(ballot));
 
         // `bumpToBallot` should be never called once we committed.
         dbgAssert(mPhase != CPPhase.CP_PHASE_EXTERNALIZE);
@@ -2065,27 +2068,26 @@ private:
         {
             case StatementType.CP_ST_PREPARE:
                 {
-                    auto p = &statement.pledges.prepare;
-                    p.quorumSetHash = cast(Hash)getLocalNode().getQuorumSetHash();
+                    statement.pledges.prepare.quorumSetHash = cast(Hash)getLocalNode().getQuorumSetHash();
                     if (mCurrentBallot)
                     {
-                        p.ballot = *mCurrentBallot;
+                        statement.pledges.prepare.ballot = cast(Ballot)*mCurrentBallot;
                     }
                     if (mCommit)
                     {
-                        p.nC = mCommit.counter;
+                        statement.pledges.prepare.nC = mCommit.counter;
                     }
                     if (mPrepared)
                     {
-                        p.prepared = *mPrepared;
+                        statement.pledges.prepare.prepared = cast(Ballot)*mPrepared;
                     }
                     if (mPreparedPrime)
                     {
-                        p.preparedPrime = *mPreparedPrime;
+                        statement.pledges.prepare.preparedPrime = cast(Ballot)*mPreparedPrime;
                     }
                     if (mHighBallot)
                     {
-                        p.nH = mHighBallot.counter;
+                        statement.pledges.prepare.nH = mHighBallot.counter;
                     }
                 }
                 break;

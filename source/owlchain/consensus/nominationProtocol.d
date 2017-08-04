@@ -206,7 +206,8 @@ public :
     // attempts to nominate a value for consensus
     bool nominate(ref const Value value, ref const Value previousValue, bool timedout)
     {
-        writefln("[DEBUG], ConsensusProtocol NominationProtocol.nominate %s", mSlot.getCP().getValueString(value));
+        //if (Logging::logDebug("ConsensusProtocol"))
+        //writefln("[DEBUG], ConsensusProtocol NominationProtocol.nominate %s", mSlot.getCP().getValueString(value));
 
         bool updated = false;
 

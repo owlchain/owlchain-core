@@ -54,14 +54,15 @@ class LocalNode
             mIsValidator = isValidator;
 
             mQSet = cast(QuorumSet)qSet;
-            mQSetHash.hash = sha256Of(xdr!QuorumSet.serialize(mQSet));
+            mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
+            //writefln("Local Node QuorumSetHash(LocalNode) : %s", toHexString(mQSetHash.hash));
 
             mConsensusProtocol = cp;
 
             writefln("[INFO], ConsensusProtocol LocalNode.LocalNode @%s qSet: %s", toHexString(mNodeID.publicKey.ed25519), toHexString(mQSetHash.hash));
 
             mSingleQSet = buildSingletonQSet(mNodeID);
-            mSingleQSetHash.hash = sha256Of(xdr!QuorumSet.serialize(mSingleQSet));
+            mSingleQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mSingleQSet)));
         }
 
         ref const(NodeID) getNodeID()
@@ -72,7 +73,7 @@ class LocalNode
         void updateQuorumSet(ref const QuorumSet qSet)
         {
             mQSet = cast(QuorumSet)qSet;
-            mQSetHash.hash = sha256Of(xdr!QuorumSet.serialize(mQSet));
+            mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
         }
 
         ref const(QuorumSet) getQuorumSet()
@@ -82,6 +83,8 @@ class LocalNode
 
         ref const(Hash) getQuorumSetHash()
         {
+            //mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
+            //writefln("Local Node QuorumSetHash(getQuorumSetHash) : %s", toHexString(mQSetHash.hash));
             return mQSetHash;
         }
 
@@ -96,7 +99,7 @@ class LocalNode
         }
 
         ConsensusProtocol.TriBool 
-            isNodeInQuorum(ref const NodeID node, const QuorumSetPtr delegate(ref const Statement) qfn, ref Statement*[][NodeID] map)
+            isNodeInQuorum(ref const NodeID node, const QuorumSet* delegate(ref const Statement) qfn, ref Statement*[][NodeID] map)
         {
 
             // perform a transitive search, starting with the local node
@@ -129,14 +132,14 @@ class LocalNode
                 for (int i = 0; i < st.length; i++)
                 {
                     auto qset = qfn(*(st[i]));
-                    if (!qset.refCountedStore.isInitialized)
+                    if (!qset)
                     {
                         // can't find the quorum set
                         res = ConsensusProtocol.TriBool.TB_MAYBE;
                         continue;
                     }
                     // see if we need to explore further
-                    forAllNodes(qset, (ref const NodeID n) {
+                    forAllNodes(*qset, (ref const NodeID n) {
                         if (!visited.canFind(n))
                         {
                             if (!backlog.canFind(n)) backlog ~= n;
@@ -148,12 +151,12 @@ class LocalNode
         }
 
         // returns the quorum set {{X}}
-        static QuorumSetPtr getSingletonQSet(ref const NodeID nodeID) 
+        static QuorumSet getSingletonQSet(ref const NodeID nodeID) 
         {
             QuorumSet qSet;
             qSet.threshold = 1;
             qSet.validators ~= nodeID.publicKey;
-            return refCounted(qSet);
+            return qSet;
         }
 
         // runs proc over all nodes contained in qset
@@ -252,7 +255,7 @@ class LocalNode
         static bool isQuorum(
             ref const QuorumSet qSet, 
             ref const Envelope[NodeID] map,
-            QuorumSetPtr delegate (ref const Statement) qfun,
+            QuorumSet delegate (ref const Statement) qfun,
             bool delegate (ref const Statement) filter = null)
         {
             if (filter == null)
@@ -261,14 +264,19 @@ class LocalNode
             }
 
             NodeID[] pNodes;
-            foreach (NodeID n, const Envelope e; map)
+
+            //  조건에 맞는 문서의 NodeID만을 추려낸다.
+            foreach (NodeID n, const ref Envelope e; map)
             {
                 if (filter(e.statement))
                 {
                     pNodes ~= n;
+                    //writefln("%3d - %s  - %d", n.publicKey.ed25519[0], toHexString(e.statement.pledges.prepare.quorumSetHash.hash), e.statement.pledges.prepare.ballot.counter);
                 }
             }
+            //writefln("");
 
+            //  특정노드에 대한 문서가 모든 노드의 정족수를 만족하는지 검사한다.
             size_t count = 0;
             do
             {
@@ -276,12 +284,13 @@ class LocalNode
                 NodeID [] fNodes;
                 bool delegate (ref const NodeID nodeID) quorumFilter = (ref const NodeID nodeID)
                 {
-                    if (map.keys.canFind(nodeID))
+                    auto p = (nodeID in map);
+                    if (p !is null)
                     {
-                        QuorumSetPtr qSetPtr = qfun(map[nodeID].statement);
-                        if (qSetPtr.refCountedStore.isInitialized)
+                        auto qset = qfun(map[nodeID].statement);
+                        if (qset.threshold != 0)
                         {
-                            return isQuorumSlice(qSetPtr, pNodes);
+                            return isQuorumSlice(qset, pNodes);
                         }
                         else
                         {
@@ -304,6 +313,7 @@ class LocalNode
                 pNodes = fNodes;
             } while (count != pNodes.length);
 
+            //  최종적으로 로컬로드의 정족수를 만족하는지 검사한다.
             return isQuorumSlice(qSet, pNodes);
         }
 
@@ -318,7 +328,6 @@ class LocalNode
                 filter = (ref const Statement) { return true; };
             }
 
-            //RedBlackTree!NodeID pNodes2;
             NodeIDSet pNodes = new NodeIDSet;
             foreach (const NodeID n, const Envelope e; map)
             {

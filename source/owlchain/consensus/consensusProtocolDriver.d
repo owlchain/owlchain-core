@@ -13,7 +13,7 @@ import owlchain.xdr.publicKey;
 import owlchain.crypto.keyUtils;
 import owlchain.consensus.consensusProtocol;
 
-alias QuorumSetPtr = RefCounted!(QuorumSet, RefCountedAutoInitialize.no);
+//alias QuorumSetPtr = RefCounted!(QuorumSet, RefCountedAutoInitialize.no);
 
 class ConsensusProtocolDriver
 {
@@ -35,11 +35,9 @@ class ConsensusProtocolDriver
 
     // Delegates the retrieval of the quorum set designated by qSetHash to
     // the user of .
-    QuorumSetPtr getQSet(ref const Hash qSetHash)
+    QuorumSet* getQSet(ref const Hash qSetHash)
     {
-        RefCounted!(QuorumSet, RefCountedAutoInitialize.no) qSet;
-
-        return qSet;
+        return null;
     }
 
     // Users of the  library should inherit from Driver and implement the

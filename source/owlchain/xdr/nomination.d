@@ -12,6 +12,38 @@ struct Nomination
     Value[] votes;
     Value[] accepted;
 
+    ref Nomination opAssign(const Nomination s)
+    {
+        quorumSetHash = s.quorumSetHash;
+        votes.length = 0;
+        for (int i = 0; i < s.votes.length; i++)
+        {
+            votes ~= cast(Value)s.votes[i];
+        }
+        accepted.length = 0;
+        for (int i = 0; i < s.accepted.length; i++)
+        {
+            accepted ~= cast(Value)s.accepted[i];
+        }
+        return this;
+    }
+
+    ref Nomination opAssign(ref const(Nomination) s)
+    {
+        quorumSetHash = s.quorumSetHash;
+        votes.length = 0;
+        for (int i = 0; i < s.votes.length; i++)
+        {
+            votes ~= cast(Value)s.votes[i];
+        }
+        accepted.length = 0;
+        for (int i = 0; i < s.accepted.length; i++)
+        {
+            accepted ~= cast(Value)s.accepted[i];
+        }
+        return this;
+    }
+
     static void encode(XdrDataOutputStream stream, ref const Nomination encodedNomination)
     {
         Hash.encode(stream, encodedNomination.quorumSetHash);

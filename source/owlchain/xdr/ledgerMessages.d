@@ -10,6 +10,28 @@ struct LedgerMessages
     uint32 ledgerSeq;
     Envelope[] messages;
 
+    ref LedgerMessages opAssign(const LedgerMessages s)
+    {
+        ledgerSeq = s.ledgerSeq;
+        messages.length = 0;
+        for (int i = 0; i < s.messages.length; i++)
+        {
+            messages ~= cast(Envelope)s.messages[i];
+        }
+        return this;
+    }
+
+    ref LedgerMessages opAssign(ref const(LedgerMessages) s)
+    {
+        ledgerSeq = s.ledgerSeq;
+        messages.length = 0;
+        for (int i = 0; i < s.messages.length; i++)
+        {
+            messages ~= cast(Envelope)s.messages[i];
+        }
+        return this;
+    }
+
     static void encode(XdrDataOutputStream stream, ref const LedgerMessages encodedLedgerMessages)
     {
         stream.writeUint32(encodedLedgerMessages.ledgerSeq);

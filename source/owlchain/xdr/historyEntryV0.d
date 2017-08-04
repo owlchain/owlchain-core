@@ -10,6 +10,27 @@ struct HistoryEntryV0
     QuorumSet[] quorumSets;
     LedgerMessages ledgerMessages;
 
+    ref HistoryEntryV0 opAssign(const HistoryEntryV0 s)
+    {
+        quorumSets.length = 0;
+        for (int i = 0; i < s.quorumSets.length; i++)
+        {
+            quorumSets ~= cast(QuorumSet)s.quorumSets[i];
+        }
+        ledgerMessages = s.ledgerMessages;
+        return this;
+    }
+
+    ref HistoryEntryV0 opAssign(ref const(HistoryEntryV0) s)
+    {
+        quorumSets.length = 0;
+        for (int i = 0; i < s.quorumSets.length; i++)
+        {
+            quorumSets ~= cast(QuorumSet)s.quorumSets[i];
+        }
+        ledgerMessages = s.ledgerMessages;
+        return this;
+    }
     static void encode(XdrDataOutputStream stream, ref const HistoryEntryV0 encodedHistoryEntryV0)
     {
         int quorumSetssize = cast(int)(encodedHistoryEntryV0.quorumSets.length);
