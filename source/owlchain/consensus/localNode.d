@@ -34,9 +34,9 @@ import owlchain.consensus.consensusProtocolDriver;
 class LocalNode 
 {
     protected:
-        const NodeID    mNodeID;
-        const bool      mIsValidator;
-        const SecretKey mSecretKey;
+        NodeID    mNodeID;
+        bool      mIsValidator;
+        SecretKey mSecretKey;
         QuorumSet       mQSet;
         Hash            mQSetHash;
 
@@ -47,13 +47,13 @@ class LocalNode
         ConsensusProtocol mConsensusProtocol;
 
     public :
-        this(ref const SecretKey secretKey, bool isValidator, ref const QuorumSet qSet, ConsensusProtocol cp)
+        this(ref SecretKey secretKey, bool isValidator, ref QuorumSet qSet, ConsensusProtocol cp)
         {
             mNodeID.publicKey = secretKey.getPublicKey();
             mSecretKey = secretKey;
             mIsValidator = isValidator;
 
-            mQSet = cast(QuorumSet)qSet;
+            mQSet = qSet;
             mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
             //writefln("Local Node QuorumSetHash(LocalNode) : %s", toHexString(mQSetHash.hash));
 
@@ -65,30 +65,30 @@ class LocalNode
             mSingleQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mSingleQSet)));
         }
 
-        ref const(NodeID) getNodeID()
+        ref NodeID getNodeID()
         {
             return mNodeID;
         }
 
-        void updateQuorumSet(ref const QuorumSet qSet)
+        void updateQuorumSet(ref QuorumSet qSet)
         {
-            mQSet = cast(QuorumSet)qSet;
+            mQSet = qSet;
             mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
         }
 
-        ref const(QuorumSet) getQuorumSet()
+        ref QuorumSet getQuorumSet()
         {
             return mQSet;
         }
 
-        ref const(Hash) getQuorumSetHash()
+        ref Hash getQuorumSetHash()
         {
             //mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
             //writefln("Local Node QuorumSetHash(getQuorumSetHash) : %s", toHexString(mQSetHash.hash));
             return mQSetHash;
         }
 
-        ref const(SecretKey) getSecretKey()
+        ref SecretKey getSecretKey()
         {
             return mSecretKey;
         }
@@ -99,7 +99,7 @@ class LocalNode
         }
 
         ConsensusProtocol.TriBool 
-            isNodeInQuorum(ref const NodeID node, const QuorumSet* delegate(ref const Statement) qfn, ref Statement*[][NodeID] map)
+            isNodeInQuorum(ref NodeID node, QuorumSetPtr delegate(ref Statement) qfn, ref Statement*[][NodeID] map) 
         {
 
             // perform a transitive search, starting with the local node
@@ -132,14 +132,14 @@ class LocalNode
                 for (int i = 0; i < st.length; i++)
                 {
                     auto qset = qfn(*(st[i]));
-                    if (!qset)
+                    if (!qset.refCountedStore.isInitialized)
                     {
                         // can't find the quorum set
                         res = ConsensusProtocol.TriBool.TB_MAYBE;
                         continue;
                     }
                     // see if we need to explore further
-                    forAllNodes(*qset, (ref const NodeID n) {
+                    forAllNodes(qset, (ref NodeID n) {
                         if (!visited.canFind(n))
                         {
                             if (!backlog.canFind(n)) backlog ~= n;
@@ -151,20 +151,20 @@ class LocalNode
         }
 
         // returns the quorum set {{X}}
-        static QuorumSet getSingletonQSet(ref const NodeID nodeID) 
+        static QuorumSetPtr getSingletonQSet(ref NodeID nodeID) 
         {
             QuorumSet qSet;
             qSet.threshold = 1;
             qSet.validators ~= nodeID.publicKey;
-            return qSet;
+            return refCounted(qSet);
         }
 
         // runs proc over all nodes contained in qset
-        static void forAllNodes(ref const QuorumSet qset, void delegate (ref const NodeID) proc)
+        static void forAllNodes(ref QuorumSet qset, void delegate (ref NodeID) proc)
         {
             NodeIDSet done = new NodeIDSet;
 
-            forAllNodesInternal(qset, (ref const NodeID n) {
+            forAllNodesInternal(qset, (ref NodeID n) {
                 if (done.insert(n)) {
                     proc(n);
                 }
@@ -175,7 +175,7 @@ class LocalNode
 
         // returns the weight of the node within the qset
         // normalized between 0-UINT64_MAX
-        static uint64 getNodeWeight(ref const NodeID nodeID, ref const QuorumSet qset)
+        static uint64 getNodeWeight(ref NodeID nodeID, ref QuorumSet qset)
         {
             import core.stdc.stdint;
             import owlchain.utils.types;
@@ -185,7 +185,7 @@ class LocalNode
             uint64 res = 0;
 
             //  validator
-            foreach (int i, PublicKey pk; qset.validators)
+            foreach (int i, ref PublicKey pk; qset.validators)
             {
                 if (pk == nodeID.publicKey)
                 {
@@ -195,7 +195,7 @@ class LocalNode
             }
 
             //  inner-set validator
-            foreach (int i, const QuorumSet q; qset.innerSets)
+            foreach (int i, ref QuorumSet q; qset.innerSets)
             {
                 // node weight of inner-set
                 uint64 leafW = getNodeWeight(nodeID, q);
@@ -210,13 +210,13 @@ class LocalNode
         }
 
         // Tests this node against nodeSet for the specified qSethash.
-        static bool isQuorumSlice(ref const QuorumSet qSet, ref const NodeID [] nodeSet)
+        static bool isQuorumSlice(ref QuorumSet qSet, ref NodeID [] nodeSet)
         {
             //writefln("[TRACE], ConsensusProtocol, LocalNode.isQuorumSlice nodeSet.size: %d", nodeSet.length);
             return isQuorumSliceInternal(qSet, nodeSet);
         }
 
-        static bool isVBlocking(ref const QuorumSet qSet, ref const NodeID [] nodeSet)
+        static bool isVBlocking(ref QuorumSet qSet, ref NodeID [] nodeSet)
         {
             //writefln("[TRACE], ConsensusProtocol, LocalNode.isVBlocking nodeSet.size: %d", nodeSet.length);
             return isVBlockingInternal(qSet, nodeSet);
@@ -227,17 +227,17 @@ class LocalNode
         // `isVBlocking` tests if the filtered nodes V are a v-blocking set for
         // this node.
         static bool isVBlocking(
-                        ref const QuorumSet qSet,
-                        ref const Envelope[NodeID] map,
-                        bool delegate (ref const Statement) filter = null)
+                        ref QuorumSet qSet,
+                        ref Envelope[NodeID] map,
+                        bool delegate (ref Statement) filter = null)
         {
             if (filter == null)
             {
-                filter = (ref const Statement) { return true; };
+                filter = (ref Statement) { return true; };
             }
 
             NodeID [] nodes;
-            foreach (NodeID n, const Envelope e; map)
+            foreach (ref const NodeID n, ref Envelope e; map)
             {
                 if (filter(e.statement))
                 {
@@ -253,20 +253,20 @@ class LocalNode
         // QuorumSetPtr from the Statement for its associated node in map
         // (required for transitivity)
         static bool isQuorum(
-            ref const QuorumSet qSet, 
-            ref const Envelope[NodeID] map,
-            QuorumSet delegate (ref const Statement) qfun,
-            bool delegate (ref const Statement) filter = null)
+            ref QuorumSet qSet, 
+            ref Envelope[NodeID] map,
+            QuorumSetPtr delegate (ref Statement) qfun,
+            bool delegate (ref Statement) filter = null)
         {
             if (filter == null)
             {
-                filter = (ref const Statement) { return true; };
+                filter = (ref Statement) { return true; };
             }
 
             NodeID[] pNodes;
 
             //  조건에 맞는 문서의 NodeID만을 추려낸다.
-            foreach (NodeID n, const ref Envelope e; map)
+            foreach (ref const NodeID n, ref Envelope e; map)
             {
                 if (filter(e.statement))
                 {
@@ -282,15 +282,15 @@ class LocalNode
             {
                 count = pNodes.length;
                 NodeID [] fNodes;
-                bool delegate (ref const NodeID nodeID) quorumFilter = (ref const NodeID nodeID)
+                bool delegate (ref NodeID nodeID) quorumFilter = (ref NodeID nodeID)
                 {
                     auto p = (nodeID in map);
                     if (p !is null)
                     {
-                        auto qset = qfun(map[nodeID].statement);
-                        if (qset.threshold != 0)
+                        QuorumSetPtr qSetPtr = qfun(map[nodeID].statement);
+                        if (qSetPtr.refCountedStore.isInitialized)
                         {
-                            return isQuorumSlice(qset, pNodes);
+                            return isQuorumSlice(qSetPtr, pNodes);
                         }
                         else
                         {
@@ -318,18 +318,18 @@ class LocalNode
         }
 
         static NodeID[] findClosestVBlocking(
-                    ref const QuorumSet qset, 
-                    ref const Envelope[NodeID] map,
-                    bool delegate (ref const Statement) filter = null,
-                    const NodeID * excluded = null)
+                    ref QuorumSet qset, 
+                    ref Envelope[NodeID] map,
+                    bool delegate (ref Statement) filter = null,
+                    NodeID * excluded = null)
         {
             if (filter == null)
             {
-                filter = (ref const Statement) { return true; };
+                filter = (ref Statement) { return true; };
             }
 
             NodeIDSet pNodes = new NodeIDSet;
-            foreach (const NodeID n, const Envelope e; map)
+            foreach (ref const NodeID n, ref Envelope e; map)
             {
                 if (filter(e.statement))
                 {
@@ -343,18 +343,18 @@ class LocalNode
         // a set of nodes that agree (but can fail)
         // excluded, if set will be skipped altogether
         static NodeID[] findClosestVBlocking(
-                ref const QuorumSet qset, 
-                ref const NodeIDSet nodes,
-                const NodeID * excluded)
+                ref QuorumSet qset, 
+                ref NodeIDSet nodes,
+                NodeID * excluded)
         {
             size_t leftTillBlock = ((1 + qset.validators.length + qset.innerSets.length) - qset.threshold);
 
             NodeID[] res;
             NodeID validator;
             // first, compute how many top level items need to be blocked
-            foreach (int i, PublicKey pk; qset.validators)
+            foreach (int i, ref PublicKey pk; qset.validators)
             {
-                validator.publicKey = pk;
+                validator = NodeID(pk);
                 if (!excluded || !(validator == *excluded))
                 {
                     if (!(validator in nodes))
@@ -375,18 +375,8 @@ class LocalNode
                 }
             }
 
-            struct orderBySize
-            {
-                bool operator()(ref const NodeID[] v1, ref const NodeID v2)
-                {
-                    return v1.length < v2.length;
-                }
-            }
-
-            //std::multiset<std::vector<NodeID>, orderBySize> resInternals;
-
             NodeID[][] resInternals;
-            foreach (int i, const QuorumSet inner; qset.innerSets)
+            foreach (int i, ref QuorumSet inner; qset.innerSets)
             {
                 auto v = findClosestVBlocking(inner, nodes, excluded);
                 if (v.length == 0)
@@ -423,19 +413,19 @@ class LocalNode
             return res;
         }
 
-        void toJson(ref const QuorumSet qSet, ref JSONValue value)
+        void toJson(ref QuorumSet qSet, ref JSONValue value)
         {
             import std.utf;
             JSONValue[] entries;
             value.object["t"] = JSONValue(qSet.threshold);
             value.object["v"] = entries;
 
-            foreach (int i, const PublicKey pk; qSet.validators)
+            foreach (int i, ref PublicKey pk; qSet.validators)
             {
                 value["v"].array ~= JSONValue(toUTF8(mConsensusProtocol.getCPDriver().toShortString(pk)));
             }
 
-            foreach (int i, const QuorumSet s; qSet.innerSets)
+            foreach (int i, ref QuorumSet s; qSet.innerSets)
             {
                 JSONValue[string] jsonObject;
                 JSONValue iV = jsonObject;
@@ -444,7 +434,7 @@ class LocalNode
             }
         }
 
-        string to_string(ref const QuorumSet qSet) 
+        string to_string(ref QuorumSet qSet) 
         {
             JSONValue[string] jsonObject;
             JSONValue v = jsonObject;
@@ -454,7 +444,7 @@ class LocalNode
 
 
     protected :
-        static QuorumSet buildSingletonQSet(ref const NodeID nodeID)
+        static QuorumSet buildSingletonQSet(ref NodeID nodeID)
         {
             QuorumSet qSet;
             qSet.threshold = 1;
@@ -463,25 +453,25 @@ class LocalNode
         }
 
         // runs proc over all nodes contained in qset
-        static void forAllNodesInternal(ref const QuorumSet qset, void delegate (ref const NodeID) proc)
+        static void forAllNodesInternal(ref QuorumSet qset, void delegate (ref NodeID) proc)
         {
-            NodeID nodeID;
-            foreach (int i, const PublicKey pk; qset.validators)
+            NodeID validator;
+            foreach (int i, ref PublicKey pk; qset.validators)
             {
-                nodeID.publicKey = pk;
-                proc(nodeID);
+                validator = NodeID(pk);
+                proc(validator);
             }
-            foreach (int i, const QuorumSet q; qset.innerSets)
+            foreach (int i, ref QuorumSet q; qset.innerSets)
             {
                 forAllNodesInternal(q, proc);
             }
         }
 
-        static bool isQuorumSliceInternal(ref const QuorumSet qset, ref const NodeID[] nodeSet)
+        static bool isQuorumSliceInternal(ref QuorumSet qset, ref NodeID[] nodeSet)
         {
             uint32 thresholdLeft = qset.threshold;
 
-            foreach (int i, const PublicKey pk; qset.validators)
+            foreach (int i, ref PublicKey pk; qset.validators)
             {
                 if (nodeSet.canFind(NodeID(pk)))
                 {
@@ -493,7 +483,7 @@ class LocalNode
                 }
             }
 
-            foreach (int i, const QuorumSet q; qset.innerSets)
+            foreach (int i, ref QuorumSet q; qset.innerSets)
             {
                 if (isQuorumSliceInternal(q, nodeSet))
                 {
@@ -508,7 +498,7 @@ class LocalNode
         }
 
         // called recursively
-        static bool isVBlockingInternal(ref const QuorumSet qset, ref const NodeID [] nodeSet)
+        static bool isVBlockingInternal(ref QuorumSet qset, ref NodeID [] nodeSet)
         {
             // There is no v-blocking set for {\empty}
             if (qset.threshold == 0)
@@ -523,7 +513,7 @@ class LocalNode
 
             int leftTillBlock = cast(int)((1 + qset.validators.length + qset.innerSets.length) - qset.threshold);
 
-            foreach (int i, const PublicKey pk; qset.validators)
+            foreach (int i, ref PublicKey pk; qset.validators)
             {
                 if (nodeSet.canFind(NodeID(pk)))
                 {
@@ -535,7 +525,7 @@ class LocalNode
                 }
             }
 
-            foreach (int i, const QuorumSet q; qset.innerSets)
+            foreach (int i, ref QuorumSet q; qset.innerSets)
             {
                 if (isVBlockingInternal(q, nodeSet))
                 {

@@ -68,7 +68,7 @@ private :
 
 public :
 
-    this(ref const QuorumSet qSet, bool extraChecks)
+    this(ref QuorumSet qSet, bool extraChecks)
     {
         mCount = 0;
         mExtraChecks = extraChecks;
@@ -81,7 +81,7 @@ public :
     }
 }
 
-bool isQuorumSetSane(ref const QuorumSet qSet, bool extraChecks)
+bool isQuorumSetSane(ref QuorumSet qSet, bool extraChecks)
 {
     QuorumSetSanityChecker checker = new QuorumSetSanityChecker(qSet, extraChecks);
     return checker.isSane();

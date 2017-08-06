@@ -28,6 +28,7 @@ void main()
     cpUnitTest.prepare();
 	cpUnitTest.test();
     */
+
     ConsensusProtocolTest cpTest;
     cpTest = new ConsensusProtocolTest();
     cpTest.prepare();

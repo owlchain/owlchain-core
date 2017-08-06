@@ -74,7 +74,7 @@ public:
     }
 
     override bool
-    verifyEnvelope(ref const Envelope envelope)
+    verifyEnvelope(ref Envelope envelope)
     {
         return true;
     }
@@ -96,70 +96,71 @@ public:
     }
 
     override ConsensusProtocolDriver.ValidationLevel
-    validateValue(uint64 slotIndex, ref const Value value)
+    validateValue(uint64 slotIndex, ref Value value)
     {
         return ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue;
     }
 
     override void
-    ballotDidHearFromQuorum(uint64 slotIndex, ref const Ballot ballot)
+    ballotDidHearFromQuorum(uint64 slotIndex, ref Ballot ballot)
     {
         auto p = (slotIndex in mHeardFromQuorums);
         if (p !is null)
         {
             Ballot[] v;
-            v ~= cast(Ballot)(ballot);
+            v ~= ballot;
             mHeardFromQuorums[slotIndex] = v;
         } else
         {
-            mHeardFromQuorums[slotIndex] ~= cast(Ballot)(ballot);
+            mHeardFromQuorums[slotIndex] ~= ballot;
         }
     }
 
     override void
-    valueExternalized(uint64 slotIndex, ref const Value value)
+    valueExternalized(uint64 slotIndex, ref Value value)
     {
         auto p = (slotIndex in mExternalizedValues);
         if (p !is null)
         {
             throw new Exception("Value already externalized");
         }
-        mExternalizedValues[slotIndex] = cast(Value)value;
+        mExternalizedValues[slotIndex] = value;
     }
 
-    override QuorumSet *
-    getQSet(ref const Hash qSetHash)
+    override QuorumSetPtr
+    getQSet(ref Hash qSetHash)
     {
-        auto p = (cast(Hash)qSetHash in mQuorumSets);
+        auto p = (qSetHash in mQuorumSets);
         if (p !is null)
         {
-            return &mQuorumSets[cast(Hash)qSetHash];
+            return refCounted(mQuorumSets[qSetHash]);
         }
-        return null;
+        RefCounted!(QuorumSet, RefCountedAutoInitialize.no) qSet;
+        return qSet;
     }
 
     override void
-    emitEnvelope(ref const Envelope envelope)
+    emitEnvelope(ref Envelope envelope)
     {
-        mEnvs ~= cast(Envelope)envelope;
+        mEnvs ~= envelope;
     }
 
     // used to test BallotProtocol and bypass nomination
     bool
-    bumpState(uint64 slotIndex, ref const Value v)
+    bumpState(uint64 slotIndex, ref Value v)
     {
         return mConsensusProtocol.getSlot(slotIndex, true).bumpState(v, true);
     }
 
     bool
-    nominate(uint64 slotIndex, ref const Value value, bool timedout)
+    nominate(uint64 slotIndex, ref Value value, bool timedout)
     {
         return mConsensusProtocol.getSlot(slotIndex, true).nominate(value, value, timedout);
     }
 
     // only used by nomination protocol
     override Value
-    combineCandidates(uint64 slotIndex, ref const ValueSet candidates)
+    combineCandidates(uint64 slotIndex, ref ValueSet candidates)
     {
         if (!(candidates == mExpectedCandidates))
         {
@@ -176,7 +177,7 @@ public:
     // override the internal hashing scheme in order to make tests
     // more predictable.
     override uint64
-    computeHashNode(uint64 slotIndex, ref const Value prev, bool isPriority, int roundNumber, ref const NodeID nodeID)
+    computeHashNode(uint64 slotIndex, ref Value prev, bool isPriority, int roundNumber, ref NodeID nodeID)
     {
         uint64 res;
         if (isPriority)
@@ -192,7 +193,7 @@ public:
 
     // override the value hashing, to make tests more predictable.
     override uint64
-    computeValueHash(uint64 slotIndex, ref const Value prev, int roundNumber, ref const Value value)
+    computeValueHash(uint64 slotIndex, ref Value prev, int roundNumber, ref Value value)
     {
         return mHashValueCalculator(value);
     }
@@ -209,7 +210,7 @@ public:
     }
 
     void
-    receiveEnvelope(ref const Envelope envelope)
+    receiveEnvelope(ref Envelope envelope)
     {
         mConsensusProtocol.receiveEnvelope(envelope);
     }
@@ -228,7 +229,7 @@ public:
     }
 
     Envelope
-    getCurrentEnvelope(uint64 index, ref const NodeID id)
+    getCurrentEnvelope(uint64 index, ref NodeID id)
     {
         Envelope [] envelopes = getEntireState(index);
         for (int idx = 0; idx < envelopes.length; idx++)
@@ -240,62 +241,59 @@ public:
 }
 
 static Envelope
-makeEnvelope(ref const SecretKey secretKey, uint64 slotIndex,
-             ref const Statement statement)
+makeEnvelope(ref SecretKey secretKey, uint64 slotIndex,
+             ref Statement statement)
 {
     Envelope envelope;
-    envelope.statement = cast(Statement)statement;
+    envelope.statement = statement;
     envelope.statement.nodeID = NodeID(secretKey.getPublicKey());
     envelope.statement.slotIndex = slotIndex;
 
-    XdrDataOutputStream stream = new XdrDataOutputStream();
-    Statement.encode(stream, cast(Statement)envelope.statement);
-
-    envelope.signature = secretKey.sign(stream.data);
+    envelope.signature = secretKey.sign(xdr!Statement.serialize(envelope.statement));
 
     return envelope;
 }
 
 static Envelope
-makeExternalize(ref const SecretKey secretKey, ref const Hash qSetHash,
-                uint64 slotIndex, ref const Ballot commitBallot, uint32 nH)
+makeExternalize(ref SecretKey secretKey, ref Hash qSetHash,
+                uint64 slotIndex, ref Ballot commitBallot, uint32 nH)
 {
     Statement st;
     st.pledges.type = StatementType.CP_ST_EXTERNALIZE;
     auto ext = &st.pledges.externalize;
-    ext.commit = cast(Ballot)commitBallot;
+    ext.commit = commitBallot;
     ext.nH = nH;
-    ext.commitQuorumSetHash = cast(Hash)qSetHash;
+    ext.commitQuorumSetHash = qSetHash;
 
     return makeEnvelope(secretKey, slotIndex, st);
 }
 
 static Envelope
-makeConfirm(ref const SecretKey secretKey, ref const Hash qSetHash, uint64 slotIndex,
-            uint32 prepareCounter, ref const Ballot b, uint32 nC, uint32 nH)
+makeConfirm(ref SecretKey secretKey, ref Hash qSetHash, uint64 slotIndex,
+            uint32 prepareCounter, ref Ballot b, uint32 nC, uint32 nH)
 {
     Statement st;
     st.pledges.type = StatementType.CP_ST_CONFIRM;
     auto con = &st.pledges.confirm;
-    con.ballot = cast(Ballot)b;
+    con.ballot = b;
     con.nPrepared = prepareCounter;
     con.nCommit = nC;
     con.nH = nH;
-    con.quorumSetHash = cast(Hash)qSetHash;
+    con.quorumSetHash = qSetHash;
 
     return makeEnvelope(secretKey, slotIndex, st);
 }
 
 static Envelope
-makePrepare(ref const SecretKey secretKey, ref const Hash qSetHash, uint64 slotIndex,
-            ref const Ballot  ballot, Ballot* prepared = null,
+makePrepare(ref SecretKey secretKey, ref Hash qSetHash, uint64 slotIndex,
+            ref Ballot  ballot, Ballot* prepared = null,
             uint32 nC = 0, uint32 nH = 0, Ballot* preparedPrime = null)
 {
     Statement st;
     st.pledges.type = StatementType.CP_ST_PREPARE;
     auto p = &st.pledges.prepare;
-    p.ballot = cast(Ballot)ballot;
-    p.quorumSetHash = cast(Hash)qSetHash;
+    p.ballot = ballot;
+    p.quorumSetHash = qSetHash;
     if (prepared)
     {
         p.prepared = *prepared;
@@ -313,7 +311,7 @@ makePrepare(ref const SecretKey secretKey, ref const Hash qSetHash, uint64 slotI
 }
 
 static Envelope
-makeNominate(ref const SecretKey secretKey, ref const Hash qSetHash, uint64 slotIndex,
+makeNominate(ref SecretKey secretKey, ref Hash qSetHash, uint64 slotIndex,
              Value[] votes, Value[] accepted)
 {
     import std.algorithm;
@@ -325,7 +323,7 @@ makeNominate(ref const SecretKey secretKey, ref const Hash qSetHash, uint64 slot
     Statement st;
     st.pledges.type = StatementType.CP_ST_NOMINATE;
     auto nom = &st.pledges.nominate;
-    nom.quorumSetHash =cast(Hash) qSetHash;
+    nom.quorumSetHash = qSetHash;
 
     int idx;
     for (idx = 0; idx < votes.length; idx++)
@@ -340,8 +338,8 @@ makeNominate(ref const SecretKey secretKey, ref const Hash qSetHash, uint64 slot
 }
 
 void
-verifyPrepare(ref const Envelope actual, ref const SecretKey secretKey,
-              ref const Hash qSetHash, uint64 slotIndex, ref const Ballot  ballot,
+verifyPrepare(ref Envelope actual, ref SecretKey secretKey,
+              ref Hash qSetHash, uint64 slotIndex, ref Ballot  ballot,
               Ballot* prepared = null, uint32 nC = 0, uint32 nH = 0,
               Ballot* preparedPrime = null)
 {
@@ -351,9 +349,9 @@ verifyPrepare(ref const Envelope actual, ref const SecretKey secretKey,
 }
 
 void
-verifyConfirm(ref const Envelope actual, ref const SecretKey secretKey,
-              ref const Hash qSetHash, uint64 slotIndex, uint32 nPrepared,
-              ref const Ballot  b, uint32 nC, uint32 nH)
+verifyConfirm(ref Envelope actual, ref SecretKey secretKey,
+              ref Hash qSetHash, uint64 slotIndex, uint32 nPrepared,
+              ref Ballot  b, uint32 nC, uint32 nH)
 {
     auto exp =
         makeConfirm(secretKey, qSetHash, slotIndex, nPrepared, b, nC, nH);
@@ -361,17 +359,17 @@ verifyConfirm(ref const Envelope actual, ref const SecretKey secretKey,
 }
 
 void
-verifyExternalize(ref const Envelope actual, ref const SecretKey secretKey,
-                  ref const Hash qSetHash, uint64 slotIndex,
-                  ref const Ballot  commit, uint32 nH)
+verifyExternalize(ref Envelope actual, ref SecretKey secretKey,
+                  ref Hash qSetHash, uint64 slotIndex,
+                  ref Ballot  commit, uint32 nH)
 {
     auto exp = makeExternalize(secretKey, qSetHash, slotIndex, commit, nH);
     REQUIRE(exp.statement == actual.statement);
 }
 
 void
-verifyNominate(ref const Envelope actual, ref const SecretKey secretKey,
-               ref const Hash qSetHash, uint64 slotIndex, Value[] votes,
+verifyNominate(ref Envelope actual, ref SecretKey secretKey,
+               ref Hash qSetHash, uint64 slotIndex, Value[] votes,
                Value[] accepted)
 {
     auto exp = makeNominate(secretKey, qSetHash, slotIndex, votes, accepted);
@@ -484,7 +482,7 @@ public :
             qSet.validators ~= (mNodeID[1].publicKey);
             qSet.validators ~= (mNodeID[2].publicKey);
 
-            auto check = (ref const QuorumSet qSetCheck, ref const NodeIDSet s, int expected)
+            auto check = (ref QuorumSet qSetCheck, ref NodeIDSet s, int expected)
             {
                 auto r = LocalNode.findClosestVBlocking(qSetCheck, s, null);
                 REQUIRE(expected == r.length);
@@ -558,30 +556,30 @@ public :
         }
     }
 
-    alias genEnvelope = Envelope delegate (ref const SecretKey sk);
+    alias genEnvelope = Envelope delegate (ref SecretKey sk);
 
     static genEnvelope
-    makePrepareGen(ref const Hash qSetHash, ref const Ballot ballot,
+    makePrepareGen(ref Hash qSetHash, ref Ballot ballot,
                        Ballot* prepared = null, uint32 nC = 0, uint32 nH = 0,
                        Ballot* preparedPrime = null)
     {
-        return delegate(ref const SecretKey sk) {
+        return delegate(ref SecretKey sk) {
             return makePrepare(sk, qSetHash, 0, ballot, prepared, nC, nH, preparedPrime);
         };
     }
 
     static genEnvelope
-    makeConfirmGen(ref const Hash qSetHash, uint32 prepareCounter, ref const Ballot b, uint32 nC, uint32 nH)
+    makeConfirmGen(ref Hash qSetHash, uint32 prepareCounter, ref Ballot b, uint32 nC, uint32 nH)
     {
-        return delegate(ref const SecretKey sk) {
+        return delegate(ref SecretKey sk) {
             return makeConfirm(sk, qSetHash, 0, prepareCounter, b, nC, nH);
         };
     }
 
     static genEnvelope
-    makeExternalizeGen(ref const Hash qSetHash, ref const Ballot commitBallot, uint32 nH)
+    makeExternalizeGen(ref Hash qSetHash, ref Ballot commitBallot, uint32 nH)
     {
-        return delegate(ref const SecretKey sk) {
+        return delegate(ref SecretKey sk) {
             return makeExternalize(sk, qSetHash, 0, commitBallot, nH);
         };
     }

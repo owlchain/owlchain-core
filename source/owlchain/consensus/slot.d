@@ -80,7 +80,7 @@ public:
         return mBallotProtocol;
     }
 
-    ref const(Value) getLatestCompositeCandidate()
+    ref Value getLatestCompositeCandidate()
     {
         return mNominationProtocol.getLatestCompositeCandidate();
     }
@@ -110,7 +110,7 @@ public:
 
     // forces the state to match the one in the envelope
     // this is used when rebuilding the state after a crash for example
-    void setStateFromEnvelope(ref const Envelope e)
+    void setStateFromEnvelope(ref Envelope e)
     {
         if (e.statement.nodeID == mConsensusProtocol.getLocalNodeID() && e.statement.slotIndex == mSlotIndex)
         {
@@ -145,10 +145,10 @@ public:
     }
 
     // records the statement in the historical record for this slot
-    void recordStatement(ref const Statement st)
+    void recordStatement(ref Statement st)
     {
         StatementsValidated value;
-        value.statement = cast(Statement)st;
+        value.statement = st;
         value.fullyValidated = mFullyValidated;
         mStatementsHistory ~= value;
     }
@@ -156,7 +156,7 @@ public:
     // Process a newly received envelope for this slot and update the state of the slot accordingly.
     // self: set to true when node wants to record its own messages (potentially triggering more transitions)
     ConsensusProtocol.EnvelopeState 
-    processEnvelope(ref const Envelope envelope, bool self)
+    processEnvelope(ref Envelope envelope, bool self)
     {
         dbgAssert(envelope.statement.slotIndex == mSlotIndex);
 
@@ -199,13 +199,13 @@ public:
     // otherwise, no-ops
     // force: when true, always bumps the value, otherwise only bumps
     // the state if no value was prepared
-    bool bumpState(ref const Value value, bool force)
+    bool bumpState(ref Value value, bool force)
     {
         return mBallotProtocol.bumpState(value, force);
     }
 
     // attempts to nominate a value for consensus
-    bool nominate(ref const Value value, ref const Value previousValue, bool timedout)
+    bool nominate(ref Value value, ref Value previousValue, bool timedout)
     {
         return mNominationProtocol.nominate(value, previousValue, timedout);
     }
@@ -226,7 +226,7 @@ public:
     }
 
     // returns if a node is in the quorum originating at the local node
-    ConsensusProtocol.TriBool isNodeInQuorum(ref const NodeID node)
+    ConsensusProtocol.TriBool isNodeInQuorum(ref NodeID node)
     {
         // build the mapping between nodes and envelopes
         Statement*[][NodeID] m;
@@ -249,7 +249,7 @@ public:
 
         return mConsensusProtocol.getLocalNode().isNodeInQuorum(
             node, 
-            (ref const Statement st) {
+            (ref Statement st) {
                 // uses the companion set here as we want to consider
                 // nodes that were used up to EXTERNALIZE
                 Hash h = getCompanionQuorumSetHashFromStatement(st);
@@ -290,15 +290,15 @@ public:
 
             Hash qSetHash = getCompanionQuorumSetHashFromStatement(item.statement);
             auto qSet = getCPDriver().getQSet(qSetHash);
-            if (qSet)
+            if (qSet.refCountedStore.isInitialized)
             {
-                qSetsUsed[qSetHash] = *qSet;
+                qSetsUsed[qSetHash] = qSet;
             }
         }
 
         JSONValue[string] qSetsObject;
         JSONValue qSets = qSetsObject;
-        foreach (Hash h, const QuorumSet q; qSetsUsed)
+        foreach (ref const Hash h, ref QuorumSet q; qSetsUsed)
         {
             JSONValue[string] qsObject;
             JSONValue qs = qsObject;
@@ -314,13 +314,15 @@ public:
 
         JSONValue[string] slotsObject;
         JSONValue slots = slotsObject;
+
         string slotKey = to!string(mSlotIndex);
         slots.object[slotKey] = slotValue;
+
         ret.object["slots"] = slots;
     }
 
     // returns information about the quorum for a given node
-    void dumpQuorumInfo(ref JSONValue ret, ref const NodeID id, bool summary)
+    void dumpQuorumInfo(ref JSONValue ret, ref NodeID id, bool summary)
     {
         JSONValue[string] quorumInfoObject;
         JSONValue quorumInfo = quorumInfoObject;
@@ -335,22 +337,22 @@ public:
     // with the statement.
     // note: the companion hash for an EXTERNALIZE statement does
     // not match the hash of the QSet, but the hash of commitQuorumSetHash
-    static Hash getCompanionQuorumSetHashFromStatement(ref const Statement st)
+    static Hash getCompanionQuorumSetHashFromStatement(ref Statement st)
     {
         Hash h;
         switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
-                h = cast(Hash)(st.pledges.prepare.quorumSetHash);
+                h = st.pledges.prepare.quorumSetHash;
                 break;
             case StatementType.CP_ST_CONFIRM:
-                h = cast(Hash)(st.pledges.confirm.quorumSetHash);
+                h = st.pledges.confirm.quorumSetHash;
                 break;
             case StatementType.CP_ST_EXTERNALIZE:
-                h = cast(Hash)(st.pledges.externalize.commitQuorumSetHash);
+                h = st.pledges.externalize.commitQuorumSetHash;
                 break;
             case StatementType.CP_ST_NOMINATE:
-                h = cast(Hash)(st.pledges.nominate.quorumSetHash);
+                h = st.pledges.nominate.quorumSetHash;
                 break;
             default:
                 dbgAbort();
@@ -359,7 +361,7 @@ public:
     }
 
     // returns the values associated with the statement
-    static Value[] getStatementValues(ref const Statement st)
+    static Value[] getStatementValues(ref Statement st)
     {
         Value[] res;
         if (st.pledges.type == StatementType.CP_ST_NOMINATE)
@@ -375,9 +377,9 @@ public:
 
     // returns the QuorumSet that should be used for a node given the
     // statement (singleton for externalize)
-    QuorumSet getQuorumSetFromStatement(ref const Statement st)
+    QuorumSetPtr getQuorumSetFromStatement(ref Statement st)
     {
-        QuorumSet res;
+        QuorumSetPtr res;
         StatementType t = st.pledges.type;
 
         if (t == StatementType.CP_ST_EXTERNALIZE)
@@ -389,32 +391,31 @@ public:
             Hash h;
             if (t == StatementType.CP_ST_PREPARE)
             {
-                h = cast(Hash)(st.pledges.prepare.quorumSetHash);
+                h = st.pledges.prepare.quorumSetHash;
             }
             else if (t == StatementType.CP_ST_CONFIRM)
             {
-                h = cast(Hash)(st.pledges.confirm.quorumSetHash);
+                h = st.pledges.confirm.quorumSetHash;
             }
             else if (t == StatementType.CP_ST_NOMINATE)
             {
-                h = cast(Hash)(st.pledges.nominate.quorumSetHash);
+                h = st.pledges.nominate.quorumSetHash;
             }
             else
             {
                 dbgAbort();
             }
-            QuorumSet * p = getCPDriver().getQSet(h);
-            if (p) res = *p;
+            res = getCPDriver().getQSet(h);
         }
         return res;
     }
 
     // wraps a statement in an envelope (sign it, etc)
-    Envelope createEnvelope(ref const Statement statement)
+    Envelope createEnvelope(ref Statement statement)
     {
         Envelope envelope;
-        envelope.statement = cast(Statement)statement;
-        envelope.statement.nodeID.publicKey = getCP().getLocalNodeID().publicKey;
+        envelope.statement = statement;
+        envelope.statement.nodeID = getCP().getLocalNodeID();
         envelope.statement.slotIndex = mSlotIndex;
 
         getCPDriver().signEnvelope(envelope);
@@ -426,7 +427,7 @@ public:
 
     // returns true if the statement defined by voted and accepted
     // should be accepted
-    bool federatedAccept(StatementPredicate voted, StatementPredicate accepted, ref const Envelope [NodeID] envs)
+    bool federatedAccept(StatementPredicate voted, StatementPredicate accepted, ref Envelope [NodeID] envs)
     {
         // Checks if the nodes that claimed to accept the statement form a
         // v-blocking set
@@ -435,21 +436,17 @@ public:
             return true;
         }
 
-        // Checks if the set of nodes that accepted or voted for it form a quorum
-        auto ratifyFilter = (ref const Statement st) {
-            bool res;
-            res = accepted(st) || voted(st);
-            return res;
-        };
-
         if (LocalNode.isQuorum(
                 getLocalNode().getQuorumSet(), 
                 envs,
-                (ref const Statement st) {
+                (ref Statement st) {
                     return getQuorumSetFromStatement(st);
                 },
-                ratifyFilter)
-        )
+                (ref Statement st) {
+                    // Checks if the set of nodes that accepted or voted for it form a quorum
+                    return accepted(st) || voted(st);
+                })
+            )
         {
             return true;
         }
@@ -458,12 +455,12 @@ public:
 
     // returns true if the statement defined by voted
     // is ratified
-    bool federatedRatify(StatementPredicate voted, ref const Envelope [NodeID] envs)
+    bool federatedRatify(StatementPredicate voted, ref Envelope [NodeID] envs)
     {
         return LocalNode.isQuorum(
                 getLocalNode().getQuorumSet(), 
                 envs,
-                (ref const Statement st) {
+                (ref Statement st) {
                     return getQuorumSetFromStatement(st);
                 },
                 voted);

@@ -13,7 +13,7 @@ import owlchain.xdr.publicKey;
 import owlchain.crypto.keyUtils;
 import owlchain.consensus.consensusProtocol;
 
-//alias QuorumSetPtr = RefCounted!(QuorumSet, RefCountedAutoInitialize.no);
+alias QuorumSetPtr = RefCounted!(QuorumSet, RefCountedAutoInitialize.no);
 
 class ConsensusProtocolDriver
 {
@@ -28,16 +28,18 @@ class ConsensusProtocolDriver
 
     }
 
-    bool verifyEnvelope(ref const Envelope envelope)
+    bool verifyEnvelope(ref Envelope envelope)
     {
         return false;
     }
 
     // Delegates the retrieval of the quorum set designated by qSetHash to
     // the user of .
-    QuorumSet* getQSet(ref const Hash qSetHash)
+    QuorumSetPtr getQSet(ref Hash qSetHash)
     {
-        return null;
+        RefCounted!(QuorumSet, RefCountedAutoInitialize.no) qSet;
+
+        return qSet;
     }
 
     // Users of the  library should inherit from Driver and implement the
@@ -47,7 +49,7 @@ class ConsensusProtocolDriver
 
     // Delegates the emission of an Envelope to the user of . Envelopes
     // should be flooded to the network.
-    void emitEnvelope(ref const Envelope envelope)
+    void emitEnvelope(ref Envelope envelope)
     {
 
     }
@@ -70,7 +72,7 @@ class ConsensusProtocolDriver
         kMaybeValidValue      // value may be valid
     };
 
-    ValidationLevel validateValue(uint64 slotIndex, ref const Value value)
+    ValidationLevel validateValue(uint64 slotIndex, ref Value value)
     {
         return ConsensusProtocolDriver.ValidationLevel.kMaybeValidValue;
     }
@@ -80,41 +82,41 @@ class ConsensusProtocolDriver
     // This is used during nomination when encountering an invalid value (ie
     // validateValue did not return kFullyValidatedValue for this value).
     // returning Value() means no valid value could be extracted
-    Value extractValidValue(uint64 slotIndex, ref const Value value)
+    Value extractValidValue(uint64 slotIndex, ref Value value)
     {
         return Value();
     }
 
     // getValueString is used for debugging
     // default implementation is the hash of the value
-    string getValueString(ref const Value v)
+    string getValueString(ref Value v)
     {
         return "";
     }
 
     // toShortString converts to the common name of a key if found
-    string toShortString(ref const PublicKey pk)
+    string toShortString(ref PublicKey pk)
     {
         return "";
     }
 
     // computeHashNode is used by the nomination protocol to
     // randomize the order of messages between nodes.
-    uint64 computeHashNode(uint64 slotIndex, ref const Value prev, bool isPriority, int roundNumber, ref const NodeID nodeID)
+    uint64 computeHashNode(uint64 slotIndex, ref Value prev, bool isPriority, int roundNumber, ref NodeID nodeID)
     {
         return 0L;
     }
 
     // computeValueHash is used by the nomination protocol to
     // randomize the relative order between values.
-    uint64 computeValueHash(uint64 slotIndex, ref const Value prev, int roundNumber, ref const Value value)
+    uint64 computeValueHash(uint64 slotIndex, ref Value prev, int roundNumber, ref Value value)
     {
         return 0L;
     }
 
     // combineCandidates computes the composite value based off a list
     // of candidate values.
-    Value combineCandidates(uint64 slotIndex, ref const ValueSet candidates)
+    Value combineCandidates(uint64 slotIndex, ref ValueSet candidates)
     {
         return Value();
     }
@@ -151,14 +153,14 @@ class ConsensusProtocolDriver
 
     // valueExternalized is called at most once per slot when the slot
     // externalize its value.
-    void valueExternalized(uint64 slotIndex, ref const Value value)
+    void valueExternalized(uint64 slotIndex, ref Value value)
     {
 
     }
 
     // nominatingValue is called every time the local instance nominates
     // a new value.
-    void nominatingValue(uint64 slotIndex, ref const Value value)
+    void nominatingValue(uint64 slotIndex, ref Value value)
     {
 
     }
@@ -169,31 +171,31 @@ class ConsensusProtocolDriver
     // updatedCandidateValue is called every time a new candidate value
     // is included in the candidate set, the value passed in is
     // a composite value
-    void updatedCandidateValue(uint64 slotIndex, ref const Value value)
+    void updatedCandidateValue(uint64 slotIndex, ref Value value)
     {
 
     }
 
     // startedBallotProtocol is called when the ballot protocol is started
     // (ie attempts to prepare a new ballot)
-    void startedBallotProtocol(uint64 slotIndex, ref const Ballot ballot)
+    void startedBallotProtocol(uint64 slotIndex, ref Ballot ballot)
     {
     }
 
     // acceptedBallotPrepared every time a ballot is accepted as prepared
-    void acceptedBallotPrepared(uint64 slotIndex, ref const Ballot ballot)
+    void acceptedBallotPrepared(uint64 slotIndex, ref Ballot ballot)
     {
 
     }
 
     // confirmedBallotPrepared every time a ballot is confirmed prepared
-    void confirmedBallotPrepared(uint64 slotIndex, ref const Ballot ballot)
+    void confirmedBallotPrepared(uint64 slotIndex, ref Ballot ballot)
     {
 
     }
 
     // acceptedCommit every time a ballot is accepted commit
-    void acceptedCommit(uint64 slotIndex, ref const Ballot ballot)
+    void acceptedCommit(uint64 slotIndex, ref Ballot ballot)
     {
 
     }
@@ -201,7 +203,7 @@ class ConsensusProtocolDriver
     // ballotDidHearFromQuorum is called when we received messages related to
     // the current mBallot from a set of node that is a transitive quorum for
     // the local node.
-    void ballotDidHearFromQuorum(uint64 slotIndex, ref const Ballot ballot)
+    void ballotDidHearFromQuorum(uint64 slotIndex, ref Ballot ballot)
     {
 
     }

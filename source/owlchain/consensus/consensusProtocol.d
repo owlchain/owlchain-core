@@ -66,19 +66,19 @@ public:
     }
 
     // Local nodeID getter
-    ref const(NodeID) getLocalNodeID()
+    ref NodeID getLocalNodeID()
     {
         return mLocalNode.getNodeID();
     }
 
     // Local QuorumSet getter
-    ref const(QuorumSet) getLocalQuorumSet()
+    ref QuorumSet getLocalQuorumSet()
     {
         return mLocalNode.getQuorumSet();
     }
 
     // Retrieves the local secret key as specified at construction
-    ref const(SecretKey) getSecretKey()
+    ref SecretKey getSecretKey()
     {
         return mLocalNode.getSecretKey();
     }
@@ -117,7 +117,7 @@ public:
     // this is the main entry point of the Consensus Protocol library
     // it processes the envelope, updates the internal state and
     // invokes the appropriate methods
-    EnvelopeState receiveEnvelope(ref const Envelope envelope)
+    EnvelopeState receiveEnvelope(ref Envelope envelope)
     {
         // If the envelope is not correctly signed, we ignore it.
         if (!mDriver.verifyEnvelope(envelope))
@@ -131,7 +131,7 @@ public:
 
     // Submit a value to consider for slotIndex
     // previousValue is the value from slotIndex-1
-    bool nominate(uint64 slotIndex, ref const Value value, ref const Value previousValue)
+    bool nominate(uint64 slotIndex, ref Value value, ref Value previousValue)
     {
         dbgAssert(isValidator());
         return getSlot(slotIndex, true).nominate(value, previousValue, false);
@@ -148,7 +148,7 @@ public:
     }
 
     // Local QuorumSet interface (can be dynamically updated)
-    void updateLocalQuorumSet(ref const QuorumSet qSet)
+    void updateLocalQuorumSet(ref QuorumSet qSet)
     {
         mLocalNode.updateQuorumSet(qSet);
     }
@@ -170,7 +170,7 @@ public:
     {
         if (index == 0)
         {
-            foreach (uint64 slotIndex, Slot slot; mKnownSlots)
+            foreach (uint64 slotIndex, ref Slot slot; mKnownSlots)
             {
                 slot.dumpQuorumInfo(ret, id, summary);
             }
@@ -213,7 +213,7 @@ public:
     {
         size_t count = 0;
 
-        foreach (uint64 slotIndex, Slot slot; mKnownSlots)
+        foreach (uint64 slotIndex, ref Slot slot; mKnownSlots)
         {
             count += slot.getStatementCount();
         }
@@ -237,7 +237,7 @@ public:
 
     // forces the state to match the one in the envelope
     // this is used when rebuilding the state after a crash for example
-    void setStateFromEnvelope(uint64 slotIndex, ref const Envelope e)
+    void setStateFromEnvelope(uint64 slotIndex, ref Envelope e)
     {
         if (mDriver.verifyEnvelope(e))
         {
@@ -282,10 +282,10 @@ public:
     // TB_TRUE iff n is in the quorum
     // TB_FALSE iff n is not in the quorum
     // TB_MAYBE iff the quorum cannot be computed
-    TriBool isNodeInQuorum(ref const NodeID node)
+    TriBool isNodeInQuorum(ref NodeID node)
     {
         TriBool res = TriBool.TB_MAYBE;
-        foreach (uint64 slotIndex, Slot slot; mKnownSlots)
+        foreach (uint64 slotIndex, ref Slot slot; mKnownSlots)
         {
             res = slot.isNodeInQuorum(node);
             if (res == TriBool.TB_TRUE || res == TriBool.TB_FALSE)
@@ -297,17 +297,17 @@ public:
     }
 
     // ** helper methods to stringify ballot for logging
-    string getValueString(ref const Value v)
+    string getValueString(ref Value v)
     {
         return mDriver.getValueString(v);
     }
 
-    string ballotToStr(ref const Ballot ballot)
+    string ballotToStr(ref Ballot ballot)
     {
         return format("(%d,%s)", ballot.counter, getValueString(ballot.value));
     }
 
-    string ballotToStr(ref const Ballot * ballot)
+    string ballotToStr(ref Ballot * ballot)
     {
         string res;
         if (ballot) {
@@ -320,12 +320,12 @@ public:
         return res;
     }
 
-    string envToStr(ref const Envelope envelope)
+    string envToStr(ref Envelope envelope)
     {
         return envToStr(envelope.statement);
     }
 
-    string envToStr(ref const Statement st)
+    string envToStr(ref Statement st)
     {
         OutBuffer oBuffer = new OutBuffer(); 
         Hash qSetHash = Slot.getCompanionQuorumSetHashFromStatement(st);

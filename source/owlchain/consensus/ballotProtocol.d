@@ -31,12 +31,12 @@ import owlchain.utils.uniqueStruct;
 alias Interval = Tuple!(uint32, "low", uint32, "high");
 alias RedBlackTree !(uint32, "a < b") UInt32Set;
 
-alias StatementPredicate = bool delegate(ref const Statement st);
-alias IntervalPredicate = bool delegate(ref const Interval);
+alias StatementPredicate = bool delegate(ref Statement st);
+alias IntervalPredicate = bool delegate(ref Interval);
 
 alias EnvelopePtr = RefCounted!(Envelope, RefCountedAutoInitialize.no);
 
-static const int MAX_ADVANCEmSlot_RECURSION = 50;
+static const int MAX_ADVANCESLOT_RECURSION = 50;
 
 class BallotProtocol
 {
@@ -68,6 +68,7 @@ private :
     EnvelopePtr mLastEnvelopeEmit;      // last envelope emitted by this node
 
 public :
+
     this(Slot value)
     {
         mSlot = value;
@@ -81,14 +82,13 @@ public :
     // the slot accordingly.
     // self: set to true when node feeds its own statements in order to
     // trigger more potential state changes
-    ConsensusProtocol.EnvelopeState processEnvelope(ref const Envelope envelope, bool self)
+    ConsensusProtocol.EnvelopeState processEnvelope(ref Envelope envelope, bool self)
     {
-
         ConsensusProtocol.EnvelopeState res = ConsensusProtocol.EnvelopeState.INVALID;
         dbgAssert(envelope.statement.slotIndex == mSlot.getSlotIndex());
 
-        const Statement * statement = &envelope.statement;
-        const NodeID * nodeID = &statement.nodeID;
+        Statement * statement = &envelope.statement;
+        NodeID * nodeID = &statement.nodeID;
 
         if (!isStatementSane(*statement, self))
         {
@@ -187,7 +187,7 @@ public :
     {
         writefln("[DEBUG], ConsensusProtocol BallotProtocol.abandonBallot");
         bool res = false;
-        Value v = cast(Value)mSlot.getLatestCompositeCandidate();
+        Value v = mSlot.getLatestCompositeCandidate();
         if (v.value.length == 0)
         {
             if (!mCurrentBallot.isEmpty)
@@ -215,7 +215,7 @@ public :
     // otherwise, no-ops
     // force: when true, always bumps the value, otherwise only bumps
     // the state if no value was prepared
-    bool bumpState(ref const Value value, bool force)
+    bool bumpState(ref Value value, bool force)
     {
         uint32 n;
         if (!force && mCurrentBallot)
@@ -231,7 +231,7 @@ public :
     }
 
     // flavor that takes the actual desired counter value
-    bool bumpState(ref const Value value, uint32 n)
+    bool bumpState(ref Value value, uint32 n)
     {
         if (mPhase != CPPhase.CP_PHASE_PREPARE && mPhase != CPPhase.CP_PHASE_CONFIRM)
         {
@@ -286,43 +286,40 @@ public :
     }
 
     // returns information about the quorum for a given node
-    void dumpQuorumInfo(ref JSONValue ret, ref const NodeID id, bool summary)
+    void dumpQuorumInfo(ref JSONValue ret, ref NodeID id, bool summary)
     {
         import std.utf;
-
-        JSONValue[string] stateObject;
-        JSONValue phase = stateObject;
-        ret.object["phase"] = phase;
 
         // find the state of the node `id`
         Ballot * b;
         Hash qSetHash;
-
-        if (!mLatestEnvelopes.keys.canFind(id))
+        
+        auto pNode = (id in mLatestEnvelopes);
+        if (pNode is null)
         {
-            phase = JSONValue("unknown");
+            ret.object["phase"] = JSONValue("unknown");
             if (id == mSlot.getLocalNode().getNodeID())
             {
-                qSetHash = cast(Hash)mSlot.getLocalNode().getQuorumSetHash();
+                qSetHash = mSlot.getLocalNode().getQuorumSetHash();
             }
         }
         else
         {
-            const auto st = &(mLatestEnvelopes[id].statement);
+            auto st = &(mLatestEnvelopes[id].statement);
 
             switch (st.pledges.type)
             {
                 case StatementType.CP_ST_PREPARE:
                     ret.object["phase"] = JSONValue("PREPARE");
-                    b = cast(Ballot*)&(*st).pledges.prepare.ballot;
+                    b = &(*st).pledges.prepare.ballot;
                     break;
                 case StatementType.CP_ST_CONFIRM:
                     ret.object["phase"] = JSONValue("CONFIRM");
-                    b = cast(Ballot*)&(*st).pledges.confirm.ballot;
+                    b = &(*st).pledges.confirm.ballot;
                     break;
                 case StatementType.CP_ST_EXTERNALIZE:
                     ret.object["phase"] = JSONValue("EXTERNALIZE");
-                    b = cast(Ballot*)&(*st).pledges.externalize.commit;
+                    b = &(*st).pledges.externalize.commit;
                     break;
                 default:
                     dbgAbort();
@@ -336,7 +333,7 @@ public :
 
         int agree = 0;
         auto qSet = mSlot.getCPDriver().getQSet(qSetHash);
-        if (qSet != null)
+        if (!qSet.refCountedStore.isInitialized)
         {
             ret.object["phase"] = JSONValue("expired");
             return;
@@ -345,13 +342,10 @@ public :
         if (summary)
         {
             JSONValue[string] disagreeObject;
-            JSONValue disagree = disagreeObject;
-
             JSONValue[string] missingObject;
-            JSONValue missing = missingObject;
 
-            ret.object["disagree"] = disagree;
-            ret.object["missing" ] = missing;
+            ret.object["disagree"] = disagreeObject;
+            ret.object["missing" ] = missingObject;
         } else {
             JSONValue[] disagreeArray;
             ret.object["disagree"] = disagreeArray;
@@ -360,8 +354,9 @@ public :
             ret.object["missing" ] = missingArray;
         }
 
-        LocalNode.forAllNodes(*qSet, (ref const NodeID n) {
-            if (!mLatestEnvelopes.keys.canFind(n))
+        LocalNode.forAllNodes(qSet, (ref NodeID n) {
+            auto pN = (n in mLatestEnvelopes);
+            if (pN is null)
             {
                 if (!summary)
                 {
@@ -389,8 +384,8 @@ public :
             ret["disagree"] = JSONValue(n_disagree);
         }
 
-        NodeID[] f = LocalNode.findClosestVBlocking(*qSet, mLatestEnvelopes, 
-            (ref const Statement st) {
+        NodeID[] f = LocalNode.findClosestVBlocking(qSet, mLatestEnvelopes, 
+            (ref Statement st) {
                 return areBallotsCompatible(getWorkingBallot(st), *b);
             }, &id);
 
@@ -409,7 +404,7 @@ public :
             JSONValue[string] valueObject;
             JSONValue value = valueObject;
 
-            getLocalNode().toJson(*qSet, value);
+            getLocalNode().toJson(qSet, value);
 
             ret.object["value"] = value;
         }
@@ -422,19 +417,19 @@ public :
     // with the statement.
     // note: the companion hash for an EXTERNALIZE statement does
     // not match the hash of the QSet, but the hash of commitQuorumSetHash
-    static Hash getCompanionQuorumSetHashFromStatement(ref const Statement st)
+    static Hash getCompanionQuorumSetHashFromStatement(ref Statement st)
     {
         Hash h;
         switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
-                h = cast(Hash)st.pledges.prepare.quorumSetHash;
+                h = st.pledges.prepare.quorumSetHash;
                 break;
             case StatementType.CP_ST_CONFIRM:
-                h = cast(Hash)st.pledges.confirm.quorumSetHash;
+                h = st.pledges.confirm.quorumSetHash;
                 break;
             case StatementType.CP_ST_EXTERNALIZE:
-                h = cast(Hash)st.pledges.externalize.commitQuorumSetHash;
+                h = st.pledges.externalize.commitQuorumSetHash;
                 break;
             default:
                 dbgAbort();
@@ -444,23 +439,23 @@ public :
 
     // helper function to retrieve b for PREPARE, P for CONFIRM or
     // c for EXTERNALIZE messages
-    static Ballot getWorkingBallot(ref const Statement st)
+    static Ballot getWorkingBallot(ref Statement st)
     {
         Ballot res;
         switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
-                res = cast(Ballot)st.pledges.prepare.ballot;
+                res = st.pledges.prepare.ballot;
                 break;
             case StatementType.CP_ST_CONFIRM:
                 {
-                    const con = &st.pledges.confirm;
+                    auto con = &st.pledges.confirm;
                     res.counter = con.nCommit;
                     res.value = con.ballot.value;
                 }
                 break;
             case StatementType.CP_ST_EXTERNALIZE:
-                res = cast(Ballot)st.pledges.externalize.commit;
+                res = st.pledges.externalize.commit;
                 break;
             default:
                 dbgAbort();
@@ -473,7 +468,7 @@ public :
         return mLastEnvelopeEmit;
     }
 
-    void setStateFromEnvelope(ref const Envelope e)
+    void setStateFromEnvelope(ref Envelope e)
     {
         if (mCurrentBallot)
         {
@@ -482,62 +477,62 @@ public :
 
         recordEnvelope(e);
 
-        mLastEnvelope = refCounted(cast(Envelope)e);
+        mLastEnvelope = refCounted(e);
         mLastEnvelopeEmit = mLastEnvelope;
 
         Ballot ballot;
-        const auto pl = &e.statement.pledges;
+        auto pl = &e.statement.pledges;
 
         switch (pl.type)
         {
             case StatementType.CP_ST_PREPARE:
                 {
-                    const auto prep = &pl.prepare;
-                    const auto b = &prep.ballot;
+                    auto prep = &pl.prepare;
+                    auto b = &prep.ballot;
 
                     bumpToBallot(*b, true);
                     if (prep.prepared.counter > 0)
                     {
-                        mPrepared = cast(UniqueStruct!Ballot)(new Ballot(prep.prepared.counter, cast(Value)prep.prepared.value));
+                        mPrepared = cast(UniqueStruct!Ballot)(new Ballot(prep.prepared.counter, prep.prepared.value));
                     }
                     if (prep.preparedPrime.counter > 0)
                     {
-                        mPreparedPrime = cast(UniqueStruct!Ballot)(new Ballot(prep.preparedPrime.counter, cast(Value)prep.preparedPrime.value));
+                        mPreparedPrime = cast(UniqueStruct!Ballot)(new Ballot(prep.preparedPrime.counter, prep.preparedPrime.value));
                     }
                     if (prep.nH > 0)
                     {
-                        mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(prep.nH, cast(Value)b.value));
+                        mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(prep.nH, b.value));
                     }
                     if (prep.nC > 0)
                     {
-                        mCommit = cast(UniqueStruct!Ballot)(new Ballot(prep.nC, cast(Value)b.value));
+                        mCommit = cast(UniqueStruct!Ballot)(new Ballot(prep.nC, b.value));
                     }
                     mPhase = CPPhase.CP_PHASE_PREPARE;
                 }
                 break;
             case StatementType.CP_ST_CONFIRM:
                 {
-                    const auto c = &pl.confirm;
-                    const auto v = &c.ballot.value;
+                    auto c = &pl.confirm;
+                    auto v = &c.ballot.value;
 
                     bumpToBallot(c.ballot, true);
 
-                    mPrepared = cast(UniqueStruct!Ballot)(new Ballot(c.nPrepared, cast(Value)c.ballot.value));
-                    mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(c.nH, cast(Value)c.ballot.value));
-                    mCommit = cast(UniqueStruct!Ballot)(new Ballot(c.nCommit, cast(Value)c.ballot.value));
+                    mPrepared = cast(UniqueStruct!Ballot)(new Ballot(c.nPrepared, c.ballot.value));
+                    mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(c.nH, c.ballot.value));
+                    mCommit = cast(UniqueStruct!Ballot)(new Ballot(c.nCommit, c.ballot.value));
                     mPhase = CPPhase.CP_PHASE_CONFIRM;
                 }
                 break;
             case StatementType.CP_ST_EXTERNALIZE:
                 {
-                    const auto ext = &pl.externalize;
-                    const auto v = &ext.commit.value;
-                    ballot = Ballot(UINT32_MAX, cast(Value)ext.commit.value);
+                    auto ext = &pl.externalize;
+                    auto v = &ext.commit.value;
+                    ballot = Ballot(UINT32_MAX, ext.commit.value);
                     bumpToBallot(ballot, true);
 
-                    mPrepared = cast(UniqueStruct!Ballot)(new Ballot(UINT32_MAX, cast(Value)ext.commit.value));
-                    mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(ext.nH, cast(Value)ext.commit.value));
-                    mCommit = cast(UniqueStruct!Ballot)(new Ballot(ext.commit.counter, cast(Value)ext.commit.value));
+                    mPrepared = cast(UniqueStruct!Ballot)(new Ballot(UINT32_MAX, ext.commit.value));
+                    mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(ext.nH, ext.commit.value));
+                    mCommit = cast(UniqueStruct!Ballot)(new Ballot(ext.commit.counter, ext.commit.value));
                     mPhase = CPPhase.CP_PHASE_EXTERNALIZE;
                 }
                 break;
@@ -549,23 +544,23 @@ public :
     Envelope[] getCurrentState()
     {
         Envelope[] res;
-        foreach (const NodeID n, const Envelope e; mLatestEnvelopes)
+        foreach (ref const NodeID n, ref Envelope e; mLatestEnvelopes)
         {
             // only return messages for self if the slot is fully validated
             if (!(n == mSlot.getCP().getLocalNodeID()) || mSlot.isFullyValidated())
             {
-                res ~= cast(Envelope)e;
+                res ~= e;
             }
         }
         return res;
     }
 
-    Envelope[] getExternalizingState() 
+    Envelope[] getExternalizingState()
     {
         Envelope[] res;
         if (mPhase == CPPhase.CP_PHASE_EXTERNALIZE)
         {
-            foreach (const NodeID n, const Envelope e; mLatestEnvelopes)
+            foreach (ref const NodeID n, ref Envelope e; mLatestEnvelopes)
             {
                 if (!(n == mSlot.getCP().getLocalNodeID()))
                 {
@@ -574,13 +569,13 @@ public :
                     // we could filter more using mConfirmedPrepared as well
                     if (areBallotsCompatible(getWorkingBallot(e.statement), *mCommit))
                     {
-                        res ~= cast(Envelope)e;
+                        res ~= e;
                     }
                 }
                 else if (mSlot.isFullyValidated())
                 {
                     // only return messages for self if the slot is fully validated
-                    res ~= cast(Envelope)e;
+                    res ~= e;
                 }
             }
         }
@@ -591,14 +586,14 @@ private:
     // attempts to make progress using the latest statement as a hint
     // calls into the various attempt* methods, emits message
     // to make progress
-    void advanceSlot(ref const Statement hint)
+    void advanceSlot(ref Statement hint)
     {
         mCurrentMessageLevel++;
 
         //if (Logging::logDebug("ConsensusProtocol"))
         //writefln("[DEBUG], ConsensusProtocol BallotProtocol.advanceSlot %d %s ", mCurrentMessageLevel, getLocalState());
         
-        if (mCurrentMessageLevel >= MAX_ADVANCEmSlot_RECURSION)
+        if (mCurrentMessageLevel >= MAX_ADVANCESLOT_RECURSION)
         {
             throw new Exception("maximum number of transitions reached in advanceSlot");
         }
@@ -612,10 +607,10 @@ private:
             if (LocalNode.isQuorum(
                 getLocalNode().getQuorumSet(), 
                 mLatestEnvelopes,
-                (ref const Statement st) {
+                (ref Statement st) {
                     return mSlot.getQuorumSetFromStatement(st);
                 },
-                (ref const Statement st) {
+                (ref Statement st) {
                     bool res;
                     if (st.pledges.type == StatementType.CP_ST_PREPARE)
                     {
@@ -674,32 +669,32 @@ private:
     }
 
     // returns true if all values in statement are valid
-    ConsensusProtocolDriver.ValidationLevel validateValues(ref const Statement st)
+    ConsensusProtocolDriver.ValidationLevel validateValues(ref Statement st)
     {
         ValueSet values = new ValueSet;
         switch (st.pledges.type)
         {
             case StatementType.CP_ST_PREPARE:
                 {
-                    const auto prep = &st.pledges.prepare;
-                    const auto b = &prep.ballot;
+                    auto prep = &st.pledges.prepare;
+                    auto b = &prep.ballot;
                     if (b.counter != 0)
                     {
-                        values.insert(cast(Value)prep.ballot.value);
+                        values.insert(prep.ballot.value);
                     }
                     if (prep.prepared.counter != 0)
                     {
-                        values.insert(cast(Value)prep.prepared.value);
+                        values.insert(prep.prepared.value);
                     }
                 }
                 break;
 
             case StatementType.CP_ST_CONFIRM:
-                values.insert(cast(Value)st.pledges.confirm.ballot.value);
+                values.insert(st.pledges.confirm.ballot.value);
                 break;
 
             case StatementType.CP_ST_EXTERNALIZE:
-                values.insert(cast(Value)st.pledges.externalize.commit.value);
+                values.insert(st.pledges.externalize.commit.value);
                 break;
 
             default:
@@ -708,12 +703,12 @@ private:
         }
     
         ConsensusProtocolDriver.ValidationLevel res = ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue;
-        foreach (ref const Value v; values)
+        foreach (ref Value v; values)
         {
-            auto tr = mSlot.getCPDriver().validateValue(mSlot.getSlotIndex(), v);
-            if (tr != ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue)
+            auto level = mSlot.getCPDriver().validateValue(mSlot.getSlotIndex(), v);
+            if (level != ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue)
             {
-                if (tr == ConsensusProtocolDriver.ValidationLevel.kInvalidValue)
+                if (level == ConsensusProtocolDriver.ValidationLevel.kInvalidValue)
                 {
                     res = ConsensusProtocolDriver.ValidationLevel.kInvalidValue;
                 }
@@ -754,7 +749,7 @@ private:
     //  output: returns true if the state was updated.
 
     // step 1 and 5 from the CP paper
-    bool attemptPreparedAccept(ref const Statement hint)
+    bool attemptPreparedAccept(ref Statement hint)
     {
         if (mPhase != CPPhase.CP_PHASE_PREPARE && mPhase != CPPhase.CP_PHASE_CONFIRM)
         {
@@ -764,7 +759,7 @@ private:
         BallotSet candidates = getPrepareCandidates(hint);
 
         // see if we can accept any of the candidates, starting with the highest
-        foreach_reverse (ref const Ballot ballot; candidates)
+        foreach_reverse (ref Ballot ballot; candidates)
         {
 
             if (mPhase == CPPhase.CP_PHASE_CONFIRM)
@@ -798,26 +793,26 @@ private:
 
             bool accepted = federatedAccept(
                 // checks if any node is voting for this ballot
-                (ref const Statement st) {
+                (ref Statement st) {
                     bool res;
 
                     switch (st.pledges.type)
                     {
                         case StatementType.CP_ST_PREPARE:
                             {
-                                const auto p = &st.pledges.prepare;
+                                auto p = &st.pledges.prepare;
                                 res = areBallotsLessAndCompatible(ballot, p.ballot);
                             }
                             break;
                         case StatementType.CP_ST_CONFIRM:
                             {
-                                const auto c = &st.pledges.confirm;
+                                auto c = &st.pledges.confirm;
                                 res = areBallotsCompatible(ballot, c.ballot);
                             }
                             break;
                         case StatementType.CP_ST_EXTERNALIZE:
                             {
-                                const auto e = &st.pledges.externalize;
+                                auto e = &st.pledges.externalize;
                                 res = areBallotsCompatible(ballot, e.commit);
                             }
                             break;
@@ -828,10 +823,11 @@ private:
 
                     return res;
                 },
-                (ref const Statement st) {
+                (ref Statement st) {
                     return BallotProtocol.hasPreparedBallot(ballot, st);
                 }
             );
+
             if (accepted)
             {
                 return setPreparedAccept(ballot);
@@ -842,7 +838,7 @@ private:
     }
 
     // prepared: ballot that should be prepared
-    bool setPreparedAccept(ref const Ballot ballot)
+    bool setPreparedAccept(ref Ballot ballot)
     {
         //if (Logging::logDebug("SCP"))
         //writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedAccept i: %d  b : %s ", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(ballot));
@@ -873,7 +869,7 @@ private:
 
     // step 2+3+8 from the CP paper
     // ballot is the candidate to record as 'confirmed prepared'
-    bool attemptPreparedConfirmed(ref const Statement hint)
+    bool attemptPreparedConfirmed(ref Statement hint)
     {
         if (mPhase != CPPhase.CP_PHASE_PREPARE)
         {
@@ -888,7 +884,7 @@ private:
 
         BallotSet candidates1 = getPrepareCandidates(hint);
         Ballot[] candidates;
-        foreach_reverse (ref Ballot ballot; candidates)
+        foreach_reverse (ref Ballot ballot; candidates1)
         {
             candidates ~= ballot;
         }
@@ -906,7 +902,12 @@ private:
                 break;
             }
 
-            bool ratified = federatedRatify((ref const Statement st){ return BallotProtocol.hasPreparedBallot(*ballot, st);});
+            bool ratified = federatedRatify(
+                (ref Statement st)
+                {
+                    return BallotProtocol.hasPreparedBallot(*ballot, st);
+                });
+
             if (ratified)
             {
                 newH = *ballot;
@@ -940,7 +941,7 @@ private:
                     {
                         break;
                     }
-                    bool ratified = federatedRatify((ref const Statement st){ return BallotProtocol.hasPreparedBallot(*ballot, st);});
+                    bool ratified = federatedRatify((ref Statement st){ return BallotProtocol.hasPreparedBallot(*ballot, st);});
                     if (ratified)
                     {
                         newC = *ballot;
@@ -957,7 +958,7 @@ private:
     }
 
     // newC, newH : low/high bounds prepared confirmed
-    bool setPreparedConfirmed(ref const Ballot newC, ref const Ballot newH)
+    bool setPreparedConfirmed(ref Ballot newC, ref Ballot newH)
     {
         //if (Logging::logDebug("SCP"))
         //writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedConfirmed i: %d  h : %s ", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(newH));
@@ -967,13 +968,13 @@ private:
         if (!mHighBallot || compareBallots(newH, *mHighBallot) > 0)
         {
             didWork = true;
-            mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(newH.counter, cast(Value)newH.value));
+            mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(newH.counter, newH.value));
         }
 
         if (newC.counter != 0)
         {
             dbgAssert(mCommit.isEmpty);
-            mCommit = cast(UniqueStruct!Ballot)(new Ballot(newC.counter, cast(Value)newC.value));
+            mCommit = cast(UniqueStruct!Ballot)(new Ballot(newC.counter, newC.value));
             didWork = true;
         }
 
@@ -988,7 +989,7 @@ private:
     }
 
     // step (4 and 6)+8 from the CP paper
-    bool attemptAcceptCommit(ref const Statement hint)
+    bool attemptAcceptCommit(ref Statement hint)
     {
         if (mPhase != CPPhase.CP_PHASE_PREPARE && mPhase != CPPhase.CP_PHASE_CONFIRM)
         {
@@ -1003,10 +1004,10 @@ private:
         {
             case StatementType.CP_ST_PREPARE:
                 {
-                    const auto prep = &hint.pledges.prepare;
+                    auto prep = &hint.pledges.prepare;
                     if (prep.nC != 0)
                     {
-                        ballot = Ballot(prep.nH, cast(Value)prep.ballot.value);
+                        ballot = Ballot(prep.nH, prep.ballot.value);
                     }
                     else
                     {
@@ -1016,14 +1017,14 @@ private:
                 break;
             case StatementType.CP_ST_CONFIRM:
                 {
-                    const auto con = &hint.pledges.confirm;
-                    ballot = Ballot(con.nH, cast(Value)con.ballot.value);
+                    auto con = &hint.pledges.confirm;
+                    ballot = Ballot(con.nH, con.ballot.value);
                 }
                 break;
             case StatementType.CP_ST_EXTERNALIZE:
                 {
-                    const auto ext = &hint.pledges.externalize;
-                    ballot = Ballot(ext.nH, cast(Value)ext.commit.value);
+                    auto ext = &hint.pledges.externalize;
+                    ballot = Ballot(ext.nH, ext.commit.value);
                     break;
                 }
             default:
@@ -1038,16 +1039,16 @@ private:
             }
         }
 
-        IntervalPredicate pred = (ref const Interval cur) {
+        IntervalPredicate pred = (ref Interval cur) {
             return federatedAccept  (
-            (ref const Statement st) {
+            (ref Statement st) {
                 bool res = false;
-                const auto pl = &st.pledges;
+                auto pl = &st.pledges;
                 switch (pl.type)
                 {
                     case StatementType.CP_ST_PREPARE:
                         {
-                            const auto p = &pl.prepare;
+                            auto p = &pl.prepare;
                             if (areBallotsCompatible(ballot, p.ballot))
                             {
                                 if (p.nC != 0)
@@ -1059,7 +1060,7 @@ private:
                         break;
                     case StatementType.CP_ST_CONFIRM:
                         {
-                            const auto c = &pl.confirm;
+                            auto c = &pl.confirm;
                             if (areBallotsCompatible(ballot, c.ballot))
                             {
                                 res = c.nCommit <= cur.low;
@@ -1068,7 +1069,7 @@ private:
                         break;
                     case StatementType.CP_ST_EXTERNALIZE:
                         {
-                            const auto e = &pl.externalize;
+                            auto e = &pl.externalize;
                             if (areBallotsCompatible(ballot, e.commit))
                             {
                                 res = e.commit.counter <= cur.low;
@@ -1080,7 +1081,7 @@ private:
                 }
                 return res;
             },
-            (ref const Statement st) {
+            (ref Statement st) {
                 return BallotProtocol.commitPredicate(ballot, cur, st);
             });
         };
@@ -1113,7 +1114,7 @@ private:
     }
 
     // new values for c and h
-    bool setAcceptCommit(ref const Ballot c, ref const Ballot h)
+    bool setAcceptCommit(ref Ballot c, ref Ballot h)
     {
         //if (Logging::logDebug("ConsensusProtocol"))
         //writefln("[DEBUG], ConsensusProtocol BallotProtocol.setAcceptCommit i: %d  new c: %s new h: %s",
@@ -1123,8 +1124,8 @@ private:
 
         if (mHighBallot.isEmpty() || mCommit.isEmpty() || compareBallots(*mHighBallot, h) != 0 || compareBallots(*mCommit, c) != 0)
         {
-            mCommit = cast(UniqueStruct!Ballot)(new Ballot(c.counter, cast(Value)c.value));
-            mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(h.counter, cast(Value)h.value));
+            mCommit = cast(UniqueStruct!Ballot)(new Ballot(c.counter, c.value));
+            mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(h.counter, h.value));
 
             didWork = true;
         }
@@ -1152,7 +1153,7 @@ private:
     }
 
     // step 7+8 from the CP paper
-    bool attemptConfirmCommit(ref const Statement hint)
+    bool attemptConfirmCommit(ref Statement hint)
     {
         if (mPhase != CPPhase.CP_PHASE_CONFIRM)
         {
@@ -1177,13 +1178,13 @@ private:
             case StatementType.CP_ST_CONFIRM:
                 {
                     auto con = &hint.pledges.confirm;
-                    ballot = Ballot(con.nH, cast(Value)con.ballot.value);
+                    ballot = Ballot(con.nH, con.ballot.value);
                 }
                 break;
             case StatementType.CP_ST_EXTERNALIZE:
                 {
                     auto ext = &hint.pledges.externalize;
-                    ballot = Ballot(ext.nH, cast(Value)ext.commit.value);
+                    ballot = Ballot(ext.nH, ext.commit.value);
                     break;
                 }
             default:
@@ -1198,9 +1199,9 @@ private:
         UInt32Set boundaries = getCommitBoundariesFromStatements(ballot);
         Interval candidate;
 
-        IntervalPredicate pred = (ref const Interval cur) {
+        IntervalPredicate pred = (ref Interval cur) {
             return federatedRatify(
-                                   (ref const Statement st) {
+                                   (ref Statement st) {
                                        return BallotProtocol.commitPredicate(ballot, cur, st);
                                    });
         };
@@ -1217,14 +1218,14 @@ private:
         return res;
     }
 
-    bool setConfirmCommit(ref const Ballot acceptCommitLow, ref const Ballot acceptCommitHigh)
+    bool setConfirmCommit(ref Ballot acceptCommitLow, ref Ballot acceptCommitHigh)
     {
         //if (Logging::logDebug("ConsensusProtocol"))
         //writefln("[DEBUG], ConsensusProtocol BallotProtocol.setConfirmCommit i: %d  new c: %s new h: %s",
         //         mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(acceptCommitLow), mSlot.getCP().ballotToStr(acceptCommitHigh));
 
-        mCommit = cast(UniqueStruct!Ballot)(new Ballot(acceptCommitLow.counter, cast(Value)acceptCommitLow.value));
-        mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(acceptCommitHigh.counter, cast(Value)acceptCommitHigh.value));
+        mCommit = cast(UniqueStruct!Ballot)(new Ballot(acceptCommitLow.counter, acceptCommitLow.value));
+        mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(acceptCommitHigh.counter, acceptCommitHigh.value));
         updateCurrentIfNeeded();
 
         mPhase = CPPhase.CP_PHASE_EXTERNALIZE;
@@ -1245,20 +1246,20 @@ private:
         {
             // find all counters
             UInt32Set allCounters = new UInt32Set;
-            foreach (const NodeID n, const Envelope e; mLatestEnvelopes)
+            foreach (ref const NodeID n, ref Envelope e; mLatestEnvelopes)
             {
-                const auto st = &e.statement;
+                auto st = &e.statement;
                 switch (st.pledges.type)
                 {
                     case StatementType.CP_ST_PREPARE:
                         {
-                            const auto p = &st.pledges.prepare;
+                            auto p = &st.pledges.prepare;
                             allCounters.insert(p.ballot.counter);
                         }
                         break;
                     case StatementType.CP_ST_CONFIRM:
                         {
-                            const auto c = &st.pledges.confirm;
+                            auto c = &st.pledges.confirm;
                             allCounters.insert(c.ballot.counter);
                         }
                         break;
@@ -1288,12 +1289,12 @@ private:
                 bool vBlocking = LocalNode.isVBlocking(
                     getLocalNode().getQuorumSet(), 
                     mLatestEnvelopes,
-                    (ref const Statement st) {
+                    (ref Statement st) {
                         bool res;
-                        const auto pl = &st.pledges;
+                        auto pl = &st.pledges;
                         if (pl.type == StatementType.CP_ST_PREPARE)
                         {
-                            const auto p = &pl.prepare;
+                            auto p = &pl.prepare;
                             res = n < p.ballot.counter;
                         }
                         else
@@ -1332,7 +1333,7 @@ private:
     }
 
     // computes a list of candidate values that may have been prepared
-    BallotSet getPrepareCandidates(ref const Statement hint)
+    BallotSet getPrepareCandidates(ref Statement hint)
     {
         BallotSet hintBallots_ = new BallotSet;
 
@@ -1340,29 +1341,29 @@ private:
         {
             case StatementType.CP_ST_PREPARE:
                 {
-                    const auto prep = &hint.pledges.prepare;
-                    hintBallots_.insert(cast(Ballot)prep.ballot);
+                    auto prep = &hint.pledges.prepare;
+                    hintBallots_.insert(prep.ballot);
                     if (prep.prepared.counter > 0)
                     {
-                        hintBallots_.insert(cast(Ballot)prep.prepared);
+                        hintBallots_.insert(prep.prepared);
                     }
                     if (prep.preparedPrime.counter > 0)
                     {
-                        hintBallots_.insert(cast(Ballot)prep.preparedPrime);
+                        hintBallots_.insert(prep.preparedPrime);
                     }
                 }
                 break;
             case StatementType.CP_ST_CONFIRM:
                 {
-                    const auto con = &hint.pledges.confirm;
-                    hintBallots_.insert(Ballot(con.nPrepared, cast(Value)con.ballot.value));
-                    hintBallots_.insert(Ballot(UINT32_MAX, cast(Value)con.ballot.value));
+                    auto con = &hint.pledges.confirm;
+                    hintBallots_.insert(Ballot(con.nPrepared, con.ballot.value));
+                    hintBallots_.insert(Ballot(UINT32_MAX, con.ballot.value));
                 }
                 break;
             case StatementType.CP_ST_EXTERNALIZE:
                 {
-                    const auto ext = &hint.pledges.externalize;
-                    hintBallots_.insert(Ballot(UINT32_MAX, cast(Value)ext.commit.value));
+                    auto ext = &hint.pledges.externalize;
+                    hintBallots_.insert(Ballot(UINT32_MAX, ext.commit.value));
                 }
                 break;
             default:
@@ -1382,49 +1383,49 @@ private:
             Ballot topVote = hintBallots[hintBallots.length-1];
             hintBallots = hintBallots[0..$-1];
 
-            const auto val = &topVote.value;
+            auto val = &topVote.value;
 
             // find candidates that may have been prepared
-            foreach (const NodeID n, const Envelope e; mLatestEnvelopes)
+            foreach (NodeID n, ref Envelope e; mLatestEnvelopes)
             {
-                const auto st = &e.statement;
+                auto st = &e.statement;
                 switch (st.pledges.type)
                 {
                     case StatementType.CP_ST_PREPARE:
                         {
-                            const auto prep = &st.pledges.prepare;
+                            auto prep = &st.pledges.prepare;
                             if (areBallotsLessAndCompatible(prep.ballot, topVote))
                             {
-                                candidates.insert(cast(Ballot)prep.ballot);
+                                candidates.insert(prep.ballot);
                             }
                             if (prep.prepared.counter > 0 &&
                                 areBallotsLessAndCompatible(prep.prepared, topVote))
                             {
-                                candidates.insert(cast(Ballot)prep.prepared);
+                                candidates.insert(prep.prepared);
                             }
                             if (prep.preparedPrime.counter > 0 &&
                                 areBallotsLessAndCompatible(prep.preparedPrime, topVote))
                             {
-                                candidates.insert(cast(Ballot)prep.preparedPrime);
+                                candidates.insert(prep.preparedPrime);
                             }
                         }
                         break;
                     case StatementType.CP_ST_CONFIRM:
                         {
-                            const auto con = &st.pledges.confirm;
+                            auto con = &st.pledges.confirm;
                             if (areBallotsCompatible(topVote, con.ballot))
                             {
                                 candidates.insert(topVote);
                                 if (con.nPrepared < topVote.counter)
                                 {
-                                    candidates.insert(Ballot(con.nPrepared, cast(Value)(*val)));
+                                    candidates.insert(Ballot(con.nPrepared, *val));
                                 }
                             }
                         }
                         break;
                     case StatementType.CP_ST_EXTERNALIZE:
                         {
-                            const auto ext = &st.pledges.externalize;
+                            auto ext = &st.pledges.externalize;
                             if (areBallotsCompatible(topVote, ext.commit))
                             {
                                 candidates.insert(topVote);
@@ -1487,17 +1488,17 @@ private:
 
     // constructs the set of counters representing the
     // commit ballots compatible with the ballot
-    UInt32Set getCommitBoundariesFromStatements(ref const Ballot ballot)
+    UInt32Set getCommitBoundariesFromStatements(ref Ballot ballot)
     {
         UInt32Set res = new UInt32Set;
-        foreach (const NodeID n, const Envelope env; mLatestEnvelopes)
+        foreach (ref const NodeID n, ref Envelope env; mLatestEnvelopes)
         {
-            const auto pl = &env.statement.pledges;
+            auto pl = &env.statement.pledges;
             switch (pl.type)
             {
             case StatementType.CP_ST_PREPARE:
             {
-                const auto p = &pl.prepare;
+                auto p = &pl.prepare;
                 if (areBallotsCompatible(ballot, p.ballot))
                 {
                     if (p.nC)
@@ -1510,7 +1511,7 @@ private:
             break;
             case StatementType.CP_ST_CONFIRM:
             {
-                const auto c = &pl.confirm;
+                auto c = &pl.confirm;
                 if (areBallotsCompatible(ballot, c.ballot))
                 {
                     res.insert(c.nCommit);
@@ -1520,7 +1521,7 @@ private:
             break;
             case StatementType.CP_ST_EXTERNALIZE:
             {
-                const auto e = &pl.externalize;
+                auto e = &pl.externalize;
                 if (areBallotsCompatible(ballot, e.commit))
                 {
                     res.insert(e.commit.counter);
@@ -1540,7 +1541,7 @@ private:
     // a certain property
 
     // is ballot prepared by st
-    static bool hasPreparedBallot(ref const Ballot ballot, ref const Statement st)
+    static bool hasPreparedBallot(ref Ballot ballot, ref Statement st)
     {
         bool res;
 
@@ -1548,7 +1549,7 @@ private:
         {
             case StatementType.CP_ST_PREPARE:
                 {
-                    const auto p = &st.pledges.prepare;
+                    auto p = &st.pledges.prepare;
                     res =
                         (p.prepared.counter > 0 && areBallotsLessAndCompatible(ballot, p.prepared)) ||
                         (p.preparedPrime.counter > 0 && areBallotsLessAndCompatible(ballot, p.preparedPrime));
@@ -1556,14 +1557,14 @@ private:
                 break;
             case StatementType.CP_ST_CONFIRM:
                 {
-                    const auto c = &st.pledges.confirm;
-                    Ballot prepared = Ballot(c.nPrepared, cast(Value)c.ballot.value);
+                    auto c = &st.pledges.confirm;
+                    Ballot prepared = Ballot(c.nPrepared, c.ballot.value);
                     res = areBallotsLessAndCompatible(ballot, prepared);
                 }
                 break;
             case StatementType.CP_ST_EXTERNALIZE:
                 {
-                    const auto e = &st.pledges.externalize;
+                    auto e = &st.pledges.externalize;
                     res = areBallotsCompatible(ballot, e.commit);
                 }
                 break;
@@ -1576,17 +1577,17 @@ private:
     }
 
     // returns true if the statement commits the ballot in the range 'check'
-    static bool commitPredicate(ref const Ballot ballot, ref const Interval check, ref const Statement st)
+    static bool commitPredicate(ref Ballot ballot, ref Interval check, ref Statement st)
     {
         bool res = false;
-        const auto pl = &st.pledges;
+        auto pl = &st.pledges;
         switch (pl.type)
         {
             case StatementType.CP_ST_PREPARE:
                 break;
             case StatementType.CP_ST_CONFIRM:
                 {
-                    const auto c = &pl.confirm;
+                    auto c = &pl.confirm;
                     if (areBallotsCompatible(ballot, c.ballot))
                     {
                         res = c.nCommit <= check.low && check.high <= c.nH;
@@ -1595,7 +1596,7 @@ private:
                 break;
             case StatementType.CP_ST_EXTERNALIZE:
                 {
-                    const auto e = &pl.externalize;
+                    auto e = &pl.externalize;
                     if (areBallotsCompatible(ballot, e.commit))
                     {
                         res = e.commit.counter <= check.low;
@@ -1609,7 +1610,7 @@ private:
     }
 
     // attempts to update p to ballot (updating p' if needed)
-    bool setPrepared(ref const Ballot ballot)
+    bool setPrepared(ref Ballot ballot)
     {
         bool didWork = false;
 
@@ -1620,9 +1621,9 @@ private:
             {
                 if (!areBallotsCompatible(*mPrepared, ballot))
                 {
-                    mPreparedPrime = cast(UniqueStruct!Ballot)(new Ballot(mPrepared.counter, cast(Value)mPrepared.value));
+                    mPreparedPrime = cast(UniqueStruct!Ballot)(new Ballot(mPrepared.counter, mPrepared.value));
                 }
-                mPrepared = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
+                mPrepared = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, ballot.value));
                 didWork = true;
             }
             else if (comp > 0)
@@ -1630,14 +1631,14 @@ private:
                 // check if we should update only p'
                 if (mPreparedPrime.counter == 0 || compareBallots(*mPreparedPrime, ballot) < 0)
                 {
-                    mPreparedPrime = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
+                    mPreparedPrime = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, ballot.value));
                     didWork = true;
                 }
             }
         }
         else
         {
-            mPrepared = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
+            mPrepared = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, ballot.value));
             didWork = true;
         }
         return didWork;
@@ -1645,7 +1646,7 @@ private:
     // ** Helper methods to compare two ballots
 
     // ballot comparison (ordering)
-    static int compareBallots(ref const UniqueStruct!Ballot b1, ref const UniqueStruct!Ballot b2)
+    static int compareBallots(ref UniqueStruct!Ballot b1, ref UniqueStruct!Ballot b2)
     {
         int res;
         if (b1 && b2)
@@ -1667,7 +1668,7 @@ private:
         return res;
     }
 
-    static int compareBallots(ref const Ballot b1, ref const Ballot b2)
+    static int compareBallots(ref Ballot b1, ref Ballot b2)
     {
         if (b1.counter < b2.counter)
         {
@@ -1693,19 +1694,19 @@ private:
     }
 
     // b1 ~ b2
-    static bool areBallotsCompatible(const Ballot b1, const Ballot b2)
+    static bool areBallotsCompatible(Ballot b1, Ballot b2)
     {
         return b1.value == b2.value;
     }
 
     // b1 <= b2 && b1 !~ b2
-    static bool areBallotsLessAndIncompatible(ref const Ballot b1, ref const Ballot b2)
+    static bool areBallotsLessAndIncompatible(ref Ballot b1, ref Ballot b2)
     {
         return (compareBallots(b1, b2) <= 0) && !areBallotsCompatible(b1, b2);
     }
 
     // b1 <= b2 && b1 ~ b2
-    static bool areBallotsLessAndCompatible(ref const Ballot b1, ref const Ballot b2)
+    static bool areBallotsLessAndCompatible(ref Ballot b1, ref Ballot b2)
     {
         return (compareBallots(b1, b2) <= 0) && areBallotsCompatible(b1, b2);
     }
@@ -1714,10 +1715,11 @@ private:
 
     // returns true if the statement is newer than the one we know about
     // for a given node.
-    bool isNewerStatement(ref const NodeID nodeID, ref const Statement st)
+    bool isNewerStatement(ref NodeID nodeID, ref Statement st)
     {
         bool res = false;
-        if (!mLatestEnvelopes.keys.canFind(nodeID))
+        auto pN = (nodeID in mLatestEnvelopes);
+        if (pN is null)
         {
             res = true;
         }
@@ -1729,7 +1731,7 @@ private:
     }
 
     // returns true if st is newer than oldst
-    static bool isNewerStatement(ref const Statement oldst, ref const Statement st)
+    static bool isNewerStatement(ref Statement oldst, ref Statement st)
     {
         bool res = false;
 
@@ -1751,8 +1753,8 @@ private:
             else if (t == StatementType.CP_ST_CONFIRM)
             {
                 // sorted by (b, p, p', h) (p' = 0 implicitely)
-                const auto oldC = &oldst.pledges.confirm;
-                const auto c = &st.pledges.confirm;
+                auto oldC = &oldst.pledges.confirm;
+                auto c = &st.pledges.confirm;
                 int compBallot = compareBallots(oldC.ballot, c.ballot);
                 if (compBallot < 0)
                 {
@@ -1774,8 +1776,8 @@ private:
             {
                 // Lexicographical order between PREPARE statements:
                 // (b, p, p', h)
-                const auto oldPrep = &oldst.pledges.prepare;
-                const auto prep = &st.pledges.prepare;
+                auto oldPrep = &oldst.pledges.prepare;
+                auto prep = &st.pledges.prepare;
 
                 int compBallot = compareBallots(oldPrep.ballot, prep.ballot);
                 if (compBallot < 0)
@@ -1809,7 +1811,7 @@ private:
     }
 
     // basic sanity check on statement
-    static bool isStatementSane(ref const Statement st, bool self)
+    static bool isStatementSane(ref Statement st, bool self)
     {
         auto res = true;
 
@@ -1817,7 +1819,7 @@ private:
         {
             case StatementType.CP_ST_PREPARE:
             {
-                const auto p = &st.pledges.prepare;
+                auto p = &st.pledges.prepare;
                 // self is allowed to have b = 0 (as long as it never gets emitted)
                 bool isOK = self || p.ballot.counter > 0;
 
@@ -1838,7 +1840,7 @@ private:
 
             case StatementType.CP_ST_CONFIRM:
             {
-                const auto c = &st.pledges.confirm;
+                auto c = &st.pledges.confirm;
                 // c <= h <= b
                 res = c.ballot.counter > 0;
                 res = res && (c.nH <= c.ballot.counter);
@@ -1851,7 +1853,7 @@ private:
             break;
             case StatementType.CP_ST_EXTERNALIZE:
             {
-                const auto e = &st.pledges.externalize;
+                auto e = &st.pledges.externalize;
 
                 res = e.commit.counter > 0;
                 res = res && e.nH >= e.commit.counter;
@@ -1870,16 +1872,10 @@ private:
     }
 
     // records the statement in the state machine
-    void recordEnvelope(ref const Envelope env)
+    void recordEnvelope(ref Envelope env)
     {
-        const auto st = &env.statement;
-        Envelope envelop = cast(Envelope)env;
-        auto p = (cast(NodeID)(st.nodeID) in mLatestEnvelopes);
-        if (p is null)
-        {
-            mLatestEnvelopes[st.nodeID] = envelop;
-        }
-
+        auto st = &env.statement;
+        mLatestEnvelopes[st.nodeID] = env;
         mSlot.recordStatement(env.statement);
     }
 
@@ -1888,7 +1884,7 @@ private:
     // this is the lowest level method to update the current ballot and as
     // such doesn't do any validation
     // check: verifies that ballot is greater than old one
-    void bumpToBallot(ref const Ballot ballot, bool check)
+    void bumpToBallot(ref Ballot ballot, bool check)
     {
         //if (Logging::logDebug("ConsensusProtocol"))
         //writefln("[DEBUG], ConsensusProtocol BallotProtocol.bumpToBallot i: %d b: %s", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(ballot));
@@ -1904,7 +1900,7 @@ private:
 
         bool gotBumped = !mCurrentBallot || !(*mCurrentBallot == ballot);
 
-        mCurrentBallot = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, cast(Value)ballot.value));
+        mCurrentBallot = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, ballot.value));
 
         mHeardFromQuorum = false;
 
@@ -1915,7 +1911,7 @@ private:
     // switch the local node to the given ballot's value
     // with the assumption that the ballot is more recent than the one
     // we have.
-    bool updateCurrentValue(ref const Ballot ballot)
+    bool updateCurrentValue(ref Ballot ballot)
     {
         if (mPhase != CPPhase.CP_PHASE_PREPARE && mPhase != CPPhase.CP_PHASE_CONFIRM)
         {
@@ -1998,14 +1994,16 @@ private:
         // if we generate the same envelope, don't process it again
         // this can occur when updating h in PREPARE phase
         // as statements only keep track of h.n (but h.x could be different)
+        NodeID nID = mSlot.getCP().getLocalNodeID();
+        auto pN = (nID in mLatestEnvelopes);
 
-        if (!mLatestEnvelopes.keys.canFind(mSlot.getCP().getLocalNodeID()) || !(mLatestEnvelopes[mSlot.getCP().getLocalNodeID()] == envelope))
+        if ((pN is null) || !(mLatestEnvelopes[nID] == envelope))
         {
             if (mSlot.processEnvelope(envelope, true) == ConsensusProtocol.EnvelopeState.VALID)
             {
                 if (canEmit && (!mLastEnvelope.refCountedStore.isInitialized || isNewerStatement(mLastEnvelope.statement, envelope.statement)))
                 {
-                    mLastEnvelope = refCounted(cast(Envelope)envelope);
+                    mLastEnvelope = refCounted(envelope);
                     // this will no-op if invoked from advanceSlot
                     // as advanceSlot consolidates all messages sent
                     sendLatestEnvelope();
@@ -2057,7 +2055,7 @@ private:
     }
 
     // create a statement of the given type using the local state
-    Statement createStatement(ref const StatementType type)
+    Statement createStatement(ref StatementType type)
     {
         Statement statement;
 
@@ -2068,10 +2066,10 @@ private:
         {
             case StatementType.CP_ST_PREPARE:
                 {
-                    statement.pledges.prepare.quorumSetHash = cast(Hash)getLocalNode().getQuorumSetHash();
+                    statement.pledges.prepare.quorumSetHash = getLocalNode().getQuorumSetHash();
                     if (mCurrentBallot)
                     {
-                        statement.pledges.prepare.ballot = cast(Ballot)*mCurrentBallot;
+                        statement.pledges.prepare.ballot = *mCurrentBallot;
                     }
                     if (mCommit)
                     {
@@ -2079,11 +2077,11 @@ private:
                     }
                     if (mPrepared)
                     {
-                        statement.pledges.prepare.prepared = cast(Ballot)*mPrepared;
+                        statement.pledges.prepare.prepared = *mPrepared;
                     }
                     if (mPreparedPrime)
                     {
-                        statement.pledges.prepare.preparedPrime = cast(Ballot)*mPreparedPrime;
+                        statement.pledges.prepare.preparedPrime = *mPreparedPrime;
                     }
                     if (mHighBallot)
                     {
@@ -2094,7 +2092,7 @@ private:
             case StatementType.CP_ST_CONFIRM:
                 {
                     auto c = &statement.pledges.confirm;
-                    c.quorumSetHash = cast(Hash)getLocalNode().getQuorumSetHash();
+                    c.quorumSetHash = getLocalNode().getQuorumSetHash();
                     dbgAssert(areBallotsLessAndCompatible(*mCommit, *mHighBallot));
                     c.ballot = *mCurrentBallot;
                     c.nPrepared = mPrepared.counter;
@@ -2108,7 +2106,7 @@ private:
                     auto e = &statement.pledges.externalize;
                     e.commit = *mCommit;
                     e.nH = mHighBallot.counter;
-                    e.commitQuorumSetHash = cast(Hash)getLocalNode().getQuorumSetHash();
+                    e.commitQuorumSetHash = getLocalNode().getQuorumSetHash();
                 }
                 break;
             default:

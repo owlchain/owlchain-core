@@ -92,7 +92,7 @@ class SecretKey
         return sk;
     }
 
-    Signature sign(ref const ubyte [] bin) const
+    Signature sign(const ubyte [] bin) const
     {
         assert(_keyType == PublicKeyType.PUBLIC_KEY_TYPE_ED25519);
 

@@ -48,7 +48,7 @@ private :
         return qSet;
     }
 
-    void check(ref QuorumSet qSetCheck, bool expected, ref const QuorumSet expectedSelfQSet)
+    void check(ref QuorumSet qSetCheck, bool expected, ref QuorumSet expectedSelfQSet)
     {
         // first, without normalization
         REQUIRE(expected == isQuorumSetSane(qSetCheck, false));
@@ -274,20 +274,20 @@ public :
         }
     }
 
-    void toJson(ref const QuorumSet qSet, ref JSONValue value)
+    void toJson(ref QuorumSet qSet, ref JSONValue value)
     {
         import std.utf;
         JSONValue[] jArray;
         value.object["t"] = JSONValue(qSet.threshold);
         value.object["v"] = jArray;
 
-        foreach (int i, const PublicKey pk; qSet.validators)
+        foreach (int i, ref PublicKey pk; qSet.validators)
         {
             string pkStr = toHexString(pk.ed25519);
             value["v"].array ~= JSONValue(toUTF8(pkStr)[0..5]);
         }
 
-        foreach (int i, const QuorumSet s; qSet.innerSets)
+        foreach (int i, ref QuorumSet s; qSet.innerSets)
         {
             JSONValue[string] jObject;
             JSONValue iV = jObject;
