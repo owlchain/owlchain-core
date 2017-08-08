@@ -21,7 +21,7 @@ import owlchain.xdr.quorumSet;
 import owlchain.xdr.hash;
 import owlchain.xdr.statement;
 import owlchain.xdr.envelope;
-import owlchain.xdr.statement;
+import owlchain.xdr.statementType;
 
 import owlchain.crypto.keyUtils;
 import owlchain.xdr.xdrDataOutputStream;
@@ -59,7 +59,7 @@ class LocalNode
 
             mConsensusProtocol = cp;
 
-            writefln("[INFO], ConsensusProtocol LocalNode.LocalNode @%s qSet: %s", toHexString(mNodeID.publicKey.ed25519), toHexString(mQSetHash.hash));
+            //writefln("[INFO], ConsensusProtocol LocalNode.LocalNode @%s qSet: %s", toHexString(mNodeID.publicKey.ed25519), toHexString(mQSetHash.hash));
 
             mSingleQSet = buildSingletonQSet(mNodeID);
             mSingleQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mSingleQSet)));
@@ -271,7 +271,18 @@ class LocalNode
                 if (filter(e.statement))
                 {
                     pNodes ~= n;
-                    //writefln("%3d - %s  - %d", n.publicKey.ed25519[0], toHexString(e.statement.pledges.prepare.quorumSetHash.hash), e.statement.pledges.prepare.ballot.counter);
+/*
+                    switch (e.statement.pledges.type)
+                    {
+                        case StatementType.CP_ST_PREPARE:
+                            writefln("%3d - %s  - %d", n.publicKey.ed25519[0], toHexString(e.statement.pledges.prepare.quorumSetHash.hash), e.statement.pledges.prepare.ballot.counter);
+                            break;
+                        case StatementType.CP_ST_CONFIRM:
+                            writefln("%3d - %s  - %d", n.publicKey.ed25519[0], toHexString(e.statement.pledges.confirm.quorumSetHash.hash), e.statement.pledges.confirm.ballot.counter);
+                            break;
+                        default:
+                    }
+                    */
                 }
             }
             //writefln("");
@@ -470,10 +481,12 @@ class LocalNode
         static bool isQuorumSliceInternal(ref QuorumSet qset, ref NodeID[] nodeSet)
         {
             uint32 thresholdLeft = qset.threshold;
+            NodeID nodeId;
 
             foreach (int i, ref PublicKey pk; qset.validators)
             {
-                if (nodeSet.canFind(NodeID(pk)))
+                nodeId = NodeID(pk);
+                if (nodeSet.canFind(nodeId))
                 {
                     thresholdLeft--;
                     if (thresholdLeft <= 0)
@@ -513,9 +526,11 @@ class LocalNode
 
             int leftTillBlock = cast(int)((1 + qset.validators.length + qset.innerSets.length) - qset.threshold);
 
+            NodeID validator;
             foreach (int i, ref PublicKey pk; qset.validators)
             {
-                if (nodeSet.canFind(NodeID(pk)))
+                validator = NodeID(pk);
+                if (nodeSet.canFind(validator))
                 {
                     leftTillBlock--;
                     if (leftTillBlock <= 0)

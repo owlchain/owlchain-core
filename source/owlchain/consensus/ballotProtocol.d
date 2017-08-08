@@ -38,6 +38,9 @@ alias EnvelopePtr = RefCounted!(Envelope, RefCountedAutoInitialize.no);
 
 static const int MAX_ADVANCESLOT_RECURSION = 50;
 
+// human readable names matching CPPhase
+static const mPhaseNames = ["PREPARE", "FINISH", "EXTERNALIZE"];
+
 class BallotProtocol
 {
 private :
@@ -53,8 +56,6 @@ private :
         CP_PHASE_NUM
     };
 
-    // human readable names matching CPPhase
-    string[CPPhase.CP_PHASE_NUM] mPhaseNames;
 
     UniqueStruct!Ballot mCurrentBallot;       // b
     UniqueStruct!Ballot mPrepared;            // p    
@@ -75,7 +76,6 @@ public :
         mHeardFromQuorum = true;
         mPhase = CPPhase.CP_PHASE_PREPARE;
         mCurrentMessageLevel = 0;
-        mPhaseNames = ["PREPARE", "FINISH", "EXTERNALIZE"];
     }
 
     // Process a newly received envelope for this slot and update the state of
@@ -638,12 +638,16 @@ private:
         bool didWork = false;
 
         didWork = attemptPreparedAccept(hint) || didWork;
+        //if (didWork) writeln("Prepared Accept");
 
         didWork = attemptPreparedConfirmed(hint) || didWork;
+        //if (didWork) writeln("Prepared Confirmed");
 
         didWork = attemptAcceptCommit(hint) || didWork;
+        //if (didWork) writeln("Accept Commit");
 
         didWork = attemptConfirmCommit(hint) || didWork;
+        //if (didWork) writeln("Confirm Commit");
 
         // only bump after we're done with everything else
         if (mCurrentMessageLevel == 1)
@@ -847,10 +851,10 @@ private:
         bool didWork = setPrepared(ballot);
 
         // check if we also need to clear 'c'
-        if (!mCommit.isEmpty && !mHighBallot.isEmpty)
+        if (mCommit && mHighBallot)
         {
-            if ((!mPrepared.isEmpty && areBallotsLessAndIncompatible(*mHighBallot, *mPrepared)) ||
-                (!mPreparedPrime.isEmpty && areBallotsLessAndIncompatible(*mHighBallot, *mPreparedPrime)))
+            if ((mPrepared && areBallotsLessAndIncompatible(*mHighBallot, *mPrepared)) ||
+                (mPreparedPrime && areBallotsLessAndIncompatible(*mHighBallot, *mPreparedPrime)))
             {
                 dbgAssert(mPhase == CPPhase.CP_PHASE_PREPARE);
                 mCommit.release();
@@ -877,7 +881,7 @@ private:
         }
 
         // check if we could accept this ballot as prepared
-        if (mPrepared.isEmpty)
+        if (!mPrepared)
         {
             return false;
         }
@@ -893,11 +897,11 @@ private:
         Ballot newH;
         bool newHfound = false;
         int idx;
-        for (idx = 0; idx <  candidates.length; idx++)
+        for (idx = 0; idx < candidates.length; idx++)
         {
             Ballot * ballot = &candidates[idx];
             // only consider it if we can potentially raise h
-            if (!mHighBallot.isEmpty && compareBallots(*mHighBallot, *ballot) >= 0)
+            if (mHighBallot && compareBallots(*mHighBallot, *ballot) >= 0)
             {
                 break;
             }
@@ -925,9 +929,9 @@ private:
             // step (3) from the paper
             Ballot b = mCurrentBallot ? *mCurrentBallot : Ballot();
             if (
-                    (mCommit.isEmpty) &&
-                    (mPrepared.isEmpty || !areBallotsLessAndIncompatible(newH, *mPrepared)) &&
-                    (mPreparedPrime.isEmpty || !areBallotsLessAndIncompatible(newH, *mPreparedPrime))
+                    (!mCommit) &&
+                    (!mPrepared || !areBallotsLessAndIncompatible(newH, *mPrepared)) &&
+                    (!mPreparedPrime || !areBallotsLessAndIncompatible(newH, *mPreparedPrime))
                )
             {
                 // continue where we left off (cur is at newH at this point)
@@ -1294,8 +1298,7 @@ private:
                         auto pl = &st.pledges;
                         if (pl.type == StatementType.CP_ST_PREPARE)
                         {
-                            auto p = &pl.prepare;
-                            res = n < p.ballot.counter;
+                            res = n < pl.prepare.ballot.counter;
                         }
                         else
                         {
@@ -1496,42 +1499,43 @@ private:
             auto pl = &env.statement.pledges;
             switch (pl.type)
             {
-            case StatementType.CP_ST_PREPARE:
-            {
-                auto p = &pl.prepare;
-                if (areBallotsCompatible(ballot, p.ballot))
-                {
-                    if (p.nC)
+                case StatementType.CP_ST_PREPARE:
                     {
-                        res.insert(p.nC);
-                        res.insert(p.nH);
+                        auto p = &pl.prepare;
+                        if (areBallotsCompatible(ballot, p.ballot))
+                        {
+                            if (p.nC)
+                            {
+                                res.insert(p.nC);
+                                res.insert(p.nH);
+                            }
+                        }
                     }
-                }
-            }
-            break;
-            case StatementType.CP_ST_CONFIRM:
-            {
-                auto c = &pl.confirm;
-                if (areBallotsCompatible(ballot, c.ballot))
-                {
-                    res.insert(c.nCommit);
-                    res.insert(c.nH);
-                }
-            }
-            break;
-            case StatementType.CP_ST_EXTERNALIZE:
-            {
-                auto e = &pl.externalize;
-                if (areBallotsCompatible(ballot, e.commit))
-                {
-                    res.insert(e.commit.counter);
-                    res.insert(e.nH);
-                    res.insert(UINT32_MAX);
-                }
-            }
-            break;
-            default:
-                dbgAbort();
+                    break;
+                case StatementType.CP_ST_CONFIRM:
+                    {
+                        auto c = &pl.confirm;
+                        if (areBallotsCompatible(ballot, c.ballot))
+                        {
+                            res.insert(c.nCommit);
+                            res.insert(c.nH);
+                        }
+                    }
+                    break;
+                case StatementType.CP_ST_EXTERNALIZE:
+                    {
+                        auto e = &pl.externalize;
+                        if (areBallotsCompatible(ballot, e.commit))
+                        {
+                            res.insert(e.commit.counter);
+                            res.insert(e.nH);
+                            res.insert(UINT32_MAX);
+                        }
+                    }
+                    break;
+
+                default :
+                    //dbgAbort();
             }
         }
         return res;
@@ -1629,7 +1633,7 @@ private:
             else if (comp > 0)
             {
                 // check if we should update only p'
-                if (mPreparedPrime.counter == 0 || compareBallots(*mPreparedPrime, ballot) < 0)
+                if (!mPreparedPrime || compareBallots(*mPreparedPrime, ballot) < 0)
                 {
                     mPreparedPrime = cast(UniqueStruct!Ballot)(new Ballot(ballot.counter, ballot.value));
                     didWork = true;
@@ -1702,13 +1706,13 @@ private:
     // b1 <= b2 && b1 !~ b2
     static bool areBallotsLessAndIncompatible(ref Ballot b1, ref Ballot b2)
     {
-        return (compareBallots(b1, b2) <= 0) && !areBallotsCompatible(b1, b2);
+        return (compareBallots(b1, b2) <= 0) && !(b1.value == b2.value);
     }
 
     // b1 <= b2 && b1 ~ b2
     static bool areBallotsLessAndCompatible(ref Ballot b1, ref Ballot b2)
     {
-        return (compareBallots(b1, b2) <= 0) && areBallotsCompatible(b1, b2);
+        return (compareBallots(b1, b2) <= 0) && (b1.value == b2.value);
     }
 
     // ** statement helper functions

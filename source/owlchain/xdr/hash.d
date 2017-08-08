@@ -8,11 +8,33 @@ struct Hash
 {
     ubyte[] hash;
 
+    static Hash opCall(ubyte[] v)
+    {
+        Hash h;
+        h.hash = v.dup;
+        return h;
+    }
+
+
     static Hash opCall(const ubyte[] v)
     {
         Hash h;
         h.hash = v.dup;
         return h;
+    }
+
+    static Hash opCall(Hash s)
+    {
+        Hash t;
+        t.hash = s.hash.dup;
+        return t;
+    }
+
+    static Hash opCall(ref Hash s)
+    {
+        Hash t;
+        t.hash = s.hash.dup;
+        return t;
     }
 
     static Hash opCall(ref const Hash s)
@@ -22,7 +44,13 @@ struct Hash
         return t;
     }
 
-    ref Hash opAssign(const Hash s)
+    ref Hash opAssign(Hash s)
+    {
+        hash = s.hash.dup;
+        return this;
+    }
+
+    ref Hash opAssign(ref Hash s)
     {
         hash = s.hash.dup;
         return this;

@@ -19,7 +19,25 @@ struct QuorumSet
         return qSet;
     }
 
-    ref QuorumSet opAssign(const(QuorumSet) s)
+    ref QuorumSet opAssign(QuorumSet s)
+    {
+        threshold = s.threshold;
+
+        validators.length = 0;
+        for (int i = 0; i < s.validators.length; i++)
+        {
+            validators ~= s.validators[i];
+        }
+
+        innerSets.length = 0;
+        for (int i = 0; i < s.innerSets.length; i++)
+        {
+            innerSets ~= cast(QuorumSet)s.innerSets[i];
+        }
+        return this;
+    }
+
+    ref QuorumSet opAssign(ref QuorumSet s)
     {
         threshold = s.threshold;
 

@@ -10,7 +10,18 @@ struct HistoryEntryV0
     QuorumSet[] quorumSets;
     LedgerMessages ledgerMessages;
 
-    ref HistoryEntryV0 opAssign(const HistoryEntryV0 s)
+    ref HistoryEntryV0 opAssign(HistoryEntryV0 s)
+    {
+        quorumSets.length = 0;
+        for (int i = 0; i < s.quorumSets.length; i++)
+        {
+            quorumSets ~= cast(QuorumSet)s.quorumSets[i];
+        }
+        ledgerMessages = s.ledgerMessages;
+        return this;
+    }
+
+    ref HistoryEntryV0 opAssign(ref HistoryEntryV0 s)
     {
         quorumSets.length = 0;
         for (int i = 0; i < s.quorumSets.length; i++)

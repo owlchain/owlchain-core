@@ -7,7 +7,13 @@ struct Signature
 {
     ubyte[] signature;
 
-    ref Signature opAssign(const Signature s)
+    ref Signature opAssign(Signature s)
+    {
+        signature = s.signature.dup;
+        return this;
+    }
+
+    ref Signature opAssign(ref Signature s)
     {
         signature = s.signature.dup;
         return this;

@@ -17,7 +17,7 @@ struct Value
         return h;
     }
 
-    static Value opCall(const ubyte[] v)
+    static Value opCall(ref ubyte[] v)
     {
         Value h;
         h.value = v.dup;
@@ -29,6 +29,12 @@ struct Value
         Value h;
         h.value = v.value.dup;
         return h;
+    }
+
+    ref Value opAssign(Value v)
+    {
+        value = v.value.dup;
+        return this;
     }
 
     ref Value opAssign(const Value v)
