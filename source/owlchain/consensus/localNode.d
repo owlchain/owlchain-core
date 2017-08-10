@@ -265,29 +265,16 @@ class LocalNode
 
             NodeID[] pNodes;
 
-            //  조건에 맞는 문서의 NodeID만을 추려낸다.
+            //  Only the NodeID of the statement matching the condition is selected.
             foreach (ref const NodeID n, ref Envelope e; map)
             {
                 if (filter(e.statement))
                 {
                     pNodes ~= n;
-/*
-                    switch (e.statement.pledges.type)
-                    {
-                        case StatementType.CP_ST_PREPARE:
-                            writefln("%3d - %s  - %d", n.publicKey.ed25519[0], toHexString(e.statement.pledges.prepare.quorumSetHash.hash), e.statement.pledges.prepare.ballot.counter);
-                            break;
-                        case StatementType.CP_ST_CONFIRM:
-                            writefln("%3d - %s  - %d", n.publicKey.ed25519[0], toHexString(e.statement.pledges.confirm.quorumSetHash.hash), e.statement.pledges.confirm.ballot.counter);
-                            break;
-                        default:
-                    }
-                    */
                 }
             }
-            //writefln("");
 
-            //  특정노드에 대한 문서가 모든 노드의 정족수를 만족하는지 검사한다.
+            //  Checks whether the statement for a particular node satisfies the quorum of all nodes.
             size_t count = 0;
             do
             {
@@ -324,7 +311,7 @@ class LocalNode
                 pNodes = fNodes;
             } while (count != pNodes.length);
 
-            //  최종적으로 로컬로드의 정족수를 만족하는지 검사한다.
+            //  Finally, it checks whether the quorum number of the local load is satisfied.
             return isQuorumSlice(qSet, pNodes);
         }
 

@@ -190,7 +190,7 @@ public :
         Value v = mSlot.getLatestCompositeCandidate();
         if (v.value.length == 0)
         {
-            if (!mCurrentBallot.isEmpty)
+            if (mCurrentBallot)
             {
                 v = mCurrentBallot.value;
             }
@@ -935,8 +935,6 @@ private:
                )
             {
                 // continue where we left off (cur is at newH at this point)
-                // incomplete
-                //for (; cur != candidates.rend(); cur++)
                 for (; idx <  candidates.length; idx++)
                 {
                     Ballot * ballot = &candidates[idx];
@@ -977,7 +975,7 @@ private:
 
         if (newC.counter != 0)
         {
-            dbgAssert(mCommit.isEmpty);
+            dbgAssert(!mCommit);
             mCommit = cast(UniqueStruct!Ballot)(new Ballot(newC.counter, newC.value));
             didWork = true;
         }
@@ -1126,7 +1124,7 @@ private:
 
         bool didWork = false;
 
-        if (mHighBallot.isEmpty() || mCommit.isEmpty() || compareBallots(*mHighBallot, h) != 0 || compareBallots(*mCommit, c) != 0)
+        if (!mHighBallot || !mCommit || compareBallots(*mHighBallot, h) != 0 || compareBallots(*mCommit, c) != 0)
         {
             mCommit = cast(UniqueStruct!Ballot)(new Ballot(c.counter, c.value));
             mHighBallot = cast(UniqueStruct!Ballot)(new Ballot(h.counter, h.value));
@@ -1164,7 +1162,7 @@ private:
             return false;
         }
 
-        if (mHighBallot.isEmpty() || mCommit.isEmpty())
+        if (!mHighBallot || !mCommit)
         {
             return false;
         }
@@ -1961,7 +1959,7 @@ private:
 
         if (updated)
         {
-            writefln("[TRACE], ConsensusProtocol BallotProtocol.updateCurrentValue updated");
+            //writefln("[TRACE], ConsensusProtocol BallotProtocol.updateCurrentValue updated");
         }
 
         checkInvariants();
@@ -2047,11 +2045,11 @@ private:
             case CPPhase.CP_PHASE_PREPARE:
                 break;
             case CPPhase.CP_PHASE_CONFIRM:
-                dbgAssert(!mCommit.isEmpty);
+                dbgAssert(mCommit != null);
                 break;
             case CPPhase.CP_PHASE_EXTERNALIZE:
-                dbgAssert(!mCommit.isEmpty);
-                dbgAssert(!mHighBallot.isEmpty);
+                dbgAssert(mCommit != null);
+                dbgAssert(mHighBallot != null);
                 break;
             default:
                 dbgAbort();

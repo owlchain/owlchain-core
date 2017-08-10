@@ -63,7 +63,6 @@ public:
         };
 
         auto localQSet = mConsensusProtocol.getLocalQuorumSet();
-        //writefln("Local Node QuorumSetHash(TestCP) : %s", toHexString(sha256Of(xdr!QuorumSet.serialize(localQSet))));
         storeQuorumSet(cast(QuorumSet)localQSet);
     }
 
@@ -83,16 +82,7 @@ public:
     storeQuorumSet(QuorumSet qSet)
     {
         Hash mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(qSet)));
-        //writefln("%s", toHexString(mQSetHash.hash));
-
         mQuorumSets[mQSetHash] = qSet;
-   /*
-        foreach (Hash h, QuorumSet q; mQuorumSets)
-        {
-            writefln("%s %s", toHexString(h.hash), toHexString( sha256Of(xdr!QuorumSet.serialize(q)) ));
-        }
-        writefln("");
-    */
     }
 
     override ConsensusProtocolDriver.ValidationLevel
@@ -507,15 +497,11 @@ public :
         Envelope e4 = gen(mSecretKey[4]);
 
         mCP.receiveEnvelope(e1);
-        //writefln("mCP.mEnvs.length : %d", mCP.mEnvs.length);
-
         mCP.receiveEnvelope(e2);
-        //writefln("mCP.mEnvs.length : %d", mCP.mEnvs.length);
 
         size_t i = mCP.mEnvs.length + 1;
 
         mCP.receiveEnvelope(e3);
-        //writefln("mCP.mEnvs.length : %d", mCP.mEnvs.length);
 
         if (withChecks && !delayedQuorum)
         {
@@ -524,7 +510,6 @@ public :
 
         // nothing happens with an extra vote (unless we're in delayedQuorum)
         mCP.receiveEnvelope(e4);
-        //writefln("mCP.mEnvs.length : %d", mCP.mEnvs.length);
         if (withChecks && delayedQuorum)
         {
             REQUIRE(mCP.mEnvs.length == i);
@@ -806,55 +791,58 @@ public :
             SECTION("prepared A1");
             {
                 auto TEST_PreparedA1 = () {
+
                     recvQuorum(makePrepareGen(mQSetHash, A1));
                     REQUIRE(mCP.mEnvs.length == 2);
-                    //writefln("mCP.mEnvs.length : %d", mCP.mEnvs.length);
                     verifyPrepare(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, A1, &A1);
+
                 };
                 TEST_PreparedA1();
 
                 SECTION("bump prepared A2");
                 {
                     auto TEST_BumpPreparedA2 = () {
+
                         // bump to (2,a)
                         REQUIRE(mCP.bumpState(0, aValue));
                         REQUIRE(mCP.mEnvs.length == 3);
-                        //writefln("mCP.mEnvs.length : %d", mCP.mEnvs.length);
                         verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, A2, &A1);
 
                         recvQuorum(makePrepareGen(mQSetHash, A2));
                         REQUIRE(mCP.mEnvs.length == 4);
-                        //writefln("mCP.mEnvs.length : %d", mCP.mEnvs.length);
                         verifyPrepare(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, A2, &A2);
-                    };
 
+                    };
                     TEST_BumpPreparedA2();
 
                     SECTION("Confirm prepared A2");
                     {
                         auto TEST_ConfirmPreparedA2 () {
+
                             recvQuorum(makePrepareGen(mQSetHash, A2, &A2));
                             REQUIRE(mCP.mEnvs.length == 5);
                             verifyPrepare(mCP.mEnvs[4], mSecretKey[0], mQSetHash0, 0, A2, &A2, 2, 2);
+
                         }
                         TEST_ConfirmPreparedA2();
 
                         SECTION("Accept commit");
                         {
-                            
                             SECTION("Quorum A2");
                             {
                                 auto TEST_QuorumA2 = () {
+
                                     recvQuorum(makePrepareGen(mQSetHash, A2, &A2, 2, 2));
                                     REQUIRE(mCP.mEnvs.length == 6);
                                     verifyConfirm(mCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, 2, A2, 2, 2);
-                                };
 
+                                };
                                 TEST_QuorumA2();
-                                
+
                                 SECTION("Quorum prepared A3");
                                 {
                                     auto TEST_QuorumPreparedA3 = () {
+
                                         recvVBlocking(makePrepareGen(mQSetHash, A3, &A2, 2, 2));
                                         REQUIRE(mCP.mEnvs.length == 7);
                                         verifyConfirm(mCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 2, A3, 2, 2);
@@ -862,6 +850,7 @@ public :
                                         recvQuorum(makePrepareGen(mQSetHash, A3, &A2, 2, 2));
                                         REQUIRE(mCP.mEnvs.length == 8);
                                         verifyConfirm(mCP.mEnvs[7], mSecretKey[0], mQSetHash0, 0, 3, A3, 2, 2);
+
                                     };
 
                                     TEST_QuorumPreparedA3();
@@ -869,11 +858,13 @@ public :
                                     SECTION("Accept more commit A3");
                                     {
                                         auto TEST_AcceptMoreCommitA3 = () {
+
                                             recvQuorum(makePrepareGen(mQSetHash, A3, &A3, 2, 3));
                                             REQUIRE(mCP.mEnvs.length == 9);
                                             verifyConfirm(mCP.mEnvs[8], mSecretKey[0], mQSetHash0, 0, 3, A3, 2, 3);
 
                                             REQUIRE(mCP.mExternalizedValues.length == 0);
+
                                         };
 
                                         TEST_AcceptMoreCommitA3();
@@ -881,12 +872,14 @@ public :
                                         SECTION("Quorum externalize A3");
                                         {
                                             auto TEST_QuorumExternalizeA3 = {
+
                                                 recvQuorum(makeConfirmGen(mQSetHash, 3, A3, 2, 3));
                                                 REQUIRE(mCP.mEnvs.length == 10);
                                                 verifyExternalize(mCP.mEnvs[9], mSecretKey[0], mQSetHash0, 0, A2, 3);
 
                                                 REQUIRE(mCP.mExternalizedValues.length == 1);
                                                 REQUIRE(mCP.mExternalizedValues[0] == aValue);
+
                                             };
 
                                             TEST_QuorumExternalizeA3();
@@ -908,7 +901,6 @@ public :
                                             auto TEST_ConfirmA3 = () {
                                                 recvVBlocking(makeConfirmGen(mQSetHash, 3, A3, 2, 3));
                                                 REQUIRE(mCP.mEnvs.length == 9);
-                                                writefln("mCP.mEnvs.length : %d", mCP.mEnvs.length);
                                                 verifyConfirm(mCP.mEnvs[8], mSecretKey[0], mQSetHash0, 0, 3, A3, 2, 3);
                                             };
                                             TEST_ConfirmA3();
@@ -963,51 +955,8 @@ public :
                                         }
                                     }
                                 }
-
-                                Init();
-                                TEST_Start1X();
-                                TEST_PreparedA1();
-                                TEST_BumpPreparedA2();
-                                TEST_ConfirmPreparedA2();
-                                TEST_QuorumA2();
-
                                 SECTION("v-blocking prepared A3");
                                 {
-                                    recvVBlocking(makePrepareGen(mQSetHash, A3, &A3, 2, 2));
-                                    REQUIRE(mCP.mEnvs.length == 7);
-                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 3, A3, 2, 2);
-                                }
-
-                                Init();
-                                TEST_Start1X();
-                                TEST_PreparedA1();
-                                TEST_BumpPreparedA2();
-                                TEST_ConfirmPreparedA2();
-                                TEST_QuorumA2();
-
-                                SECTION("v-blocking prepared A3+B3");
-                                {
-                                    recvVBlocking(makePrepareGen(mQSetHash, A3, &B3, 2, 2, &A3));
-                                    REQUIRE(mCP.mEnvs.length == 7);
-                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 3, A3, 2, 2);
-                                }
-
-                                Init();
-                                TEST_Start1X();
-                                TEST_PreparedA1();
-                                TEST_BumpPreparedA2();
-                                TEST_ConfirmPreparedA2();
-                                TEST_QuorumA2();
-
-                                SECTION("v-blocking confirm A3");
-                                {
-                                    recvVBlocking(makeConfirmGen(mQSetHash, 3, A3, 2, 2));
-                                    REQUIRE(mCP.mEnvs.length == 7);
-                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 3, A3, 2, 2);
-                                }
-
-								SECTION("Hang - does not switch to B in CONFIRM");
-								{
                                     Init();
                                     TEST_Start1X();
                                     TEST_PreparedA1();
@@ -1015,8 +964,50 @@ public :
                                     TEST_ConfirmPreparedA2();
                                     TEST_QuorumA2();
 
+                                    recvVBlocking(makePrepareGen(mQSetHash, A3, &A3, 2, 2));
+                                    REQUIRE(mCP.mEnvs.length == 7);
+                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 3, A3, 2, 2);
+                                }
+                                SECTION("v-blocking prepared A3+B3");
+                                {
+
+                                    Init();
+                                    TEST_Start1X();
+                                    TEST_PreparedA1();
+                                    TEST_BumpPreparedA2();
+                                    TEST_ConfirmPreparedA2();
+                                    TEST_QuorumA2();
+
+                                    recvVBlocking(makePrepareGen(mQSetHash, A3, &B3, 2, 2, &A3));
+                                    REQUIRE(mCP.mEnvs.length == 7);
+                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 3, A3, 2, 2);
+                                }
+                                SECTION("v-blocking confirm A3");
+                                {
+
+                                    Init();
+                                    TEST_Start1X();
+                                    TEST_PreparedA1();
+                                    TEST_BumpPreparedA2();
+                                    TEST_ConfirmPreparedA2();
+                                    TEST_QuorumA2();
+
+                                    recvVBlocking(makeConfirmGen(mQSetHash, 3, A3, 2, 2));
+                                    REQUIRE(mCP.mEnvs.length == 7);
+                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 3, A3, 2, 2);
+                                }
+
+								SECTION("Hang - does not switch to B in CONFIRM");
+								{
 									SECTION("Network EXTERNALIZE");
 									{
+                                        Init();
+                                        TEST_Start1X();
+                                        TEST_PreparedA1();
+                                        TEST_BumpPreparedA2();
+                                        TEST_ConfirmPreparedA2();
+                                        TEST_QuorumA2();
+
 										// externalize messages have a counter at
 										// infinite
 										recvVBlocking(makeExternalizeGen(mQSetHash, B2, 3));
@@ -1030,15 +1021,15 @@ public :
 
 									SECTION("Network CONFIRMS other ballot");
 									{
-                                        Init();
-                                        TEST_Start1X();
-                                        TEST_PreparedA1();
-                                        TEST_BumpPreparedA2();
-                                        TEST_ConfirmPreparedA2();
-                                        TEST_QuorumA2();
-
 										SECTION("at same counter");
 										{
+                                            Init();
+                                            TEST_Start1X();
+                                            TEST_PreparedA1();
+                                            TEST_BumpPreparedA2();
+                                            TEST_ConfirmPreparedA2();
+                                            TEST_QuorumA2();
+
 											// nothing should happen here, in
 											// particular, node should not attempt
 											// to switch 'p'
@@ -1047,15 +1038,15 @@ public :
 											REQUIRE(mCP.mExternalizedValues.length == 0);
 										}
 
-                                        Init();
-                                        TEST_Start1X();
-                                        TEST_PreparedA1();
-                                        TEST_BumpPreparedA2();
-                                        TEST_ConfirmPreparedA2();
-                                        TEST_QuorumA2();
-
 										SECTION("at a different counter");
 										{
+                                            Init();
+                                            TEST_Start1X();
+                                            TEST_PreparedA1();
+                                            TEST_BumpPreparedA2();
+                                            TEST_ConfirmPreparedA2();
+                                            TEST_QuorumA2();
+
 											recvVBlocking(makeConfirmGen(mQSetHash, 3, B3, 3, 3));
 											REQUIRE(mCP.mEnvs.length == 7);
 											verifyConfirm(mCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 2, A3, 2, 2);
@@ -1407,7 +1398,6 @@ public :
                                             auto TEST_ConfirmA3 = () {
                                                 recvVBlocking(makeConfirmGen(mQSetHash, 3, A3, 2, 3));
                                                 REQUIRE(mCP.mEnvs.length == 9);
-                                                writefln("mCP.mEnvs.length : %d", mCP.mEnvs.length);
                                                 verifyConfirm(mCP.mEnvs[8], mSecretKey[0], mQSetHash0, 0, 3, A3, 2, 3);
                                             };
                                             TEST_ConfirmA3();
@@ -1661,14 +1651,13 @@ public :
 
                         SECTION("mixed A2");
                         {
-                            // causes h=A2
-                            // but c = 0, as p >!~ h
+                            // causes h=A2, c=A2
                             Envelope envelope;
-                            envelope= makePrepare(mSecretKey[3], mQSetHash, 0, A2, &A2);
+                            envelope = makePrepare(mSecretKey[3], mQSetHash, 0, A2, &A2);
                             mCP.receiveEnvelope(envelope);
 
                             REQUIRE(mCP.mEnvs.length == 6);
-                            verifyPrepare(mCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, A2, &A2, 0, 2, &B2);
+                            verifyPrepare(mCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, A2, &A2, 2, 2, &B2);
 
                             envelope = makePrepare(mSecretKey[4], mQSetHash, 0, A2, &A2);
                             mCP.receiveEnvelope(envelope);
@@ -1684,13 +1673,14 @@ public :
 
                         SECTION("mixed B2");
                         {
-                            // causes h=B2, c=B2
+                            // causes h=B2
+                            // but c = 0, as p >!~ h
                             Envelope envelope;
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, A2, &B2);
                             mCP.receiveEnvelope(envelope);
 
                             REQUIRE(mCP.mEnvs.length == 6);
-                            verifyPrepare(mCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, A2, &A2, 2, 2, &B2);
+                            verifyPrepare(mCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, A2, &A2, 0, 2, &B2);
 
                             envelope = makePrepare(mSecretKey[4], mQSetHash, 0, B2, &B2);
                             mCP.receiveEnvelope(envelope);
@@ -1706,9 +1696,9 @@ public :
                     TEST_Start1Y();
                     TEST_PreparedA1();
 
-                    recvVBlocking(makePrepareGen(mQSetHash, B1, &B1));
-                    REQUIRE(mCP.mEnvs.length == 3);
-                    verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, A1, &B1, 0, 0, &A1);
+                    // can't switch to B1
+                    recvQuorumChecks(makePrepareGen(mQSetHash0, B1, &B1), false, false);
+                    REQUIRE(mCP.mEnvs.length == 2);
                 }
             }
             SECTION("prepared B (v-blocking)");
@@ -1760,9 +1750,9 @@ public :
 
     void test()
     {
-        //test1();
-        //test2();
-        //test3();
+        test1();
+        test2();
+        test3();
         test4();
     }
 }
