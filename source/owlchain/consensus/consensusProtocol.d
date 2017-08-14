@@ -304,7 +304,14 @@ public:
 
     string ballotToStr(ref Ballot ballot)
     {
-        return format("(%d,%s)", ballot.counter, getValueString(ballot.value));
+        if (ballot.counter == 0)
+        {
+            return "( , )";
+        }
+        else
+        {
+            return format("(%d,%s)", ballot.counter, getValueString(ballot.value));
+        }
     }
 
     string ballotToStr(ref Ballot * ballot)
@@ -327,6 +334,7 @@ public:
 
     string envToStr(ref Statement st)
     {
+        import std.range;
         OutBuffer oBuffer = new OutBuffer(); 
         Hash qSetHash = Slot.getCompanionQuorumSetHashFromStatement(st);
 
@@ -343,7 +351,7 @@ public:
                                    " | p: %s"~
                                    " | c.n: %d"~
                                    " | h.n: %d ",
-                                     toHexString(qSetHash.hash),
+                                     toHexString(qSetHash.hash)[0..5],
                                      ballotToStr(st.pledges.prepare.ballot),
                                      ballotToStr(st.pledges.prepare.prepared),
                                      ballotToStr(st.pledges.prepare.preparedPrime),
@@ -352,6 +360,7 @@ public:
                                      );
                 }
                 break;
+
             case StatementType.CP_ST_CONFIRM:
                 {
                     oBuffer.writef(" | CONFIRM"~
@@ -360,7 +369,7 @@ public:
                                    " | p.n: %d"~
                                    " | c.n: %d"~
                                    " | h.n: %d ",
-                                     toHexString(qSetHash.hash),
+                                     toHexString(qSetHash.hash)[0..5],
                                      ballotToStr(st.pledges.confirm.ballot),
                                      st.pledges.confirm.nPrepared,
                                      st.pledges.confirm.nCommit,
@@ -368,6 +377,7 @@ public:
                                      );
                 }
                 break;
+
             case StatementType.CP_ST_EXTERNALIZE:
                 {
                     oBuffer.writef(" | EXTERNALIZE"~
@@ -376,40 +386,44 @@ public:
                                    " | (lastD): %s ",
                                      ballotToStr(st.pledges.externalize.commit),
                                      st.pledges.externalize.nH,
-                                     toHexString(qSetHash.hash)
+                                     toHexString(qSetHash.hash)[0..5]
                                      );
                 }
                 break;
+
             case StatementType.CP_ST_NOMINATE:
                 {
+                    auto nom = &st.pledges.nominate;
+
                     oBuffer.writef(" | NOMINATE"~
                                    " | D: %s"~
-                                   " | X: {", toHexString(qSetHash.hash));
-                    bool first = true;
+                                   " | VOTE: {", toHexString(qSetHash.hash)[0..5]);
 
-                    for (int i = 0; i < st.pledges.nominate.votes.length; i++)
+                    bool first = true;
+                    foreach (int i, ref Value v; nom.votes)
                     {
                         if (!first)
                         {
                             oBuffer.write(" ,");
                         }
-                        oBuffer.writef("'%s'", st.pledges.nominate.votes[i]);
+                        oBuffer.write(getValueString(v));
                         first = false;
                     }
                     oBuffer.write("}");
-                    oBuffer.write(" | Y: {");
-                    
+                    oBuffer.write(" | ACCEPTED: {");
+
                     first = true;
-                    for (int i = 0; i < st.pledges.nominate.accepted.length; i++)
+                    foreach (int i, ref Value a; nom.accepted)
                     {
                         if (!first)
                         {
                             oBuffer.write(" ,");
                         }
-                        oBuffer.writef("'%s'", st.pledges.nominate.accepted[i]);
+                        oBuffer.write(getValueString(a));
                         first = false;
                     }
                     oBuffer.write("}");
+
                 }
                 break;
             default:

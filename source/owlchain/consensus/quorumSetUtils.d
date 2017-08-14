@@ -93,7 +93,7 @@ bool isQuorumSetSane(ref QuorumSet qSet, bool extraChecks)
 //        into
 //      { t: n, v: { ..., X }, .... }
 //  * simplifies singleton innersets
-//      { t:1, { innerSet } } into innerSet
+//      { t: 1, { innerSet } } into innerSet
 
 void normalizeQSet(ref QuorumSet qSet)
 {
@@ -119,9 +119,6 @@ void normalizeQSet(ref QuorumSet qSet)
             idx++;
         }
     }
-
-    //qSet.validators = v;
-    //qSet.innerSets = i;
 
     // simplify quorum set if needed
     if  (

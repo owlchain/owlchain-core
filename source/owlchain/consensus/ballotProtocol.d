@@ -185,7 +185,7 @@ public :
     // at counter `n` (or, if n == 0, increment current counter)
     bool abandonBallot(uint32 n)
     {
-        writefln("[DEBUG], ConsensusProtocol BallotProtocol.abandonBallot");
+        //writefln("[DEBUG], ConsensusProtocol BallotProtocol.abandonBallot");
         bool res = false;
         Value v = mSlot.getLatestCompositeCandidate();
         if (v.value.length == 0)
@@ -638,16 +638,9 @@ private:
         bool didWork = false;
 
         didWork = attemptPreparedAccept(hint) || didWork;
-        //if (didWork) writeln("Prepared Accept");
-
         didWork = attemptPreparedConfirmed(hint) || didWork;
-        //if (didWork) writeln("Prepared Confirmed");
-
         didWork = attemptAcceptCommit(hint) || didWork;
-        //if (didWork) writeln("Accept Commit");
-
         didWork = attemptConfirmCommit(hint) || didWork;
-        //if (didWork) writeln("Confirm Commit");
 
         // only bump after we're done with everything else
         if (mCurrentMessageLevel == 1)
@@ -844,7 +837,7 @@ private:
     // prepared: ballot that should be prepared
     bool setPreparedAccept(ref Ballot ballot)
     {
-        //if (Logging::logDebug("SCP"))
+        //if (Logging::logDebug("ConsensusProtocol"))
         //writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedAccept i: %d  b : %s ", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(ballot));
 
         // update our state
@@ -871,7 +864,7 @@ private:
         return didWork;
     }
 
-    // step 2+3+8 from the CP paper
+    // step 2+3+8 from the ConsensusProtocol paper
     // ballot is the candidate to record as 'confirmed prepared'
     bool attemptPreparedConfirmed(ref Statement hint)
     {
@@ -962,7 +955,7 @@ private:
     // newC, newH : low/high bounds prepared confirmed
     bool setPreparedConfirmed(ref Ballot newC, ref Ballot newH)
     {
-        //if (Logging::logDebug("SCP"))
+        //if (Logging::logDebug("ConsensusProtocol"))
         //writefln("[DEBUG], ConsensusProtocol BallotProtocol.setPreparedConfirmed i: %d  h : %s ", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(newH));
 
         bool didWork = false;
@@ -990,7 +983,7 @@ private:
         return didWork;
     }
 
-    // step (4 and 6)+8 from the CP paper
+    // step (4 and 6)+8 from the ConsensusProtocol paper
     bool attemptAcceptCommit(ref Statement hint)
     {
         if (mPhase != CPPhase.CP_PHASE_PREPARE && mPhase != CPPhase.CP_PHASE_CONFIRM)
@@ -1154,7 +1147,7 @@ private:
         return didWork;
     }
 
-    // step 7+8 from the CP paper
+    // step 7+8 from the ConsensusProtocol paper
     bool attemptConfirmCommit(ref Statement hint)
     {
         if (mPhase != CPPhase.CP_PHASE_CONFIRM)
@@ -1241,7 +1234,7 @@ private:
         return true;
     }
 
-    // step 9 from the CP paper
+    // step 9 from the ConsensusProtocol paper
     bool attemptBump()
     {
         if (mPhase == CPPhase.CP_PHASE_PREPARE || mPhase == CPPhase.CP_PHASE_CONFIRM)
@@ -1381,7 +1374,7 @@ private:
 
         while (hintBallots.length != 0)
         {
-            Ballot topVote = hintBallots[hintBallots.length-1];
+            Ballot topVote = hintBallots[$-1];
             hintBallots = hintBallots[0..$-1];
 
             auto val = &topVote.value;
@@ -1737,7 +1730,7 @@ private:
     {
         bool res = false;
 
-        // total ordering described in SCP paper.
+        // total ordering described in ConsensusProtocol paper.
         auto t = st.pledges.type;
 
         // statement type (PREPARE < CONFIRM < EXTERNALIZE)
@@ -1853,6 +1846,7 @@ private:
                 }
             }
             break;
+
             case StatementType.CP_ST_EXTERNALIZE:
             {
                 auto e = &st.pledges.externalize;
@@ -1866,6 +1860,7 @@ private:
                 }
             }
             break;
+
             default:
                 dbgAbort();
         }

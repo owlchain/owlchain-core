@@ -292,20 +292,21 @@ public:
             auto qSet = getCPDriver().getQSet(qSetHash);
             if (qSet.refCountedStore.isInitialized)
             {
-                qSetsUsed[qSetHash] = qSet;
+                qSetsUsed[qSetHash] = cast(QuorumSet)qSet;
             }
         }
 
         JSONValue[string] qSetsObject;
-        JSONValue qSets = qSetsObject;
+        JSONValue quorumSets = qSetsObject;
         foreach (ref const Hash h, ref QuorumSet q; qSetsUsed)
         {
             JSONValue[string] qsObject;
             JSONValue qs = qsObject;
             getLocalNode().toJson(q, qs);
-            qSets.object[toHexString(h.hash)] = qs;
+            string LKey = toHexString(h.hash)[0..5];
+            quorumSets.object[LKey] = qs;
         }
-        slotValue.object["quorum_sets"] = qSets;
+        slotValue.object["quorum_sets"] = quorumSets;
 
         slotValue.object["validated"] = JSONValue(mFullyValidated);
 

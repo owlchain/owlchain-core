@@ -97,31 +97,32 @@ public :
                     bool newCandidates = false;
 
                     // attempts to promote some of the votes to accepted
-                    int i;
-                    for (i = 0; i < nom.votes.length; i++)
+                    foreach (int i, ref Value v; nom.votes)
                     {
-                        auto v = &(nom.votes[i]);
-                        if (!find(mAccepted[], *v).empty)
-                        { // v is already accepted
+                        // v is already accepted
+                        if (!find(mAccepted[], v).empty)
+                        {
                             continue;
                         }
+
                         if (mSlot.federatedAccept(
-                            (ref Statement st) {
-                                auto nom2 = &st.pledges.nominate;
+                            (ref Statement st2) {
                                 bool res;
-                                res = (nom2.votes.canFind(*v));
+                                auto nom2 = &st2.pledges.nominate;
+                                res = (nom2.votes.canFind(v));
                                 return res;
-                            },    
-                            (ref Statement st) {
-                                return NominationProtocol.acceptPredicate(*v, st);
                             },
-                            mLatestNominations))
+                            (ref Statement st2) {
+                                return NominationProtocol.acceptPredicate(v, st2);
+                            },
+                            mLatestNominations)
+                        )
                         {
-                            auto vl = validateValue(*v);
+                            auto vl = validateValue(v);
                             if (vl == ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue)
                             {
-                                mAccepted.insert(*v);
-                                mVotes.insert(*v);
+                                mAccepted.insert(v);
+                                mVotes.insert(v);
                                 modified = true;
                             }
                             else
@@ -130,7 +131,7 @@ public :
                                 // see if we can vote for a variation that
                                 // we consider valid
                                 Value toVote;
-                                toVote = extractValidValue(*v);
+                                toVote = extractValidValue(v);
                                 if (toVote.value.length != 0)
                                 {
                                     if (mVotes.insert(toVote))
@@ -166,7 +167,7 @@ public :
                     if (mCandidates.empty && !find(mRoundLeaders[], st.nodeID).empty)
                     {
                         Value newVote = getNewValueFromNomination(*nom);
-                        if (!newVote.value.length != 0)
+                        if (newVote.value.length != 0)
                         {
                             mVotes.insert(newVote);
                             modified = true;
@@ -181,9 +182,7 @@ public :
                     if (newCandidates)
                     {
                         mLatestCompositeCandidate = mSlot.getCPDriver().combineCandidates(mSlot.getSlotIndex(), mCandidates);
-
                         mSlot.getCPDriver().updatedCandidateValue(mSlot.getSlotIndex(), mLatestCompositeCandidate);
-
                         mSlot.bumpState(mLatestCompositeCandidate, false);
                     }
                 }
@@ -193,7 +192,7 @@ public :
                 writeln("[DEBUG], CP NominationProtocol: message didn't pass sanity check");
             }
         }
-        return ConsensusProtocol.EnvelopeState.INVALID;
+        return res;
     }
 
     static Value[] getStatementValues(ref Statement st)
@@ -300,28 +299,28 @@ public :
         nomState.object["X"] = state_X;
         foreach (ref Value v; mVotes)
         {
-            nomState["X"] ~= JSONValue(toUTF8(mSlot.getCP().getValueString(v)));
+            nomState["X"].array ~= JSONValue(toUTF8(mSlot.getCP().getValueString(v)));
         }
 
         JSONValue[] state_Y;
         nomState.object["Y"] = state_Y;
         foreach (ref Value v; mAccepted)
         {
-            nomState["Y"] ~= JSONValue(toUTF8(mSlot.getCP().getValueString(v)));
+            nomState["Y"].array ~= JSONValue(toUTF8(mSlot.getCP().getValueString(v)));
         }
 
         JSONValue[] state_Z;
         nomState.object["Z"] = state_Z;
         foreach (ref Value v; mCandidates)
         {
-            nomState["Z"] ~= JSONValue(toUTF8(mSlot.getCP().getValueString(v)));
+            nomState["Z"].array ~= JSONValue(toUTF8(mSlot.getCP().getValueString(v)));
         }
         ret.object["nomination"] = nomState;
     }
 
     Envelope * getLastMessageSend()
     {
-        if (!mLastEnvelope.isEmpty) return cast(Envelope *)mLastEnvelope;
+        if (mLastEnvelope) return cast(Envelope *)mLastEnvelope;
         else return null;
     }
 
@@ -403,7 +402,7 @@ private :
                     }
                 }
                 if (res) {
-                    if (!v.canFind(p[p.length-1])) {
+                    if (!v.canFind(p[$-1])) {
                         res = false;
                     }
                 }
@@ -478,25 +477,26 @@ private :
         Statement st;
         st.nodeID = mSlot.getLocalNode().getNodeID();
         st.pledges.type = StatementType.CP_ST_NOMINATE;
+        auto nom = &st.pledges.nominate;
 
         st.pledges.nominate.quorumSetHash = mSlot.getLocalNode().getQuorumSetHash();
 
         int i;
         foreach (ref Value v; mVotes)
         {
-            st.pledges.nominate.votes ~= v;
+            nom.votes ~= v;
         }
 
-        foreach (ref Value v; mAccepted)
+        foreach (ref Value a; mAccepted)
         {
-            st.pledges.nominate.accepted ~= v;
+            nom.accepted ~= a;
         }
 
         Envelope envelope = mSlot.createEnvelope(st);
 
         if (mSlot.processEnvelope(envelope, true) == ConsensusProtocol.EnvelopeState.VALID)
         {
-            if (mLastEnvelope.isEmpty || isNewerStatement(mLastEnvelope.statement.pledges.nominate, st.pledges.nominate))
+            if (!mLastEnvelope || isNewerStatement(mLastEnvelope.statement.pledges.nominate, st.pledges.nominate))
             {
                 mLastEnvelope = cast(UniqueStruct!Envelope)(new Envelope(envelope.statement, envelope.signature));
                 if (mSlot.isFullyValidated())

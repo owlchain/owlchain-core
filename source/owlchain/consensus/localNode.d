@@ -29,7 +29,6 @@ import owlchain.xdr.xdrDataOutputStream;
 import owlchain.consensus.consensusProtocol;
 import owlchain.consensus.consensusProtocolDriver;
 
-
 // This is one Node in the network
 class LocalNode 
 {
