@@ -1,5 +1,7 @@
 module owlchain.consensus.nominationProtocol;
 
+import core.time;
+
 import std.stdio;
 import std.container;
 import std.json;
@@ -250,7 +252,7 @@ public :
             }
         }
 
-        long timeout = mSlot.getCPDriver().computeTimeout(mRoundNumber);
+        Duration timeout = mSlot.getCPDriver().computeTimeout(mRoundNumber);
 
         mSlot.getCPDriver().nominatingValue(mSlot.getSlotIndex(), nominatingValue);
 

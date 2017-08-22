@@ -1,5 +1,7 @@
 module owlchain.consensus.tests.cpTests;
 
+import core.time;
+
 import std.stdio;
 import std.conv;
 import std.typecons;
@@ -194,7 +196,7 @@ public:
     }
 
     override void
-    setupTimer(uint64 slotIndex, int timerID, long timeout, void delegate() cb)
+    setupTimer(uint64 slotIndex, int timerID, Duration timeout, void delegate() cb)
     {
     }
 
@@ -939,8 +941,6 @@ public :
                                             };
 
                                             TEST_QuorumExternalizeA3();
-                                            dump();
-                                            dumpEnv();
 
                                         }
                                     }
@@ -1880,8 +1880,6 @@ public :
                             
                             verifyPrepare(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, A2, &A2, 1, 2);
                             
-                            dump();
-                            dumpEnv();
                         }
 
                         SECTION("Quorum B2");
@@ -2161,6 +2159,9 @@ public :
             };
             TEST_NormalRound();
 
+            dump();
+            dumpEnv();
+
             SECTION("bumpToBallot prevented once committed");
             {
                 auto TEST_Commit = (ref Ballot b2)
@@ -2366,8 +2367,6 @@ public :
             REQUIRE(mCP.mEnvs.length == 7);
             verifyPrepare(mCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, x2, &x2, 2, 2);
             verifyConfirm(mCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 2, x2, 1, 1);
-            dump();
-            dumpEnv();
         }
     }
 
@@ -2677,6 +2676,7 @@ public :
 
                 mCP.receiveEnvelope(acc4_2);
                 REQUIRE(mCP.mEnvs.length == 4);
+
             }
 
             SECTION("nomination - restored state");
@@ -3031,10 +3031,9 @@ public :
         //ballotProtocolTest10();
         //ballotProtocolTest11();
         //ballotProtocolTest12();
-        //nominationProtocolTest1();
+        nominationProtocolTest1();
         //nominationProtocolTest2();
-        nominationProtocolTest3();
-        dump();
+        //nominationProtocolTest3();
     }
 
     void dump()

@@ -1,5 +1,7 @@
 module owlchain.consensus.ballotProtocol;
 
+import core.time;
+
 import std.stdio;
 import std.container;
 import std.conv;
@@ -28,13 +30,13 @@ import owlchain.consensus.localNode;
 import owlchain.utils.globalChecks;
 import owlchain.utils.uniqueStruct;
 
-alias Interval = Tuple!(uint32, "low", uint32, "high");
+alias Tuple!(uint32, "low", uint32, "high") Interval;
 alias RedBlackTree !(uint32, "a < b") UInt32Set;
 
-alias StatementPredicate = bool delegate(ref Statement st);
-alias IntervalPredicate = bool delegate(ref Interval);
+alias bool delegate(ref Statement st) StatementPredicate;
+alias bool delegate(ref Interval) IntervalPredicate;
 
-alias EnvelopePtr = RefCounted!(Envelope, RefCountedAutoInitialize.no);
+alias RefCounted!(Envelope, RefCountedAutoInitialize.no) EnvelopePtr;
 
 static const int MAX_ADVANCESLOT_RECURSION = 50;
 
@@ -55,7 +57,6 @@ private :
         CP_PHASE_EXTERNALIZE,
         CP_PHASE_NUM
     };
-
 
     UniqueStruct!Ballot mCurrentBallot;       // b
     UniqueStruct!Ballot mPrepared;            // p    
@@ -1872,7 +1873,15 @@ private:
     void recordEnvelope(ref Envelope env)
     {
         auto st = &env.statement;
-        mLatestEnvelopes[st.nodeID] = env;
+
+        auto p = (st.nodeID in mLatestEnvelopes);
+        if (p is null)
+        {
+            mLatestEnvelopes[st.nodeID] = env;
+        } else
+        {
+            *p = env;
+        }
         mSlot.recordStatement(env.statement);
     }
 
@@ -2146,7 +2155,7 @@ private:
 
     void startBallotProtocolTimer()
     {
-        long timeout = mSlot.getCPDriver().computeTimeout(mCurrentBallot.counter);
+        Duration timeout = mSlot.getCPDriver().computeTimeout(mCurrentBallot.counter);
         Slot slot = mSlot;
         mSlot.getCPDriver().setupTimer(mSlot.getSlotIndex(), Slot.BALLOT_PROTOCOL_TIMER, timeout, (){ mSlot.getBallotProtocol().ballotProtocolTimerExpired(); });
     }

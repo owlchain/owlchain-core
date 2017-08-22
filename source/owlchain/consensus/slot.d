@@ -26,7 +26,7 @@ import owlchain.consensus.nominationProtocol;
 import owlchain.xdr.statement;
 import owlchain.utils.globalChecks;
 
-alias StatementsValidated = Tuple!(Statement, "statement", bool, "fullyValidated");
+alias Tuple!(Statement, "statement", bool, "fullyValidated") StatementsValidated;
 
 // The Slot object is in charge of maintaining the state of the Consensus Protocol
 // for a given slot index.

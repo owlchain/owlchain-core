@@ -1,6 +1,7 @@
 module owlchain.consensus.consensusProtocolDriver;
 
 import std.typecons;
+import core.time;
 
 import owlchain.xdr.type;
 import owlchain.xdr.envelope;
@@ -13,7 +14,7 @@ import owlchain.xdr.publicKey;
 import owlchain.crypto.keyUtils;
 import owlchain.consensus.consensusProtocol;
 
-alias QuorumSetPtr = RefCounted!(QuorumSet, RefCountedAutoInitialize.no);
+alias RefCounted!(QuorumSet, RefCountedAutoInitialize.no) QuorumSetPtr;
 
 class ConsensusProtocolDriver
 {
@@ -55,7 +56,6 @@ class ConsensusProtocolDriver
     }
 
     // methods to hand over the validation and ordering of values and ballots.
-
     // validateValue is called on each message received before any processing
     // is done. It should be used to filter out values that are not compatible
     // with the current state of that node. Unvalidated values can never
@@ -70,7 +70,7 @@ class ConsensusProtocolDriver
         kInvalidValue,        // value is invalid for sure
         kFullyValidatedValue, // value is valid for sure
         kMaybeValidValue      // value may be valid
-    };
+    }
 
     ValidationLevel validateValue(uint64 slotIndex, ref Value value)
     {
@@ -122,7 +122,7 @@ class ConsensusProtocolDriver
     }
 
     // setupTimer: requests to trigger 'cb' after timeout
-    void setupTimer(uint64 slotIndex, int timerID, long timeout, void delegate() cb)
+    void setupTimer(uint64 slotIndex, int timerID, Duration timeout, void delegate() cb)
     {
 
     }
@@ -132,7 +132,7 @@ class ConsensusProtocolDriver
     // computeTimeout computes a timeout given a round number
     // it should be sufficiently large such that nodes in a
     // quorum can exchange 4 messages
-    long computeTimeout(uint64 roundNumber)
+    Duration computeTimeout(uint64 roundNumber)
     {
         // straight linear timeout
         // starting at 1 second and capping at MAX_TIMEOUT_SECONDS
@@ -146,7 +146,7 @@ class ConsensusProtocolDriver
         {
             timeoutInSeconds = cast(int)roundNumber;
         }
-        return timeoutInSeconds * 1000;
+        return dur!"seconds"(timeoutInSeconds);
     }
 
     // Inform about events happening within the consensus algorithm.
