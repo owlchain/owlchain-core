@@ -31,13 +31,13 @@ private:
 
 protected:
     LocalNode mLocalNode;
-    Slot [uint64] mKnownSlots;
+    Slot[uint64] mKnownSlots;
 
 public:
     enum EnvelopeState
     {
         INVALID, // the envelope is considered invalid
-        VALID    // the envelope is valid
+        VALID // the envelope is valid
     };
 
     enum TriBool
@@ -47,11 +47,12 @@ public:
         TB_MAYBE
     };
 
-	this(ConsensusProtocolDriver driver, SecretKey secretKey, bool isValidator, ref QuorumSet qSetLocal)
-	{
+    this(ConsensusProtocolDriver driver, SecretKey secretKey, bool isValidator,
+            ref QuorumSet qSetLocal)
+    {
         mDriver = driver;
         mLocalNode = new LocalNode(secretKey, isValidator, qSetLocal, this);
-	}
+    }
 
     // ConsensusProtocolDriver getter
     ref ConsensusProtocolDriver getCPDriver()
@@ -99,7 +100,8 @@ public:
         if (p !is null)
         {
             slot = mKnownSlots[slotIndex];
-        } else
+        }
+        else
         {
             if (create)
             {
@@ -122,7 +124,8 @@ public:
         // If the envelope is not correctly signed, we ignore it.
         if (!mDriver.verifyEnvelope(envelope))
         {
-            writefln("[%s], %s", "DEBUG", "ConsensusProtocol", "ConsensusProtocol.receiveEnvelope invalid");
+            writefln("[%s], %s", "DEBUG", "ConsensusProtocol",
+                    "ConsensusProtocol.receiveEnvelope invalid");
             return EnvelopeState.INVALID;
         }
 
@@ -156,7 +159,7 @@ public:
     void dumpInfo(ref JSONValue ret, size_t limit)
     {
         uint64 slotIndex;
-        size_t i = mKnownSlots.keys.length-1;
+        size_t i = mKnownSlots.keys.length - 1;
         while ((i >= 0) && (limit-- != 0))
         {
             slotIndex = mKnownSlots.keys[i];
@@ -191,7 +194,7 @@ public:
     void purgeSlots(uint64 maxSlotIndex)
     {
         uint64 slotIndex;
-        uint64 [] k = mKnownSlots.keys;
+        uint64[] k = mKnownSlots.keys;
         for (size_t i = 0; i < k.length; i++)
         {
             slotIndex = k[i];
@@ -314,10 +317,11 @@ public:
         }
     }
 
-    string ballotToStr(ref Ballot * ballot)
+    string ballotToStr(ref Ballot* ballot)
     {
         string res;
-        if (ballot) {
+        if (ballot)
+        {
             res = ballotToStr(*ballot);
         }
         else
@@ -335,102 +339,81 @@ public:
     string envToStr(ref Statement st)
     {
         import std.range;
-        OutBuffer oBuffer = new OutBuffer(); 
+
+        OutBuffer oBuffer = new OutBuffer();
         Hash qSetHash = Slot.getCompanionQuorumSetHashFromStatement(st);
 
-        oBuffer.writef("{ENV@%s | i: %d", getCPDriver().toShortString(st.nodeID.publicKey), st.slotIndex);
+        oBuffer.writef("{ENV@%s | i: %d", getCPDriver()
+                .toShortString(st.nodeID.publicKey), st.slotIndex);
 
         switch (st.pledges.type)
         {
-            case StatementType.CP_ST_PREPARE:
+        case StatementType.CP_ST_PREPARE:
+            {
+                oBuffer.writef(
+                        " | PREPARE" ~ " | D: %s" ~ " | b: %s" ~ " | p: %s" ~ " | p: %s" ~ " | c.n: %d" ~ " | h.n: %d ",
+                        toHexString(qSetHash.hash)[0 .. 5], ballotToStr(st.pledges.prepare.ballot),
+                        ballotToStr(st.pledges.prepare.prepared), ballotToStr(st.pledges.prepare.preparedPrime),
+                        st.pledges.prepare.nC, st.pledges.prepare.nH);
+            }
+            break;
+
+        case StatementType.CP_ST_CONFIRM:
+            {
+                oBuffer.writef(" | CONFIRM" ~ " | D: %s" ~ " | b: %s" ~ " | p.n: %d" ~ " | c.n: %d" ~ " | h.n: %d ",
+                        toHexString(qSetHash.hash)[0 .. 5], ballotToStr(st.pledges.confirm.ballot),
+                        st.pledges.confirm.nPrepared,
+                        st.pledges.confirm.nCommit, st.pledges.confirm.nH);
+            }
+            break;
+
+        case StatementType.CP_ST_EXTERNALIZE:
+            {
+                oBuffer.writef(" | EXTERNALIZE" ~ " | c: %s" ~ " | h.n: %d" ~ " | (lastD): %s ",
+                        ballotToStr(st.pledges.externalize.commit),
+                        st.pledges.externalize.nH, toHexString(qSetHash.hash)[0 .. 5]);
+            }
+            break;
+
+        case StatementType.CP_ST_NOMINATE:
+            {
+                auto nom = &st.pledges.nominate;
+
+                oBuffer.writef(" | NOMINATE" ~ " | D: %s" ~ " | VOTE: {",
+                        toHexString(qSetHash.hash)[0 .. 5]);
+
+                bool first = true;
+                foreach (int i, ref Value v; nom.votes)
                 {
-                    oBuffer.writef(" | PREPARE"~
-                                   " | D: %s"~
-                                   " | b: %s"~
-                                   " | p: %s"~
-                                   " | p: %s"~
-                                   " | c.n: %d"~
-                                   " | h.n: %d ",
-                                     toHexString(qSetHash.hash)[0..5],
-                                     ballotToStr(st.pledges.prepare.ballot),
-                                     ballotToStr(st.pledges.prepare.prepared),
-                                     ballotToStr(st.pledges.prepare.preparedPrime),
-                                     st.pledges.prepare.nC,
-                                     st.pledges.prepare.nH
-                                     );
-                }
-                break;
-
-            case StatementType.CP_ST_CONFIRM:
-                {
-                    oBuffer.writef(" | CONFIRM"~
-                                   " | D: %s"~
-                                   " | b: %s"~
-                                   " | p.n: %d"~
-                                   " | c.n: %d"~
-                                   " | h.n: %d ",
-                                     toHexString(qSetHash.hash)[0..5],
-                                     ballotToStr(st.pledges.confirm.ballot),
-                                     st.pledges.confirm.nPrepared,
-                                     st.pledges.confirm.nCommit,
-                                     st.pledges.confirm.nH
-                                     );
-                }
-                break;
-
-            case StatementType.CP_ST_EXTERNALIZE:
-                {
-                    oBuffer.writef(" | EXTERNALIZE"~
-                                   " | c: %s"~
-                                   " | h.n: %d"~
-                                   " | (lastD): %s ",
-                                     ballotToStr(st.pledges.externalize.commit),
-                                     st.pledges.externalize.nH,
-                                     toHexString(qSetHash.hash)[0..5]
-                                     );
-                }
-                break;
-
-            case StatementType.CP_ST_NOMINATE:
-                {
-                    auto nom = &st.pledges.nominate;
-
-                    oBuffer.writef(" | NOMINATE"~
-                                   " | D: %s"~
-                                   " | VOTE: {", toHexString(qSetHash.hash)[0..5]);
-
-                    bool first = true;
-                    foreach (int i, ref Value v; nom.votes)
+                    if (!first)
                     {
-                        if (!first)
-                        {
-                            oBuffer.write(" ,");
-                        }
-                        oBuffer.write(getValueString(v));
-                        first = false;
+                        oBuffer.write(" ,");
                     }
-                    oBuffer.write("}");
-                    oBuffer.write(" | ACCEPTED: {");
-
-                    first = true;
-                    foreach (int i, ref Value a; nom.accepted)
-                    {
-                        if (!first)
-                        {
-                            oBuffer.write(" ,");
-                        }
-                        oBuffer.write(getValueString(a));
-                        first = false;
-                    }
-                    oBuffer.write("}");
-
+                    oBuffer.write(getValueString(v));
+                    first = false;
                 }
-                break;
-            default:
+                oBuffer.write("}");
+                oBuffer.write(" | ACCEPTED: {");
+
+                first = true;
+                foreach (int i, ref Value a; nom.accepted)
+                {
+                    if (!first)
+                    {
+                        oBuffer.write(" ,");
+                    }
+                    oBuffer.write(getValueString(a));
+                    first = false;
+                }
+                oBuffer.write("}");
+
+            }
+            break;
+        default:
         }
 
         oBuffer.writef(" }");
-        
+
         return oBuffer.toString();
     }
-} 
+}

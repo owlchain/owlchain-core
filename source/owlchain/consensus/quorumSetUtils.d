@@ -1,7 +1,7 @@
 module owlchain.consensus.quorumSetUtils;
 
 import std.stdio;
-import std.algorithm: canFind;
+import std.algorithm : canFind;
 
 import owlchain.xdr.publicKey;
 import owlchain.xdr.nodeID;
@@ -10,10 +10,10 @@ import owlchain.xdr.quorumSet;
 class QuorumSetSanityChecker
 {
 
-private :
+private:
 
     bool mExtraChecks;
-    int [PublicKey] mKnownNodes;
+    int[PublicKey] mKnownNodes;
     bool mIsSane;
     int mCount;
 
@@ -66,7 +66,7 @@ private :
         return true;
     }
 
-public :
+public:
 
     this(ref QuorumSet qSet, bool extraChecks)
     {
@@ -105,14 +105,11 @@ void normalizeQSet(ref QuorumSet qSet)
     {
         normalizeQSet((*i)[idx]);
         // merge singleton inner sets into validator list
-        if  (
-                ((*i)[idx].threshold == 1) &&
-                ((*i)[idx].validators.length == 1) &&
-                ((*i)[idx].innerSets.length == 0)
-            )
+        if (((*i)[idx].threshold == 1) && ((*i)[idx].validators.length == 1)
+                && ((*i)[idx].innerSets.length == 0))
         {
             (*v) ~= (*i)[idx].validators[0];
-            (*i) = (*i)[0..idx] ~ (*i)[idx+1..$];
+            (*i) = (*i)[0 .. idx] ~ (*i)[idx + 1 .. $];
         }
         else
         {
@@ -121,11 +118,7 @@ void normalizeQSet(ref QuorumSet qSet)
     }
 
     // simplify quorum set if needed
-    if  (
-            (qSet.threshold == 1) &&
-            (qSet.validators.length == 0) &&
-            (qSet.innerSets.length == 1)
-        )
+    if ((qSet.threshold == 1) && (qSet.validators.length == 0) && (qSet.innerSets.length == 1))
     {
         qSet = qSet.innerSets[0];
     }

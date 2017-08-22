@@ -18,10 +18,10 @@ alias RefCounted!(QuorumSet, RefCountedAutoInitialize.no) QuorumSetPtr;
 
 class ConsensusProtocolDriver
 {
-	this()
-	{
+    this()
+    {
 
-	}
+    }
 
     // Envelope signature/verification
     void signEnvelope(ref Envelope envelope)
@@ -67,9 +67,9 @@ class ConsensusProtocolDriver
     // will abstain from emiting its position.
     enum ValidationLevel
     {
-        kInvalidValue,        // value is invalid for sure
+        kInvalidValue, // value is invalid for sure
         kFullyValidatedValue, // value is valid for sure
-        kMaybeValidValue      // value may be valid
+        kMaybeValidValue // value may be valid
     }
 
     ValidationLevel validateValue(uint64 slotIndex, ref Value value)
@@ -102,7 +102,8 @@ class ConsensusProtocolDriver
 
     // computeHashNode is used by the nomination protocol to
     // randomize the order of messages between nodes.
-    uint64 computeHashNode(uint64 slotIndex, ref Value prev, bool isPriority, int roundNumber, ref NodeID nodeID)
+    uint64 computeHashNode(uint64 slotIndex, ref Value prev, bool isPriority,
+            int roundNumber, ref NodeID nodeID)
     {
         return 0L;
     }
@@ -144,7 +145,7 @@ class ConsensusProtocolDriver
         }
         else
         {
-            timeoutInSeconds = cast(int)roundNumber;
+            timeoutInSeconds = cast(int) roundNumber;
         }
         return dur!"seconds"(timeoutInSeconds);
     }
@@ -207,4 +208,4 @@ class ConsensusProtocolDriver
     {
 
     }
-} 
+}
