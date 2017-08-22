@@ -10,7 +10,7 @@ class XdrDataInputStream : InputStream
 
     this(ubyte [] source) 
     {
-        data = source;
+        data = source.dup();
         offset = 0;
     }
 
@@ -22,7 +22,7 @@ class XdrDataInputStream : InputStream
 
     void assign(ubyte [] source)
     {
-        data = source;
+        data = source.dup();
         offset = 0;
     }
 
