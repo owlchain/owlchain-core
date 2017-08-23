@@ -1,5 +1,8 @@
 module owlchain.xdr.xdrDataInputStream;
 
+import std.string;
+import std.conv;
+
 import owlchain.core.stream;
 import owlchain.xdr.type;
 
@@ -185,5 +188,14 @@ class XdrDataInputStream : InputStream
             value = 0;
         }
         return value;
+    }
+
+    string readString()
+    {
+        int32 size = readInt32();
+        byte[] ascii = new byte[size];
+        read(ascii);
+        string p = cast(string)(ascii);
+        return p;
     }
 }

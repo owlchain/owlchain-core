@@ -13,39 +13,39 @@ struct Value
 
     static Value opCall()
     {
-        Value h;
-        return h;
+        Value newValue;
+        return newValue;
     }
 
-    static Value opCall(ref ubyte[] v)
+    static Value opCall(ref ubyte[] other)
     {
-        Value h;
-        h.value = v.dup;
-        return h;
+        Value newValue;
+        newValue.value = other.dup;
+        return newValue;
     }
 
-    static Value opCall(ref const Value v)
+    static Value opCall(ref const Value other)
     {
-        Value h;
-        h.value = v.value.dup;
-        return h;
+        Value newValue;
+        newValue.value = other.value.dup;
+        return newValue;
     }
 
-    ref Value opAssign(Value v)
+    ref Value opAssign(Value other)
     {
-        value = v.value.dup;
+        value = other.value.dup;
         return this;
     }
 
-    ref Value opAssign(const Value v)
+    ref Value opAssign(const Value other)
     {
-        value = v.value.dup;
+        value = other.value.dup;
         return this;
     }
 
-    ref Value opAssign(ref const(Value) v)
+    ref Value opAssign(ref const(Value) other)
     {
-        value = v.value.dup;
+        value = other.value.dup;
         return this;
     }
 

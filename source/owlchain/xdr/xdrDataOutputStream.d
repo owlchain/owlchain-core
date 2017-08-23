@@ -1,5 +1,8 @@
 module owlchain.xdr.xdrDataOutputStream;
 
+import std.string;
+import std.conv;
+
 import owlchain.core.stream;
 import owlchain.xdr.type;
 
@@ -120,6 +123,13 @@ class XdrDataOutputStream : OutputStream
         reserve(uint512.sizeof);
         *cast(uint512 *)&data[offset] = value;
         offset += uint512.sizeof;
+    }
+
+    void writeString(string value)
+    {
+        ubyte [] ascii = cast(ubyte[])value;
+        writeInt32(cast(int32)ascii.length);
+        write(ascii);
     }
 
 	void write(InputStream stream, ulong nbytes = 0)

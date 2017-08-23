@@ -66,7 +66,7 @@ struct StatementPledges
     {
         StatementPledges decodedStatementPledges;
 
-        int32 value = stream.readInt32();
+        const int32 value = stream.readInt32();
         switch (value) {
             case 0: 
                 decodedStatementPledges.type = StatementType.CP_ST_PREPARE;

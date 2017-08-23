@@ -56,7 +56,7 @@ struct HistoryEntryV0
     static HistoryEntryV0 decode(XdrDataInputStream stream)
     {
         HistoryEntryV0 decodedHistoryEntryV0;
-        int quorumSetssize = stream.readInt();
+        const int quorumSetssize = stream.readInt();
         decodedHistoryEntryV0.quorumSets.length = quorumSetssize;
         for (int i = 0; i < quorumSetssize; i++)
         {
