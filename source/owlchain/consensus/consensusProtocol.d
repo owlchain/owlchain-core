@@ -344,7 +344,7 @@ public:
         Hash qSetHash = Slot.getCompanionQuorumSetHashFromStatement(st);
 
         oBuffer.writef("{ENV@%s | i: %d", getCPDriver()
-                .toShortString(st.nodeID.publicKey), st.slotIndex);
+                .toShortString(st.nodeID), st.slotIndex);
 
         switch (st.pledges.type)
         {

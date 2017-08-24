@@ -6,37 +6,6 @@ import owlchain.xdr.xdrDataOutputStream;
 
 import std.container.rbtree;
 
-alias RedBlackTree !(NodeID, "a.publicKey.ed25519 < b.publicKey.ed25519") NodeIDSet;
+alias RedBlackTree !(NodeID, "a.ed25519 < b.ed25519") NodeIDSet;
 
-struct NodeID
-{
-    PublicKey publicKey;
-
-    int opCmp(ref NodeID other)
-    {
-        if (publicKey.ed25519 < other.publicKey.ed25519)
-        {
-            return -1;
-        }
-        else if (publicKey.ed25519 > other.publicKey.ed25519)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    static void encode(XdrDataOutputStream stream, ref const NodeID encodedNodeID)
-    {
-        PublicKey.encode(stream, encodedNodeID.publicKey);
-    }
-
-    static NodeID decode(XdrDataInputStream stream)
-    {
-        NodeID decodedNodeID;
-        decodedNodeID.publicKey = PublicKey.decode(stream);
-        return decodedNodeID;
-    }
-}
+alias NodeID = PublicKey;

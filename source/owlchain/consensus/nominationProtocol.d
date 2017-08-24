@@ -566,7 +566,7 @@ private:
         foreach (ref NodeID n; mRoundLeaders)
         {
             writefln("[DEBUG], ConsensusProtocol leader: %s",
-                    mSlot.getCPDriver().toShortString(n.publicKey));
+                    mSlot.getCPDriver().toShortString(n));
         }
     }
 

@@ -48,7 +48,7 @@ protected:
 public:
     this(ref SecretKey secretKey, bool isValidator, ref QuorumSet qSet, ConsensusProtocol cp)
     {
-        mNodeID.publicKey = secretKey.getPublicKey();
+        mNodeID = secretKey.getPublicKey();
         mSecretKey = secretKey;
         mIsValidator = isValidator;
 
@@ -156,7 +156,7 @@ public:
     {
         QuorumSet qSet;
         qSet.threshold = 1;
-        qSet.validators ~= nodeID.publicKey;
+        qSet.validators ~= nodeID;
         return refCounted(qSet);
     }
 
@@ -187,9 +187,9 @@ public:
         uint64 res = 0;
 
         //  validator
-        foreach (int i, ref PublicKey pk; qset.validators)
+        foreach (int i, ref PublicKey validator; qset.validators)
         {
-            if (pk == nodeID.publicKey)
+            if (validator == nodeID)
             {
                 bigDivide(res, UINT64_MAX, n, d, Rounding.ROUND_DOWN);
                 return res;
@@ -340,11 +340,9 @@ public:
                 - qset.threshold);
 
         NodeID[] res;
-        NodeID validator;
         // first, compute how many top level items need to be blocked
-        foreach (int i, ref PublicKey pk; qset.validators)
+        foreach (int i, ref PublicKey validator; qset.validators)
         {
-            validator = NodeID(pk);
             if (!excluded || !(validator == *excluded))
             {
                 if (!(validator in nodes))
@@ -411,10 +409,10 @@ public:
         value.object["t"] = JSONValue(qSet.threshold);
         value.object["v"] = entries;
 
-        foreach (int i, ref PublicKey pk; qSet.validators)
+        foreach (int i, ref PublicKey validator; qSet.validators)
         {
             value["v"].array ~= JSONValue(toUTF8(mConsensusProtocol.getCPDriver()
-                    .toShortString(pk)));
+                    .toShortString(validator)));
         }
 
         foreach (int i, ref QuorumSet s; qSet.innerSets)
@@ -439,17 +437,15 @@ protected:
     {
         QuorumSet qSet;
         qSet.threshold = 1;
-        qSet.validators ~= nodeID.publicKey;
+        qSet.validators ~= nodeID;
         return qSet;
     }
 
     // runs proc over all nodes contained in qset
     static void forAllNodesInternal(ref QuorumSet qset, void delegate(ref NodeID) proc)
     {
-        NodeID validator;
-        foreach (int i, ref PublicKey pk; qset.validators)
+        foreach (int i, ref PublicKey validator; qset.validators)
         {
-            validator = NodeID(pk);
             proc(validator);
         }
         foreach (int i, ref QuorumSet q; qset.innerSets)
@@ -461,12 +457,10 @@ protected:
     static bool isQuorumSliceInternal(ref QuorumSet qset, ref NodeID[] nodeSet)
     {
         uint32 thresholdLeft = qset.threshold;
-        NodeID nodeId;
 
-        foreach (int i, ref PublicKey pk; qset.validators)
+        foreach (int i, ref PublicKey validator; qset.validators)
         {
-            nodeId = NodeID(pk);
-            if (nodeSet.canFind(nodeId))
+            if (nodeSet.canFind(validator))
             {
                 thresholdLeft--;
                 if (thresholdLeft <= 0)
@@ -507,10 +501,8 @@ protected:
         int leftTillBlock = cast(int)(
                 (1 + qset.validators.length + qset.innerSets.length) - qset.threshold);
 
-        NodeID validator;
-        foreach (int i, ref PublicKey pk; qset.validators)
+        foreach (int i, ref PublicKey validator; qset.validators)
         {
-            validator = NodeID(pk);
             if (nodeSet.canFind(validator))
             {
                 leftTillBlock--;

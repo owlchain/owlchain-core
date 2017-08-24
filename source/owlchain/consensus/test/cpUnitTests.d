@@ -25,7 +25,6 @@ private:
     Hash [] mHash;
     SecretKey [] mSecretKey;
     PublicKey [] mKeys;
-    NodeID [] mNodeID;
 
     bool isNear(uint64 r, double target)
     {
@@ -38,7 +37,6 @@ private:
         uint256 seed = sha256Of("NODE_SEED_" ~  to!string(i, 10));
         mSecretKey ~= SecretKey.fromSeed(seed);
         mKeys ~= mSecretKey[$-1].getPublicKey();
-        mNodeID ~= NodeID(mKeys[$-1]);
     }
 
 public :
@@ -65,13 +63,13 @@ public :
             qSet.validators ~= (mKeys[2]);
             qSet.validators ~= (mKeys[3]);
 
-            uint64 result = LocalNode.getNodeWeight(mNodeID[2], qSet);
+            uint64 result = LocalNode.getNodeWeight(mKeys[2], qSet);
 
             double v = cast(double)result/cast(double)UINT64_MAX;
             writefln("%.5f", v);
             REQUIRE(isNear(result, .75));
 
-            result = LocalNode.getNodeWeight(mNodeID[4], qSet);
+            result = LocalNode.getNodeWeight(mKeys[4], qSet);
             REQUIRE(result == 0);
 
             QuorumSet iQSet;
@@ -80,7 +78,7 @@ public :
             iQSet.validators ~= (mKeys[5]);
             qSet.innerSets ~= iQSet;
 
-            result = LocalNode.getNodeWeight(mNodeID[4], qSet);
+            result = LocalNode.getNodeWeight(mKeys[4], qSet);
 
             v = cast(double)result/cast(double)UINT64_MAX;
             writefln("%.5f", v);

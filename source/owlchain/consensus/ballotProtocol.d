@@ -371,7 +371,7 @@ public:
                 if (!summary)
                 {
                     ret["missing"].array ~= JSONValue(mSlot.getCPDriver()
-                        .toShortString(n.publicKey));
+                        .toShortString(n));
                 }
                 n_missing++;
             }
@@ -384,7 +384,7 @@ public:
                 if (!summary)
                 {
                     ret["disagree"].array ~= JSONValue(mSlot.getCPDriver()
-                        .toShortString(n.publicKey));
+                        .toShortString(n));
                 }
                 n_disagree++;
             }
@@ -410,7 +410,7 @@ public:
             for (int i = 0; i < f.length; i++)
             {
                 ret["fail_with"].array ~= JSONValue(toUTF8(mSlot.getCPDriver()
-                        .toShortString(f[i].publicKey)));
+                        .toShortString(f[i])));
             }
 
             JSONValue[string] valueObject;

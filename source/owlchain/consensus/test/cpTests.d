@@ -56,7 +56,7 @@ public:
         mConsensusProtocol = new ConsensusProtocol(this, secretKey, isValidator, qSetLocal);
 
         mPriorityLookup = (ref const NodeID n) {
-            return (n.publicKey == secretKey.getPublicKey()) ? 1000 : 1;
+            return (n == secretKey.getPublicKey()) ? 1000 : 1;
         };
 
         mHashValueCalculator = (ref const Value v) { return 0; };
@@ -270,7 +270,7 @@ static Envelope makeEnvelope(ref SecretKey secretKey, uint64 slotIndex, ref Stat
 {
     Envelope envelope;
     envelope.statement = statement;
-    envelope.statement.nodeID = NodeID(secretKey.getPublicKey());
+    envelope.statement.nodeID = secretKey.getPublicKey();
     envelope.statement.slotIndex = slotIndex;
 
     envelope.signature = secretKey.sign(xdr!Statement.serialize(envelope.statement));
@@ -397,7 +397,6 @@ private:
     Hash[int] mHash;
     SecretKey[int] mSecretKey;
     PublicKey[int] mKey;
-    NodeID[int] mNodeID;
 
     void CREATE_VALUE(int i)
     {
@@ -415,7 +414,6 @@ private:
         uint256 seed = sha256Of("NODE_SEED_" ~ to!string(i, 10));
         mSecretKey[i] = SecretKey.fromSeed(seed);
         mKey[i] = mSecretKey[i].getPublicKey();
-        mNodeID[i] = NodeID(mKey[i]);
     }
 
 public:
@@ -466,11 +464,11 @@ public:
     {
         QuorumSet qSet;
         qSet.threshold = 4;
-        qSet.validators ~= (mNodeID[0].publicKey);
-        qSet.validators ~= (mNodeID[1].publicKey);
-        qSet.validators ~= (mNodeID[2].publicKey);
-        qSet.validators ~= (mNodeID[3].publicKey);
-        qSet.validators ~= (mNodeID[4].publicKey);
+        qSet.validators ~= (mKey[0]);
+        qSet.validators ~= (mKey[1]);
+        qSet.validators ~= (mKey[2]);
+        qSet.validators ~= (mKey[3]);
+        qSet.validators ~= (mKey[4]);
 
         mQSet = qSet;
         mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
@@ -605,31 +603,31 @@ public:
             //  threshold is 3
             QuorumSet qSet;
             qSet.threshold = 3;
-            qSet.validators ~= mNodeID[0].publicKey;
-            qSet.validators ~= mNodeID[1].publicKey;
-            qSet.validators ~= mNodeID[2].publicKey;
-            qSet.validators ~= mNodeID[3].publicKey;
+            qSet.validators ~= mKey[0];
+            qSet.validators ~= mKey[1];
+            qSet.validators ~= mKey[2];
+            qSet.validators ~= mKey[3];
 
             NodeID[] nodeSet;
-            nodeSet ~= (mNodeID[0]);
+            nodeSet ~= (mKey[0]);
 
             //  nodeSet size is 1
             REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == false);
             REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == false);
 
-            nodeSet ~= (mNodeID[2]);
+            nodeSet ~= (mKey[2]);
 
             //  nodeSet size is 2
             REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == false);
             REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == true);
 
-            nodeSet ~= (mNodeID[3]);
+            nodeSet ~= (mKey[3]);
 
             //  nodeSet size is 3
             REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == true);
             REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == true);
 
-            nodeSet ~= (mNodeID[1]);
+            nodeSet ~= (mKey[1]);
 
             //  nodeSet size is 4
             REQUIRE(LocalNode.isQuorumSlice(qSet, nodeSet) == true);
@@ -649,9 +647,9 @@ public:
 
             QuorumSet qSet;
             qSet.threshold = 2;
-            qSet.validators ~= (mNodeID[0].publicKey);
-            qSet.validators ~= (mNodeID[1].publicKey);
-            qSet.validators ~= (mNodeID[2].publicKey);
+            qSet.validators ~= (mKey[0]);
+            qSet.validators ~= (mKey[1]);
+            qSet.validators ~= (mKey[2]);
 
             auto check = (ref QuorumSet qSetCheck, ref NodeIDSet s, int expected) {
                 auto r = LocalNode.findClosestVBlocking(qSetCheck, s, null);
@@ -660,30 +658,30 @@ public:
 
             NodeIDSet good = new NodeIDSet;
 
-            good.insert(mNodeID[0]); //1 + V - T = 4 - 2 = 2;
+            good.insert(mKey[0]); //1 + V - T = 4 - 2 = 2;
             // already v-blocking
             check(qSet, good, 0);
 
-            good.insert(mNodeID[1]);
+            good.insert(mKey[1]);
             // either v0 or v1
             check(qSet, good, 1);
 
-            good.insert(mNodeID[2]);
+            good.insert(mKey[2]);
             // any 2 of v0..v2
             check(qSet, good, 2);
 
             QuorumSet qSubSet1;
             qSubSet1.threshold = 1;
-            qSubSet1.validators ~= (mNodeID[3].publicKey);
-            qSubSet1.validators ~= (mNodeID[4].publicKey);
-            qSubSet1.validators ~= (mNodeID[5].publicKey);
+            qSubSet1.validators ~= (mKey[3]);
+            qSubSet1.validators ~= (mKey[4]);
+            qSubSet1.validators ~= (mKey[5]);
             qSet.innerSets ~= (qSubSet1);
 
-            good.insert(mNodeID[3]);
+            good.insert(mKey[3]);
             // any 3 of v0..v3
             check(qSet, good, 3);
 
-            good.insert(mNodeID[4]);
+            good.insert(mKey[4]);
             // v0..v2
             check(qSet, good, 3);
 
@@ -691,24 +689,24 @@ public:
             // v0..v4
             check(qSet, good, 5);
 
-            good.insert(mNodeID[5]);
+            good.insert(mKey[5]);
             // v0..v5
             check(qSet, good, 6);
 
             QuorumSet qSubSet2;
             qSubSet2.threshold = 2;
-            qSubSet2.validators ~= (mNodeID[6].publicKey);
-            qSubSet2.validators ~= (mNodeID[7].publicKey);
+            qSubSet2.validators ~= (mKey[6]);
+            qSubSet2.validators ~= (mKey[7]);
 
             qSet.innerSets ~= (qSubSet2);
             // v0..v5
             check(qSet, good, 6);
 
-            good.insert(mNodeID[6]);
+            good.insert(mKey[6]);
             // v0..v5
             check(qSet, good, 6);
 
-            good.insert(mNodeID[7]);
+            good.insert(mKey[7]);
             // v0..v5 and one of 6,7
             check(qSet, good, 7);
 
@@ -2506,7 +2504,7 @@ public:
             REQUIRE(cpNV.bumpState(0, mValue[0]));
             REQUIRE(cpNV.mEnvs.length == 0);
 
-            Envelope envelope = cpNV.getCurrentEnvelope(0, mNodeID[5]);
+            Envelope envelope = cpNV.getCurrentEnvelope(0, mKey[5]);
             verifyPrepare(envelope, mSecretKey[5], mQSetHashNV, 0, b);
 
             auto ext1 = makeExternalize(mSecretKey[1], mQSetHash, 0, b, 1);
@@ -2518,7 +2516,7 @@ public:
             cpNV.receiveEnvelope(ext3);
 
             REQUIRE(cpNV.mEnvs.length == 0);
-            envelope = cpNV.getCurrentEnvelope(0, mNodeID[5]);
+            envelope = cpNV.getCurrentEnvelope(0, mKey[5]);
             Ballot bmax = Ballot(UINT32_MAX, mValue[0]);
             verifyConfirm(envelope, mSecretKey[5], mQSetHashNV, 0,
                     UINT32_MAX, bmax, 1, UINT32_MAX);
@@ -2526,7 +2524,7 @@ public:
             cpNV.receiveEnvelope(ext4);
             REQUIRE(cpNV.mEnvs.length == 0);
 
-            envelope = cpNV.getCurrentEnvelope(0, mNodeID[5]);
+            envelope = cpNV.getCurrentEnvelope(0, mKey[5]);
             verifyExternalize(envelope, mSecretKey[5], mQSetHashNV, 0, b, UINT32_MAX);
 
             REQUIRE(cpNV.mExternalizedValues[0] == mValue[0]);
@@ -2549,11 +2547,11 @@ public:
             {
                 QuorumSet qSet;
                 qSet.threshold = 4;
-                qSet.validators ~= (mNodeID[0].publicKey);
-                qSet.validators ~= (mNodeID[1].publicKey);
-                qSet.validators ~= (mNodeID[2].publicKey);
-                qSet.validators ~= (mNodeID[3].publicKey);
-                qSet.validators ~= (mNodeID[4].publicKey);
+                qSet.validators ~= (mKey[0]);
+                qSet.validators ~= (mKey[1]);
+                qSet.validators ~= (mKey[2]);
+                qSet.validators ~= (mKey[3]);
+                qSet.validators ~= (mKey[4]);
 
                 mQSet = qSet;
                 mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
@@ -2570,11 +2568,11 @@ public:
             {
                 QuorumSet qSet;
                 qSet.threshold = 4;
-                qSet.validators ~= (mNodeID[0].publicKey);
-                qSet.validators ~= (mNodeID[1].publicKey);
-                qSet.validators ~= (mNodeID[2].publicKey);
-                qSet.validators ~= (mNodeID[3].publicKey);
-                qSet.validators ~= (mNodeID[4].publicKey);
+                qSet.validators ~= (mKey[0]);
+                qSet.validators ~= (mKey[1]);
+                qSet.validators ~= (mKey[2]);
+                qSet.validators ~= (mKey[3]);
+                qSet.validators ~= (mKey[4]);
 
                 mQSet = qSet;
                 mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
@@ -2591,11 +2589,11 @@ public:
             {
                 QuorumSet qSet;
                 qSet.threshold = 4;
-                qSet.validators ~= (mNodeID[0].publicKey);
-                qSet.validators ~= (mNodeID[1].publicKey);
-                qSet.validators ~= (mNodeID[2].publicKey);
-                qSet.validators ~= (mNodeID[3].publicKey);
-                qSet.validators ~= (mNodeID[4].publicKey);
+                qSet.validators ~= (mKey[0]);
+                qSet.validators ~= (mKey[1]);
+                qSet.validators ~= (mKey[2]);
+                qSet.validators ~= (mKey[3]);
+                qSet.validators ~= (mKey[4]);
 
                 mQSet = qSet;
                 mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
@@ -2943,7 +2941,7 @@ public:
         {
             auto InitDelegate = () {
                 mCP.mPriorityLookup = (ref const NodeID n) {
-                    return (n == mNodeID[1]) ? 1000 : 1;
+                    return (n == mKey[1]) ? 1000 : 1;
                 };
 
                 mCP.mHashValueCalculator = (ref const Value v) {
@@ -3017,7 +3015,7 @@ public:
                 SECTION("v0 is new top node");
                 {
                     mCP.mPriorityLookup = (ref const NodeID n) {
-                        return (n == mNodeID[0]) ? 1000 : 1;
+                        return (n == mKey[0]) ? 1000 : 1;
                     };
                     REQUIRE(mCP.nominate(0, mValue[0], true));
                     REQUIRE(mCP.mEnvs.length == 1);
@@ -3032,7 +3030,7 @@ public:
                 SECTION("v2 is new top node");
                 {
                     mCP.mPriorityLookup = (ref const NodeID n) {
-                        return (n == mNodeID[2]) ? 1000 : 1;
+                        return (n == mKey[2]) ? 1000 : 1;
                     };
                     REQUIRE(mCP.nominate(0, mValue[0], true));
                     REQUIRE(mCP.mEnvs.length == 1);
@@ -3047,7 +3045,7 @@ public:
                 SECTION("v3 is new top node");
                 {
                     mCP.mPriorityLookup = (ref const NodeID n) {
-                        return (n == mNodeID[3]) ? 1000 : 1;
+                        return (n == mKey[3]) ? 1000 : 1;
                     };
                     // nothing happens, we don't have any message for v3
                     REQUIRE(!mCP.nominate(0, mValue[0], true));
@@ -3059,21 +3057,21 @@ public:
 
     void test()
     {
-        //ballotProtocolTest1();
-        //ballotProtocolTest2();
-        //ballotProtocolTest3();
-        //ballotProtocolTest4();
-        //ballotProtocolTest5();
-        //ballotProtocolTest6();
-        //ballotProtocolTest7();
-        //ballotProtocolTest8();
-        //ballotProtocolTest9();
-        //ballotProtocolTest10();
-        //ballotProtocolTest11();
-        //ballotProtocolTest12();
+        ballotProtocolTest1();
+        ballotProtocolTest2();
+        ballotProtocolTest3();
+        ballotProtocolTest4();
+        ballotProtocolTest5();
+        ballotProtocolTest6();
+        ballotProtocolTest7();
+        ballotProtocolTest8();
+        ballotProtocolTest9();
+        ballotProtocolTest10();
+        ballotProtocolTest11();
+        ballotProtocolTest12();
         nominationProtocolTest1();
-        //nominationProtocolTest2();
-        //nominationProtocolTest3();
+        nominationProtocolTest2();
+        nominationProtocolTest3();
     }
 
     void dump()

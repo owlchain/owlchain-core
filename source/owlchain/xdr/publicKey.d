@@ -11,6 +11,22 @@ struct PublicKey
     PublicKeyType discriminant;
     uint256 ed25519;
 
+    int opCmp(ref PublicKey other)
+    {
+        if (ed25519 < other.ed25519)
+        {
+            return -1;
+        }
+        else if (ed25519 > other.ed25519)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
     static void encode(XdrDataOutputStream stream, ref const PublicKey encodedPublicKey)
     {
         stream.writeInt32(encodedPublicKey.discriminant);
