@@ -35,7 +35,7 @@ struct Signature
     static Signature decode(XdrDataInputStream stream)
     {
         Signature decodedSignature;
-        int signatureSize = stream.readInt();
+        const int signatureSize = stream.readInt();
         decodedSignature.signature.length = signatureSize;
         stream.read(decodedSignature.signature);
         return decodedSignature;

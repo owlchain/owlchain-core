@@ -5,7 +5,7 @@ import owlchain.xdr.xdrDataOutputStream;
 
 import std.container.rbtree;
 
-alias RedBlackTree !(Value, "(a.value < b.value)") ValueSet;
+alias RedBlackTree!(Value, "(a.value < b.value)") ValueSet;
 
 struct Value
 {
@@ -60,7 +60,7 @@ struct Value
         Value decodedValue;
 
         uint size = stream.readUint();
-        if (size > 0) 
+        if (size > 0)
         {
             decodedValue.value.length = size;
             stream.read(decodedValue.value);

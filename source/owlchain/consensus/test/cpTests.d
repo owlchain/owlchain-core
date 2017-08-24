@@ -10,14 +10,14 @@ import std.algorithm : canFind;
 
 import owlchain.xdr.type;
 import owlchain.xdr.hash;
-import owlchain.xdr.envelope;
+import owlchain.xdr.bcpEnvelope;
 import owlchain.xdr.value;
 import owlchain.xdr.publicKey;
 import owlchain.xdr.nodeID;
-import owlchain.xdr.quorumSet;
-import owlchain.xdr.ballot;
-import owlchain.xdr.statement;
-import owlchain.xdr.statementType;
+import owlchain.xdr.bcpQuorumSet;
+import owlchain.xdr.bcpBallot;
+import owlchain.xdr.bcpStatement;
+import owlchain.xdr.bcpStatementType;
 
 import owlchain.crypto.keyUtils;
 
@@ -34,7 +34,7 @@ import core.stdc.stdint;
 
 alias PriorityLookupDelegate = uint64 delegate(ref const NodeID);
 alias HashCalculatorDelegate = uint64 delegate(ref const Value);
-alias BallotArray = Ballot[];
+alias BallotArray = BCPBallot[];
 class TestCP : ConsensusProtocolDriver
 {
 public:
@@ -43,15 +43,15 @@ public:
     PriorityLookupDelegate mPriorityLookup;
     HashCalculatorDelegate mHashValueCalculator;
 
-    QuorumSet[Hash] mQuorumSets;
-    Envelope[] mEnvs;
+    BCPQuorumSet[Hash] mQuorumSets;
+    BCPEnvelope[] mEnvs;
     Value[uint64] mExternalizedValues;
     BallotArray[uint64] mHeardFromQuorums;
 
     ValueSet mExpectedCandidates;
     Value mCompositeValue;
 
-    this(SecretKey secretKey, ref QuorumSet qSetLocal, bool isValidator = true)
+    this(SecretKey secretKey, ref BCPQuorumSet qSetLocal, bool isValidator = true)
     {
         mConsensusProtocol = new ConsensusProtocol(this, secretKey, isValidator, qSetLocal);
 
@@ -62,26 +62,26 @@ public:
         mHashValueCalculator = (ref const Value v) { return 0; };
 
         auto localQSet = mConsensusProtocol.getLocalQuorumSet();
-        storeQuorumSet(cast(QuorumSet) localQSet);
+        storeQuorumSet(cast(BCPQuorumSet) localQSet);
 
-        Ballot[] v;
+        BCPBallot[] v;
         mHeardFromQuorums[0] = v;
         mExpectedCandidates = new ValueSet;
     }
 
-    override void signEnvelope(ref Envelope)
+    override void signEnvelope(ref BCPEnvelope)
     {
 
     }
 
-    override bool verifyEnvelope(ref Envelope envelope)
+    override bool verifyEnvelope(ref BCPEnvelope envelope)
     {
         return true;
     }
 
-    void storeQuorumSet(QuorumSet qSet)
+    void storeQuorumSet(BCPQuorumSet qSet)
     {
-        Hash mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(qSet)));
+        Hash mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(qSet)));
         mQuorumSets[mQSetHash] = qSet;
     }
 
@@ -90,12 +90,12 @@ public:
         return ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue;
     }
 
-    override void ballotDidHearFromQuorum(uint64 slotIndex, ref Ballot ballot)
+    override void ballotDidHearFromQuorum(uint64 slotIndex, ref BCPBallot ballot)
     {
         auto p = (slotIndex in mHeardFromQuorums);
         if (p is null)
         {
-            Ballot[] v;
+            BCPBallot[] v;
             v ~= ballot;
             mHeardFromQuorums[slotIndex] = v;
         }
@@ -115,18 +115,18 @@ public:
         mExternalizedValues[slotIndex] = value;
     }
 
-    override QuorumSetPtr getQSet(ref Hash mQSetHash)
+    override BCPQuorumSetPtr getQSet(ref Hash mQSetHash)
     {
         auto p = (mQSetHash in mQuorumSets);
         if (p !is null)
         {
             return refCounted(mQuorumSets[mQSetHash]);
         }
-        RefCounted!(QuorumSet, RefCountedAutoInitialize.no) qSet;
+        RefCounted!(BCPQuorumSet, RefCountedAutoInitialize.no) qSet;
         return qSet;
     }
 
-    override void emitEnvelope(ref Envelope envelope)
+    override void emitEnvelope(ref BCPEnvelope envelope)
     {
         mEnvs ~= envelope;
     }
@@ -190,7 +190,7 @@ public:
         return mConsensusProtocol.getSlot(slotIndex, true).getLatestCompositeCandidate();
     }
 
-    void receiveEnvelope(ref Envelope envelope)
+    void receiveEnvelope(ref BCPEnvelope envelope)
     {
         mConsensusProtocol.receiveEnvelope(envelope);
     }
@@ -200,15 +200,15 @@ public:
         return mConsensusProtocol.getSlot(index, false);
     }
 
-    Envelope[] getEntireState(uint64 index)
+    BCPEnvelope[] getEntireState(uint64 index)
     {
         auto v = mConsensusProtocol.getSlot(index, false).getEntireCurrentState();
         return v;
     }
 
-    Envelope getCurrentEnvelope(uint64 index, ref NodeID id)
+    BCPEnvelope getCurrentEnvelope(uint64 index, ref NodeID id)
     {
-        Envelope[] envelopes = getEntireState(index);
+        BCPEnvelope[] envelopes = getEntireState(index);
         for (int idx = 0; idx < envelopes.length; idx++)
         {
             if (envelopes[idx].statement.nodeID == id)
@@ -266,23 +266,23 @@ public:
     }
 }
 
-static Envelope makeEnvelope(ref SecretKey secretKey, uint64 slotIndex, ref Statement statement)
+static BCPEnvelope makeEnvelope(ref SecretKey secretKey, uint64 slotIndex, ref BCPStatement statement)
 {
-    Envelope envelope;
+    BCPEnvelope envelope;
     envelope.statement = statement;
     envelope.statement.nodeID = secretKey.getPublicKey();
     envelope.statement.slotIndex = slotIndex;
 
-    envelope.signature = secretKey.sign(xdr!Statement.serialize(envelope.statement));
+    envelope.signature = secretKey.sign(xdr!BCPStatement.serialize(envelope.statement));
 
     return envelope;
 }
 
-static Envelope makeExternalize(ref SecretKey secretKey, ref Hash mQSetHash,
-        uint64 slotIndex, ref Ballot commitBallot, uint32 nH)
+static BCPEnvelope makeExternalize(ref SecretKey secretKey, ref Hash mQSetHash,
+        uint64 slotIndex, ref BCPBallot commitBallot, uint32 nH)
 {
-    Statement st;
-    st.pledges.type = StatementType.CP_ST_EXTERNALIZE;
+    BCPStatement st;
+    st.pledges.type = BCPStatementType.CP_ST_EXTERNALIZE;
     auto ext = &st.pledges.externalize;
     ext.commit = commitBallot;
     ext.nH = nH;
@@ -291,11 +291,11 @@ static Envelope makeExternalize(ref SecretKey secretKey, ref Hash mQSetHash,
     return makeEnvelope(secretKey, slotIndex, st);
 }
 
-static Envelope makeConfirm(ref SecretKey secretKey, ref Hash mQSetHash,
-        uint64 slotIndex, uint32 prepareCounter, ref Ballot b, uint32 nC, uint32 nH)
+static BCPEnvelope makeConfirm(ref SecretKey secretKey, ref Hash mQSetHash,
+        uint64 slotIndex, uint32 prepareCounter, ref BCPBallot b, uint32 nC, uint32 nH)
 {
-    Statement st;
-    st.pledges.type = StatementType.CP_ST_CONFIRM;
+    BCPStatement st;
+    st.pledges.type = BCPStatementType.CP_ST_CONFIRM;
     auto con = &st.pledges.confirm;
     con.ballot = b;
     con.nPrepared = prepareCounter;
@@ -306,12 +306,12 @@ static Envelope makeConfirm(ref SecretKey secretKey, ref Hash mQSetHash,
     return makeEnvelope(secretKey, slotIndex, st);
 }
 
-static Envelope makePrepare(ref SecretKey secretKey, ref Hash mQSetHash, uint64 slotIndex,
-        ref Ballot ballot, Ballot* prepared = null, uint32 nC = 0, uint32 nH = 0,
-        Ballot* preparedPrime = null)
+static BCPEnvelope makePrepare(ref SecretKey secretKey, ref Hash mQSetHash, uint64 slotIndex,
+        ref BCPBallot ballot, BCPBallot* prepared = null, uint32 nC = 0, uint32 nH = 0,
+        BCPBallot* preparedPrime = null)
 {
-    Statement st;
-    st.pledges.type = StatementType.CP_ST_PREPARE;
+    BCPStatement st;
+    st.pledges.type = BCPStatementType.CP_ST_PREPARE;
     auto p = &st.pledges.prepare;
     p.ballot = ballot;
     p.quorumSetHash = mQSetHash;
@@ -331,7 +331,7 @@ static Envelope makePrepare(ref SecretKey secretKey, ref Hash mQSetHash, uint64 
     return makeEnvelope(secretKey, slotIndex, st);
 }
 
-static Envelope makeNominate(ref SecretKey secretKey, ref Hash mQSetHash,
+static BCPEnvelope makeNominate(ref SecretKey secretKey, ref Hash mQSetHash,
         uint64 slotIndex, Value[] votes, Value[] accepted)
 {
     import std.algorithm;
@@ -340,8 +340,8 @@ static Envelope makeNominate(ref SecretKey secretKey, ref Hash mQSetHash,
     votes.sort!(comp).release;
     accepted.sort!(comp).release;
 
-    Statement st;
-    st.pledges.type = StatementType.CP_ST_NOMINATE;
+    BCPStatement st;
+    st.pledges.type = BCPStatementType.CP_ST_NOMINATE;
     auto nom = &st.pledges.nominate;
     nom.quorumSetHash = mQSetHash;
 
@@ -357,30 +357,30 @@ static Envelope makeNominate(ref SecretKey secretKey, ref Hash mQSetHash,
     return makeEnvelope(secretKey, slotIndex, st);
 }
 
-void verifyPrepare(ref Envelope actual, ref SecretKey secretKey, ref Hash mQSetHash,
-        uint64 slotIndex, ref Ballot ballot, Ballot* prepared = null, uint32 nC = 0,
-        uint32 nH = 0, Ballot* preparedPrime = null)
+void verifyPrepare(ref BCPEnvelope actual, ref SecretKey secretKey, ref Hash mQSetHash,
+        uint64 slotIndex, ref BCPBallot ballot, BCPBallot* prepared = null, uint32 nC = 0,
+        uint32 nH = 0, BCPBallot* preparedPrime = null)
 {
     auto exp = makePrepare(secretKey, mQSetHash, slotIndex, ballot, prepared,
             nC, nH, preparedPrime);
     REQUIRE(exp.statement == actual.statement);
 }
 
-void verifyConfirm(ref Envelope actual, ref SecretKey secretKey, ref Hash mQSetHash,
-        uint64 slotIndex, uint32 nPrepared, ref Ballot b, uint32 nC, uint32 nH)
+void verifyConfirm(ref BCPEnvelope actual, ref SecretKey secretKey, ref Hash mQSetHash,
+        uint64 slotIndex, uint32 nPrepared, ref BCPBallot b, uint32 nC, uint32 nH)
 {
     auto exp = makeConfirm(secretKey, mQSetHash, slotIndex, nPrepared, b, nC, nH);
     REQUIRE(exp.statement == actual.statement);
 }
 
-void verifyExternalize(ref Envelope actual, ref SecretKey secretKey,
-        ref Hash mQSetHash, uint64 slotIndex, ref Ballot commit, uint32 nH)
+void verifyExternalize(ref BCPEnvelope actual, ref SecretKey secretKey,
+        ref Hash mQSetHash, uint64 slotIndex, ref BCPBallot commit, uint32 nH)
 {
     auto exp = makeExternalize(secretKey, mQSetHash, slotIndex, commit, nH);
     REQUIRE(exp.statement == actual.statement);
 }
 
-void verifyNominate(ref Envelope actual, ref SecretKey secretKey, ref Hash mQSetHash,
+void verifyNominate(ref BCPEnvelope actual, ref SecretKey secretKey, ref Hash mQSetHash,
         uint64 slotIndex, Value[] votes, Value[] accepted)
 {
     auto exp = makeNominate(secretKey, mQSetHash, slotIndex, votes, accepted);
@@ -430,10 +430,10 @@ public:
         }
     }
 
-    alias genEnvelope = Envelope delegate(ref SecretKey sk);
+    alias genEnvelope = BCPEnvelope delegate(ref SecretKey sk);
 
-    static genEnvelope makePrepareGen(ref Hash mQSetHash, ref Ballot ballot,
-            Ballot* prepared = null, uint32 nC = 0, uint32 nH = 0, Ballot* preparedPrime = null)
+    static genEnvelope makePrepareGen(ref Hash mQSetHash, ref BCPBallot ballot,
+            BCPBallot* prepared = null, uint32 nC = 0, uint32 nH = 0, BCPBallot* preparedPrime = null)
     {
         return delegate(ref SecretKey sk) {
             return makePrepare(sk, mQSetHash, 0, ballot, prepared, nC, nH, preparedPrime);
@@ -441,28 +441,28 @@ public:
     }
 
     static genEnvelope makeConfirmGen(ref Hash mQSetHash, uint32 prepareCounter,
-            ref Ballot b, uint32 nC, uint32 nH)
+            ref BCPBallot b, uint32 nC, uint32 nH)
     {
         return delegate(ref SecretKey sk) {
             return makeConfirm(sk, mQSetHash, 0, prepareCounter, b, nC, nH);
         };
     }
 
-    static genEnvelope makeExternalizeGen(ref Hash mQSetHash, ref Ballot commitBallot, uint32 nH)
+    static genEnvelope makeExternalizeGen(ref Hash mQSetHash, ref BCPBallot commitBallot, uint32 nH)
     {
         return delegate(ref SecretKey sk) {
             return makeExternalize(sk, mQSetHash, 0, commitBallot, nH);
         };
     }
 
-    QuorumSet mQSet;
+    BCPQuorumSet mQSet;
     Hash mQSetHash;
     Hash mQSetHash0;
     TestCP mCP;
 
     void Init()
     {
-        QuorumSet qSet;
+        BCPQuorumSet qSet;
         qSet.threshold = 4;
         qSet.validators ~= (mKey[0]);
         qSet.validators ~= (mKey[1]);
@@ -471,7 +471,7 @@ public:
         qSet.validators ~= (mKey[4]);
 
         mQSet = qSet;
-        mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
+        mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
 
         mCP = new TestCP(mSecretKey[0], mQSet);
 
@@ -481,8 +481,8 @@ public:
 
     auto recvVBlockingChecks(genEnvelope gen, bool withChecks)
     {
-        Envelope e1 = gen(mSecretKey[1]);
-        Envelope e2 = gen(mSecretKey[2]);
+        BCPEnvelope e1 = gen(mSecretKey[1]);
+        BCPEnvelope e2 = gen(mSecretKey[2]);
 
         // nothing should happen with first message
         size_t i = mCP.mEnvs.length;
@@ -507,10 +507,10 @@ public:
 
     auto recvQuorumChecks(genEnvelope gen, bool withChecks, bool delayedQuorum)
     {
-        Envelope e1 = gen(mSecretKey[1]);
-        Envelope e2 = gen(mSecretKey[2]);
-        Envelope e3 = gen(mSecretKey[3]);
-        Envelope e4 = gen(mSecretKey[4]);
+        BCPEnvelope e1 = gen(mSecretKey[1]);
+        BCPEnvelope e2 = gen(mSecretKey[2]);
+        BCPEnvelope e3 = gen(mSecretKey[3]);
+        BCPEnvelope e4 = gen(mSecretKey[4]);
 
         mCP.receiveEnvelope(e1);
         mCP.receiveEnvelope(e2);
@@ -540,11 +540,11 @@ public:
 
     auto nodesAllPledgeToCommit()
     {
-        Ballot b = Ballot(1, mValue[0]);
-        Envelope prepare1 = makePrepare(mSecretKey[1], mQSetHash, 0, b);
-        Envelope prepare2 = makePrepare(mSecretKey[2], mQSetHash, 0, b);
-        Envelope prepare3 = makePrepare(mSecretKey[3], mQSetHash, 0, b);
-        Envelope prepare4 = makePrepare(mSecretKey[4], mQSetHash, 0, b);
+        BCPBallot b = BCPBallot(1, mValue[0]);
+        BCPEnvelope prepare1 = makePrepare(mSecretKey[1], mQSetHash, 0, b);
+        BCPEnvelope prepare2 = makePrepare(mSecretKey[2], mQSetHash, 0, b);
+        BCPEnvelope prepare3 = makePrepare(mSecretKey[3], mQSetHash, 0, b);
+        BCPEnvelope prepare4 = makePrepare(mSecretKey[4], mQSetHash, 0, b);
 
         REQUIRE(mCP.bumpState(0, mValue[0]));
         REQUIRE(mCP.mEnvs.length == 1);
@@ -570,10 +570,10 @@ public:
         mCP.receiveEnvelope(prepare4);
         REQUIRE(mCP.mEnvs.length == 2);
 
-        Envelope prepared1 = makePrepare(mSecretKey[1], mQSetHash, 0, b, &b);
-        Envelope prepared2 = makePrepare(mSecretKey[2], mQSetHash, 0, b, &b);
-        Envelope prepared3 = makePrepare(mSecretKey[3], mQSetHash, 0, b, &b);
-        Envelope prepared4 = makePrepare(mSecretKey[4], mQSetHash, 0, b, &b);
+        BCPEnvelope prepared1 = makePrepare(mSecretKey[1], mQSetHash, 0, b, &b);
+        BCPEnvelope prepared2 = makePrepare(mSecretKey[2], mQSetHash, 0, b, &b);
+        BCPEnvelope prepared3 = makePrepare(mSecretKey[3], mQSetHash, 0, b, &b);
+        BCPEnvelope prepared4 = makePrepare(mSecretKey[4], mQSetHash, 0, b, &b);
 
         mCP.receiveEnvelope(prepared4);
         mCP.receiveEnvelope(prepared3);
@@ -601,7 +601,7 @@ public:
 
             //  number of validator is 4
             //  threshold is 3
-            QuorumSet qSet;
+            BCPQuorumSet qSet;
             qSet.threshold = 3;
             qSet.validators ~= mKey[0];
             qSet.validators ~= mKey[1];
@@ -645,13 +645,13 @@ public:
             SIMULATION_CREATE_NODE(6);
             SIMULATION_CREATE_NODE(7);
 
-            QuorumSet qSet;
+            BCPQuorumSet qSet;
             qSet.threshold = 2;
             qSet.validators ~= (mKey[0]);
             qSet.validators ~= (mKey[1]);
             qSet.validators ~= (mKey[2]);
 
-            auto check = (ref QuorumSet qSetCheck, ref NodeIDSet s, int expected) {
+            auto check = (ref BCPQuorumSet qSetCheck, ref NodeIDSet s, int expected) {
                 auto r = LocalNode.findClosestVBlocking(qSetCheck, s, null);
                 REQUIRE(expected == r.length);
             };
@@ -670,7 +670,7 @@ public:
             // any 2 of v0..v2
             check(qSet, good, 2);
 
-            QuorumSet qSubSet1;
+            BCPQuorumSet qSubSet1;
             qSubSet1.threshold = 1;
             qSubSet1.validators ~= (mKey[3]);
             qSubSet1.validators ~= (mKey[4]);
@@ -693,7 +693,7 @@ public:
             // v0..v5
             check(qSet, good, 6);
 
-            QuorumSet qSubSet2;
+            BCPQuorumSet qSubSet2;
             qSubSet2.threshold = 2;
             qSubSet2.validators ~= (mKey[6]);
             qSubSet2.validators ~= (mKey[7]);
@@ -724,11 +724,11 @@ public:
         }
     }
 
-    //  ballot protocol", "[CP][ballotprotocol]
+    //  ballot protocol", "[BCP][ballotprotocol]
     //  bumpState x
     void ballotProtocolTest2()
     {
-        TEST_CASE("ballot protocol", "[CP][ballotprotocol]");
+        TEST_CASE("ballot protocol", "[BCP][ballotprotocol]");
         {
             SIMULATION_CREATE_NODE(0);
             SIMULATION_CREATE_NODE(1);
@@ -750,7 +750,7 @@ public:
                 REQUIRE(mCP.bumpState(0, mValue[0]));
                 REQUIRE(mCP.mEnvs.length == 1);
 
-                Ballot expectedBallot = Ballot(1, mValue[0]);
+                BCPBallot expectedBallot = BCPBallot(1, mValue[0]);
 
                 verifyPrepare(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, expectedBallot);
             }
@@ -775,28 +775,28 @@ public:
             Value aValue = mValue[0];
             Value bValue = mValue[1];
 
-            Ballot A1 = Ballot(1, aValue);
-            Ballot B1 = Ballot(1, bValue);
+            BCPBallot A1 = BCPBallot(1, aValue);
+            BCPBallot B1 = BCPBallot(1, bValue);
 
-            Ballot A2 = A1;
+            BCPBallot A2 = A1;
             A2.counter++;
 
-            Ballot A3 = A2;
+            BCPBallot A3 = A2;
             A3.counter++;
 
-            Ballot A4 = A3;
+            BCPBallot A4 = A3;
             A4.counter++;
 
-            Ballot A5 = A4;
+            BCPBallot A5 = A4;
             A5.counter++;
 
-            Ballot AInf = Ballot(UINT32_MAX, aValue);
-            Ballot BInf = Ballot(UINT32_MAX, bValue);
+            BCPBallot AInf = BCPBallot(UINT32_MAX, aValue);
+            BCPBallot BInf = BCPBallot(UINT32_MAX, bValue);
 
-            Ballot B2 = B1;
+            BCPBallot B2 = B1;
             B2.counter++;
 
-            Ballot B3 = B2;
+            BCPBallot B3 = B2;
             B3.counter++;
 
             auto TEST_Start1X = () {
@@ -1200,7 +1200,7 @@ public:
                         {
                             // causes h=A2
                             // but c = 0, as p >!~ h
-                            Envelope envelope;
+                            BCPEnvelope envelope;
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, A2, &A2);
                             mCP.receiveEnvelope(envelope);
 
@@ -1223,7 +1223,7 @@ public:
                         SECTION("mixed B2");
                         {
                             // causes h=B2, c=B2
-                            Envelope envelope;
+                            BCPEnvelope envelope;
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, B2, &B2);
                             mCP.receiveEnvelope(envelope);
 
@@ -1268,7 +1268,7 @@ public:
 
                 SECTION("via CONFIRM");
                 {
-                    Envelope envelope;
+                    BCPEnvelope envelope;
 
                     envelope = makeConfirm(mSecretKey[1], mQSetHash, 0, 3, A3, 3, 3);
                     mCP.receiveEnvelope(envelope);
@@ -1285,7 +1285,7 @@ public:
 
                 SECTION("via EXTERNALIZE");
                 {
-                    Envelope envelope;
+                    BCPEnvelope envelope;
 
                     envelope = makeExternalize(mSecretKey[1], mQSetHash, 0, A2, 4);
                     mCP.receiveEnvelope(envelope);
@@ -1315,28 +1315,28 @@ public:
             Value aValue = mValue[1];
             Value bValue = mValue[0];
 
-            Ballot A1 = Ballot(1, aValue);
-            Ballot B1 = Ballot(1, bValue);
+            BCPBallot A1 = BCPBallot(1, aValue);
+            BCPBallot B1 = BCPBallot(1, bValue);
 
-            Ballot A2 = A1;
+            BCPBallot A2 = A1;
             A2.counter++;
 
-            Ballot A3 = A2;
+            BCPBallot A3 = A2;
             A3.counter++;
 
-            Ballot A4 = A3;
+            BCPBallot A4 = A3;
             A4.counter++;
 
-            Ballot A5 = A4;
+            BCPBallot A5 = A4;
             A5.counter++;
 
-            Ballot AInf = Ballot(UINT32_MAX, aValue);
-            Ballot BInf = Ballot(UINT32_MAX, bValue);
+            BCPBallot AInf = BCPBallot(UINT32_MAX, aValue);
+            BCPBallot BInf = BCPBallot(UINT32_MAX, bValue);
 
-            Ballot B2 = B1;
+            BCPBallot B2 = B1;
             B2.counter++;
 
-            Ballot B3 = B2;
+            BCPBallot B3 = B2;
             B3.counter++;
 
             auto TEST_Start1Y = () {
@@ -1728,7 +1728,7 @@ public:
                         SECTION("mixed A2");
                         {
                             // causes h=A2, c=A2
-                            Envelope envelope;
+                            BCPEnvelope envelope;
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, A2, &A2);
                             mCP.receiveEnvelope(envelope);
 
@@ -1752,7 +1752,7 @@ public:
                         {
                             // causes h=B2
                             // but c = 0, as p >!~ h
-                            Envelope envelope;
+                            BCPEnvelope envelope;
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, A2, &B2);
                             mCP.receiveEnvelope(envelope);
 
@@ -1796,7 +1796,7 @@ public:
 
                 SECTION("via CONFIRM");
                 {
-                    Envelope envelope;
+                    BCPEnvelope envelope;
 
                     envelope = makeConfirm(mSecretKey[1], mQSetHash, 0, 3, A3, 3, 3);
                     mCP.receiveEnvelope(envelope);
@@ -1813,7 +1813,7 @@ public:
 
                 SECTION("via EXTERNALIZE");
                 {
-                    Envelope envelope;
+                    BCPEnvelope envelope;
 
                     envelope = makeExternalize(mSecretKey[1], mQSetHash, 0, A2, 4);
                     mCP.receiveEnvelope(envelope);
@@ -1843,28 +1843,28 @@ public:
             Value aValue = mValue[0];
             Value bValue = mValue[1];
 
-            Ballot A1 = Ballot(1, aValue);
-            Ballot B1 = Ballot(1, bValue);
+            BCPBallot A1 = BCPBallot(1, aValue);
+            BCPBallot B1 = BCPBallot(1, bValue);
 
-            Ballot A2 = A1;
+            BCPBallot A2 = A1;
             A2.counter++;
 
-            Ballot A3 = A2;
+            BCPBallot A3 = A2;
             A3.counter++;
 
-            Ballot A4 = A3;
+            BCPBallot A4 = A3;
             A4.counter++;
 
-            Ballot A5 = A4;
+            BCPBallot A5 = A4;
             A5.counter++;
 
-            Ballot AInf = Ballot(UINT32_MAX, aValue);
-            Ballot BInf = Ballot(UINT32_MAX, bValue);
+            BCPBallot AInf = BCPBallot(UINT32_MAX, aValue);
+            BCPBallot BInf = BCPBallot(UINT32_MAX, bValue);
 
-            Ballot B2 = B1;
+            BCPBallot B2 = B1;
             B2.counter++;
 
-            Ballot B3 = B2;
+            BCPBallot B3 = B2;
             B3.counter++;
 
             REQUIRE(mCP.mEnvs.length == 0);
@@ -2031,7 +2031,7 @@ public:
                             // causes h=A2
                             // but c = 0, as p >!~ h
 
-                            Envelope envelope;
+                            BCPEnvelope envelope;
 
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, A2, &A2);
                             mCP.receiveEnvelope(envelope);
@@ -2051,7 +2051,7 @@ public:
                             TEST_PreparedA1();
                             TEST_ConfirmPreparedMixed();
 
-                            Envelope envelope;
+                            BCPEnvelope envelope;
 
                             // causes h=B2, c=B2
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, B2, &B2);
@@ -2090,7 +2090,7 @@ public:
                 Init();
                 SECTION("via CONFIRM");
                 {
-                    Envelope envelope;
+                    BCPEnvelope envelope;
 
                     envelope = makeConfirm(mSecretKey[1], mQSetHash, 0, 3, A3, 3, 3);
                     mCP.receiveEnvelope(envelope);
@@ -2102,7 +2102,7 @@ public:
                 Init();
                 SECTION("via EXTERNALIZE");
                 {
-                    Envelope envelope;
+                    BCPEnvelope envelope;
 
                     envelope = makeExternalize(mSecretKey[1], mQSetHash, 0, A2, 4);
                     mCP.receiveEnvelope(envelope);
@@ -2132,16 +2132,16 @@ public:
                 nodesAllPledgeToCommit();
                 REQUIRE(mCP.mEnvs.length == 3);
 
-                Ballot b = Ballot(1, mValue[0]);
+                BCPBallot b = BCPBallot(1, mValue[0]);
 
                 // bunch of prepare messages with "commit b"
-                Envelope preparedC1 = makePrepare(mSecretKey[1], mQSetHash, 0,
+                BCPEnvelope preparedC1 = makePrepare(mSecretKey[1], mQSetHash, 0,
                         b, &b, b.counter, b.counter);
-                Envelope preparedC2 = makePrepare(mSecretKey[2], mQSetHash, 0,
+                BCPEnvelope preparedC2 = makePrepare(mSecretKey[2], mQSetHash, 0,
                         b, &b, b.counter, b.counter);
-                Envelope preparedC3 = makePrepare(mSecretKey[3], mQSetHash, 0,
+                BCPEnvelope preparedC3 = makePrepare(mSecretKey[3], mQSetHash, 0,
                         b, &b, b.counter, b.counter);
-                Envelope preparedC4 = makePrepare(mSecretKey[4], mQSetHash, 0,
+                BCPEnvelope preparedC4 = makePrepare(mSecretKey[4], mQSetHash, 0,
                         b, &b, b.counter, b.counter);
 
                 // those should not trigger anything just yet
@@ -2158,13 +2158,13 @@ public:
                         b.counter, b.counter);
 
                 // bunch of confirm messages
-                Envelope confirm1 = makeConfirm(mSecretKey[1], mQSetHash, 0,
+                BCPEnvelope confirm1 = makeConfirm(mSecretKey[1], mQSetHash, 0,
                         b.counter, b, b.counter, b.counter);
-                Envelope confirm2 = makeConfirm(mSecretKey[2], mQSetHash, 0,
+                BCPEnvelope confirm2 = makeConfirm(mSecretKey[2], mQSetHash, 0,
                         b.counter, b, b.counter, b.counter);
-                Envelope confirm3 = makeConfirm(mSecretKey[3], mQSetHash, 0,
+                BCPEnvelope confirm3 = makeConfirm(mSecretKey[3], mQSetHash, 0,
                         b.counter, b, b.counter, b.counter);
-                Envelope confirm4 = makeConfirm(mSecretKey[4], mQSetHash, 0,
+                BCPEnvelope confirm4 = makeConfirm(mSecretKey[4], mQSetHash, 0,
                         b.counter, b, b.counter, b.counter);
 
                 // those should not trigger anything just yet
@@ -2201,8 +2201,8 @@ public:
 
             SECTION("bumpToBallot prevented once committed");
             {
-                auto TEST_Commit = (ref Ballot b2) {
-                    Envelope confirm1b2, confirm2b2, confirm3b2, confirm4b2;
+                auto TEST_Commit = (ref BCPBallot b2) {
+                    BCPEnvelope confirm1b2, confirm2b2, confirm3b2, confirm4b2;
                     confirm1b2 = makeConfirm(mSecretKey[1], mQSetHash, 0,
                             b2.counter, b2, b2.counter, b2.counter);
                     confirm2b2 = makeConfirm(mSecretKey[2], mQSetHash, 0,
@@ -2222,8 +2222,8 @@ public:
 
                 SECTION("bumpToBallot prevented once committed (by value)");
                 {
-                    Ballot b2;
-                    b2 = Ballot(1, mValue[1]);
+                    BCPBallot b2;
+                    b2 = BCPBallot(1, mValue[1]);
 
                     TEST_Commit(b2);
                 }
@@ -2232,8 +2232,8 @@ public:
                     Init();
                     TEST_NormalRound();
 
-                    Ballot b2;
-                    b2 = Ballot(2, mValue[0]);
+                    BCPBallot b2;
+                    b2 = BCPBallot(2, mValue[0]);
 
                     TEST_Commit(b2);
                 }
@@ -2242,8 +2242,8 @@ public:
                     Init();
                     TEST_NormalRound();
 
-                    Ballot b2;
-                    b2 = Ballot(2, mValue[1]);
+                    BCPBallot b2;
+                    b2 = BCPBallot(2, mValue[1]);
 
                     TEST_Commit(b2);
                 }
@@ -2269,16 +2269,16 @@ public:
             nodesAllPledgeToCommit();
             REQUIRE(mCP.mEnvs.length == 3);
 
-            Ballot b = Ballot(1, mValue[0]);
+            BCPBallot b = BCPBallot(1, mValue[0]);
 
             // bunch of prepare messages with "commit b"
-            Envelope preparedC1 = makePrepare(mSecretKey[1], mQSetHash, 0, b,
+            BCPEnvelope preparedC1 = makePrepare(mSecretKey[1], mQSetHash, 0, b,
                     &b, b.counter, b.counter);
-            Envelope preparedC2 = makePrepare(mSecretKey[2], mQSetHash, 0, b,
+            BCPEnvelope preparedC2 = makePrepare(mSecretKey[2], mQSetHash, 0, b,
                     &b, b.counter, b.counter);
-            Envelope preparedC3 = makePrepare(mSecretKey[3], mQSetHash, 0, b,
+            BCPEnvelope preparedC3 = makePrepare(mSecretKey[3], mQSetHash, 0, b,
                     &b, b.counter, b.counter);
-            Envelope preparedC4 = makePrepare(mSecretKey[4], mQSetHash, 0, b,
+            BCPEnvelope preparedC4 = makePrepare(mSecretKey[4], mQSetHash, 0, b,
                     &b, b.counter, b.counter);
 
             // those should not trigger anything just yet
@@ -2294,15 +2294,15 @@ public:
             verifyConfirm(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, 1, b, b.counter, b.counter);
 
             // bunch of confirm messages with different ranges
-            Ballot b3 = Ballot(3, mValue[0]);
-            Ballot b4 = Ballot(4, mValue[0]);
-            Ballot b5 = Ballot(5, mValue[0]);
-            Ballot b6 = Ballot(6, mValue[0]);
+            BCPBallot b3 = BCPBallot(3, mValue[0]);
+            BCPBallot b4 = BCPBallot(4, mValue[0]);
+            BCPBallot b5 = BCPBallot(5, mValue[0]);
+            BCPBallot b6 = BCPBallot(6, mValue[0]);
 
-            Envelope confirm1 = makeConfirm(mSecretKey[1], mQSetHash, 0, 4, b4, 2, 4);
-            Envelope confirm2 = makeConfirm(mSecretKey[2], mQSetHash, 0, 6, b6, 2, 6);
-            Envelope confirm3 = makeConfirm(mSecretKey[3], mQSetHash, 0, 5, b5, 3, 5);
-            Envelope confirm4 = makeConfirm(mSecretKey[4], mQSetHash, 0, 6, b6, 3, 6);
+            BCPEnvelope confirm1 = makeConfirm(mSecretKey[1], mQSetHash, 0, 4, b4, 2, 4);
+            BCPEnvelope confirm2 = makeConfirm(mSecretKey[2], mQSetHash, 0, 6, b6, 2, 6);
+            BCPEnvelope confirm3 = makeConfirm(mSecretKey[3], mQSetHash, 0, 5, b5, 3, 5);
+            BCPEnvelope confirm4 = makeConfirm(mSecretKey[4], mQSetHash, 0, 6, b6, 3, 6);
 
             // this should not trigger anything just yet
             mCP.receiveEnvelope(confirm1);
@@ -2341,7 +2341,7 @@ public:
 
         SECTION("timeout when h is set . stay locked on h");
         {
-            Ballot bx = Ballot(1, mValue[0]);
+            BCPBallot bx = BCPBallot(1, mValue[0]);
             REQUIRE(mCP.bumpState(0, mValue[0]));
             REQUIRE(mCP.mEnvs.length == 1);
 
@@ -2355,7 +2355,7 @@ public:
             // now, see if we can timeout and move to a different value
             REQUIRE(mCP.bumpState(0, mValue[1]));
             REQUIRE(mCP.mEnvs.length == 4);
-            Ballot newbx = Ballot(2, mValue[0]);
+            BCPBallot newbx = BCPBallot(2, mValue[0]);
             verifyPrepare(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, newbx,
                     &bx, bx.counter, bx.counter);
         }
@@ -2377,7 +2377,7 @@ public:
         {
             REQUIRE(mCP.bumpState(0, mValue[0]));
 
-            Ballot x1 = Ballot(1, mValue[0]);
+            BCPBallot x1 = BCPBallot(1, mValue[0]);
 
             REQUIRE(mCP.mEnvs.length == 1);
             verifyPrepare(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, x1);
@@ -2387,7 +2387,7 @@ public:
             REQUIRE(mCP.mEnvs.length == 2);
             verifyPrepare(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, x1, &x1);
 
-            Ballot x2 = Ballot(2, mValue[0]);
+            BCPBallot x2 = BCPBallot(2, mValue[0]);
             // timeout from local node
             REQUIRE(mCP.bumpState(0, mValue[0]));
             // prepares (2,x)
@@ -2431,12 +2431,12 @@ public:
         {
             REQUIRE(mCP.bumpState(0, mValue[0]));
 
-            Ballot x1 = Ballot(1, mValue[0]);
+            BCPBallot x1 = BCPBallot(1, mValue[0]);
 
             REQUIRE(mCP.mEnvs.length == 1);
             verifyPrepare(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, x1);
 
-            Envelope envelope;
+            BCPEnvelope envelope;
 
             envelope = makePrepare(mSecretKey[1], mQSetHash, 0, x1);
             mCP.receiveEnvelope(envelope);
@@ -2451,14 +2451,14 @@ public:
             REQUIRE(mCP.mEnvs.length == 2);
             verifyPrepare(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, x1, &x1);
 
-            Ballot x2 = Ballot(2, mValue[0]);
+            BCPBallot x2 = BCPBallot(2, mValue[0]);
             // timeout from local node
             REQUIRE(mCP.bumpState(0, mValue[0]));
             // prepares (2,x)
             REQUIRE(mCP.mEnvs.length == 3);
             verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, x2, &x1);
 
-            Ballot x3 = Ballot(3, mValue[0]);
+            BCPBallot x3 = BCPBallot(3, mValue[0]);
             // timeout again
             REQUIRE(mCP.bumpState(0, mValue[0]));
             // prepares (3,x)
@@ -2500,11 +2500,11 @@ public:
             cpNV.storeQuorumSet(mQSet);
             Hash mQSetHashNV = cpNV.mConsensusProtocol.getLocalNode().getQuorumSetHash();
 
-            Ballot b = Ballot(1, mValue[0]);
+            BCPBallot b = BCPBallot(1, mValue[0]);
             REQUIRE(cpNV.bumpState(0, mValue[0]));
             REQUIRE(cpNV.mEnvs.length == 0);
 
-            Envelope envelope = cpNV.getCurrentEnvelope(0, mKey[5]);
+            BCPEnvelope envelope = cpNV.getCurrentEnvelope(0, mKey[5]);
             verifyPrepare(envelope, mSecretKey[5], mQSetHashNV, 0, b);
 
             auto ext1 = makeExternalize(mSecretKey[1], mQSetHash, 0, b, 1);
@@ -2517,7 +2517,7 @@ public:
 
             REQUIRE(cpNV.mEnvs.length == 0);
             envelope = cpNV.getCurrentEnvelope(0, mKey[5]);
-            Ballot bmax = Ballot(UINT32_MAX, mValue[0]);
+            BCPBallot bmax = BCPBallot(UINT32_MAX, mValue[0]);
             verifyConfirm(envelope, mSecretKey[5], mQSetHashNV, 0,
                     UINT32_MAX, bmax, 1, UINT32_MAX);
 
@@ -2545,7 +2545,7 @@ public:
         {
             SECTION("prepare");
             {
-                QuorumSet qSet;
+                BCPQuorumSet qSet;
                 qSet.threshold = 4;
                 qSet.validators ~= (mKey[0]);
                 qSet.validators ~= (mKey[1]);
@@ -2554,19 +2554,19 @@ public:
                 qSet.validators ~= (mKey[4]);
 
                 mQSet = qSet;
-                mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
+                mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
 
                 TestCP cp2 = new TestCP(mSecretKey[0], mQSet);
                 mQSetHash0 = cast(Hash) cp2.mConsensusProtocol.getLocalNode().getQuorumSetHash();
 
                 cp2.storeQuorumSet(mQSet);
-                Ballot b = Ballot(2, mValue[0]);
-                Envelope env = makePrepare(mSecretKey[0], mQSetHash0, 0, b);
+                BCPBallot b = BCPBallot(2, mValue[0]);
+                BCPEnvelope env = makePrepare(mSecretKey[0], mQSetHash0, 0, b);
                 cp2.mConsensusProtocol.setStateFromEnvelope(0, env);
             }
             SECTION("confirm");
             {
-                QuorumSet qSet;
+                BCPQuorumSet qSet;
                 qSet.threshold = 4;
                 qSet.validators ~= (mKey[0]);
                 qSet.validators ~= (mKey[1]);
@@ -2575,19 +2575,19 @@ public:
                 qSet.validators ~= (mKey[4]);
 
                 mQSet = qSet;
-                mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
+                mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
 
                 TestCP cp2 = new TestCP(mSecretKey[0], mQSet);
                 mQSetHash0 = cast(Hash) cp2.mConsensusProtocol.getLocalNode().getQuorumSetHash();
 
                 cp2.storeQuorumSet(mQSet);
-                Ballot b = Ballot(2, mValue[0]);
-                Envelope env = makeConfirm(mSecretKey[0], mQSetHash0, 0, 2, b, 1, 2);
+                BCPBallot b = BCPBallot(2, mValue[0]);
+                BCPEnvelope env = makeConfirm(mSecretKey[0], mQSetHash0, 0, 2, b, 1, 2);
                 cp2.mConsensusProtocol.setStateFromEnvelope(0, env);
             }
             SECTION("externalize");
             {
-                QuorumSet qSet;
+                BCPQuorumSet qSet;
                 qSet.threshold = 4;
                 qSet.validators ~= (mKey[0]);
                 qSet.validators ~= (mKey[1]);
@@ -2596,14 +2596,14 @@ public:
                 qSet.validators ~= (mKey[4]);
 
                 mQSet = qSet;
-                mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
+                mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
 
                 TestCP cp2 = new TestCP(mSecretKey[0], mQSet);
                 mQSetHash0 = cast(Hash) cp2.mConsensusProtocol.getLocalNode().getQuorumSetHash();
 
                 cp2.storeQuorumSet(mQSet);
-                Ballot b = Ballot(2, mValue[0]);
-                Envelope env = makeExternalize(mSecretKey[0], mQSetHash0, 0, b, 2);
+                BCPBallot b = BCPBallot(2, mValue[0]);
+                BCPEnvelope env = makeExternalize(mSecretKey[0], mQSetHash0, 0, b, 2);
                 cp2.mConsensusProtocol.setStateFromEnvelope(0, env);
             }
         }
@@ -2620,8 +2620,8 @@ public:
         SIMULATION_CREATE_NODE(4);
 
         Value[] votes, accepted, votes2;
-        Envelope nom1, nom2, nom3, nom4;
-        Envelope acc1, acc2, acc3, acc4;
+        BCPEnvelope nom1, nom2, nom3, nom4;
+        BCPEnvelope acc1, acc2, acc3, acc4;
 
         Init();
 
@@ -2683,7 +2683,7 @@ public:
                 mCP.receiveEnvelope(acc3);
                 REQUIRE(mCP.mEnvs.length == 3);
 
-                Ballot b = Ballot(1, mValue[0]);
+                BCPBallot b = BCPBallot(1, mValue[0]);
                 verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, b);
 
                 mCP.receiveEnvelope(acc4);
@@ -2697,10 +2697,10 @@ public:
             SECTION(
                     "nominate x -> accept x -> prepare (x) ; others accepted y -> update latest to (z=x+y)");
             {
-                Envelope acc1_2 = makeNominate(mSecretKey[1], mQSetHash, 0, votes2, votes2);
-                Envelope acc2_2 = makeNominate(mSecretKey[2], mQSetHash, 0, votes2, votes2);
-                Envelope acc3_2 = makeNominate(mSecretKey[3], mQSetHash, 0, votes2, votes2);
-                Envelope acc4_2 = makeNominate(mSecretKey[4], mQSetHash, 0, votes2, votes2);
+                BCPEnvelope acc1_2 = makeNominate(mSecretKey[1], mQSetHash, 0, votes2, votes2);
+                BCPEnvelope acc2_2 = makeNominate(mSecretKey[2], mQSetHash, 0, votes2, votes2);
+                BCPEnvelope acc3_2 = makeNominate(mSecretKey[3], mQSetHash, 0, votes2, votes2);
+                BCPEnvelope acc4_2 = makeNominate(mSecretKey[4], mQSetHash, 0, votes2, votes2);
 
                 mCP.receiveEnvelope(acc1_2);
                 REQUIRE(mCP.mEnvs.length == 3);
@@ -2740,7 +2740,7 @@ public:
                 // nominates x
                 auto nominationRestore = () {
                     // restores from the previous state
-                    Envelope envelope = makeNominate(mSecretKey[0], mQSetHash0, 0, votes, accepted);
+                    BCPEnvelope envelope = makeNominate(mSecretKey[0], mQSetHash0, 0, votes, accepted);
                     cp2.mConsensusProtocol.setStateFromEnvelope(0, envelope);
                     // tries to start nomination with mValue[1]
                     REQUIRE(cp2.nominate(0, mValue[1], false));
@@ -2777,15 +2777,15 @@ public:
                     // nomination ended up starting the ballot protocol
                     REQUIRE(cp2.mEnvs.length == 2);
 
-                    Ballot b = Ballot(1, mValue[0]);
+                    BCPBallot b = BCPBallot(1, mValue[0]);
                     verifyPrepare(cp2.mEnvs[1], mSecretKey[0], mQSetHash0, 0, b);
                 }
 
                 SECTION("ballot protocol started (on value z)");
                 {
-                    Ballot b = Ballot(1, mValue[2]);
+                    BCPBallot b = BCPBallot(1, mValue[2]);
                     createCP();
-                    Envelope envelope = makePrepare(mSecretKey[0], mQSetHash0, 0, b);
+                    BCPEnvelope envelope = makePrepare(mSecretKey[0], mQSetHash0, 0, b);
                     cp2.mConsensusProtocol.setStateFromEnvelope(0, envelope);
 
                     nominationRestore();
@@ -2823,10 +2823,10 @@ public:
                 acceptedY = accepted.dup;
                 acceptedY ~= (mValue[1]);
 
-                Envelope nom1 = makeNominate(mSecretKey[1], mQSetHash, 0, votes, accepted);
-                Envelope nom2 = makeNominate(mSecretKey[2], mQSetHash, 0, votes, accepted);
-                Envelope nom3 = makeNominate(mSecretKey[3], mQSetHash, 0, votes, accepted);
-                Envelope nom4 = makeNominate(mSecretKey[4], mQSetHash, 0, votes, accepted);
+                BCPEnvelope nom1 = makeNominate(mSecretKey[1], mQSetHash, 0, votes, accepted);
+                BCPEnvelope nom2 = makeNominate(mSecretKey[2], mQSetHash, 0, votes, accepted);
+                BCPEnvelope nom3 = makeNominate(mSecretKey[3], mQSetHash, 0, votes, accepted);
+                BCPEnvelope nom4 = makeNominate(mSecretKey[4], mQSetHash, 0, votes, accepted);
 
                 // nothing happens yet
                 mCP.receiveEnvelope(nom1);
@@ -2858,10 +2858,10 @@ public:
                 acceptedY = accepted.dup;
                 acceptedY ~= (mValue[1]);
 
-                Envelope acc1 = makeNominate(mSecretKey[1], mQSetHash, 0, votes, acceptedY);
-                Envelope acc2 = makeNominate(mSecretKey[2], mQSetHash, 0, votes, acceptedY);
-                Envelope acc3 = makeNominate(mSecretKey[3], mQSetHash, 0, votes, acceptedY);
-                Envelope acc4 = makeNominate(mSecretKey[4], mQSetHash, 0, votes, acceptedY);
+                BCPEnvelope acc1 = makeNominate(mSecretKey[1], mQSetHash, 0, votes, acceptedY);
+                BCPEnvelope acc2 = makeNominate(mSecretKey[2], mQSetHash, 0, votes, acceptedY);
+                BCPEnvelope acc3 = makeNominate(mSecretKey[3], mQSetHash, 0, votes, acceptedY);
+                BCPEnvelope acc4 = makeNominate(mSecretKey[4], mQSetHash, 0, votes, acceptedY);
 
                 mCP.receiveEnvelope(acc1);
                 REQUIRE(mCP.mEnvs.length == 1);
@@ -2881,7 +2881,7 @@ public:
                 mCP.receiveEnvelope(acc3);
                 REQUIRE(mCP.mEnvs.length == 3);
 
-                Ballot b = Ballot(1, mValue[1]);
+                BCPBallot b = BCPBallot(1, mValue[1]);
                 verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, b);
 
                 mCP.receiveEnvelope(acc4);
@@ -2901,7 +2901,7 @@ public:
 
         Value[] votesX, votesY, votesZ, votesXY, votesYZ, votesXZ, emptyV;
         Value[] valuesHash;
-        Envelope nom1, nom2, nom3, nom4;
+        BCPEnvelope nom1, nom2, nom3, nom4;
 
         Init();
 

@@ -40,7 +40,7 @@ struct DataEntryExt
     {
         stream.writeInt32(encoded.v);
     }
-    
+
     static DataEntryExt decode(XdrDataInputStream stream)
     {
         DataEntryExt decoded;

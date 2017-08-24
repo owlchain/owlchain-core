@@ -1,4 +1,4 @@
-module owlchain.xdr.ballot;
+module owlchain.xdr.bcpBallot;
 
 import owlchain.xdr.type;
 import owlchain.xdr.value;
@@ -8,14 +8,15 @@ import owlchain.xdr.xdrDataOutputStream;
 
 import std.container.rbtree;
 
-alias RedBlackTree !(Ballot, "(a.counter < b.counter) || ((a.counter == b.counter) && (a.value.value < b.value.value))") BallotSet;
+alias RedBlackTree!(BCPBallot,
+        "(a.counter < b.counter) || ((a.counter == b.counter) && (a.value.value < b.value.value))") BCPBallotSet;
 
-struct Ballot
+struct BCPBallot
 {
     uint32 counter;
     Value value;
 
-    int opCmp(ref Ballot other)
+    int opCmp(ref BCPBallot other)
     {
         if (counter < other.counter)
         {
@@ -38,17 +39,20 @@ struct Ballot
             return 0;
         }
     }
-    static void encode(XdrDataOutputStream stream, ref const Ballot encodedBallot)
+
+    static void encode(XdrDataOutputStream stream, ref const BCPBallot encodedBallot)
     {
         stream.writeUint32(encodedBallot.counter);
-        if (encodedBallot.counter > 0) Value.encode(stream, encodedBallot.value);
+        if (encodedBallot.counter > 0)
+            Value.encode(stream, encodedBallot.value);
     }
 
-    static Ballot decode(XdrDataInputStream stream)
+    static BCPBallot decode(XdrDataInputStream stream)
     {
-        Ballot decodedBallot;
+        BCPBallot decodedBallot;
         decodedBallot.counter = stream.readUint32();
-        if (decodedBallot.counter > 0) decodedBallot.value = Value.decode(stream);
+        if (decodedBallot.counter > 0)
+            decodedBallot.value = Value.decode(stream);
         return decodedBallot;
     }
 }

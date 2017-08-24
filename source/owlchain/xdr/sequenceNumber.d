@@ -13,7 +13,7 @@ struct SequenceNumber
     {
         stream.writeUint64(encoded.number);
     }
-    
+
     static SequenceNumber decode(XdrDataInputStream stream)
     {
         SequenceNumber decoded;
@@ -21,4 +21,4 @@ struct SequenceNumber
         return decoded;
     }
 
-};
+}

@@ -11,7 +11,7 @@ import owlchain.xdr.type;
 import owlchain.xdr.hash;
 import owlchain.xdr.publicKey;
 import owlchain.xdr.nodeID;
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.bcpQuorumSet;
 
 import owlchain.crypto.keyUtils;
 
@@ -56,7 +56,7 @@ public :
     {
         SECTION("nomination weight");
         {
-            QuorumSet qSet;
+            BCPQuorumSet qSet;
             qSet.threshold = 3;
             qSet.validators ~= (mKeys[0]);
             qSet.validators ~= (mKeys[1]);
@@ -72,7 +72,7 @@ public :
             result = LocalNode.getNodeWeight(mKeys[4], qSet);
             REQUIRE(result == 0);
 
-            QuorumSet iQSet;
+            BCPQuorumSet iQSet;
             iQSet.threshold = 1;
             iQSet.validators ~= (mKeys[4]);
             iQSet.validators ~= (mKeys[5]);

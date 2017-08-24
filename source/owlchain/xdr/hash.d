@@ -15,7 +15,6 @@ struct Hash
         return h;
     }
 
-
     static Hash opCall(const ubyte[] v)
     {
         Hash h;

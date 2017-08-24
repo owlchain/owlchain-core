@@ -18,16 +18,16 @@ struct Asset
         stream.writeInt32(encodedAsset.type);
         switch (encodedAsset.type)
         {
-            case AssetType.ASSET_TYPE_NATIVE :
-                break;
-            case AssetType.ASSET_TYPE_CREDIT_ALPHANUM4 :
-                AssetAlphaNum4.encode(stream, encodedAsset.alphaNum4);
-                break;
-            case AssetType.ASSET_TYPE_CREDIT_ALPHANUM12 :
-                AssetAlphaNum12.encode(stream, encodedAsset.alphaNum12);
-                break;
-            default:
-                throw new Exception("Unknown enum value");
+        case AssetType.ASSET_TYPE_NATIVE:
+            break;
+        case AssetType.ASSET_TYPE_CREDIT_ALPHANUM4:
+            AssetAlphaNum4.encode(stream, encodedAsset.alphaNum4);
+            break;
+        case AssetType.ASSET_TYPE_CREDIT_ALPHANUM12:
+            AssetAlphaNum12.encode(stream, encodedAsset.alphaNum12);
+            break;
+        default:
+            break;
         }
     }
 
@@ -35,19 +35,19 @@ struct Asset
     {
         Asset decodedAsset;
 
-        decodedAsset.type = cast(AssetType)stream.readInt32();
+        decodedAsset.type = cast(AssetType) stream.readInt32();
         switch (decodedAsset.type)
         {
-            case AssetType.ASSET_TYPE_NATIVE :
-                break;
-            case AssetType.ASSET_TYPE_CREDIT_ALPHANUM4 :
-                decodedAsset.alphaNum4 = AssetAlphaNum4.decode(stream);
-                break;
-            case AssetType.ASSET_TYPE_CREDIT_ALPHANUM12 :
-                decodedAsset.alphaNum12 = AssetAlphaNum12.decode(stream);
-                break;
-            default:
-                throw new Exception("Unknown enum value");
+        case AssetType.ASSET_TYPE_NATIVE:
+            break;
+        case AssetType.ASSET_TYPE_CREDIT_ALPHANUM4:
+            decodedAsset.alphaNum4 = AssetAlphaNum4.decode(stream);
+            break;
+        case AssetType.ASSET_TYPE_CREDIT_ALPHANUM12:
+            decodedAsset.alphaNum12 = AssetAlphaNum12.decode(stream);
+            break;
+        default:
+            break;
         }
         return decodedAsset;
     }
@@ -58,9 +58,16 @@ struct AssetAlphaNum4
     ubyte[] assetCode;
     AccountID issuer;
 
+    ref AssetAlphaNum4 opAssign(AssetAlphaNum4 other)
+    {
+        assetCode = other.assetCode.dup;
+        issuer = other.issuer;
+        return this;
+    }
+
     static void encode(XdrDataOutputStream stream, ref const AssetAlphaNum4 encodedAssetAlphaNum4)
     {
-        int assetCodesize = cast(int32)encodedAssetAlphaNum4.assetCode.length;
+        int assetCodesize = cast(int32) encodedAssetAlphaNum4.assetCode.length;
         stream.writeInt32(assetCodesize);
         stream.write(encodedAssetAlphaNum4.assetCode);
         AccountID.encode(stream, encodedAssetAlphaNum4.issuer);
@@ -84,9 +91,16 @@ struct AssetAlphaNum12
     ubyte[] assetCode;
     AccountID issuer;
 
+    ref AssetAlphaNum12 opAssign(AssetAlphaNum12 other)
+    {
+        assetCode = other.assetCode.dup;
+        issuer = other.issuer;
+        return this;
+    }
+
     static void encode(XdrDataOutputStream stream, ref const AssetAlphaNum12 encodedAssetAlphaNum12)
     {
-        int assetCodesize = cast(int32)encodedAssetAlphaNum12.assetCode.length;
+        int assetCodesize = cast(int32) encodedAssetAlphaNum12.assetCode.length;
         stream.writeInt32(assetCodesize);
         stream.write(encodedAssetAlphaNum12.assetCode);
         AccountID.encode(stream, encodedAssetAlphaNum12.issuer);

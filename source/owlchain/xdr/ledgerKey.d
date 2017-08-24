@@ -21,20 +21,21 @@ struct LedgerKey
         stream.writeInt32(encodedLedgerKey.type);
         switch (encodedLedgerKey.type)
         {
-            case LedgerEntryType.ACCOUNT :
-                LedgerKeyAccount.encode(stream, encodedLedgerKey.account);
-                break;
-            case LedgerEntryType.TRUSTLINE :
-                LedgerKeyTrustLine.encode(stream, encodedLedgerKey.trustLine);
-                break;
-            case LedgerEntryType.OFFER :
-                LedgerKeyOffer.encode(stream, encodedLedgerKey.offer);
-                break;
-            case LedgerEntryType.DATA :
-                LedgerKeyData.encode(stream, encodedLedgerKey.data);
-                break;
-            default:
-                throw new Exception("Unknown enum value");
+        case LedgerEntryType.ACCOUNT:
+            LedgerKeyAccount.encode(stream, encodedLedgerKey.account);
+            break;
+        case LedgerEntryType.TRUSTLINE:
+            LedgerKeyTrustLine.encode(stream,
+                    encodedLedgerKey.trustLine);
+            break;
+        case LedgerEntryType.OFFER:
+            LedgerKeyOffer.encode(stream, encodedLedgerKey.offer);
+            break;
+        case LedgerEntryType.DATA:
+            LedgerKeyData.encode(stream, encodedLedgerKey.data);
+            break;
+        default:
+            throw new Exception("Unknown enum value");
         }
     }
 
@@ -42,23 +43,23 @@ struct LedgerKey
     {
         LedgerKey decodedLedgerKey;
 
-        decodedLedgerKey.type = cast(LedgerEntryType)stream.readInt32();
+        decodedLedgerKey.type = cast(LedgerEntryType) stream.readInt32();
         switch (decodedLedgerKey.type)
         {
-            case LedgerEntryType.ACCOUNT :
-                decodedLedgerKey.account = LedgerKeyAccount.decode(stream);
-                break;
-            case LedgerEntryType.TRUSTLINE :
-                decodedLedgerKey.trustLine = LedgerKeyTrustLine.decode(stream);
-                break;
-            case LedgerEntryType.OFFER :
-                decodedLedgerKey.offer = LedgerKeyOffer.decode(stream);
-                break;
-            case LedgerEntryType.DATA :
-                decodedLedgerKey.data = LedgerKeyData.decode(stream);
-                break;
-            default:
-                throw new Exception("Unknown enum value");
+        case LedgerEntryType.ACCOUNT:
+            decodedLedgerKey.account = LedgerKeyAccount.decode(stream);
+            break;
+        case LedgerEntryType.TRUSTLINE:
+            decodedLedgerKey.trustLine = LedgerKeyTrustLine.decode(stream);
+            break;
+        case LedgerEntryType.OFFER:
+            decodedLedgerKey.offer = LedgerKeyOffer.decode(stream);
+            break;
+        case LedgerEntryType.DATA:
+            decodedLedgerKey.data = LedgerKeyData.decode(stream);
+            break;
+        default:
+            throw new Exception("Unknown enum value");
         }
         return decodedLedgerKey;
     }
@@ -96,10 +97,10 @@ struct LedgerKeyTrustLine
     static LedgerKeyTrustLine decode(XdrDataInputStream stream)
     {
         LedgerKeyTrustLine decoded;
-        
+
         decoded.accountID = AccountID.decode(stream);
         decoded.asset = Asset.decode(stream);
-        
+
         return decoded;
     }
 }
@@ -118,7 +119,7 @@ struct LedgerKeyOffer
     static LedgerKeyOffer decode(XdrDataInputStream stream)
     {
         LedgerKeyOffer decoded;
-        
+
         decoded.sellerID = AccountID.decode(stream);
         decoded.offerID = stream.readUint64();
 

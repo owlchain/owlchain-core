@@ -57,7 +57,7 @@ struct DataValue
         DataValue decodedValue;
 
         const uint size = stream.readUint();
-        if (size > 0) 
+        if (size > 0)
         {
             decodedValue.value.length = size;
             stream.read(decodedValue.value);

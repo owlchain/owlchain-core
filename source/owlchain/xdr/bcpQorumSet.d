@@ -1,4 +1,4 @@
-module owlchain.xdr.quorumSet;
+module owlchain.xdr.bcpQuorumSet;
 
 import owlchain.xdr.type;
 import owlchain.xdr.xdrDataInputStream;
@@ -6,20 +6,20 @@ import owlchain.xdr.xdrDataOutputStream;
 
 import owlchain.xdr.publicKey;
 
-struct QuorumSet
+struct BCPQuorumSet
 {
     uint32 threshold;
     PublicKey[] validators;
-    QuorumSet[] innerSets;
+    BCPQuorumSet[] innerSets;
 
-    static QuorumSet opCall()
+    static BCPQuorumSet opCall()
     {
-        QuorumSet qSet;
+        BCPQuorumSet qSet;
         qSet.threshold = 1;
         return qSet;
     }
 
-    ref QuorumSet opAssign(QuorumSet s)
+    ref BCPQuorumSet opAssign(BCPQuorumSet s)
     {
         threshold = s.threshold;
 
@@ -32,12 +32,12 @@ struct QuorumSet
         innerSets.length = 0;
         for (int i = 0; i < s.innerSets.length; i++)
         {
-            innerSets ~= cast(QuorumSet)s.innerSets[i];
+            innerSets ~= cast(BCPQuorumSet) s.innerSets[i];
         }
         return this;
     }
 
-    ref QuorumSet opAssign(ref QuorumSet s)
+    ref BCPQuorumSet opAssign(ref BCPQuorumSet s)
     {
         threshold = s.threshold;
 
@@ -50,12 +50,12 @@ struct QuorumSet
         innerSets.length = 0;
         for (int i = 0; i < s.innerSets.length; i++)
         {
-            innerSets ~= cast(QuorumSet)s.innerSets[i];
+            innerSets ~= cast(BCPQuorumSet) s.innerSets[i];
         }
         return this;
     }
 
-    ref QuorumSet opAssign(ref const(QuorumSet) s)
+    ref BCPQuorumSet opAssign(ref const(BCPQuorumSet) s)
     {
         threshold = s.threshold;
 
@@ -68,12 +68,12 @@ struct QuorumSet
         innerSets.length = 0;
         for (int i = 0; i < s.innerSets.length; i++)
         {
-            innerSets ~= cast(QuorumSet)s.innerSets[i];
+            innerSets ~= cast(BCPQuorumSet) s.innerSets[i];
         }
         return this;
     }
 
-    static void encode(XdrDataOutputStream stream, ref const QuorumSet encodedQuorumSet)
+    static void encode(XdrDataOutputStream stream, ref const BCPQuorumSet encodedQuorumSet)
     {
         stream.writeUint32(encodedQuorumSet.threshold);
 
@@ -88,13 +88,13 @@ struct QuorumSet
         stream.writeInt(innerSetsSize);
         for (int i = 0; i < innerSetsSize; i++)
         {
-            QuorumSet.encode(stream, encodedQuorumSet.innerSets[i]);
+            BCPQuorumSet.encode(stream, encodedQuorumSet.innerSets[i]);
         }
     }
 
-    static QuorumSet decode(XdrDataInputStream stream)
+    static BCPQuorumSet decode(XdrDataInputStream stream)
     {
-        QuorumSet decodedQuorumSet;
+        BCPQuorumSet decodedQuorumSet;
         decodedQuorumSet.threshold = stream.readUint32();
 
         int validatorsSize = stream.readInt();
@@ -108,9 +108,8 @@ struct QuorumSet
         decodedQuorumSet.innerSets.length = innerSetsSize;
         for (int i = 0; i < innerSetsSize; i++)
         {
-            decodedQuorumSet.innerSets[i] = QuorumSet.decode(stream);
+            decodedQuorumSet.innerSets[i] = BCPQuorumSet.decode(stream);
         }
         return decodedQuorumSet;
     }
 }
-

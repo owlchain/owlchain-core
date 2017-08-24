@@ -3,7 +3,7 @@ module owlchain.xdr.offerEntry;
 import owlchain.xdr.type;
 import owlchain.xdr.accountID;
 import owlchain.xdr.asset;
-import  owlchain.xdr.price;
+import owlchain.xdr.price;
 import owlchain.xdr.xdrDataInputStream;
 import owlchain.xdr.xdrDataOutputStream;
 
@@ -53,7 +53,7 @@ struct OfferEntryExt
     {
         stream.writeInt32(encoded.v);
     }
-    
+
     static OfferEntryExt decode(XdrDataInputStream stream)
     {
         OfferEntryExt decoded;

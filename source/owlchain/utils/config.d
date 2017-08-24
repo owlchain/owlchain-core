@@ -1,68 +1,81 @@
 module owlchain.utils.config;
 
 import sdlang;
-import vibe.core.file:readFile,writeFile;
-
+import vibe.core.file : readFile, writeFile;
 
 enum DEFAULT_CONFIG_PATH = "owlchain-core.sdl";
 enum DEFAULT_LOG_PATH = "owlchain-core.log";
 
-class Config {
+class Config
+{
 
     private string filePath;
     private Tag _root;
 
-    this(){
+    this()
+    {
         _root = new Tag;
     }
 
-    this(string path) {
+    this(string path)
+    {
         loadFile(path);
     }
 
-    Tag root() {
+    Tag root()
+    {
         return _root;
     }
 
-    void loadFile(string path) {
+    void loadFile(string path)
+    {
         filePath = path;
         _root = parseFile(filePath);
     }
 
-    void loadString(string contents) {
-         _root = parseSource(contents,filePath);
+    void loadString(string contents)
+    {
+        _root = parseSource(contents, filePath);
     }
 
-    void loadString(ubyte[] contents) {
-         loadString(cast(string)contents);
+    void loadString(ubyte[] contents)
+    {
+        loadString(cast(string) contents);
     }
 
-    void saveFile(string path) {
-        writeFile(path, cast(ubyte[])_root.toSDLDocument());
+    void saveFile(string path)
+    {
+        writeFile(path, cast(ubyte[]) _root.toSDLDocument());
     }
 
-    string ipv4(){
+    string ipv4()
+    {
         return _root.getTagValue!string("ipv4", "127.0.0.1");
     }
 
-    string ipv6(){
+    string ipv6()
+    {
         return _root.getTagValue!string("ipv6", "::");
     }
 
-    ushort port() {
-        return cast(ushort)_root.getTagValue!int("port", 80);
+    ushort port()
+    {
+        return cast(ushort) _root.getTagValue!int("port", 80);
     }
 
-    string logFile() {
+    string logFile()
+    {
         return DEFAULT_LOG_PATH;
     }
 }
 
 private static Config _config;
-Config config() {
-    if(_config is null){
+Config config()
+{
+    if (_config is null)
+    {
         _config = new Config(DEFAULT_CONFIG_PATH);
-    } 
+    }
     return _config;
 }
 
@@ -70,8 +83,7 @@ Config config() {
 // https://github.com/Abscissa/SDLang-D/blob/master/HOWTO.md
 
 @("Config")
-@system
-unittest
+@system unittest
 {
     import std.algorithm;
     import std.stdio;
@@ -95,6 +107,5 @@ unittest
     assert(cfg.port() == 1111);
     assert(cfg.logFile() == DEFAULT_LOG_PATH);
 
-    assert( config() !is null);
+    assert(config() !is null);
 }
-

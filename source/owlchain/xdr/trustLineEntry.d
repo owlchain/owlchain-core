@@ -15,7 +15,6 @@ struct TrustLineEntry
     uint32 flags;
     TrustLineEntryExt ext;
 
-
     static void encode(XdrDataOutputStream stream, ref const TrustLineEntry encoded)
     {
         AccountID.encode(stream, encoded.accountID);
@@ -39,7 +38,6 @@ struct TrustLineEntry
     }
 }
 
-
 struct TrustLineEntryExt
 {
     int32 v;
@@ -48,7 +46,7 @@ struct TrustLineEntryExt
     {
         stream.writeInt32(encoded.v);
     }
-    
+
     static TrustLineEntryExt decode(XdrDataInputStream stream)
     {
         TrustLineEntryExt decoded;

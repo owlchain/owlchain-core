@@ -1,10 +1,10 @@
-module owlchain.xdr.statementType;
+module owlchain.xdr.bcpStatementType;
 
 import owlchain.xdr.type;
 import owlchain.xdr.xdrDataInputStream;
 import owlchain.xdr.xdrDataOutputStream;
 
-enum StatementType
+enum BCPStatementType
 {
     CP_ST_PREPARE = 0,
     CP_ST_CONFIRM = 1,

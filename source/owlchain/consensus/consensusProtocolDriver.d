@@ -4,17 +4,17 @@ import std.typecons;
 import core.time;
 
 import owlchain.xdr.type;
-import owlchain.xdr.envelope;
+import owlchain.xdr.bcpEnvelope;
 import owlchain.xdr.value;
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.bcpQuorumSet;
 import owlchain.xdr.hash;
 import owlchain.xdr.nodeID;
-import owlchain.xdr.ballot;
+import owlchain.xdr.bcpBallot;
 import owlchain.xdr.publicKey;
 import owlchain.crypto.keyUtils;
 import owlchain.consensus.consensusProtocol;
 
-alias RefCounted!(QuorumSet, RefCountedAutoInitialize.no) QuorumSetPtr;
+alias RefCounted!(BCPQuorumSet, RefCountedAutoInitialize.no) BCPQuorumSetPtr;
 
 class ConsensusProtocolDriver
 {
@@ -23,22 +23,22 @@ class ConsensusProtocolDriver
 
     }
 
-    // Envelope signature/verification
-    void signEnvelope(ref Envelope envelope)
+    // BCPEnvelope signature/verification
+    void signEnvelope(ref BCPEnvelope envelope)
     {
 
     }
 
-    bool verifyEnvelope(ref Envelope envelope)
+    bool verifyEnvelope(ref BCPEnvelope envelope)
     {
         return false;
     }
 
     // Delegates the retrieval of the quorum set designated by qSetHash to
     // the user of .
-    QuorumSetPtr getQSet(ref Hash qSetHash)
+    BCPQuorumSetPtr getQSet(ref Hash qSetHash)
     {
-        RefCounted!(QuorumSet, RefCountedAutoInitialize.no) qSet;
+        RefCounted!(BCPQuorumSet, RefCountedAutoInitialize.no) qSet;
 
         return qSet;
     }
@@ -48,9 +48,9 @@ class ConsensusProtocolDriver
     // abstract the transport layer used from the implementation of the 
     // protocol.
 
-    // Delegates the emission of an Envelope to the user of . Envelopes
+    // Delegates the emission of an BCPEnvelope to the user of . Envelopes
     // should be flooded to the network.
-    void emitEnvelope(ref Envelope envelope)
+    void emitEnvelope(ref BCPEnvelope envelope)
     {
 
     }
@@ -179,24 +179,24 @@ class ConsensusProtocolDriver
 
     // startedBallotProtocol is called when the ballot protocol is started
     // (ie attempts to prepare a new ballot)
-    void startedBallotProtocol(uint64 slotIndex, ref Ballot ballot)
+    void startedBallotProtocol(uint64 slotIndex, ref BCPBallot ballot)
     {
     }
 
     // acceptedBallotPrepared every time a ballot is accepted as prepared
-    void acceptedBallotPrepared(uint64 slotIndex, ref Ballot ballot)
+    void acceptedBallotPrepared(uint64 slotIndex, ref BCPBallot ballot)
     {
 
     }
 
     // confirmedBallotPrepared every time a ballot is confirmed prepared
-    void confirmedBallotPrepared(uint64 slotIndex, ref Ballot ballot)
+    void confirmedBallotPrepared(uint64 slotIndex, ref BCPBallot ballot)
     {
 
     }
 
     // acceptedCommit every time a ballot is accepted commit
-    void acceptedCommit(uint64 slotIndex, ref Ballot ballot)
+    void acceptedCommit(uint64 slotIndex, ref BCPBallot ballot)
     {
 
     }
@@ -204,7 +204,7 @@ class ConsensusProtocolDriver
     // ballotDidHearFromQuorum is called when we received messages related to
     // the current mBallot from a set of node that is a transitive quorum for
     // the local node.
-    void ballotDidHearFromQuorum(uint64 slotIndex, ref Ballot ballot)
+    void ballotDidHearFromQuorum(uint64 slotIndex, ref BCPBallot ballot)
     {
 
     }

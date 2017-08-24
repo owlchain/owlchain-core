@@ -5,7 +5,7 @@ import std.algorithm : canFind;
 
 import owlchain.xdr.publicKey;
 import owlchain.xdr.nodeID;
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.bcpQuorumSet;
 
 class QuorumSetSanityChecker
 {
@@ -17,7 +17,7 @@ private:
     bool mIsSane;
     int mCount;
 
-    bool checkSanity(ref const QuorumSet qSet, int depth)
+    bool checkSanity(ref const BCPQuorumSet qSet, int depth)
     {
         if (depth > 2)
             return false;
@@ -68,7 +68,7 @@ private:
 
 public:
 
-    this(ref QuorumSet qSet, bool extraChecks)
+    this(ref BCPQuorumSet qSet, bool extraChecks)
     {
         mCount = 0;
         mExtraChecks = extraChecks;
@@ -81,7 +81,7 @@ public:
     }
 }
 
-bool isQuorumSetSane(ref QuorumSet qSet, bool extraChecks)
+bool isQuorumSetSane(ref BCPQuorumSet qSet, bool extraChecks)
 {
     QuorumSetSanityChecker checker = new QuorumSetSanityChecker(qSet, extraChecks);
     return checker.isSane();
@@ -95,7 +95,7 @@ bool isQuorumSetSane(ref QuorumSet qSet, bool extraChecks)
 //  * simplifies singleton innersets
 //      { t: 1, { innerSet } } into innerSet
 
-void normalizeQSet(ref QuorumSet qSet)
+void normalizeQSet(ref BCPQuorumSet qSet)
 {
     auto v = &qSet.validators;
     auto i = &qSet.innerSets;

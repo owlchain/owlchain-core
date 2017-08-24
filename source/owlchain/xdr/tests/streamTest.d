@@ -9,7 +9,7 @@ import owlchain.xdr.xdrDataInputStream;
 import owlchain.xdr.xdrDataOutputStream;
 
 import owlchain.xdr.nodeID;
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.bcpQuorumSet;
 
 class StreamTest
 {
@@ -112,7 +112,7 @@ public :
         }
 
         /*
-        QuorumSet qSet = new QuorumSet();
+        BCPQuorumSet qSet = new BCPQuorumSet();
         qSet.threshold = 1;
         qSet.validators ~= nodeID.publicKey;
         */

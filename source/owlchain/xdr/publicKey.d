@@ -32,32 +32,25 @@ struct PublicKey
         stream.writeInt32(encodedPublicKey.discriminant);
         switch (encodedPublicKey.discriminant)
         {
-            case PublicKeyType.PUBLIC_KEY_TYPE_ED25519:
-                stream.writeUint256(encodedPublicKey.ed25519);
-                break;
-            default:
-                break;
+        case PublicKeyType.PUBLIC_KEY_TYPE_ED25519:
+            stream.writeUint256(encodedPublicKey.ed25519);
+            break;
+        default:
+            break;
         }
     }
+
     static PublicKey decode(XdrDataInputStream stream)
     {
         PublicKey decodedPublicKey;
-        int32 value = stream.readInt32();
-        switch (value) {
-            case 0: 
-                decodedPublicKey.discriminant = PublicKeyType.PUBLIC_KEY_TYPE_ED25519;
-                break;
-            default:
-                throw new Exception("Unknown enum value");
-        }
-
+        decodedPublicKey.discriminant = cast(PublicKeyType) stream.readInt32();
         switch (decodedPublicKey.discriminant)
         {
-            case PublicKeyType.PUBLIC_KEY_TYPE_ED25519:
-                decodedPublicKey.ed25519 = stream.readUint256();
-                break;
-            default:
-                break;
+        case PublicKeyType.PUBLIC_KEY_TYPE_ED25519:
+            decodedPublicKey.ed25519 = stream.readUint256();
+            break;
+        default:
+            break;
         }
         return decodedPublicKey;
     }

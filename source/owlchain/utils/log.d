@@ -5,16 +5,18 @@ import owlchain.utils.config;
 
 private static FileLogger _logger;
 
-static FileLogger flog() {
-    if(_logger is null){
+static FileLogger flog()
+{
+    if (_logger is null)
+    {
         _logger = new FileLogger(config.logFile);
-    } 
+    }
     return _logger;
 }
 
 @("log")
-@system
-unittest {
+@system unittest
+{
     flog.log("test");
 }
 

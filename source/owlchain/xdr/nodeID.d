@@ -6,6 +6,6 @@ import owlchain.xdr.xdrDataOutputStream;
 
 import std.container.rbtree;
 
-alias RedBlackTree !(NodeID, "a.ed25519 < b.ed25519") NodeIDSet;
+alias RedBlackTree!(NodeID, "a.ed25519 < b.ed25519") NodeIDSet;
 
 alias NodeID = PublicKey;

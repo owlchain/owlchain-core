@@ -5,8 +5,8 @@ import owlchain.xdr.type;
 import owlchain.xdr.xdrDataInputStream;
 import owlchain.xdr.xdrDataOutputStream;
 
- struct Price
- {
+struct Price
+{
     int32 n;
     int32 d;
 
@@ -15,7 +15,7 @@ import owlchain.xdr.xdrDataOutputStream;
         stream.writeInt32(encoded.n);
         stream.writeInt32(encoded.d);
     }
-    
+
     static Price decode(XdrDataInputStream stream)
     {
         Price decoded;
@@ -24,4 +24,4 @@ import owlchain.xdr.xdrDataOutputStream;
         return decoded;
     }
 
- }
+}

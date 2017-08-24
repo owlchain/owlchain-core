@@ -12,14 +12,14 @@ import std.typecons;
 
 import owlchain.xdr.type;
 import owlchain.xdr.hash;
-import owlchain.xdr.envelope;
+import owlchain.xdr.bcpEnvelope;
 import owlchain.xdr.value;
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.bcpQuorumSet;
 import owlchain.xdr.nodeID;
-import owlchain.xdr.ballot;
-import owlchain.xdr.nomination;
-import owlchain.xdr.statement;
-import owlchain.xdr.statementType;
+import owlchain.xdr.bcpBallot;
+import owlchain.xdr.bcpNomination;
+import owlchain.xdr.bcpStatement;
+import owlchain.xdr.bcpStatementType;
 import owlchain.xdr.signature;
 
 import owlchain.consensus.localNode;
@@ -38,10 +38,10 @@ private:
     ValueSet mVotes; // X
     ValueSet mAccepted; // Y
     ValueSet mCandidates; // Z
-    Envelope[NodeID] mLatestNominations; // N
+    BCPEnvelope[NodeID] mLatestNominations; // N
 
     // last envelope emitted by this node
-    UniqueStruct!Envelope mLastEnvelope;
+    UniqueStruct!BCPEnvelope mLastEnvelope;
 
     // nodes from quorum set that have the highest priority this round
     NodeIDSet mRoundLeaders;
@@ -78,7 +78,7 @@ public:
         mSlot = null;
     }
 
-    ConsensusProtocol.EnvelopeState processEnvelope(ref Envelope envelope)
+    ConsensusProtocol.EnvelopeState processEnvelope(ref BCPEnvelope envelope)
     {
         auto st = &envelope.statement;
         auto nom = &st.pledges.nominate;
@@ -107,12 +107,12 @@ public:
                             continue;
                         }
 
-                        if (mSlot.federatedAccept((ref Statement st2) {
+                        if (mSlot.federatedAccept((ref BCPStatement st2) {
                                 bool res;
                                 auto nom2 = &st2.pledges.nominate;
                                 res = (nom2.votes.canFind(v));
                                 return res;
-                            }, (ref Statement st2) {
+                            }, (ref BCPStatement st2) {
                                 return NominationProtocol.acceptPredicate(v, st2);
                             }, mLatestNominations))
                         {
@@ -149,7 +149,7 @@ public:
                             continue;
                         }
 
-                        if (mSlot.federatedRatify((ref Statement st) {
+                        if (mSlot.federatedRatify((ref BCPStatement st) {
                                 return NominationProtocol.acceptPredicate(a, st);
                             }, mLatestNominations))
                         {
@@ -187,13 +187,13 @@ public:
             }
             else
             {
-                writeln("[DEBUG], CP NominationProtocol: message didn't pass sanity check");
+                writeln("[DEBUG], BCP NominationProtocol: message didn't pass sanity check");
             }
         }
         return res;
     }
 
-    static Value[] getStatementValues(ref Statement st)
+    static Value[] getStatementValues(ref BCPStatement st)
     {
         Value[] res;
         applyAll(st.pledges.nominate, (ref Value v) { res ~= v; });
@@ -203,14 +203,14 @@ public:
     // attempts to nominate a value for consensus
     bool nominate(ref Value value, ref Value previousValue, bool timedout)
     {
-        //if (Logging::logDebug("ConsensusProtocol"))
-        //writefln("[DEBUG], ConsensusProtocol NominationProtocol.nominate %s", mSlot.getCP().getValueString(value));
+        //if (Logging::logDebug("BCP"))
+        //writefln("[DEBUG], BCP NominationProtocol.nominate %s", mSlot.getCP().getValueString(value));
 
         bool updated = false;
 
         if (timedout && !mNominationStarted)
         {
-            writefln("[DEBUG], ConsensusProtocol NominationProtocol.nominate (TIMED OUT)");
+            writefln("[DEBUG], BCP NominationProtocol.nominate (TIMED OUT)");
             return false;
         }
 
@@ -264,7 +264,7 @@ public:
         }
         else
         {
-            writefln("[DEBUG], ConsensusProtocol NominationProtocol.nominate (SKIPPED)");
+            writefln("[DEBUG], BCP NominationProtocol.nominate (SKIPPED)");
         }
 
         return updated;
@@ -313,15 +313,15 @@ public:
         ret.object["nomination"] = nomState;
     }
 
-    Envelope* getLastMessageSend()
+    BCPEnvelope* getLastMessageSend()
     {
         if (mLastEnvelope)
-            return cast(Envelope*) mLastEnvelope;
+            return cast(BCPEnvelope*) mLastEnvelope;
         else
             return null;
     }
 
-    void setStateFromEnvelope(ref Envelope e)
+    void setStateFromEnvelope(ref BCPEnvelope e)
     {
         if (mNominationStarted)
         {
@@ -339,14 +339,14 @@ public:
             mVotes.insert(e.statement.pledges.nominate.votes[i]);
         }
 
-        mLastEnvelope = cast(UniqueStruct!Envelope)(new Envelope(e.statement, e.signature));
+        mLastEnvelope = cast(UniqueStruct!BCPEnvelope)(new BCPEnvelope(e.statement, e.signature));
     }
 
-    Envelope[] getCurrentState()
+    BCPEnvelope[] getCurrentState()
     {
-        Envelope[] res;
+        BCPEnvelope[] res;
         res.reserve(mLatestNominations.length);
-        foreach (ref const NodeID n, ref Envelope e; mLatestNominations)
+        foreach (ref const NodeID n, ref BCPEnvelope e; mLatestNominations)
         {
             // only return messages for self if the slot is fully validated
             if (!(n == mSlot.getCP().getLocalNodeID()) || mSlot.isFullyValidated())
@@ -358,7 +358,7 @@ public:
     }
 
 private:
-    bool isNewerStatement(ref NodeID nodeID, ref Nomination st)
+    bool isNewerStatement(ref NodeID nodeID, ref BCPNomination st)
     {
         bool res = false;
 
@@ -439,7 +439,7 @@ private:
         return mSlot.getCPDriver().extractValidValue(mSlot.getSlotIndex(), value);
     }
 
-    static bool isNewerStatement(ref Nomination oldst, ref Nomination st)
+    static bool isNewerStatement(ref BCPNomination oldst, ref BCPNomination st)
     {
         bool res = false;
         bool grows;
@@ -458,7 +458,7 @@ private:
         return res;
     }
 
-    bool isSane(ref Statement st)
+    bool isSane(ref BCPStatement st)
     {
         auto nom = &(st.pledges.nominate);
         bool res = (nom.votes.length + nom.accepted.length) != 0;
@@ -469,7 +469,7 @@ private:
         return res;
     }
 
-    void recordEnvelope(ref Envelope env)
+    void recordEnvelope(ref BCPEnvelope env)
     {
         auto st = &env.statement;
         mLatestNominations[st.nodeID] = env;
@@ -478,9 +478,9 @@ private:
 
     void emitNomination()
     {
-        Statement st;
+        BCPStatement st;
         st.nodeID = mSlot.getLocalNode().getNodeID();
-        st.pledges.type = StatementType.CP_ST_NOMINATE;
+        st.pledges.type = BCPStatementType.CP_ST_NOMINATE;
         auto nom = &st.pledges.nominate;
 
         st.pledges.nominate.quorumSetHash = mSlot.getLocalNode().getQuorumSetHash();
@@ -496,14 +496,14 @@ private:
             nom.accepted ~= a;
         }
 
-        Envelope envelope = mSlot.createEnvelope(st);
+        BCPEnvelope envelope = mSlot.createEnvelope(st);
 
         if (mSlot.processEnvelope(envelope, true) == ConsensusProtocol.EnvelopeState.VALID)
         {
             if (!mLastEnvelope || isNewerStatement(mLastEnvelope.statement.pledges.nominate,
                     st.pledges.nominate))
             {
-                mLastEnvelope = cast(UniqueStruct!Envelope)(new Envelope(envelope.statement,
+                mLastEnvelope = cast(UniqueStruct!BCPEnvelope)(new BCPEnvelope(envelope.statement,
                         envelope.signature));
                 if (mSlot.isFullyValidated())
                 {
@@ -520,7 +520,7 @@ private:
     }
 
     // returns true if v is in the accepted list from the statement
-    static bool acceptPredicate(ref Value v, ref Statement st)
+    static bool acceptPredicate(ref Value v, ref BCPStatement st)
     {
         bool res;
         res = st.pledges.nominate.accepted.canFind(v);
@@ -528,7 +528,7 @@ private:
     }
 
     // applies 'processor' to all values from the passed in nomination
-    static void applyAll(ref Nomination nom, void delegate(ref Value) processor)
+    static void applyAll(ref BCPNomination nom, void delegate(ref Value) processor)
     {
         int i;
         for (i = 0; i < nom.votes.length; i++)
@@ -546,7 +546,7 @@ private:
     {
         mRoundLeaders.clear();
         uint64 topPriority = 0;
-        QuorumSet myQSet = mSlot.getLocalNode().getQuorumSet();
+        BCPQuorumSet myQSet = mSlot.getLocalNode().getQuorumSet();
 
         LocalNode.forAllNodes(myQSet, (ref NodeID cur) {
             uint64 w = getNodePriority(cur, myQSet);
@@ -561,11 +561,11 @@ private:
             }
         });
 
-        writefln("[DEBUG], ConsensusProtocol updateRoundLeaders: %d", mRoundLeaders.length);
-        //if (Logging::logDebug("CP"))
+        writefln("[DEBUG], BCP updateRoundLeaders: %d", mRoundLeaders.length);
+        //if (Logging::logDebug("BCP"))
         foreach (ref NodeID n; mRoundLeaders)
         {
-            writefln("[DEBUG], ConsensusProtocol leader: %s",
+            writefln("[DEBUG], BCP leader: %s",
                     mSlot.getCPDriver().toShortString(n));
         }
     }
@@ -587,7 +587,7 @@ private:
                 mPreviousValue, mRoundNumber, value);
     }
 
-    uint64 getNodePriority(ref NodeID nodeID, ref QuorumSet qset)
+    uint64 getNodePriority(ref NodeID nodeID, ref BCPQuorumSet qset)
     {
         uint64 res;
         uint64 w = LocalNode.getNodeWeight(nodeID, qset);
@@ -606,7 +606,7 @@ private:
     // returns the highest value that we don't have yet, that we should
     // vote for, extracted from a nomination.
     // returns the empty value if no new value was found
-    Value getNewValueFromNomination(ref Nomination nom)
+    Value getNewValueFromNomination(ref BCPNomination nom)
     {
         // pick the highest value we don't have from the leader
         // sorted using hashValue.

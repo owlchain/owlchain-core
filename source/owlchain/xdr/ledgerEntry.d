@@ -43,43 +43,45 @@ struct LedgerEntryData
     static void encode(XdrDataOutputStream stream, ref const LedgerEntryData encoded)
     {
         stream.writeInt32(encoded.type);
-        switch (encoded.type) {
-            case LedgerEntryType.ACCOUNT:
-                AccountEntry.encode(stream, encoded.account);
-                break;
-            case LedgerEntryType.TRUSTLINE:
-                TrustLineEntry.encode(stream, encoded.trustLine);
-                break;
-            case LedgerEntryType.OFFER:
-                OfferEntry.encode(stream, encoded.offer);
-                break;
-            case LedgerEntryType.DATA:
-                DataEntry.encode(stream, encoded.data);
-                break;
-            default:
-                break;
+        switch (encoded.type)
+        {
+        case LedgerEntryType.ACCOUNT:
+            AccountEntry.encode(stream, encoded.account);
+            break;
+        case LedgerEntryType.TRUSTLINE:
+            TrustLineEntry.encode(stream, encoded.trustLine);
+            break;
+        case LedgerEntryType.OFFER:
+            OfferEntry.encode(stream, encoded.offer);
+            break;
+        case LedgerEntryType.DATA:
+            DataEntry.encode(stream, encoded.data);
+            break;
+        default:
+            break;
         }
     }
 
     static LedgerEntryData decode(XdrDataInputStream stream)
     {
         LedgerEntryData decoded;
-        decoded.type = cast(LedgerEntryType)stream.readInt32();
-        switch (decoded.type) {
-            case LedgerEntryType.ACCOUNT :
-                decoded.account = AccountEntry.decode(stream);
-                break;
-            case LedgerEntryType.TRUSTLINE :
-                decoded.trustLine = TrustLineEntry.decode(stream);
-                break;
-            case LedgerEntryType.OFFER :
-                decoded.offer = OfferEntry.decode(stream);
-                break;
-            case LedgerEntryType.DATA :
-                decoded.data = DataEntry.decode(stream);
-                break;
-            default:
-                throw new Exception("Unknown enum value");
+        decoded.type = cast(LedgerEntryType) stream.readInt32();
+        switch (decoded.type)
+        {
+        case LedgerEntryType.ACCOUNT:
+            decoded.account = AccountEntry.decode(stream);
+            break;
+        case LedgerEntryType.TRUSTLINE:
+            decoded.trustLine = TrustLineEntry.decode(stream);
+            break;
+        case LedgerEntryType.OFFER:
+            decoded.offer = OfferEntry.decode(stream);
+            break;
+        case LedgerEntryType.DATA:
+            decoded.data = DataEntry.decode(stream);
+            break;
+        default:
+            throw new Exception("Unknown enum value");
         }
         return decoded;
     }
@@ -93,7 +95,7 @@ struct LedgerEntryExt
     {
         stream.writeInt32(encoded.v);
     }
-    
+
     static LedgerEntryExt decode(XdrDataInputStream stream)
     {
         LedgerEntryExt decoded;
@@ -101,5 +103,3 @@ struct LedgerEntryExt
         return decoded;
     }
 }
-
-

@@ -58,7 +58,7 @@ struct Thresholds
         Thresholds decoded;
 
         const uint size = stream.readUint();
-        if (size > 0) 
+        if (size > 0)
         {
             decoded.thresholds.length = size;
             stream.read(decoded.thresholds);

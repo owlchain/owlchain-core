@@ -1,14 +1,14 @@
 module owlchain.xdr.ledgerMessages;
 
 import owlchain.xdr.type;
-import owlchain.xdr.envelope;
+import owlchain.xdr.bcpEnvelope;
 import owlchain.xdr.xdrDataInputStream;
 import owlchain.xdr.xdrDataOutputStream;
 
 struct LedgerMessages
 {
     uint32 ledgerSeq;
-    Envelope[] messages;
+    BCPEnvelope[] messages;
 
     ref LedgerMessages opAssign(LedgerMessages s)
     {
@@ -16,7 +16,7 @@ struct LedgerMessages
         messages.length = 0;
         for (int i = 0; i < s.messages.length; i++)
         {
-            messages ~= cast(Envelope)s.messages[i];
+            messages ~= cast(BCPEnvelope) s.messages[i];
         }
         return this;
     }
@@ -27,7 +27,7 @@ struct LedgerMessages
         messages.length = 0;
         for (int i = 0; i < s.messages.length; i++)
         {
-            messages ~= cast(Envelope)s.messages[i];
+            messages ~= cast(BCPEnvelope) s.messages[i];
         }
         return this;
     }
@@ -38,7 +38,7 @@ struct LedgerMessages
         messages.length = 0;
         for (int i = 0; i < s.messages.length; i++)
         {
-            messages ~= cast(Envelope)s.messages[i];
+            messages ~= cast(BCPEnvelope) s.messages[i];
         }
         return this;
     }
@@ -50,7 +50,7 @@ struct LedgerMessages
         stream.writeInt(messagessize);
         for (int i = 0; i < messagessize; i++)
         {
-            Envelope.encode(stream, encodedLedgerMessages.messages[i]);
+            BCPEnvelope.encode(stream, encodedLedgerMessages.messages[i]);
         }
     }
 
@@ -62,7 +62,7 @@ struct LedgerMessages
         decodedLedgerMessages.messages.length = messagessize;
         for (int i = 0; i < messagessize; i++)
         {
-            decodedLedgerMessages.messages[i] = Envelope.decode(stream);
+            decodedLedgerMessages.messages[i] = BCPEnvelope.decode(stream);
         }
         return decodedLedgerMessages;
     }

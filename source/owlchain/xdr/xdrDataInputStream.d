@@ -11,7 +11,7 @@ class XdrDataInputStream : InputStream
     ubyte[] data;
     size_t offset;
 
-    this(ubyte [] source) 
+    this(ubyte[] source)
     {
         data = source.dup();
         offset = 0;
@@ -23,60 +23,67 @@ class XdrDataInputStream : InputStream
         offset = 0;
     }
 
-    void assign(ubyte [] source)
+    void assign(ubyte[] source)
     {
         data = source.dup();
         offset = 0;
     }
 
-	bool empty() {
+    bool empty()
+    {
         return data.length == 0;
     }
-	
-    ulong leastSize() {
+
+    ulong leastSize()
+    {
 
         return 0;
     }
 
-	bool dataAvailableForRead()
+    bool dataAvailableForRead()
     {
-        return data.length-1 > offset;
+        return data.length - 1 > offset;
     }
 
-	bool dataAvailableForRead(int size)
-    {
-        return data.length >= (offset + size);
-    }
-	bool dataAvailableForRead(ulong size)
+    bool dataAvailableForRead(int size)
     {
         return data.length >= (offset + size);
     }
 
-	const(ubyte)[] peek() 
+    bool dataAvailableForRead(ulong size)
+    {
+        return data.length >= (offset + size);
+    }
+
+    const(ubyte)[] peek()
     {
         return data;
     }
 
-	void read(ubyte[] dst)
+    void read(ubyte[] dst)
     {
-        if (dataAvailableForRead(dst.length)) {
-            dst[0..dst.length] = data[offset .. offset + dst.length];
+        if (dataAvailableForRead(dst.length))
+        {
+            dst[0 .. dst.length] = data[offset .. offset + dst.length];
             offset += dst.length;
         }
     }
 
-	void read(byte[] dst)
+    void read(byte[] dst)
     {
-        read(cast(ubyte[])dst);
+        read(cast(ubyte[]) dst);
     }
 
     int readInt()
     {
         int value;
-        if (dataAvailableForRead(int.sizeof)) {
-            value = *cast(int *)&data[offset];
+        if (dataAvailableForRead(int.sizeof))
+        {
+            value = *cast(int*)&data[offset];
             offset += int.sizeof;
-        } else {
+        }
+        else
+        {
             value = 0;
         }
         return value;
@@ -85,10 +92,13 @@ class XdrDataInputStream : InputStream
     long readLong()
     {
         long value;
-        if (dataAvailableForRead(long.sizeof)) {
-            value = *cast(long *)&data[offset];
+        if (dataAvailableForRead(long.sizeof))
+        {
+            value = *cast(long*)&data[offset];
             offset += long.sizeof;
-        } else {
+        }
+        else
+        {
             value = 0;
         }
         return value;
@@ -97,10 +107,13 @@ class XdrDataInputStream : InputStream
     uint readUint()
     {
         uint value;
-        if (dataAvailableForRead(uint.sizeof)) {
-            value = *cast(uint *)&data[offset];
+        if (dataAvailableForRead(uint.sizeof))
+        {
+            value = *cast(uint*)&data[offset];
             offset += uint.sizeof;
-        } else {
+        }
+        else
+        {
             value = 0;
         }
         return value;
@@ -109,10 +122,13 @@ class XdrDataInputStream : InputStream
     ulong readUlong()
     {
         ulong value;
-        if (dataAvailableForRead(ulong.sizeof)) {
-            value = *cast(ulong *)&data[offset];
+        if (dataAvailableForRead(ulong.sizeof))
+        {
+            value = *cast(ulong*)&data[offset];
             offset += ulong.sizeof;
-        } else {
+        }
+        else
+        {
             value = 0;
         }
         return value;
@@ -121,10 +137,13 @@ class XdrDataInputStream : InputStream
     int32 readInt32()
     {
         int32 value;
-        if (dataAvailableForRead(int32.sizeof)) {
-            value = *cast(int32 *)&data[offset];
+        if (dataAvailableForRead(int32.sizeof))
+        {
+            value = *cast(int32*)&data[offset];
             offset += int32.sizeof;
-        } else {
+        }
+        else
+        {
             value = 0;
         }
         return value;
@@ -133,10 +152,13 @@ class XdrDataInputStream : InputStream
     int64 readInt64()
     {
         int64 value;
-        if (dataAvailableForRead(int64.sizeof)) {
-            value = *cast(int64 *)&data[offset];
+        if (dataAvailableForRead(int64.sizeof))
+        {
+            value = *cast(int64*)&data[offset];
             offset += int64.sizeof;
-        } else {
+        }
+        else
+        {
             value = 0;
         }
         return value;
@@ -145,10 +167,13 @@ class XdrDataInputStream : InputStream
     uint32 readUint32()
     {
         uint32 value;
-        if (dataAvailableForRead(uint32.sizeof)) {
-            value = *cast(uint32 *)&data[offset];
+        if (dataAvailableForRead(uint32.sizeof))
+        {
+            value = *cast(uint32*)&data[offset];
             offset += uint32.sizeof;
-        } else {
+        }
+        else
+        {
             value = 0;
         }
         return value;
@@ -157,10 +182,13 @@ class XdrDataInputStream : InputStream
     uint64 readUint64()
     {
         uint64 value;
-        if (dataAvailableForRead(uint64.sizeof)) {
-            value = *cast(uint64 *)&data[offset];
+        if (dataAvailableForRead(uint64.sizeof))
+        {
+            value = *cast(uint64*)&data[offset];
             offset += uint64.sizeof;
-        } else {
+        }
+        else
+        {
             value = 0;
         }
         return value;
@@ -169,10 +197,13 @@ class XdrDataInputStream : InputStream
     uint256 readUint256()
     {
         uint256 value;
-        if (dataAvailableForRead(uint256.sizeof)) {
-            value = *cast(uint256 *)&data[offset];
+        if (dataAvailableForRead(uint256.sizeof))
+        {
+            value = *cast(uint256*)&data[offset];
             offset += uint256.sizeof;
-        } else {
+        }
+        else
+        {
             value = 0;
         }
         return value;
@@ -181,10 +212,13 @@ class XdrDataInputStream : InputStream
     uint512 readUint512()
     {
         uint512 value;
-        if (dataAvailableForRead(uint512.sizeof)) {
-            value = *cast(uint512 *)&data[offset];
+        if (dataAvailableForRead(uint512.sizeof))
+        {
+            value = *cast(uint512*)&data[offset];
             offset += uint512.sizeof;
-        } else {
+        }
+        else
+        {
             value = 0;
         }
         return value;

@@ -5,15 +5,14 @@ import std.typecons;
 struct UniqueStruct(T)
 {
     /** Represents a reference to $(D T). Resolves to $(D T*) if $(D T) is a value type. */
-    static if (is(T:Object))
+    static if (is(T : Object))
         alias RefT = T;
     else
         alias RefT = T*;
 
 public:
     // Deferred in case we get some language support for checking uniqueness.
-    version(None)
-        /**
+    version (None) /**
         Allows safe construction of $(D UniqueStruct). It creates the resource and
         guarantees unique ownership of it (unless $(D T) publishes aliases of
         $(D this)).
@@ -25,14 +24,15 @@ public:
         auto u = UniqueStruct!(C).create();
         ---
         */
-        static UniqueStruct!T create(A...)(auto ref A args)
+    static UniqueStruct!T create(A...)(auto ref A args)
             if (__traits(compiles, new T(args)))
-            {
-                debug(UniqueStruct) writeln("UniqueStruct.create for ", T.stringof);
-                UniqueStruct!T u;
-                u._p = new T(args);
-                return u;
-            }
+    {
+        debug (UniqueStruct)
+            writeln("UniqueStruct.create for ", T.stringof);
+        UniqueStruct!T u;
+        u._p = new T(args);
+        return u;
+    }
 
     /**
     Constructor that takes an rvalue.
@@ -45,7 +45,8 @@ public:
     */
     this(RefT p)
     {
-        debug(UniqueStruct) writeln("UniqueStruct constructor with rvalue");
+        debug (UniqueStruct)
+            writeln("UniqueStruct constructor with rvalue");
         _p = p;
     }
     /**
@@ -56,7 +57,8 @@ public:
     this(ref RefT p)
     {
         _p = p;
-        debug(UniqueStruct) writeln("UniqueStruct constructor nulling source");
+        debug (UniqueStruct)
+            writeln("UniqueStruct constructor nulling source");
         p = null;
         assert(p is null);
     }
@@ -73,28 +75,29 @@ public:
     UniqueStruct!Object uo = uc.release;
     ---
     */
-    this(U)(UniqueStruct!U u)
-        if (is(u.RefT:RefT))
-        {
-            debug(UniqueStruct) writeln("UniqueStruct constructor converting from ", U.stringof);
-            _p = u._p;
-            u._p = null;
-        }
+    this(U)(UniqueStruct!U u) if (is(u.RefT : RefT))
+    {
+        debug (UniqueStruct)
+            writeln("UniqueStruct constructor converting from ", U.stringof);
+        _p = u._p;
+        u._p = null;
+    }
 
     /// Transfer ownership from a $(D UniqueStruct) of a type that is convertible to our type.
-    void opAssign(U)(UniqueStruct!U u)
-        if (is(u.RefT:RefT))
-        {
-            debug(UniqueStruct) writeln("UniqueStruct opAssign converting from ", U.stringof);
-            // first delete any resource we own
-            destroy(this);
-            _p = u._p;
-            u._p = null;
-        }
+    void opAssign(U)(UniqueStruct!U u) if (is(u.RefT : RefT))
+    {
+        debug (UniqueStruct)
+            writeln("UniqueStruct opAssign converting from ", U.stringof);
+        // first delete any resource we own
+        destroy(this);
+        _p = u._p;
+        u._p = null;
+    }
 
     ~this()
     {
-        debug(UniqueStruct) writeln("UniqueStruct destructor of ", (_p is null)? null: _p);
+        debug (UniqueStruct)
+            writeln("UniqueStruct destructor of ", (_p is null) ? null : _p);
         if (_p !is null)
         {
             delete _p;
@@ -112,8 +115,10 @@ public:
     */
     UniqueStruct release()
     {
-        debug(UniqueStruct) writeln("UniqueStruct Release");
+        debug (UniqueStruct)
+            writeln("UniqueStruct Release");
         import std.algorithm.mutation : move;
+
         return this.move;
     }
 

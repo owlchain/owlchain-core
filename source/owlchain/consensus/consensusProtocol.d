@@ -8,13 +8,13 @@ import std.outbuffer;
 
 import owlchain.xdr.type;
 import owlchain.xdr.hash;
-import owlchain.xdr.envelope;
+import owlchain.xdr.bcpEnvelope;
 import owlchain.xdr.value;
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.bcpQuorumSet;
 import owlchain.xdr.nodeID;
-import owlchain.xdr.ballot;
-import owlchain.xdr.statement;
-import owlchain.xdr.statementType;
+import owlchain.xdr.bcpBallot;
+import owlchain.xdr.bcpStatement;
+import owlchain.xdr.bcpStatementType;
 
 import owlchain.crypto.keyUtils;
 
@@ -48,7 +48,7 @@ public:
     };
 
     this(ConsensusProtocolDriver driver, SecretKey secretKey, bool isValidator,
-            ref QuorumSet qSetLocal)
+            ref BCPQuorumSet qSetLocal)
     {
         mDriver = driver;
         mLocalNode = new LocalNode(secretKey, isValidator, qSetLocal, this);
@@ -72,8 +72,8 @@ public:
         return mLocalNode.getNodeID();
     }
 
-    // Local QuorumSet getter
-    ref QuorumSet getLocalQuorumSet()
+    // Local BCPQuorumSet getter
+    ref BCPQuorumSet getLocalQuorumSet()
     {
         return mLocalNode.getQuorumSet();
     }
@@ -116,15 +116,15 @@ public:
         return slot;
     }
 
-    // this is the main entry point of the Consensus Protocol library
+    // this is the main entry point of the BCP library
     // it processes the envelope, updates the internal state and
     // invokes the appropriate methods
-    EnvelopeState receiveEnvelope(ref Envelope envelope)
+    EnvelopeState receiveEnvelope(ref BCPEnvelope envelope)
     {
         // If the envelope is not correctly signed, we ignore it.
         if (!mDriver.verifyEnvelope(envelope))
         {
-            writefln("[%s], %s", "DEBUG", "ConsensusProtocol",
+            writefln("[%s], %s", "DEBUG", "BCP",
                     "ConsensusProtocol.receiveEnvelope invalid");
             return EnvelopeState.INVALID;
         }
@@ -150,8 +150,8 @@ public:
         }
     }
 
-    // Local QuorumSet interface (can be dynamically updated)
-    void updateLocalQuorumSet(ref QuorumSet qSet)
+    // Local BCPQuorumSet interface (can be dynamically updated)
+    void updateLocalQuorumSet(ref BCPQuorumSet qSet)
     {
         mLocalNode.updateQuorumSet(qSet);
     }
@@ -224,7 +224,7 @@ public:
     }
 
     // returns the latest messages sent for the given slot
-    Envelope[] getLatestMessagesSend(uint64 slotIndex)
+    BCPEnvelope[] getLatestMessagesSend(uint64 slotIndex)
     {
         auto slot = getSlot(slotIndex, false);
         if (slot)
@@ -233,14 +233,14 @@ public:
         }
         else
         {
-            Envelope[] res;
+            BCPEnvelope[] res;
             return res;
         }
     }
 
     // forces the state to match the one in the envelope
     // this is used when rebuilding the state after a crash for example
-    void setStateFromEnvelope(uint64 slotIndex, ref Envelope e)
+    void setStateFromEnvelope(uint64 slotIndex, ref BCPEnvelope e)
     {
         if (mDriver.verifyEnvelope(e))
         {
@@ -250,7 +250,7 @@ public:
     }
 
     // returns all messages for the slot
-    Envelope[] getCurrentState(uint64 slotIndex)
+    BCPEnvelope[] getCurrentState(uint64 slotIndex)
     {
         auto slot = getSlot(slotIndex, false);
         if (slot)
@@ -259,14 +259,14 @@ public:
         }
         else
         {
-            Envelope[] res;
+            BCPEnvelope[] res;
             return res;
         }
     }
 
     // returns messages that contributed to externalizing the slot
     // (or empty if the slot didn't externalize)
-    Envelope[] getExternalizingState(uint64 slotIndex)
+    BCPEnvelope[] getExternalizingState(uint64 slotIndex)
     {
         auto slot = getSlot(slotIndex, false);
         if (slot)
@@ -275,7 +275,7 @@ public:
         }
         else
         {
-            Envelope[] res;
+            BCPEnvelope[] res;
             return res;
         }
     }
@@ -305,7 +305,7 @@ public:
         return mDriver.getValueString(v);
     }
 
-    string ballotToStr(ref Ballot ballot)
+    string ballotToStr(ref BCPBallot ballot)
     {
         if (ballot.counter == 0)
         {
@@ -317,7 +317,7 @@ public:
         }
     }
 
-    string ballotToStr(ref Ballot* ballot)
+    string ballotToStr(ref BCPBallot* ballot)
     {
         string res;
         if (ballot)
@@ -331,12 +331,12 @@ public:
         return res;
     }
 
-    string envToStr(ref Envelope envelope)
+    string envToStr(ref BCPEnvelope envelope)
     {
         return envToStr(envelope.statement);
     }
 
-    string envToStr(ref Statement st)
+    string envToStr(ref BCPStatement st)
     {
         import std.range;
 
@@ -348,7 +348,7 @@ public:
 
         switch (st.pledges.type)
         {
-        case StatementType.CP_ST_PREPARE:
+        case BCPStatementType.CP_ST_PREPARE:
             {
                 oBuffer.writef(
                         " | PREPARE" ~ " | D: %s" ~ " | b: %s" ~ " | p: %s" ~ " | p: %s" ~ " | c.n: %d" ~ " | h.n: %d ",
@@ -358,7 +358,7 @@ public:
             }
             break;
 
-        case StatementType.CP_ST_CONFIRM:
+        case BCPStatementType.CP_ST_CONFIRM:
             {
                 oBuffer.writef(" | CONFIRM" ~ " | D: %s" ~ " | b: %s" ~ " | p.n: %d" ~ " | c.n: %d" ~ " | h.n: %d ",
                         toHexString(qSetHash.hash)[0 .. 5], ballotToStr(st.pledges.confirm.ballot),
@@ -367,7 +367,7 @@ public:
             }
             break;
 
-        case StatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.CP_ST_EXTERNALIZE:
             {
                 oBuffer.writef(" | EXTERNALIZE" ~ " | c: %s" ~ " | h.n: %d" ~ " | (lastD): %s ",
                         ballotToStr(st.pledges.externalize.commit),
@@ -375,7 +375,7 @@ public:
             }
             break;
 
-        case StatementType.CP_ST_NOMINATE:
+        case BCPStatementType.CP_ST_NOMINATE:
             {
                 auto nom = &st.pledges.nominate;
 

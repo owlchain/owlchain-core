@@ -9,7 +9,7 @@ struct Signer
 {
     SignerKey key;
     uint32 weight;
-    
+
     static void encode(XdrDataOutputStream stream, ref const Signer encodedSigner)
     {
         SignerKey.encode(stream, encodedSigner.key);

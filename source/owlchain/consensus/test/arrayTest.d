@@ -12,8 +12,8 @@ import owlchain.xdr.type;
 import owlchain.xdr.publicKey;
 import owlchain.xdr.publicKeyType;
 import owlchain.xdr.nodeID;
-import owlchain.xdr.quorumSet;
-import owlchain.xdr.ballot;
+import owlchain.xdr.bcpQuorumSet;
+import owlchain.xdr.bcpBallot;
 import owlchain.utils.uniqueStruct;
 
 import owlchain.utils.globalChecks;
@@ -39,9 +39,9 @@ private:
         return pKey;
     }
 
-    QuorumSet makeSingleton(PublicKey key)
+    BCPQuorumSet makeSingleton(PublicKey key)
     {
-        QuorumSet qSet;
+        BCPQuorumSet qSet;
         qSet.threshold = 1;
         qSet.validators ~= key;
         return qSet;
@@ -66,13 +66,13 @@ public :
     {
         SECTION("envelope");
         {
-            import owlchain.xdr.envelope;
-            import owlchain.xdr.ballot;
-            import owlchain.xdr.nomination;
-            import owlchain.xdr.statement;
-            import owlchain.xdr.statementType;
+            import owlchain.xdr.bcpEnvelope;
+            import owlchain.xdr.bcpBallot;
+            import owlchain.xdr.bcpNomination;
+            import owlchain.xdr.bcpStatement;
+            import owlchain.xdr.bcpStatementType;
 
-            Envelope envelope;
+            BCPEnvelope envelope;
             auto st = &envelope.statement;
             auto nom = &st.pledges.nominate;
 
@@ -84,9 +84,9 @@ public :
 
         SECTION("instance of array");
         {
-            QuorumSet[] v1;
+            BCPQuorumSet[] v1;
 
-            QuorumSet qSet1;
+            BCPQuorumSet qSet1;
             qSet1.threshold = 1;
             qSet1.validators ~= (mKeys[0]);
 

@@ -16,7 +16,6 @@ struct UpgradeType
         return h;
     }
 
-
     static UpgradeType opCall(const ubyte[] v)
     {
         UpgradeType h;

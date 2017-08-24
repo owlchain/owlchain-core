@@ -1,66 +1,66 @@
-module owlchain.xdr.historyEntryV0;
+module owlchain.xdr.bcpHistoryEntryV0;
 
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.bcpQuorumSet;
 import owlchain.xdr.ledgerMessages;
 import owlchain.xdr.xdrDataInputStream;
 import owlchain.xdr.xdrDataOutputStream;
 
-struct HistoryEntryV0
+struct BCPHistoryEntryV0
 {
-    QuorumSet[] quorumSets;
+    BCPQuorumSet[] quorumSets;
     LedgerMessages ledgerMessages;
 
-    ref HistoryEntryV0 opAssign(HistoryEntryV0 s)
+    ref BCPHistoryEntryV0 opAssign(BCPHistoryEntryV0 s)
     {
         quorumSets.length = 0;
         for (int i = 0; i < s.quorumSets.length; i++)
         {
-            quorumSets ~= cast(QuorumSet)s.quorumSets[i];
+            quorumSets ~= cast(BCPQuorumSet)s.quorumSets[i];
         }
         ledgerMessages = s.ledgerMessages;
         return this;
     }
 
-    ref HistoryEntryV0 opAssign(ref HistoryEntryV0 s)
+    ref BCPHistoryEntryV0 opAssign(ref BCPHistoryEntryV0 s)
     {
         quorumSets.length = 0;
         for (int i = 0; i < s.quorumSets.length; i++)
         {
-            quorumSets ~= cast(QuorumSet)s.quorumSets[i];
+            quorumSets ~= cast(BCPQuorumSet)s.quorumSets[i];
         }
         ledgerMessages = s.ledgerMessages;
         return this;
     }
 
-    ref HistoryEntryV0 opAssign(ref const(HistoryEntryV0) s)
+    ref BCPHistoryEntryV0 opAssign(ref const(BCPHistoryEntryV0) s)
     {
         quorumSets.length = 0;
         for (int i = 0; i < s.quorumSets.length; i++)
         {
-            quorumSets ~= cast(QuorumSet)s.quorumSets[i];
+            quorumSets ~= cast(BCPQuorumSet)s.quorumSets[i];
         }
         ledgerMessages = s.ledgerMessages;
         return this;
     }
-    static void encode(XdrDataOutputStream stream, ref const HistoryEntryV0 encodedHistoryEntryV0)
+    static void encode(XdrDataOutputStream stream, ref const BCPHistoryEntryV0 encodedHistoryEntryV0)
     {
         int quorumSetssize = cast(int)(encodedHistoryEntryV0.quorumSets.length);
         stream.writeInt(quorumSetssize);
         for (int i = 0; i < quorumSetssize; i++)
         {
-            QuorumSet.encode(stream, encodedHistoryEntryV0.quorumSets[i]);
+            BCPQuorumSet.encode(stream, encodedHistoryEntryV0.quorumSets[i]);
         }
         LedgerMessages.encode(stream, encodedHistoryEntryV0.ledgerMessages);
     }
 
-    static HistoryEntryV0 decode(XdrDataInputStream stream)
+    static BCPHistoryEntryV0 decode(XdrDataInputStream stream)
     {
-        HistoryEntryV0 decodedHistoryEntryV0;
+        BCPHistoryEntryV0 decodedHistoryEntryV0;
         const int quorumSetssize = stream.readInt();
         decodedHistoryEntryV0.quorumSets.length = quorumSetssize;
         for (int i = 0; i < quorumSetssize; i++)
         {
-            decodedHistoryEntryV0.quorumSets[i] = QuorumSet.decode(stream);
+            decodedHistoryEntryV0.quorumSets[i] = BCPQuorumSet.decode(stream);
         }
         decodedHistoryEntryV0.ledgerMessages = LedgerMessages.decode(stream);
         return decodedHistoryEntryV0;

@@ -8,13 +8,13 @@ import std.algorithm : canFind;
 
 import owlchain.xdr.type;
 import owlchain.xdr.hash;
-import owlchain.xdr.envelope;
+import owlchain.xdr.bcpEnvelope;
 import owlchain.xdr.value;
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.bcpQuorumSet;
 import owlchain.xdr.nodeID;
-import owlchain.xdr.ballot;
-import owlchain.xdr.statement;
-import owlchain.xdr.statementType;
+import owlchain.xdr.bcpBallot;
+import owlchain.xdr.bcpStatement;
+import owlchain.xdr.bcpStatementType;
 
 import std.typecons;
 import owlchain.consensus.consensusProtocol;
@@ -23,12 +23,12 @@ import owlchain.consensus.localNode;
 import owlchain.consensus.ballotProtocol;
 import owlchain.consensus.nominationProtocol;
 
-import owlchain.xdr.statement;
+import owlchain.xdr.bcpStatement;
 import owlchain.utils.globalChecks;
 
-alias Tuple!(Statement, "statement", bool, "fullyValidated") StatementsValidated;
+alias Tuple!(BCPStatement, "statement", bool, "fullyValidated") BCPStatementsValidated;
 
-// The Slot object is in charge of maintaining the state of the Consensus Protocol
+// The Slot object is in charge of maintaining the state of the BCP
 // for a given slot index.
 class Slot
 {
@@ -42,7 +42,7 @@ private:
     // keeps track of all statements seen so far for this slot.
     // it is used for debugging purpose
     // second: if the slot was fully validated at the time
-    StatementsValidated[] mStatementsHistory;
+    BCPStatementsValidated[] mStatementsHistory;
 
     // true if the Slot was fully validated
     bool mFullyValidated;
@@ -86,19 +86,19 @@ public:
     }
 
     // returns the latest messages the slot emitted
-    Envelope[] getLatestMessagesSend()
+    BCPEnvelope[] getLatestMessagesSend()
     {
-        Envelope[] res;
+        BCPEnvelope[] res;
         if (mFullyValidated)
         {
-            Envelope* e;
+            BCPEnvelope* e;
             e = mNominationProtocol.getLastMessageSend();
             if (e)
             {
                 res ~= *e;
             }
 
-            EnvelopePtr e1;
+            BCPEnvelopePtr e1;
             e1 = mBallotProtocol.getLastMessageSend();
             if (e1.refCountedStore.isInitialized)
             {
@@ -110,12 +110,12 @@ public:
 
     // forces the state to match the one in the envelope
     // this is used when rebuilding the state after a crash for example
-    void setStateFromEnvelope(ref Envelope e)
+    void setStateFromEnvelope(ref BCPEnvelope e)
     {
         if (e.statement.nodeID == mConsensusProtocol.getLocalNodeID()
                 && e.statement.slotIndex == mSlotIndex)
         {
-            if (e.statement.pledges.type == StatementType.CP_ST_NOMINATE)
+            if (e.statement.pledges.type == BCPStatementType.CP_ST_NOMINATE)
             {
                 mNominationProtocol.setStateFromEnvelope(e);
             }
@@ -126,29 +126,29 @@ public:
         }
         else
         {
-            writefln("[DEBUG], ConsensusProtocol Slot.setStateFromEnvelope invalid envelope");
+            writefln("[DEBUG], BCP Slot.setStateFromEnvelope invalid envelope");
         }
     }
 
     // returns the latest messages known for this slot
-    Envelope[] getCurrentState()
+    BCPEnvelope[] getCurrentState()
     {
-        Envelope[] res;
+        BCPEnvelope[] res;
         res = mNominationProtocol.getCurrentState();
         res ~= mBallotProtocol.getCurrentState();
         return res;
     }
 
     // returns messages that helped this slot externalize
-    Envelope[] getExternalizingState()
+    BCPEnvelope[] getExternalizingState()
     {
         return mBallotProtocol.getExternalizingState();
     }
 
     // records the statement in the historical record for this slot
-    void recordStatement(ref Statement st)
+    void recordStatement(ref BCPStatement st)
     {
-        StatementsValidated value;
+        BCPStatementsValidated value;
         value.statement = st;
         value.fullyValidated = mFullyValidated;
         mStatementsHistory ~= value;
@@ -156,17 +156,17 @@ public:
 
     // Process a newly received envelope for this slot and update the state of the slot accordingly.
     // self: set to true when node wants to record its own messages (potentially triggering more transitions)
-    ConsensusProtocol.EnvelopeState processEnvelope(ref Envelope envelope, bool self)
+    ConsensusProtocol.EnvelopeState processEnvelope(ref BCPEnvelope envelope, bool self)
     {
         dbgAssert(envelope.statement.slotIndex == mSlotIndex);
 
-        //if (Logging::logDebug("ConsensusProtocol"))
-        //writefln("[DEBUG], ConsensusProtocol Slot.processEnvelope %d %s", mSlotIndex, mConsensusProtocol.envToStr(envelope));
+        //if (Logging::logDebug("BCP"))
+        //writefln("[DEBUG], BCP Slot.processEnvelope %d %s", mSlotIndex, mConsensusProtocol.envToStr(envelope));
 
         ConsensusProtocol.EnvelopeState res;
         try
         {
-            if (envelope.statement.pledges.type == StatementType.CP_ST_NOMINATE)
+            if (envelope.statement.pledges.type == BCPStatementType.CP_ST_NOMINATE)
             {
                 res = mNominationProtocol.processEnvelope(envelope);
             }
@@ -180,7 +180,7 @@ public:
             JSONValue[string] jsonObject;
             JSONValue info = jsonObject;
             dumpInfo(info);
-            writefln("[ERROR], ConsensusProtocol %s state: %s  processing envelope: %s",
+            writefln("[ERROR], BCP %s state: %s  processing envelope: %s",
                     "Exception in processEnvelope", info.toString(),
                     mConsensusProtocol.envToStr(envelope));
 
@@ -230,7 +230,7 @@ public:
     ConsensusProtocol.TriBool isNodeInQuorum(ref NodeID node)
     {
         // build the mapping between nodes and envelopes
-        Statement*[][NodeID] m;
+        BCPStatement*[][NodeID] m;
         // this may be reduced to the pair (at most) of the latest
         // statements for each protocol
         for (int i = 0; i < mStatementsHistory.length; i++)
@@ -238,7 +238,7 @@ public:
             auto e = mStatementsHistory[i];
             if (!m.keys.canFind(e.statement.nodeID))
             {
-                Statement*[] v;
+                BCPStatement*[] v;
                 v ~= &(e.statement);
                 m[e.statement.nodeID] = v;
             }
@@ -248,7 +248,7 @@ public:
             }
         }
 
-        return mConsensusProtocol.getLocalNode().isNodeInQuorum(node, (ref Statement st) {
+        return mConsensusProtocol.getLocalNode().isNodeInQuorum(node, (ref BCPStatement st) {
             // uses the companion set here as we want to consider
             // nodes that were used up to EXTERNALIZE
             Hash h = getCompanionQuorumSetHashFromStatement(st);
@@ -273,7 +273,7 @@ public:
         JSONValue[] statements;
         slotValue.object["statements"] = statements;
 
-        QuorumSet[Hash] qSetsUsed;
+        BCPQuorumSet[Hash] qSetsUsed;
         int count = 0;
         for (int i = 0; i < mStatementsHistory.length; i++)
         {
@@ -286,13 +286,13 @@ public:
             auto qSet = getCPDriver().getQSet(qSetHash);
             if (qSet.refCountedStore.isInitialized)
             {
-                qSetsUsed[qSetHash] = cast(QuorumSet) qSet;
+                qSetsUsed[qSetHash] = cast(BCPQuorumSet) qSet;
             }
         }
 
         JSONValue[string] qSetsObject;
         JSONValue quorumSets = qSetsObject;
-        foreach (ref const Hash h, ref QuorumSet q; qSetsUsed)
+        foreach (ref const Hash h, ref BCPQuorumSet q; qSetsUsed)
         {
             JSONValue[string] qsObject;
             JSONValue qs = qsObject;
@@ -328,25 +328,25 @@ public:
         ret.object[key] = quorumInfo;
     }
 
-    // returns the hash of the QuorumSet that should be downloaded
+    // returns the hash of the BCPQuorumSet that should be downloaded
     // with the statement.
     // note: the companion hash for an EXTERNALIZE statement does
     // not match the hash of the QSet, but the hash of commitQuorumSetHash
-    static Hash getCompanionQuorumSetHashFromStatement(ref Statement st)
+    static Hash getCompanionQuorumSetHashFromStatement(ref BCPStatement st)
     {
         Hash h;
         switch (st.pledges.type)
         {
-        case StatementType.CP_ST_PREPARE:
+        case BCPStatementType.CP_ST_PREPARE:
             h = st.pledges.prepare.quorumSetHash;
             break;
-        case StatementType.CP_ST_CONFIRM:
+        case BCPStatementType.CP_ST_CONFIRM:
             h = st.pledges.confirm.quorumSetHash;
             break;
-        case StatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.CP_ST_EXTERNALIZE:
             h = st.pledges.externalize.commitQuorumSetHash;
             break;
-        case StatementType.CP_ST_NOMINATE:
+        case BCPStatementType.CP_ST_NOMINATE:
             h = st.pledges.nominate.quorumSetHash;
             break;
         default:
@@ -356,10 +356,10 @@ public:
     }
 
     // returns the values associated with the statement
-    static Value[] getStatementValues(ref Statement st)
+    static Value[] getStatementValues(ref BCPStatement st)
     {
         Value[] res;
-        if (st.pledges.type == StatementType.CP_ST_NOMINATE)
+        if (st.pledges.type == BCPStatementType.CP_ST_NOMINATE)
         {
             res = NominationProtocol.getStatementValues(st);
         }
@@ -370,29 +370,29 @@ public:
         return res;
     }
 
-    // returns the QuorumSet that should be used for a node given the
+    // returns the BCPQuorumSet that should be used for a node given the
     // statement (singleton for externalize)
-    QuorumSetPtr getQuorumSetFromStatement(ref Statement st)
+    BCPQuorumSetPtr getQuorumSetFromStatement(ref BCPStatement st)
     {
-        QuorumSetPtr res;
-        StatementType t = st.pledges.type;
+        BCPQuorumSetPtr res;
+        BCPStatementType t = st.pledges.type;
 
-        if (t == StatementType.CP_ST_EXTERNALIZE)
+        if (t == BCPStatementType.CP_ST_EXTERNALIZE)
         {
             res = LocalNode.getSingletonQSet(st.nodeID);
         }
         else
         {
             Hash h;
-            if (t == StatementType.CP_ST_PREPARE)
+            if (t == BCPStatementType.CP_ST_PREPARE)
             {
                 h = st.pledges.prepare.quorumSetHash;
             }
-            else if (t == StatementType.CP_ST_CONFIRM)
+            else if (t == BCPStatementType.CP_ST_CONFIRM)
             {
                 h = st.pledges.confirm.quorumSetHash;
             }
-            else if (t == StatementType.CP_ST_NOMINATE)
+            else if (t == BCPStatementType.CP_ST_NOMINATE)
             {
                 h = st.pledges.nominate.quorumSetHash;
             }
@@ -406,9 +406,9 @@ public:
     }
 
     // wraps a statement in an envelope (sign it, etc)
-    Envelope createEnvelope(ref Statement statement)
+    BCPEnvelope createEnvelope(ref BCPStatement statement)
     {
-        Envelope envelope;
+        BCPEnvelope envelope;
         envelope.statement = statement;
         envelope.statement.nodeID = getCP().getLocalNodeID();
         envelope.statement.slotIndex = mSlotIndex;
@@ -423,7 +423,7 @@ public:
     // returns true if the statement defined by voted and accepted
     // should be accepted
     bool federatedAccept(StatementPredicate voted, StatementPredicate accepted,
-            ref Envelope[NodeID] envs)
+            ref BCPEnvelope[NodeID] envs)
     {
         // Checks if the nodes that claimed to accept the statement form a
         // v-blocking set
@@ -432,9 +432,9 @@ public:
             return true;
         }
 
-        if (LocalNode.isQuorum(getLocalNode().getQuorumSet(), envs, (ref Statement st) {
+        if (LocalNode.isQuorum(getLocalNode().getQuorumSet(), envs, (ref BCPStatement st) {
                 return getQuorumSetFromStatement(st);
-            }, (ref Statement st) {
+            }, (ref BCPStatement st) {
                 // Checks if the set of nodes that accepted or voted for it form a quorum
                 return accepted(st) || voted(st);
             }))
@@ -446,9 +446,9 @@ public:
 
     // returns true if the statement defined by voted
     // is ratified
-    bool federatedRatify(StatementPredicate voted, ref Envelope[NodeID] envs)
+    bool federatedRatify(StatementPredicate voted, ref BCPEnvelope[NodeID] envs)
     {
-        return LocalNode.isQuorum(getLocalNode().getQuorumSet(), envs, (ref Statement st) {
+        return LocalNode.isQuorum(getLocalNode().getQuorumSet(), envs, (ref BCPStatement st) {
             return getQuorumSetFromStatement(st);
         }, voted);
     }
@@ -461,7 +461,7 @@ public:
     enum int NOMINATION_TIMER = 0;
     enum int BALLOT_PROTOCOL_TIMER = 1;
 
-    Envelope[] getEntireCurrentState()
+    BCPEnvelope[] getEntireCurrentState()
     {
         bool old = mFullyValidated;
         // fake fully validated to force returning all envelopes

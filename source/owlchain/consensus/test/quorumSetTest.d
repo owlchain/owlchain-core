@@ -13,7 +13,7 @@ import owlchain.xdr.type;
 import owlchain.xdr.publicKey;
 import owlchain.xdr.publicKeyType;
 import owlchain.xdr.nodeID;
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.bcpQuorumSet;
 
 import owlchain.consensus.quorumSetUtils;
 
@@ -40,15 +40,15 @@ private :
         return pKey;
     }
 
-    QuorumSet makeSingleton(PublicKey key)
+    BCPQuorumSet makeSingleton(PublicKey key)
     {
-        QuorumSet qSet;
+        BCPQuorumSet qSet;
         qSet.threshold = 1;
         qSet.validators ~= key;
         return qSet;
     }
 
-    void check(ref QuorumSet qSetCheck, bool expected, ref QuorumSet expectedSelfQSet)
+    void check(ref BCPQuorumSet qSetCheck, bool expected, ref BCPQuorumSet expectedSelfQSet)
     {
         // first, without normalization
         REQUIRE(expected == isQuorumSetSane(qSetCheck, false));
@@ -82,44 +82,44 @@ public :
     {
         SECTION("{ t: 0 }");
         {
-            QuorumSet qSet;
+            BCPQuorumSet qSet;
             qSet.threshold = 0L;
             check(qSet, false, qSet);
         }
 
-        QuorumSet validOneNode = makeSingleton(mKeys[0]);
+        BCPQuorumSet validOneNode = makeSingleton(mKeys[0]);
 
         SECTION("{ t: 0, v0 }");
         {
-            QuorumSet qSet = validOneNode;
+            BCPQuorumSet qSet = validOneNode;
             qSet.threshold = 0L;
             check(qSet, false, qSet);
         }
 
         SECTION("{ t: 2, v0 }");
         {
-            QuorumSet qSet = validOneNode;
+            BCPQuorumSet qSet = validOneNode;
             qSet.threshold = 2;
             check(qSet, false, qSet);
         }
 
         SECTION("{ t: 1, v0 }");
         {
-            QuorumSet qSet = validOneNode;
+            BCPQuorumSet qSet = validOneNode;
             qSet.threshold = 1;
             check(qSet, true, qSet);
         }
 
         SECTION("{ t: 1, v0, { t: 1, v1 } -> { t:1, v0, v1 }");
         {
-            QuorumSet qSet;
+            BCPQuorumSet qSet;
             qSet.threshold = 1;
             qSet.validators ~= mKeys[0];
 
             auto qSelfSet = qSet;
             qSelfSet.validators ~= mKeys[1];
 
-            qSet.innerSets ~= QuorumSet();
+            qSet.innerSets ~= BCPQuorumSet();
             qSet.innerSets[0].threshold = 1;
             qSet.innerSets[0].validators ~= mKeys[1];
 
@@ -128,53 +128,53 @@ public :
 
         SECTION("{ t: 1, v0, { t: 1, v1 }, { t: 2, v2 } } -> { t:1, v0, v1, { t:2, v2 } }");
         {
-            QuorumSet qSet;
+            BCPQuorumSet qSet;
             qSet.threshold = 1;
             qSet.validators ~= mKeys[0];
 
-            qSet.innerSets ~= QuorumSet();
+            qSet.innerSets ~= BCPQuorumSet();
             qSet.innerSets[0].threshold = 2;
             qSet.innerSets[0].validators ~= mKeys[2];
 
             auto qSelfSet = qSet;
             qSelfSet.validators ~= mKeys[1];
 
-            qSet.innerSets ~= QuorumSet();
+            qSet.innerSets ~= BCPQuorumSet();
             qSet.innerSets[qSet.innerSets.length-1].threshold = 1;
             qSet.innerSets[qSet.innerSets.length-1].validators ~= mKeys[1];
 
             check(qSet, false, qSelfSet);
         }
 
-        QuorumSet validMultipleNodes;
+        BCPQuorumSet validMultipleNodes;
         validMultipleNodes.threshold = 1;
         validMultipleNodes.validators ~= mKeys[0];
-        validMultipleNodes.innerSets ~= QuorumSet();
+        validMultipleNodes.innerSets ~= BCPQuorumSet();
         validMultipleNodes.innerSets[0].threshold = 1;
         validMultipleNodes.innerSets[0].validators ~= mKeys[1];
-        validMultipleNodes.innerSets ~= QuorumSet();
+        validMultipleNodes.innerSets ~= BCPQuorumSet();
         validMultipleNodes.innerSets[1].threshold = 1;
         validMultipleNodes.innerSets[1].validators ~= mKeys[2];
         validMultipleNodes.innerSets[1].validators ~= mKeys[3];
 
-        QuorumSet validMultipleNodesNormalized;
+        BCPQuorumSet validMultipleNodesNormalized;
         validMultipleNodesNormalized.threshold = 1;
         validMultipleNodesNormalized.validators ~= mKeys[0];
         validMultipleNodesNormalized.validators ~= mKeys[1];
-        validMultipleNodesNormalized.innerSets ~= QuorumSet();
+        validMultipleNodesNormalized.innerSets ~= BCPQuorumSet();
         validMultipleNodesNormalized.innerSets[0].threshold = 1;
         validMultipleNodesNormalized.innerSets[0].validators ~= mKeys[2];
         validMultipleNodesNormalized.innerSets[0].validators ~= mKeys[3];
 
         SECTION("{ t: 1, v0, { t: 1, v1 }, { t: 1, v2, v3 } } -> { t:1, v0, v1, { t: 1, v2, v3 } }");
         {
-            QuorumSet temp = validMultipleNodes;
+            BCPQuorumSet temp = validMultipleNodes;
             check(temp, true, validMultipleNodesNormalized);
         }
 
         SECTION("{ t: 1, { t: 1, v0, { t: 1, v1 }, { t: 1, v2, v3 } } } -> { t:1, v0, v1, { t: 1, v2, v3 } }");
         {
-            QuorumSet containingSet;
+            BCPQuorumSet containingSet;
             containingSet.threshold = 1;
             containingSet.innerSets ~= validMultipleNodes;
 
@@ -189,10 +189,10 @@ public :
             qSet1.innerSets ~= qSet2;
             qSet.innerSets ~= qSet1;
 
-            QuorumSet qSelfSet;
+            BCPQuorumSet qSelfSet;
             qSelfSet.threshold = 1;
             qSelfSet.validators ~= mKeys[0];
-            qSelfSet.innerSets ~= QuorumSet();
+            qSelfSet.innerSets ~= BCPQuorumSet();
             qSelfSet.innerSets[0].threshold = 1;
             qSelfSet.innerSets[0].validators ~= mKeys[1];
             qSelfSet.innerSets[0].validators ~= mKeys[2];
@@ -211,14 +211,14 @@ public :
             qSet1.innerSets ~= (qSet2);
             qSet.innerSets ~= (qSet1);
 
-            QuorumSet qSelfSet;
+            BCPQuorumSet qSelfSet;
             qSelfSet.threshold = 1;
             qSelfSet.validators ~= (mKeys[0]);
 
-            qSelfSet.innerSets ~= QuorumSet();
+            qSelfSet.innerSets ~= BCPQuorumSet();
             qSelfSet.innerSets[0].threshold = 1;
             qSelfSet.innerSets[0].validators ~= (mKeys[1]);
-            qSelfSet.innerSets[0].innerSets ~= QuorumSet();
+            qSelfSet.innerSets[0].innerSets ~= BCPQuorumSet();
             qSelfSet.innerSets[0].innerSets[0].threshold = 1;
             qSelfSet.innerSets[0].innerSets[0].validators ~= (mKeys[2]);
             qSelfSet.innerSets[0].innerSets[0].validators ~= (mKeys[3]);
@@ -228,7 +228,7 @@ public :
 
         SECTION("{ t: 1, v0..v999 } -> { t: 1, v0..v999 }");
         {
-            QuorumSet qSet;
+            BCPQuorumSet qSet;
             qSet.threshold = 1;
             for (auto i = 0; i < 1000; i++)
                 qSet.validators ~= (mKeys[i]);
@@ -238,7 +238,7 @@ public :
 
         SECTION("{ t: 1, v0..v1000 } -> too big");
         {
-            QuorumSet qSet;
+            BCPQuorumSet qSet;
             qSet.threshold = 1;
             for (auto i = 0; i < 1001; i++)
                 qSet.validators ~= (mKeys[i]);
@@ -248,12 +248,12 @@ public :
 
         SECTION("{ t: 1, v0, { t: 1, v1..v100 }, { t: 1, v101..v200} ... { t: 1, v901..v1000} -> too big");
         {
-            QuorumSet qSet;
+            BCPQuorumSet qSet;
             qSet.threshold = 1;
             qSet.validators ~= (mKeys[0]);
             for (auto i = 0; i < 10; i++)
             {
-                qSet.innerSets ~= QuorumSet();
+                qSet.innerSets ~= BCPQuorumSet();
                 qSet.innerSets[qSet.innerSets.length-1].threshold = 1;
                 for (auto j = i * 100 + 1; j <= (i + 1) * 100; j++)
                     qSet.innerSets[qSet.innerSets.length-1].validators ~= mKeys[j];
@@ -274,7 +274,7 @@ public :
         }
     }
 
-    void toJson(ref QuorumSet qSet, ref JSONValue value)
+    void toJson(ref BCPQuorumSet qSet, ref JSONValue value)
     {
         import std.utf;
         JSONValue[] jArray;
@@ -287,7 +287,7 @@ public :
             value["v"].array ~= JSONValue(toUTF8(pkStr)[0..5]);
         }
 
-        foreach (int i, ref QuorumSet s; qSet.innerSets)
+        foreach (int i, ref BCPQuorumSet s; qSet.innerSets)
         {
             JSONValue[string] jObject;
             JSONValue iV = jObject;

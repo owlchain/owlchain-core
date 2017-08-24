@@ -17,11 +17,11 @@ import std.algorithm.comparison : equal;
 import owlchain.xdr.type;
 import owlchain.xdr.publicKey;
 import owlchain.xdr.nodeID;
-import owlchain.xdr.quorumSet;
+import owlchain.xdr.bcpQuorumSet;
 import owlchain.xdr.hash;
-import owlchain.xdr.statement;
-import owlchain.xdr.envelope;
-import owlchain.xdr.statementType;
+import owlchain.xdr.bcpStatement;
+import owlchain.xdr.bcpEnvelope;
+import owlchain.xdr.bcpStatementType;
 
 import owlchain.crypto.keyUtils;
 import owlchain.xdr.xdrDataOutputStream;
@@ -36,32 +36,32 @@ protected:
     NodeID mNodeID;
     bool mIsValidator;
     SecretKey mSecretKey;
-    QuorumSet mQSet;
+    BCPQuorumSet mQSet;
     Hash mQSetHash;
 
     // alternative qset used during externalize {{mNodeID}}
     Hash mSingleQSetHash; // hash of the singleton qset
-    QuorumSet mSingleQSet; // {{mNodeID}}
+    BCPQuorumSet mSingleQSet; // {{mNodeID}}
 
     ConsensusProtocol mConsensusProtocol;
 
 public:
-    this(ref SecretKey secretKey, bool isValidator, ref QuorumSet qSet, ConsensusProtocol cp)
+    this(ref SecretKey secretKey, bool isValidator, ref BCPQuorumSet qSet, ConsensusProtocol cp)
     {
         mNodeID = secretKey.getPublicKey();
         mSecretKey = secretKey;
         mIsValidator = isValidator;
 
         mQSet = qSet;
-        mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
+        mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
         //writefln("Local Node QuorumSetHash(LocalNode) : %s", toHexString(mQSetHash.hash));
 
         mConsensusProtocol = cp;
 
-        //writefln("[INFO], ConsensusProtocol LocalNode.LocalNode @%s qSet: %s", toHexString(mNodeID.publicKey.ed25519), toHexString(mQSetHash.hash));
+        //writefln("[INFO], BCP LocalNode.LocalNode @%s qSet: %s", toHexString(mNodeID.publicKey.ed25519), toHexString(mQSetHash.hash));
 
         mSingleQSet = buildSingletonQSet(mNodeID);
-        mSingleQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mSingleQSet)));
+        mSingleQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mSingleQSet)));
     }
 
     ref NodeID getNodeID()
@@ -69,20 +69,20 @@ public:
         return mNodeID;
     }
 
-    void updateQuorumSet(ref QuorumSet qSet)
+    void updateQuorumSet(ref BCPQuorumSet qSet)
     {
         mQSet = qSet;
-        mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
+        mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
     }
 
-    ref QuorumSet getQuorumSet()
+    ref BCPQuorumSet getQuorumSet()
     {
         return mQSet;
     }
 
     ref Hash getQuorumSetHash()
     {
-        //mQSetHash = Hash(sha256Of(xdr!QuorumSet.serialize(mQSet)));
+        //mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
         //writefln("Local Node QuorumSetHash(getQuorumSetHash) : %s", toHexString(mQSetHash.hash));
         return mQSetHash;
     }
@@ -98,7 +98,7 @@ public:
     }
 
     ConsensusProtocol.TriBool isNodeInQuorum(ref NodeID node,
-            QuorumSetPtr delegate(ref Statement) qfn, ref Statement*[][NodeID] map)
+            BCPQuorumSetPtr delegate(ref BCPStatement) qfn, ref BCPStatement*[][NodeID] map)
     {
 
         // perform a transitive search, starting with the local node
@@ -128,7 +128,7 @@ public:
                 continue;
             }
 
-            Statement*[] st = map[c];
+            BCPStatement*[] st = map[c];
             for (int i = 0; i < st.length; i++)
             {
                 auto qset = qfn(*(st[i]));
@@ -152,16 +152,16 @@ public:
     }
 
     // returns the quorum set {{X}}
-    static QuorumSetPtr getSingletonQSet(ref NodeID nodeID)
+    static BCPQuorumSetPtr getSingletonQSet(ref NodeID nodeID)
     {
-        QuorumSet qSet;
+        BCPQuorumSet qSet;
         qSet.threshold = 1;
         qSet.validators ~= nodeID;
         return refCounted(qSet);
     }
 
     // runs proc over all nodes contained in qset
-    static void forAllNodes(ref QuorumSet qset, void delegate(ref NodeID) proc)
+    static void forAllNodes(ref BCPQuorumSet qset, void delegate(ref NodeID) proc)
     {
         NodeIDSet done = new NodeIDSet;
 
@@ -177,7 +177,7 @@ public:
 
     // returns the weight of the node within the qset
     // normalized between 0-UINT64_MAX
-    static uint64 getNodeWeight(ref NodeID nodeID, ref QuorumSet qset)
+    static uint64 getNodeWeight(ref NodeID nodeID, ref BCPQuorumSet qset)
     {
         import core.stdc.stdint;
         import owlchain.utils.types;
@@ -197,7 +197,7 @@ public:
         }
 
         //  inner-set validator
-        foreach (int i, ref QuorumSet q; qset.innerSets)
+        foreach (int i, ref BCPQuorumSet q; qset.innerSets)
         {
             // node weight of inner-set
             uint64 leafW = getNodeWeight(nodeID, q);
@@ -212,15 +212,15 @@ public:
     }
 
     // Tests this node against nodeSet for the specified qSethash.
-    static bool isQuorumSlice(ref QuorumSet qSet, ref NodeID[] nodeSet)
+    static bool isQuorumSlice(ref BCPQuorumSet qSet, ref NodeID[] nodeSet)
     {
-        //writefln("[TRACE], ConsensusProtocol, LocalNode.isQuorumSlice nodeSet.size: %d", nodeSet.length);
+        //writefln("[TRACE], BCP, LocalNode.isQuorumSlice nodeSet.size: %d", nodeSet.length);
         return isQuorumSliceInternal(qSet, nodeSet);
     }
 
-    static bool isVBlocking(ref QuorumSet qSet, ref NodeID[] nodeSet)
+    static bool isVBlocking(ref BCPQuorumSet qSet, ref NodeID[] nodeSet)
     {
-        //writefln("[TRACE], ConsensusProtocol, LocalNode.isVBlocking nodeSet.size: %d", nodeSet.length);
+        //writefln("[TRACE], BCP, LocalNode.isVBlocking nodeSet.size: %d", nodeSet.length);
         return isVBlockingInternal(qSet, nodeSet);
     }
 
@@ -228,16 +228,16 @@ public:
 
     // `isVBlocking` tests if the filtered nodes V are a v-blocking set for
     // this node.
-    static bool isVBlocking(ref QuorumSet qSet, ref Envelope[NodeID] map,
-            bool delegate(ref Statement) filter = null)
+    static bool isVBlocking(ref BCPQuorumSet qSet, ref BCPEnvelope[NodeID] map,
+            bool delegate(ref BCPStatement) filter = null)
     {
         if (filter == null)
         {
-            filter = (ref Statement) { return true; };
+            filter = (ref BCPStatement) { return true; };
         }
 
         NodeID[] nodes;
-        foreach (ref const NodeID n, ref Envelope e; map)
+        foreach (ref const NodeID n, ref BCPEnvelope e; map)
         {
             if (filter(e.statement))
             {
@@ -250,20 +250,20 @@ public:
     // isQuorum tests if the filtered nodes V form a quorum
     // (meaning for each v \in V there is q \in Q(v)
     // included in V and we have quorum on V for qSetHash). `qfun` extracts the
-    // QuorumSetPtr from the Statement for its associated node in map
+    // BCPQuorumSetPtr from the BCPStatement for its associated node in map
     // (required for transitivity)
-    static bool isQuorum(ref QuorumSet qSet, ref Envelope[NodeID] map,
-            QuorumSetPtr delegate(ref Statement) qfun, bool delegate(ref Statement) filter = null)
+    static bool isQuorum(ref BCPQuorumSet qSet, ref BCPEnvelope[NodeID] map,
+            BCPQuorumSetPtr delegate(ref BCPStatement) qfun, bool delegate(ref BCPStatement) filter = null)
     {
         if (filter == null)
         {
-            filter = (ref Statement) { return true; };
+            filter = (ref BCPStatement) { return true; };
         }
 
         NodeID[] pNodes;
 
         //  Only the NodeID of the statement matching the condition is selected.
-        foreach (ref const NodeID n, ref Envelope e; map)
+        foreach (ref const NodeID n, ref BCPEnvelope e; map)
         {
             if (filter(e.statement))
             {
@@ -281,7 +281,7 @@ public:
                 auto p = (nodeID in map);
                 if (p !is null)
                 {
-                    QuorumSetPtr qSetPtr = qfun(map[nodeID].statement);
+                    BCPQuorumSetPtr qSetPtr = qfun(map[nodeID].statement);
                     if (qSetPtr.refCountedStore.isInitialized)
                     {
                         return isQuorumSlice(qSetPtr, pNodes);
@@ -312,16 +312,16 @@ public:
         return isQuorumSlice(qSet, pNodes);
     }
 
-    static NodeID[] findClosestVBlocking(ref QuorumSet qset, ref Envelope[NodeID] map,
-            bool delegate(ref Statement) filter = null, NodeID* excluded = null)
+    static NodeID[] findClosestVBlocking(ref BCPQuorumSet qset, ref BCPEnvelope[NodeID] map,
+            bool delegate(ref BCPStatement) filter = null, NodeID* excluded = null)
     {
         if (filter == null)
         {
-            filter = (ref Statement) { return true; };
+            filter = (ref BCPStatement) { return true; };
         }
 
         NodeIDSet pNodes = new NodeIDSet;
-        foreach (ref const NodeID n, ref Envelope e; map)
+        foreach (ref const NodeID n, ref BCPEnvelope e; map)
         {
             if (filter(e.statement))
             {
@@ -334,7 +334,7 @@ public:
     // computes the distance to the set of v-blocking sets given
     // a set of nodes that agree (but can fail)
     // excluded, if set will be skipped altogether
-    static NodeID[] findClosestVBlocking(ref QuorumSet qset, ref NodeIDSet nodes, NodeID* excluded)
+    static NodeID[] findClosestVBlocking(ref BCPQuorumSet qset, ref NodeIDSet nodes, NodeID* excluded)
     {
         size_t leftTillBlock = ((1 + qset.validators.length + qset.innerSets.length)
                 - qset.threshold);
@@ -364,7 +364,7 @@ public:
         }
 
         NodeID[][] resInternals;
-        foreach (int i, ref QuorumSet inner; qset.innerSets)
+        foreach (int i, ref BCPQuorumSet inner; qset.innerSets)
         {
             auto v = findClosestVBlocking(inner, nodes, excluded);
             if (v.length == 0)
@@ -401,7 +401,7 @@ public:
         return res;
     }
 
-    void toJson(ref QuorumSet qSet, ref JSONValue value)
+    void toJson(ref BCPQuorumSet qSet, ref JSONValue value)
     {
         import std.utf;
 
@@ -415,7 +415,7 @@ public:
                     .toShortString(validator)));
         }
 
-        foreach (int i, ref QuorumSet s; qSet.innerSets)
+        foreach (int i, ref BCPQuorumSet s; qSet.innerSets)
         {
             JSONValue[string] jsonObject;
             JSONValue iV = jsonObject;
@@ -424,7 +424,7 @@ public:
         }
     }
 
-    string to_string(ref QuorumSet qSet)
+    string to_string(ref BCPQuorumSet qSet)
     {
         JSONValue[string] jsonObject;
         JSONValue v = jsonObject;
@@ -433,28 +433,28 @@ public:
     }
 
 protected:
-    static QuorumSet buildSingletonQSet(ref NodeID nodeID)
+    static BCPQuorumSet buildSingletonQSet(ref NodeID nodeID)
     {
-        QuorumSet qSet;
+        BCPQuorumSet qSet;
         qSet.threshold = 1;
         qSet.validators ~= nodeID;
         return qSet;
     }
 
     // runs proc over all nodes contained in qset
-    static void forAllNodesInternal(ref QuorumSet qset, void delegate(ref NodeID) proc)
+    static void forAllNodesInternal(ref BCPQuorumSet qset, void delegate(ref NodeID) proc)
     {
         foreach (int i, ref PublicKey validator; qset.validators)
         {
             proc(validator);
         }
-        foreach (int i, ref QuorumSet q; qset.innerSets)
+        foreach (int i, ref BCPQuorumSet q; qset.innerSets)
         {
             forAllNodesInternal(q, proc);
         }
     }
 
-    static bool isQuorumSliceInternal(ref QuorumSet qset, ref NodeID[] nodeSet)
+    static bool isQuorumSliceInternal(ref BCPQuorumSet qset, ref NodeID[] nodeSet)
     {
         uint32 thresholdLeft = qset.threshold;
 
@@ -470,7 +470,7 @@ protected:
             }
         }
 
-        foreach (int i, ref QuorumSet q; qset.innerSets)
+        foreach (int i, ref BCPQuorumSet q; qset.innerSets)
         {
             if (isQuorumSliceInternal(q, nodeSet))
             {
@@ -485,7 +485,7 @@ protected:
     }
 
     // called recursively
-    static bool isVBlockingInternal(ref QuorumSet qset, ref NodeID[] nodeSet)
+    static bool isVBlockingInternal(ref BCPQuorumSet qset, ref NodeID[] nodeSet)
     {
         // There is no v-blocking set for {\empty}
         if (qset.threshold == 0)
@@ -513,7 +513,7 @@ protected:
             }
         }
 
-        foreach (int i, ref QuorumSet q; qset.innerSets)
+        foreach (int i, ref BCPQuorumSet q; qset.innerSets)
         {
             if (isVBlockingInternal(q, nodeSet))
             {
