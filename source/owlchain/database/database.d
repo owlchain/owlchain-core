@@ -3,8 +3,10 @@ module owlchain.database.database;
 import core.time;
 
 import owlchain.main.application;
+/*
 import owlchain.meterics.meter;
 import owlchain.meterics.timerContext;
+*/
 
 class Database
 {
@@ -18,10 +20,12 @@ public:
 
     // Return a crude meter of total queries to the db, for use in
     // overlay/LoadManager.
+	/*
     Meter getQueryMeter()
     {
         return null;
     }
+	*/
 
     // Number of nanoseconds spent processing queries since app startup,
     // without any reference to excluded time or running counters.
