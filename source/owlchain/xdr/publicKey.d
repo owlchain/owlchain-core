@@ -8,7 +8,7 @@ import owlchain.xdr.publicKeyType;
 
 struct PublicKey
 {
-    PublicKeyType discriminant;
+    PublicKeyType type;
     uint256 ed25519;
 
     int opCmp(ref PublicKey other)
@@ -29,8 +29,8 @@ struct PublicKey
 
     static void encode(XdrDataOutputStream stream, ref const PublicKey encodedPublicKey)
     {
-        stream.writeInt32(encodedPublicKey.discriminant);
-        switch (encodedPublicKey.discriminant)
+        encodePublicKeyType(stream, encodedPublicKey.type);
+        switch (encodedPublicKey.type)
         {
         case PublicKeyType.PUBLIC_KEY_TYPE_ED25519:
             stream.writeUint256(encodedPublicKey.ed25519);
@@ -43,8 +43,8 @@ struct PublicKey
     static PublicKey decode(XdrDataInputStream stream)
     {
         PublicKey decodedPublicKey;
-        decodedPublicKey.discriminant = cast(PublicKeyType) stream.readInt32();
-        switch (decodedPublicKey.discriminant)
+        decodedPublicKey.type = decodePublicKeyType(stream);
+        switch (decodedPublicKey.type)
         {
         case PublicKeyType.PUBLIC_KEY_TYPE_ED25519:
             decodedPublicKey.ed25519 = stream.readUint256();

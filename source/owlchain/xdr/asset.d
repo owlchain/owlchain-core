@@ -13,18 +13,18 @@ struct Asset
     AssetAlphaNum4 alphaNum4;
     AssetAlphaNum12 alphaNum12;
 
-    static void encode(XdrDataOutputStream stream, ref const Asset encodedAsset)
+    static void encode(XdrDataOutputStream stream, ref const Asset encodedValue)
     {
-        stream.writeInt32(encodedAsset.type);
-        switch (encodedAsset.type)
+        encodeAssetType(stream, encodedValue.type);
+        switch (encodedValue.type)
         {
         case AssetType.ASSET_TYPE_NATIVE:
             break;
         case AssetType.ASSET_TYPE_CREDIT_ALPHANUM4:
-            AssetAlphaNum4.encode(stream, encodedAsset.alphaNum4);
+            AssetAlphaNum4.encode(stream, encodedValue.alphaNum4);
             break;
         case AssetType.ASSET_TYPE_CREDIT_ALPHANUM12:
-            AssetAlphaNum12.encode(stream, encodedAsset.alphaNum12);
+            AssetAlphaNum12.encode(stream, encodedValue.alphaNum12);
             break;
         default:
             break;
@@ -33,23 +33,23 @@ struct Asset
 
     static Asset decode(XdrDataInputStream stream)
     {
-        Asset decodedAsset;
+        Asset decodedValue;
 
-        decodedAsset.type = cast(AssetType) stream.readInt32();
-        switch (decodedAsset.type)
+        decodedValue.type = decodeAssetType(stream);
+        switch (decodedValue.type)
         {
         case AssetType.ASSET_TYPE_NATIVE:
             break;
         case AssetType.ASSET_TYPE_CREDIT_ALPHANUM4:
-            decodedAsset.alphaNum4 = AssetAlphaNum4.decode(stream);
+            decodedValue.alphaNum4 = AssetAlphaNum4.decode(stream);
             break;
         case AssetType.ASSET_TYPE_CREDIT_ALPHANUM12:
-            decodedAsset.alphaNum12 = AssetAlphaNum12.decode(stream);
+            decodedValue.alphaNum12 = AssetAlphaNum12.decode(stream);
             break;
         default:
             break;
         }
-        return decodedAsset;
+        return decodedValue;
     }
 }
 
@@ -65,24 +65,24 @@ struct AssetAlphaNum4
         return this;
     }
 
-    static void encode(XdrDataOutputStream stream, ref const AssetAlphaNum4 encodedAssetAlphaNum4)
+    static void encode(XdrDataOutputStream stream, ref const AssetAlphaNum4 encodedValue)
     {
-        int assetCodesize = cast(int32) encodedAssetAlphaNum4.assetCode.length;
+        int assetCodesize = cast(int32) encodedValue.assetCode.length;
         stream.writeInt32(assetCodesize);
-        stream.write(encodedAssetAlphaNum4.assetCode);
-        AccountID.encode(stream, encodedAssetAlphaNum4.issuer);
+        stream.write(encodedValue.assetCode);
+        AccountID.encode(stream, encodedValue.issuer);
     }
 
     static AssetAlphaNum4 decode(XdrDataInputStream stream)
     {
-        AssetAlphaNum4 decodedAssetAlphaNum4;
+        AssetAlphaNum4 decodedValue;
 
         const int assetCodesize = stream.readInt32();
-        decodedAssetAlphaNum4.assetCode.length = assetCodesize;
-        stream.read(decodedAssetAlphaNum4.assetCode);
-        decodedAssetAlphaNum4.issuer = AccountID.decode(stream);
+        decodedValue.assetCode.length = assetCodesize;
+        stream.read(decodedValue.assetCode);
+        decodedValue.issuer = AccountID.decode(stream);
 
-        return decodedAssetAlphaNum4;
+        return decodedValue;
     }
 }
 
@@ -98,23 +98,23 @@ struct AssetAlphaNum12
         return this;
     }
 
-    static void encode(XdrDataOutputStream stream, ref const AssetAlphaNum12 encodedAssetAlphaNum12)
+    static void encode(XdrDataOutputStream stream, ref const AssetAlphaNum12 encodedValue)
     {
-        int assetCodesize = cast(int32) encodedAssetAlphaNum12.assetCode.length;
+        int assetCodesize = cast(int32) encodedValue.assetCode.length;
         stream.writeInt32(assetCodesize);
-        stream.write(encodedAssetAlphaNum12.assetCode);
-        AccountID.encode(stream, encodedAssetAlphaNum12.issuer);
+        stream.write(encodedValue.assetCode);
+        AccountID.encode(stream, encodedValue.issuer);
     }
 
     static AssetAlphaNum12 decode(XdrDataInputStream stream)
     {
-        AssetAlphaNum12 decodedAssetAlphaNum12;
+        AssetAlphaNum12 decodedValue;
 
         const int assetCodesize = stream.readInt32();
-        decodedAssetAlphaNum12.assetCode.length = assetCodesize;
-        stream.read(decodedAssetAlphaNum12.assetCode);
-        decodedAssetAlphaNum12.issuer = AccountID.decode(stream);
+        decodedValue.assetCode.length = assetCodesize;
+        stream.read(decodedValue.assetCode);
+        decodedValue.issuer = AccountID.decode(stream);
 
-        return decodedAssetAlphaNum12;
+        return decodedValue;
     }
 }

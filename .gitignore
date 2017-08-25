@@ -20,4 +20,5 @@ dependencies/clips-d/demo/clips-cli/clips-cli
 *.a
 Debug DMD
 Builds/VisualStudio2015/UpgradeLog.htm
-source/owlchain/database/database.d
+temp
+herder

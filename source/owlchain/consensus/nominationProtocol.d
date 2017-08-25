@@ -480,7 +480,7 @@ private:
     {
         BCPStatement st;
         st.nodeID = mSlot.getLocalNode().getNodeID();
-        st.pledges.type = BCPStatementType.CP_ST_NOMINATE;
+        st.pledges.type = BCPStatementType.BCP_ST_NOMINATE;
         auto nom = &st.pledges.nominate;
 
         st.pledges.nominate.quorumSetHash = mSlot.getLocalNode().getQuorumSetHash();

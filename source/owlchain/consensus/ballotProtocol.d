@@ -317,15 +317,15 @@ public:
 
             switch (st.pledges.type)
             {
-            case BCPStatementType.CP_ST_PREPARE:
+            case BCPStatementType.BCP_ST_PREPARE:
                 ret.object["phase"] = JSONValue("PREPARE");
                 b = &(*st).pledges.prepare.ballot;
                 break;
-            case BCPStatementType.CP_ST_CONFIRM:
+            case BCPStatementType.BCP_ST_CONFIRM:
                 ret.object["phase"] = JSONValue("CONFIRM");
                 b = &(*st).pledges.confirm.ballot;
                 break;
-            case BCPStatementType.CP_ST_EXTERNALIZE:
+            case BCPStatementType.BCP_ST_EXTERNALIZE:
                 ret.object["phase"] = JSONValue("EXTERNALIZE");
                 b = &(*st).pledges.externalize.commit;
                 break;
@@ -434,13 +434,13 @@ public:
         Hash h;
         switch (st.pledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             h = st.pledges.prepare.quorumSetHash;
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             h = st.pledges.confirm.quorumSetHash;
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             h = st.pledges.externalize.commitQuorumSetHash;
             break;
         default:
@@ -456,17 +456,17 @@ public:
         BCPBallot res;
         switch (st.pledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             res = st.pledges.prepare.ballot;
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             {
                 auto con = &st.pledges.confirm;
                 res.counter = con.nCommit;
                 res.value = con.ballot.value;
             }
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             res = st.pledges.externalize.commit;
             break;
         default:
@@ -497,7 +497,7 @@ public:
 
         switch (pl.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             {
                 auto prep = &pl.prepare;
                 auto b = &prep.ballot;
@@ -524,7 +524,7 @@ public:
                 mPhase = BCPPhase.BCP_PHASE_PREPARE;
             }
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             {
                 auto c = &pl.confirm;
                 auto v = &c.ballot.value;
@@ -537,7 +537,7 @@ public:
                 mPhase = BCPPhase.BCP_PHASE_CONFIRM;
             }
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             {
                 auto ext = &pl.externalize;
                 auto v = &ext.commit.value;
@@ -623,7 +623,7 @@ private:
                         return mSlot.getQuorumSetFromStatement(st);
                     }, (ref BCPStatement st) {
                         bool res;
-                        if (st.pledges.type == BCPStatementType.CP_ST_PREPARE)
+                        if (st.pledges.type == BCPStatementType.BCP_ST_PREPARE)
                         {
                             res = mCurrentBallot.counter <= st.pledges.prepare.ballot.counter;
                         }
@@ -683,7 +683,7 @@ private:
         ValueSet values = new ValueSet;
         switch (st.pledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             {
                 auto prep = &st.pledges.prepare;
                 auto b = &prep.ballot;
@@ -698,11 +698,11 @@ private:
             }
             break;
 
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             values.insert(st.pledges.confirm.ballot.value);
             break;
 
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             values.insert(st.pledges.externalize.commit.value);
             break;
 
@@ -809,19 +809,19 @@ private:
 
                 switch (st.pledges.type)
                 {
-                case BCPStatementType.CP_ST_PREPARE:
+                case BCPStatementType.BCP_ST_PREPARE:
                     {
                         auto p = &st.pledges.prepare;
                         res = areBallotsLessAndCompatible(ballot, p.ballot);
                     }
                     break;
-                case BCPStatementType.CP_ST_CONFIRM:
+                case BCPStatementType.BCP_ST_CONFIRM:
                     {
                         auto c = &st.pledges.confirm;
                         res = areBallotsCompatible(ballot, c.ballot);
                     }
                     break;
-                case BCPStatementType.CP_ST_EXTERNALIZE:
+                case BCPStatementType.BCP_ST_EXTERNALIZE:
                     {
                         auto e = &st.pledges.externalize;
                         res = areBallotsCompatible(ballot, e.commit);
@@ -1007,7 +1007,7 @@ private:
         BCPBallot ballot;
         switch (hint.pledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             {
                 auto prep = &hint.pledges.prepare;
                 if (prep.nC != 0)
@@ -1020,13 +1020,13 @@ private:
                 }
             }
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             {
                 auto con = &hint.pledges.confirm;
                 ballot = BCPBallot(con.nH, con.ballot.value);
             }
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             {
                 auto ext = &hint.pledges.externalize;
                 ballot = BCPBallot(ext.nH, ext.commit.value);
@@ -1050,7 +1050,7 @@ private:
                 auto pl = &st.pledges;
                 switch (pl.type)
                 {
-                case BCPStatementType.CP_ST_PREPARE:
+                case BCPStatementType.BCP_ST_PREPARE:
                     {
                         auto p = &pl.prepare;
                         if (areBallotsCompatible(ballot, p.ballot))
@@ -1062,7 +1062,7 @@ private:
                         }
                     }
                     break;
-                case BCPStatementType.CP_ST_CONFIRM:
+                case BCPStatementType.BCP_ST_CONFIRM:
                     {
                         auto c = &pl.confirm;
                         if (areBallotsCompatible(ballot, c.ballot))
@@ -1071,7 +1071,7 @@ private:
                         }
                     }
                     break;
-                case BCPStatementType.CP_ST_EXTERNALIZE:
+                case BCPStatementType.BCP_ST_EXTERNALIZE:
                     {
                         auto e = &pl.externalize;
                         if (areBallotsCompatible(ballot, e.commit))
@@ -1174,18 +1174,18 @@ private:
         BCPBallot ballot;
         switch (hint.pledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             {
                 return false;
             }
             //break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             {
                 auto con = &hint.pledges.confirm;
                 ballot = BCPBallot(con.nH, con.ballot.value);
             }
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             {
                 auto ext = &hint.pledges.externalize;
                 ballot = BCPBallot(ext.nH, ext.commit.value);
@@ -1256,19 +1256,19 @@ private:
                 auto st = &e.statement;
                 switch (st.pledges.type)
                 {
-                case BCPStatementType.CP_ST_PREPARE:
+                case BCPStatementType.BCP_ST_PREPARE:
                     {
                         auto p = &st.pledges.prepare;
                         allCounters.insert(p.ballot.counter);
                     }
                     break;
-                case BCPStatementType.CP_ST_CONFIRM:
+                case BCPStatementType.BCP_ST_CONFIRM:
                     {
                         auto c = &st.pledges.confirm;
                         allCounters.insert(c.ballot.counter);
                     }
                     break;
-                case BCPStatementType.CP_ST_EXTERNALIZE:
+                case BCPStatementType.BCP_ST_EXTERNALIZE:
                     {
                         allCounters.insert(UINT32_MAX);
                     }
@@ -1295,13 +1295,13 @@ private:
                         .getQuorumSet(), mLatestEnvelopes, (ref BCPStatement st) {
                             bool res;
                             auto pl = &st.pledges;
-                            if (pl.type == BCPStatementType.CP_ST_PREPARE)
+                            if (pl.type == BCPStatementType.BCP_ST_PREPARE)
                             {
                                 res = n < pl.prepare.ballot.counter;
                             }
                             else
                             {
-                                if (pl.type == BCPStatementType.CP_ST_CONFIRM)
+                                if (pl.type == BCPStatementType.BCP_ST_CONFIRM)
                                 {
                                     res = n < pl.confirm.ballot.counter;
                                 }
@@ -1341,7 +1341,7 @@ private:
 
         switch (hint.pledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             {
                 auto prep = &hint.pledges.prepare;
                 hintBallots_.insert(prep.ballot);
@@ -1355,14 +1355,14 @@ private:
                 }
             }
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             {
                 auto con = &hint.pledges.confirm;
                 hintBallots_.insert(BCPBallot(con.nPrepared, con.ballot.value));
                 hintBallots_.insert(BCPBallot(UINT32_MAX, con.ballot.value));
             }
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             {
                 auto ext = &hint.pledges.externalize;
                 hintBallots_.insert(BCPBallot(UINT32_MAX, ext.commit.value));
@@ -1393,7 +1393,7 @@ private:
                 auto st = &e.statement;
                 switch (st.pledges.type)
                 {
-                case BCPStatementType.CP_ST_PREPARE:
+                case BCPStatementType.BCP_ST_PREPARE:
                     {
                         auto prep = &st.pledges.prepare;
                         if (areBallotsLessAndCompatible(prep.ballot, topVote))
@@ -1412,7 +1412,7 @@ private:
                         }
                     }
                     break;
-                case BCPStatementType.CP_ST_CONFIRM:
+                case BCPStatementType.BCP_ST_CONFIRM:
                     {
                         auto con = &st.pledges.confirm;
                         if (areBallotsCompatible(topVote, con.ballot))
@@ -1425,7 +1425,7 @@ private:
                         }
                     }
                     break;
-                case BCPStatementType.CP_ST_EXTERNALIZE:
+                case BCPStatementType.BCP_ST_EXTERNALIZE:
                     {
                         auto ext = &st.pledges.externalize;
                         if (areBallotsCompatible(topVote, ext.commit))
@@ -1499,7 +1499,7 @@ private:
             auto pl = &env.statement.pledges;
             switch (pl.type)
             {
-            case BCPStatementType.CP_ST_PREPARE:
+            case BCPStatementType.BCP_ST_PREPARE:
                 {
                     auto p = &pl.prepare;
                     if (areBallotsCompatible(ballot, p.ballot))
@@ -1512,7 +1512,7 @@ private:
                     }
                 }
                 break;
-            case BCPStatementType.CP_ST_CONFIRM:
+            case BCPStatementType.BCP_ST_CONFIRM:
                 {
                     auto c = &pl.confirm;
                     if (areBallotsCompatible(ballot, c.ballot))
@@ -1522,7 +1522,7 @@ private:
                     }
                 }
                 break;
-            case BCPStatementType.CP_ST_EXTERNALIZE:
+            case BCPStatementType.BCP_ST_EXTERNALIZE:
                 {
                     auto e = &pl.externalize;
                     if (areBallotsCompatible(ballot, e.commit))
@@ -1551,7 +1551,7 @@ private:
 
         switch (st.pledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             {
                 auto p = &st.pledges.prepare;
                 res = (p.prepared.counter > 0 && areBallotsLessAndCompatible(ballot, p.prepared))
@@ -1559,14 +1559,14 @@ private:
                             && areBallotsLessAndCompatible(ballot, p.preparedPrime));
             }
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             {
                 auto c = &st.pledges.confirm;
                 BCPBallot prepared = BCPBallot(c.nPrepared, c.ballot.value);
                 res = areBallotsLessAndCompatible(ballot, prepared);
             }
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             {
                 auto e = &st.pledges.externalize;
                 res = areBallotsCompatible(ballot, e.commit);
@@ -1587,9 +1587,9 @@ private:
         auto pl = &st.pledges;
         switch (pl.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             {
                 auto c = &pl.confirm;
                 if (areBallotsCompatible(ballot, c.ballot))
@@ -1598,7 +1598,7 @@ private:
                 }
             }
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             {
                 auto e = &pl.externalize;
                 if (areBallotsCompatible(ballot, e.commit))
@@ -1752,11 +1752,11 @@ private:
         else
         {
             // can't have duplicate EXTERNALIZE statements
-            if (t == BCPStatementType.CP_ST_EXTERNALIZE)
+            if (t == BCPStatementType.BCP_ST_EXTERNALIZE)
             {
                 res = false;
             }
-            else if (t == BCPStatementType.CP_ST_CONFIRM)
+            else if (t == BCPStatementType.BCP_ST_CONFIRM)
             {
                 // sorted by (b, p, p', h) (p' = 0 implicitely)
                 auto oldC = &oldst.pledges.confirm;
@@ -1823,7 +1823,7 @@ private:
 
         switch (st.pledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             {
                 auto p = &st.pledges.prepare;
                 // self is allowed to have b = 0 (as long as it never gets emitted)
@@ -1845,7 +1845,7 @@ private:
             }
             break;
 
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             {
                 auto c = &st.pledges.confirm;
                 // c <= h <= b
@@ -1859,7 +1859,7 @@ private:
             }
             break;
 
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             {
                 auto e = &st.pledges.externalize;
 
@@ -1993,13 +1993,13 @@ private:
         switch (mPhase)
         {
         case BCPPhase.BCP_PHASE_PREPARE:
-            t = BCPStatementType.CP_ST_PREPARE;
+            t = BCPStatementType.BCP_ST_PREPARE;
             break;
         case BCPPhase.BCP_PHASE_CONFIRM:
-            t = BCPStatementType.CP_ST_CONFIRM;
+            t = BCPStatementType.BCP_ST_CONFIRM;
             break;
         case BCPPhase.BCP_PHASE_EXTERNALIZE:
-            t = BCPStatementType.CP_ST_EXTERNALIZE;
+            t = BCPStatementType.BCP_ST_EXTERNALIZE;
             break;
         default:
             dbgAbort();
@@ -2084,7 +2084,7 @@ private:
         statement.pledges.type = type;
         switch (type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             {
                 statement.pledges.prepare.quorumSetHash = getLocalNode().getQuorumSetHash();
                 if (mCurrentBallot)
@@ -2109,7 +2109,7 @@ private:
                 }
             }
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             {
                 auto c = &statement.pledges.confirm;
                 c.quorumSetHash = getLocalNode().getQuorumSetHash();
@@ -2120,7 +2120,7 @@ private:
                 c.nH = mHighBallot.counter;
             }
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             {
                 dbgAssert(areBallotsLessAndCompatible(*mCommit, *mHighBallot));
                 auto e = &statement.pledges.externalize;

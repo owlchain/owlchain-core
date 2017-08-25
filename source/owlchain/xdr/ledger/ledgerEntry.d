@@ -42,7 +42,7 @@ struct LedgerEntryData
 
     static void encode(XdrDataOutputStream stream, ref const LedgerEntryData encoded)
     {
-        stream.writeInt32(encoded.type);
+        encodeLedgerEntryType(stream, encoded.type);
         switch (encoded.type)
         {
         case LedgerEntryType.ACCOUNT:
@@ -65,7 +65,7 @@ struct LedgerEntryData
     static LedgerEntryData decode(XdrDataInputStream stream)
     {
         LedgerEntryData decoded;
-        decoded.type = cast(LedgerEntryType) stream.readInt32();
+        decoded.type = decodeLedgerEntryType(stream);
         switch (decoded.type)
         {
         case LedgerEntryType.ACCOUNT:
@@ -81,7 +81,7 @@ struct LedgerEntryData
             decoded.data = DataEntry.decode(stream);
             break;
         default:
-            throw new Exception("Unknown enum value");
+            break;
         }
         return decoded;
     }

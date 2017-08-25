@@ -282,7 +282,7 @@ static BCPEnvelope makeExternalize(ref SecretKey secretKey, ref Hash mQSetHash,
         uint64 slotIndex, ref BCPBallot commitBallot, uint32 nH)
 {
     BCPStatement st;
-    st.pledges.type = BCPStatementType.CP_ST_EXTERNALIZE;
+    st.pledges.type = BCPStatementType.BCP_ST_EXTERNALIZE;
     auto ext = &st.pledges.externalize;
     ext.commit = commitBallot;
     ext.nH = nH;
@@ -295,7 +295,7 @@ static BCPEnvelope makeConfirm(ref SecretKey secretKey, ref Hash mQSetHash,
         uint64 slotIndex, uint32 prepareCounter, ref BCPBallot b, uint32 nC, uint32 nH)
 {
     BCPStatement st;
-    st.pledges.type = BCPStatementType.CP_ST_CONFIRM;
+    st.pledges.type = BCPStatementType.BCP_ST_CONFIRM;
     auto con = &st.pledges.confirm;
     con.ballot = b;
     con.nPrepared = prepareCounter;
@@ -311,7 +311,7 @@ static BCPEnvelope makePrepare(ref SecretKey secretKey, ref Hash mQSetHash, uint
         BCPBallot* preparedPrime = null)
 {
     BCPStatement st;
-    st.pledges.type = BCPStatementType.CP_ST_PREPARE;
+    st.pledges.type = BCPStatementType.BCP_ST_PREPARE;
     auto p = &st.pledges.prepare;
     p.ballot = ballot;
     p.quorumSetHash = mQSetHash;
@@ -341,7 +341,7 @@ static BCPEnvelope makeNominate(ref SecretKey secretKey, ref Hash mQSetHash,
     accepted.sort!(comp).release;
 
     BCPStatement st;
-    st.pledges.type = BCPStatementType.CP_ST_NOMINATE;
+    st.pledges.type = BCPStatementType.BCP_ST_NOMINATE;
     auto nom = &st.pledges.nominate;
     nom.quorumSetHash = mQSetHash;
 
@@ -2196,9 +2196,6 @@ public:
             };
             TEST_NormalRound();
 
-            dump();
-            dumpEnv();
-
             SECTION("bumpToBallot prevented once committed");
             {
                 auto TEST_Commit = (ref BCPBallot b2) {
@@ -3072,6 +3069,8 @@ public:
         nominationProtocolTest1();
         nominationProtocolTest2();
         nominationProtocolTest3();
+        dump();
+        dumpEnv();
     }
 
     void dump()

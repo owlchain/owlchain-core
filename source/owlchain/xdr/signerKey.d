@@ -14,7 +14,7 @@ struct SignerKey
 
     static void encode(XdrDataOutputStream stream, ref const SignerKey encodedSignerKey)
     {
-        stream.writeInt32(encodedSignerKey.type);
+        encodeSignerKeyType(stream, encodedSignerKey.type);
         switch (encodedSignerKey.type)
         {
         case SignerKeyType.SIGNER_KEY_TYPE_ED25519:
@@ -34,7 +34,7 @@ struct SignerKey
     {
         SignerKey decodedSignerKey;
 
-        decodedSignerKey.type = cast(SignerKeyType) stream.readInt32();
+        decodedSignerKey.type = decodeSignerKeyType(stream);
         switch (decodedSignerKey.type)
         {
         case SignerKeyType.SIGNER_KEY_TYPE_ED25519:

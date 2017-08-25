@@ -115,7 +115,7 @@ public:
         if (e.statement.nodeID == mConsensusProtocol.getLocalNodeID()
                 && e.statement.slotIndex == mSlotIndex)
         {
-            if (e.statement.pledges.type == BCPStatementType.CP_ST_NOMINATE)
+            if (e.statement.pledges.type == BCPStatementType.BCP_ST_NOMINATE)
             {
                 mNominationProtocol.setStateFromEnvelope(e);
             }
@@ -166,7 +166,7 @@ public:
         ConsensusProtocol.EnvelopeState res;
         try
         {
-            if (envelope.statement.pledges.type == BCPStatementType.CP_ST_NOMINATE)
+            if (envelope.statement.pledges.type == BCPStatementType.BCP_ST_NOMINATE)
             {
                 res = mNominationProtocol.processEnvelope(envelope);
             }
@@ -337,16 +337,16 @@ public:
         Hash h;
         switch (st.pledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             h = st.pledges.prepare.quorumSetHash;
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             h = st.pledges.confirm.quorumSetHash;
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             h = st.pledges.externalize.commitQuorumSetHash;
             break;
-        case BCPStatementType.CP_ST_NOMINATE:
+        case BCPStatementType.BCP_ST_NOMINATE:
             h = st.pledges.nominate.quorumSetHash;
             break;
         default:
@@ -359,7 +359,7 @@ public:
     static Value[] getStatementValues(ref BCPStatement st)
     {
         Value[] res;
-        if (st.pledges.type == BCPStatementType.CP_ST_NOMINATE)
+        if (st.pledges.type == BCPStatementType.BCP_ST_NOMINATE)
         {
             res = NominationProtocol.getStatementValues(st);
         }
@@ -377,22 +377,22 @@ public:
         BCPQuorumSetPtr res;
         BCPStatementType t = st.pledges.type;
 
-        if (t == BCPStatementType.CP_ST_EXTERNALIZE)
+        if (t == BCPStatementType.BCP_ST_EXTERNALIZE)
         {
             res = LocalNode.getSingletonQSet(st.nodeID);
         }
         else
         {
             Hash h;
-            if (t == BCPStatementType.CP_ST_PREPARE)
+            if (t == BCPStatementType.BCP_ST_PREPARE)
             {
                 h = st.pledges.prepare.quorumSetHash;
             }
-            else if (t == BCPStatementType.CP_ST_CONFIRM)
+            else if (t == BCPStatementType.BCP_ST_CONFIRM)
             {
                 h = st.pledges.confirm.quorumSetHash;
             }
-            else if (t == BCPStatementType.CP_ST_NOMINATE)
+            else if (t == BCPStatementType.BCP_ST_NOMINATE)
             {
                 h = st.pledges.nominate.quorumSetHash;
             }

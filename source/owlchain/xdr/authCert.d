@@ -15,17 +15,17 @@ struct AuthCert
 
     static void encode(XdrDataOutputStream stream, ref const AuthCert encoded)
     {
-        Curve25519Public.encode(encoded.pubkey);
+        Curve25519Public.encode(stream, encoded.pubkey);
         stream.writeUint64(encoded.expiration);
-        Signature.encode(encoded.sig);
+        Signature.encode(stream, encoded.sig);
     }
 
     static AuthCert decode(XdrDataInputStream stream)
     {
         AuthCert decoded;
-        encoded.pubkey = Curve25519Public.decode(stream);
-        encoded.expiration = stream.readUint64();
-        encoded.sig = Signature.decode(stream);
+        decoded.pubkey = Curve25519Public.decode(stream);
+        decoded.expiration = stream.readUint64();
+        decoded.sig = Signature.decode(stream);
         return decoded;
     }
 

@@ -42,23 +42,23 @@ struct BCPStatementPledges
 
     static void encode(XdrDataOutputStream stream, ref const BCPStatementPledges encodedStatementPledges)
     {
-        stream.writeInt32(encodedStatementPledges.type);
+        encodeBCPStatementType(stream, encodedStatementPledges.type);
 
         switch (encodedStatementPledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             BCPStatementPrepare.encode(stream,
                     encodedStatementPledges.prepare);
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             BCPStatementConfirm.encode(stream,
                     encodedStatementPledges.confirm);
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             BCPStatementExternalize.encode(stream,
                     encodedStatementPledges.externalize);
             break;
-        case BCPStatementType.CP_ST_NOMINATE:
+        case BCPStatementType.BCP_ST_NOMINATE:
             BCPNomination.encode(stream,
                     encodedStatementPledges.nominate);
             break;
@@ -70,23 +70,24 @@ struct BCPStatementPledges
     {
         BCPStatementPledges decodedStatementPledges;
 
-        decodedStatementPledges.type = cast(BCPStatementType) stream.readInt32();
+        decodedStatementPledges.type = decodeBCPStatementType(stream);
 
         switch (decodedStatementPledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             decodedStatementPledges.prepare = BCPStatementPrepare.decode(stream);
             break;
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             decodedStatementPledges.confirm = BCPStatementConfirm.decode(stream);
             break;
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             decodedStatementPledges.externalize = BCPStatementExternalize.decode(stream);
             break;
-        case BCPStatementType.CP_ST_NOMINATE:
+        case BCPStatementType.BCP_ST_NOMINATE:
             decodedStatementPledges.nominate = BCPNomination.decode(stream);
             break;
         default:
+            break;
         }
         return decodedStatementPledges;
     }

@@ -32,11 +32,10 @@ struct BOSValue
         BOSValue decoded;
         decoded.txSetHash = Hash.decode(stream);
         decoded.closeTime = stream.readUint64();
-        int upgradessize = stream.readInt32();
-        decoded.upgrades.length = upgradessize;
+        const int upgradessize = stream.readInt32();
         for (int i = 0; i < upgradessize; i++)
         {
-            decoded.upgrades[i] = UpgradeType.decode(stream);
+            decoded.upgrades ~= UpgradeType.decode(stream);
         }
         decoded.ext = stream.readInt32();
         return decoded;

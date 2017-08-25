@@ -40,7 +40,7 @@ struct AllowTrustOpAsset
 
     static void encode(XdrDataOutputStream stream, ref const AllowTrustOpAsset encoded)
     {
-        stream.writeInt32(encoded.type);
+        encodeAssetType(stream, encoded.type);
         switch (encoded.type)
         {
         case AssetType.ASSET_TYPE_NATIVE:
@@ -60,8 +60,7 @@ struct AllowTrustOpAsset
     {
         AllowTrustOpAsset decoded;
 
-        decoded.type = cast(AssetType) stream.readInt32();
-
+        decoded.type = decodeAssetType(stream);
         switch (decoded.type)
         {
         case AssetType.ASSET_TYPE_NATIVE:

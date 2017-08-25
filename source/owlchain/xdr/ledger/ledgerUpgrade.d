@@ -13,43 +13,43 @@ struct LedgerUpgrade
     uint32 newBaseFee;
     uint32 newMaxTxSetSize;
 
-    static void encode(XdrDataOutputStream stream, ref const LedgerUpgrade encodedLedgerUpgrade)
+    static void encode(XdrDataOutputStream stream, ref const LedgerUpgrade encodedValue)
     {
-        stream.writeInt32(encodedLedgerUpgrade.type);
-        switch (encodedLedgerUpgrade.type)
+        encodeLedgerUpgradeType(stream, encodedValue.type);
+        switch (encodedValue.type)
         {
         case LedgerUpgradeType.LEDGER_UPGRADE_VERSION:
-            stream.writeUint32(encodedLedgerUpgrade.newLedgerVersion);
+            stream.writeUint32(encodedValue.newLedgerVersion);
             break;
         case LedgerUpgradeType.LEDGER_UPGRADE_BASE_FEE:
-            stream.writeUint32(encodedLedgerUpgrade.newBaseFee);
+            stream.writeUint32(encodedValue.newBaseFee);
             break;
         case LedgerUpgradeType.LEDGER_UPGRADE_MAX_TX_SET_SIZE:
-            stream.writeUint32(encodedLedgerUpgrade.newMaxTxSetSize);
+            stream.writeUint32(encodedValue.newMaxTxSetSize);
             break;
         default:
-            throw new Exception("Unknown enum value");
+            break;
         }
     }
 
     static LedgerUpgrade decode(XdrDataInputStream stream)
     {
-        LedgerUpgrade decodedLedgerUpgrade;
-        decodedLedgerUpgrade.type = cast(LedgerUpgradeType) stream.readInt32();
-        switch (decodedLedgerUpgrade.type)
+        LedgerUpgrade decodedValue;
+        decodedValue.type = decodeLedgerUpgradeType(stream);
+        switch (decodedValue.type)
         {
         case LedgerUpgradeType.LEDGER_UPGRADE_VERSION:
-            decodedLedgerUpgrade.newLedgerVersion = stream.readUint32();
+            decodedValue.newLedgerVersion = stream.readUint32();
             break;
         case LedgerUpgradeType.LEDGER_UPGRADE_BASE_FEE:
-            decodedLedgerUpgrade.newBaseFee = stream.readUint32();
+            decodedValue.newBaseFee = stream.readUint32();
             break;
         case LedgerUpgradeType.LEDGER_UPGRADE_MAX_TX_SET_SIZE:
-            decodedLedgerUpgrade.newMaxTxSetSize = stream.readUint32();
+            decodedValue.newMaxTxSetSize = stream.readUint32();
             break;
         default:
-            throw new Exception("Unknown enum value");
+            break;
         }
-        return decodedLedgerUpgrade;
+        return decodedValue;
     }
 }

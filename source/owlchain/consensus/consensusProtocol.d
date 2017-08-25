@@ -348,7 +348,7 @@ public:
 
         switch (st.pledges.type)
         {
-        case BCPStatementType.CP_ST_PREPARE:
+        case BCPStatementType.BCP_ST_PREPARE:
             {
                 oBuffer.writef(
                         " | PREPARE" ~ " | D: %s" ~ " | b: %s" ~ " | p: %s" ~ " | p: %s" ~ " | c.n: %d" ~ " | h.n: %d ",
@@ -358,7 +358,7 @@ public:
             }
             break;
 
-        case BCPStatementType.CP_ST_CONFIRM:
+        case BCPStatementType.BCP_ST_CONFIRM:
             {
                 oBuffer.writef(" | CONFIRM" ~ " | D: %s" ~ " | b: %s" ~ " | p.n: %d" ~ " | c.n: %d" ~ " | h.n: %d ",
                         toHexString(qSetHash.hash)[0 .. 5], ballotToStr(st.pledges.confirm.ballot),
@@ -367,7 +367,7 @@ public:
             }
             break;
 
-        case BCPStatementType.CP_ST_EXTERNALIZE:
+        case BCPStatementType.BCP_ST_EXTERNALIZE:
             {
                 oBuffer.writef(" | EXTERNALIZE" ~ " | c: %s" ~ " | h.n: %d" ~ " | (lastD): %s ",
                         ballotToStr(st.pledges.externalize.commit),
@@ -375,7 +375,7 @@ public:
             }
             break;
 
-        case BCPStatementType.CP_ST_NOMINATE:
+        case BCPStatementType.BCP_ST_NOMINATE:
             {
                 auto nom = &st.pledges.nominate;
 
