@@ -19,56 +19,56 @@ struct BCPQuorumSet
         return qSet;
     }
 
-    ref BCPQuorumSet opAssign(BCPQuorumSet s)
+    ref BCPQuorumSet opAssign(BCPQuorumSet other)
     {
-        threshold = s.threshold;
+        threshold = other.threshold;
 
         validators.length = 0;
-        for (int i = 0; i < s.validators.length; i++)
+        for (int i = 0; i < other.validators.length; i++)
         {
-            validators ~= s.validators[i];
+            validators ~= other.validators[i];
         }
 
         innerSets.length = 0;
-        for (int i = 0; i < s.innerSets.length; i++)
+        for (int i = 0; i < other.innerSets.length; i++)
         {
-            innerSets ~= cast(BCPQuorumSet) s.innerSets[i];
+            innerSets ~= cast(BCPQuorumSet)other.innerSets[i];
         }
         return this;
     }
 
-    ref BCPQuorumSet opAssign(ref BCPQuorumSet s)
+    ref BCPQuorumSet opAssign(ref BCPQuorumSet other)
     {
-        threshold = s.threshold;
+        threshold = other.threshold;
 
         validators.length = 0;
-        for (int i = 0; i < s.validators.length; i++)
+        for (int i = 0; i < other.validators.length; i++)
         {
-            validators ~= s.validators[i];
+            validators ~= other.validators[i];
         }
 
         innerSets.length = 0;
-        for (int i = 0; i < s.innerSets.length; i++)
+        for (int i = 0; i < other.innerSets.length; i++)
         {
-            innerSets ~= cast(BCPQuorumSet) s.innerSets[i];
+            innerSets ~= cast(BCPQuorumSet)other.innerSets[i];
         }
         return this;
     }
 
-    ref BCPQuorumSet opAssign(ref const(BCPQuorumSet) s)
+    ref BCPQuorumSet opAssign(ref const(BCPQuorumSet) other)
     {
-        threshold = s.threshold;
+        threshold = other.threshold;
 
         validators.length = 0;
-        for (int i = 0; i < s.validators.length; i++)
+        for (int i = 0; i < other.validators.length; i++)
         {
-            validators ~= s.validators[i];
+            validators ~= other.validators[i];
         }
 
         innerSets.length = 0;
-        for (int i = 0; i < s.innerSets.length; i++)
+        for (int i = 0; i < other.innerSets.length; i++)
         {
-            innerSets ~= cast(BCPQuorumSet) s.innerSets[i];
+            innerSets ~= cast(BCPQuorumSet)other.innerSets[i];
         }
         return this;
     }

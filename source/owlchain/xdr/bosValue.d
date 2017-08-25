@@ -14,6 +14,19 @@ struct BOSValue
     UpgradeType[] upgrades;
     int32 ext;
 
+    ref BOSValue opAssign(BOSValue other)
+    {
+        txSetHash = other.txSetHash;
+        closeTime = other.closeTime;
+        upgrades.length = 0;
+        for (int i = 0; i < other.upgrades.length; i++)
+        {
+            upgrades ~= other.upgrades[i];
+        }
+        ext = other.ext;
+        return this;
+    }
+
     static void encode(XdrDataOutputStream stream, ref const BOSValue encoded)
     {
         Hash.encode(stream, encoded.txSetHash);

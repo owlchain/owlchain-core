@@ -994,33 +994,154 @@
     <Folder name="crypto">
      <File path="..\..\source\owlchain\crypto\keyUtils.d" />
     </Folder>
+    <Folder name="database">
+     <File path="..\..\source\owlchain\database\database.d" />
+    </Folder>
+    <Folder name="herder">
+     <File path="..\..\source\owlchain\herder\herder.d" />
+     <File path="..\..\source\owlchain\herder\herderImpl.d" />
+     <File path="..\..\source\owlchain\herder\herderUtils.d" />
+     <File path="..\..\source\owlchain\herder\pendingEnvelopes.d" />
+     <File path="..\..\source\owlchain\herder\txSetFrame.d" />
+    </Folder>
+    <Folder name="ledger">
+     <File path="..\..\source\owlchain\ledger\dataFrame.d" />
+     <File path="..\..\source\owlchain\ledger\entryFrame.d" />
+     <File path="..\..\source\owlchain\ledger\ledgerManager.d" />
+    </Folder>
+    <Folder name="main">
+     <File path="..\..\source\owlchain\main\application.d" />
+     <File path="..\..\source\owlchain\main\config.d" />
+    </Folder>
+    <Folder name="metrics">
+     <File path="..\..\source\owlchain\metrics\abstractPollingReporter.d" />
+     <File path="..\..\source\owlchain\metrics\consoleReporter.d" />
+     <File path="..\..\source\owlchain\metrics\counter.d" />
+     <File path="..\..\source\owlchain\metrics\ewma.d" />
+     <File path="..\..\source\owlchain\metrics\expDecaySample.d" />
+     <File path="..\..\source\owlchain\metrics\histogram.d" />
+     <File path="..\..\source\owlchain\metrics\meter.d" />
+     <File path="..\..\source\owlchain\metrics\meteredInterface.d" />
+     <File path="..\..\source\owlchain\metrics\metricInterface.d" />
+     <File path="..\..\source\owlchain\metrics\metricName.d" />
+     <File path="..\..\source\owlchain\metrics\metricProcessor.d" />
+     <File path="..\..\source\owlchain\metrics\metricsRegistry.d" />
+     <File path="..\..\source\owlchain\metrics\package.d" />
+     <File path="..\..\source\owlchain\metrics\sample.d" />
+     <File path="..\..\source\owlchain\metrics\samplingInterface.d" />
+     <File path="..\..\source\owlchain\metrics\snapshot.d" />
+     <File path="..\..\source\owlchain\metrics\summarizableInterface.d" />
+     <File path="..\..\source\owlchain\metrics\timer.d" />
+     <File path="..\..\source\owlchain\metrics\timerContext.d" />
+     <File path="..\..\source\owlchain\metrics\uniformSample.d" />
+     <File path="..\..\source\owlchain\metrics\util.d" />
+    </Folder>
+    <Folder name="overlay">
+     <File path="..\..\source\owlchain\overlay\peer.d" />
+    </Folder>
+    <Folder name="p2p">
+     <File path="..\..\source\owlchain\p2p\peer.d" />
+     <File path="..\..\source\owlchain\p2p\readme.md" />
+    </Folder>
+    <Folder name="transaction">
+     <File path="..\..\source\owlchain\transaction\transactionFrame.d" />
+    </Folder>
+    <Folder name="util">
+     <File path="..\..\source\owlchain\util\xdrStream.d" />
+    </Folder>
     <Folder name="utils">
      <File path="..\..\source\owlchain\utils\globalChecks.d" />
      <File path="..\..\source\owlchain\utils\types.d" />
      <File path="..\..\source\owlchain\utils\uniqueStruct.d" />
     </Folder>
     <Folder name="xdr">
+     <Folder name="bcp">
+      <File path="..\..\source\owlchain\xdr\bcp\bcpBallot.d" />
+      <File path="..\..\source\owlchain\xdr\bcp\bcpEnvelope.d" />
+      <File path="..\..\source\owlchain\xdr\bcp\bcpHistoryEntry.d" />
+      <File path="..\..\source\owlchain\xdr\bcp\bcpHistoryEntryV0.d" />
+      <File path="..\..\source\owlchain\xdr\bcp\bcpNomination.d" />
+      <File path="..\..\source\owlchain\xdr\bcp\bcpQuorumSet.d" />
+      <File path="..\..\source\owlchain\xdr\bcp\bcpStatement.d" />
+      <File path="..\..\source\owlchain\xdr\bcp\bcpStatementType.d" />
+     </Folder>
+     <Folder name="ledger">
+      <File path="..\..\source\owlchain\xdr\ledger\ledgerEntry.d" />
+      <File path="..\..\source\owlchain\xdr\ledger\ledgerEntryType.d" />
+      <File path="..\..\source\owlchain\xdr\ledger\ledgerKey.d" />
+      <File path="..\..\source\owlchain\xdr\ledger\ledgerMessages.d" />
+      <File path="..\..\source\owlchain\xdr\ledger\ledgerUpgrade.d" />
+      <File path="..\..\source\owlchain\xdr\ledger\ledgerUpgradeType.d" />
+     </Folder>
+     <Folder name="message">
+      <File path="..\..\source\owlchain\xdr\message\bosMessage.d" />
+      <File path="..\..\source\owlchain\xdr\message\dontHave.d" />
+      <File path="..\..\source\owlchain\xdr\message\error.d" />
+      <File path="..\..\source\owlchain\xdr\message\hello.d" />
+     </Folder>
+     <Folder name="operation">
+      <File path="..\..\source\owlchain\xdr\operation\allowTrustOp.d" />
+      <File path="..\..\source\owlchain\xdr\operation\allowTrustResult.d" />
+      <File path="..\..\source\owlchain\xdr\operation\allowTrustResultCode.d" />
+      <File path="..\..\source\owlchain\xdr\operation\changeTrustOp.d" />
+      <File path="..\..\source\owlchain\xdr\operation\createAccountOp.d" />
+      <File path="..\..\source\owlchain\xdr\operation\createPassiveOfferOp.d" />
+      <File path="..\..\source\owlchain\xdr\operation\manageDataOp.d" />
+      <File path="..\..\source\owlchain\xdr\operation\manageOfferOp.d" />
+      <File path="..\..\source\owlchain\xdr\operation\operation.d" />
+      <File path="..\..\source\owlchain\xdr\operation\operationType.d" />
+      <File path="..\..\source\owlchain\xdr\operation\pathPaymentOp.d" />
+      <File path="..\..\source\owlchain\xdr\operation\paymentOp.d" />
+      <File path="..\..\source\owlchain\xdr\operation\setOptionsOp.d" />
+     </Folder>
      <Folder name="tests">
       <File path="..\..\source\owlchain\xdr\tests\streamTest.d" />
      </Folder>
-     <File path="..\..\source\owlchain\xdr\ballot.d" />
-     <File path="..\..\source\owlchain\xdr\envelope.d" />
+     <Folder name="transaction">
+      <File path="..\..\source\owlchain\xdr\transaction\transaction.d" />
+      <File path="..\..\source\owlchain\xdr\transaction\transactionEnvelope.d" />
+      <File path="..\..\source\owlchain\xdr\transaction\transactionSet.d" />
+     </Folder>
+     <File path="..\..\source\owlchain\xdr\accountEntry.d" />
+     <File path="..\..\source\owlchain\xdr\accountFlag.d" />
+     <File path="..\..\source\owlchain\xdr\accountID.d" />
+     <File path="..\..\source\owlchain\xdr\accountMergeResult.d" />
+     <File path="..\..\source\owlchain\xdr\accountMergeResultCode.d" />
+     <File path="..\..\source\owlchain\xdr\asset.d" />
+     <File path="..\..\source\owlchain\xdr\assetType.d" />
+     <File path="..\..\source\owlchain\xdr\auth.d" />
+     <File path="..\..\source\owlchain\xdr\authCert.d" />
+     <File path="..\..\source\owlchain\xdr\authenticatedMessage.d" />
+     <File path="..\..\source\owlchain\xdr\bosValue.d" />
+     <File path="..\..\source\owlchain\xdr\curve25519Public.d" />
+     <File path="..\..\source\owlchain\xdr\curve25519Secret.d" />
+     <File path="..\..\source\owlchain\xdr\dataEntry.d" />
+     <File path="..\..\source\owlchain\xdr\dataValue.d" />
+     <File path="..\..\source\owlchain\xdr\decoratedSignature.d" />
      <File path="..\..\source\owlchain\xdr\hash.d" />
-     <File path="..\..\source\owlchain\xdr\historyEntry.d" />
-     <File path="..\..\source\owlchain\xdr\historyEntryV0.d" />
-     <File path="..\..\source\owlchain\xdr\ledgerMessages.d" />
+     <File path="..\..\source\owlchain\xdr\hmacSha256Key.d" />
+     <File path="..\..\source\owlchain\xdr\hmacSha256Mac.d" />
+     <File path="..\..\source\owlchain\xdr\ipAddrType.d" />
+     <File path="..\..\source\owlchain\xdr\memo.d" />
+     <File path="..\..\source\owlchain\xdr\memoType.d" />
+     <File path="..\..\source\owlchain\xdr\messageType.d" />
      <File path="..\..\source\owlchain\xdr\nodeID.d" />
-     <File path="..\..\source\owlchain\xdr\nomination.d" />
+     <File path="..\..\source\owlchain\xdr\offerEntry.d" />
+     <File path="..\..\source\owlchain\xdr\peerAddress.d" />
+     <File path="..\..\source\owlchain\xdr\price.d" />
      <File path="..\..\source\owlchain\xdr\publicKey.d" />
      <File path="..\..\source\owlchain\xdr\publicKeyType.d" />
-     <File path="..\..\source\owlchain\xdr\quorumSet.d" />
+     <File path="..\..\source\owlchain\xdr\sequenceNumber.d" />
      <File path="..\..\source\owlchain\xdr\signature.d" />
+     <File path="..\..\source\owlchain\xdr\signatureHint.d" />
      <File path="..\..\source\owlchain\xdr\signer.d" />
      <File path="..\..\source\owlchain\xdr\signerKey.d" />
      <File path="..\..\source\owlchain\xdr\signerKeyType.d" />
-     <File path="..\..\source\owlchain\xdr\statement.d" />
-     <File path="..\..\source\owlchain\xdr\statementType.d" />
+     <File path="..\..\source\owlchain\xdr\thresholds.d" />
+     <File path="..\..\source\owlchain\xdr\timeBounds.d" />
+     <File path="..\..\source\owlchain\xdr\trustLineEntry.d" />
      <File path="..\..\source\owlchain\xdr\type.d" />
+     <File path="..\..\source\owlchain\xdr\upgradeType.d" />
      <File path="..\..\source\owlchain\xdr\value.d" />
      <File path="..\..\source\owlchain\xdr\xdrDataInputStream.d" />
      <File path="..\..\source\owlchain\xdr\xdrDataOutputStream.d" />
