@@ -28,11 +28,11 @@ public:
     {
         return mImpl.size();
     }
-	nothrow
-		override void update(long value) nothrow
-		{
-			mImpl.update(value);
-		}
+	
+	override void update(long value) nothrow
+	{
+		mImpl.update(value);
+	}
 
     override Snapshot makeSnapshot()
     {
