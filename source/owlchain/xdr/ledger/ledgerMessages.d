@@ -16,7 +16,7 @@ struct LedgerMessages
         messages.length = 0;
         for (int i = 0; i < s.messages.length; i++)
         {
-            messages ~= cast(BCPEnvelope) s.messages[i];
+            messages ~= s.messages[i];
         }
         return this;
     }

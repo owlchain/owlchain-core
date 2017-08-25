@@ -16,6 +16,21 @@ struct PathPaymentOp
     int64 destAmount;
     Asset[] path;
 
+    ref PathPaymentOp opAssign(PathPaymentOp other)
+    {
+        sendAsset = other.sendAsset;
+        sendMax = other.sendMax;
+        destination = other.destination;
+        destAsset = other.destAsset;
+        destAmount = other.destAmount;
+
+        path.length = 0;
+        for (int i = 0; i < other.path.length; i++)
+        {
+            path ~= other.path[i];
+        }
+        return this;
+    }
     static void encode(XdrDataOutputStream stream, ref const PathPaymentOp encodedValue)
     {
         Asset.encode(stream, encodedValue.sendAsset);
