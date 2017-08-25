@@ -3,10 +3,9 @@ module owlchain.database.database;
 import core.time;
 
 import owlchain.main.application;
-/*
+
 import owlchain.meterics.meter;
 import owlchain.meterics.timerContext;
-*/
 
 class Database
 {
