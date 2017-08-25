@@ -1,80 +1,82 @@
-module owlchain.metrics.abstractPollingReporter;
+module owlchain.meterics.abstractPollingReporter;
 
 import core.time;
 import core.thread;
 
 class AbstractPollingReporter
 {
-public :
-	this()
-	{
-		mImpl = new lmpl(this);
-	}
-	~this()
-	{
-	}
+public:
+    this()
+    {
+        mImpl = new Impl(this);
+    }
 
-	void Shutdown(){
-		mlmpl.Shutdown();
-	}
+    ~this()
+    {
+    }
 
-	void Start(Duration period = dur! "seconds"(5))
-	{	
-		mlmpl.Start(period);
-	}
+    void shutdown()
+    {
+        mImpl.shutdown();
+    }
 
-	void Run()
-	{
-		//writeln("AbstractPollingReporter Start ====> ");
-	}
+    void start(Duration period = dur!"seconds"(5))
+    {
+        mImpl.start(period);
+    }
 
+    void run()
+    {
 
-private :
-	class lmpl
-	{
-	public :
+    }
 
-		this(AbstractPollingReporter self)
-		{
-			mSelf = self;
-			mRunning = false;
-		}
+private:
+    class Impl
+    {
+    public:
+        this(AbstractPollingReporter self)
+        {
+            mSelf = self;
+            mRunning = false;
+        }
 
-		~this()
-		{
-			Shutdown();
-		}
+        ~this()
+        {
+            shutdown();
+        }
 
-		void Shutdown() 
-		{
-			if(mRunning) {
-				mRunning = false;
-				mThread.join();
-			}
-		}
+        void shutdown()
+        {
+            if (mRunning)
+            {
+                mRunning = false;
+                mThread.join();
+            }
+        }
 
-		void Start(Duration period)
-		{
-			if(!mRunning){
-				mRunning = true;
-				mThread = new Thread(() { loop(period); }).start();
-			}
-		}
+        void start(Duration period = dur!"seconds"(5))
+        {
+            if (!mRunning)
+            {
+                mRunning = true;
+                mThread = new Thread(() { loop(period); }).start();
+            }
+        }
 
-		void loop(Duration period)
-		{
-			while(mRunning){
-				Thread.sleep(period);
-				mSelf.Run();
-			}
-		}
+        void loop(Duration period)
+        {
+            while (mRunning)
+            {
+                Thread.sleep(period);
+                mSelf.run();
+            }
+        }
 
-	private :
-		AbstractPollingReporter mSelf;
-		bool mRunning;
-		Thread mThread;
-	}
+    private:
+        AbstractPollingReporter mSelf;
+        bool mRunning;
+        Thread mThread;
+    }
 
-	lmpl mImpl;
-
+    Impl mImpl;
 }

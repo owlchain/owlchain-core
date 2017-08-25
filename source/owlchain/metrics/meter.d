@@ -1,4 +1,4 @@
-module owlchain.metrics.meter;
+module owlchain.meterics.meter;
 
 import std.datetime;
 import core.time;

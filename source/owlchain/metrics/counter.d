@@ -1,90 +1,102 @@
-module owlchain.metrics.counter;
+module owlchain.meterics.counter;
 
-
-import owlchain.metrics.metricProcessor;
+import core.sync.mutex;
 import core.atomic;
 
-class Counter {
-Impl mImpl;
+import owlchain.meterics.metricProcessor;
+import owlchain.meterics.metricInterface;
 
-public :
-	this(long init)
-	{
-		mImpl = new lmpl(init);
-	}
+class Counter : MetricInterface
+{
+public:
+    this(long init)
+    {
+        mImpl = new Impl(init);
+    }
 
-	~ this()
-	{
+    ~this()
+    {
 
-	}
+    }
 
-	void Process(MetricProcess processor) 
-	{
-		processor.Process(this)	;
-	}
+    void Process(MetricProcessor processor)
+    {
+        processor.Process(this);
+    }
 
-	long count()
-	{
-		return mImpl.count();
-	}
+    long count()
+    {
+        return mImpl.count();
+    }
 
-	void setCount(long n)
-	{
-		return mlmpl.setCount(n);
-	}
+    void setCount(long n)
+    {
+        mImpl.setCount(n);
+    }
 
-	void inc(long n = 1){
-		mlmpl.inc(n);
-	}
+    void inc(long n = 1)
+    {
+        mImpl.inc(n);
+    }
 
-	void desc(long n = 1){
-		mlmpl.dec(n);
-	}
+    void dec(long n = 1)
+    {
+        mImpl.dec(n);
+    }
 
-	void clear(){
-		mlmpl.clear();
-	}
+    void clear()
+    {
+        mImpl.clear();
+    }
 
-private :
-	class lmpl
-	{
-		public :
-		this(long init = 0)
-		{
-			automicStore(mCount,init);	
-		}
+private:
 
-		~this()
-		{
+    class Impl
+    {
+    public:
+        this(long init = 0)
+        {
+            atomicStore(mCount, init);
+        }
 
-		}
+        ~this()
+        {
 
-		long count() @safe nothrow
-		{
-			return atomicLoad(mCount);
-		}
-	
-		void setCount(long n)@safe nothrow
-		{
-			atomicStore(mCount, n);
-		}
-	
-		void inc(long n)@safe nothrow
-		{
-			atomicOp!"+="(mCount,n);
-		}
+        }
 
-		void dec(long n)@safe nothrow
-		{
-			atomicOp!"-="(mCount,n);
-		}
+        void Process(MetricProcessor processor)
+        {
 
-		void clear()@safe nothrow
-		{
-			atomicStore(mCount, 0L);
-		}
+        }
 
-		private :
-			shared long mCount;
-	}
+        long count() @safe nothrow
+        {
+            return atomicLoad(mCount);
+        }
+
+        void setCount(long n) @safe nothrow
+        {
+            atomicStore(mCount, n);
+        }
+
+        void inc(long n = 1) @safe nothrow
+        {
+            atomicOp!"+="(mCount, n);
+        }
+
+        void dec(long n = 1) @safe nothrow
+        {
+            atomicOp!"-="(mCount, n);
+        }
+
+        void clear() @safe nothrow
+        {
+            atomicStore(mCount, 0L);
+        }
+
+    private:
+        shared long mCount;
+    }
+
+    Impl mImpl;
 }

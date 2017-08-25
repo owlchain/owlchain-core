@@ -1,21 +1,22 @@
-module owlchain.meterics.meter;
-
-import std.datetime;
-import core.time;
+module owlchain.meterics.ewma;
+import std.math;
 import core.atomic;
-
-import owlchain.meterics.metricInterface;
-import owlchain.meterics.meteredInterface;
-
+import core.time;
+import core.sync.mutex;
 import owlchain.meterics.metricProcessor;
-import owlchain.meterics.ewma;
+import owlchain.meterics.metricInterface;
 
-class Meter : MetricInterface, MeteredInterface
+class EWMA
 {
 public:
-    this(string eventType, Duration rateUnit = dur!"seconds"(1))
+    this(double alpha, Duration interval)
     {
-        mImpl = new Impl(eventType, rateUnit);
+        mImpl = new Impl(alpha, interval);
+    }
+
+    this(ref EWMA other)
+    {
+        mImpl = new Impl(other.mImpl);
     }
 
     ~this()
@@ -23,68 +24,61 @@ public:
 
     }
 
-    Duration rate_unit()
+    static EWMA oneMinuteEWMA()
     {
-        return mImpl.rate_unit();
+        const double alpha = 1 - exp(-5.0 / 60.0 / 1.0);
+        return new EWMA(alpha, dur!"seconds"(5));
     }
 
-    string event_type()
+    static EWMA fiveMinuteEWMA()
     {
-        return mImpl.event_type();
+        const double alpha = 1 - exp(-5.0 / 60.0 / 5.0);
+        return new EWMA(alpha, dur!"seconds"(5));
     }
 
-    long count()
+    static EWMA fifteenMinuteEWMA()
     {
-        return mImpl.count();
+        const double alpha = 1 - exp(-5.0 / 60.0 / 15.0);
+        return new EWMA(alpha, dur!"seconds"(5));
     }
 
-    double fifteen_minute_rate()
+    void update(long n)
     {
-        return mImpl.fifteen_minute_rate();
+        mImpl.update(n);
     }
 
-    double five_minute_rate()
+    void tick()
     {
-        return mImpl.five_minute_rate();
+        mImpl.tick();
     }
 
-    double one_minute_rate()
+    double getRate(Duration duration = dur!"seconds"(1))
     {
-        return mImpl.one_minute_rate();
-    }
-
-    double mean_rate()
-    {
-        return mImpl.mean_rate();
-    }
-
-    void mark(long n = 1)
-    {
-        mImpl.mark(n);
-    }
-
-    void Process(MetricProcessor processor)
-    {
-        processor.Process(this);
+        return mImpl.getRate(duration);
     }
 
 private:
+
     class Impl
     {
     public:
-        this(string eventType, Duration rateUnit = dur!"seconds"(1))
+
+        this(double alpha, Duration interval)
         {
-            mEventType = eventType;
-            mRateUnit = rateUnit;
+            mInitialized = false;
+            mRate = 0.0;
+            atomicStore(mUncounted, 0L);
+            mAlpha = alpha;
+            mIntervalNanos = interval.total!"nsecs";
+        }
 
-            atomicStore(mCount, 0L);
-
-            mStartTime = Clock.currTime();
-            atomicStore(mLastTick, 0L);
-
-            mM1Rate = EWMA.oneMinuteEWMA();
-            mM5Rate = EWMA.fiveMinuteEWMA();
-            mM15Rate = EWMA.fifteenMinuteEWMA();
+        this(ref Impl other)
+        {
+            mInitialized = other.mInitialized;
+            mRate = other.mRate;
+            atomicStore(mUncounted, atomicLoad(other.mUncounted));
+            mAlpha = other.mAlpha;
+            mIntervalNanos = other.mIntervalNanos;
         }
 
         ~this()
@@ -92,99 +86,43 @@ private:
 
         }
 
-        Duration rate_unit()
+        void update(long n) @safe nothrow
         {
-            return mRateUnit;
+            atomicOp!"+="(mUncounted, n);
         }
 
-        string event_type()
+        void tick() @safe nothrow
         {
-            return mEventType;
-        }
+            double count;
 
-        long count()
-        {
-            long value = atomicLoad(mCount);
-            return value;
-        }
+            count = atomicLoad(mUncounted);
+            atomicStore(mUncounted, 0L);
 
-        double fifteen_minute_rate()
-        {
-            TickIfNecessary();
-            return mM15Rate.getRate();
-        }
-
-        double five_minute_rate()
-        {
-            TickIfNecessary();
-            return mM5Rate.getRate();
-        }
-
-        double one_minute_rate()
-        {
-            TickIfNecessary();
-            return mM1Rate.getRate();
-        }
-
-        double mean_rate()
-        {
-            double c = atomicLoad(mCount);
-            if (c > 0)
+            const auto instantRate = count / mIntervalNanos;
+            if (mInitialized)
             {
-                Duration elapsed = Clock.currTime() - mStartTime;
-                return c * mRateUnit.total!"nsecs" / elapsed.total!"nsecs";
+                mRate += (mAlpha * (instantRate - mRate));
             }
-            return 0.0;
+            else
+            {
+                mRate = instantRate;
+                mInitialized = true;
+            }
         }
 
-        void mark(long n = 1)
+        double getRate(Duration duration = dur!"seconds"(1))
         {
-            TickIfNecessary();
-            atomicOp!"+="(mCount, n);
-            mM1Rate.update(n);
-            mM5Rate.update(n);
-            mM15Rate.update(n);
+            return mRate * duration.total!"nsecs";
         }
 
     private:
-        static const auto kTickInterval = dur!"seconds"(5).total!"nsecs";
-        string mEventType;
-        Duration mRateUnit;
-
-        shared long mCount;
-        SysTime mStartTime;
-        shared long mLastTick;
-
-        EWMA mM1Rate;
-        EWMA mM5Rate;
-        EWMA mM15Rate;
-
-        void Tick()
-        {
-            mM1Rate.tick();
-            mM5Rate.tick();
-            mM15Rate.tick();
-        }
-
-        void TickIfNecessary()
-        {
-            auto old_tick = atomicLoad(mLastTick);
-            auto elapsed = Clock.currTime() - mStartTime;
-            auto new_tick = elapsed.total!"nsecs";
-
-            long age = new_tick - old_tick;
-            if (age > kTickInterval)
-            {
-                atomicStore(mLastTick, new_tick);
-                auto required_ticks = age / kTickInterval;
-                for (auto i = 0; i < required_ticks; i++)
-                {
-                    Tick();
-                }
-            }
-        }
-
-    };
+        Mutex mtx;
+        bool mInitialized;
+        double mRate;
+        shared long mUncounted;
+        double mAlpha;
+        long mIntervalNanos;
+    }
 
     Impl mImpl;
 }

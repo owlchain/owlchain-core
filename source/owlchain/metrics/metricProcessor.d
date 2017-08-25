@@ -1,21 +1,16 @@
-module owlchain.metrics.metricProcessor;
+module owlchain.meterics.metricProcessor;
 
-import owlchain.metrics.counter;
-import owlchain.metrics.Meter;
-import owlchain.metrics.Timer;
-/*
-import owlchain.metrics.Historgam;
-import owlchain.metrics.MetricInterface;
-*/
+import owlchain.meterics.counter;
+import owlchain.meterics.histogram;
+import owlchain.meterics.meter;
+import owlchain.meterics.timer;
+import owlchain.meterics.metricInterface;
 
 interface MetricProcessor
 {
-	void process(Counter counter);
-	void process(Meter meter);	
-	void process(Timer timer);
-// TODO : Converting....
-/**
-	void process(Historgam histogram);	
-	void process(MetricInterface metric);
-*/
+    void Process(Counter counter);
+    void Process(Histogram histogram);
+    void Process(Meter meter);
+    void Process(Timer timer);
+    void Process(MetricInterface metric);
 }
