@@ -4,17 +4,18 @@ import owlchain.xdr.ledgerEntry;
 import owlchain.xdr.ledgerEntryType;
 
 import owlchain.ledger.entryFrame;
-
+/*
 class DataFrame : EntryFrame
 {
-    this(LedgerEntryType type)
+    /this(LedgerEntryType type)
     {
-        super(type);
+        //super(type);
     }
 
     this(LedgerEntry from)
     {
-        super(from);
+        //super(from);
     }
 
 }
+*/

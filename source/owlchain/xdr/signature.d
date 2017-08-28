@@ -7,19 +7,27 @@ struct Signature
 {
     ubyte[] signature;
 
+    static Signature opCall()
+    {
+        Signature newValue;
+        return newValue;
+    }
+
+    static Signature opCall(ref ubyte[] other)
+    {
+        Signature newValue;
+        newValue.signature = other.dup;
+        return newValue;
+    }
+
+    static Signature opCall(ref const Signature other)
+    {
+        Signature newValue;
+        newValue.signature = other.signature.dup;
+        return newValue;
+    }
+
     ref Signature opAssign(Signature s)
-    {
-        signature = s.signature.dup;
-        return this;
-    }
-
-    ref Signature opAssign(ref Signature s)
-    {
-        signature = s.signature.dup;
-        return this;
-    }
-
-    ref Signature opAssign(ref const(Signature) s)
     {
         signature = s.signature.dup;
         return this;

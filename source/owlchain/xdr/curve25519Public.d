@@ -8,7 +8,6 @@ import owlchain.xdr.xdrDataOutputStream;
 struct Curve25519Public
 {
     ubyte [32] key;
-
     
     static void encode(XdrDataOutputStream stream, ref const Curve25519Public encoded)
     {

@@ -1,5 +1,7 @@
 module owlchain.xdr.accountEntry;
 
+import owlchain.utils.uniqueStruct;
+
 import owlchain.xdr.type;
 import owlchain.xdr.accountID;
 import owlchain.xdr.signer;
@@ -10,15 +12,32 @@ import owlchain.xdr.xdrDataOutputStream;
 
 struct AccountEntry
 {
+    // master public key for this account
     AccountID accountID;
+
+    // in stroops
     int64 balance;
+
+    // last sequence number used for this account
     SequenceNumber seqNum;
+
+    // number of sub-entries this account has drives the reserve
     uint32 numSubEntries;
 
-    AccountID inflationDest;
-    uint32 flags;
+    // Account to vote for during inflation
+    UniqueStruct!AccountID inflationDest;
+
+    // see AccountFlags
+    uint32 flags;   
+
+    // can be used for reverse federation and memo lookup
     string homeDomain;
+
+    // fields used for signatures
+    // thresholds stores unsigned bytes: [weight of master|low|medium|high]
     Thresholds thresholds;
+    
+    // possible signers for this account
     Signer[] signers;
     AccountEntryExt ext;
 
@@ -28,10 +47,10 @@ struct AccountEntry
         stream.writeInt64(encoded.balance);
         SequenceNumber.encode(stream, encoded.seqNum);
 
-        if (encoded.inflationDest.ed25519 != uint256_zero)
+        if (encoded.inflationDest != null)
         {
             stream.writeInt(1);
-            AccountID.encode(stream, encoded.inflationDest);
+            AccountID.encode(stream, *encoded.inflationDest);
         }
         else
         {
@@ -64,7 +83,8 @@ struct AccountEntry
         const int inflationDestPresent = stream.readInt32();
         if (inflationDestPresent != 0)
         {
-            decoded.inflationDest = AccountID.decode(stream);
+            decoded.inflationDest = cast(UniqueStruct!AccountID)(new AccountID());
+            *decoded.inflationDest = AccountID.decode(stream);
         }
 
         decoded.flags = stream.readUint32();

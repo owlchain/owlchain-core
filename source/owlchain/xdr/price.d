@@ -7,8 +7,8 @@ import owlchain.xdr.xdrDataOutputStream;
 
 struct Price
 {
-    int32 n;
-    int32 d;
+    int32 n;    // numerator
+    int32 d;    // denominator
 
     static void encode(XdrDataOutputStream stream, ref const Price encoded)
     {

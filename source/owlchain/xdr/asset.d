@@ -34,7 +34,6 @@ struct Asset
     static Asset decode(XdrDataInputStream stream)
     {
         Asset decodedValue;
-
         decodedValue.type = decodeAssetType(stream);
         switch (decodedValue.type)
         {
@@ -55,6 +54,7 @@ struct Asset
 
 struct AssetAlphaNum4
 {
+    //  1 to 4 characters
     ubyte[] assetCode;
     AccountID issuer;
 
