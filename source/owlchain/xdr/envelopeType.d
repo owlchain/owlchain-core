@@ -18,7 +18,7 @@ static void encodeEnvelopeType(XdrDataOutputStream stream, ref const EnvelopeTyp
     stream.writeInt32(value);
 }
 
-static EnvelopeType decodeBucketEntryType(XdrDataInputStream stream)
+static EnvelopeType decodeEnvelopeType(XdrDataInputStream stream)
 {
     const int32 value = stream.readInt32();
     switch (value)

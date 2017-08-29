@@ -27,7 +27,6 @@ struct Operation
     UniqueStruct!AccountID sourceAccount;
     OperationBody opBody;
 
-
     ref Operation opAssign(Operation other)
     {
         if (other.sourceAccount != null) {

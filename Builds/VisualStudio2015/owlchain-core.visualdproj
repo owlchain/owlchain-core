@@ -1155,6 +1155,8 @@
      <File path="..\..\source\owlchain\xdr\signer.d" />
      <File path="..\..\source\owlchain\xdr\signerKey.d" />
      <File path="..\..\source\owlchain\xdr\signerKeyType.d" />
+     <File path="..\..\source\owlchain\xdr\thresholdIndexes.d" />
+     <File path="..\..\source\owlchain\xdr\thresholdIndices.d" />
      <File path="..\..\source\owlchain\xdr\thresholds.d" />
      <File path="..\..\source\owlchain\xdr\timeBounds.d" />
      <File path="..\..\source\owlchain\xdr\transaction.d" />
@@ -1166,7 +1168,9 @@
      <File path="..\..\source\owlchain\xdr\transactionResultPair.d" />
      <File path="..\..\source\owlchain\xdr\transactionResultSet.d" />
      <File path="..\..\source\owlchain\xdr\transactionSet.d" />
+     <File path="..\..\source\owlchain\xdr\transactionSignaturePayload.d" />
      <File path="..\..\source\owlchain\xdr\trustLineEntry.d" />
+     <File path="..\..\source\owlchain\xdr\trustLineFlags.d" />
      <File path="..\..\source\owlchain\xdr\type.d" />
      <File path="..\..\source\owlchain\xdr\upgradeType.d" />
      <File path="..\..\source\owlchain\xdr\value.d" />
