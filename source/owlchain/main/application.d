@@ -6,6 +6,7 @@ import owlchain.database.database;
 import owlchain.xdr.hash;
 
 import owlchain.meterics;
+import owlchain.util.timer;
 
 class Application
 {
@@ -53,9 +54,9 @@ public:
 
     // Return a reference to the Application-local copy of the Config object
     // that the Application was constructed with.
-    const Config getConfig()
+    Config getConfig()
     {
-        return null;
+        return mConfig;
     }
 
     // Gets the current execution-state of the Application
@@ -76,10 +77,10 @@ public:
     }
 
     // Get the external VirtualClock to which this Application is bound.
-    //ref VirtualClock getClock()
-    //{
-        
-    //}
+    VirtualClock getClock()
+    {
+        return null;
+    }
 
     // Get the registry of meterics owned by this application. Metrics are
     // reported through the administrative HTTP interface, see CommandHandler.
@@ -223,7 +224,12 @@ public:
     //}
 
 protected:
+    Config mConfig;
+    
+    
     this()
     {
+        mConfig = new Config();
     }
+
 }

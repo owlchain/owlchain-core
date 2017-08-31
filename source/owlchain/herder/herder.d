@@ -19,7 +19,7 @@ import owlchain.util.xdrStream;
 
 import owlchain.herder.txSetFrame;
 
-import owlchain.consensus.consensusProtocolDriver;
+import owlchain.consensus.bcpDriver;
 import owlchain.main.application;
 import owlchain.database.database;
 import owlchain.overlay.peer;

@@ -4,6 +4,7 @@ import std.stdio;
 import std.container;
 import core.time;
 import std.json;
+import std.datetime;
 
 import std.typecons;
 
@@ -24,13 +25,14 @@ import owlchain.xdr.hash;
 import owlchain.xdr.bcpBallot;
 import owlchain.xdr.bosValue;
 import owlchain.crypto.keyUtils;
-import owlchain.consensus.consensusProtocol;
+import owlchain.consensus.bcp;
 
 import owlchain.util.xdrStream;
+import owlchain.util.timer;
 
 import owlchain.herder.txSetFrame;
 
-import owlchain.consensus.consensusProtocolDriver;
+import owlchain.consensus.bcpDriver;
 import owlchain.main.application;
 import owlchain.database.database;
 import owlchain.overlay.peer;
@@ -45,6 +47,7 @@ import owlchain.herder.herder;
 import owlchain.herder.pendingEnvelopes;
 
 import owlchain.ledger.ledgerManager;
+import core.stdc.stdint;
 
 /*
 * Public Interface to the Herder module
@@ -56,14 +59,16 @@ import owlchain.ledger.ledgerManager;
 * make the bidirectional interfaces
 */
 
-class HerderImpl : ConsensusProtocolDriver, Herder
+class HerderImpl : BCPDriver, Herder
 {
-    private ConsensusProtocol mCP;
+    private BCP mBCP;
 
 public:
-    this(Application ap)
+    this(Application app)
     {
-
+        mApp = app;
+        mBCPMetrics = BCPMetrics(app);
+        mBCP = new BCP(this, app.getConfig().NODE_SEED, app.getConfig().NODE_IS_VALIDATOR, app.getConfig().QUORUM_SET);
     }
 
     ~this()
@@ -73,24 +78,40 @@ public:
 
     Herder.State getState()
     {
-        return Herder.State.HERDER_SYNCING_STATE;
+        return (mTrackingBCP && mLastTrackingBCP) ? State.HERDER_TRACKING_STATE
+            : State.HERDER_SYNCING_STATE;
     }
 
     string getStateHuman()
     {
-        return "";
+        static string[State.HERDER_NUM_STATE] stateStrings = 
+        ["HERDER_SYNCING_STATE", "HERDER_TRACKING_STATE"];
+        return stateStrings[getState()];
     }
 
     // Ensure any meterics that are "current state" gauge-like counters reflect
     // the current reality as best as possible.
     void syncMetrics()
     {
-
+        int64 c = mBCPMetrics.mHerderStateCurrent.count();
+        int64 n = cast(int64)(getState());
+        if (c != n)
+        {
+            mBCPMetrics.mHerderStateCurrent.setCount(n);
+        }
     }
 
     void bootstrap()
     {
+        //CLOG(INFO, "Herder") << "Force joining BCP with local state";
+        assert(mBCP.isValidator());
+        //assert(mApp.getConfig().FORCE_BCP);
 
+        mLedgerManager.setState(LedgerManager.State.LM_SYNCED_STATE);
+        stateChanged();
+
+        mLastTrigger = mApp.getClock().now() - Herder.EXP_LEDGER_TIMESPAN_SECONDS;
+        ledgerClosed();
     }
 
     // restores SCP state based on the last messages saved on disk
@@ -99,9 +120,9 @@ public:
 
     }
 
-    ConsensusProtocol getCP()
+    BCP getBCP()
     {
-        return mCP;
+        return mBCP;
     }
 
     // Interface of BCP Driver
@@ -411,11 +432,11 @@ private:
     // herder keeps track of the consensus index and ballot
     // when not set, it just means that herder will try to snap to any slot that
     // reached consensus
-    UniqueStruct!ConsensusData mTrackingCP;
+    UniqueStruct!ConsensusData mTrackingBCP;
 
     // when losing track of consensus, records where we left off so that we
     // ignore older ledgers (as we potentially receive old messages)
-    UniqueStruct!ConsensusData mLastTrackingCP;
+    UniqueStruct!ConsensusData mLastTrackingBCP;
 
     // last slot that was persisted into the database
     // only keep track of the most recent slot
@@ -424,31 +445,38 @@ private:
     // Mark changes to mTrackingCP in meterics.
     void stateChanged()
     {
+        mBCPMetrics.mHerderStateCurrent.setCount(cast(int64)(getState()));
+        //auto now = mApp.getClock().now();
+        auto now = Clock.currTime();
+        mBCPMetrics.mHerderStateChanges.update(now - mLastStateChange);
+        mLastStateChange = now;
+        mApp.syncOwnMetrics();
 
     }
-    /*
-VirtualClock.time_point mLastStateChange;
+    
+    SysTime mLastStateChange;
 
     // the ledger index that was last externalized
-    uint32
-        lastConsensusLedgerIndex() const
-        {
-            assert(mTrackingCP->mConsensusIndex <= UINT32_MAX);
-            return static_cast<uint32>(mTrackingCP->mConsensusIndex);
-        }
+    uint32 lastConsensusLedgerIndex() const
+    {
+        assert(mTrackingBCP.mConsensusIndex <= UINT32_MAX);
+        return cast(uint32)(mTrackingBCP.mConsensusIndex);
+    }
 
     // the ledger index that we expect to externalize next
-    uint32
-        nextConsensusLedgerIndex() const
-        {
-            return lastConsensusLedgerIndex() + 1;
-        }
+    uint32 nextConsensusLedgerIndex() const
+    {
+        return lastConsensusLedgerIndex() + 1;
+    }
+
+    VirtualClock.time_point mLastTrigger;
 
     // timer that detects that we're stuck on an BCP slot
     VirtualTimer mTrackingTimer;
 
+    /*
     // saves the BCP messages that the instance sent out last
-    void persistCPState(uint64 slot);
+    void persistBCPState(uint64 slot);
 
     // create upgrades for given ledger
     LedgerUpgrade[] prepareUpgrades(ref LedgerHeader header) 
@@ -476,7 +504,7 @@ VirtualClock.time_point mLastStateChange;
     Application mApp;
     LedgerManager mLedgerManager;
 
-    struct CPMetrics
+    struct BCPMetrics
     {
         Meter mValueValid;
         Meter mValueInvalid;
@@ -522,47 +550,47 @@ VirtualClock.time_point mLastStateChange;
 
         this(Application app)
         {
-            mValueValid = app.getMetrics().NewMeter(new MetricName("cp", "value", "valid"), "value");
-            mValueInvalid = app.getMetrics().NewMeter(new MetricName("cp",
+            mValueValid = app.getMetrics().NewMeter(new MetricName("bcp", "value", "valid"), "value");
+            mValueInvalid = app.getMetrics().NewMeter(new MetricName("bcp",
                     "value", "invalid"), "value");
-            mNominatingValue = app.getMetrics().NewMeter(new MetricName("cp",
+            mNominatingValue = app.getMetrics().NewMeter(new MetricName("bcp",
                     "value", "nominating"), "value");
 
-            mValueExternalize = app.getMetrics().NewMeter(new MetricName("cp",
+            mValueExternalize = app.getMetrics().NewMeter(new MetricName("bcp",
                     "value", "externalize"), "value");
-            mUpdatedCandidate = app.getMetrics().NewMeter(new MetricName("cp",
+            mUpdatedCandidate = app.getMetrics().NewMeter(new MetricName("bcp",
                     "value", "candidate"), "value");
 
             mStartBallotProtocol = app.getMetrics()
-                .NewMeter(new MetricName("cp", "ballot", "started"), "ballot");
-            mAcceptedBallotPrepared = app.getMetrics().NewMeter(new MetricName("cp",
+                .NewMeter(new MetricName("bcp", "ballot", "started"), "ballot");
+            mAcceptedBallotPrepared = app.getMetrics().NewMeter(new MetricName("bcp",
                     "ballot", "accepted-prepared"), "ballot");
-            mConfirmedBallotPrepared = app.getMetrics().NewMeter(new MetricName("cp",
+            mConfirmedBallotPrepared = app.getMetrics().NewMeter(new MetricName("bcp",
                     "ballot", "confirmed-prepared"), "ballot");
-            mAcceptedCommit = app.getMetrics().NewMeter(new MetricName("cp",
+            mAcceptedCommit = app.getMetrics().NewMeter(new MetricName("bcp",
                     "ballot", "accepted-commit"), "ballot");
-            mBallotExpire = app.getMetrics().NewMeter(new MetricName("cp",
+            mBallotExpire = app.getMetrics().NewMeter(new MetricName("bcp",
                     "ballot", "expire"), "ballot");
 
-            mQuorumHeard = app.getMetrics().NewMeter(new MetricName("cp",
+            mQuorumHeard = app.getMetrics().NewMeter(new MetricName("bcp",
                     "quorum", "heard"), "quorum");
-            mLostSync = app.getMetrics().NewMeter(new MetricName("cp", "sync", "lost"), "sync");
+            mLostSync = app.getMetrics().NewMeter(new MetricName("bcp", "sync", "lost"), "sync");
 
-            mEnvelopeEmit = app.getMetrics().NewMeter(new MetricName("cp",
+            mEnvelopeEmit = app.getMetrics().NewMeter(new MetricName("bcp",
                     "envelope", "emit"), "envelope");
-            mEnvelopeReceive = app.getMetrics().NewMeter(new MetricName("cp",
+            mEnvelopeReceive = app.getMetrics().NewMeter(new MetricName("bcp",
                     "envelope", "receive"), "envelope");
-            mEnvelopeSign = app.getMetrics().NewMeter(new MetricName("cp",
+            mEnvelopeSign = app.getMetrics().NewMeter(new MetricName("bcp",
                     "envelope", "sign"), "envelope");
-            mEnvelopeValidSig = app.getMetrics().NewMeter(new MetricName("cp",
+            mEnvelopeValidSig = app.getMetrics().NewMeter(new MetricName("bcp",
                     "envelope", "validsig"), "envelope");
-            mEnvelopeInvalidSig = app.getMetrics().NewMeter(new MetricName("cp",
+            mEnvelopeInvalidSig = app.getMetrics().NewMeter(new MetricName("bcp",
                     "envelope", "invalidsig"), "envelope");
 
-            mKnownSlotsSize = app.getMetrics().NewCounter(new MetricName("cp",
+            mKnownSlotsSize = app.getMetrics().NewCounter(new MetricName("bcp",
                     "memory", "known-slots"));
             mCumulativeStatements = app.getMetrics()
-                .NewCounter(new MetricName("cp", "memory", "cumulative-statements"));
+                .NewCounter(new MetricName("bcp", "memory", "cumulative-statements"));
 
             mHerderStateCurrent = app.getMetrics()
                 .NewCounter(new MetricName("herder", "state", "current"));
@@ -580,5 +608,5 @@ VirtualClock.time_point mLastStateChange;
         }
     };
 
-    CPMetrics mCPMetrics;
+    BCPMetrics mBCPMetrics;
 }
