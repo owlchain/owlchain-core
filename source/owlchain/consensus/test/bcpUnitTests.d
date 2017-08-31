@@ -1,4 +1,4 @@
-module owlchain.consensus.tests.cpUnitTests;
+module owlchain.consensus.tests.bcpUnitTests;
 
 import std.stdio;
 import std.conv;

@@ -22,8 +22,8 @@ import owlchain.xdr.bcpQuorumSet;
 import owlchain.xdr.nodeID;
 import owlchain.xdr.bcpBallot;
 
-import owlchain.consensus.consensusProtocol;
-import owlchain.consensus.consensusProtocolDriver;
+import owlchain.consensus.bcp;
+import owlchain.consensus.bcpDriver;
 import owlchain.consensus.slot;
 import owlchain.consensus.localNode;
 
@@ -83,9 +83,9 @@ public:
     // the slot accordingly.
     // self: set to true when node feeds its own statements in order to
     // trigger more potential state changes
-    ConsensusProtocol.EnvelopeState processEnvelope(ref BCPEnvelope envelope, bool self)
+    BCP.EnvelopeState processEnvelope(ref BCPEnvelope envelope, bool self)
     {
-        ConsensusProtocol.EnvelopeState res = ConsensusProtocol.EnvelopeState.INVALID;
+        BCP.EnvelopeState res = BCP.EnvelopeState.INVALID;
         dbgAssert(envelope.statement.slotIndex == mSlot.getSlotIndex());
 
         BCPStatement* statement = &envelope.statement;
@@ -98,7 +98,7 @@ public:
                 writefln("[ERROR], BCP not sane statement from self, skipping   e: %s",
                         mSlot.getCP().envToStr(envelope));
             }
-            return ConsensusProtocol.EnvelopeState.INVALID;
+            return BCP.EnvelopeState.INVALID;
         }
 
         if (!isNewerStatement(*nodeID, *statement))
@@ -113,17 +113,17 @@ public:
                 writefln("[TRACE], BCP stale statement, skipping   i: %d",
                         mSlot.getSlotIndex);
             }
-            return ConsensusProtocol.EnvelopeState.INVALID;
+            return BCP.EnvelopeState.INVALID;
         }
 
         auto validationRes = validateValues(*statement);
-        if (validationRes != ConsensusProtocolDriver.ValidationLevel.kInvalidValue)
+        if (validationRes != BCPDriver.ValidationLevel.kInvalidValue)
         {
             bool processed = false;
 
             if (mPhase != BCPPhase.BCP_PHASE_EXTERNALIZE)
             {
-                if (validationRes == ConsensusProtocolDriver.ValidationLevel.kMaybeValidValue)
+                if (validationRes == BCPDriver.ValidationLevel.kMaybeValidValue)
                 {
                     mSlot.setFullyValidated(false);
                 }
@@ -131,7 +131,7 @@ public:
                 recordEnvelope(envelope);
                 processed = true;
                 advanceSlot(*statement);
-                res = ConsensusProtocol.EnvelopeState.VALID;
+                res = BCP.EnvelopeState.VALID;
             }
 
             if (!processed)
@@ -142,7 +142,7 @@ public:
                         && mCommit.value == getWorkingBallot(*statement).value)
                 {
                     recordEnvelope(envelope);
-                    res = ConsensusProtocol.EnvelopeState.VALID;
+                    res = BCP.EnvelopeState.VALID;
                 }
                 else
                 {
@@ -152,7 +152,7 @@ public:
                                 mSlot.getCP().envToStr(envelope));
                     }
 
-                    res = ConsensusProtocol.EnvelopeState.INVALID;
+                    res = BCP.EnvelopeState.INVALID;
                 }
             }
         }
@@ -169,7 +169,7 @@ public:
                 writefln("[TRACE], BCP invalid value  i: %d", mSlot.getSlotIndex);
             }
 
-            res = ConsensusProtocol.EnvelopeState.INVALID;
+            res = BCP.EnvelopeState.INVALID;
         }
         return res;
     }
@@ -678,7 +678,7 @@ private:
     }
 
     // returns true if all values in statement are valid
-    ConsensusProtocolDriver.ValidationLevel validateValues(ref BCPStatement st)
+    BCPDriver.ValidationLevel validateValues(ref BCPStatement st)
     {
         ValueSet values = new ValueSet;
         switch (st.pledges.type)
@@ -708,23 +708,23 @@ private:
 
         default:
             // This shouldn't happen
-            return ConsensusProtocolDriver.ValidationLevel.kInvalidValue;
+            return BCPDriver.ValidationLevel.kInvalidValue;
         }
 
-        ConsensusProtocolDriver.ValidationLevel res
-            = ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue;
+        BCPDriver.ValidationLevel res
+            = BCPDriver.ValidationLevel.kFullyValidatedValue;
         foreach (ref Value v; values)
         {
             auto level = mSlot.getCPDriver().validateValue(mSlot.getSlotIndex(), v);
-            if (level != ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue)
+            if (level != BCPDriver.ValidationLevel.kFullyValidatedValue)
             {
-                if (level == ConsensusProtocolDriver.ValidationLevel.kInvalidValue)
+                if (level == BCPDriver.ValidationLevel.kInvalidValue)
                 {
-                    res = ConsensusProtocolDriver.ValidationLevel.kInvalidValue;
+                    res = BCPDriver.ValidationLevel.kInvalidValue;
                 }
                 else
                 {
-                    res = ConsensusProtocolDriver.ValidationLevel.kMaybeValidValue;
+                    res = BCPDriver.ValidationLevel.kMaybeValidValue;
                 }
             }
         }
@@ -877,7 +877,7 @@ private:
         return didWork;
     }
 
-    // step 2+3+8 from the ConsensusProtocol paper
+    // step 2+3+8 from the BCP paper
     // ballot is the candidate to record as 'confirmed prepared'
     bool attemptPreparedConfirmed(ref BCPStatement hint)
     {
@@ -993,7 +993,7 @@ private:
         return didWork;
     }
 
-    // step (4 and 6)+8 from the ConsensusProtocol paper
+    // step (4 and 6)+8 from the BCP paper
     bool attemptAcceptCommit(ref BCPStatement hint)
     {
         if (mPhase != BCPPhase.BCP_PHASE_PREPARE && mPhase != BCPPhase.BCP_PHASE_CONFIRM)
@@ -1156,7 +1156,7 @@ private:
         return didWork;
     }
 
-    // step 7+8 from the ConsensusProtocol paper
+    // step 7+8 from the BCP paper
     bool attemptConfirmCommit(ref BCPStatement hint)
     {
         if (mPhase != BCPPhase.BCP_PHASE_CONFIRM)
@@ -1244,7 +1244,7 @@ private:
         return true;
     }
 
-    // step 9 from the ConsensusProtocol paper
+    // step 9 from the BCP paper
     bool attemptBump()
     {
         if (mPhase == BCPPhase.BCP_PHASE_PREPARE || mPhase == BCPPhase.BCP_PHASE_CONFIRM)
@@ -1741,7 +1741,7 @@ private:
     {
         bool res = false;
 
-        // total ordering described in ConsensusProtocol paper.
+        // total ordering described in BCP paper.
         auto t = st.pledges.type;
 
         // statement type (PREPARE < CONFIRM < EXTERNALIZE)
@@ -2018,7 +2018,7 @@ private:
 
         if ((pN is null) || !(mLatestEnvelopes[nID] == envelope))
         {
-            if (mSlot.processEnvelope(envelope, true) == ConsensusProtocol.EnvelopeState.VALID)
+            if (mSlot.processEnvelope(envelope, true) == BCP.EnvelopeState.VALID)
             {
                 if (canEmit && (!mLastEnvelope.refCountedStore.isInitialized
                         || isNewerStatement(mLastEnvelope.statement, envelope.statement)))

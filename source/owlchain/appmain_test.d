@@ -1,8 +1,8 @@
 import std.stdio;
 import owlchain.consensus.tests.quorumSetTest;
-import owlchain.consensus.tests.cpUnitTests;
+import owlchain.consensus.tests.bcpUnitTests;
 import owlchain.consensus.tests.arrayTest;
-import owlchain.consensus.tests.cpTests;
+import owlchain.consensus.tests.bcpTests;
 import owlchain.xdr.tests.streamTest;
 import std.experimental.logger;
 import std.system;

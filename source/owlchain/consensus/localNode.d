@@ -26,8 +26,8 @@ import owlchain.xdr.bcpStatementType;
 import owlchain.crypto.keyUtils;
 import owlchain.xdr.xdrDataOutputStream;
 
-import owlchain.consensus.consensusProtocol;
-import owlchain.consensus.consensusProtocolDriver;
+import owlchain.consensus.bcp;
+import owlchain.consensus.bcpDriver;
 
 // This is one Node in the network
 class LocalNode
@@ -43,10 +43,10 @@ protected:
     Hash mSingleQSetHash; // hash of the singleton qset
     BCPQuorumSet mSingleQSet; // {{mNodeID}}
 
-    ConsensusProtocol mConsensusProtocol;
+    BCP mBCP;
 
 public:
-    this(ref SecretKey secretKey, bool isValidator, ref BCPQuorumSet qSet, ConsensusProtocol cp)
+    this(ref SecretKey secretKey, bool isValidator, ref BCPQuorumSet qSet, BCP cp)
     {
         mNodeID = secretKey.getPublicKey();
         mSecretKey = secretKey;
@@ -56,7 +56,7 @@ public:
         mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
         //writefln("Local Node QuorumSetHash(LocalNode) : %s", toHexString(mQSetHash.hash));
 
-        mConsensusProtocol = cp;
+        mBCP = cp;
 
         //writefln("[INFO], BCP LocalNode.LocalNode @%s qSet: %s", toHexString(mNodeID.publicKey.ed25519), toHexString(mQSetHash.hash));
 
@@ -97,7 +97,7 @@ public:
         return mIsValidator;
     }
 
-    ConsensusProtocol.TriBool isNodeInQuorum(ref NodeID node,
+    BCP.TriBool isNodeInQuorum(ref NodeID node,
             BCPQuorumSetPtr delegate(ref BCPStatement) qfn, ref BCPStatement*[][NodeID] map)
     {
 
@@ -106,7 +106,7 @@ public:
         NodeID[] backlog;
         NodeID[] visited;
 
-        ConsensusProtocol.TriBool res = ConsensusProtocol.TriBool.TB_FALSE;
+        BCP.TriBool res = BCP.TriBool.TB_FALSE;
 
         backlog ~= mNodeID;
 
@@ -115,8 +115,9 @@ public:
             auto c = backlog[0];
             if (c == node)
             {
-                return ConsensusProtocol.TriBool.TB_TRUE;
+                return BCP.TriBool.TB_TRUE;
             }
+
             backlog = backlog[1 .. $];
             if (!visited.canFind(c))
                 visited ~= c;
@@ -124,7 +125,7 @@ public:
             if (!map.keys.canFind(c))
             {
                 // can't lookup information on this node
-                res = ConsensusProtocol.TriBool.TB_MAYBE;
+                res = BCP.TriBool.TB_MAYBE;
                 continue;
             }
 
@@ -135,7 +136,7 @@ public:
                 if (!qset.refCountedStore.isInitialized)
                 {
                     // can't find the quorum set
-                    res = ConsensusProtocol.TriBool.TB_MAYBE;
+                    res = BCP.TriBool.TB_MAYBE;
                     continue;
                 }
                 // see if we need to explore further
@@ -253,7 +254,8 @@ public:
     // BCPQuorumSetPtr from the BCPStatement for its associated node in map
     // (required for transitivity)
     static bool isQuorum(ref BCPQuorumSet qSet, ref BCPEnvelope[NodeID] map,
-            BCPQuorumSetPtr delegate(ref BCPStatement) qfun, bool delegate(ref BCPStatement) filter = null)
+            BCPQuorumSetPtr delegate(ref BCPStatement) qfun,
+            bool delegate(ref BCPStatement) filter = null)
     {
         if (filter == null)
         {
@@ -334,7 +336,8 @@ public:
     // computes the distance to the set of v-blocking sets given
     // a set of nodes that agree (but can fail)
     // excluded, if set will be skipped altogether
-    static NodeID[] findClosestVBlocking(ref BCPQuorumSet qset, ref NodeIDSet nodes, NodeID* excluded)
+    static NodeID[] findClosestVBlocking(ref BCPQuorumSet qset, ref NodeIDSet nodes,
+            NodeID* excluded)
     {
         size_t leftTillBlock = ((1 + qset.validators.length + qset.innerSets.length)
                 - qset.threshold);
@@ -411,8 +414,7 @@ public:
 
         foreach (int i, ref PublicKey validator; qSet.validators)
         {
-            value["v"].array ~= JSONValue(toUTF8(mConsensusProtocol.getCPDriver()
-                    .toShortString(validator)));
+            value["v"].array ~= JSONValue(toUTF8(mBCP.getCPDriver().toShortString(validator)));
         }
 
         foreach (int i, ref BCPQuorumSet s; qSet.innerSets)

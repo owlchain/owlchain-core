@@ -976,13 +976,13 @@
     <Folder name="consensus">
      <Folder name="test">
       <File path="..\..\source\owlchain\consensus\test\arrayTest.d" />
-      <File path="..\..\source\owlchain\consensus\test\cpTests.d" />
-      <File path="..\..\source\owlchain\consensus\test\cpUnitTests.d" />
+      <File path="..\..\source\owlchain\consensus\test\bcpTests.d" />
+      <File path="..\..\source\owlchain\consensus\test\bcpUnitTests.d" />
       <File path="..\..\source\owlchain\consensus\test\quorumSetTest.d" />
      </Folder>
      <File path="..\..\source\owlchain\consensus\ballotProtocol.d" />
-     <File path="..\..\source\owlchain\consensus\consensusProtocol.d" />
-     <File path="..\..\source\owlchain\consensus\consensusProtocolDriver.d" />
+     <File path="..\..\source\owlchain\consensus\bcp.d" />
+     <File path="..\..\source\owlchain\consensus\bcpDriver.d" />
      <File path="..\..\source\owlchain\consensus\localNode.d" />
      <File path="..\..\source\owlchain\consensus\nominationProtocol.d" />
      <File path="..\..\source\owlchain\consensus\quorumSetUtils.d" />
@@ -1047,6 +1047,7 @@
      <File path="..\..\source\owlchain\transaction\transactionFrame.d" />
     </Folder>
     <Folder name="util">
+     <File path="..\..\source\owlchain\util\timer.d" />
      <File path="..\..\source\owlchain\util\xdrStream.d" />
     </Folder>
     <Folder name="utils">

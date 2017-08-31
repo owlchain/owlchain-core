@@ -1,4 +1,4 @@
-module owlchain.consensus.tests.cpTests;
+module owlchain.consensus.tests.bcpTests;
 
 import core.time;
 
@@ -21,8 +21,8 @@ import owlchain.xdr.bcpStatementType;
 
 import owlchain.crypto.keyUtils;
 
-import owlchain.consensus.consensusProtocol;
-import owlchain.consensus.consensusProtocolDriver;
+import owlchain.consensus.bcp;
+import owlchain.consensus.bcpDriver;
 import owlchain.consensus.slot;
 import owlchain.consensus.localNode;
 
@@ -35,10 +35,10 @@ import core.stdc.stdint;
 alias PriorityLookupDelegate = uint64 delegate(ref const NodeID);
 alias HashCalculatorDelegate = uint64 delegate(ref const Value);
 alias BallotArray = BCPBallot[];
-class TestCP : ConsensusProtocolDriver
+class TestCP : BCPDriver
 {
 public:
-    ConsensusProtocol mConsensusProtocol;
+    BCP mBCP;
 
     PriorityLookupDelegate mPriorityLookup;
     HashCalculatorDelegate mHashValueCalculator;
@@ -53,7 +53,7 @@ public:
 
     this(SecretKey secretKey, ref BCPQuorumSet qSetLocal, bool isValidator = true)
     {
-        mConsensusProtocol = new ConsensusProtocol(this, secretKey, isValidator, qSetLocal);
+        mBCP = new BCP(this, secretKey, isValidator, qSetLocal);
 
         mPriorityLookup = (ref const NodeID n) {
             return (n == secretKey.getPublicKey()) ? 1000 : 1;
@@ -61,7 +61,7 @@ public:
 
         mHashValueCalculator = (ref const Value v) { return 0; };
 
-        auto localQSet = mConsensusProtocol.getLocalQuorumSet();
+        auto localQSet = mBCP.getLocalQuorumSet();
         storeQuorumSet(cast(BCPQuorumSet) localQSet);
 
         BCPBallot[] v;
@@ -85,9 +85,9 @@ public:
         mQuorumSets[mQSetHash] = qSet;
     }
 
-    override ConsensusProtocolDriver.ValidationLevel validateValue(uint64 slotIndex, ref Value value)
+    override BCPDriver.ValidationLevel validateValue(uint64 slotIndex, ref Value value)
     {
-        return ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue;
+        return BCPDriver.ValidationLevel.kFullyValidatedValue;
     }
 
     override void ballotDidHearFromQuorum(uint64 slotIndex, ref BCPBallot ballot)
@@ -134,12 +134,12 @@ public:
     // used to test BallotProtocol and bypass nomination
     bool bumpState(uint64 slotIndex, ref Value v)
     {
-        return mConsensusProtocol.getSlot(slotIndex, true).bumpState(v, true);
+        return mBCP.getSlot(slotIndex, true).bumpState(v, true);
     }
 
     bool nominate(uint64 slotIndex, ref Value value, bool timedout)
     {
-        return mConsensusProtocol.getSlot(slotIndex, true).nominate(value, value, timedout);
+        return mBCP.getSlot(slotIndex, true).nominate(value, value, timedout);
     }
 
     // only used by nomination protocol
@@ -187,22 +187,22 @@ public:
 
     ref const(Value) getLatestCompositeCandidate(uint64 slotIndex)
     {
-        return mConsensusProtocol.getSlot(slotIndex, true).getLatestCompositeCandidate();
+        return mBCP.getSlot(slotIndex, true).getLatestCompositeCandidate();
     }
 
     void receiveEnvelope(ref BCPEnvelope envelope)
     {
-        mConsensusProtocol.receiveEnvelope(envelope);
+        mBCP.receiveEnvelope(envelope);
     }
 
     Slot getSlot(uint64 index)
     {
-        return mConsensusProtocol.getSlot(index, false);
+        return mBCP.getSlot(index, false);
     }
 
     BCPEnvelope[] getEntireState(uint64 index)
     {
-        auto v = mConsensusProtocol.getSlot(index, false).getEntireCurrentState();
+        auto v = mBCP.getSlot(index, false).getEntireCurrentState();
         return v;
     }
 
@@ -458,7 +458,7 @@ public:
     BCPQuorumSet mQSet;
     Hash mQSetHash;
     Hash mQSetHash0;
-    TestCP mCP;
+    TestCP mBCP;
 
     void Init()
     {
@@ -473,9 +473,9 @@ public:
         mQSet = qSet;
         mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
 
-        mCP = new TestCP(mSecretKey[0], mQSet);
+        mBCP = new TestCP(mSecretKey[0], mQSet);
 
-        mQSetHash0 = cast(Hash) mCP.mConsensusProtocol.getLocalNode().getQuorumSetHash();
+        mQSetHash0 = cast(Hash) mBCP.mBCP.getLocalNode().getQuorumSetHash();
 
     }
 
@@ -485,18 +485,18 @@ public:
         BCPEnvelope e2 = gen(mSecretKey[2]);
 
         // nothing should happen with first message
-        size_t i = mCP.mEnvs.length;
-        mCP.receiveEnvelope(e1);
+        size_t i = mBCP.mEnvs.length;
+        mBCP.receiveEnvelope(e1);
         if (withChecks)
         {
-            REQUIRE(mCP.mEnvs.length == i);
+            REQUIRE(mBCP.mEnvs.length == i);
         }
 
         i++;
-        mCP.receiveEnvelope(e2);
+        mBCP.receiveEnvelope(e2);
         if (withChecks)
         {
-            REQUIRE(mCP.mEnvs.length == i);
+            REQUIRE(mBCP.mEnvs.length == i);
         }
     };
 
@@ -512,23 +512,23 @@ public:
         BCPEnvelope e3 = gen(mSecretKey[3]);
         BCPEnvelope e4 = gen(mSecretKey[4]);
 
-        mCP.receiveEnvelope(e1);
-        mCP.receiveEnvelope(e2);
+        mBCP.receiveEnvelope(e1);
+        mBCP.receiveEnvelope(e2);
 
-        size_t i = mCP.mEnvs.length + 1;
+        size_t i = mBCP.mEnvs.length + 1;
 
-        mCP.receiveEnvelope(e3);
+        mBCP.receiveEnvelope(e3);
 
         if (withChecks && !delayedQuorum)
         {
-            REQUIRE(mCP.mEnvs.length == i);
+            REQUIRE(mBCP.mEnvs.length == i);
         }
 
         // nothing happens with an extra vote (unless we're in delayedQuorum)
-        mCP.receiveEnvelope(e4);
+        mBCP.receiveEnvelope(e4);
         if (withChecks && delayedQuorum)
         {
-            REQUIRE(mCP.mEnvs.length == i);
+            REQUIRE(mBCP.mEnvs.length == i);
         }
 
     };
@@ -546,53 +546,53 @@ public:
         BCPEnvelope prepare3 = makePrepare(mSecretKey[3], mQSetHash, 0, b);
         BCPEnvelope prepare4 = makePrepare(mSecretKey[4], mQSetHash, 0, b);
 
-        REQUIRE(mCP.bumpState(0, mValue[0]));
-        REQUIRE(mCP.mEnvs.length == 1);
+        REQUIRE(mBCP.bumpState(0, mValue[0]));
+        REQUIRE(mBCP.mEnvs.length == 1);
 
-        verifyPrepare(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, b);
+        verifyPrepare(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, b);
 
-        mCP.receiveEnvelope(prepare1);
-        REQUIRE(mCP.mEnvs.length == 1);
-        REQUIRE(mCP.mHeardFromQuorums[0].length == 0);
+        mBCP.receiveEnvelope(prepare1);
+        REQUIRE(mBCP.mEnvs.length == 1);
+        REQUIRE(mBCP.mHeardFromQuorums[0].length == 0);
 
-        mCP.receiveEnvelope(prepare2);
-        REQUIRE(mCP.mEnvs.length == 1);
-        REQUIRE(mCP.mHeardFromQuorums[0].length == 0);
+        mBCP.receiveEnvelope(prepare2);
+        REQUIRE(mBCP.mEnvs.length == 1);
+        REQUIRE(mBCP.mHeardFromQuorums[0].length == 0);
 
-        mCP.receiveEnvelope(prepare3);
-        REQUIRE(mCP.mEnvs.length == 2);
-        REQUIRE(mCP.mHeardFromQuorums[0].length == 1);
-        REQUIRE(mCP.mHeardFromQuorums[0][0] == b);
+        mBCP.receiveEnvelope(prepare3);
+        REQUIRE(mBCP.mEnvs.length == 2);
+        REQUIRE(mBCP.mHeardFromQuorums[0].length == 1);
+        REQUIRE(mBCP.mHeardFromQuorums[0][0] == b);
 
         // We have a quorum including us
-        verifyPrepare(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, b, &b);
+        verifyPrepare(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, b, &b);
 
-        mCP.receiveEnvelope(prepare4);
-        REQUIRE(mCP.mEnvs.length == 2);
+        mBCP.receiveEnvelope(prepare4);
+        REQUIRE(mBCP.mEnvs.length == 2);
 
         BCPEnvelope prepared1 = makePrepare(mSecretKey[1], mQSetHash, 0, b, &b);
         BCPEnvelope prepared2 = makePrepare(mSecretKey[2], mQSetHash, 0, b, &b);
         BCPEnvelope prepared3 = makePrepare(mSecretKey[3], mQSetHash, 0, b, &b);
         BCPEnvelope prepared4 = makePrepare(mSecretKey[4], mQSetHash, 0, b, &b);
 
-        mCP.receiveEnvelope(prepared4);
-        mCP.receiveEnvelope(prepared3);
-        REQUIRE(mCP.mEnvs.length == 2);
+        mBCP.receiveEnvelope(prepared4);
+        mBCP.receiveEnvelope(prepared3);
+        REQUIRE(mBCP.mEnvs.length == 2);
 
-        mCP.receiveEnvelope(prepared2);
-        REQUIRE(mCP.mEnvs.length == 3);
+        mBCP.receiveEnvelope(prepared2);
+        REQUIRE(mBCP.mEnvs.length == 3);
 
         // confirms prepared
-        verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, b, &b, b.counter, b.counter);
+        verifyPrepare(mBCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, b, &b, b.counter, b.counter);
 
         // extra statement doesn't do anything
-        mCP.receiveEnvelope(prepared1);
-        REQUIRE(mCP.mEnvs.length == 3);
+        mBCP.receiveEnvelope(prepared1);
+        REQUIRE(mBCP.mEnvs.length == 3);
     };
 
     void ballotProtocolTest1()
     {
-        TEST_CASE("vblocking and quorum", "[mCP]");
+        TEST_CASE("vblocking and quorum", "[mBCP]");
         {
             SIMULATION_CREATE_NODE(0);
             SIMULATION_CREATE_NODE(1);
@@ -634,7 +634,7 @@ public:
             REQUIRE(LocalNode.isVBlocking(qSet, nodeSet) == true);
         }
 
-        TEST_CASE("v-blocking distance", "[mCP]");
+        TEST_CASE("v-blocking distance", "[mBCP]");
         {
             SIMULATION_CREATE_NODE(0);
             SIMULATION_CREATE_NODE(1);
@@ -738,21 +738,21 @@ public:
 
             Init();
 
-            mCP.storeQuorumSet(mQSet);
+            mBCP.storeQuorumSet(mQSet);
 
             REQUIRE(mValue[0].value < mValue[1].value);
 
-            writefln("[INFO], ConsensusProtocol");
-            writefln("[INFO], ConsensusProtocol BEGIN TEST");
+            writefln("[INFO], BCP");
+            writefln("[INFO], BCP BEGIN TEST");
 
             SECTION("bumpState x");
             {
-                REQUIRE(mCP.bumpState(0, mValue[0]));
-                REQUIRE(mCP.mEnvs.length == 1);
+                REQUIRE(mBCP.bumpState(0, mValue[0]));
+                REQUIRE(mBCP.mEnvs.length == 1);
 
                 BCPBallot expectedBallot = BCPBallot(1, mValue[0]);
 
-                verifyPrepare(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, expectedBallot);
+                verifyPrepare(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, expectedBallot);
             }
         }
     }
@@ -800,8 +800,8 @@ public:
             B3.counter++;
 
             auto TEST_Start1X = () {
-                REQUIRE(mCP.bumpState(0, aValue));
-                REQUIRE(mCP.mEnvs.length == 1);
+                REQUIRE(mBCP.bumpState(0, aValue));
+                REQUIRE(mBCP.mEnvs.length == 1);
             };
 
             TEST_Start1X();
@@ -811,8 +811,8 @@ public:
                 auto TEST_PreparedA1 = () {
 
                     recvQuorum(makePrepareGen(mQSetHash, A1));
-                    REQUIRE(mCP.mEnvs.length == 2);
-                    verifyPrepare(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, A1, &A1);
+                    REQUIRE(mBCP.mEnvs.length == 2);
+                    verifyPrepare(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, A1, &A1);
 
                 };
                 TEST_PreparedA1();
@@ -822,13 +822,13 @@ public:
                     auto TEST_BumpPreparedA2 = () {
 
                         // bump to (2,a)
-                        REQUIRE(mCP.bumpState(0, aValue));
-                        REQUIRE(mCP.mEnvs.length == 3);
-                        verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, A2, &A1);
+                        REQUIRE(mBCP.bumpState(0, aValue));
+                        REQUIRE(mBCP.mEnvs.length == 3);
+                        verifyPrepare(mBCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, A2, &A1);
 
                         recvQuorum(makePrepareGen(mQSetHash, A2));
-                        REQUIRE(mCP.mEnvs.length == 4);
-                        verifyPrepare(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, A2, &A2);
+                        REQUIRE(mBCP.mEnvs.length == 4);
+                        verifyPrepare(mBCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, A2, &A2);
 
                     };
                     TEST_BumpPreparedA2();
@@ -839,8 +839,8 @@ public:
                         {
 
                             recvQuorum(makePrepareGen(mQSetHash, A2, &A2));
-                            REQUIRE(mCP.mEnvs.length == 5);
-                            verifyPrepare(mCP.mEnvs[4], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 5);
+                            verifyPrepare(mBCP.mEnvs[4], mSecretKey[0],
                                     mQSetHash0, 0, A2, &A2, 2, 2);
 
                         }
@@ -854,8 +854,8 @@ public:
                                 auto TEST_QuorumA2 = () {
 
                                     recvQuorum(makePrepareGen(mQSetHash, A2, &A2, 2, 2));
-                                    REQUIRE(mCP.mEnvs.length == 6);
-                                    verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                    REQUIRE(mBCP.mEnvs.length == 6);
+                                    verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                             mQSetHash0, 0, 2, A2, 2, 2);
 
                                 };
@@ -866,13 +866,13 @@ public:
                                     auto TEST_QuorumPreparedA3 = () {
 
                                         recvVBlocking(makePrepareGen(mQSetHash, A3, &A2, 2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 7);
-                                        verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 7);
+                                        verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                                 mQSetHash0, 0, 2, A3, 2, 2);
 
                                         recvQuorum(makePrepareGen(mQSetHash, A3, &A2, 2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 8);
-                                        verifyConfirm(mCP.mEnvs[7], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 8);
+                                        verifyConfirm(mBCP.mEnvs[7], mSecretKey[0],
                                                 mQSetHash0, 0, 3, A3, 2, 2);
 
                                     };
@@ -884,11 +884,11 @@ public:
                                         auto TEST_AcceptMoreCommitA3 = () {
 
                                             recvQuorum(makePrepareGen(mQSetHash, A3, &A3, 2, 3));
-                                            REQUIRE(mCP.mEnvs.length == 9);
-                                            verifyConfirm(mCP.mEnvs[8], mSecretKey[0],
+                                            REQUIRE(mBCP.mEnvs.length == 9);
+                                            verifyConfirm(mBCP.mEnvs[8], mSecretKey[0],
                                                     mQSetHash0, 0, 3, A3, 2, 3);
 
-                                            REQUIRE(mCP.mExternalizedValues.length == 0);
+                                            REQUIRE(mBCP.mExternalizedValues.length == 0);
 
                                         };
 
@@ -899,12 +899,12 @@ public:
                                             auto TEST_QuorumExternalizeA3 = {
 
                                                 recvQuorum(makeConfirmGen(mQSetHash, 3, A3, 2, 3));
-                                                REQUIRE(mCP.mEnvs.length == 10);
-                                                verifyExternalize(mCP.mEnvs[9],
+                                                REQUIRE(mBCP.mEnvs.length == 10);
+                                                verifyExternalize(mBCP.mEnvs[9],
                                                         mSecretKey[0], mQSetHash0, 0, A2, 3);
 
-                                                REQUIRE(mCP.mExternalizedValues.length == 1);
-                                                REQUIRE(mCP.mExternalizedValues[0] == aValue);
+                                                REQUIRE(mBCP.mExternalizedValues.length == 1);
+                                                REQUIRE(mBCP.mExternalizedValues[0] == aValue);
 
                                             };
 
@@ -928,8 +928,8 @@ public:
                                             auto TEST_ConfirmA3 = () {
                                                 recvVBlocking(makeConfirmGen(mQSetHash,
                                                         3, A3, 2, 3));
-                                                REQUIRE(mCP.mEnvs.length == 9);
-                                                verifyConfirm(mCP.mEnvs[8], mSecretKey[0],
+                                                REQUIRE(mBCP.mEnvs.length == 9);
+                                                verifyConfirm(mBCP.mEnvs[8], mSecretKey[0],
                                                         mQSetHash0, 0, 3, A3, 2, 3);
                                             };
                                             TEST_ConfirmA3();
@@ -946,8 +946,8 @@ public:
                                         SECTION("Externalize A3");
                                         {
                                             recvVBlocking(makeExternalizeGen(mQSetHash, A2, 3));
-                                            REQUIRE(mCP.mEnvs.length == 9);
-                                            verifyConfirm(mCP.mEnvs[8], mSecretKey[0], mQSetHash0,
+                                            REQUIRE(mBCP.mEnvs.length == 9);
+                                            verifyConfirm(mBCP.mEnvs[8], mSecretKey[0], mQSetHash0,
                                                     0, UINT32_MAX, AInf, 2, UINT32_MAX);
                                         }
 
@@ -965,8 +965,8 @@ public:
                                             {
                                                 recvVBlocking(makeConfirmGen(mQSetHash,
                                                         3, A5, 4, 5));
-                                                REQUIRE(mCP.mEnvs.length == 9);
-                                                verifyConfirm(mCP.mEnvs[8], mSecretKey[0],
+                                                REQUIRE(mBCP.mEnvs.length == 9);
+                                                verifyConfirm(mBCP.mEnvs[8], mSecretKey[0],
                                                         mQSetHash0, 0, 3, A5, 4, 5);
                                             }
 
@@ -981,8 +981,8 @@ public:
                                             SECTION("Externalize A4..5");
                                             {
                                                 recvVBlocking(makeExternalizeGen(mQSetHash, A4, 5));
-                                                REQUIRE(mCP.mEnvs.length == 9);
-                                                verifyConfirm(mCP.mEnvs[8], mSecretKey[0], mQSetHash0, 0,
+                                                REQUIRE(mBCP.mEnvs.length == 9);
+                                                verifyConfirm(mBCP.mEnvs[8], mSecretKey[0], mQSetHash0, 0,
                                                         UINT32_MAX, AInf, 4, UINT32_MAX);
                                             }
                                         }
@@ -998,8 +998,8 @@ public:
                                     TEST_QuorumA2();
 
                                     recvVBlocking(makePrepareGen(mQSetHash, A3, &A3, 2, 2));
-                                    REQUIRE(mCP.mEnvs.length == 7);
-                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                    REQUIRE(mBCP.mEnvs.length == 7);
+                                    verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                             mQSetHash0, 0, 3, A3, 2, 2);
                                 }
                                 SECTION("v-blocking prepared A3+B3");
@@ -1013,8 +1013,8 @@ public:
                                     TEST_QuorumA2();
 
                                     recvVBlocking(makePrepareGen(mQSetHash, A3, &B3, 2, 2, &A3));
-                                    REQUIRE(mCP.mEnvs.length == 7);
-                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                    REQUIRE(mBCP.mEnvs.length == 7);
+                                    verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                             mQSetHash0, 0, 3, A3, 2, 2);
                                 }
                                 SECTION("v-blocking confirm A3");
@@ -1028,8 +1028,8 @@ public:
                                     TEST_QuorumA2();
 
                                     recvVBlocking(makeConfirmGen(mQSetHash, 3, A3, 2, 2));
-                                    REQUIRE(mCP.mEnvs.length == 7);
-                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                    REQUIRE(mBCP.mEnvs.length == 7);
+                                    verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                             mQSetHash0, 0, 3, A3, 2, 2);
                                 }
 
@@ -1047,14 +1047,14 @@ public:
                                         // externalize messages have a counter at
                                         // infinite
                                         recvVBlocking(makeExternalizeGen(mQSetHash, B2, 3));
-                                        REQUIRE(mCP.mEnvs.length == 7);
-                                        verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 7);
+                                        verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                                 mQSetHash0, 0, 2, AInf, 2, 2);
                                         // stuck
                                         recvQuorumChecks(makeExternalizeGen(mQSetHash,
                                                 B2, 3), false, false);
-                                        REQUIRE(mCP.mEnvs.length == 7);
-                                        REQUIRE(mCP.mExternalizedValues.length == 0);
+                                        REQUIRE(mBCP.mEnvs.length == 7);
+                                        REQUIRE(mBCP.mExternalizedValues.length == 0);
                                     }
 
                                     SECTION("Network CONFIRMS other ballot");
@@ -1073,8 +1073,8 @@ public:
                                             // to switch 'p'
                                             recvQuorumChecks(makeConfirmGen(mQSetHash,
                                                     3, B2, 2, 3), false, false);
-                                            REQUIRE(mCP.mEnvs.length == 6);
-                                            REQUIRE(mCP.mExternalizedValues.length == 0);
+                                            REQUIRE(mBCP.mEnvs.length == 6);
+                                            REQUIRE(mBCP.mExternalizedValues.length == 0);
                                         }
 
                                         SECTION("at a different counter");
@@ -1087,14 +1087,14 @@ public:
                                             TEST_QuorumA2();
 
                                             recvVBlocking(makeConfirmGen(mQSetHash, 3, B3, 3, 3));
-                                            REQUIRE(mCP.mEnvs.length == 7);
-                                            verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                            REQUIRE(mBCP.mEnvs.length == 7);
+                                            verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                                     mQSetHash0, 0, 2, A3, 2, 2);
 
                                             recvQuorumChecks(makeConfirmGen(mQSetHash,
                                                     3, B3, 3, 3), false, false);
-                                            REQUIRE(mCP.mEnvs.length == 7);
-                                            REQUIRE(mCP.mExternalizedValues.length == 0);
+                                            REQUIRE(mBCP.mEnvs.length == 7);
+                                            REQUIRE(mBCP.mExternalizedValues.length == 0);
                                         }
                                     }
                                 }
@@ -1113,8 +1113,8 @@ public:
                                     SECTION("CONFIRM A2");
                                     {
                                         recvVBlocking(makeConfirmGen(mQSetHash, 2, A2, 2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 6);
-                                        verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 6);
+                                        verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                                 mQSetHash0, 0, 2, A2, 2, 2);
                                     }
 
@@ -1127,8 +1127,8 @@ public:
                                     SECTION("CONFIRM A3..4");
                                     {
                                         recvVBlocking(makeConfirmGen(mQSetHash, 4, A4, 3, 4));
-                                        REQUIRE(mCP.mEnvs.length == 6);
-                                        verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 6);
+                                        verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                                 mQSetHash0, 0, 4, A4, 3, 4);
                                     }
 
@@ -1141,8 +1141,8 @@ public:
                                     SECTION("CONFIRM B2");
                                     {
                                         recvVBlocking(makeConfirmGen(mQSetHash, 2, B2, 2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 6);
-                                        verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 6);
+                                        verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                                 mQSetHash0, 0, 2, B2, 2, 2);
                                     }
                                 }
@@ -1157,8 +1157,8 @@ public:
                                     SECTION("EXTERNALIZE A2");
                                     {
                                         recvVBlocking(makeExternalizeGen(mQSetHash, A2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 6);
-                                        verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 6);
+                                        verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                                 mQSetHash0, 0, UINT32_MAX, AInf, 2, UINT32_MAX);
                                     }
 
@@ -1171,8 +1171,8 @@ public:
                                     SECTION("EXTERNALIZE B2");
                                     {
                                         recvVBlocking(makeExternalizeGen(mQSetHash, B2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 6);
-                                        verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 6);
+                                        verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                                 mQSetHash0, 0, UINT32_MAX, BInf, 2, UINT32_MAX);
                                     }
                                 }
@@ -1185,8 +1185,8 @@ public:
                         auto TEST_ConfirmPreparedMixed = () {
                             // a few nodes prepared B2
                             recvVBlocking(makePrepareGen(mQSetHash, B2, &B2, 0, 0, &A2));
-                            REQUIRE(mCP.mEnvs.length == 5);
-                            verifyPrepare(mCP.mEnvs[4], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 5);
+                            verifyPrepare(mBCP.mEnvs[4], mSecretKey[0],
                                     mQSetHash0, 0, A2, &B2, 0, 0, &A2);
                         };
 
@@ -1202,16 +1202,16 @@ public:
                             // but c = 0, as p >!~ h
                             BCPEnvelope envelope;
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, A2, &A2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 6);
-                            verifyPrepare(mCP.mEnvs[5], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 6);
+                            verifyPrepare(mBCP.mEnvs[5], mSecretKey[0],
                                     mQSetHash0, 0, A2, &B2, 0, 2, &A2);
 
                             envelope = makePrepare(mSecretKey[4], mQSetHash, 0, A2, &A2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 6);
+                            REQUIRE(mBCP.mEnvs.length == 6);
                         }
 
                         Init();
@@ -1225,16 +1225,16 @@ public:
                             // causes h=B2, c=B2
                             BCPEnvelope envelope;
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, B2, &B2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 6);
-                            verifyPrepare(mCP.mEnvs[5], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 6);
+                            verifyPrepare(mBCP.mEnvs[5], mSecretKey[0],
                                     mQSetHash0, 0, B2, &B2, 2, 2, &A2);
 
                             envelope = makePrepare(mSecretKey[4], mQSetHash, 0, B2, &B2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 6);
+                            REQUIRE(mBCP.mEnvs.length == 6);
                         }
                     }
                 }
@@ -1246,8 +1246,8 @@ public:
                     TEST_PreparedA1();
 
                     recvVBlocking(makePrepareGen(mQSetHash, B1, &B1));
-                    REQUIRE(mCP.mEnvs.length == 3);
-                    verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0,
+                    REQUIRE(mBCP.mEnvs.length == 3);
+                    verifyPrepare(mBCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0,
                             A1, &B1, 0, 0, &A1);
                 }
             }
@@ -1257,8 +1257,8 @@ public:
                 TEST_Start1X();
 
                 recvVBlocking(makePrepareGen(mQSetHash, B1, &B1));
-                REQUIRE(mCP.mEnvs.length == 2);
-                verifyPrepare(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, A1, &B1);
+                REQUIRE(mBCP.mEnvs.length == 2);
+                verifyPrepare(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, A1, &B1);
             }
             SECTION("confirm (v-blocking)");
             {
@@ -1271,13 +1271,13 @@ public:
                     BCPEnvelope envelope;
 
                     envelope = makeConfirm(mSecretKey[1], mQSetHash, 0, 3, A3, 3, 3);
-                    mCP.receiveEnvelope(envelope);
+                    mBCP.receiveEnvelope(envelope);
 
                     envelope = makeConfirm(mSecretKey[2], mQSetHash, 0, 4, A4, 2, 4);
-                    mCP.receiveEnvelope(envelope);
+                    mBCP.receiveEnvelope(envelope);
 
-                    REQUIRE(mCP.mEnvs.length == 2);
-                    verifyConfirm(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, 3, A3, 3, 3);
+                    REQUIRE(mBCP.mEnvs.length == 2);
+                    verifyConfirm(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, 3, A3, 3, 3);
                 }
 
                 Init();
@@ -1288,11 +1288,11 @@ public:
                     BCPEnvelope envelope;
 
                     envelope = makeExternalize(mSecretKey[1], mQSetHash, 0, A2, 4);
-                    mCP.receiveEnvelope(envelope);
+                    mBCP.receiveEnvelope(envelope);
                     envelope = makeExternalize(mSecretKey[2], mQSetHash, 0, A3, 5);
-                    mCP.receiveEnvelope(envelope);
-                    REQUIRE(mCP.mEnvs.length == 2);
-                    verifyConfirm(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0,
+                    mBCP.receiveEnvelope(envelope);
+                    REQUIRE(mBCP.mEnvs.length == 2);
+                    verifyConfirm(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0,
                             UINT32_MAX, AInf, 3, UINT32_MAX);
                 }
             }
@@ -1340,8 +1340,8 @@ public:
             B3.counter++;
 
             auto TEST_Start1Y = () {
-                REQUIRE(mCP.bumpState(0, aValue));
-                REQUIRE(mCP.mEnvs.length == 1);
+                REQUIRE(mBCP.bumpState(0, aValue));
+                REQUIRE(mBCP.mEnvs.length == 1);
             };
 
             TEST_Start1Y();
@@ -1350,8 +1350,8 @@ public:
             {
                 auto TEST_PreparedA1 = () {
                     recvQuorum(makePrepareGen(mQSetHash, A1));
-                    REQUIRE(mCP.mEnvs.length == 2);
-                    verifyPrepare(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, A1, &A1);
+                    REQUIRE(mBCP.mEnvs.length == 2);
+                    verifyPrepare(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, A1, &A1);
                 };
                 TEST_PreparedA1();
 
@@ -1359,13 +1359,13 @@ public:
                 {
                     auto TEST_BumpPreparedA2 = () {
                         // bump to (2,a)
-                        REQUIRE(mCP.bumpState(0, aValue));
-                        REQUIRE(mCP.mEnvs.length == 3);
-                        verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, A2, &A1);
+                        REQUIRE(mBCP.bumpState(0, aValue));
+                        REQUIRE(mBCP.mEnvs.length == 3);
+                        verifyPrepare(mBCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, A2, &A1);
 
                         recvQuorum(makePrepareGen(mQSetHash, A2));
-                        REQUIRE(mCP.mEnvs.length == 4);
-                        verifyPrepare(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, A2, &A2);
+                        REQUIRE(mBCP.mEnvs.length == 4);
+                        verifyPrepare(mBCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, A2, &A2);
                     };
 
                     TEST_BumpPreparedA2();
@@ -1375,8 +1375,8 @@ public:
                         auto TEST_ConfirmPreparedA2()
                         {
                             recvQuorum(makePrepareGen(mQSetHash, A2, &A2));
-                            REQUIRE(mCP.mEnvs.length == 5);
-                            verifyPrepare(mCP.mEnvs[4], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 5);
+                            verifyPrepare(mBCP.mEnvs[4], mSecretKey[0],
                                     mQSetHash0, 0, A2, &A2, 2, 2);
                         }
 
@@ -1389,8 +1389,8 @@ public:
                             {
                                 auto TEST_QuorumA2 = () {
                                     recvQuorum(makePrepareGen(mQSetHash, A2, &A2, 2, 2));
-                                    REQUIRE(mCP.mEnvs.length == 6);
-                                    verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                    REQUIRE(mBCP.mEnvs.length == 6);
+                                    verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                             mQSetHash0, 0, 2, A2, 2, 2);
                                 };
 
@@ -1400,13 +1400,13 @@ public:
                                 {
                                     auto TEST_QuorumPreparedA3 = () {
                                         recvVBlocking(makePrepareGen(mQSetHash, A3, &A2, 2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 7);
-                                        verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 7);
+                                        verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                                 mQSetHash0, 0, 2, A3, 2, 2);
 
                                         recvQuorum(makePrepareGen(mQSetHash, A3, &A2, 2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 8);
-                                        verifyConfirm(mCP.mEnvs[7], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 8);
+                                        verifyConfirm(mBCP.mEnvs[7], mSecretKey[0],
                                                 mQSetHash0, 0, 3, A3, 2, 2);
                                     };
 
@@ -1416,11 +1416,11 @@ public:
                                     {
                                         auto TEST_AcceptMoreCommitA3 = () {
                                             recvQuorum(makePrepareGen(mQSetHash, A3, &A3, 2, 3));
-                                            REQUIRE(mCP.mEnvs.length == 9);
-                                            verifyConfirm(mCP.mEnvs[8], mSecretKey[0],
+                                            REQUIRE(mBCP.mEnvs.length == 9);
+                                            verifyConfirm(mBCP.mEnvs[8], mSecretKey[0],
                                                     mQSetHash0, 0, 3, A3, 2, 3);
 
-                                            REQUIRE(mCP.mExternalizedValues.length == 0);
+                                            REQUIRE(mBCP.mExternalizedValues.length == 0);
                                         };
 
                                         TEST_AcceptMoreCommitA3();
@@ -1429,12 +1429,12 @@ public:
                                         {
                                             auto TEST_QuorumExternalizeA3 = {
                                                 recvQuorum(makeConfirmGen(mQSetHash, 3, A3, 2, 3));
-                                                REQUIRE(mCP.mEnvs.length == 10);
-                                                verifyExternalize(mCP.mEnvs[9],
+                                                REQUIRE(mBCP.mEnvs.length == 10);
+                                                verifyExternalize(mBCP.mEnvs[9],
                                                         mSecretKey[0], mQSetHash0, 0, A2, 3);
 
-                                                REQUIRE(mCP.mExternalizedValues.length == 1);
-                                                REQUIRE(mCP.mExternalizedValues[0] == aValue);
+                                                REQUIRE(mBCP.mExternalizedValues.length == 1);
+                                                REQUIRE(mBCP.mExternalizedValues[0] == aValue);
                                             };
 
                                             TEST_QuorumExternalizeA3();
@@ -1456,8 +1456,8 @@ public:
                                             auto TEST_ConfirmA3 = () {
                                                 recvVBlocking(makeConfirmGen(mQSetHash,
                                                         3, A3, 2, 3));
-                                                REQUIRE(mCP.mEnvs.length == 9);
-                                                verifyConfirm(mCP.mEnvs[8], mSecretKey[0],
+                                                REQUIRE(mBCP.mEnvs.length == 9);
+                                                verifyConfirm(mBCP.mEnvs[8], mSecretKey[0],
                                                         mQSetHash0, 0, 3, A3, 2, 3);
                                             };
                                             TEST_ConfirmA3();
@@ -1474,8 +1474,8 @@ public:
                                         SECTION("Externalize A3");
                                         {
                                             recvVBlocking(makeExternalizeGen(mQSetHash, A2, 3));
-                                            REQUIRE(mCP.mEnvs.length == 9);
-                                            verifyConfirm(mCP.mEnvs[8], mSecretKey[0], mQSetHash0,
+                                            REQUIRE(mBCP.mEnvs.length == 9);
+                                            verifyConfirm(mBCP.mEnvs[8], mSecretKey[0], mQSetHash0,
                                                     0, UINT32_MAX, AInf, 2, UINT32_MAX);
                                         }
 
@@ -1493,8 +1493,8 @@ public:
                                             {
                                                 recvVBlocking(makeConfirmGen(mQSetHash,
                                                         3, A5, 4, 5));
-                                                REQUIRE(mCP.mEnvs.length == 9);
-                                                verifyConfirm(mCP.mEnvs[8], mSecretKey[0],
+                                                REQUIRE(mBCP.mEnvs.length == 9);
+                                                verifyConfirm(mBCP.mEnvs[8], mSecretKey[0],
                                                         mQSetHash0, 0, 3, A5, 4, 5);
                                             }
 
@@ -1509,8 +1509,8 @@ public:
                                             SECTION("Externalize A4..5");
                                             {
                                                 recvVBlocking(makeExternalizeGen(mQSetHash, A4, 5));
-                                                REQUIRE(mCP.mEnvs.length == 9);
-                                                verifyConfirm(mCP.mEnvs[8], mSecretKey[0], mQSetHash0, 0,
+                                                REQUIRE(mBCP.mEnvs.length == 9);
+                                                verifyConfirm(mBCP.mEnvs[8], mSecretKey[0], mQSetHash0, 0,
                                                         UINT32_MAX, AInf, 4, UINT32_MAX);
                                             }
                                         }
@@ -1527,8 +1527,8 @@ public:
                                 SECTION("v-blocking prepared A3");
                                 {
                                     recvVBlocking(makePrepareGen(mQSetHash, A3, &A3, 2, 2));
-                                    REQUIRE(mCP.mEnvs.length == 7);
-                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                    REQUIRE(mBCP.mEnvs.length == 7);
+                                    verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                             mQSetHash0, 0, 3, A3, 2, 2);
                                 }
 
@@ -1542,8 +1542,8 @@ public:
                                 SECTION("v-blocking prepared A3+B3");
                                 {
                                     recvVBlocking(makePrepareGen(mQSetHash, A3, &A3, 2, 2, &B3));
-                                    REQUIRE(mCP.mEnvs.length == 7);
-                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                    REQUIRE(mBCP.mEnvs.length == 7);
+                                    verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                             mQSetHash0, 0, 3, A3, 2, 2);
                                 }
 
@@ -1557,8 +1557,8 @@ public:
                                 SECTION("v-blocking confirm A3");
                                 {
                                     recvVBlocking(makeConfirmGen(mQSetHash, 3, A3, 2, 2));
-                                    REQUIRE(mCP.mEnvs.length == 7);
-                                    verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                    REQUIRE(mBCP.mEnvs.length == 7);
+                                    verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                             mQSetHash0, 0, 3, A3, 2, 2);
                                 }
 
@@ -1576,14 +1576,14 @@ public:
                                         // externalize messages have a counter at
                                         // infinite
                                         recvVBlocking(makeExternalizeGen(mQSetHash, B2, 3));
-                                        REQUIRE(mCP.mEnvs.length == 7);
-                                        verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 7);
+                                        verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                                 mQSetHash0, 0, 2, AInf, 2, 2);
                                         // stuck
                                         recvQuorumChecks(makeExternalizeGen(mQSetHash,
                                                 B2, 3), false, false);
-                                        REQUIRE(mCP.mEnvs.length == 7);
-                                        REQUIRE(mCP.mExternalizedValues.length == 0);
+                                        REQUIRE(mBCP.mEnvs.length == 7);
+                                        REQUIRE(mBCP.mExternalizedValues.length == 0);
                                     }
 
                                     SECTION("Network CONFIRMS other ballot");
@@ -1602,8 +1602,8 @@ public:
                                             // to switch 'p'
                                             recvQuorumChecks(makeConfirmGen(mQSetHash,
                                                     3, B2, 2, 3), false, false);
-                                            REQUIRE(mCP.mEnvs.length == 6);
-                                            REQUIRE(mCP.mExternalizedValues.length == 0);
+                                            REQUIRE(mBCP.mEnvs.length == 6);
+                                            REQUIRE(mBCP.mExternalizedValues.length == 0);
                                         }
 
                                         Init();
@@ -1616,14 +1616,14 @@ public:
                                         SECTION("at a different counter");
                                         {
                                             recvVBlocking(makeConfirmGen(mQSetHash, 3, B3, 3, 3));
-                                            REQUIRE(mCP.mEnvs.length == 7);
-                                            verifyConfirm(mCP.mEnvs[6], mSecretKey[0],
+                                            REQUIRE(mBCP.mEnvs.length == 7);
+                                            verifyConfirm(mBCP.mEnvs[6], mSecretKey[0],
                                                     mQSetHash0, 0, 2, A3, 2, 2);
 
                                             recvQuorumChecks(makeConfirmGen(mQSetHash,
                                                     3, B3, 3, 3), false, false);
-                                            REQUIRE(mCP.mEnvs.length == 7);
-                                            REQUIRE(mCP.mExternalizedValues.length == 0);
+                                            REQUIRE(mBCP.mEnvs.length == 7);
+                                            REQUIRE(mBCP.mExternalizedValues.length == 0);
                                         }
                                     }
                                 }
@@ -1642,8 +1642,8 @@ public:
                                     SECTION("CONFIRM A2");
                                     {
                                         recvVBlocking(makeConfirmGen(mQSetHash, 2, A2, 2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 6);
-                                        verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 6);
+                                        verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                                 mQSetHash0, 0, 2, A2, 2, 2);
                                     }
 
@@ -1656,8 +1656,8 @@ public:
                                     SECTION("CONFIRM A3..4");
                                     {
                                         recvVBlocking(makeConfirmGen(mQSetHash, 4, A4, 3, 4));
-                                        REQUIRE(mCP.mEnvs.length == 6);
-                                        verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 6);
+                                        verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                                 mQSetHash0, 0, 4, A4, 3, 4);
                                     }
 
@@ -1670,8 +1670,8 @@ public:
                                     SECTION("CONFIRM B2");
                                     {
                                         recvVBlocking(makeConfirmGen(mQSetHash, 2, B2, 2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 6);
-                                        verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 6);
+                                        verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                                 mQSetHash0, 0, 2, B2, 2, 2);
                                     }
                                 }
@@ -1686,8 +1686,8 @@ public:
                                     SECTION("EXTERNALIZE A2");
                                     {
                                         recvVBlocking(makeExternalizeGen(mQSetHash, A2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 6);
-                                        verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 6);
+                                        verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                                 mQSetHash0, 0, UINT32_MAX, AInf, 2, UINT32_MAX);
                                     }
 
@@ -1700,8 +1700,8 @@ public:
                                     SECTION("EXTERNALIZE B2");
                                     {
                                         recvVBlocking(makeExternalizeGen(mQSetHash, B2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 6);
-                                        verifyConfirm(mCP.mEnvs[5], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 6);
+                                        verifyConfirm(mBCP.mEnvs[5], mSecretKey[0],
                                                 mQSetHash0, 0, UINT32_MAX, BInf, 2, UINT32_MAX);
                                     }
                                 }
@@ -1714,8 +1714,8 @@ public:
                         auto TEST_ConfirmPreparedMixed = () {
                             // a few nodes prepared B2
                             recvVBlocking(makePrepareGen(mQSetHash, A2, &A2, 0, 0, &B2));
-                            REQUIRE(mCP.mEnvs.length == 5);
-                            verifyPrepare(mCP.mEnvs[4], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 5);
+                            verifyPrepare(mBCP.mEnvs[4], mSecretKey[0],
                                     mQSetHash0, 0, A2, &A2, 0, 0, &B2);
                         };
 
@@ -1730,16 +1730,16 @@ public:
                             // causes h=A2, c=A2
                             BCPEnvelope envelope;
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, A2, &A2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 6);
-                            verifyPrepare(mCP.mEnvs[5], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 6);
+                            verifyPrepare(mBCP.mEnvs[5], mSecretKey[0],
                                     mQSetHash0, 0, A2, &A2, 2, 2, &B2);
 
                             envelope = makePrepare(mSecretKey[4], mQSetHash, 0, A2, &A2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 6);
+                            REQUIRE(mBCP.mEnvs.length == 6);
                         }
 
                         Init();
@@ -1754,16 +1754,16 @@ public:
                             // but c = 0, as p >!~ h
                             BCPEnvelope envelope;
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, A2, &B2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 6);
-                            verifyPrepare(mCP.mEnvs[5], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 6);
+                            verifyPrepare(mBCP.mEnvs[5], mSecretKey[0],
                                     mQSetHash0, 0, A2, &A2, 0, 2, &B2);
 
                             envelope = makePrepare(mSecretKey[4], mQSetHash, 0, B2, &B2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 6);
+                            REQUIRE(mBCP.mEnvs.length == 6);
                         }
                     }
                 }
@@ -1776,7 +1776,7 @@ public:
 
                     // can't switch to B1
                     recvQuorumChecks(makePrepareGen(mQSetHash0, B1, &B1), false, false);
-                    REQUIRE(mCP.mEnvs.length == 2);
+                    REQUIRE(mBCP.mEnvs.length == 2);
                 }
             }
             SECTION("prepared B (v-blocking)");
@@ -1785,8 +1785,8 @@ public:
                 TEST_Start1Y();
 
                 recvVBlocking(makePrepareGen(mQSetHash, B1, &B1));
-                REQUIRE(mCP.mEnvs.length == 2);
-                verifyPrepare(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, A1, &B1);
+                REQUIRE(mBCP.mEnvs.length == 2);
+                verifyPrepare(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, A1, &B1);
             }
             SECTION("confirm (v-blocking)");
             {
@@ -1799,13 +1799,13 @@ public:
                     BCPEnvelope envelope;
 
                     envelope = makeConfirm(mSecretKey[1], mQSetHash, 0, 3, A3, 3, 3);
-                    mCP.receiveEnvelope(envelope);
+                    mBCP.receiveEnvelope(envelope);
 
                     envelope = makeConfirm(mSecretKey[2], mQSetHash, 0, 4, A4, 2, 4);
-                    mCP.receiveEnvelope(envelope);
+                    mBCP.receiveEnvelope(envelope);
 
-                    REQUIRE(mCP.mEnvs.length == 2);
-                    verifyConfirm(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, 3, A3, 3, 3);
+                    REQUIRE(mBCP.mEnvs.length == 2);
+                    verifyConfirm(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, 3, A3, 3, 3);
                 }
 
                 Init();
@@ -1816,11 +1816,11 @@ public:
                     BCPEnvelope envelope;
 
                     envelope = makeExternalize(mSecretKey[1], mQSetHash, 0, A2, 4);
-                    mCP.receiveEnvelope(envelope);
+                    mBCP.receiveEnvelope(envelope);
                     envelope = makeExternalize(mSecretKey[2], mQSetHash, 0, A3, 5);
-                    mCP.receiveEnvelope(envelope);
-                    REQUIRE(mCP.mEnvs.length == 2);
-                    verifyConfirm(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0,
+                    mBCP.receiveEnvelope(envelope);
+                    REQUIRE(mBCP.mEnvs.length == 2);
+                    verifyConfirm(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0,
                             UINT32_MAX, AInf, 3, UINT32_MAX);
                 }
             }
@@ -1867,13 +1867,13 @@ public:
             BCPBallot B3 = B2;
             B3.counter++;
 
-            REQUIRE(mCP.mEnvs.length == 0);
+            REQUIRE(mBCP.mEnvs.length == 0);
 
             SECTION("prepared A1");
             {
                 auto TEST_PreparedA1 = () {
                     recvQuorumChecks(makePrepareGen(mQSetHash, A1), false, false);
-                    REQUIRE(mCP.mEnvs.length == 0);
+                    REQUIRE(mBCP.mEnvs.length == 0);
                 };
                 TEST_PreparedA1();
 
@@ -1883,19 +1883,19 @@ public:
                     {
                         auto TEST_ConfirmPreparedA2 = () {
                             recvVBlockingChecks(makePrepareGen(mQSetHash, A2, &A2), false);
-                            REQUIRE(mCP.mEnvs.length == 0);
+                            REQUIRE(mBCP.mEnvs.length == 0);
                         };
                         TEST_ConfirmPreparedA2();
 
                         SECTION("Quorum A2");
                         {
                             recvVBlockingChecks(makePrepareGen(mQSetHash, A2, &A2), false);
-                            REQUIRE(mCP.mEnvs.length == 0);
+                            REQUIRE(mBCP.mEnvs.length == 0);
 
                             recvQuorum(makePrepareGen(mQSetHash, A2, &A2));
-                            REQUIRE(mCP.mEnvs.length == 1);
+                            REQUIRE(mBCP.mEnvs.length == 1);
 
-                            verifyPrepare(mCP.mEnvs[0], mSecretKey[0],
+                            verifyPrepare(mBCP.mEnvs[0], mSecretKey[0],
                                     mQSetHash0, 0, A2, &A2, 1, 2);
 
                         }
@@ -1907,11 +1907,11 @@ public:
                             TEST_ConfirmPreparedA2();
 
                             recvVBlockingChecks(makePrepareGen(mQSetHash, B2, &B2), false);
-                            REQUIRE(mCP.mEnvs.length == 0);
+                            REQUIRE(mBCP.mEnvs.length == 0);
 
                             recvQuorum(makePrepareGen(mQSetHash, B2, &B2));
-                            REQUIRE(mCP.mEnvs.length == 1);
-                            verifyPrepare(mCP.mEnvs[0], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 1);
+                            verifyPrepare(mBCP.mEnvs[0], mSecretKey[0],
                                     mQSetHash0, 0, B2, &B2, 2, 2, &A2);
 
                         }
@@ -1924,8 +1924,8 @@ public:
                                 TEST_ConfirmPreparedA2();
 
                                 recvQuorum(makePrepareGen(mQSetHash, A2, &A2, 2, 2));
-                                REQUIRE(mCP.mEnvs.length == 1);
-                                verifyConfirm(mCP.mEnvs[0], mSecretKey[0],
+                                REQUIRE(mBCP.mEnvs.length == 1);
+                                verifyConfirm(mBCP.mEnvs[0], mSecretKey[0],
                                         mQSetHash0, 0, 2, A2, 2, 2);
                             }
                             SECTION("Quorum B2");
@@ -1935,8 +1935,8 @@ public:
                                 TEST_ConfirmPreparedA2();
 
                                 recvQuorum(makePrepareGen(mQSetHash, B2, &B2, 2, 2));
-                                REQUIRE(mCP.mEnvs.length == 1);
-                                verifyConfirm(mCP.mEnvs[0], mSecretKey[0],
+                                REQUIRE(mBCP.mEnvs.length == 1);
+                                verifyConfirm(mBCP.mEnvs[0], mSecretKey[0],
                                         mQSetHash0, 0, 2, B2, 2, 2);
                             }
                             SECTION("v-blocking");
@@ -1950,8 +1950,8 @@ public:
                                         TEST_ConfirmPreparedA2();
 
                                         recvVBlocking(makeConfirmGen(mQSetHash, 2, A2, 2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 1);
-                                        verifyConfirm(mCP.mEnvs[0], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 1);
+                                        verifyConfirm(mBCP.mEnvs[0], mSecretKey[0],
                                                 mQSetHash0, 0, 2, A2, 2, 2);
                                     }
                                     SECTION("CONFIRM A3..4");
@@ -1961,8 +1961,8 @@ public:
                                         TEST_ConfirmPreparedA2();
 
                                         recvVBlocking(makeConfirmGen(mQSetHash, 4, A4, 3, 4));
-                                        REQUIRE(mCP.mEnvs.length == 1);
-                                        verifyConfirm(mCP.mEnvs[0], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 1);
+                                        verifyConfirm(mBCP.mEnvs[0], mSecretKey[0],
                                                 mQSetHash0, 0, 4, A4, 3, 4);
                                     }
                                     SECTION("CONFIRM B2");
@@ -1972,8 +1972,8 @@ public:
                                         TEST_ConfirmPreparedA2();
 
                                         recvVBlocking(makeConfirmGen(mQSetHash, 2, B2, 2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 1);
-                                        verifyConfirm(mCP.mEnvs[0], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 1);
+                                        verifyConfirm(mBCP.mEnvs[0], mSecretKey[0],
                                                 mQSetHash0, 0, 2, B2, 2, 2);
                                     }
                                 }
@@ -1987,8 +1987,8 @@ public:
                                         TEST_ConfirmPreparedA2();
 
                                         recvVBlocking(makeExternalizeGen(mQSetHash, A2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 1);
-                                        verifyConfirm(mCP.mEnvs[0], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 1);
+                                        verifyConfirm(mBCP.mEnvs[0], mSecretKey[0],
                                                 mQSetHash0, 0, UINT32_MAX, AInf, 2, UINT32_MAX);
                                     }
                                     SECTION("EXTERNALIZE B2");
@@ -1998,8 +1998,8 @@ public:
                                         TEST_ConfirmPreparedA2();
 
                                         recvVBlocking(makeExternalizeGen(mQSetHash, B2, 2));
-                                        REQUIRE(mCP.mEnvs.length == 1);
-                                        verifyConfirm(mCP.mEnvs[0], mSecretKey[0],
+                                        REQUIRE(mBCP.mEnvs.length == 1);
+                                        verifyConfirm(mBCP.mEnvs[0], mSecretKey[0],
                                                 mQSetHash0, 0, UINT32_MAX, BInf, 2, UINT32_MAX);
                                     }
                                 }
@@ -2016,13 +2016,13 @@ public:
                             // a few nodes prepared A2
                             // causes p=A2
                             recvVBlockingChecks(makePrepareGen(mQSetHash, A2, &A2), false);
-                            REQUIRE(mCP.mEnvs.length == 0);
+                            REQUIRE(mBCP.mEnvs.length == 0);
 
                             // a few nodes prepared B2
                             // causes p=B2, p'=A2
                             recvVBlockingChecks(makePrepareGen(mQSetHash, A2,
                                     &B2, 0, 0, &A2), false);
-                            REQUIRE(mCP.mEnvs.length == 0);
+                            REQUIRE(mBCP.mEnvs.length == 0);
                         };
                         TEST_ConfirmPreparedMixed();
 
@@ -2034,16 +2034,16 @@ public:
                             BCPEnvelope envelope;
 
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, A2, &A2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 1);
-                            verifyPrepare(mCP.mEnvs[0], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 1);
+                            verifyPrepare(mBCP.mEnvs[0], mSecretKey[0],
                                     mQSetHash0, 0, A2, &B2, 0, 2, &A2);
 
                             envelope = makePrepare(mSecretKey[4], mQSetHash, 0, A2, &A2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 1);
+                            REQUIRE(mBCP.mEnvs.length == 1);
                         }
                         SECTION("mixed B2");
                         {
@@ -2055,16 +2055,16 @@ public:
 
                             // causes h=B2, c=B2
                             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, B2, &B2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 1);
-                            verifyPrepare(mCP.mEnvs[0], mSecretKey[0],
+                            REQUIRE(mBCP.mEnvs.length == 1);
+                            verifyPrepare(mBCP.mEnvs[0], mSecretKey[0],
                                     mQSetHash0, 0, B2, &B2, 2, 2, &A2);
 
                             envelope = makePrepare(mSecretKey[4], mQSetHash, 0, B2, &B2);
-                            mCP.receiveEnvelope(envelope);
+                            mBCP.receiveEnvelope(envelope);
 
-                            REQUIRE(mCP.mEnvs.length == 1);
+                            REQUIRE(mBCP.mEnvs.length == 1);
                         }
                     }
                 }
@@ -2075,7 +2075,7 @@ public:
                     TEST_PreparedA1();
 
                     recvVBlockingChecks(makePrepareGen(mQSetHash, B1, &B1), false);
-                    REQUIRE(mCP.mEnvs.length == 0);
+                    REQUIRE(mBCP.mEnvs.length == 0);
                 }
             }
             SECTION("prepared B (v-blocking)");
@@ -2083,7 +2083,7 @@ public:
                 Init();
 
                 recvVBlockingChecks(makePrepareGen(mQSetHash, B1, &B1), false);
-                REQUIRE(mCP.mEnvs.length == 0);
+                REQUIRE(mBCP.mEnvs.length == 0);
             }
             SECTION("confirm (v-blocking)");
             {
@@ -2093,11 +2093,11 @@ public:
                     BCPEnvelope envelope;
 
                     envelope = makeConfirm(mSecretKey[1], mQSetHash, 0, 3, A3, 3, 3);
-                    mCP.receiveEnvelope(envelope);
+                    mBCP.receiveEnvelope(envelope);
                     envelope = makeConfirm(mSecretKey[2], mQSetHash, 0, 4, A4, 2, 4);
-                    mCP.receiveEnvelope(envelope);
-                    REQUIRE(mCP.mEnvs.length == 1);
-                    verifyConfirm(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, 3, A3, 3, 3);
+                    mBCP.receiveEnvelope(envelope);
+                    REQUIRE(mBCP.mEnvs.length == 1);
+                    verifyConfirm(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, 3, A3, 3, 3);
                 }
                 Init();
                 SECTION("via EXTERNALIZE");
@@ -2105,11 +2105,11 @@ public:
                     BCPEnvelope envelope;
 
                     envelope = makeExternalize(mSecretKey[1], mQSetHash, 0, A2, 4);
-                    mCP.receiveEnvelope(envelope);
+                    mBCP.receiveEnvelope(envelope);
                     envelope = makeExternalize(mSecretKey[2], mQSetHash, 0, A3, 5);
-                    mCP.receiveEnvelope(envelope);
-                    REQUIRE(mCP.mEnvs.length == 1);
-                    verifyConfirm(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0,
+                    mBCP.receiveEnvelope(envelope);
+                    REQUIRE(mBCP.mEnvs.length == 1);
+                    verifyConfirm(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0,
                             UINT32_MAX, AInf, 3, UINT32_MAX);
                 }
             }
@@ -2130,7 +2130,7 @@ public:
         {
             auto TEST_NormalRound = () {
                 nodesAllPledgeToCommit();
-                REQUIRE(mCP.mEnvs.length == 3);
+                REQUIRE(mBCP.mEnvs.length == 3);
 
                 BCPBallot b = BCPBallot(1, mValue[0]);
 
@@ -2145,16 +2145,16 @@ public:
                         b, &b, b.counter, b.counter);
 
                 // those should not trigger anything just yet
-                mCP.receiveEnvelope(preparedC1);
-                mCP.receiveEnvelope(preparedC2);
-                REQUIRE(mCP.mEnvs.length == 3);
+                mBCP.receiveEnvelope(preparedC1);
+                mBCP.receiveEnvelope(preparedC2);
+                REQUIRE(mBCP.mEnvs.length == 3);
 
                 // this should cause the node to accept 'commit b' (quorum)
                 // and therefore send a "CONFIRM" message
-                mCP.receiveEnvelope(preparedC3);
-                REQUIRE(mCP.mEnvs.length == 4);
+                mBCP.receiveEnvelope(preparedC3);
+                REQUIRE(mBCP.mEnvs.length == 4);
 
-                verifyConfirm(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, 1, b,
+                verifyConfirm(mBCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, 1, b,
                         b.counter, b.counter);
 
                 // bunch of confirm messages
@@ -2168,30 +2168,30 @@ public:
                         b.counter, b, b.counter, b.counter);
 
                 // those should not trigger anything just yet
-                mCP.receiveEnvelope(confirm1);
-                mCP.receiveEnvelope(confirm2);
-                REQUIRE(mCP.mEnvs.length == 4);
+                mBCP.receiveEnvelope(confirm1);
+                mBCP.receiveEnvelope(confirm2);
+                REQUIRE(mBCP.mEnvs.length == 4);
 
-                mCP.receiveEnvelope(confirm3);
+                mBCP.receiveEnvelope(confirm3);
                 // this causes our node to
                 // externalize (confirm commit c)
-                REQUIRE(mCP.mEnvs.length == 5);
+                REQUIRE(mBCP.mEnvs.length == 5);
 
                 // The slot should have externalized the value
-                REQUIRE(mCP.mExternalizedValues.length == 1);
-                REQUIRE(mCP.mExternalizedValues[0] == mValue[0]);
+                REQUIRE(mBCP.mExternalizedValues.length == 1);
+                REQUIRE(mBCP.mExternalizedValues[0] == mValue[0]);
 
-                verifyExternalize(mCP.mEnvs[4], mSecretKey[0], mQSetHash0, 0, b, b.counter);
+                verifyExternalize(mBCP.mEnvs[4], mSecretKey[0], mQSetHash0, 0, b, b.counter);
 
                 // extra vote should not do anything
-                mCP.receiveEnvelope(confirm4);
-                REQUIRE(mCP.mEnvs.length == 5);
-                REQUIRE(mCP.mExternalizedValues.length == 1);
+                mBCP.receiveEnvelope(confirm4);
+                REQUIRE(mBCP.mEnvs.length == 5);
+                REQUIRE(mBCP.mExternalizedValues.length == 1);
 
                 // duplicate should just no-op
-                mCP.receiveEnvelope(confirm2);
-                REQUIRE(mCP.mEnvs.length == 5);
-                REQUIRE(mCP.mExternalizedValues.length == 1);
+                mBCP.receiveEnvelope(confirm2);
+                REQUIRE(mBCP.mEnvs.length == 5);
+                REQUIRE(mBCP.mExternalizedValues.length == 1);
 
             };
             TEST_NormalRound();
@@ -2209,12 +2209,12 @@ public:
                     confirm4b2 = makeConfirm(mSecretKey[4], mQSetHash, 0,
                             b2.counter, b2, b2.counter, b2.counter);
 
-                    mCP.receiveEnvelope(confirm1b2);
-                    mCP.receiveEnvelope(confirm2b2);
-                    mCP.receiveEnvelope(confirm3b2);
-                    mCP.receiveEnvelope(confirm4b2);
-                    REQUIRE(mCP.mEnvs.length == 5);
-                    REQUIRE(mCP.mExternalizedValues.length == 1);
+                    mBCP.receiveEnvelope(confirm1b2);
+                    mBCP.receiveEnvelope(confirm2b2);
+                    mBCP.receiveEnvelope(confirm3b2);
+                    mBCP.receiveEnvelope(confirm4b2);
+                    REQUIRE(mBCP.mEnvs.length == 5);
+                    REQUIRE(mBCP.mExternalizedValues.length == 1);
                 };
 
                 SECTION("bumpToBallot prevented once committed (by value)");
@@ -2264,7 +2264,7 @@ public:
         SECTION("range check");
         {
             nodesAllPledgeToCommit();
-            REQUIRE(mCP.mEnvs.length == 3);
+            REQUIRE(mBCP.mEnvs.length == 3);
 
             BCPBallot b = BCPBallot(1, mValue[0]);
 
@@ -2279,16 +2279,16 @@ public:
                     &b, b.counter, b.counter);
 
             // those should not trigger anything just yet
-            mCP.receiveEnvelope(preparedC1);
-            mCP.receiveEnvelope(preparedC2);
-            REQUIRE(mCP.mEnvs.length == 3);
+            mBCP.receiveEnvelope(preparedC1);
+            mBCP.receiveEnvelope(preparedC2);
+            REQUIRE(mBCP.mEnvs.length == 3);
 
             // this should cause the node to accept 'commit b' (quorum)
             // and therefore send a "CONFIRM" message
-            mCP.receiveEnvelope(preparedC3);
-            REQUIRE(mCP.mEnvs.length == 4);
+            mBCP.receiveEnvelope(preparedC3);
+            REQUIRE(mBCP.mEnvs.length == 4);
 
-            verifyConfirm(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, 1, b, b.counter, b.counter);
+            verifyConfirm(mBCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, 1, b, b.counter, b.counter);
 
             // bunch of confirm messages with different ranges
             BCPBallot b3 = BCPBallot(3, mValue[0]);
@@ -2302,26 +2302,26 @@ public:
             BCPEnvelope confirm4 = makeConfirm(mSecretKey[4], mQSetHash, 0, 6, b6, 3, 6);
 
             // this should not trigger anything just yet
-            mCP.receiveEnvelope(confirm1);
+            mBCP.receiveEnvelope(confirm1);
 
             // v-blocking
             //   * b gets bumped to (4,x)
             //   * p gets bumped to (4,x)
             //   * (c,h) gets bumped to (2,4)
-            mCP.receiveEnvelope(confirm2);
-            REQUIRE(mCP.mEnvs.length == 5);
-            verifyConfirm(mCP.mEnvs[4], mSecretKey[0], mQSetHash0, 0, 4, b4, 2, 4);
+            mBCP.receiveEnvelope(confirm2);
+            REQUIRE(mBCP.mEnvs.length == 5);
+            verifyConfirm(mBCP.mEnvs[4], mSecretKey[0], mQSetHash0, 0, 4, b4, 2, 4);
 
             // this causes to externalize
             // range is [3,4]
-            mCP.receiveEnvelope(confirm4);
-            REQUIRE(mCP.mEnvs.length == 6);
+            mBCP.receiveEnvelope(confirm4);
+            REQUIRE(mBCP.mEnvs.length == 6);
 
             // The slot should have externalized the value
-            REQUIRE(mCP.mExternalizedValues.length == 1);
-            REQUIRE(mCP.mExternalizedValues[0] == mValue[0]);
+            REQUIRE(mBCP.mExternalizedValues.length == 1);
+            REQUIRE(mBCP.mExternalizedValues[0] == mValue[0]);
 
-            verifyExternalize(mCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, b3, 4);
+            verifyExternalize(mBCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, b3, 4);
         }
     }
 
@@ -2339,21 +2339,21 @@ public:
         SECTION("timeout when h is set . stay locked on h");
         {
             BCPBallot bx = BCPBallot(1, mValue[0]);
-            REQUIRE(mCP.bumpState(0, mValue[0]));
-            REQUIRE(mCP.mEnvs.length == 1);
+            REQUIRE(mBCP.bumpState(0, mValue[0]));
+            REQUIRE(mBCP.mEnvs.length == 1);
 
             // v-blocking . prepared
             // quorum . confirm prepared
             recvQuorum(makePrepareGen(mQSetHash, bx, &bx));
-            REQUIRE(mCP.mEnvs.length == 3);
-            verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, bx, &bx,
+            REQUIRE(mBCP.mEnvs.length == 3);
+            verifyPrepare(mBCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, bx, &bx,
                     bx.counter, bx.counter);
 
             // now, see if we can timeout and move to a different value
-            REQUIRE(mCP.bumpState(0, mValue[1]));
-            REQUIRE(mCP.mEnvs.length == 4);
+            REQUIRE(mBCP.bumpState(0, mValue[1]));
+            REQUIRE(mBCP.mEnvs.length == 4);
             BCPBallot newbx = BCPBallot(2, mValue[0]);
-            verifyPrepare(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, newbx,
+            verifyPrepare(mBCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, newbx,
                     &bx, bx.counter, bx.counter);
         }
 
@@ -2372,44 +2372,44 @@ public:
 
         SECTION("timeout from multiple nodes");
         {
-            REQUIRE(mCP.bumpState(0, mValue[0]));
+            REQUIRE(mBCP.bumpState(0, mValue[0]));
 
             BCPBallot x1 = BCPBallot(1, mValue[0]);
 
-            REQUIRE(mCP.mEnvs.length == 1);
-            verifyPrepare(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, x1);
+            REQUIRE(mBCP.mEnvs.length == 1);
+            verifyPrepare(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, x1);
 
             recvQuorum(makePrepareGen(mQSetHash, x1));
             // quorum . prepared (1,x)
-            REQUIRE(mCP.mEnvs.length == 2);
-            verifyPrepare(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, x1, &x1);
+            REQUIRE(mBCP.mEnvs.length == 2);
+            verifyPrepare(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, x1, &x1);
 
             BCPBallot x2 = BCPBallot(2, mValue[0]);
             // timeout from local node
-            REQUIRE(mCP.bumpState(0, mValue[0]));
+            REQUIRE(mBCP.bumpState(0, mValue[0]));
             // prepares (2,x)
-            REQUIRE(mCP.mEnvs.length == 3);
-            verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, x2, &x1);
+            REQUIRE(mBCP.mEnvs.length == 3);
+            verifyPrepare(mBCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, x2, &x1);
 
             recvQuorum(makePrepareGen(mQSetHash, x1, &x1));
             // quorum . set nH=1
-            REQUIRE(mCP.mEnvs.length == 4);
-            verifyPrepare(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, x2, &x1, 0, 1);
-            REQUIRE(mCP.mEnvs.length == 4);
+            REQUIRE(mBCP.mEnvs.length == 4);
+            verifyPrepare(mBCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, x2, &x1, 0, 1);
+            REQUIRE(mBCP.mEnvs.length == 4);
 
             recvVBlocking(makePrepareGen(mQSetHash, x2, &x2, 1, 1));
             // v-blocking prepared (2,x) . prepared (2,x)
-            REQUIRE(mCP.mEnvs.length == 5);
-            verifyPrepare(mCP.mEnvs[4], mSecretKey[0], mQSetHash0, 0, x2, &x2, 0, 1);
+            REQUIRE(mBCP.mEnvs.length == 5);
+            verifyPrepare(mBCP.mEnvs[4], mSecretKey[0], mQSetHash0, 0, x2, &x2, 0, 1);
 
             recvQuorum(makePrepareGen(mQSetHash, x2, &x2, 1, 1));
             // quorum (including us) confirms (2,x) prepared . set h=c=x2
             // we also get extra message: a quorum not including us confirms (1,x)
             // prepared
             //  . we confirm c=h=x1
-            REQUIRE(mCP.mEnvs.length == 7);
-            verifyPrepare(mCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, x2, &x2, 2, 2);
-            verifyConfirm(mCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 2, x2, 1, 1);
+            REQUIRE(mBCP.mEnvs.length == 7);
+            verifyPrepare(mBCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, x2, &x2, 2, 2);
+            verifyConfirm(mBCP.mEnvs[6], mSecretKey[0], mQSetHash0, 0, 2, x2, 1, 1);
         }
     }
 
@@ -2426,56 +2426,56 @@ public:
 
         SECTION("timeout after prepare, receive old messages to prepare");
         {
-            REQUIRE(mCP.bumpState(0, mValue[0]));
+            REQUIRE(mBCP.bumpState(0, mValue[0]));
 
             BCPBallot x1 = BCPBallot(1, mValue[0]);
 
-            REQUIRE(mCP.mEnvs.length == 1);
-            verifyPrepare(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, x1);
+            REQUIRE(mBCP.mEnvs.length == 1);
+            verifyPrepare(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, x1);
 
             BCPEnvelope envelope;
 
             envelope = makePrepare(mSecretKey[1], mQSetHash, 0, x1);
-            mCP.receiveEnvelope(envelope);
+            mBCP.receiveEnvelope(envelope);
 
             envelope = makePrepare(mSecretKey[2], mQSetHash, 0, x1);
-            mCP.receiveEnvelope(envelope);
+            mBCP.receiveEnvelope(envelope);
 
             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, x1);
-            mCP.receiveEnvelope(envelope);
+            mBCP.receiveEnvelope(envelope);
 
             // quorum . prepared (1,x)
-            REQUIRE(mCP.mEnvs.length == 2);
-            verifyPrepare(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, x1, &x1);
+            REQUIRE(mBCP.mEnvs.length == 2);
+            verifyPrepare(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, x1, &x1);
 
             BCPBallot x2 = BCPBallot(2, mValue[0]);
             // timeout from local node
-            REQUIRE(mCP.bumpState(0, mValue[0]));
+            REQUIRE(mBCP.bumpState(0, mValue[0]));
             // prepares (2,x)
-            REQUIRE(mCP.mEnvs.length == 3);
-            verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, x2, &x1);
+            REQUIRE(mBCP.mEnvs.length == 3);
+            verifyPrepare(mBCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, x2, &x1);
 
             BCPBallot x3 = BCPBallot(3, mValue[0]);
             // timeout again
-            REQUIRE(mCP.bumpState(0, mValue[0]));
+            REQUIRE(mBCP.bumpState(0, mValue[0]));
             // prepares (3,x)
-            REQUIRE(mCP.mEnvs.length == 4);
-            verifyPrepare(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, x3, &x1);
+            REQUIRE(mBCP.mEnvs.length == 4);
+            verifyPrepare(mBCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, x3, &x1);
 
             // other nodes moved on with x2
             envelope = makePrepare(mSecretKey[1], mQSetHash, 0, x2, &x2, 1, 2);
-            mCP.receiveEnvelope(envelope);
+            mBCP.receiveEnvelope(envelope);
             envelope = makePrepare(mSecretKey[2], mQSetHash, 0, x2, &x2, 1, 2);
-            mCP.receiveEnvelope(envelope);
+            mBCP.receiveEnvelope(envelope);
             // v-blocking . prepared x2
-            REQUIRE(mCP.mEnvs.length == 5);
-            verifyPrepare(mCP.mEnvs[4], mSecretKey[0], mQSetHash0, 0, x3, &x2);
+            REQUIRE(mBCP.mEnvs.length == 5);
+            verifyPrepare(mBCP.mEnvs[4], mSecretKey[0], mQSetHash0, 0, x3, &x2);
 
             envelope = makePrepare(mSecretKey[3], mQSetHash, 0, x2, &x2, 1, 2);
-            mCP.receiveEnvelope(envelope);
+            mBCP.receiveEnvelope(envelope);
             // quorum . set nH=2
-            REQUIRE(mCP.mEnvs.length == 6);
-            verifyPrepare(mCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, x3, &x2, 0, 2);
+            REQUIRE(mBCP.mEnvs.length == 6);
+            verifyPrepare(mBCP.mEnvs[5], mSecretKey[0], mQSetHash0, 0, x3, &x2, 0, 2);
         }
     }
 
@@ -2495,7 +2495,7 @@ public:
             SIMULATION_CREATE_NODE(5);
             TestCP cpNV = new TestCP(mSecretKey[5], mQSet, false);
             cpNV.storeQuorumSet(mQSet);
-            Hash mQSetHashNV = cpNV.mConsensusProtocol.getLocalNode().getQuorumSetHash();
+            Hash mQSetHashNV = cpNV.mBCP.getLocalNode().getQuorumSetHash();
 
             BCPBallot b = BCPBallot(1, mValue[0]);
             REQUIRE(cpNV.bumpState(0, mValue[0]));
@@ -2554,12 +2554,12 @@ public:
                 mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
 
                 TestCP cp2 = new TestCP(mSecretKey[0], mQSet);
-                mQSetHash0 = cast(Hash) cp2.mConsensusProtocol.getLocalNode().getQuorumSetHash();
+                mQSetHash0 = cast(Hash) cp2.mBCP.getLocalNode().getQuorumSetHash();
 
                 cp2.storeQuorumSet(mQSet);
                 BCPBallot b = BCPBallot(2, mValue[0]);
                 BCPEnvelope env = makePrepare(mSecretKey[0], mQSetHash0, 0, b);
-                cp2.mConsensusProtocol.setStateFromEnvelope(0, env);
+                cp2.mBCP.setStateFromEnvelope(0, env);
             }
             SECTION("confirm");
             {
@@ -2575,12 +2575,12 @@ public:
                 mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
 
                 TestCP cp2 = new TestCP(mSecretKey[0], mQSet);
-                mQSetHash0 = cast(Hash) cp2.mConsensusProtocol.getLocalNode().getQuorumSetHash();
+                mQSetHash0 = cast(Hash) cp2.mBCP.getLocalNode().getQuorumSetHash();
 
                 cp2.storeQuorumSet(mQSet);
                 BCPBallot b = BCPBallot(2, mValue[0]);
                 BCPEnvelope env = makeConfirm(mSecretKey[0], mQSetHash0, 0, 2, b, 1, 2);
-                cp2.mConsensusProtocol.setStateFromEnvelope(0, env);
+                cp2.mBCP.setStateFromEnvelope(0, env);
             }
             SECTION("externalize");
             {
@@ -2596,12 +2596,12 @@ public:
                 mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
 
                 TestCP cp2 = new TestCP(mSecretKey[0], mQSet);
-                mQSetHash0 = cast(Hash) cp2.mConsensusProtocol.getLocalNode().getQuorumSetHash();
+                mQSetHash0 = cast(Hash) cp2.mBCP.getLocalNode().getQuorumSetHash();
 
                 cp2.storeQuorumSet(mQSet);
                 BCPBallot b = BCPBallot(2, mValue[0]);
                 BCPEnvelope env = makeExternalize(mSecretKey[0], mQSetHash0, 0, b, 2);
-                cp2.mConsensusProtocol.setStateFromEnvelope(0, env);
+                cp2.mBCP.setStateFromEnvelope(0, env);
             }
         }
     }
@@ -2634,12 +2634,12 @@ public:
         SECTION("others nominate what v0 says (x) -> prepare x");
         {
             auto TEST_nomiate_x = () {
-                REQUIRE(mCP.nominate(0, mValue[0], false));
+                REQUIRE(mBCP.nominate(0, mValue[0], false));
 
                 votes ~= mValue[0];
 
-                REQUIRE(mCP.mEnvs.length == 1);
-                verifyNominate(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, votes, accepted);
+                REQUIRE(mBCP.mEnvs.length == 1);
+                verifyNominate(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, votes, accepted);
 
                 nom1 = makeNominate(mSecretKey[1], mQSetHash, 0, votes, accepted);
                 nom2 = makeNominate(mSecretKey[2], mQSetHash, 0, votes, accepted);
@@ -2647,23 +2647,23 @@ public:
                 nom4 = makeNominate(mSecretKey[4], mQSetHash, 0, votes, accepted);
 
                 // nothing happens yet
-                mCP.receiveEnvelope(nom1);
-                mCP.receiveEnvelope(nom2);
-                REQUIRE(mCP.mEnvs.length == 1);
+                mBCP.receiveEnvelope(nom1);
+                mBCP.receiveEnvelope(nom2);
+                REQUIRE(mBCP.mEnvs.length == 1);
 
                 // this causes 'x' to be accepted (quorum)
-                mCP.receiveEnvelope(nom3);
-                REQUIRE(mCP.mEnvs.length == 2);
+                mBCP.receiveEnvelope(nom3);
+                REQUIRE(mBCP.mEnvs.length == 2);
 
-                mCP.mExpectedCandidates.insert(mValue[0]);
-                mCP.mCompositeValue = mValue[0];
+                mBCP.mExpectedCandidates.insert(mValue[0]);
+                mBCP.mCompositeValue = mValue[0];
 
                 accepted ~= mValue[0];
-                verifyNominate(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, votes, accepted);
+                verifyNominate(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, votes, accepted);
 
                 // extra message doesn't do anything
-                mCP.receiveEnvelope(nom4);
-                REQUIRE(mCP.mEnvs.length == 2);
+                mBCP.receiveEnvelope(nom4);
+                REQUIRE(mBCP.mEnvs.length == 2);
 
                 acc1 = makeNominate(mSecretKey[1], mQSetHash, 0, votes, accepted);
                 acc2 = makeNominate(mSecretKey[2], mQSetHash, 0, votes, accepted);
@@ -2671,20 +2671,20 @@ public:
                 acc4 = makeNominate(mSecretKey[4], mQSetHash, 0, votes, accepted);
 
                 // nothing happens yet
-                mCP.receiveEnvelope(acc1);
-                mCP.receiveEnvelope(acc2);
-                REQUIRE(mCP.mEnvs.length == 2);
+                mBCP.receiveEnvelope(acc1);
+                mBCP.receiveEnvelope(acc2);
+                REQUIRE(mBCP.mEnvs.length == 2);
 
-                mCP.mCompositeValue = mValue[0];
+                mBCP.mCompositeValue = mValue[0];
                 // this causes the node to send a prepare message (quorum)
-                mCP.receiveEnvelope(acc3);
-                REQUIRE(mCP.mEnvs.length == 3);
+                mBCP.receiveEnvelope(acc3);
+                REQUIRE(mBCP.mEnvs.length == 3);
 
                 BCPBallot b = BCPBallot(1, mValue[0]);
-                verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, b);
+                verifyPrepare(mBCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, b);
 
-                mCP.receiveEnvelope(acc4);
-                REQUIRE(mCP.mEnvs.length == 3);
+                mBCP.receiveEnvelope(acc4);
+                REQUIRE(mBCP.mEnvs.length == 3);
 
                 votes2 = votes.dup;
                 votes2 ~= (mValue[1]);
@@ -2699,25 +2699,25 @@ public:
                 BCPEnvelope acc3_2 = makeNominate(mSecretKey[3], mQSetHash, 0, votes2, votes2);
                 BCPEnvelope acc4_2 = makeNominate(mSecretKey[4], mQSetHash, 0, votes2, votes2);
 
-                mCP.receiveEnvelope(acc1_2);
-                REQUIRE(mCP.mEnvs.length == 3);
+                mBCP.receiveEnvelope(acc1_2);
+                REQUIRE(mBCP.mEnvs.length == 3);
 
                 // v-blocking
-                mCP.receiveEnvelope(acc2_2);
-                REQUIRE(mCP.mEnvs.length == 4);
-                verifyNominate(mCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, votes2, votes2);
+                mBCP.receiveEnvelope(acc2_2);
+                REQUIRE(mBCP.mEnvs.length == 4);
+                verifyNominate(mBCP.mEnvs[3], mSecretKey[0], mQSetHash0, 0, votes2, votes2);
 
-                mCP.mExpectedCandidates.insert(mValue[1]);
-                mCP.mCompositeValue = mValue[2];
+                mBCP.mExpectedCandidates.insert(mValue[1]);
+                mBCP.mCompositeValue = mValue[2];
                 // this updates the composite value to use next time
                 // but does not prepare it
-                mCP.receiveEnvelope(acc3_2);
-                REQUIRE(mCP.mEnvs.length == 4);
+                mBCP.receiveEnvelope(acc3_2);
+                REQUIRE(mBCP.mEnvs.length == 4);
 
-                REQUIRE(mCP.getLatestCompositeCandidate(0) == mValue[2]);
+                REQUIRE(mBCP.getLatestCompositeCandidate(0) == mValue[2]);
 
-                mCP.receiveEnvelope(acc4_2);
-                REQUIRE(mCP.mEnvs.length == 4);
+                mBCP.receiveEnvelope(acc4_2);
+                REQUIRE(mBCP.mEnvs.length == 4);
 
             }
 
@@ -2738,7 +2738,7 @@ public:
                 auto nominationRestore = () {
                     // restores from the previous state
                     BCPEnvelope envelope = makeNominate(mSecretKey[0], mQSetHash0, 0, votes, accepted);
-                    cp2.mConsensusProtocol.setStateFromEnvelope(0, envelope);
+                    cp2.mBCP.setStateFromEnvelope(0, envelope);
                     // tries to start nomination with mValue[1]
                     REQUIRE(cp2.nominate(0, mValue[1], false));
 
@@ -2783,7 +2783,7 @@ public:
                     BCPBallot b = BCPBallot(1, mValue[2]);
                     createCP();
                     BCPEnvelope envelope = makePrepare(mSecretKey[0], mQSetHash0, 0, b);
-                    cp2.mConsensusProtocol.setStateFromEnvelope(0, envelope);
+                    cp2.mBCP.setStateFromEnvelope(0, envelope);
 
                     nominationRestore();
                     // nomination didn't do anything (already working on z)
@@ -2809,12 +2809,12 @@ public:
                 Value[] myVotes, accepted, votes, acceptedY;
                 myVotes ~= (mValue[0]);
 
-                mCP.mExpectedCandidates.insert(mValue[0]);
-                mCP.mCompositeValue = mValue[0];
-                REQUIRE(mCP.nominate(0, mValue[0], false));
+                mBCP.mExpectedCandidates.insert(mValue[0]);
+                mBCP.mCompositeValue = mValue[0];
+                REQUIRE(mBCP.nominate(0, mValue[0], false));
 
-                REQUIRE(mCP.mEnvs.length == 1);
-                verifyNominate(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, myVotes, accepted);
+                REQUIRE(mBCP.mEnvs.length == 1);
+                verifyNominate(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, myVotes, accepted);
 
                 votes ~= (mValue[1]);
                 acceptedY = accepted.dup;
@@ -2826,16 +2826,16 @@ public:
                 BCPEnvelope nom4 = makeNominate(mSecretKey[4], mQSetHash, 0, votes, accepted);
 
                 // nothing happens yet
-                mCP.receiveEnvelope(nom1);
-                mCP.receiveEnvelope(nom2);
-                mCP.receiveEnvelope(nom3);
-                REQUIRE(mCP.mEnvs.length == 1);
+                mBCP.receiveEnvelope(nom1);
+                mBCP.receiveEnvelope(nom2);
+                mBCP.receiveEnvelope(nom3);
+                REQUIRE(mBCP.mEnvs.length == 1);
 
                 // 'y' is accepted (quorum)
-                mCP.receiveEnvelope(nom4);
-                REQUIRE(mCP.mEnvs.length == 2);
+                mBCP.receiveEnvelope(nom4);
+                REQUIRE(mBCP.mEnvs.length == 2);
                 myVotes ~= (mValue[1]);
-                verifyNominate(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, myVotes, acceptedY);
+                verifyNominate(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, myVotes, acceptedY);
             }
 
             SECTION("others accepted y");
@@ -2844,12 +2844,12 @@ public:
                 Value[] myVotes, accepted, votes, acceptedY;
                 myVotes ~= (mValue[0]);
 
-                mCP.mExpectedCandidates.insert(mValue[0]);
-                mCP.mCompositeValue = mValue[0];
-                REQUIRE(mCP.nominate(0, mValue[0], false));
+                mBCP.mExpectedCandidates.insert(mValue[0]);
+                mBCP.mCompositeValue = mValue[0];
+                REQUIRE(mBCP.nominate(0, mValue[0], false));
 
-                REQUIRE(mCP.mEnvs.length == 1);
-                verifyNominate(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, myVotes, accepted);
+                REQUIRE(mBCP.mEnvs.length == 1);
+                verifyNominate(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, myVotes, accepted);
 
                 votes ~= (mValue[1]);
                 acceptedY = accepted.dup;
@@ -2860,29 +2860,29 @@ public:
                 BCPEnvelope acc3 = makeNominate(mSecretKey[3], mQSetHash, 0, votes, acceptedY);
                 BCPEnvelope acc4 = makeNominate(mSecretKey[4], mQSetHash, 0, votes, acceptedY);
 
-                mCP.receiveEnvelope(acc1);
-                REQUIRE(mCP.mEnvs.length == 1);
+                mBCP.receiveEnvelope(acc1);
+                REQUIRE(mBCP.mEnvs.length == 1);
 
                 // this causes 'y' to be accepted (v-blocking)
-                mCP.receiveEnvelope(acc2);
-                REQUIRE(mCP.mEnvs.length == 2);
+                mBCP.receiveEnvelope(acc2);
+                REQUIRE(mBCP.mEnvs.length == 2);
 
                 myVotes ~= (mValue[1]);
-                verifyNominate(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, myVotes, acceptedY);
+                verifyNominate(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, myVotes, acceptedY);
 
-                mCP.mExpectedCandidates.clear();
-                mCP.mExpectedCandidates.insert(mValue[1]);
-                mCP.mCompositeValue = mValue[1];
+                mBCP.mExpectedCandidates.clear();
+                mBCP.mExpectedCandidates.insert(mValue[1]);
+                mBCP.mCompositeValue = mValue[1];
 
                 // this causes the node to send a prepare message (quorum)
-                mCP.receiveEnvelope(acc3);
-                REQUIRE(mCP.mEnvs.length == 3);
+                mBCP.receiveEnvelope(acc3);
+                REQUIRE(mBCP.mEnvs.length == 3);
 
                 BCPBallot b = BCPBallot(1, mValue[1]);
-                verifyPrepare(mCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, b);
+                verifyPrepare(mBCP.mEnvs[2], mSecretKey[0], mQSetHash0, 0, b);
 
-                mCP.receiveEnvelope(acc4);
-                REQUIRE(mCP.mEnvs.length == 3);
+                mBCP.receiveEnvelope(acc4);
+                REQUIRE(mBCP.mEnvs.length == 3);
             }
         }
 
@@ -2937,11 +2937,11 @@ public:
         SECTION("v1 is top node");
         {
             auto InitDelegate = () {
-                mCP.mPriorityLookup = (ref const NodeID n) {
+                mBCP.mPriorityLookup = (ref const NodeID n) {
                     return (n == mKey[1]) ? 1000 : 1;
                 };
 
-                mCP.mHashValueCalculator = (ref const Value v) {
+                mBCP.mHashValueCalculator = (ref const Value v) {
                     for (int idx = 0; idx < valuesHash.length; idx++)
                     {
                         if (valuesHash[idx] == v)
@@ -2964,44 +2964,44 @@ public:
                 nom3 = makeNominate(mSecretKey[3], mQSetHash, 0, votesYZ, emptyV);
                 nom4 = makeNominate(mSecretKey[4], mQSetHash, 0, votesXZ, emptyV);
 
-                REQUIRE(!mCP.nominate(0, mValue[0], false));
+                REQUIRE(!mBCP.nominate(0, mValue[0], false));
 
-                REQUIRE(mCP.mEnvs.length == 0);
+                REQUIRE(mBCP.mEnvs.length == 0);
 
                 // nothing happens with non top nodes
-                mCP.receiveEnvelope(nom2);
-                mCP.receiveEnvelope(nom3);
-                REQUIRE(mCP.mEnvs.length == 0);
+                mBCP.receiveEnvelope(nom2);
+                mBCP.receiveEnvelope(nom3);
+                REQUIRE(mBCP.mEnvs.length == 0);
 
-                mCP.receiveEnvelope(nom1);
-                REQUIRE(mCP.mEnvs.length == 1);
-                verifyNominate(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, votesY, emptyV);
+                mBCP.receiveEnvelope(nom1);
+                REQUIRE(mBCP.mEnvs.length == 1);
+                verifyNominate(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, votesY, emptyV);
 
-                mCP.receiveEnvelope(nom4);
-                REQUIRE(mCP.mEnvs.length == 1);
+                mBCP.receiveEnvelope(nom4);
+                REQUIRE(mBCP.mEnvs.length == 1);
 
                 SECTION("timeout -> pick another value from v1");
                 {
-                    mCP.mExpectedCandidates.insert(mValue[0]);
-                    mCP.mCompositeValue = mValue[0];
+                    mBCP.mExpectedCandidates.insert(mValue[0]);
+                    mBCP.mCompositeValue = mValue[0];
 
                     // note: value passed in here should be ignored
-                    REQUIRE(mCP.nominate(0, mValue[2], true));
+                    REQUIRE(mBCP.nominate(0, mValue[2], true));
 
                     // picks up 'x' from v1 (as we already have 'y')
                     // which also happens to causes 'x' to be accepted
-                    REQUIRE(mCP.mEnvs.length == 2);
-                    verifyNominate(mCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, votesXY, votesX);
+                    REQUIRE(mBCP.mEnvs.length == 2);
+                    verifyNominate(mBCP.mEnvs[1], mSecretKey[0], mQSetHash0, 0, votesXY, votesX);
                 }
             }
 
             SECTION("v1 dead, timeout");
             {
                 auto TEST_vi_dead_timeout = () {
-                    REQUIRE(!mCP.nominate(0, mValue[0], false));
-                    REQUIRE(mCP.mEnvs.length == 0);
-                    mCP.receiveEnvelope(nom2);
-                    REQUIRE(mCP.mEnvs.length == 0);
+                    REQUIRE(!mBCP.nominate(0, mValue[0], false));
+                    REQUIRE(mBCP.mEnvs.length == 0);
+                    mBCP.receiveEnvelope(nom2);
+                    REQUIRE(mBCP.mEnvs.length == 0);
                 };
 
                 Init();
@@ -3011,12 +3011,12 @@ public:
 
                 SECTION("v0 is new top node");
                 {
-                    mCP.mPriorityLookup = (ref const NodeID n) {
+                    mBCP.mPriorityLookup = (ref const NodeID n) {
                         return (n == mKey[0]) ? 1000 : 1;
                     };
-                    REQUIRE(mCP.nominate(0, mValue[0], true));
-                    REQUIRE(mCP.mEnvs.length == 1);
-                    verifyNominate(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, votesX, emptyV);
+                    REQUIRE(mBCP.nominate(0, mValue[0], true));
+                    REQUIRE(mBCP.mEnvs.length == 1);
+                    verifyNominate(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, votesX, emptyV);
                 }
 
                 Init();
@@ -3026,12 +3026,12 @@ public:
 
                 SECTION("v2 is new top node");
                 {
-                    mCP.mPriorityLookup = (ref const NodeID n) {
+                    mBCP.mPriorityLookup = (ref const NodeID n) {
                         return (n == mKey[2]) ? 1000 : 1;
                     };
-                    REQUIRE(mCP.nominate(0, mValue[0], true));
-                    REQUIRE(mCP.mEnvs.length == 1);
-                    verifyNominate(mCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, votesZ, emptyV);
+                    REQUIRE(mBCP.nominate(0, mValue[0], true));
+                    REQUIRE(mBCP.mEnvs.length == 1);
+                    verifyNominate(mBCP.mEnvs[0], mSecretKey[0], mQSetHash0, 0, votesZ, emptyV);
                 }
 
                 Init();
@@ -3041,12 +3041,12 @@ public:
 
                 SECTION("v3 is new top node");
                 {
-                    mCP.mPriorityLookup = (ref const NodeID n) {
+                    mBCP.mPriorityLookup = (ref const NodeID n) {
                         return (n == mKey[3]) ? 1000 : 1;
                     };
                     // nothing happens, we don't have any message for v3
-                    REQUIRE(!mCP.nominate(0, mValue[0], true));
-                    REQUIRE(mCP.mEnvs.length == 0);
+                    REQUIRE(!mBCP.nominate(0, mValue[0], true));
+                    REQUIRE(mBCP.mEnvs.length == 0);
                 }
             }
         }
@@ -3080,7 +3080,7 @@ public:
         JSONValue[string] jsonObject;
         JSONValue info = jsonObject;
 
-        mCP.mConsensusProtocol.dumpInfo(info, 1);
+        mBCP.mBCP.dumpInfo(info, 1);
         writeln(info.toPrettyString());
     }
 
@@ -3091,10 +3091,10 @@ public:
         JSONValue[string] jsonObject;
         JSONValue info = jsonObject;
 
-        writefln("%s", "mCP.mEnvs");
-        for (int idx = 0; idx < mCP.mEnvs.length; idx++)
+        writefln("%s", "mBCP.mEnvs");
+        for (int idx = 0; idx < mBCP.mEnvs.length; idx++)
         {
-            writefln("%s", mCP.mConsensusProtocol.envToStr(mCP.mEnvs[idx].statement));
+            writefln("%s", mBCP.mBCP.envToStr(mBCP.mEnvs[idx].statement));
         }
     }
 }

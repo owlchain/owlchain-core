@@ -17,8 +17,8 @@ import owlchain.xdr.bcpStatement;
 import owlchain.xdr.bcpStatementType;
 
 import std.typecons;
-import owlchain.consensus.consensusProtocol;
-import owlchain.consensus.consensusProtocolDriver;
+import owlchain.consensus.bcp;
+import owlchain.consensus.bcpDriver;
 import owlchain.consensus.localNode;
 import owlchain.consensus.ballotProtocol;
 import owlchain.consensus.nominationProtocol;
@@ -35,7 +35,7 @@ class Slot
 private:
     uint64 mSlotIndex;
 
-    ConsensusProtocol mConsensusProtocol;
+    BCP mBCP;
     BallotProtocol mBallotProtocol;
     NominationProtocol mNominationProtocol;
 
@@ -49,15 +49,15 @@ private:
 
 public:
 
-    this(uint64 slotIndex, ConsensusProtocol cp)
+    this(uint64 slotIndex, BCP cp)
     {
         mSlotIndex = slotIndex;
-        mConsensusProtocol = cp;
+        mBCP = cp;
 
         mBallotProtocol = new BallotProtocol(this);
         mNominationProtocol = new NominationProtocol(this);
 
-        mFullyValidated = mConsensusProtocol.getLocalNode().isValidator;
+        mFullyValidated = mBCP.getLocalNode().isValidator;
     }
 
     uint64 getSlotIndex()
@@ -65,14 +65,14 @@ public:
         return mSlotIndex;
     }
 
-    ConsensusProtocol getCP()
+    BCP getCP()
     {
-        return mConsensusProtocol;
+        return mBCP;
     }
 
-    ConsensusProtocolDriver getCPDriver()
+    BCPDriver getCPDriver()
     {
-        return mConsensusProtocol.getCPDriver();
+        return mBCP.getCPDriver();
     }
 
     BallotProtocol getBallotProtocol()
@@ -112,7 +112,7 @@ public:
     // this is used when rebuilding the state after a crash for example
     void setStateFromEnvelope(ref BCPEnvelope e)
     {
-        if (e.statement.nodeID == mConsensusProtocol.getLocalNodeID()
+        if (e.statement.nodeID == mBCP.getLocalNodeID()
                 && e.statement.slotIndex == mSlotIndex)
         {
             if (e.statement.pledges.type == BCPStatementType.BCP_ST_NOMINATE)
@@ -156,14 +156,14 @@ public:
 
     // Process a newly received envelope for this slot and update the state of the slot accordingly.
     // self: set to true when node wants to record its own messages (potentially triggering more transitions)
-    ConsensusProtocol.EnvelopeState processEnvelope(ref BCPEnvelope envelope, bool self)
+    BCP.EnvelopeState processEnvelope(ref BCPEnvelope envelope, bool self)
     {
         dbgAssert(envelope.statement.slotIndex == mSlotIndex);
 
         //if (Logging::logDebug("BCP"))
-        //writefln("[DEBUG], BCP Slot.processEnvelope %d %s", mSlotIndex, mConsensusProtocol.envToStr(envelope));
+        //writefln("[DEBUG], BCP Slot.processEnvelope %d %s", mSlotIndex, mBCP.envToStr(envelope));
 
-        ConsensusProtocol.EnvelopeState res;
+        BCP.EnvelopeState res;
         try
         {
             if (envelope.statement.pledges.type == BCPStatementType.BCP_ST_NOMINATE)
@@ -182,7 +182,7 @@ public:
             dumpInfo(info);
             writefln("[ERROR], BCP %s state: %s  processing envelope: %s",
                     "Exception in processEnvelope", info.toString(),
-                    mConsensusProtocol.envToStr(envelope));
+                    mBCP.envToStr(envelope));
 
             throw new Exception("Exception in processEnvelope");
         }
@@ -227,7 +227,7 @@ public:
     }
 
     // returns if a node is in the quorum originating at the local node
-    ConsensusProtocol.TriBool isNodeInQuorum(ref NodeID node)
+    BCP.TriBool isNodeInQuorum(ref NodeID node)
     {
         // build the mapping between nodes and envelopes
         BCPStatement*[][NodeID] m;
@@ -248,12 +248,15 @@ public:
             }
         }
 
-        return mConsensusProtocol.getLocalNode().isNodeInQuorum(node, (ref BCPStatement st) {
-            // uses the companion set here as we want to consider
-            // nodes that were used up to EXTERNALIZE
-            Hash h = getCompanionQuorumSetHashFromStatement(st);
-            return getCPDriver().getQSet(h);
-        }, m);
+        return mBCP.getLocalNode().isNodeInQuorum(
+            node, 
+            (ref BCPStatement st) 
+            {
+                // uses the companion set here as we want to consider
+                // nodes that were used up to EXTERNALIZE
+                Hash h = getCompanionQuorumSetHashFromStatement(st);
+                return getCPDriver().getQSet(h);
+            }, m);
     }
 
     // status methods

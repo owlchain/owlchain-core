@@ -1,4 +1,4 @@
-module owlchain.consensus.consensusProtocolDriver;
+module owlchain.consensus.bcpDriver;
 
 import std.typecons;
 import core.time;
@@ -12,11 +12,11 @@ import owlchain.xdr.nodeID;
 import owlchain.xdr.bcpBallot;
 import owlchain.xdr.publicKey;
 import owlchain.crypto.keyUtils;
-import owlchain.consensus.consensusProtocol;
+import owlchain.consensus.bcp;
 
 alias RefCounted!(BCPQuorumSet, RefCountedAutoInitialize.no) BCPQuorumSetPtr;
 
-class ConsensusProtocolDriver
+class BCPDriver
 {
     this()
     {
@@ -74,7 +74,7 @@ class ConsensusProtocolDriver
 
     ValidationLevel validateValue(uint64 slotIndex, ref Value value)
     {
-        return ConsensusProtocolDriver.ValidationLevel.kMaybeValidValue;
+        return BCPDriver.ValidationLevel.kMaybeValidValue;
     }
 
     // extractValidValue transforms the value, if possible to a different

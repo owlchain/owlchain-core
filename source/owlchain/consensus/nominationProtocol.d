@@ -24,8 +24,8 @@ import owlchain.xdr.signature;
 
 import owlchain.consensus.localNode;
 import owlchain.consensus.slot;
-import owlchain.consensus.consensusProtocol;
-import owlchain.consensus.consensusProtocolDriver;
+import owlchain.consensus.bcp;
+import owlchain.consensus.bcpDriver;
 
 import owlchain.utils.globalChecks;
 import owlchain.utils.uniqueStruct;
@@ -78,19 +78,19 @@ public:
         mSlot = null;
     }
 
-    ConsensusProtocol.EnvelopeState processEnvelope(ref BCPEnvelope envelope)
+    BCP.EnvelopeState processEnvelope(ref BCPEnvelope envelope)
     {
         auto st = &envelope.statement;
         auto nom = &st.pledges.nominate;
 
-        ConsensusProtocol.EnvelopeState res = ConsensusProtocol.EnvelopeState.INVALID;
+        BCP.EnvelopeState res = BCP.EnvelopeState.INVALID;
 
         if (isNewerStatement(st.nodeID, *nom))
         {
             if (isSane(*st))
             {
                 recordEnvelope(envelope);
-                res = ConsensusProtocol.EnvelopeState.VALID;
+                res = BCP.EnvelopeState.VALID;
 
                 if (mNominationStarted)
                 {
@@ -117,7 +117,7 @@ public:
                             }, mLatestNominations))
                         {
                             auto vl = validateValue(v);
-                            if (vl == ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue)
+                            if (vl == BCPDriver.ValidationLevel.kFullyValidatedValue)
                             {
                                 mAccepted.insert(v);
                                 mVotes.insert(v);
@@ -429,7 +429,7 @@ private:
         return res;
     }
 
-    ConsensusProtocolDriver.ValidationLevel validateValue(ref Value v)
+    BCPDriver.ValidationLevel validateValue(ref Value v)
     {
         return mSlot.getCPDriver().validateValue(mSlot.getSlotIndex(), v);
     }
@@ -498,7 +498,7 @@ private:
 
         BCPEnvelope envelope = mSlot.createEnvelope(st);
 
-        if (mSlot.processEnvelope(envelope, true) == ConsensusProtocol.EnvelopeState.VALID)
+        if (mSlot.processEnvelope(envelope, true) == BCP.EnvelopeState.VALID)
         {
             if (!mLastEnvelope || isNewerStatement(mLastEnvelope.statement.pledges.nominate,
                     st.pledges.nominate))
@@ -616,7 +616,7 @@ private:
         applyAll(nom, (ref Value value) {
             Value valueToNominate;
             auto vl = validateValue(value);
-            if (vl == ConsensusProtocolDriver.ValidationLevel.kFullyValidatedValue)
+            if (vl == BCPDriver.ValidationLevel.kFullyValidatedValue)
             {
                 valueToNominate = value;
             }

@@ -1,4 +1,4 @@
-module owlchain.consensus.consensusProtocol;
+module owlchain.consensus.bcp;
 import std.stdio;
 import std.json;
 import std.format;
@@ -19,15 +19,15 @@ import owlchain.xdr.bcpStatementType;
 import owlchain.crypto.keyUtils;
 
 import owlchain.consensus.localNode;
-import owlchain.consensus.consensusProtocolDriver;
+import owlchain.consensus.bcpDriver;
 import owlchain.consensus.slot;
 
 import owlchain.utils.globalChecks;
 
-class ConsensusProtocol
+class BCP
 {
 private:
-    private ConsensusProtocolDriver mDriver;
+    private BCPDriver mBCPDriver;
 
 protected:
     LocalNode mLocalNode;
@@ -47,17 +47,17 @@ public:
         TB_MAYBE
     };
 
-    this(ConsensusProtocolDriver driver, SecretKey secretKey, bool isValidator,
+    this(BCPDriver driver, SecretKey secretKey, bool isValidator,
             ref BCPQuorumSet qSetLocal)
     {
-        mDriver = driver;
+        mBCPDriver = driver;
         mLocalNode = new LocalNode(secretKey, isValidator, qSetLocal, this);
     }
 
-    // ConsensusProtocolDriver getter
-    ref ConsensusProtocolDriver getCPDriver()
+    // BCPDriver getter
+    ref BCPDriver getCPDriver()
     {
-        return mDriver;
+        return mBCPDriver;
     }
 
     // Local node getter
@@ -122,10 +122,10 @@ public:
     EnvelopeState receiveEnvelope(ref BCPEnvelope envelope)
     {
         // If the envelope is not correctly signed, we ignore it.
-        if (!mDriver.verifyEnvelope(envelope))
+        if (!mBCPDriver.verifyEnvelope(envelope))
         {
             writefln("[%s], %s", "DEBUG", "BCP",
-                    "ConsensusProtocol.receiveEnvelope invalid");
+                    "BCP.receiveEnvelope invalid");
             return EnvelopeState.INVALID;
         }
 
@@ -242,7 +242,7 @@ public:
     // this is used when rebuilding the state after a crash for example
     void setStateFromEnvelope(uint64 slotIndex, ref BCPEnvelope e)
     {
-        if (mDriver.verifyEnvelope(e))
+        if (mBCPDriver.verifyEnvelope(e))
         {
             auto slot = getSlot(slotIndex, true);
             slot.setStateFromEnvelope(e);
@@ -302,7 +302,7 @@ public:
     // ** helper methods to stringify ballot for logging
     string getValueString(ref Value v)
     {
-        return mDriver.getValueString(v);
+        return mBCPDriver.getValueString(v);
     }
 
     string ballotToStr(ref BCPBallot ballot)
