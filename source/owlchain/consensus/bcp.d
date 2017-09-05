@@ -6,15 +6,7 @@ import std.digest.sha;
 import std.algorithm : canFind;
 import std.outbuffer;
 
-import owlchain.xdr.type;
-import owlchain.xdr.hash;
-import owlchain.xdr.bcpEnvelope;
-import owlchain.xdr.value;
-import owlchain.xdr.bcpQuorumSet;
-import owlchain.xdr.nodeID;
-import owlchain.xdr.bcpBallot;
-import owlchain.xdr.bcpStatement;
-import owlchain.xdr.bcpStatementType;
+import owlchain.xdr;
 
 import owlchain.crypto.keyUtils;
 
@@ -38,14 +30,14 @@ public:
     {
         INVALID, // the envelope is considered invalid
         VALID // the envelope is valid
-    };
+    }
 
     enum TriBool
     {
         TB_TRUE,
         TB_FALSE,
         TB_MAYBE
-    };
+    }
 
     this(BCPDriver driver, SecretKey secretKey, bool isValidator,
             ref BCPQuorumSet qSetLocal)

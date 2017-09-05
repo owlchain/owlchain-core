@@ -14,17 +14,9 @@ import core.stdc.stdint;
 import std.container;
 import std.algorithm.comparison : equal;
 
-import owlchain.xdr.type;
-import owlchain.xdr.publicKey;
-import owlchain.xdr.nodeID;
-import owlchain.xdr.bcpQuorumSet;
-import owlchain.xdr.hash;
-import owlchain.xdr.bcpStatement;
-import owlchain.xdr.bcpEnvelope;
-import owlchain.xdr.bcpStatementType;
+import owlchain.xdr;
 
 import owlchain.crypto.keyUtils;
-import owlchain.xdr.xdrDataOutputStream;
 
 import owlchain.consensus.bcp;
 import owlchain.consensus.bcpDriver;
@@ -117,7 +109,6 @@ public:
             {
                 return BCP.TriBool.TB_TRUE;
             }
-
             backlog = backlog[1 .. $];
             if (!visited.canFind(c))
                 visited ~= c;
@@ -254,8 +245,7 @@ public:
     // BCPQuorumSetPtr from the BCPStatement for its associated node in map
     // (required for transitivity)
     static bool isQuorum(ref BCPQuorumSet qSet, ref BCPEnvelope[NodeID] map,
-            BCPQuorumSetPtr delegate(ref BCPStatement) qfun,
-            bool delegate(ref BCPStatement) filter = null)
+            BCPQuorumSetPtr delegate(ref BCPStatement) qfun, bool delegate(ref BCPStatement) filter = null)
     {
         if (filter == null)
         {
@@ -336,8 +326,7 @@ public:
     // computes the distance to the set of v-blocking sets given
     // a set of nodes that agree (but can fail)
     // excluded, if set will be skipped altogether
-    static NodeID[] findClosestVBlocking(ref BCPQuorumSet qset, ref NodeIDSet nodes,
-            NodeID* excluded)
+    static NodeID[] findClosestVBlocking(ref BCPQuorumSet qset, ref NodeIDSet nodes, NodeID* excluded)
     {
         size_t leftTillBlock = ((1 + qset.validators.length + qset.innerSets.length)
                 - qset.threshold);
@@ -414,7 +403,8 @@ public:
 
         foreach (int i, ref PublicKey validator; qSet.validators)
         {
-            value["v"].array ~= JSONValue(toUTF8(mBCP.getCPDriver().toShortString(validator)));
+            value["v"].array ~= JSONValue(toUTF8(mBCP.getCPDriver()
+                    .toShortString(validator)));
         }
 
         foreach (int i, ref BCPQuorumSet s; qSet.innerSets)

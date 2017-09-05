@@ -6,15 +6,7 @@ import std.json;
 import std.digest.sha;
 import std.algorithm : canFind;
 
-import owlchain.xdr.type;
-import owlchain.xdr.hash;
-import owlchain.xdr.bcpEnvelope;
-import owlchain.xdr.value;
-import owlchain.xdr.bcpQuorumSet;
-import owlchain.xdr.nodeID;
-import owlchain.xdr.bcpBallot;
-import owlchain.xdr.bcpStatement;
-import owlchain.xdr.bcpStatementType;
+import owlchain.xdr;
 
 import std.typecons;
 import owlchain.consensus.bcp;

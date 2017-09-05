@@ -12,15 +12,7 @@ import std.typecons;
 import std.digest.sha;
 import core.stdc.stdint;
 
-import owlchain.xdr.type;
-import owlchain.xdr.bcpStatement;
-import owlchain.xdr.bcpStatementType;
-import owlchain.xdr.hash;
-import owlchain.xdr.bcpEnvelope;
-import owlchain.xdr.value;
-import owlchain.xdr.bcpQuorumSet;
-import owlchain.xdr.nodeID;
-import owlchain.xdr.bcpBallot;
+import owlchain.xdr;
 
 import owlchain.consensus.bcp;
 import owlchain.consensus.bcpDriver;

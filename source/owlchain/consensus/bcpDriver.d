@@ -3,14 +3,7 @@ module owlchain.consensus.bcpDriver;
 import std.typecons;
 import core.time;
 
-import owlchain.xdr.type;
-import owlchain.xdr.bcpEnvelope;
-import owlchain.xdr.value;
-import owlchain.xdr.bcpQuorumSet;
-import owlchain.xdr.hash;
-import owlchain.xdr.nodeID;
-import owlchain.xdr.bcpBallot;
-import owlchain.xdr.publicKey;
+import owlchain.xdr;
 import owlchain.crypto.keyUtils;
 import owlchain.consensus.bcp;
 
