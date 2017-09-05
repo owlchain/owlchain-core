@@ -11,7 +11,7 @@ struct PublicKey
     PublicKeyType type;
     uint256 ed25519;
 
-    int opCmp(ref PublicKey other)
+    int opCmp(const PublicKey other) const
     {
         if (ed25519 < other.ed25519)
         {

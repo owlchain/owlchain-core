@@ -7,7 +7,7 @@ import owlchain.xdr.xdrDataOutputStream;
 
 struct HmacSha256Key
 {
-    byte[32] key;
+    ubyte[32] key;
 
     static void encode(XdrDataOutputStream stream, ref const HmacSha256Key encodedValue)
     {    

@@ -61,6 +61,21 @@ struct Hash
         return this;
     }
 
+    int opCmp(const Hash other) const
+    {
+        if (hash < other.hash)
+        {
+            return -1;
+        }
+        else if (hash > other.hash)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
     static void encode(XdrDataOutputStream stream, ref const Hash encodedHash)
     {
         stream.write(encodedHash.hash);

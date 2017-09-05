@@ -1,25 +1,25 @@
-module owlchain.xdr.changeTrustOpResult;
+module owlchain.xdr.changeTrustResult;
 
 import std.conv;
 import owlchain.xdr.type;
-import owlchain.xdr.changeTrustOpResultCode;
+import owlchain.xdr.changeTrustResultCode;
 
 import owlchain.xdr.xdrDataInputStream;
 import owlchain.xdr.xdrDataOutputStream;
 
-struct ChangeTrustOpResult
+struct ChangeTrustResult
 {
-    ChangeTrustOpResultCode code;
+    ChangeTrustResultCode code;
 
-    static void encode(XdrDataOutputStream stream, ref const ChangeTrustOpResult encoded)
+    static void encode(XdrDataOutputStream stream, ref const ChangeTrustResult encoded)
     {
-        encodeChangeTrustOpResultCode(stream, encoded.code);
+        encodeChangeTrustResultCode(stream, encoded.code);
     }
 
-    static ChangeTrustOpResult decode(XdrDataInputStream stream)
+    static ChangeTrustResult decode(XdrDataInputStream stream)
     {
-        ChangeTrustOpResult decoded;
-        decoded.code = decodeChangeTrustOpResultCode(stream);
+        ChangeTrustResult decoded;
+        decoded.code = decodeChangeTrustResultCode(stream);
         return decoded;
     }
 }
