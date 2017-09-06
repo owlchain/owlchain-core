@@ -1,10 +1,11 @@
 module owlchain.crypto.hex;
 
 import std.exception:enforce;
-import owlchain.base.types:uint256;
 import wrapper.sodium.utils:sodium_hex2bin,sodium_bin2hex;
 import std.stdio:writefln;
 import std.string : representation;
+
+import owlchain.xdr;
 
 string binToHex(in ubyte[] bin)
 {
@@ -20,6 +21,11 @@ string hexAbbrev(in ubyte[] bin)
         sz = 3;
     }
     return binToHex(bin[0 .. sz]);
+}
+
+string hexAbbrev(ref Hash h)
+{
+    return hexAbbrev(h.hash);
 }
 
 ubyte[] hexToBin(in string hex,string ignore=null)

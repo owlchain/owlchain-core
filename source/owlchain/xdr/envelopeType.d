@@ -12,7 +12,7 @@ enum EnvelopeType  {
     ENVELOPE_TYPE_AUTH = 3
 }
 
-static void encodeEnvelopeType(XdrDataOutputStream stream, ref const EnvelopeType encodedType)
+static void encodeEnvelopeType(XdrDataOutputStream stream, EnvelopeType encodedType)
 {
     int32 value = cast(int) encodedType;
     stream.writeInt32(value);

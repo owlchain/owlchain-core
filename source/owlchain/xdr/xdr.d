@@ -13,6 +13,10 @@ template xdr(T)
         T.encode(stream, from);
         return stream.data;
     }
+    void serialize(XdrDataOutputStream stream, ref const T from)
+    {
+        T.encode(stream, from);
+    }
     string print(ref const T from)
     {
         import std.digest.sha;
