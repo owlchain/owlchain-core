@@ -98,9 +98,9 @@ public:
     void bootstrap();
 
     // restores SCP state based on the last messages saved on disk
-    void restoreCPState();
+    void restoreBCPState();
 
-    bool recvCPQuorumSet(ref Hash hash, ref BCPQuorumSet qset);
+    bool recvBCPQuorumSet(ref Hash hash, ref BCPQuorumSet qset);
     bool recvTxSet(ref Hash hash, ref TxSetFrame txset);
     // We are learning about a new transaction.
     TransactionSubmitStatus recvTransaction(TransactionFrame tx);
@@ -110,8 +110,8 @@ public:
     // We are learning about a new envelope.
     EnvelopeStatus recvEnvelope(ref BCPEnvelope envelope);
 
-    // a peer needs our CP state
-    void sendCPStateToPeer(uint ledgerSeq, Peer peer);
+    // a peer needs our BCP state
+    void sendBCPStateToPeer(uint ledgerSeq, Peer peer);
 
     // returns the latest known ledger seq using consensus information
     // and local state

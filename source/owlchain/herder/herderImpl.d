@@ -2,29 +2,20 @@ module owlchain.herder.herderImpl;
 
 import std.stdio;
 import std.container;
-import core.time;
+import std.array;
 import std.json;
 import std.datetime;
-
+import std.digest.sha;
 import std.typecons;
+import std.base64;
+import std.format;
 
-import owlchain.xdr.type;
-import owlchain.xdr.hash;
-import owlchain.xdr.bcpQuorumSet;
-import owlchain.xdr.accountID;
-import owlchain.xdr.bcpEnvelope;
-import owlchain.xdr.publicKey;
-import owlchain.xdr.nodeID;
-import owlchain.xdr.messageType;
-import owlchain.xdr.upgradeType;
-import owlchain.xdr.ledgerUpgradeType;
-import owlchain.xdr.sequenceNumber;
+import core.time;
 
-import owlchain.xdr.value;
-import owlchain.xdr.hash;
-import owlchain.xdr.bcpBallot;
-import owlchain.xdr.bosValue;
+import owlchain.xdr;
+
 import owlchain.crypto.keyUtils;
+import owlchain.crypto.secretKey;
 import owlchain.consensus.bcp;
 
 import owlchain.util.xdrStream;
@@ -34,6 +25,8 @@ import owlchain.herder.txSetFrame;
 
 import owlchain.consensus.bcpDriver;
 import owlchain.main.application;
+import owlchain.main.persistentState;
+
 import owlchain.database.database;
 import owlchain.overlay.peer;
 import owlchain.transaction.transactionFrame;
@@ -48,6 +41,8 @@ import owlchain.herder.pendingEnvelopes;
 
 import owlchain.ledger.ledgerManager;
 import core.stdc.stdint;
+
+import owlchain.utils.globalChecks;
 
 /*
 * Public Interface to the Herder module
@@ -103,7 +98,7 @@ public:
 
     void bootstrap()
     {
-        //CLOG(INFO, "Herder") << "Force joining BCP with local state";
+        CLOG(LEVEL.INFO, "Herder", "Force joining BCP with local state");
         assert(mBCP.isValidator());
         //assert(mApp.getConfig().FORCE_BCP);
 
@@ -114,10 +109,65 @@ public:
         ledgerClosed();
     }
 
-    // restores SCP state based on the last messages saved on disk
-    void restoreCPState()
-    {
+    // restores BCP state based on the last messages saved on disk
+    void restoreBCPState()
+    {        
+		// setup a sufficient state that we can participate in consensus
+		auto lcl = mLedgerManager.getLastClosedLedgerHeader();
+		mTrackingBCP =
+			UniqueStruct!ConsensusData(new ConsensusData(lcl.header.ledgerSeq, lcl.header.bcpValue));
 
+		trackingHeartBeat();
+
+		// load saved state from database
+		auto latest64 =
+			mApp.getPersistentState().getState(PersistentState.Entry.kLastBCPData);
+
+		if (latest64.empty) return;
+
+		ubyte[] buffer = Base64.decode(latest64);
+
+		BCPEnvelope[] latestEnvs;
+		TransactionSet[] latestTxSets;
+		BCPQuorumSet[] latestQSets;
+
+		try
+		{
+            XdrDataInputStream stream = new XdrDataInputStream(buffer);
+            xdr!BCPEnvelope.decode(stream, latestEnvs);
+            xdr!TransactionSet.decode(stream, latestTxSets);
+            xdr!BCPQuorumSet.decode(stream, latestQSets);
+
+            for (int i = 0; i < latestTxSets.length; i++)
+			{
+				TxSetFrame cur = new TxSetFrame(cast(Hash)(mApp.getNetworkID()), latestTxSets[i]);
+				Hash h = cur.getContentsHash();
+				mPendingEnvelopes.addTxSet(h, 0, cur);
+			}
+
+            for (int i = 0; i < latestQSets.length; i++)
+			{
+				Hash hash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(latestQSets[i])));
+				mPendingEnvelopes.addBCPQuorumSet(hash, 0, latestQSets[i]);
+			}
+
+            for (int i = 0; i < latestEnvs.length; i++)
+			{
+				mBCP.setStateFromEnvelope(latestEnvs[i].statement.slotIndex, latestEnvs[i]);
+			}
+
+			if (latestEnvs.length != 0)
+			{
+				mLastSlotSaved = latestEnvs[$-1].statement.slotIndex;
+				startRebroadcastTimer();
+			}
+		}
+		catch (Exception e)
+		{
+			// we may have exceptions when upgrading the protocol
+			// this should be the only time we get exceptions decoding old messages.
+            CLOG(LEVEL.INFO, "Herder", format("Error while restoring old scp messages, proceeding without them : ", e));
+		}
     }
 
     BCP getBCP()
@@ -135,17 +185,85 @@ public:
 
     override void signEnvelope(ref BCPEnvelope envelope)
     {
+		mBCPMetrics.mEnvelopeSign.mark();
 
+        XdrDataOutputStream stream = new XdrDataOutputStream();
+        xdr!Hash.serialize(stream, mApp.getNetworkID());
+        encodeEnvelopeType(stream, EnvelopeType.ENVELOPE_TYPE_BCP);
+        xdr!BCPEnvelope.serialize(stream, envelope);
+
+		envelope.signature = mBCP.getSecretKey().sign(stream.data);
     }
 
     override bool verifyEnvelope(ref BCPEnvelope envelope)
     {
-        return false;
+
+        XdrDataOutputStream stream = new XdrDataOutputStream();
+        xdr!Hash.serialize(stream, mApp.getNetworkID());
+        encodeEnvelopeType(stream, EnvelopeType.ENVELOPE_TYPE_BCP);
+        xdr!BCPEnvelope.serialize(stream, envelope);
+
+		bool b = PubKeyUtils.verifySig(
+            envelope.statement.nodeID, 
+            envelope.signature,
+            stream.data);
+		if (b)
+		{
+			mBCPMetrics.mEnvelopeValidSig.mark();
+		}
+		else
+		{
+			mBCPMetrics.mEnvelopeInvalidSig.mark();
+		}
+
+		return b;
     }
 
     override ValidationLevel validateValue(uint64 slotIndex, ref Value value)
     {
-        return ValidationLevel.kMaybeValidValue;
+		BOSValue b;
+		try
+		{
+			xdr!BOSValue.decode(value.value, b);
+		}
+		catch (Exception e)
+		{
+			mBCPMetrics.mValueInvalid.mark();
+			return BCPDriver.ValidationLevel.kInvalidValue;
+		}
+
+		BCPDriver.ValidationLevel res = validateValueHelper(slotIndex, b);
+		if (res != BCPDriver.ValidationLevel.kInvalidValue)
+		{
+			LedgerUpgradeType lastUpgradeType = LedgerUpgradeType.LEDGER_UPGRADE_VERSION;
+			// check upgrades
+			for (size_t i = 0; i < b.upgrades.length; i++)
+			{
+				LedgerUpgradeType thisUpgradeType;
+				if (!validateUpgradeStep(slotIndex, b.upgrades[i], thisUpgradeType))
+				{
+					CLOG(LEVEL.TRACE, "Herder", format("HerderImpl.validateValue invalid step at index %d", i));
+					res = BCPDriver.ValidationLevel.kInvalidValue;
+				}
+				if (i != 0 && (lastUpgradeType >= thisUpgradeType))
+				{
+                    CLOG(LEVEL.TRACE, "Herder", format("HerderImpl.validateValue  out of order upgrade step at index %d", i));
+					res = BCPDriver.ValidationLevel.kInvalidValue;
+				}
+
+				lastUpgradeType = thisUpgradeType;
+			}
+		}
+
+		if (res)
+		{
+			mBCPMetrics.mValueValid.mark();
+		}
+		else
+		{
+			mBCPMetrics.mValueInvalid.mark();
+		}
+		return res;
     }
 
     override Value extractValidValue(uint64 slotIndex, ref Value value)
@@ -233,7 +351,7 @@ public:
 
     // Herder
 
-    bool recvCPQuorumSet(ref Hash hash, ref BCPQuorumSet qset)
+    bool recvBCPQuorumSet(ref Hash hash, ref BCPQuorumSet qset)
     {
         return false;
     }
@@ -266,7 +384,7 @@ public:
     }
 
     // a peer needs our SCP state
-    void sendCPStateToPeer(uint ledgerSeq, Peer peer)
+    void sendBCPStateToPeer(uint ledgerSeq, Peer peer)
     {
 
     }
@@ -306,7 +424,7 @@ public:
 
     }
 
-    static size_t copyCPHistoryToStream(ref Database db, uint32 ledgerSeq,
+    static size_t copyBCPHistoryToStream(ref Database db, uint32 ledgerSeq,
             uint32 ledgerCount, ref XDROutputFileStream cpHistory)
     {
         return 0L;
@@ -348,7 +466,7 @@ private:
 
     }
 
-    void saveCPHistory(uint64 index)
+    void saveBCPHistory(uint64 index)
     {
 
     }
@@ -421,10 +539,16 @@ private:
         uint64 mConsensusIndex;
         BOSValue mConsensusValue;
 
+        this(const uint64 index, ref const BOSValue b)
+        {
+            mConsensusIndex = index;
+            mConsensusValue = cast(BOSValue)b;
+        }
+
         this(uint64 index, ref BOSValue b)
         {
             mConsensusIndex = index;
-            mConsensusValue = b;
+            mConsensusValue = cast(BOSValue)b;
         }
     };
 
@@ -474,21 +598,30 @@ private:
     // timer that detects that we're stuck on an BCP slot
     VirtualTimer mTrackingTimer;
 
-    /*
     // saves the BCP messages that the instance sent out last
-    void persistBCPState(uint64 slot);
+    void persistBCPState(uint64 slot)
+    {
+
+    }
 
     // create upgrades for given ledger
     LedgerUpgrade[] prepareUpgrades(ref LedgerHeader header) 
     {
+        LedgerUpgrade [] res;
 
+        return res;
     }
 
     // called every time we get ledger externalized
     // ensures that if we don't hear from the network, we throw the herder into
     // indeterminate mode
-    void trackingHeartBeat();
+    
+    void trackingHeartBeat()
+    {
 
+
+    }
+/*
     VirtualClock::time_point mLastTrigger;
     VirtualTimer mTriggerTimer;
 

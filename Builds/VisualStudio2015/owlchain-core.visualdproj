@@ -992,6 +992,7 @@
      <File path="..\..\source\owlchain\core\stream.d" />
     </Folder>
     <Folder name="crypto">
+     <File path="..\..\source\owlchain\crypto\hex.d" />
      <File path="..\..\source\owlchain\crypto\keyUtils.d" />
     </Folder>
     <Folder name="database">
@@ -1001,10 +1002,12 @@
      <File path="..\..\source\owlchain\herder\herder.d" />
      <File path="..\..\source\owlchain\herder\herderImpl.d" />
      <File path="..\..\source\owlchain\herder\herderUtils.d" />
+     <File path="..\..\source\owlchain\herder\ledgerCloseData.d" />
      <File path="..\..\source\owlchain\herder\pendingEnvelopes.d" />
      <File path="..\..\source\owlchain\herder\txSetFrame.d" />
     </Folder>
     <Folder name="ledger">
+     <File path="..\..\source\owlchain\ledger\accountFrame.d" />
      <File path="..\..\source\owlchain\ledger\dataFrame.d" />
      <File path="..\..\source\owlchain\ledger\entryFrame.d" />
      <File path="..\..\source\owlchain\ledger\ledgerManager.d" />
@@ -1012,6 +1015,7 @@
     <Folder name="main">
      <File path="..\..\source\owlchain\main\application.d" />
      <File path="..\..\source\owlchain\main\config.d" />
+     <File path="..\..\source\owlchain\main\persistentState.d" />
     </Folder>
     <Folder name="metrics">
      <File path="..\..\source\owlchain\metrics\abstractPollingReporter.d" />
@@ -1037,17 +1041,26 @@
      <File path="..\..\source\owlchain\metrics\util.d" />
     </Folder>
     <Folder name="overlay">
+     <File path="..\..\source\owlchain\overlay\itemFetcher.d" />
      <File path="..\..\source\owlchain\overlay\peer.d" />
+     <File path="..\..\source\owlchain\overlay\tracker.d" />
     </Folder>
     <Folder name="p2p">
      <File path="..\..\source\owlchain\p2p\peer.d" />
      <File path="..\..\source\owlchain\p2p\readme.md" />
+    </Folder>
+    <Folder name="temp">
+     <Folder name="crypto">
+      <File path="..\..\source\owlchain\temp\crypto\secretKey.d" />
+      <File path="..\..\source\owlchain\temp\crypto\sha.d" />
+     </Folder>
     </Folder>
     <Folder name="transaction">
      <File path="..\..\source\owlchain\transaction\transactionFrame.d" />
     </Folder>
     <Folder name="util">
      <File path="..\..\source\owlchain\util\timer.d" />
+     <File path="..\..\source\owlchain\util\types.d" />
      <File path="..\..\source\owlchain\util\xdrStream.d" />
     </Folder>
     <Folder name="utils">
@@ -1137,6 +1150,7 @@
      <File path="..\..\source\owlchain\xdr\operationResult.d" />
      <File path="..\..\source\owlchain\xdr\operationResultCode.d" />
      <File path="..\..\source\owlchain\xdr\operationType.d" />
+     <File path="..\..\source\owlchain\xdr\package.d" />
      <File path="..\..\source\owlchain\xdr\pathPaymentOp.d" />
      <File path="..\..\source\owlchain\xdr\pathPaymentResult.d" />
      <File path="..\..\source\owlchain\xdr\pathPaymentResultCode.d" />
@@ -1175,6 +1189,7 @@
      <File path="..\..\source\owlchain\xdr\type.d" />
      <File path="..\..\source\owlchain\xdr\upgradeType.d" />
      <File path="..\..\source\owlchain\xdr\value.d" />
+     <File path="..\..\source\owlchain\xdr\xdr.d" />
      <File path="..\..\source\owlchain\xdr\xdrDataInputStream.d" />
      <File path="..\..\source\owlchain\xdr\xdrDataOutputStream.d" />
     </Folder>

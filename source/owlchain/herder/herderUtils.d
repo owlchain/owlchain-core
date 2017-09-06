@@ -1,12 +1,7 @@
 module owlchain.herder.herderUtils;
 
-import owlchain.xdr.type;
-import owlchain.xdr.bcpStatement;
-import owlchain.xdr.bcpStatementType;
-import owlchain.xdr.hash;
-import owlchain.xdr.bcpEnvelope;
-import owlchain.xdr.value;
-import owlchain.xdr.bosValue;
+import owlchain.xdr;
+
 import owlchain.consensus.slot;
 
 import owlchain.xdr.xdrDataOutputStream;

@@ -1,5 +1,6 @@
 module owlchain.ledger.ledgerManager;
 
+import owlchain.xdr;
 
 class LedgerManager
 {
@@ -27,5 +28,17 @@ public:
     void setState(State s)
     {
 
+    }
+
+    uint32 getMaxTxSetSize()
+    {
+        return 0;
+    }
+
+    LedgerHeaderHistoryEntry mLastClosedLedger;
+
+    ref LedgerHeaderHistoryEntry getLastClosedLedgerHeader()
+    {
+        return mLastClosedLedger;
     }
 }

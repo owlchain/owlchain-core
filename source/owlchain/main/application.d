@@ -1,9 +1,12 @@
 module owlchain.main.application;
 
 import owlchain.main.config;
+import owlchain.main.persistentState;
 
 import owlchain.database.database;
 import owlchain.xdr.hash;
+
+import owlchain.ledger.ledgerManager;
 
 import owlchain.meterics;
 import owlchain.util.timer;
@@ -17,26 +20,26 @@ public:
         // Loading state from database, not yet active. SCP is inhibited.
         APP_BOOTING_STATE,
 
-            // Out of sync with SCP peers
-            APP_ACQUIRING_CONSENSUS_STATE,
+        // Out of sync with SCP peers
+        APP_ACQUIRING_CONSENSUS_STATE,
 
-            // Connected to other SCP peers
+        // Connected to other SCP peers
 
-            // in sync with network but ledger subsystem still booting up
-            APP_CONNECTED_STANDBY_STATE,
+        // in sync with network but ledger subsystem still booting up
+        APP_CONNECTED_STANDBY_STATE,
 
-            // some work required to catchup to the consensus ledger
-            // ie: downloading from history, applying buckets and replaying
-            // transactions
-            APP_CATCHING_UP_STATE,
+        // some work required to catchup to the consensus ledger
+        // ie: downloading from history, applying buckets and replaying
+        // transactions
+        APP_CATCHING_UP_STATE,
 
-            // In sync with SCP peers, applying transactions. SCP is active,
-            APP_SYNCED_STATE,
+        // In sync with SCP peers, applying transactions. SCP is active,
+        APP_SYNCED_STATE,
 
-            // application is shutting down
-            APP_STOPPING_STATE,
+        // application is shutting down
+        APP_STOPPING_STATE,
 
-            APP_NUM_STATE
+        APP_NUM_STATE
     };
 
     ~this()
@@ -86,8 +89,7 @@ public:
     // reported through the administrative HTTP interface, see CommandHandler.
     MetricsRegistry getMetrics()
     {
-
-        return null;
+        return mMetricsRegistry;
     }
 
     // Ensure any App-local meterics that are "current state" gauge-like counters
@@ -105,7 +107,10 @@ public:
 
     // Get references to each of the "subsystem" objects.
     //abstract TmpDirManager getTmpDirManager() = 0;
-    //abstract LedgerManager getLedgerManager() = 0;
+    LedgerManager getLedgerManager()
+    {
+        return null;
+    }
     //abstract BucketManager getBucketManager() = 0;
     //abstract CatchupManager getCatchupManager() = 0;
     //abstract HistoryManager getHistoryManager() = 0;
@@ -117,7 +122,12 @@ public:
     {
         return null;
     }
-    //abstract PersistentState getPersistentState() = 0;
+
+    PersistentState getPersistentState()
+    {
+        return null;
+    }
+
     //abstract CommandHandler getCommandHandler() = 0;
     //abstract WorkManager getWorkManager() = 0;
     //abstract BanManager getBanManager() = 0;
@@ -205,10 +215,10 @@ public:
 
     // Returns the hash of the passphrase, used to separate various network
     // instances
-    const Hash getNetworkID()
+    Hash mNetworkID;
+    ref Hash getNetworkID()
     {
-        Hash h;
-        return h;
+        return mNetworkID;
     }
 
     void newDB()
@@ -225,11 +235,12 @@ public:
 
 protected:
     Config mConfig;
-    
-    
+    MetricsRegistry mMetricsRegistry;
+
     this()
     {
         mConfig = new Config();
+        mMetricsRegistry = new MetricsRegistry();
     }
 
 }
