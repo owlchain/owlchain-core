@@ -4,6 +4,8 @@ import std.datetime;
 import owlchain.xdr.type;
 import std.container.binaryheap;
 
+import owlchain.main.application;
+
 static const uint32 RECENT_CRANK_WINDOW = 1024;
 class VirtualClock
 {
@@ -190,5 +192,55 @@ public:
 
 class VirtualTimer
 {
+private:
+    VirtualClock mClock;
+    VirtualClock.time_point mExpiryTime;
+    VirtualClockEvent[] mEvents;
+    bool mCancelled;
+    bool mDeleting;
 
+public:
+    this(Application app)
+    {
+
+    }
+
+    this(VirtualClock app)
+    {
+
+    }
+
+    ~this()
+    {
+
+    }
+
+    VirtualClock.time_point expiry_time() const 
+    {
+        return mExpiryTime;
+    }
+
+    size_t seq() const 
+    {
+        return 0L;
+    }
+
+    void expires_at(VirtualClock.time_point t)
+    {
+
+    }
+
+    void expires_from_now(Duration d)
+    {
+
+    }
+
+    void cancel()
+    {
+
+    }
+
+    static void onFailureNoop(string error_code)
+    {
+    };
 }
