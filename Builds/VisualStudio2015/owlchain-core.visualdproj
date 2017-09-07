@@ -1042,12 +1042,12 @@
     </Folder>
     <Folder name="overlay">
      <File path="..\..\source\owlchain\overlay\itemFetcher.d" />
+     <File path="overlayManager.d" />
      <File path="..\..\source\owlchain\overlay\peer.d" />
      <File path="..\..\source\owlchain\overlay\tracker.d" />
     </Folder>
-    <Folder name="p2p">
-     <File path="..\..\source\owlchain\p2p\peer.d" />
-     <File path="..\..\source\owlchain\p2p\readme.md" />
+    <Folder name="asio">
+     <File path="..\..\source\owlchain\asio\ioService.d" />
     </Folder>
     <Folder name="temp">
      <Folder name="crypto">

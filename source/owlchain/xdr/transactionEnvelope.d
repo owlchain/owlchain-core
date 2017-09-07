@@ -6,12 +6,46 @@ import owlchain.xdr.decoratedSignature;
 
 import owlchain.xdr.xdrDataInputStream;
 import owlchain.xdr.xdrDataOutputStream;
+import owlchain.xdr.xdr;
 
 struct TransactionEnvelope
 {
     Transaction tx;
     DecoratedSignature[] signatures;
 
+    int opCmp(ref const (TransactionEnvelope) other) const
+    {
+        ubyte[] i, j;
+        i = xdr!TransactionEnvelope.serialize(this);
+        j = xdr!TransactionEnvelope.serialize(other);
+
+        if (i < j)
+        {
+            return -1;
+        }
+        else if (i > j)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    bool opEquals(const TransactionEnvelope other) const 
+    {
+        ubyte[] i, j;
+        i = xdr!TransactionEnvelope.serialize(this);
+        j = xdr!TransactionEnvelope.serialize(other);
+        if (i == j)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
     ref TransactionEnvelope opAssign(TransactionEnvelope other)
     {
         tx = other.tx;

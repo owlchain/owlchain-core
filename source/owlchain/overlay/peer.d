@@ -39,7 +39,6 @@ public:
     {
         return app.getMetrics().NewMeter(new MetricName("overlay", "byte", "write"), "byte");
     }
-
 protected:
 
     Application mApp;
@@ -285,6 +284,37 @@ protected:
 
     }
 
+public:
+
+    this(Application app)
+    {
+
+    }
+
+    void sendGetTxSet(ref uint256 setID)
+    {
+
+    }
+
+    void sendGetQuorumSet(ref uint256 setID)
+    {
+
+    }
+
+    void sendGetPeers()
+    {
+
+    }
+
+    void sendGetScpState(uint32 ledgerSeq)
+    {
+
+    }
+
+    void sendMessage(ref BOSMessage msg)
+    {
+
+    }
 
 
 }

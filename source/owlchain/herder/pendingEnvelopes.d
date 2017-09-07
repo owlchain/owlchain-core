@@ -65,10 +65,12 @@ private:
     ItemFetcher mTxSetFetcher;
     ItemFetcher mQuorumSetFetcher;
 
-    // all the txsets we have learned about per ledger#
+    // all the txsets we have learned about per ledger# 
+    // lru_cache
     TxSetFramCacheItem[Hash] mTxSetCache;
 
     // NodeIDs that are in quorum
+    // lru_cache
     bool[NodeID] mNodesInQuorum;
 
     Counter mReadyEnvelopesSize;
@@ -159,6 +161,11 @@ public:
     }
 
     void peerDoesntHave(MessageType type, ref Hash itemID, Peer peer)
+    {
+
+    }
+
+    void peerDoesntHave(MessageType type, Hash itemID, Peer peer)
     {
 
     }

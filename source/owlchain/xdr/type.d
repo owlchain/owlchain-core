@@ -7,6 +7,8 @@ alias uint64 = ulong;
 alias uint256 = ubyte[32];
 alias uint512 = ubyte[64];
 
+const uint32 XDR_MAX_LEN = 0xfffffffc;
+
 static const uint256 uint256_zero = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 static const uint512 uint512_zero = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

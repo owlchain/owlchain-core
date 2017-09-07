@@ -7,6 +7,8 @@ import owlchain.xdr.xdrDataOutputStream;
 
 struct UpgradeType
 {
+    static const MAX_SIZE = 128;
+
     ubyte[] value;
 
     static UpgradeType opCall(ubyte[] v)

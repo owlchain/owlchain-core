@@ -4,6 +4,10 @@ import owlchain.xdr.type;
 import owlchain.xdr.xdrDataInputStream;
 import owlchain.xdr.xdrDataOutputStream;
 
+import std.container.rbtree;
+
+alias RedBlackTree!(Hash, "(a.hash < b.hash)") HashSet;
+
 struct Hash
 {
     ubyte[] hash;

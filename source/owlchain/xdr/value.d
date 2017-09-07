@@ -17,6 +17,13 @@ struct Value
         return newValue;
     }
 
+    static Value opCall(ubyte[] other)
+    {
+        Value newValue;
+        newValue.value = other.dup;
+        return newValue;
+    }
+
     static Value opCall(ref ubyte[] other)
     {
         Value newValue;

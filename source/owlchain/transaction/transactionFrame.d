@@ -8,6 +8,11 @@ import owlchain.ledger.ledgerManager;
 import owlchain.ledger.accountFrame;
 import owlchain.main.application;
 
+import std.container.rbtree;
+
+alias RedBlackTree!(TransactionFrame, "(a < b)") TransactionFrameSet;
+
+
 /*
 A transaction in its exploded form.
 We can get it in from the DB or from the wire
@@ -23,12 +28,46 @@ protected:
     Hash mContentsHash; // the hash of the contents
     Hash mFullHash;     // the hash of the contents and the sig.
 
-
 public:
     this(ref Hash networkID, ref TransactionEnvelope envelope)
     {
         mNetworkID = networkID;
         mEnvelope = envelope;
+    }
+
+    override bool opEquals(const Object o) const
+    {
+        TransactionFrame other = cast(TransactionFrame) o;
+        return (mNetworkID == other.mNetworkID) && (mEnvelope == other.mEnvelope);
+    }
+
+    override int opCmp(const Object o) const
+    {
+        TransactionFrame other = cast(TransactionFrame) o;
+
+        if (mNetworkID < other.mNetworkID)
+        {
+            return -1;
+        }
+        else if (mNetworkID > other.mNetworkID)
+        {
+            return 1;
+        }
+        else
+        {
+            if (mEnvelope < other.mEnvelope)
+            {
+                return -1;
+            }
+            else if (mEnvelope > other.mEnvelope)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 
     ref const(TransactionEnvelope) getEnvelope() const

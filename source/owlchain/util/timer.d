@@ -6,6 +6,8 @@ import std.container.binaryheap;
 
 import owlchain.main.application;
 
+import owlchain.asio.ioService;
+
 static const uint32 RECENT_CRANK_WINDOW = 1024;
 class VirtualClock
 {
@@ -36,6 +38,7 @@ public:
     };
 
 private:
+    IOService mIOService;
     Mode mMode;
 
     uint32 mRecentCrankCount;
@@ -84,6 +87,7 @@ public:
     {
         return 0L;
     }
+
     void noteCrankOccurred(bool hadIdle)
     {
     }
@@ -92,6 +96,11 @@ public:
     {
         return 0;
     }
+
+    IOService getIOService()
+	{
+		return mIOService;
+	}
 
     // Note: this is not a static method, which means that VirtualClock is
     // not an implementation of the C++ `Clock` concept; there is no global
@@ -124,7 +133,7 @@ public:
     }
 }
 
-alias bool delegate(string code) VirtualClockCallback;
+alias bool delegate(IOErrorCode code) VirtualClockCallback;
 
 class VirtualClockEvent
 {
@@ -154,7 +163,7 @@ public:
 		if (!mTriggered)
 		{
 			mTriggered = true;
-			mCallback("error");
+			mCallback(new IOErrorCode());
 			mCallback = null;
 		}
     }
@@ -164,7 +173,7 @@ public:
 		if (!mTriggered)
 		{
 			mTriggered = true;
-			mCallback("operation_aborted");
+			mCallback(new IOErrorCode("", 0, "operation_aborted"));
 			mCallback = null;
 		}
     }
@@ -235,12 +244,23 @@ public:
 
     }
 
+    void async_wait(void delegate (IOErrorCode errorCode) fn)
+    {
+
+    }
+
+    void async_wait(void delegate () onSuccess, void delegate (IOErrorCode errorCode) onFailure)
+    {
+
+
+    }
+
     void cancel()
     {
 
     }
 
-    static void onFailureNoop(string error_code)
+    static void onFailureNoop(IOErrorCode errorCode)
     {
     };
 }

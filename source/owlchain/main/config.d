@@ -1,8 +1,6 @@
 module owlchain.main.config;
 
-import owlchain.xdr.type;
-import owlchain.xdr.hash;
-import owlchain.xdr.bcpQuorumSet;
+import owlchain.xdr;
 import owlchain.crypto.keyUtils;
 
 class Config
@@ -31,5 +29,30 @@ public:
     @property ref  BCPQuorumSet QUORUM_SET()
     {
         return mBCPQuorumSet;
+    }
+
+    @property bool MANUAL_CLOSE()
+    {
+        return false;
+    }
+
+    string toShortString(ref PublicKey pk) 
+    {
+        return "";
+    }
+
+    string toStrKey(ref PublicKey pk) 
+    {
+        return "";
+    }
+
+    string toStrKey2(ref PublicKey pk, ref bool isAlias) 
+    {
+        return "";
+    }
+
+    bool resolveNodeID(ref string s, ref PublicKey retKey) const
+    {
+        return false;
     }
 }

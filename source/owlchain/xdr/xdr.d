@@ -55,3 +55,14 @@ template xdr(T)
         return stream;
     }
 }
+
+template xdr2(T, U)
+{
+    void convert(ref T from, ref U to)
+    {
+        XdrDataOutputStream ostream = new XdrDataOutputStream();
+        T.encode(ostream, from);
+        XdrDataInputStream istream = new XdrDataInputStream(ostream.data);
+        to = U.decode(istream);
+    }
+}

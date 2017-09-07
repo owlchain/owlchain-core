@@ -135,12 +135,65 @@ class XdrDataOutputStream : OutputStream
         write(ascii);
     }
 
+    void write(in int32 value)
+    {
+        reserve(int32.sizeof);
+        *cast(int32*)&data[offset] = value;
+        offset += int32.sizeof;
+    }
+
+    void write(in int64 value)
+    {
+        reserve(int64.sizeof);
+        *cast(int64*)&data[offset] = value;
+        offset += int64.sizeof;
+    }
+
+    void write(in uint32 value)
+    {
+        reserve(uint32.sizeof);
+        *cast(uint32*)&data[offset] = value;
+        offset += uint32.sizeof;
+    }
+
+    void write(in uint64 value)
+    {
+        reserve(uint64.sizeof);
+        *cast(uint64*)&data[offset] = value;
+        offset += uint64.sizeof;
+    }
+
+    void write(in uint256 value)
+    {
+        reserve(uint256.sizeof);
+        *cast(uint256*)&data[offset] = value;
+        offset += uint256.sizeof;
+    }
+
+    void write(in uint512 value)
+    {
+        reserve(uint512.sizeof);
+        *cast(uint512*)&data[offset] = value;
+        offset += uint512.sizeof;
+    }
+/*
+    void write(in string value)
+    {
+        writeString(value);
+    }
+*/
     void write(InputStream stream, ulong nbytes = 0)
     {
 
     }
 
     void flush()
+    {
+        data.length = 0;
+        offset = 0;
+    }
+
+    void clear()
     {
         data.length = 0;
         offset = 0;

@@ -108,7 +108,7 @@ public:
     TxSetFrame getTxSet(ref Hash hash);
 
     // We are learning about a new envelope.
-    EnvelopeStatus recvEnvelope(ref BCPEnvelope envelope);
+    EnvelopeStatus recvBCPEnvelope(ref BCPEnvelope envelope);
 
     // a peer needs our BCP state
     void sendBCPStateToPeer(uint ledgerSeq, Peer peer);

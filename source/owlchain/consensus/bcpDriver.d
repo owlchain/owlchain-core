@@ -7,6 +7,8 @@ import owlchain.xdr;
 import owlchain.crypto.keyUtils;
 import owlchain.consensus.bcp;
 
+import owlchain.crypto.sha;
+
 alias RefCounted!(BCPQuorumSet, RefCountedAutoInitialize.no) BCPQuorumSetPtr;
 
 class BCPDriver
@@ -93,19 +95,68 @@ class BCPDriver
         return "";
     }
 
+    // values used to switch hash function between priority and neighborhood checks
+    static const uint32 hash_N = 1;
+    static const uint32 hash_P = 2;
+    static const uint32 hash_K = 3;
+
+    static uint64 hashHelper(uint64 slotIndex, ref Value prev, void delegate(SHA256 h) extra)
+    {
+        XdrDataOutputStream stream = new XdrDataOutputStream();
+        auto h = SHA256.create();
+
+        stream.writeUint64(slotIndex);
+        h.add(stream.data); stream.clear();
+
+        Value.encode(stream, prev);
+        h.add(stream.data);
+
+        extra(h);
+
+        uint256 t = h.finish();
+        uint64 res = 0;
+        for (size_t i = 0; i < res.sizeof; i++)
+        {
+            res = (res << 8) | t[i];
+        }
+        return res;
+    }
+
     // computeHashNode is used by the nomination protocol to
     // randomize the order of messages between nodes.
     uint64 computeHashNode(uint64 slotIndex, ref Value prev, bool isPriority,
-            int roundNumber, ref NodeID nodeID)
+            int32 roundNumber, ref NodeID nodeID)
     {
-        return 0L;
+        return hashHelper(slotIndex, prev, (SHA256 h) {
+            XdrDataOutputStream stream = new XdrDataOutputStream();
+
+            stream.writeUint32(isPriority ? hash_P : hash_N);
+            h.add(stream.data); stream.clear();
+
+            stream.writeInt32(roundNumber);
+            h.add(stream.data); stream.clear();
+
+            NodeID.encode(stream, nodeID);
+            h.add(stream.data); stream.clear();
+        });
     }
 
     // computeValueHash is used by the nomination protocol to
     // randomize the relative order between values.
-    uint64 computeValueHash(uint64 slotIndex, ref Value prev, int roundNumber, ref Value value)
+    uint64 computeValueHash(uint64 slotIndex, ref Value prev, int32 roundNumber, ref Value value)
     {
-        return 0L;
+        return hashHelper(slotIndex, prev, (SHA256 h) {
+            XdrDataOutputStream stream = new XdrDataOutputStream();
+
+            stream.writeUint32(hash_K);
+            h.add(stream.data); stream.clear();
+
+            stream.writeInt32(roundNumber);
+            h.add(stream.data); stream.clear();
+
+            Value.encode(stream, value);
+            h.add(stream.data); stream.clear();
+        });
     }
 
     // combineCandidates computes the composite value based off a list

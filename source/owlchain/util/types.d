@@ -37,3 +37,20 @@ lessThanXored(ref const(Hash) l, ref const(Hash) r, ref const(Hash) x)
 
     return v1.hash < v2.hash;
 }
+
+void xorValue(ref ubyte[] l, const ubyte[] x)
+{
+    size_t length;
+    if (l.length < x.length) 
+    {
+        length = l.length;
+    }
+    else
+    {
+        length = x.length;
+    }
+    for (size_t i = 0; i < length; i++)
+    {
+        l[i] ^= x[i];
+    }
+}

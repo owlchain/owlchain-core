@@ -11,6 +11,10 @@ import owlchain.ledger.ledgerManager;
 import owlchain.meterics;
 import owlchain.util.timer;
 
+import owlchain.asio.ioService;
+
+import owlchain.overlay.overlayManager;
+
 class Application
 {
 
@@ -117,7 +121,11 @@ public:
     //abstract ProcessManager getProcessManager() = 0;
     //abstract Herder getHerder() = 0;
     //abstract Invariants getInvariants() = 0;
-    //abstract OverlayManager getOverlayManager() = 0;
+    OverlayManager getOverlayManager() 
+    {
+        return null;
+    }
+
     Database getDatabase()
     {
         return null;
@@ -136,7 +144,10 @@ public:
     // Get the worker IO service, served by background threads. Work posted to
     // this io_service will execute in parallel with the calling thread, so use
     // with caution.
-    //abstract asio::io_service& getWorkerIOService();
+    IOService getWorkerIOService()
+    {
+        return null;
+    }
 
     // Perform actions necessary to transition from BOOTING_STATE to other
     // states. In particular: either reload or reinitialize the database, and
