@@ -535,9 +535,11 @@ public:
     uint64[] readySlots()
     {
         uint64[] result;
-        for (int i = 0; i < mEnvelopes.keys.length; i++)
+        uint64[] keys = mEnvelopes.keys.dup;
+        keys.sort();
+        for (int i = 0; i < keys.length; i++)
         {
-            uint64 n = mEnvelopes.keys[i];
+            uint64 n = keys[i];
             if (mEnvelopes[n].mReadyEnvelopes.length != 0)
             {
                 result ~= n;

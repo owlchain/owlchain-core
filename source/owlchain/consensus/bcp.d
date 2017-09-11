@@ -152,10 +152,14 @@ public:
     {
         uint64 slotIndex;
         size_t i = mKnownSlots.keys.length - 1;
+
+        uint64 keys = mKnownSlots.keys.dup;
+        keys.sort();
         while ((i >= 0) && (limit-- != 0))
         {
-            slotIndex = mKnownSlots.keys[i];
+            slotIndex = mKnownSlots[keys[i]];
             mKnownSlots[slotIndex].dumpInfo(ret);
+            i--;
         }
     }
 
@@ -187,6 +191,7 @@ public:
     {
         uint64 slotIndex;
         uint64[] k = mKnownSlots.keys;
+        k.sort();
         for (size_t i = 0; i < k.length; i++)
         {
             slotIndex = k[i];

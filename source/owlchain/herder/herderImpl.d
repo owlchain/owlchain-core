@@ -349,11 +349,14 @@ public:
 
         // cancel all timers below this slot
         auto keys = mBCPTimers.keys;
+        keys.sort();
         for (int i = 0; i < keys.length; i++)
         {
             if (keys[i] <= slotIndex)
             {
                 mBCPTimers.remove(keys[i]);
+            } else {
+                break;
             }
         }
 
