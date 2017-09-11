@@ -88,7 +88,7 @@ public:
             if (self)
             {
                 writefln("[ERROR], BCP not sane statement from self, skipping   e: %s",
-                        mSlot.getCP().envToStr(envelope));
+                        mSlot.getBCP().envToStr(envelope));
             }
             return BCP.EnvelopeState.INVALID;
         }
@@ -98,7 +98,7 @@ public:
             if (self)
             {
                 writefln("[ERROR], BCP stale statement from self, skipping   e: %s",
-                        mSlot.getCP().envToStr(envelope));
+                        mSlot.getBCP().envToStr(envelope));
             }
             else
             {
@@ -141,7 +141,7 @@ public:
                     if (self)
                     {
                         writefln("[ERROR], BCP externalize statement with invalid value from self, skipping   e: %s",
-                                mSlot.getCP().envToStr(envelope));
+                                mSlot.getBCP().envToStr(envelope));
                     }
 
                     res = BCP.EnvelopeState.INVALID;
@@ -154,7 +154,7 @@ public:
             if (self)
             {
                 writefln("[ERROR], BCP invalid value from self, skipping   e: %s",
-                        mSlot.getCP().envToStr(envelope));
+                        mSlot.getBCP().envToStr(envelope));
             }
             else
             {
@@ -252,13 +252,13 @@ public:
         }
 
         //if (Logging::logDebug("BCP"))
-        //writefln("[DEBUG], BCP BallotProtocol.bumpState i: %d v: %s", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(newb));
+        //writefln("[DEBUG], BCP BallotProtocol.bumpState i: %d v: %s", mSlot.getSlotIndex(), mSlot.getBCP().ballotToStr(newb));
 
         bool updated = updateCurrentValue(newb);
 
         if (updated)
         {
-            mSlot.getCPDriver().startedBallotProtocol(mSlot.getSlotIndex(), newb);
+            mSlot.getBCPDriver().startedBallotProtocol(mSlot.getSlotIndex(), newb);
             emitCurrentStateStatement();
         }
 
@@ -277,7 +277,7 @@ public:
         JSONValue state = stateObject;
 
         state.object["heard"] = JSONValue(mHeardFromQuorum);
-        state.object["ballot"] = JSONValue(toUTF8(mSlot.getCP()
+        state.object["ballot"] = JSONValue(toUTF8(mSlot.getBCP()
                 .ballotToStr(cast(BCPBallot*) mCurrentBallot)));
         state.object["phase"] = JSONValue(toUTF8(mPhaseNames[mPhase]));
         state.object["state"] = JSONValue(toUTF8(getLocalState()));
@@ -332,7 +332,7 @@ public:
         int n_missing = 0, n_disagree = 0;
 
         int agree = 0;
-        auto qSet = mSlot.getCPDriver().getQSet(qSetHash);
+        auto qSet = mSlot.getBCPDriver().getQSet(qSetHash);
         if (!qSet.refCountedStore.isInitialized)
         {
             ret.object["phase"] = JSONValue("expired");
@@ -362,7 +362,7 @@ public:
             {
                 if (!summary)
                 {
-                    ret["missing"].array ~= JSONValue(mSlot.getCPDriver()
+                    ret["missing"].array ~= JSONValue(mSlot.getBCPDriver()
                         .toShortString(n));
                 }
                 n_missing++;
@@ -375,7 +375,7 @@ public:
             {
                 if (!summary)
                 {
-                    ret["disagree"].array ~= JSONValue(mSlot.getCPDriver()
+                    ret["disagree"].array ~= JSONValue(mSlot.getBCPDriver()
                         .toShortString(n));
                 }
                 n_disagree++;
@@ -401,7 +401,7 @@ public:
 
             for (int i = 0; i < f.length; i++)
             {
-                ret["fail_with"].array ~= JSONValue(toUTF8(mSlot.getCPDriver()
+                ret["fail_with"].array ~= JSONValue(toUTF8(mSlot.getBCPDriver()
                         .toShortString(f[i])));
             }
 
@@ -553,7 +553,7 @@ public:
         foreach (ref const NodeID n, ref BCPEnvelope e; mLatestEnvelopes)
         {
             // only return messages for self if the slot is fully validated
-            if (!(n == mSlot.getCP().getLocalNodeID()) || mSlot.isFullyValidated())
+            if (!(n == mSlot.getBCP().getLocalNodeID()) || mSlot.isFullyValidated())
             {
                 res ~= e;
             }
@@ -568,7 +568,7 @@ public:
         {
             foreach (ref const NodeID n, ref BCPEnvelope e; mLatestEnvelopes)
             {
-                if (!(n == mSlot.getCP().getLocalNodeID()))
+                if (!(n == mSlot.getBCP().getLocalNodeID()))
                 {
                     // good approximation: statements with the value that
                     // externalized
@@ -627,7 +627,7 @@ private:
                     }))
             {
                 mHeardFromQuorum = true;
-                mSlot.getCPDriver().ballotDidHearFromQuorum(mSlot.getSlotIndex(), *mCurrentBallot);
+                mSlot.getBCPDriver().ballotDidHearFromQuorum(mSlot.getSlotIndex(), *mCurrentBallot);
             }
         }
 
@@ -707,7 +707,7 @@ private:
             = BCPDriver.ValidationLevel.kFullyValidatedValue;
         foreach (ref Value v; values)
         {
-            auto level = mSlot.getCPDriver().validateValue(mSlot.getSlotIndex(), v);
+            auto level = mSlot.getBCPDriver().validateValue(mSlot.getSlotIndex(), v);
             if (level != BCPDriver.ValidationLevel.kFullyValidatedValue)
             {
                 if (level == BCPDriver.ValidationLevel.kInvalidValue)
@@ -734,7 +734,7 @@ private:
                     || mLastEnvelope != mLastEnvelopeEmit)
             {
                 mLastEnvelopeEmit = mLastEnvelope;
-                mSlot.getCPDriver().emitEnvelope(mLastEnvelopeEmit);
+                mSlot.getBCPDriver().emitEnvelope(mLastEnvelopeEmit);
             }
         }
     }
@@ -842,7 +842,7 @@ private:
     bool setPreparedAccept(ref BCPBallot ballot)
     {
         //if (Logging::logDebug("BCP"))
-        //writefln("[DEBUG], BCP BallotProtocol.setPreparedAccept i: %d  b : %s ", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(ballot));
+        //writefln("[DEBUG], BCP BallotProtocol.setPreparedAccept i: %d  b : %s ", mSlot.getSlotIndex(), mSlot.getBCP().ballotToStr(ballot));
 
         // update our state
         bool didWork = setPrepared(ballot);
@@ -862,7 +862,7 @@ private:
 
         if (didWork)
         {
-            mSlot.getCPDriver().acceptedBallotPrepared(mSlot.getSlotIndex(), ballot);
+            mSlot.getBCPDriver().acceptedBallotPrepared(mSlot.getSlotIndex(), ballot);
             emitCurrentStateStatement();
         }
 
@@ -958,7 +958,7 @@ private:
     bool setPreparedConfirmed(ref BCPBallot newC, ref BCPBallot newH)
     {
         //if (Logging::logDebug("BCP"))
-        //writefln("[DEBUG], BCP BallotProtocol.setPreparedConfirmed i: %d  h : %s ", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(newH));
+        //writefln("[DEBUG], BCP BallotProtocol.setPreparedConfirmed i: %d  h : %s ", mSlot.getSlotIndex(), mSlot.getBCP().ballotToStr(newH));
 
         bool didWork = false;
 
@@ -979,7 +979,7 @@ private:
         {
             updateCurrentIfNeeded();
 
-            mSlot.getCPDriver().confirmedBallotPrepared(mSlot.getSlotIndex(), newH);
+            mSlot.getBCPDriver().confirmedBallotPrepared(mSlot.getSlotIndex(), newH);
             emitCurrentStateStatement();
         }
         return didWork;
@@ -1113,7 +1113,7 @@ private:
     {
         //if (Logging::logDebug("BCP"))
         //writefln("[DEBUG], BCP BallotProtocol.setAcceptCommit i: %d  new c: %s new h: %s",
-        //         mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(c), mSlot.getCP().ballotToStr(h));
+        //         mSlot.getSlotIndex(), mSlot.getBCP().ballotToStr(c), mSlot.getBCP().ballotToStr(h));
 
         bool didWork = false;
 
@@ -1142,7 +1142,7 @@ private:
         {
             updateCurrentIfNeeded();
 
-            mSlot.getCPDriver().acceptedCommit(mSlot.getSlotIndex(), h);
+            mSlot.getBCPDriver().acceptedCommit(mSlot.getSlotIndex(), h);
             emitCurrentStateStatement();
         }
         return didWork;
@@ -1217,7 +1217,7 @@ private:
     {
         //if (Logging::logDebug("BCP"))
         //writefln("[DEBUG], BCP BallotProtocol.setConfirmCommit i: %d  new c: %s new h: %s",
-        //         mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(acceptCommitLow), mSlot.getCP().ballotToStr(acceptCommitHigh));
+        //         mSlot.getSlotIndex(), mSlot.getBCP().ballotToStr(acceptCommitLow), mSlot.getBCP().ballotToStr(acceptCommitHigh));
 
         mCommit = cast(UniqueStruct!BCPBallot)(new BCPBallot(acceptCommitLow.counter,
                 acceptCommitLow.value));
@@ -1231,7 +1231,7 @@ private:
 
         mSlot.stopNomination();
 
-        mSlot.getCPDriver().valueExternalized(mSlot.getSlotIndex(), mCommit.value);
+        mSlot.getBCPDriver().valueExternalized(mSlot.getSlotIndex(), mCommit.value);
 
         return true;
     }
@@ -1527,7 +1527,7 @@ private:
                 break;
 
             default:
-                //dbgAbort();
+                dbgAbort();
             }
         }
         return res;
@@ -1897,7 +1897,7 @@ private:
     void bumpToBallot(ref BCPBallot ballot, bool check)
     {
         //if (Logging::logDebug("BCP"))
-        //writefln("[DEBUG], BCP BallotProtocol.bumpToBallot i: %d b: %s", mSlot.getSlotIndex(), mSlot.getCP().ballotToStr(ballot));
+        //writefln("[DEBUG], BCP BallotProtocol.bumpToBallot i: %d b: %s", mSlot.getSlotIndex(), mSlot.getBCP().ballotToStr(ballot));
 
         // `bumpToBallot` should be never called once we committed.
         dbgAssert(mPhase != BCPPhase.BCP_PHASE_EXTERNALIZE);
@@ -2005,7 +2005,7 @@ private:
         // if we generate the same envelope, don't process it again
         // this can occur when updating h in PREPARE phase
         // as statements only keep track of h.n (but h.x could be different)
-        NodeID nID = mSlot.getCP().getLocalNodeID();
+        NodeID nID = mSlot.getBCP().getLocalNodeID();
         auto pN = (nID in mLatestEnvelopes);
 
         if ((pN is null) || !(mLatestEnvelopes[nID] == envelope))
@@ -2136,18 +2136,18 @@ private:
 
         OutBuffer oBuffer = new OutBuffer();
         oBuffer.writef("i: %d | %s", mSlot.getSlotIndex(), mPhaseNames[mPhase]);
-        oBuffer.writef(" | b: %s", mSlot.getCP().ballotToStr(cast(BCPBallot*) mCurrentBallot));
-        oBuffer.writef(" | p: %s", mSlot.getCP().ballotToStr(cast(BCPBallot*) mPrepared));
-        oBuffer.writef(" | p: %s", mSlot.getCP().ballotToStr(cast(BCPBallot*) mPreparedPrime));
-        oBuffer.writef(" | h: %s", mSlot.getCP().ballotToStr(cast(BCPBallot*) mHighBallot));
-        oBuffer.writef(" | c: %s", mSlot.getCP().ballotToStr(cast(BCPBallot*) mCommit));
+        oBuffer.writef(" | b: %s", mSlot.getBCP().ballotToStr(cast(BCPBallot*) mCurrentBallot));
+        oBuffer.writef(" | p: %s", mSlot.getBCP().ballotToStr(cast(BCPBallot*) mPrepared));
+        oBuffer.writef(" | p: %s", mSlot.getBCP().ballotToStr(cast(BCPBallot*) mPreparedPrime));
+        oBuffer.writef(" | h: %s", mSlot.getBCP().ballotToStr(cast(BCPBallot*) mHighBallot));
+        oBuffer.writef(" | c: %s", mSlot.getBCP().ballotToStr(cast(BCPBallot*) mCommit));
         oBuffer.writef(" | M: %d", mLatestEnvelopes.length);
         return oBuffer.toString();
     }
 
     LocalNode getLocalNode()
     {
-        return mSlot.getCP().getLocalNode();
+        return mSlot.getBCP().getLocalNode();
     }
 
     bool federatedAccept(StatementPredicate voted, StatementPredicate accepted)
@@ -2162,9 +2162,9 @@ private:
 
     void startBallotProtocolTimer()
     {
-        Duration timeout = mSlot.getCPDriver().computeTimeout(mCurrentBallot.counter);
+        Duration timeout = mSlot.getBCPDriver().computeTimeout(mCurrentBallot.counter);
         Slot slot = mSlot;
-        mSlot.getCPDriver().setupTimer(mSlot.getSlotIndex(),
+        mSlot.getBCPDriver().setupTimer(mSlot.getSlotIndex(),
                 Slot.BALLOT_PROTOCOL_TIMER, timeout, () {
                     mSlot.getBallotProtocol().ballotProtocolTimerExpired();
                 });

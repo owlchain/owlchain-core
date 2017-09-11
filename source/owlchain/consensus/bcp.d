@@ -47,7 +47,7 @@ public:
     }
 
     // BCPDriver getter
-    ref BCPDriver getCPDriver()
+    ref BCPDriver getBCPDriver()
     {
         return mBCPDriver;
     }
@@ -335,7 +335,7 @@ public:
         OutBuffer oBuffer = new OutBuffer();
         Hash qSetHash = Slot.getCompanionQuorumSetHashFromStatement(st);
 
-        oBuffer.writef("{ENV@%s | i: %d", getCPDriver()
+        oBuffer.writef("{ENV@%s | i: %d", getBCPDriver()
                 .toShortString(st.nodeID), st.slotIndex);
 
         switch (st.pledges.type)

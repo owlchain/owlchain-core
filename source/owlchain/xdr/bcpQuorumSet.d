@@ -19,6 +19,13 @@ struct BCPQuorumSet
         return qSet;
     }
 
+    static BCPQuorumSet opCall(BCPQuorumSet other)
+    {
+        BCPQuorumSet qSet;
+        qSet = other;
+        return qSet;
+    }
+
     ref BCPQuorumSet opAssign(BCPQuorumSet other)
     {
         threshold = other.threshold;

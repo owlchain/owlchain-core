@@ -41,10 +41,10 @@ private:
 
 public:
 
-    this(uint64 slotIndex, BCP cp)
+    this(uint64 slotIndex, BCP bcp)
     {
         mSlotIndex = slotIndex;
-        mBCP = cp;
+        mBCP = bcp;
 
         mBallotProtocol = new BallotProtocol(this);
         mNominationProtocol = new NominationProtocol(this);
@@ -57,14 +57,14 @@ public:
         return mSlotIndex;
     }
 
-    BCP getCP()
+    BCP getBCP()
     {
         return mBCP;
     }
 
-    BCPDriver getCPDriver()
+    BCPDriver getBCPDriver()
     {
-        return mBCP.getCPDriver();
+        return mBCP.getBCPDriver();
     }
 
     BallotProtocol getBallotProtocol()
@@ -247,7 +247,7 @@ public:
                 // uses the companion set here as we want to consider
                 // nodes that were used up to EXTERNALIZE
                 Hash h = getCompanionQuorumSetHashFromStatement(st);
-                return getCPDriver().getQSet(h);
+                return getBCPDriver().getQSet(h);
             }, m);
     }
 
@@ -274,11 +274,11 @@ public:
         {
             auto item = mStatementsHistory[i];
 
-            slotValue["statements"].array ~= JSONValue(toUTF8(getCP()
+            slotValue["statements"].array ~= JSONValue(toUTF8(getBCP()
                     .envToStr(item.statement) ~ to!string(item.fullyValidated)));
 
             Hash qSetHash = getCompanionQuorumSetHashFromStatement(item.statement);
-            auto qSet = getCPDriver().getQSet(qSetHash);
+            auto qSet = getBCPDriver().getQSet(qSetHash);
             if (qSet.refCountedStore.isInitialized)
             {
                 qSetsUsed[qSetHash] = cast(BCPQuorumSet) qSet;
@@ -395,7 +395,7 @@ public:
             {
                 dbgAbort();
             }
-            res = getCPDriver().getQSet(h);
+            res = getBCPDriver().getQSet(h);
         }
         return res;
     }
@@ -405,10 +405,10 @@ public:
     {
         BCPEnvelope envelope;
         envelope.statement = statement;
-        envelope.statement.nodeID = getCP().getLocalNodeID();
+        envelope.statement.nodeID = getBCP().getLocalNodeID();
         envelope.statement.slotIndex = mSlotIndex;
 
-        getCPDriver().signEnvelope(envelope);
+        getBCPDriver().signEnvelope(envelope);
 
         return envelope;
     }
@@ -450,7 +450,7 @@ public:
 
     ref LocalNode getLocalNode()
     {
-        return getCP().getLocalNode();
+        return getBCP().getLocalNode();
     }
 
     enum int NOMINATION_TIMER = 0;

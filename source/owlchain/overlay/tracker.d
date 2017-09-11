@@ -5,14 +5,27 @@ import owlchain.xdr;
 import owlchain.herder.herderImpl;
 import owlchain.overlay.peer;
 import owlchain.main.application;
+import owlchain.asio.ioService;
+import owlchain.utils.globalChecks;
+
+import owlchain.crypto.hex;
 
 import owlchain.meterics;
 import owlchain.util.timer;
+
 import std.container.dlist;
 import std.typecons;
+import std.digest.sha;
+import std.format;
+import std.algorithm;
+import std.datetime;
+import core.time;
 
-alias void delegate(Peer, Hash) AskPeer;
+alias void delegate(Peer, ref Hash) AskPeer;
 alias Tuple!(Hash, "hash", BCPEnvelope, "envelope") TupleHashEnvelop;
+
+static const int MS_TO_WAIT_FOR_FETCH_REPLY = 1500;
+static const int MAX_REBUILD_FETCH_LIST = 1000;
 
 class Tracker
 {
@@ -30,6 +43,8 @@ private:
     Meter mTryNextPeerReset;
     Meter mTryNextPeer;
     uint64 mLastSeenSlotIndex = 0;
+
+    BCPEnvelope mPopEnvelope;
 
 public:
     /**
@@ -85,11 +100,12 @@ public:
     /**
     * Pop envelope from stack.
     */
-    BCPEnvelope pop()
+    ref BCPEnvelope pop()
     {
-        BCPEnvelope temp;
+        mPopEnvelope = mWaitingEnvelopes[$-1].envelope;
+        mWaitingEnvelopes = mWaitingEnvelopes[0..$-1];
 
-        return temp;
+        return mPopEnvelope;
     }
 
     /**
@@ -100,6 +116,26 @@ public:
     */
     bool clearEnvelopesBelow(uint64 slotIndex)
     {
+        size_t n = 0;
+        while (n < mWaitingEnvelopes.length)
+        {
+            if (mWaitingEnvelopes[n].envelope.statement.slotIndex < slotIndex)
+            {
+                mWaitingEnvelopes = mWaitingEnvelopes[0..n] ~ mWaitingEnvelopes[n+1..$];
+            }
+            else
+            {
+                n++;
+            }
+        }
+        if (mWaitingEnvelopes.length != 0)
+        {
+            return true;
+        }
+
+        mTimer.cancel();
+        mLastAskedPeer = null;
+
         return false;
     }
 
@@ -109,7 +145,12 @@ public:
     */
     void listen(ref BCPEnvelope env)
     {
-        return;
+        mLastSeenSlotIndex = max(env.statement.slotIndex, mLastSeenSlotIndex);
+
+        BOSMessage m;
+        m.type = MessageType.BCP_MESSAGE;
+        m.envelope = env;
+        mWaitingEnvelopes ~= TupleHashEnvelop(Hash(sha256Of(xdr!BOSMessage.serialize(m))), env);
     }
 
     /**
@@ -117,7 +158,18 @@ public:
     */
     void discard(ref BCPEnvelope env)
     {
-
+        size_t n = 0;
+        while (n < mWaitingEnvelopes.length)
+        {
+            if (mWaitingEnvelopes[n].envelope == env)
+            {
+                mWaitingEnvelopes = mWaitingEnvelopes[0..n] ~ mWaitingEnvelopes[n+1..$];
+            }
+            else
+            {
+                n++;
+            }
+        }
     }
 
     /**
@@ -125,7 +177,8 @@ public:
     */
     void cancel()
     {
-
+        mTimer.cancel();
+        mLastSeenSlotIndex = 0;
     }
 
     /**
@@ -134,7 +187,11 @@ public:
     */
     void doesntHave(Peer peer)
     {
-
+        if (mLastAskedPeer == peer)
+        {
+            CLOG(LEVEL.TRACE, "Overlay", format("Does not have %s", hexAbbrev(mItemHash)));
+            tryNextPeer();
+        }
     }
 
     /**
@@ -143,7 +200,93 @@ public:
     */
     void tryNextPeer()
     {
+        // will be called by some timer or when we get a
+        // response saying they don't have it
+        Peer peer;
 
+        CLOG(LEVEL.TRACE, "Overlay", format("tryNextPeer %s last:", hexAbbrev(mItemHash),(mLastAskedPeer ? mLastAskedPeer.toString() : "<none>")));
+
+        // if we don't have a list of peers to ask and we're not
+        // currently asking peers, build a new list
+        if (mPeersToAsk.empty() && !mLastAskedPeer)
+        {
+            PeerSet peersWithEnvelope = new PeerSet;
+            for (size_t n; n < mWaitingEnvelopes.length; n++)
+            {
+                auto s = mApp.getOverlayManager().getPeersKnows(mWaitingEnvelopes[n].hash);
+                foreach(ref Peer p; s)
+                {
+                    peersWithEnvelope.insert(p);
+                }
+            }
+
+            // move the peers that have the envelope to the back,
+            // to be processed first
+            auto r = mApp.getOverlayManager().getRandomPeers();
+            for (size_t m; m < r.length; m++)
+            {
+                if (!find(peersWithEnvelope[], r[m]).empty)
+                {
+                    mPeersToAsk.insertBack(r[m]);
+                }
+                else
+                {
+                    mPeersToAsk.insertFront(r[m]);
+                }
+            }
+
+            mNumListRebuild++;
+
+            import std.range : walkLength;
+
+            CLOG(LEVEL.TRACE, "Overlay", format("tryNextPeer %s attempt %d reset to # %d", 
+                                                hexAbbrev(mItemHash),
+                                                mNumListRebuild,
+                                                walkLength(mPeersToAsk[])
+                                                ));
+            mTryNextPeerReset.mark();
+        }
+
+        while (!peer && !mPeersToAsk.empty())
+        {
+            peer = mPeersToAsk.back();
+            if (!peer.isAuthenticated())
+            {
+                peer = null;
+            }
+            mPeersToAsk.removeBack();
+        }
+
+        Duration nextTry;
+        if (!peer)
+        { 
+            // we have asked all our peers
+            // clear mLastAskedPeer so that we rebuild a new list
+            mLastAskedPeer = null;
+            if (mNumListRebuild > MAX_REBUILD_FETCH_LIST)
+            {
+                nextTry = dur!"msecs"(MS_TO_WAIT_FOR_FETCH_REPLY * MAX_REBUILD_FETCH_LIST);
+            }
+            else
+            {
+                nextTry = dur!"msecs"(MS_TO_WAIT_FOR_FETCH_REPLY * mNumListRebuild);
+            }
+        }
+        else
+        {
+            mLastAskedPeer = peer;
+            CLOG(LEVEL.TRACE, "Overlay", format("Asking for %s to %s", hexAbbrev(mItemHash), peer.toString()));
+            mTryNextPeer.mark();
+            mAskPeer(peer, mItemHash);
+            nextTry = dur!"msecs"(MS_TO_WAIT_FOR_FETCH_REPLY);
+        }
+
+        mTimer.expires_from_now(nextTry);
+        mTimer.async_wait(() {
+            tryNextPeer();
+        }, (IOErrorCode errorCode) {
+            VirtualTimer.onFailureNoop(errorCode);
+        });
     }
 
     /**

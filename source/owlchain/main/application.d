@@ -13,6 +13,7 @@ import owlchain.util.timer;
 
 import owlchain.asio.ioService;
 
+import owlchain.herder.herder;
 import owlchain.overlay.overlayManager;
 
 class Application
@@ -119,7 +120,10 @@ public:
     //abstract CatchupManager getCatchupManager() = 0;
     //abstract HistoryManager getHistoryManager() = 0;
     //abstract ProcessManager getProcessManager() = 0;
-    //abstract Herder getHerder() = 0;
+    Herder getHerder() 
+    {
+        return null;
+    }
     //abstract Invariants getInvariants() = 0;
     OverlayManager getOverlayManager() 
     {

@@ -973,6 +973,9 @@
   </Folder>
   <Folder name="source">
    <Folder name="owlchain">
+    <Folder name="asio">
+     <File path="..\..\source\owlchain\asio\ioService.d" />
+    </Folder>
     <Folder name="consensus">
      <Folder name="test">
       <File path="..\..\source\owlchain\consensus\test\arrayTest.d" />
@@ -1046,9 +1049,6 @@
      <File path="..\..\source\owlchain\overlay\peer.d" />
      <File path="..\..\source\owlchain\overlay\tracker.d" />
     </Folder>
-    <Folder name="asio">
-     <File path="..\..\source\owlchain\asio\ioService.d" />
-    </Folder>
     <Folder name="temp">
      <Folder name="crypto">
       <File path="..\..\source\owlchain\temp\crypto\secretKey.d" />
@@ -1059,6 +1059,7 @@
      <File path="..\..\source\owlchain\transaction\transactionFrame.d" />
     </Folder>
     <Folder name="util">
+     <File path="..\..\source\owlchain\util\cache.d" />
      <File path="..\..\source\owlchain\util\timer.d" />
      <File path="..\..\source\owlchain\util\types.d" />
      <File path="..\..\source\owlchain\util\xdrStream.d" />

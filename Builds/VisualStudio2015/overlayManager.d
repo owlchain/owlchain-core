@@ -14,6 +14,8 @@ import core.time;
 
 import owlchain.xdr;
 
+import owlchain.overlay.peer;
+
 class OverlayManager
 {
 public:
@@ -27,4 +29,19 @@ public:
     {
         
     }
+
+    PeerSet getPeersKnows(ref Hash h)
+    {
+        PeerSet p = new PeerSet;
+
+        return p;       
+    }
+
+    Peer[] getRandomPeers()
+    {
+        Peer [] p;
+
+        return p;
+    }
+
 }

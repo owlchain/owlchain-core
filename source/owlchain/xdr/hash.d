@@ -80,6 +80,12 @@ struct Hash
             return 0;
         }
     }
+
+    ref uint256 getId()
+    {
+        return *cast(uint256*)&hash[0];
+    }
+
     static void encode(XdrDataOutputStream stream, ref const Hash encodedHash)
     {
         stream.write(encodedHash.hash);

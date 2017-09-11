@@ -167,9 +167,9 @@ public:
 
                     if (newCandidates)
                     {
-                        mLatestCompositeCandidate = mSlot.getCPDriver()
+                        mLatestCompositeCandidate = mSlot.getBCPDriver()
                             .combineCandidates(mSlot.getSlotIndex(), mCandidates);
-                        mSlot.getCPDriver().updatedCandidateValue(mSlot.getSlotIndex(),
+                        mSlot.getBCPDriver().updatedCandidateValue(mSlot.getSlotIndex(),
                                 mLatestCompositeCandidate);
                         mSlot.bumpState(mLatestCompositeCandidate, false);
                     }
@@ -194,7 +194,7 @@ public:
     bool nominate(ref Value value, ref Value previousValue, bool timedout)
     {
         //if (Logging::logDebug("BCP"))
-        //writefln("[DEBUG], BCP NominationProtocol.nominate %s", mSlot.getCP().getValueString(value));
+        //writefln("[DEBUG], BCP NominationProtocol.nominate %s", mSlot.getBCP().getValueString(value));
 
         bool updated = false;
 
@@ -239,12 +239,12 @@ public:
             }
         }
 
-        Duration timeout = mSlot.getCPDriver().computeTimeout(mRoundNumber);
+        Duration timeout = mSlot.getBCPDriver().computeTimeout(mRoundNumber);
 
-        mSlot.getCPDriver().nominatingValue(mSlot.getSlotIndex(), nominatingValue);
+        mSlot.getBCPDriver().nominatingValue(mSlot.getSlotIndex(), nominatingValue);
 
         Slot* slot = &mSlot;
-        mSlot.getCPDriver().setupTimer(mSlot.getSlotIndex(), Slot.NOMINATION_TIMER, timeout, () {
+        mSlot.getBCPDriver().setupTimer(mSlot.getSlotIndex(), Slot.NOMINATION_TIMER, timeout, () {
             slot.nominate(value, previousValue, true);
         });
 
@@ -284,21 +284,21 @@ public:
         nomState.object["X"] = state_X;
         foreach (ref Value v; mVotes)
         {
-            nomState["X"].array ~= JSONValue(toUTF8(mSlot.getCP().getValueString(v)));
+            nomState["X"].array ~= JSONValue(toUTF8(mSlot.getBCP().getValueString(v)));
         }
 
         JSONValue[] state_Y;
         nomState.object["Y"] = state_Y;
         foreach (ref Value v; mAccepted)
         {
-            nomState["Y"].array ~= JSONValue(toUTF8(mSlot.getCP().getValueString(v)));
+            nomState["Y"].array ~= JSONValue(toUTF8(mSlot.getBCP().getValueString(v)));
         }
 
         JSONValue[] state_Z;
         nomState.object["Z"] = state_Z;
         foreach (ref Value v; mCandidates)
         {
-            nomState["Z"].array ~= JSONValue(toUTF8(mSlot.getCP().getValueString(v)));
+            nomState["Z"].array ~= JSONValue(toUTF8(mSlot.getBCP().getValueString(v)));
         }
         ret.object["nomination"] = nomState;
     }
@@ -339,7 +339,7 @@ public:
         foreach (ref const NodeID n, ref BCPEnvelope e; mLatestNominations)
         {
             // only return messages for self if the slot is fully validated
-            if (!(n == mSlot.getCP().getLocalNodeID()) || mSlot.isFullyValidated())
+            if (!(n == mSlot.getBCP().getLocalNodeID()) || mSlot.isFullyValidated())
             {
                 res ~= e;
             }
@@ -421,12 +421,12 @@ private:
 
     BCPDriver.ValidationLevel validateValue(ref Value v)
     {
-        return mSlot.getCPDriver().validateValue(mSlot.getSlotIndex(), v);
+        return mSlot.getBCPDriver().validateValue(mSlot.getSlotIndex(), v);
     }
 
     Value extractValidValue(ref Value value)
     {
-        return mSlot.getCPDriver().extractValidValue(mSlot.getSlotIndex(), value);
+        return mSlot.getBCPDriver().extractValidValue(mSlot.getSlotIndex(), value);
     }
 
     static bool isNewerStatement(ref BCPNomination oldst, ref BCPNomination st)
@@ -497,7 +497,7 @@ private:
                         envelope.signature));
                 if (mSlot.isFullyValidated())
                 {
-                    mSlot.getCPDriver().emitEnvelope(envelope);
+                    mSlot.getBCPDriver().emitEnvelope(envelope);
                 }
             }
         }
@@ -556,7 +556,7 @@ private:
         foreach (ref NodeID n; mRoundLeaders)
         {
             writefln("[DEBUG], BCP leader: %s",
-                    mSlot.getCPDriver().toShortString(n));
+                    mSlot.getBCPDriver().toShortString(n));
         }
     }
 
@@ -565,7 +565,7 @@ private:
     uint64 hashNode(bool isPriority, ref NodeID nodeID)
     {
         dbgAssert(mPreviousValue.value.length != 0);
-        return mSlot.getCPDriver().computeHashNode(mSlot.getSlotIndex(),
+        return mSlot.getBCPDriver().computeHashNode(mSlot.getSlotIndex(),
                 mPreviousValue, isPriority, mRoundNumber, nodeID);
     }
 
@@ -573,7 +573,7 @@ private:
     uint64 hashValue(ref Value value)
     {
         dbgAssert(mPreviousValue.value.length != 0);
-        return mSlot.getCPDriver().computeValueHash(mSlot.getSlotIndex(),
+        return mSlot.getBCPDriver().computeValueHash(mSlot.getSlotIndex(),
                 mPreviousValue, mRoundNumber, value);
     }
 

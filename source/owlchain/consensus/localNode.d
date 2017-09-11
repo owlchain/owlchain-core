@@ -38,7 +38,7 @@ protected:
     BCP mBCP;
 
 public:
-    this(ref SecretKey secretKey, bool isValidator, ref BCPQuorumSet qSet, BCP cp)
+    this(ref SecretKey secretKey, bool isValidator, ref BCPQuorumSet qSet, BCP bcp)
     {
         mNodeID = secretKey.getPublicKey();
         mSecretKey = secretKey;
@@ -48,7 +48,7 @@ public:
         mQSetHash = Hash(sha256Of(xdr!BCPQuorumSet.serialize(mQSet)));
         //writefln("Local Node QuorumSetHash(LocalNode) : %s", toHexString(mQSetHash.hash));
 
-        mBCP = cp;
+        mBCP = bcp;
 
         //writefln("[INFO], BCP LocalNode.LocalNode @%s qSet: %s", toHexString(mNodeID.publicKey.ed25519), toHexString(mQSetHash.hash));
 
@@ -403,7 +403,7 @@ public:
 
         foreach (int i, ref PublicKey validator; qSet.validators)
         {
-            value["v"].array ~= JSONValue(toUTF8(mBCP.getCPDriver()
+            value["v"].array ~= JSONValue(toUTF8(mBCP.getBCPDriver()
                     .toShortString(validator)));
         }
 

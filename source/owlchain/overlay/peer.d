@@ -9,6 +9,11 @@ import owlchain.meterics;
 
 import owlchain.util.timer;
 import std.typecons;
+
+import std.container.rbtree;
+
+alias RedBlackTree!(Peer, "(a < b)") PeerSet;
+
 alias RefCounted!(BCPQuorumSet, RefCountedAutoInitialize.no) BCPQuorumSetPtr;
 
 class Peer
@@ -316,5 +321,37 @@ public:
 
     }
 
+    bool isConnected()
+    {
+        return false;
+    }
+
+    bool isAuthenticated() 
+    {
+        return false;
+    }
+
+    override bool opEquals(const Object o) const
+    {
+        Peer other = cast(Peer) o;
+        return mPeerID == other.mPeerID;
+    }
+
+    override int opCmp(const Object o) const
+    {
+        Peer other = cast(Peer) o;
+        if (mPeerID < other.mPeerID)
+        {
+            return -1;
+        }
+        else if (mPeerID > other.mPeerID)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
 }

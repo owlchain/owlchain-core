@@ -8,9 +8,13 @@ import owlchain.main.application;
 
 import owlchain.meterics;
 
+import owlchain.crypto.hex;
+import owlchain.utils.globalChecks;
+
+import std.format;
 import std.typecons;
+
 alias RefCounted!(BCPQuorumSet, RefCountedAutoInitialize.no) BCPQuorumSetPtr;
-alias void delegate (Peer, Hash) AskPeer;
 
 class ItemFetcher
 {
@@ -30,9 +34,25 @@ public:
     * Fetch data identified by @p hash and needed by @p envelope. Multiple
     * envelopes may require one set of data.
     */
-    void fetch(Hash itemHash, ref BCPEnvelope envelope)
+    void fetch(ref Hash itemHash, ref BCPEnvelope envelope)
     {
+        CLOG(LEVEL.TRACE, "Overlay", format("fetch %s", hexAbbrev(itemHash)));
 
+        auto entryIt = itemHash in mTrackers;
+        if (entryIt is null)
+        { 
+            // not being tracked
+            Tracker tracker = new Tracker(mApp, itemHash, mAskPeer);
+            mTrackers[itemHash] = tracker;
+            mItemMapSize.inc();
+
+            tracker.listen(envelope);
+            tracker.tryNextPeer();
+        }
+        else
+        {
+            mTrackers[itemHash].listen(envelope);
+        }
     }
 
     /**
@@ -40,28 +60,59 @@ public:
     * envelopes requires this data, it is still being fetched, but
     * @p envelope will not be notified about it.
     */
-    void stopFetch(Hash itemHash, ref BCPEnvelope envelope)
+    void stopFetch(ref Hash itemHash, ref BCPEnvelope envelope)
     {
+        CLOG(LEVEL.TRACE, "Overlay", format("stopFetch %s", hexAbbrev(itemHash)));
 
+        auto entryIt = itemHash in mTrackers;
+        if (entryIt !is null)
+        { 
+            CLOG(LEVEL.TRACE, "Overlay", format("stopFetch %s : %d", hexAbbrev(itemHash), mTrackers[itemHash].size));
+
+            mTrackers[itemHash].discard(envelope);
+            if (mTrackers[itemHash].empty())
+            {
+                // stop the timer, stop requesting the item as no one is waiting for
+                // it
+                mTrackers[itemHash].cancel();
+            }
+        }
     }
 
     /**
     * Return biggest slot index seen for given hash. If 0, then given hash
     * is not being fetched.
     */
-    uint64 getLastSeenSlotIndex(Hash itemHash)
+    uint64 getLastSeenSlotIndex(ref Hash itemHash)
     {
-        return 0L;
+        auto entryIt = itemHash in mTrackers;
+        if (entryIt is null)
+        { 
+            return 0L;
+        }
+
+        return mTrackers[itemHash].getLastSeenSlotIndex();
     }
 
     /**
     * Return envelopes that require data identified by @p hash.
     */
-    BCPEnvelope[] fetchingFor(Hash itemHash)
+    BCPEnvelope[] fetchingFor(ref Hash itemHash)
     {
-        BCPEnvelope[] temp;
+        BCPEnvelope[] result;
+        auto entryIt = itemHash in mTrackers;
+        if (entryIt is null)
+        { 
+            return result;
+        }
 
-        return temp;
+        auto waiting = mTrackers[itemHash].waitingEnvelopes();
+        for (size_t i; i < waiting.length; i++)
+        {
+            result ~= waiting[i].envelope;
+        }
+
+        return result;
     }
 
     /**
@@ -71,16 +122,24 @@ public:
     */
     void stopFetchingBelow(uint64 slotIndex)
     {
-
+        // only perform this cleanup from the top of the stack as it causes
+        // all sorts of evil side effects
+        mApp.getClock().getIOService().post(() {
+            stopFetchingBelowInternal(slotIndex); 
+        });
     }
 
     /**
     * Called when given @p peer informs that it does not have data identified
     * by @p itemHash.
     */
-    void doesntHave(Hash itemHash, Peer peer)
+    void doesntHave(ref Hash itemHash, Peer peer)
     {
-
+        auto entryIt = itemHash in mTrackers;
+        if (entryIt !is null)
+        {
+            mTrackers[itemHash].doesntHave(peer);
+        }
     }
 
     /**
@@ -88,15 +147,42 @@ public:
     * added before with @see fetch and the same @p itemHash will be resent
     * to Herder, matching @see Tracker will be cleaned up.
     */
-    void recv(Hash itemHash)
+    void recv(ref Hash itemHash)
     {
+        CLOG(LEVEL.TRACE, "Overlay", format("Recv %s", hexAbbrev(itemHash)));
 
+        auto entryIt = itemHash in mTrackers;
+        if (entryIt !is null)
+        {
+            // this code can safely be called even if recvBCPEnvelope ends up
+            // calling recv on the same itemHash
+
+            CLOG(LEVEL.TRACE, "Overlay", format("Recv %s : %d", hexAbbrev(itemHash), mTrackers[itemHash].size()));
+
+            while (!mTrackers[itemHash].empty())
+            {
+                mApp.getHerder().recvBCPEnvelope(mTrackers[itemHash].pop());
+            }
+            // stop the timer, stop requesting the item as we have it
+            mTrackers[itemHash].resetLastSeenSlotIndex();
+            mTrackers[itemHash].cancel();
+        }
     }
 
 protected:
+
     void stopFetchingBelowInternal(uint64 slotIndex)
     {
+        auto keys = mTrackers.keys.dup;
 
+        for (size_t i; i < keys.length; i++)
+        {
+            if (!mTrackers[keys[i]].clearEnvelopesBelow(slotIndex))
+            {
+                mTrackers.remove(keys[i]);
+                mItemMapSize.dec();
+            }
+        }
     }
 
     Application mApp;
