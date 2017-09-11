@@ -112,7 +112,7 @@ public:
     }
 
     // Drop and recreate all tables in the database target. This is called
-    // by the --newdb command-line flag on stellar-core.
+    // by the --newdb command-line flag on 
     void initialize()
     {
     }
