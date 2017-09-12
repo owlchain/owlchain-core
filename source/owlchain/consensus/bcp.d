@@ -5,6 +5,7 @@ import std.format;
 import std.digest.sha;
 import std.algorithm : canFind;
 import std.outbuffer;
+import std.algorithm : sort;
 
 import owlchain.xdr;
 
@@ -153,11 +154,11 @@ public:
         uint64 slotIndex;
         size_t i = mKnownSlots.keys.length - 1;
 
-        uint64 keys = mKnownSlots.keys.dup;
+        uint64[] keys = mKnownSlots.keys.dup;
         keys.sort();
         while ((i >= 0) && (limit-- != 0))
         {
-            slotIndex = mKnownSlots[keys[i]];
+            slotIndex = keys[i];
             mKnownSlots[slotIndex].dumpInfo(ret);
             i--;
         }
